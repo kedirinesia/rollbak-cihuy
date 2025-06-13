@@ -1,0 +1,249 @@
+// @dart=2.9
+
+import 'package:barcode_scan2/barcode_scan2.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:mobile/bloc/Bloc.dart';
+import 'package:mobile/bloc/ConfigApp.dart';
+import 'package:mobile/component/webview.dart';
+import 'package:mobile/screen/history/history.dart';
+import 'package:mobile/screen/profile/downline/downline.dart';
+import 'package:mobile/screen/profile/profile.dart';
+import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
+
+import './home4.dart';
+
+class MainApp extends StatefulWidget {
+  @override
+  _MainAppState createState() => _MainAppState();
+}
+
+class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
+  Color mainColor = Colors.white;
+  Color mainTextColor = Colors.blue;
+
+  List<Widget> halaman = [Home4App(), HistoryPage(), Downline(), ProfilePage()];
+  int pageIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    bloc.mainColor
+      ..listen((Color color) {
+        setState(() {
+          mainColor = color;
+        });
+      });
+    bloc.mainTextColor
+      ..listen((Color color) {
+        setState(() {
+          mainTextColor = color;
+        });
+      });
+
+    changePrimaryColor();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  void changePrimaryColor() {
+    if (mounted) {
+      setState(() {
+        mainTextColor = Colors.purple;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        backgroundColor: Colors.white,
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Theme.of(context).primaryColor,
+          child: CachedNetworkImage(
+              imageUrl:
+                  'https://firebasestorage.googleapis.com/v0/b/payuni-2019y.appspot.com/o/merchants%2Fsarinu%2Fqr-code%20(1).png?alt=media&token=def5bcd4-1f6d-4532-a1b1-9e7bf06f2c48',
+              width: 32.0,
+              color: Colors.white),
+          elevation: 0.0,
+          onPressed: () async {
+            var barcode = await BarcodeScanner.scan();
+            print(barcode);
+            // if (barcode.isNotEmpty) {
+            return Navigator.of(context).push(MaterialPageRoute(
+                builder: (_) => TransferByQR(barcode.rawContent)));
+            // }
+          },
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        appBar: AppBar(
+          title: configAppBloc.iconApp.valueWrapper?.value['logoLoginHeader'] !=
+                  null
+              ? CachedNetworkImage(
+                  imageUrl: configAppBloc
+                      .iconApp.valueWrapper?.value['logoLoginHeader'],
+                  width: 75.0)
+              : Text(configAppBloc.namaApp.valueWrapper?.value),
+          backgroundColor: Theme.of(context).primaryColor,
+          elevation: 0.0,
+          actions: <Widget>[
+            configAppBloc.liveChat.valueWrapper?.value != ''
+                ? IconButton(
+                    icon: Icon(Icons.chat, color: Colors.white),
+                    onPressed: () {
+                      if (configAppBloc.liveChat.valueWrapper?.value != '') {
+                        return Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => Webview('Live Chat Support',
+                                configAppBloc.liveChat.valueWrapper?.value)));
+                      } else {
+                        return null;
+                      }
+                    })
+                : Container(),
+            IconButton(
+              color: Colors.white,
+              icon: Icon(Icons.notifications, color: Colors.white),
+              onPressed: () {
+                Navigator.of(context).pushNamed('/notifikasi');
+              },
+            ),
+          ],
+        ),
+        bottomNavigationBar: BottomAppBar(
+          notchMargin: 5.0,
+          color: Colors.white,
+          shape: CircularNotchedRectangle(),
+          child: Container(
+            height: 50.0,
+            padding: EdgeInsets.only(top: 10.0),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Expanded(
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        pageIndex = 0;
+                      });
+                    },
+                    child: Column(
+                      children: <Widget>[
+                        CachedNetworkImage(
+                            imageUrl:
+                                'https://firebasestorage.googleapis.com/v0/b/payuni-2019y.appspot.com/o/merchants%2FPakeAja%2Fdashboard.png?alt=media&token=0794cc0a-16ef-48f8-8625-17d450c61680',
+                            color: pageIndex == 0
+                                ? Theme.of(context).primaryColor
+                                : Colors.grey,
+                            width: 20.0),
+                        SizedBox(
+                          height: 5.0,
+                        ),
+                        Text('Home', style: TextStyle(fontSize: 10.0))
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(width: 20.0),
+                Expanded(
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        pageIndex = 1;
+                      });
+                    },
+                    child: Column(
+                      children: <Widget>[
+                        CachedNetworkImage(
+                            imageUrl:
+                                'https://firebasestorage.googleapis.com/v0/b/payuni-2019y.appspot.com/o/merchants%2Fepulsa%2Fhistory_inactive.png?alt=media&token=2b5c6539-d5e2-41d1-8915-a010e012b94a',
+                            color: pageIndex == 1
+                                ? Theme.of(context).primaryColor
+                                : Colors.grey,
+                            width: 20.0),
+                        SizedBox(
+                          height: 5.0,
+                        ),
+                        Text('History', style: TextStyle(fontSize: 10.0))
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(width: 80.0),
+                Expanded(
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        pageIndex = 2;
+                      });
+                    },
+                    child: Column(
+                      children: <Widget>[
+                        CachedNetworkImage(
+                            imageUrl:
+                                'https://firebasestorage.googleapis.com/v0/b/payuni-2019y.appspot.com/o/merchants%2FPakeAja%2Ffriendship.png?alt=media&token=f8d24fd1-7e7b-4cbd-8dbf-5b382fc2a825',
+                            color: pageIndex == 2
+                                ? Theme.of(context).primaryColor
+                                : Colors.grey,
+                            width: 20.0),
+                        SizedBox(
+                          height: 5.0,
+                        ),
+                        Text('Keagenan', style: TextStyle(fontSize: 10.0))
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(width: 20.0),
+                Expanded(
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        pageIndex = 3;
+                      });
+                    },
+                    child: Column(
+                      children: <Widget>[
+                        CachedNetworkImage(
+                            imageUrl:
+                                'https://firebasestorage.googleapis.com/v0/b/payuni-2019y.appspot.com/o/merchants%2FPakeAja%2Fyoung.png?alt=media&token=1c94548d-8480-4530-add4-58b90522e4a8',
+                            color: pageIndex == 3
+                                ? Theme.of(context).primaryColor
+                                : Colors.grey,
+                            width: 20.0),
+                        SizedBox(
+                          height: 5.0,
+                        ),
+                        Text('Profile', style: TextStyle(fontSize: 10.0))
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        // bottomNavigationBar: CurvedNavigationBar(
+        //   color: Theme.of(context).primaryColor,
+        //   backgroundColor: Colors.white.withOpacity(.1),
+        //   animationCurve: Curves.fastOutSlowIn,
+        //   buttonBackgroundColor: Theme.of(context).primaryColor,
+        //   items: <Widget>[
+        //     Icon(Icons.list, size: 30, color: Colors.white),
+        //     Icon(Icons.apps, size: 30, color: Colors.white),
+        //     Icon(Icons.person, size: 30, color: Colors.white),
+        //   ],
+        //   onTap: (index) {
+        //     //Handle button tap
+        //     setState(() {
+        //       pageIndex = index;
+        //     });
+        //   },
+        // ),
+        body: halaman[pageIndex]);
+  }
+}

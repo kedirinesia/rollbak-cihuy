@@ -1,0 +1,11 @@
+# lib/overrides/animated_bottom_navigation_bar/pubspec.yaml
+name: animated_bottom_navigation_bar
+description: Local override
+version: 2.0.0
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  badges: ^2.0.2

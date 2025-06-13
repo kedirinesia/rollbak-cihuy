@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "497404750065",
+    "firebase_url": "https://milea-f2b35.firebaseio.com",
+    "project_id": "milea-f2b35",
+    "storage_bucket": "milea-f2b35.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:497404750065:android:d1e61eb987c48bc58ee150",
+        "android_client_info": {
+          "package_name": "com.payuni.greenpay"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "497404750065-gdh7gj4ir3pj0ke3es71a1rofr9sign2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtf0deEPA0Yiy7rH9qwQO8ElkrxokF-QM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "497404750065-gdh7gj4ir3pj0ke3es71a1rofr9sign2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "497404750065-64g2rkg34f5egpu1qo5updh7s798vqck.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.payuni.funmo"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

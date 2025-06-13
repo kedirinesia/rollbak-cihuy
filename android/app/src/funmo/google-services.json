@@ -1,0 +1,272 @@
+{
+  "project_info": {
+    "project_number": "129456726621",
+    "firebase_url": "https://wajib-online.firebaseio.com",
+    "project_id": "wajib-online",
+    "storage_bucket": "wajib-online.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:129456726621:android:3229b224f70875d8",
+        "android_client_info": {
+          "package_name": "com.creativefull.bidikmisi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "129456726621-mh7q83ap6l3nbk7ntvhb25iopkvi4an9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1M9rqA1LM0cIs-9Wn-djRoPNMcEe8-ss"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "129456726621-mh7q83ap6l3nbk7ntvhb25iopkvi4an9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:129456726621:android:f0d967cf05cd3300b9e3b4",
+        "android_client_info": {
+          "package_name": "com.funmoid.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "129456726621-mh7q83ap6l3nbk7ntvhb25iopkvi4an9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1M9rqA1LM0cIs-9Wn-djRoPNMcEe8-ss"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "129456726621-mh7q83ap6l3nbk7ntvhb25iopkvi4an9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:129456726621:android:b7dd844b759a998db9e3b4",
+        "android_client_info": {
+          "package_name": "com.smartdigital.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "129456726621-mh7q83ap6l3nbk7ntvhb25iopkvi4an9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1M9rqA1LM0cIs-9Wn-djRoPNMcEe8-ss"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "129456726621-mh7q83ap6l3nbk7ntvhb25iopkvi4an9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:129456726621:android:2a53781a53275402",
+        "android_client_info": {
+          "package_name": "com.tangituru.splashwall"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "129456726621-mh7q83ap6l3nbk7ntvhb25iopkvi4an9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1M9rqA1LM0cIs-9Wn-djRoPNMcEe8-ss"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "129456726621-mh7q83ap6l3nbk7ntvhb25iopkvi4an9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:129456726621:android:a37d79e5bc6bd21ab9e3b4",
+        "android_client_info": {
+          "package_name": "id.funmo.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "129456726621-mh7q83ap6l3nbk7ntvhb25iopkvi4an9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1M9rqA1LM0cIs-9Wn-djRoPNMcEe8-ss"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "129456726621-mh7q83ap6l3nbk7ntvhb25iopkvi4an9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:129456726621:android:f00d415d2e1a130ab9e3b4",
+        "android_client_info": {
+          "package_name": "id.payku.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "129456726621-mh7q83ap6l3nbk7ntvhb25iopkvi4an9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1M9rqA1LM0cIs-9Wn-djRoPNMcEe8-ss"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "129456726621-mh7q83ap6l3nbk7ntvhb25iopkvi4an9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:129456726621:android:2dfb3272b35343d9b9e3b4",
+        "android_client_info": {
+          "package_name": "id.payuni.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "129456726621-mh7q83ap6l3nbk7ntvhb25iopkvi4an9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1M9rqA1LM0cIs-9Wn-djRoPNMcEe8-ss"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "129456726621-mh7q83ap6l3nbk7ntvhb25iopkvi4an9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:129456726621:android:2fb83159996080bdb9e3b4",
+        "android_client_info": {
+          "package_name": "id.yukcoding.greenpay"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "129456726621-mh7q83ap6l3nbk7ntvhb25iopkvi4an9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1M9rqA1LM0cIs-9Wn-djRoPNMcEe8-ss"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "129456726621-mh7q83ap6l3nbk7ntvhb25iopkvi4an9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:129456726621:android:904782a858e6a811b9e3b4",
+        "android_client_info": {
+          "package_name": "payku.id"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "129456726621-mh7q83ap6l3nbk7ntvhb25iopkvi4an9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1M9rqA1LM0cIs-9Wn-djRoPNMcEe8-ss"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "129456726621-mh7q83ap6l3nbk7ntvhb25iopkvi4an9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

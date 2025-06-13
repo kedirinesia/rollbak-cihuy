@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>497404750065-cailp2sd9b5v30ud01gjo7rn0fs6pab9.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.497404750065-cailp2sd9b5v30ud01gjo7rn0fs6pab9</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBjjD2WtJ4j-A_w3dfzKpptSPYUSq-0Dww</string>
+	<key>GCM_SENDER_ID</key>
+	<string>497404750065</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.payuni.payku</string>
+	<key>PROJECT_ID</key>
+	<string>milea-f2b35</string>
+	<key>STORAGE_BUCKET</key>
+	<string>milea-f2b35.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:497404750065:ios:d7dba8d59516c2db8ee150</string>
+	<key>DATABASE_URL</key>
+	<string>https://milea-f2b35.firebaseio.com</string>
+</dict>
+</plist>

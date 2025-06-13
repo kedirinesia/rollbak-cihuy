@@ -1,0 +1,212 @@
+// @dart=2.9
+
+import 'dart:convert';
+
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
+import 'package:mobile/bloc/Api.dart';
+import 'package:mobile/bloc/Bloc.dart' show bloc;
+import 'package:mobile/models/reward.dart';
+
+class RewardComponent extends StatefulWidget {
+  final double width;
+  final double height;
+  final double aspectRatio;
+  final double viewportFraction;
+  RewardComponent(
+      {this.width = double.infinity,
+      this.height,
+      this.viewportFraction = .3,
+      this.aspectRatio = 25 / 10});
+
+  @override
+  _RewardComponentState createState() => _RewardComponentState();
+}
+
+class _RewardComponentState extends State<RewardComponent> {
+  bool loading = true;
+  List<RewardModel> rewards = [];
+  List<Widget> rewardsWidget = [];
+
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
+
+  void getData() async {
+    http.Response response = await http.get(Uri.parse('$apiUrl/reward/list'),
+        headers: {'Authorization': bloc.token.valueWrapper?.value});
+
+    if (response.statusCode == 200) {
+      List<dynamic> datas = json.decode(response.body)['data'];
+      rewards.clear();
+      datas.forEach((item) {
+        rewards.add(RewardModel.fromJson(item));
+      });
+      setState(() {
+        loading = false;
+      });
+    }
+  }
+
+  void tukarReward(String id) async {
+    http.Response response = await http.post(Uri.parse('$apiUrl/reward/tukar'),
+        headers: {
+          'Authorization': bloc.token.valueWrapper?.value,
+          'Content-Type': 'application/json'
+        },
+        body: json.encode({'id': id}));
+
+    String message = json.decode(response.body)['message'];
+    if (response.statusCode == 200) {
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => AlertDialog(
+                title: Text('Penukaran Berhasil'),
+                content: Text(message),
+                actions: <Widget>[
+                  TextButton(
+                      child: Text(
+                        'OK',
+                        style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      ),
+                      onPressed: () => Navigator.of(context).pop())
+                ],
+              ));
+    } else {
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => AlertDialog(
+                title: Text('Penukaran Gagal'),
+                content: Text(message),
+                actions: <Widget>[
+                  TextButton(
+                      child: Text(
+                        'TUTUP',
+                        style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      ),
+                      onPressed: () => Navigator.of(context).pop())
+                ],
+              ));
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return loading
+        ? Container()
+        : Container(
+            margin: EdgeInsets.only(bottom: 10),
+            width: widget.width,
+            height: widget.height,
+            child: rewards.length == 0
+                ? Container(
+                    width: double.infinity,
+                    height: 100,
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor.withOpacity(.1),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Center(
+                        child: Text('Tidak ada hadiah',
+                            style: TextStyle(
+                                color: Theme.of(context).primaryColor))),
+                  )
+                : CarouselSlider(
+                    options: CarouselOptions(
+                      autoPlay: true,
+                      aspectRatio: widget.aspectRatio,
+                      enlargeCenterPage: true,
+                      viewportFraction: widget.viewportFraction,
+                    ),
+                    items: rewards.map(
+                      (item) {
+                        return Builder(
+                          builder: (BuildContext context) {
+                            return InkWell(
+                              child: Container(
+                                  width: double.infinity,
+                                  margin: EdgeInsets.symmetric(horizontal: 5.0),
+                                  decoration: BoxDecoration(
+                                      color: Colors.grey.shade200,
+                                      borderRadius: BorderRadius.circular(12.5),
+                                      image: DecorationImage(
+                                          image: CachedNetworkImageProvider(
+                                              item.imageUrl,
+                                              scale: .1),
+                                          fit: BoxFit.cover))),
+                              onTap: () {
+                                return showDialog(
+                                  context: context,
+                                  barrierDismissible: false,
+                                  builder: (context) => AlertDialog(
+                                    title: Text('Tukar Reward'),
+                                    content: ListView(
+                                        shrinkWrap: true,
+                                        children: <Widget>[
+                                          Text('Nama',
+                                              style: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 11)),
+                                          SizedBox(height: 5),
+                                          Text(item.title),
+                                          SizedBox(height: 10),
+                                          Text('Deskripsi',
+                                              style: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 11)),
+                                          SizedBox(height: 5),
+                                          Text(item.description),
+                                          SizedBox(height: 10),
+                                          Text('Poin Dibutuhkan',
+                                              style: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 11)),
+                                          SizedBox(height: 5),
+                                          Text(
+                                              '${NumberFormat.decimalPattern('id').format(item.poin)} Poin'),
+                                          SizedBox(height: 10),
+                                        ]),
+                                    actions: <Widget>[
+                                      TextButton(
+                                          child: Text(
+                                            'TUKARKAN',
+                                            style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                            ),
+                                          ),
+                                          onPressed: () =>
+                                              tukarReward(item.id)),
+                                      TextButton(
+                                          child: Text(
+                                            'TUTUP',
+                                            style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                            ),
+                                          ),
+                                          onPressed: () =>
+                                              Navigator.of(context).pop()),
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        );
+                      },
+                    ).toList(),
+                  ),
+          );
+  }
+}

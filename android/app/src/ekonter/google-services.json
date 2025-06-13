@@ -1,0 +1,4587 @@
+{
+  "project_info": {
+    "project_number": "440722706817",
+    "firebase_url": "https://payuni-2019y.firebaseio.com",
+    "project_id": "payuni-2019y",
+    "storage_bucket": "payuni-2019y.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:a4f60d642ea04c91ea9880",
+        "android_client_info": {
+          "package_name": "co.kimopay.id"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:6f5ef670b3a29306ea9880",
+        "android_client_info": {
+          "package_name": "co.mpc.id"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:bbfe174e00041039ea9880",
+        "android_client_info": {
+          "package_name": "co.pakaiaja.id"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:62465f469e2cc92dea9880",
+        "android_client_info": {
+          "package_name": "co.paysri.id"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:d29666da60f61d0bea9880",
+        "android_client_info": {
+          "package_name": "co.phoenix.id"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:e219bbcf9438a993ea9880",
+        "android_client_info": {
+          "package_name": "com.addtwowallet.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:aa190c28e8d97111ea9880",
+        "android_client_info": {
+          "package_name": "com.adharimobile.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:3f924e117ffa178aea9880",
+        "android_client_info": {
+          "package_name": "com.aksespulsa.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:45dcd3fb12b8666dea9880",
+        "android_client_info": {
+          "package_name": "com.akupay.androidapps"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:4372e75f2058a575ea9880",
+        "android_client_info": {
+          "package_name": "com.akupay.androidmobileapps"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:44b10dd15a9a138aea9880",
+        "android_client_info": {
+          "package_name": "com.akupaymobile.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:0329ac46eb3c191eea9880",
+        "android_client_info": {
+          "package_name": "com.alpulsa.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:974e729982fcc2eeea9880",
+        "android_client_info": {
+          "package_name": "com.appbayar.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:4f99e8d65fcb1613ea9880",
+        "android_client_info": {
+          "package_name": "com.arpulsa.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:6aa74774f83bb263ea9880",
+        "android_client_info": {
+          "package_name": "com.aztech.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:e40fd3c017f8a7eeea9880",
+        "android_client_info": {
+          "package_name": "com.beepay.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:6c62a0119807e81fea9880",
+        "android_client_info": {
+          "package_name": "com.billpaketdata.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:a7981b3328a8eaf8ea9880",
+        "android_client_info": {
+          "package_name": "com.bipay.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:f24298e8a709d69aea9880",
+        "android_client_info": {
+          "package_name": "com.bipay.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:3a1a2c02af576fd9ea9880",
+        "android_client_info": {
+          "package_name": "com.bosspay.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:5bcd846196e1c940ea9880",
+        "android_client_info": {
+          "package_name": "com.bropay.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:05e38eb4e04fbf98ea9880",
+        "android_client_info": {
+          "package_name": "com.cashpoin.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:58bef0200f6ff322ea9880",
+        "android_client_info": {
+          "package_name": "com.centralbayar.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:8df9e5267895d0fdea9880",
+        "android_client_info": {
+          "package_name": "com.cuanplus.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:93add8cc4a9cde3dea9880",
+        "android_client_info": {
+          "package_name": "com.dinarpay.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:d8bb1addcffc3d07ea9880",
+        "android_client_info": {
+          "package_name": "com.dwpulsa.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:ebb8b42f87cb777dea9880",
+        "android_client_info": {
+          "package_name": "com.easypayment.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:052660e79d40169dea9880",
+        "android_client_info": {
+          "package_name": "com.eftronik.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:65ab4a5f910e93a6ea9880",
+        "android_client_info": {
+          "package_name": "com.ekonter.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:c284345bcb0eb0cbea9880",
+        "android_client_info": {
+          "package_name": "com.ekonter.mobileapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:1a16bbf964a5206fea9880",
+        "android_client_info": {
+          "package_name": "com.emobile.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:c273e7b59b2537f5ea9880",
+        "android_client_info": {
+          "package_name": "com.epulsamobile.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:f123314ba155ba0eea9880",
+        "android_client_info": {
+          "package_name": "com.esaldoku.androidmobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:ca7f74a5343b2a1fea9880",
+        "android_client_info": {
+          "package_name": "com.esaldoku.mobileapps"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:5eddead7b57e771eea9880",
+        "android_client_info": {
+          "package_name": "com.flobamora.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:46ccfaa9c5bdf4e9ea9880",
+        "android_client_info": {
+          "package_name": "com.funmo.id"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:c81b37618548e925ea9880",
+        "android_client_info": {
+          "package_name": "com.ganku.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:2162f6d63c5c9a1aea9880",
+        "android_client_info": {
+          "package_name": "com.geetpay.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:8c78289254e872e2ea9880",
+        "android_client_info": {
+          "package_name": "com.gpayment.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:2cf73dc9836e9962ea9880",
+        "android_client_info": {
+          "package_name": "com.haikal.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:e175ac88d11a6da7ea9880",
+        "android_client_info": {
+          "package_name": "com.haikalpulsa.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:40bd5a256800f882ea9880",
+        "android_client_info": {
+          "package_name": "com.hspayment.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:31f7e11be429c1d1ea9880",
+        "android_client_info": {
+          "package_name": "com.indokaze.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:108ade8ffee338e0ea9880",
+        "android_client_info": {
+          "package_name": "com.indonusapay.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:e97e458146191a84ea9880",
+        "android_client_info": {
+          "package_name": "com.jasamedia.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:df0eaadebf0487ceea9880",
+        "android_client_info": {
+          "package_name": "com.kamiaja.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:4fb55b4d02f53cb0ea9880",
+        "android_client_info": {
+          "package_name": "com.kepopay.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:4f51fa4a9bd58a2aea9880",
+        "android_client_info": {
+          "package_name": "com.kingsreload.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:85449632caffd5dfea9880",
+        "android_client_info": {
+          "package_name": "com.kuotanet.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:91db52797ed16f7cea9880",
+        "android_client_info": {
+          "package_name": "com.maolaku.payment"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:1c6c4d79ec6bc601ea9880",
+        "android_client_info": {
+          "package_name": "com.mitraaaw.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:2b8db809023a2815ea9880",
+        "android_client_info": {
+          "package_name": "com.mitrapulsa.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:5d54310bbee939cbea9880",
+        "android_client_info": {
+          "package_name": "com.mobipayment.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:d4275786548d6513ea9880",
+        "android_client_info": {
+          "package_name": "com.mocipay.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:9f804f2d7154d205ea9880",
+        "android_client_info": {
+          "package_name": "com.mypulsa.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:8bd3c513cc53925cea9880",
+        "android_client_info": {
+          "package_name": "com.netflazz.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:478ec02c907428e3ea9880",
+        "android_client_info": {
+          "package_name": "com.nocefy.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:5ad4a2cff83bec42ea9880",
+        "android_client_info": {
+          "package_name": "com.okpulsa.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:a27fcdab913a992cea9880",
+        "android_client_info": {
+          "package_name": "com.oneshopdigital.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:d7f0c27203afbc58ea9880",
+        "android_client_info": {
+          "package_name": "com.onetronic.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:ab55d998644ae1d9ea9880",
+        "android_client_info": {
+          "package_name": "com.outletpay.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:8e824cb3be78a823ea9880",
+        "android_client_info": {
+          "package_name": "com.passpay.agenpulsamurah"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:331fa672a2543cc5ea9880",
+        "android_client_info": {
+          "package_name": "com.pay24jam.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:75e09db03dc1a535ea9880",
+        "android_client_info": {
+          "package_name": "com.payfast.apk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:0c6236af988eb1c3ea9880",
+        "android_client_info": {
+          "package_name": "com.payfast.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:6d10dd9934a93a37ea9880",
+        "android_client_info": {
+          "package_name": "com.payu.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:476b67bee8c0a102",
+        "android_client_info": {
+          "package_name": "com.payuni.datapayment"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:0d4d7193a9e17b4cea9880",
+        "android_client_info": {
+          "package_name": "com.payuni.devel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:1a7970b29fdf22fa",
+        "android_client_info": {
+          "package_name": "com.payuni.id"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6vg7f1d8ubek148r4ac2mquqvp2k3i4g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.payuni.id",
+            "certificate_hash": "5daa7f0668c289075812664ed27d15af290cfc77"
+          }
+        },
+        {
+          "client_id": "440722706817-nglrdij7vd9ndaav5i5tjouq22e20pep.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.payuni.id",
+            "certificate_hash": "bf908e7a793b8002a7483ef4e54d508590c731a7"
+          }
+        },
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:17309cb65ab58f57ea9880",
+        "android_client_info": {
+          "package_name": "com.payuni.jmm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:a3f5aefba3fd5348ea9880",
+        "android_client_info": {
+          "package_name": "com.payuni.konterku"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:06289d04b06994ca",
+        "android_client_info": {
+          "package_name": "com.payuni.mitrakonter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:abdbdddd2115c9b6ea9880",
+        "android_client_info": {
+          "package_name": "com.payuni.moodbooster"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:1c82917124abd4d6ea9880",
+        "android_client_info": {
+          "package_name": "com.payuni.myarto"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:0efd3ef24d93a182ea9880",
+        "android_client_info": {
+          "package_name": "com.payuni.nawapay"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:098eb3eb8245804c",
+        "android_client_info": {
+          "package_name": "com.payuni.paynur"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-obtem6rbaonpa6h6kfj2dvgn1u0pnfmn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.payuni.paynur",
+            "certificate_hash": "42c43c3eea89cbfa16251596a191a63ff5bb2610"
+          }
+        },
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:a96a883380fde922",
+        "android_client_info": {
+          "package_name": "com.payuni.popay"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-kf6pvr3do09e0oaemlrl8bbg5rqil5kd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.payuni.popay",
+            "certificate_hash": "5daa7f0668c289075812664ed27d15af290cfc77"
+          }
+        },
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:706c3fa6b482328e",
+        "android_client_info": {
+          "package_name": "com.payuni.ratupulsa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-hibs7gvuiftje61g7l63s8j7vs9sojpo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.payuni.ratupulsa",
+            "certificate_hash": "8279b003737e3749a47adf7f9fa675389451e917"
+          }
+        },
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:f55514e680373629ea9880",
+        "android_client_info": {
+          "package_name": "com.payuni.sender"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:48b13039f4cea383ea9880",
+        "android_client_info": {
+          "package_name": "com.payuni.snreload"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:29c9e952bad2dcd7ea9880",
+        "android_client_info": {
+          "package_name": "com.payuni.tekonangpulsa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:3b11bac2e109b67cea9880",
+        "android_client_info": {
+          "package_name": "com.payuni.wayzi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:762afdb94f226cfcea9880",
+        "android_client_info": {
+          "package_name": "com.pulsa24.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:778f15e40ee9947dea9880",
+        "android_client_info": {
+          "package_name": "com.pulsadata.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:74f92dfee7907136ea9880",
+        "android_client_info": {
+          "package_name": "com.pulsamechine.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:14190cc05c0e74d1ea9880",
+        "android_client_info": {
+          "package_name": "com.putridigital.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:41e83bd774941b33ea9880",
+        "android_client_info": {
+          "package_name": "com.rcvpay.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:5576d43b68a21746ea9880",
+        "android_client_info": {
+          "package_name": "com.s9ppayment.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:e2f39cc49c611f3aea9880",
+        "android_client_info": {
+          "package_name": "com.sakupay.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:eb6fb0ee563b3a3eea9880",
+        "android_client_info": {
+          "package_name": "com.sanpay.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:ab7b181696eb2142ea9880",
+        "android_client_info": {
+          "package_name": "com.sarinah.androidapps"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:b1fa6a875e6cde41ea9880",
+        "android_client_info": {
+          "package_name": "com.sarinah.mobileapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:1b3807525a535e09ea9880",
+        "android_client_info": {
+          "package_name": "com.selcopay.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:cfebfe1ff632fe0aea9880",
+        "android_client_info": {
+          "package_name": "com.senkopay.apk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:3564e6801b175d21ea9880",
+        "android_client_info": {
+          "package_name": "com.simopay.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:44e13ba83d6f52bdea9880",
+        "android_client_info": {
+          "package_name": "com.tajangatipayment.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:6308ca82b2124652ea9880",
+        "android_client_info": {
+          "package_name": "com.talentapay.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:f9c9aaa0cda34b6aea9880",
+        "android_client_info": {
+          "package_name": "com.tokupay.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:d0063fb65c96bdb2ea9880",
+        "android_client_info": {
+          "package_name": "com.topupin.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:bb0d0770ae2e5e5aea9880",
+        "android_client_info": {
+          "package_name": "com.topuptronik.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:be05bc4fbd0462abea9880",
+        "android_client_info": {
+          "package_name": "com.troypay.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:af02eb6746c99310ea9880",
+        "android_client_info": {
+          "package_name": "com.ulliartha.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:c3f293fd5d288035ea9880",
+        "android_client_info": {
+          "package_name": "com.upay.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:3aa3c3b3ca90bde3ea9880",
+        "android_client_info": {
+          "package_name": "com.wallpayku.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:02c4ae046a85fcb6ea9880",
+        "android_client_info": {
+          "package_name": "com.wuzz.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:916afc6f57fc501bea9880",
+        "android_client_info": {
+          "package_name": "com.yadarasmart.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:ff09f9095e7e51e3ea9880",
+        "android_client_info": {
+          "package_name": "com.yonreload.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:2b6f106431cb4ae0ea9880",
+        "android_client_info": {
+          "package_name": "com.yukpay.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:ebec3934de73387dea9880",
+        "android_client_info": {
+          "package_name": "com.zmobile.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:4c9fe9cb8ef5d04bea9880",
+        "android_client_info": {
+          "package_name": "id.a2opayreload.co"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:dabcf2044331256cea9880",
+        "android_client_info": {
+          "package_name": "id.akupay.mobileapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:7b780e53314587ffea9880",
+        "android_client_info": {
+          "package_name": "id.bisabayar.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:72235d5fc811524eea9880",
+        "android_client_info": {
+          "package_name": "id.epulsa.co"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:8b65c3556ff38190ea9880",
+        "android_client_info": {
+          "package_name": "id.esaldoku.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:378aff75cfa9e2e5ea9880",
+        "android_client_info": {
+          "package_name": "id.ndmmobile.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:b5f6c3719aca9f5fea9880",
+        "android_client_info": {
+          "package_name": "id.paristronik.co"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:7148e23516381fe4ea9880",
+        "android_client_info": {
+          "package_name": "id.payu.co"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:2fd4dc941dc59278",
+        "android_client_info": {
+          "package_name": "id.payuni.standart"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:960b4a1652fe1203ea9880",
+        "android_client_info": {
+          "package_name": "id.ptspay.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:73c7e34d778b491fea9880",
+        "android_client_info": {
+          "package_name": "id.ptspay.mobileapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:fa2a03120c9ffc86ea9880",
+        "android_client_info": {
+          "package_name": "id.pulsadata.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:6fc814e59115aac7ea9880",
+        "android_client_info": {
+          "package_name": "id.sarinu.siklus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:583daad8f0ec0797ea9880",
+        "android_client_info": {
+          "package_name": "id.sarinupay.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:b0a40856fb614999ea9880",
+        "android_client_info": {
+          "package_name": "id.srmobile.co"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:c5cc9ae46d68892dea9880",
+        "android_client_info": {
+          "package_name": "id.toku.co"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:5909c563c149e585",
+        "android_client_info": {
+          "package_name": "payuni.id"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "440722706817-27h41aau308pr6uepl2buf6c6fqaaa60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.mobipay.id"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

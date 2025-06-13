@@ -1,0 +1,329 @@
+{
+  "project_info": {
+    "project_number": "126780440420",
+    "project_id": "popay-a77cf",
+    "storage_bucket": "popay-a77cf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:126780440420:android:b1dca8f0b8d6a65aa98471",
+        "android_client_info": {
+          "package_name": "com.ampedia.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "126780440420-7n6javchftf9g171inno5lp2vofsk6sv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFftDnp0vGVQyk-m362J2W0HeAaVD3IhA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "126780440420-7n6javchftf9g171inno5lp2vofsk6sv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:126780440420:android:8589d25b5ac9c798a98471",
+        "android_client_info": {
+          "package_name": "com.pgkreload.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "126780440420-7n6javchftf9g171inno5lp2vofsk6sv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFftDnp0vGVQyk-m362J2W0HeAaVD3IhA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "126780440420-7n6javchftf9g171inno5lp2vofsk6sv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:126780440420:android:ecc7c47bcea788c2a98471",
+        "android_client_info": {
+          "package_name": "id.agenpayment.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "126780440420-7n6javchftf9g171inno5lp2vofsk6sv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFftDnp0vGVQyk-m362J2W0HeAaVD3IhA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "126780440420-7n6javchftf9g171inno5lp2vofsk6sv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:126780440420:android:b3a528099f673f2aa98471",
+        "android_client_info": {
+          "package_name": "id.avatarpay.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "126780440420-7n6javchftf9g171inno5lp2vofsk6sv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFftDnp0vGVQyk-m362J2W0HeAaVD3IhA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "126780440420-7n6javchftf9g171inno5lp2vofsk6sv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:126780440420:android:c2ff1e14e3f10ccaa98471",
+        "android_client_info": {
+          "package_name": "id.fipay.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "126780440420-7n6javchftf9g171inno5lp2vofsk6sv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFftDnp0vGVQyk-m362J2W0HeAaVD3IhA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "126780440420-7n6javchftf9g171inno5lp2vofsk6sv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:126780440420:android:884c28d20e8fbd96a98471",
+        "android_client_info": {
+          "package_name": "id.mixpay.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "126780440420-7n6javchftf9g171inno5lp2vofsk6sv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFftDnp0vGVQyk-m362J2W0HeAaVD3IhA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "126780440420-7n6javchftf9g171inno5lp2vofsk6sv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:126780440420:android:c34d3243fa93ce35a98471",
+        "android_client_info": {
+          "package_name": "id.popay.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "126780440420-7n6javchftf9g171inno5lp2vofsk6sv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFftDnp0vGVQyk-m362J2W0HeAaVD3IhA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "126780440420-7n6javchftf9g171inno5lp2vofsk6sv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:126780440420:android:b0cd152edef16d5aa98471",
+        "android_client_info": {
+          "package_name": "id.popay.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "126780440420-7n6javchftf9g171inno5lp2vofsk6sv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFftDnp0vGVQyk-m362J2W0HeAaVD3IhA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "126780440420-7n6javchftf9g171inno5lp2vofsk6sv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:126780440420:android:a465937e8bf5a1a9a98471",
+        "android_client_info": {
+          "package_name": "id.violetapedia.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "126780440420-7n6javchftf9g171inno5lp2vofsk6sv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFftDnp0vGVQyk-m362J2W0HeAaVD3IhA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "126780440420-7n6javchftf9g171inno5lp2vofsk6sv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:126780440420:android:c54a51fb658aeb39a98471",
+        "android_client_info": {
+          "package_name": "id.yapay.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "126780440420-7n6javchftf9g171inno5lp2vofsk6sv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFftDnp0vGVQyk-m362J2W0HeAaVD3IhA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "126780440420-7n6javchftf9g171inno5lp2vofsk6sv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:126780440420:android:187d17297d493c4ea98471",
+        "android_client_info": {
+          "package_name": "popay.id"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "126780440420-7n6javchftf9g171inno5lp2vofsk6sv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFftDnp0vGVQyk-m362J2W0HeAaVD3IhA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "126780440420-7n6javchftf9g171inno5lp2vofsk6sv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

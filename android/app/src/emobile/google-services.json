@@ -1,0 +1,358 @@
+{
+  "project_info": {
+    "project_number": "835305946598",
+    "project_id": "payuni-ec538",
+    "storage_bucket": "payuni-ec538.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:835305946598:android:279d32230e241b4ac1ea27",
+        "android_client_info": {
+          "package_name": "app.cuanplus.com"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "835305946598-2afuqvtj0gv6m2jq009utu2ppra2723e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAd7VGicb-V8r6lxSFajTk_jIIOrMD2_NI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "835305946598-2afuqvtj0gv6m2jq009utu2ppra2723e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:835305946598:android:17e55f4faedfd0fac1ea27",
+        "android_client_info": {
+          "package_name": "app.indonusapay.com"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "835305946598-2afuqvtj0gv6m2jq009utu2ppra2723e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAd7VGicb-V8r6lxSFajTk_jIIOrMD2_NI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "835305946598-2afuqvtj0gv6m2jq009utu2ppra2723e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:835305946598:android:46b456377f40e1dbc1ea27",
+        "android_client_info": {
+          "package_name": "ayoba.co.id"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "835305946598-2afuqvtj0gv6m2jq009utu2ppra2723e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAd7VGicb-V8r6lxSFajTk_jIIOrMD2_NI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "835305946598-2afuqvtj0gv6m2jq009utu2ppra2723e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:835305946598:android:b57dd23ec5a61e49c1ea27",
+        "android_client_info": {
+          "package_name": "com.aztech.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "835305946598-2afuqvtj0gv6m2jq009utu2ppra2723e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAd7VGicb-V8r6lxSFajTk_jIIOrMD2_NI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "835305946598-2afuqvtj0gv6m2jq009utu2ppra2723e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:835305946598:android:883e791a8b0b2d28c1ea27",
+        "android_client_info": {
+          "package_name": "com.emobiles.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "835305946598-2afuqvtj0gv6m2jq009utu2ppra2723e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAd7VGicb-V8r6lxSFajTk_jIIOrMD2_NI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "835305946598-2afuqvtj0gv6m2jq009utu2ppra2723e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:835305946598:android:0cbd9f907500c286c1ea27",
+        "android_client_info": {
+          "package_name": "com.indopulsa.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "835305946598-2afuqvtj0gv6m2jq009utu2ppra2723e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAd7VGicb-V8r6lxSFajTk_jIIOrMD2_NI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "835305946598-2afuqvtj0gv6m2jq009utu2ppra2723e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:835305946598:android:4ed02b3f50909892c1ea27",
+        "android_client_info": {
+          "package_name": "com.kingreloads.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "835305946598-2afuqvtj0gv6m2jq009utu2ppra2723e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAd7VGicb-V8r6lxSFajTk_jIIOrMD2_NI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "835305946598-2afuqvtj0gv6m2jq009utu2ppra2723e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:835305946598:android:5cd05f8f2bbf2af1c1ea27",
+        "android_client_info": {
+          "package_name": "com.ndmobile.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "835305946598-2afuqvtj0gv6m2jq009utu2ppra2723e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAd7VGicb-V8r6lxSFajTk_jIIOrMD2_NI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "835305946598-2afuqvtj0gv6m2jq009utu2ppra2723e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:835305946598:android:d2c03257e4943765c1ea27",
+        "android_client_info": {
+          "package_name": "com.phoenixpayment.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "835305946598-2afuqvtj0gv6m2jq009utu2ppra2723e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAd7VGicb-V8r6lxSFajTk_jIIOrMD2_NI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "835305946598-2afuqvtj0gv6m2jq009utu2ppra2723e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:835305946598:android:ac3bab40cc55401ec1ea27",
+        "android_client_info": {
+          "package_name": "com.ratupulsa.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "835305946598-2afuqvtj0gv6m2jq009utu2ppra2723e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAd7VGicb-V8r6lxSFajTk_jIIOrMD2_NI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "835305946598-2afuqvtj0gv6m2jq009utu2ppra2723e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:835305946598:android:8bef378fd9c978b3c1ea27",
+        "android_client_info": {
+          "package_name": "com.walpayku.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "835305946598-2afuqvtj0gv6m2jq009utu2ppra2723e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAd7VGicb-V8r6lxSFajTk_jIIOrMD2_NI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "835305946598-2afuqvtj0gv6m2jq009utu2ppra2723e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:835305946598:android:816e540d12e70b7fc1ea27",
+        "android_client_info": {
+          "package_name": "id.emobile.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "835305946598-2afuqvtj0gv6m2jq009utu2ppra2723e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAd7VGicb-V8r6lxSFajTk_jIIOrMD2_NI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "835305946598-2afuqvtj0gv6m2jq009utu2ppra2723e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

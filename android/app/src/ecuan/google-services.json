@@ -1,0 +1,590 @@
+{
+  "project_info": {
+    "project_number": "474208968880",
+    "project_id": "payunilink",
+    "storage_bucket": "payunilink.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:474208968880:android:179ea37023162558411b75",
+        "android_client_info": {
+          "package_name": "akartoko.id"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "474208968880-gtc8dusbed8b4ell4n11sti7386nd63f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqCprHVSXaAnGbcXxChdD6CuSXWcU8cX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "474208968880-gtc8dusbed8b4ell4n11sti7386nd63f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:474208968880:android:a1ef07203a7e901e411b75",
+        "android_client_info": {
+          "package_name": "com.centralbayar.apk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "474208968880-gtc8dusbed8b4ell4n11sti7386nd63f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqCprHVSXaAnGbcXxChdD6CuSXWcU8cX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "474208968880-gtc8dusbed8b4ell4n11sti7386nd63f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:474208968880:android:7de208ea056a1b4e411b75",
+        "android_client_info": {
+          "package_name": "com.cpspayment.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "474208968880-gtc8dusbed8b4ell4n11sti7386nd63f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqCprHVSXaAnGbcXxChdD6CuSXWcU8cX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "474208968880-gtc8dusbed8b4ell4n11sti7386nd63f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:474208968880:android:3bcee674e84a5cf1411b75",
+        "android_client_info": {
+          "package_name": "com.easypay.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "474208968880-gtc8dusbed8b4ell4n11sti7386nd63f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqCprHVSXaAnGbcXxChdD6CuSXWcU8cX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "474208968880-gtc8dusbed8b4ell4n11sti7386nd63f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:474208968880:android:8106df26ef108621411b75",
+        "android_client_info": {
+          "package_name": "com.easypayment.apk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "474208968880-gtc8dusbed8b4ell4n11sti7386nd63f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqCprHVSXaAnGbcXxChdD6CuSXWcU8cX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "474208968880-gtc8dusbed8b4ell4n11sti7386nd63f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:474208968880:android:0d67311be19aa673411b75",
+        "android_client_info": {
+          "package_name": "com.ecuan.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "474208968880-gtc8dusbed8b4ell4n11sti7386nd63f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqCprHVSXaAnGbcXxChdD6CuSXWcU8cX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "474208968880-gtc8dusbed8b4ell4n11sti7386nd63f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:474208968880:android:cffa435a82a8219f411b75",
+        "android_client_info": {
+          "package_name": "com.mobipayment.apk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "474208968880-gtc8dusbed8b4ell4n11sti7386nd63f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqCprHVSXaAnGbcXxChdD6CuSXWcU8cX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "474208968880-gtc8dusbed8b4ell4n11sti7386nd63f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:474208968880:android:1a1cb272bbbd2444411b75",
+        "android_client_info": {
+          "package_name": "com.oneshopdigital.apk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "474208968880-gtc8dusbed8b4ell4n11sti7386nd63f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqCprHVSXaAnGbcXxChdD6CuSXWcU8cX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "474208968880-gtc8dusbed8b4ell4n11sti7386nd63f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:474208968880:android:751c12e9c1a96427411b75",
+        "android_client_info": {
+          "package_name": "com.payfast.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "474208968880-gtc8dusbed8b4ell4n11sti7386nd63f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqCprHVSXaAnGbcXxChdD6CuSXWcU8cX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "474208968880-gtc8dusbed8b4ell4n11sti7386nd63f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:474208968880:android:815c6e2d7967d498411b75",
+        "android_client_info": {
+          "package_name": "com.senkopay.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "474208968880-gtc8dusbed8b4ell4n11sti7386nd63f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqCprHVSXaAnGbcXxChdD6CuSXWcU8cX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "474208968880-gtc8dusbed8b4ell4n11sti7386nd63f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:474208968880:android:21e6dbba563e9689411b75",
+        "android_client_info": {
+          "package_name": "com.talentapay.apk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "474208968880-gtc8dusbed8b4ell4n11sti7386nd63f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqCprHVSXaAnGbcXxChdD6CuSXWcU8cX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "474208968880-gtc8dusbed8b4ell4n11sti7386nd63f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:474208968880:android:b88ad5a201d5a217411b75",
+        "android_client_info": {
+          "package_name": "com.talentapayment.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "474208968880-gtc8dusbed8b4ell4n11sti7386nd63f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqCprHVSXaAnGbcXxChdD6CuSXWcU8cX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "474208968880-gtc8dusbed8b4ell4n11sti7386nd63f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:474208968880:android:d933bb2ab13e1c5d411b75",
+        "android_client_info": {
+          "package_name": "com.topdipay.apk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "474208968880-gtc8dusbed8b4ell4n11sti7386nd63f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqCprHVSXaAnGbcXxChdD6CuSXWcU8cX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "474208968880-gtc8dusbed8b4ell4n11sti7386nd63f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:474208968880:android:85e5e913d2980335411b75",
+        "android_client_info": {
+          "package_name": "com.tpay.apk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "474208968880-gtc8dusbed8b4ell4n11sti7386nd63f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqCprHVSXaAnGbcXxChdD6CuSXWcU8cX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "474208968880-gtc8dusbed8b4ell4n11sti7386nd63f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:474208968880:android:0699c709dd1a9bb1411b75",
+        "android_client_info": {
+          "package_name": "com.umipay.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "474208968880-gtc8dusbed8b4ell4n11sti7386nd63f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqCprHVSXaAnGbcXxChdD6CuSXWcU8cX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "474208968880-gtc8dusbed8b4ell4n11sti7386nd63f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:474208968880:android:38b4d8fbfe026c36411b75",
+        "android_client_info": {
+          "package_name": "easypayment.co.id"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "474208968880-gtc8dusbed8b4ell4n11sti7386nd63f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqCprHVSXaAnGbcXxChdD6CuSXWcU8cX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "474208968880-gtc8dusbed8b4ell4n11sti7386nd63f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:474208968880:android:f5f427e411865faa411b75",
+        "android_client_info": {
+          "package_name": "mobipayment.co.id"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "474208968880-gtc8dusbed8b4ell4n11sti7386nd63f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqCprHVSXaAnGbcXxChdD6CuSXWcU8cX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "474208968880-gtc8dusbed8b4ell4n11sti7386nd63f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:474208968880:android:5d9c3762a46f8068411b75",
+        "android_client_info": {
+          "package_name": "mykonter.id"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "474208968880-gtc8dusbed8b4ell4n11sti7386nd63f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqCprHVSXaAnGbcXxChdD6CuSXWcU8cX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "474208968880-gtc8dusbed8b4ell4n11sti7386nd63f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:474208968880:android:951756157448320f411b75",
+        "android_client_info": {
+          "package_name": "pandumedia.id"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "474208968880-gtc8dusbed8b4ell4n11sti7386nd63f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqCprHVSXaAnGbcXxChdD6CuSXWcU8cX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "474208968880-gtc8dusbed8b4ell4n11sti7386nd63f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:474208968880:android:876df9252b881c4f411b75",
+        "android_client_info": {
+          "package_name": "payaja.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "474208968880-gtc8dusbed8b4ell4n11sti7386nd63f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqCprHVSXaAnGbcXxChdD6CuSXWcU8cX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "474208968880-gtc8dusbed8b4ell4n11sti7386nd63f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

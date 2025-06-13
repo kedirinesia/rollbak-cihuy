@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "377703577443",
+    "project_id": "server-pulsa-7770c",
+    "storage_bucket": "server-pulsa-7770c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:377703577443:android:fe38b86e881e8493cfc556",
+        "android_client_info": {
+          "package_name": "com.popayfdn"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "377703577443-s5ea6m1t3ui1q26qbhok1dlac7d7e0im.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAr0BTedk1MKrXEhx7laLJvyzZcfCuIxDg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "377703577443-s5ea6m1t3ui1q26qbhok1dlac7d7e0im.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

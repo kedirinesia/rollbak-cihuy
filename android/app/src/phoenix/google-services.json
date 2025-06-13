@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "835305946598",
+    "project_id": "payuni-ec538",
+    "storage_bucket": "payuni-ec538.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:835305946598:android:31cc2a650a7c06fec1ea27",
+        "android_client_info": {
+          "package_name": "com.cuanplus.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "835305946598-2afuqvtj0gv6m2jq009utu2ppra2723e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAd7VGicb-V8r6lxSFajTk_jIIOrMD2_NI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "835305946598-2afuqvtj0gv6m2jq009utu2ppra2723e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:835305946598:android:d2c03257e4943765c1ea27",
+        "android_client_info": {
+          "package_name": "com.phoenixpayment.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "835305946598-2afuqvtj0gv6m2jq009utu2ppra2723e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAd7VGicb-V8r6lxSFajTk_jIIOrMD2_NI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "835305946598-2afuqvtj0gv6m2jq009utu2ppra2723e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>440722706817-2ls6ugtg42gf0cq2j2p0od2ovfk5kpll.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.440722706817-2ls6ugtg42gf0cq2j2p0od2ovfk5kpll</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>440722706817-6vg7f1d8ubek148r4ac2mquqvp2k3i4g.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBOthKiV25IYudWP9kwNuV5tW3xex4lKgw</string>
+	<key>GCM_SENDER_ID</key>
+	<string>440722706817</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.funmo.id</string>
+	<key>PROJECT_ID</key>
+	<string>payuni-2019y</string>
+	<key>STORAGE_BUCKET</key>
+	<string>payuni-2019y.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:440722706817:ios:2806ac01ec52ff77ea9880</string>
+	<key>DATABASE_URL</key>
+	<string>https://payuni-2019y.firebaseio.com</string>
+</dict>
+</plist>

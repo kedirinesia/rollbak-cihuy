@@ -1,0 +1,304 @@
+{
+  "project_info": {
+    "project_number": "440722706817",
+    "firebase_url": "https://payuni-2019y.firebaseio.com",
+    "project_id": "payuni-2019y",
+    "storage_bucket": "payuni-2019y.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:476b67bee8c0a102",
+        "android_client_info": {
+          "package_name": "com.payuni.datapayment"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-g05op2k8h8pem7pec80g45335e3hv49f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:d8a7a8d9352021a0",
+        "android_client_info": {
+          "package_name": "com.payuni.gkpay"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-g05op2k8h8pem7pec80g45335e3hv49f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:1a7970b29fdf22fa",
+        "android_client_info": {
+          "package_name": "com.payuni.id"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-nglrdij7vd9ndaav5i5tjouq22e20pep.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.payuni.id",
+            "certificate_hash": "bf908e7a793b8002a7483ef4e54d508590c731a7"
+          }
+        },
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-g05op2k8h8pem7pec80g45335e3hv49f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:06289d04b06994ca",
+        "android_client_info": {
+          "package_name": "com.payuni.mitrakonter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-g05op2k8h8pem7pec80g45335e3hv49f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:098eb3eb8245804c",
+        "android_client_info": {
+          "package_name": "com.payuni.paynur"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-obtem6rbaonpa6h6kfj2dvgn1u0pnfmn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.payuni.paynur",
+            "certificate_hash": "42c43c3eea89cbfa16251596a191a63ff5bb2610"
+          }
+        },
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-g05op2k8h8pem7pec80g45335e3hv49f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:a96a883380fde922",
+        "android_client_info": {
+          "package_name": "com.payuni.popay"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-bn6gann39k88cc1k8oi63mca0edjprim.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.payuni.popay",
+            "certificate_hash": "e86094ad39d46c32b83f7e44dc43623d413a0713"
+          }
+        },
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-g05op2k8h8pem7pec80g45335e3hv49f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:706c3fa6b482328e",
+        "android_client_info": {
+          "package_name": "com.payuni.ratupulsa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-hibs7gvuiftje61g7l63s8j7vs9sojpo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.payuni.ratupulsa",
+            "certificate_hash": "8279b003737e3749a47adf7f9fa675389451e917"
+          }
+        },
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-g05op2k8h8pem7pec80g45335e3hv49f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:2fd4dc941dc59278",
+        "android_client_info": {
+          "package_name": "id.payuni.standart"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-g05op2k8h8pem7pec80g45335e3hv49f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440722706817:android:5909c563c149e585",
+        "android_client_info": {
+          "package_name": "payuni.id"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440722706817-6ugj3f1se8v82ukf05h06mblfeq7pu5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1mShw_t-UbAKb9Aw5jZQBmFrZ9Tz36x8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440722706817-g05op2k8h8pem7pec80g45335e3hv49f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

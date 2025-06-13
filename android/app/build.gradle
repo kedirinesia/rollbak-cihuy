@@ -1,0 +1,1302 @@
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader ->
+        localProperties.load(reader)
+    }
+}
+
+def flutterRoot = localProperties.getProperty('flutter.sdk')
+if (flutterRoot == null) {
+    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
+}
+
+def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
+if (flutterVersionCode == null) {
+    flutterVersionCode = '1'
+}
+
+def flutterVersionName = localProperties.getProperty('flutter.versionName')
+if (flutterVersionName == null) {
+    flutterVersionName = '1.0'
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'com.google.gms.google-services'
+apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
+android {
+    compileSdkVersion 34
+    namespace 'mobile.payuni.id'
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+        coreLibraryDesugaringEnabled true
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    lintOptions {
+        disable 'InvalidPackage'
+    }
+
+    defaultConfig {
+        applicationId "mobile.payuni.id"
+        minSdkVersion 21
+        targetSdkVersion 34
+        multiDexEnabled true
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+    }
+
+    signingConfigs {
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
+        debug {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
+        // ADD THIS LINE TO ADD CUSTOM KEYSTORE
+        xenaja {
+            keyAlias 'xenaja'
+            keyPassword 'piknik'
+            storeFile file('keystores/xenaja.keystore')
+            storePassword 'piknik'
+        }
+        kingsreload {
+            keyAlias 'kingsreload'
+            keyPassword 'piknik'
+            storeFile file('keystores/kingsreload.keystore')
+            storePassword 'piknik'
+        }
+        warungpaylama {
+            keyAlias 'warungpay'
+            keyPassword 'piknik'
+            storeFile file('keystores/warungpay.keystore')
+            storePassword 'piknik'
+        }
+        narosa {
+            keyAlias 'narosa'
+            keyPassword 'piknik'
+            storeFile file('keystores/narosa.keystore')
+            storePassword 'piknik'
+        }
+        funfast {
+            keyAlias 'funfast'
+            keyPassword 'piknik'
+            storeFile file('keystores/funfast.keystore')
+            storePassword 'piknik'
+        }
+        yapay {
+            keyAlias 'yapay'
+            keyPassword 'piknik'
+            storeFile file('keystores/yapay.keystore')
+            storePassword 'piknik'
+        }
+        // paysri {
+        //     keyAlias 'paysri'
+        //     keyPassword 'paysri'
+        //     storeFile file('keystores/keystore.jks')
+        //     storePassword 'paysri'
+        // }
+        pgkreload {
+            keyAlias 'pgkreload'
+            keyPassword 'piknik'
+            storeFile file('keystore/pgkreload.keystore')
+            storePassword 'piknik'
+        }
+        gopulsa {
+            keyAlias 'gopulsa'
+            keyPassword 'piknik'
+            storeFile file('keystore/gopulsa.keystore')
+            storePassword 'piknik'
+        }
+        avatar {
+            keyAlias 'avatar'
+            keyPassword 'piknik'
+            storeFile file('keystore/avatar.keystore')
+            storePassword 'piknik'
+        }
+        violeta {
+            keyAlias 'violeta'
+            keyPassword 'piknik'
+            storeFile file('keystore/violeta.keystore')
+            storePassword 'piknik'
+        }
+        dagangin {
+            keyAlias 'dagangin'
+            keyPassword 'piknik'
+            storeFile file('keystore/dagangin.keystore')
+            storePassword 'piknik'
+        }
+        ampedia {
+            keyAlias 'ampedia'
+            keyPassword 'piknik'
+            storeFile file('keystore/ampedia.keystore')
+            storePassword 'piknik'
+        }
+        pulsatouchscreen {
+            keyAlias 'pulsatouchscreen'
+            keyPassword 'piknik'
+            storeFile file('keystore/pulsatouchscreen.keystore')
+            storePassword 'piknik'
+        }
+        akupay {
+            keyAlias 'akupay'
+            keyPassword 'piknik'
+            storeFile file('keystore/akupay.keystore')
+            storePassword 'piknik'
+        }
+        mykonterr {
+            keyAlias 'mykonterr'
+            keyPassword 'piknik'
+            storeFile file('keystore/mykonterr.keystore')
+            storePassword 'piknik'
+        }
+        epulsa {
+            keyAlias 'epulsa'
+            keyPassword 'piknik'
+            storeFile file('keystore/epulsa.keystore')
+            storePassword 'piknik'
+        }
+        mkrdigital {
+            keyAlias 'mkrdigital'
+            keyPassword 'piknik'
+            storeFile file('keystore/mkrdigital.keystore')
+            storePassword 'piknik'
+        }
+        tajangatipayment {
+            keyAlias 'tajangatipayment'
+            keyPassword 'piknik'
+            storeFile file('keystore/tajangatipayment.keystore')
+            storePassword 'piknik'
+        }
+        toku {
+            keyAlias 'toku'
+            keyPassword 'piknik'
+            storeFile file('keystore/toku.keystore')
+            storePassword 'piknik'
+        }
+        s9p {
+            keyAlias 's9p'
+            keyPassword 'piknik'
+            storeFile file('keystore/s9p.keystore')
+            storePassword 'piknik'
+        }
+        wallpayku {
+            keyAlias 'wallpayku'
+            keyPassword 'piknik'
+            storeFile file('keystore/wallpayku.keystore')
+            storePassword 'piknik'
+        }
+        staypay {
+            keyAlias 'staypay'
+            keyPassword 'piknik'
+            storeFile file('keystore/staypay.keystore')
+            storePassword 'piknik'
+        }
+        bipay {
+            keyAlias 'bipay'
+            keyPassword 'piknik'
+            storeFile file('keystore/bipay.keystore')
+            storePassword 'piknik'
+        }
+        hexamobile {
+            keyAlias 'hexamobile'
+            keyPassword 'piknik'
+            storeFile file('keystore/hexamobile.keystore')
+            storePassword 'piknik'
+        }
+        ekonter {
+            keyAlias 'ekonter'
+            keyPassword 'piknik'
+            storeFile file('keystore/ekonter.keystore')
+            storePassword 'piknik'
+        }
+        centralbayar {
+            keyAlias 'centralbayar'
+            keyPassword 'piknik'
+            storeFile file('keystore/centralbayar.keystore')
+            storePassword 'piknik'
+        }
+        eralink {
+            keyAlias 'eralink'
+            keyPassword 'piknik'
+            storeFile file('keystore/eralink.keystore')
+            storePassword 'piknik'
+        }
+        sanpay {
+            keyAlias 'sanpay'
+            keyPassword 'piknik'
+            storeFile file('keystore/sanpay.keystore')
+            storePassword 'piknik'
+        }
+        sarinahpulsa {
+            keyAlias 'sarinahpulsa'
+            keyPassword 'piknik'
+            storeFile file('keystore/sarinahpulsa.keystore')
+            storePassword 'piknik'
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled false
+            shrinkResources false
+        }
+    }
+
+    flavorDimensions "flavor-type"
+    productFlavors {
+        sarinu {
+            dimension "flavor-type"
+            applicationId "id.sarinupay.app"
+            versionCode 3
+            versionName "2.3.1"
+        }
+        siklus {
+            dimension "flavor-type"
+            applicationId "id.sarinu.siklus"
+            versionCode 1
+            versionName "2.0.1"
+        }
+        passpay {
+            dimension "flavor-type"
+            applicationId "com.passpay.agenpulsamurah"
+            versionCode 13
+            versionName "2.3.1"
+        }
+        cashpoin {
+            dimension "flavor-type"
+            applicationId "com.cashpoin.app"
+            versionCode 1
+            versionName "2.0.0"
+        }
+        mpc {
+            dimension "flavor-type"
+            applicationId "co.mpc.id"
+            versionCode 6
+            versionName "2.2.5"
+        }
+	    kimopay {
+            dimension "flavor-type"
+            applicationId "co.kimopay.id"
+            versionCode 1
+            versionName "2.0.0"
+        }
+        payuni {
+            dimension "flavor-type"
+            applicationId "mobile.payuni.id"
+            versionCode 3013
+            versionName "2.2.4"
+        }
+        easypay {
+            dimension "flavor-type"
+            applicationId "easypayment.co.id"
+            versionCode 4
+            versionName "2.0.2"
+        }
+        oneshop {
+            dimension "flavor-type"
+            applicationId "com.oneshopdigital.apk"
+            versionCode 3
+            versionName "2.1.1"
+        }
+        talentapay {
+            dimension "flavor-type"
+            applicationId "com.talentapay.android"
+            versionCode 2153
+            versionName "2.5.3"
+        }
+        payunidev {
+            dimension "flavor-type"
+            applicationId "com.payuni.dev"
+            versionCode 2113
+            versionName "2.1.3"
+        }
+        payku {
+            dimension "flavor-type"
+            applicationId "id.payku.app"
+            versionCode 2003
+            versionName "2.5.3"
+        }
+        ratupulsa {
+            dimension "flavor-type"
+            applicationId "id.ratupulsa.mobile"
+            versionCode 2006
+            versionName "2.2.5"
+        }
+        popay {
+            dimension "flavor-type"
+            applicationId "com.popayfdn"
+            versionCode 2019
+            versionName "2.9.6"
+        }
+        paylite {
+            dimension "flavor-type"
+            applicationId "com.payuni.paylite"
+            versionCode 2001
+            versionName "2.0.3"
+        }
+        funmo {
+            dimension "flavor-type"
+            applicationId "com.funmoid.app"
+            versionCode 17
+            versionName "2.5.15"
+        }
+        phoenix {
+            dimension "flavor-type"
+            applicationId "com.phoenixpayment.app"
+            versionCode 11
+            versionName "2.3.9"
+        }
+        pulsadata {
+            dimension "flavor-type"
+            applicationId "com.pulsadata.app"
+            versionCode 3
+            versionName "2.1.3"
+        }
+        paristronik {
+            dimension "flavor-type"
+            applicationId "id.paristronik.co"
+            versionCode 3
+            versionName "2.2.3"
+        }
+        greenpay {
+            dimension "flavor-type"
+            applicationId "com.payuni.greenpay"
+            versionCode 2
+            versionName "2.0.0"
+        }
+        toku {
+            dimension "flavor-type"
+            applicationId "com.tokupay.android"
+            versionCode 10
+            versionName "2.3.0"
+            signingConfig signingConfigs.toku
+        }
+        srmobile {
+            dimension "flavor-type"
+            applicationId "id.srmobile.co"
+            versionCode 2
+            versionName "2.0.0"
+        }
+        payu {
+            dimension "flavor-type"
+            applicationId "id.payu.co"
+            versionCode 24
+            versionName "2.3.2"
+        }
+        epulsa {
+            dimension "flavor-type"
+            applicationId "com.epulsamobile.android"
+            versionCode 9
+            versionName "2.4.6"
+            signingConfig signingConfigs.epulsa
+        }
+        outletpay {
+            dimension "flavor-type"
+            applicationId "com.outletpay.app"
+            versionCode 3
+            versionName "2.1.3"
+        }
+        pakaiaja {
+            dimension "flavor-type"
+            applicationId "co.pakaiaja.id"
+            versionCode 4
+            versionName "2.1.2"
+        }
+        okpulsa {
+            dimension "flavor-type"
+            applicationId "com.okpulsa.app"
+            versionCode 7
+            versionName "2.3.6"
+        }
+        sarinahpulsa {
+            dimension "flavor-type"
+            applicationId "com.sarinah.androidapps"
+            versionCode 20
+            versionName "2.3.0"
+            signingConfig signingConfigs.sarinahpulsa
+        }
+        billpada {
+            dimension "flavor-type"
+            applicationId "com.billpaketdata.app"
+            versionCode 3
+            versionName "2.0.1"
+        }
+        alpulsa {
+            dimension "flavor-type"
+            applicationId "com.alpulsa.app"
+            versionCode 2
+            versionName "2.0.0"
+        }
+        a2opay {
+            dimension "flavor-type"
+            applicationId "id.a2opayreload.co"
+            versionCode 2
+            versionName "2.0.0"
+        }
+        myarto {
+            dimension "flavor-type"
+            applicationId "com.payuni.myarto"
+            versionCode 4
+            versionName "2.1.1"
+        }
+        gpayment {
+            dimension "flavor-type"
+            applicationId "com.gpayment.app"
+            versionCode 1
+            versionName "2.0.0"
+        }
+        topupin {
+            dimension "flavor-type"
+            applicationId "com.topupin.app"
+            versionCode 2
+            versionName "2.0.0"
+        }
+        hspayment {
+            dimension "flavor-type"
+            applicationId "com.hspayment.app"
+            versionCode 2
+            versionName "2.0.0"
+        }
+        bisabayar {
+            dimension "flavor-type"
+            applicationId "id.bisabayar.app"
+            versionCode 26
+            versionName "2.4.2"
+        }
+        boospay {
+            dimension "flavor-type"
+            applicationId "com.bosspay.app"
+            versionCode 3
+            versionName "2.1.3"
+        }
+        yukpay {
+            dimension "flavor-type"
+            applicationId "id.yukpay.mobile"
+            versionCode 6
+            versionName "2.3.0"
+        }
+        beepay {
+            dimension "flavor-type"
+            applicationId "com.beepay.app"
+            versionCode 3
+            versionName "2.0.1"
+        }
+        mocipay {
+            dimension "flavor-type"
+            applicationId "com.mocipay.app"
+            versionCode 9
+            versionName "2.3.4"
+        }
+        maolaku {
+            dimension "flavor-type"
+            applicationId "com.maolaku.payment"
+            versionCode 6
+            versionName "2.2.6"
+        }
+        rcvpay {
+            dimension "flavor-type"
+            applicationId "com.rcvpay.app"
+            versionCode 3
+            versionName "2.1.3"
+        }
+        wayzi {
+            dimension "flavor-type"
+            applicationId "com.payuni.wayzi"
+            versionCode 3
+            versionName "2.0.0"
+        }
+
+        putridigital {
+            dimension "flavor-type"
+            applicationId "com.putridigital.app"
+            versionCode 3
+            versionName "2.1.3"
+        }
+        getpay {
+            dimension "flavor-type"
+            applicationId "com.geetpay.app"
+            versionCode 3
+            versionName "2.1.1"
+        }
+        tekonangpulsa {
+            dimension "flavor-type"
+            applicationId "com.payuni.tekonangpulsa"
+            versionCode 2
+            versionName "2.0.0"
+        }
+        troypay {
+            dimension "flavor-type"
+            applicationId "com.troypay.app"
+            versionCode 2
+            versionName "2.0.0"
+        }
+        mbreload {
+            dimension "flavor-type"
+            applicationId "com.payuni.moodbooster"
+            versionCode 1218
+            versionName "2.1.1"
+        }
+        paynur {
+            dimension "flavor-type"
+            applicationId "com.payuni.paynur"
+            versionCode 2
+            versionName "2.0.0"
+        }
+        datapay {
+            dimension "flavor-type"
+            applicationId "com.payuni.datapayment"
+            versionCode 2
+            versionName "2.0.0"
+        }
+        konterku {
+            dimension "flavor-type"
+            applicationId "com.payuni.konterku"
+            versionCode 2
+            versionName "2.0.0"
+        }
+        snreload {
+            dimension "flavor-type"
+            applicationId "com.payuni.snreload"
+            versionCode 2
+            versionName "2.0.0"
+        }
+        ulliartha {
+            dimension "flavor-type"
+            applicationId "com.ulliartha.app"
+            versionCode 2
+            versionName "2.0.0"
+        }
+        centralbayar {
+            dimension "flavor-type"
+            applicationId "com.centralbayar.centralbayarapps"
+            versionCode 28
+            versionName "2.4.3"
+            signingConfig signingConfigs.centralbayar
+        }
+        wuzz {
+            dimension "flavor-type"
+            applicationId "com.wuzz.app"
+            versionCode 2
+            versionName "2.0.0"
+        }
+        mobipayment {
+            dimension "flavor-type"
+            applicationId "mobipayment.co.id"
+            versionCode 3
+            versionName "2.0.2"
+        }
+        adharimobile {
+            dimension "flavor-type"
+            applicationId "com.adharimobile.app"
+            versionCode 2
+            versionName "2.0.0"
+        }
+        aksespulsa {
+            dimension "flavor-type"
+            applicationId "com.aksespulsa.app"
+            versionCode 3
+            versionName "2.0.1"
+        }
+        mitraaaw {
+            dimension "flavor-type"
+            applicationId "com.mitraaaw.app"
+            versionCode 2
+            versionName "2.0.0"
+        }
+        tajangatipayment {
+            dimension "flavor-type"
+            applicationId "com.tajangatipayment.androidmobile"
+            versionCode 17
+            versionName "3.3.5"
+            signingConfig signingConfigs.tajangatipayment
+        }
+        emobile {
+            dimension "flavor-type"
+            applicationId "id.emobile.app"
+            versionCode 12
+            versionName "3.1.1"
+        }
+        pulsatouchscreen {
+            dimension "flavor-type"
+            applicationId "id.ptspay.mobileapp"
+            versionCode 17
+            versionName "2.3.7"
+            signingConfig signingConfigs.pulsatouchscreen
+        }
+        kepopay {
+            dimension "flavor-type"
+            applicationId "com.kepopay.mobile"
+            versionCode 4
+            versionName "2.1.2"
+        }
+        zmobile {
+            dimension "flavor-type"
+            applicationId "com.zmobile.app"
+            versionCode 11
+            versionName "2.3.1"
+        }
+        wallpayku {
+            dimension "flavor-type"
+            applicationId "id.wallpayku.android.mobile"
+            versionCode 13
+            versionName "2.3.1"
+            signingConfig signingConfigs.wallpayku
+        }
+        cuanplus {
+            dimension "flavor-type"
+            applicationId "com.cuanplus.app"
+            versionCode 5
+            versionName "2.3.1"
+        }
+        kamiaja {
+            dimension "flavor-type"
+            applicationId "com.kamiaja.app"
+            versionCode 6
+            versionName "2.2.2"
+        }
+        topuptronic {
+            dimension "flavor-type"
+            applicationId "com.topdipay.apk"
+            versionCode 2
+            versionName "2.0.0"
+        }
+        mitrapulsa {
+            dimension "flavor-type"
+            applicationId "com.mitrapulsa.app"
+            versionCode 5
+            versionName "2.1.2"
+        }
+        payfast {
+            dimension "flavor-type"
+            applicationId "com.payfast.apk"
+            versionCode 12
+            versionName "2.3.2"
+        }
+        sakupay {
+            dimension "flavor-type"
+            applicationId "id.sakupay.mobile"
+            versionCode 5
+            versionName "2.1.3"
+        }
+        mypulsa {
+            dimension "flavor-type"
+            applicationId "com.mypulsa.app"
+            versionCode 3
+            versionName "2.0.1"
+        }
+        mykonter {
+            dimension "flavor-type"
+            applicationId "mykonter.id"
+            versionCode 4
+            versionName "2.1.4"
+        }
+        appbayar {
+            dimension "flavor-type"
+            applicationId "com.appbayar.app"
+            versionCode 4
+            versionName "2.1.2"
+        }
+        mopay {
+            dimension "flavor-type"
+            applicationId "com.mopay.mobile"
+            versionCode 3
+            versionName "2.1.2"
+        }
+        akartoko {
+            dimension "flavor-type"
+            applicationId "akartoko.id"
+            versionCode 2
+            versionName "2.0.1"
+        }
+        pandumedia {
+            dimension "flavor-type"
+            applicationId "com.pandumedia.app"
+            versionCode 1
+            versionName "2.0.0"
+        }
+        senkopay {
+            dimension "flavor-type"
+            applicationId "com.senkopay.apk"
+            versionCode 1
+            versionName "2.0.0"
+        }
+        dinarpay {
+            dimension "flavor-type"
+            applicationId "com.dinarpay.app"
+            versionCode 2
+            versionName "2.1.1"
+        }
+        pdpay {
+            dimension "flavor-type"
+            applicationId "pdpay.id"
+            versionCode 1
+            versionName "2.0.0"
+        }
+        simopay {
+            dimension "flavor-type"
+            applicationId "com.simopay.app"
+            versionCode 5
+            versionName "2.2.2"
+        }
+        kingsreload {
+            dimension "flavor-type"
+            applicationId "id.kingsreloadnew.app"
+            versionCode 9
+            versionName "2.2.6"
+            signingConfig signingConfigs.kingsreload
+        }
+        stokpay {
+            dimension "flavor-type"
+            applicationId "app.stokpay.com"
+            versionCode 8
+            versionName "2.2.5"
+        }
+        pulsa24 {
+            dimension "flavor-type"
+            applicationId "com.pulsa24.app"
+            versionCode 2
+            versionName "2.1.1"
+        }
+        apkpulsa {
+            dimension "flavor-type"
+            applicationId "mobile.apkpulsa"
+            versionCode 1
+            versionName "2.0.0"
+        }
+        yonreload {
+            dimension "flavor-type"
+            applicationId "com.yonreload.app"
+            versionCode 2
+            versionName "2.1.1"
+        }
+        upay {
+            dimension "flavor-type"
+            applicationId "com.upay.app"
+            versionCode 2
+            versionName "2.0.1"
+        }
+        mypay {
+            dimension "flavor-type"
+            applicationId "mypay.co.id"
+            versionCode 1
+            versionName "2.0.0"
+        }
+        ayoba {
+            dimension "flavor-type"
+            applicationId "ayoba.co.id"
+            versionCode 15
+            versionName "2.2.11"
+        }
+        ganku {
+            dimension "flavor-type"
+            applicationId "com.ganku.app"
+            versionCode 2
+            versionName "2.1.1"
+        }
+        indonusa {
+            dimension "flavor-type"
+            applicationId "com.indonusapay.app"
+            versionCode 3
+            versionName "2.2.1"
+        }
+        dwpulsa {
+            dimension "flavor-type"
+            applicationId "com.dwpulsa.app"
+            versionCode 1
+            versionName "2.0.0"
+        }
+        indokaze {
+            dimension "flavor-type"
+            applicationId "com.indokaze.mobile"
+            versionCode 3
+            versionName "2.2.1"
+        }
+        selcopay {
+            dimension "flavor-type"
+            applicationId "com.selcopay.app"
+            versionCode 13
+            versionName "2.3.1"
+        }
+        netflazz {
+            dimension "flavor-type"
+            applicationId "com.netflazz.app"
+            versionCode 3
+            versionName "2.2.1"
+        }
+        maripay {
+            dimension "flavor-type"
+            applicationId "com.maripay.app"
+            versionCode 2
+            versionName "2.1.1"
+        }
+        pay24jam {
+            dimension "flavor-type"
+            applicationId "com.pay24jam.app"
+            versionCode 1
+            versionName "2.0.0"
+        }
+        eazyin {
+            dimension "flavor-type"
+            applicationId "com.eazyin.mobile"
+            versionCode 4
+            versionName "3.1.2"
+        }
+        akupay {
+            dimension "flavor-type"
+            applicationId "com.akupay.androidmobileapps"
+            versionCode 15
+            versionName "2.3.1"
+            signingConfig signingConfigs.akupay
+        }
+        nocefy {
+            dimension "flavor-type"
+            applicationId "com.nocefy.app"
+            versionCode 1
+            versionName "2.0.0"
+        }
+        esaldoku {
+            dimension "flavor-type"
+            // applicationId "com.esaldoku.androidmobile"
+            applicationId "com.esaldoku.mobileserpul"
+            versionCode 13
+            versionName "2.4.3"
+        }
+        cpspayment {
+            dimension "flavor-type"
+            applicationId "com.cpspayment.mobile"
+            versionCode 10
+            versionName "2.3.0"
+        }
+        bropay {
+            dimension "flavor-type"
+            applicationId "com.bropay.mobile"
+            versionCode 2
+            versionName "2.0.0"
+        }
+        eftronik {
+            dimension "flavor-type"
+            applicationId "com.eftronik.mobile"
+            versionCode 10
+            versionName "2.3.0"
+        }
+        ecuan {
+            dimension "flavor-type"
+            applicationId "com.ecuan.mobile"
+        }
+        ndmmobile {
+            dimension "flavor-type"
+            applicationId "id.ndmmobile.apk"
+            versionCode 2
+            versionName "2.1.1"
+        }
+        aztech {
+            dimension "flavor-type"
+            applicationId "com.aztech.mobile"
+            versionCode 1
+            versionName "2.0.0"
+        }
+        tronic {
+            dimension "flavor-type"
+            applicationId "com.onetronic.mobile"
+            versionCode 2
+            versionName "2.0.0"
+        }
+        fingerpay {
+            dimension "flavor-type"
+            applicationId "com.fingerpay.mobile"
+            versionCode 1
+            versionName "2.0.0"
+        }
+        add2wallet {
+            dimension "flavor-type"
+            applicationId "com.addtwowallet.mobile"
+            versionCode 11
+            versionName "2.3.1"
+        }
+        pulsamechine {
+            dimension "flavor-type"
+            applicationId "com.pulsamechine.mobile"
+            versionCode 1
+            versionName "2.0.0"
+        }
+        arpulsa {
+            dimension "flavor-type"
+            applicationId "com.arpulsa.mobile"
+            versionCode 1
+            versionName "2.0.0"
+        }
+        kuotanet {
+            dimension "flavor-type"
+            applicationId "id.kuotanet.mobile"
+            versionCode 4
+            versionName "2.2.4"
+        }
+        bipay {
+            dimension "flavor-type"
+            applicationId "com.bipay.android"
+            versionCode 3
+            versionName "2.1.2"
+            signingConfig signingConfigs.bipay
+        }
+        flobamora {
+            dimension "flavor-type"
+            applicationId "com.flobamora.app"
+            versionCode 13
+            versionName "2.3.1"
+        }
+        indopulsa {
+            dimension "flavor-type"
+            applicationId "com.indopulsa.mobile"
+            versionCode 2
+            versionName "2.0.1"
+        }
+        gopulsa {
+            dimension "flavor-type"
+            applicationId "com.gopulsa.app"
+            versionCode 11
+            versionName "2.3.1"
+            signingConfig signingConfigs.gopulsa
+        }
+        warungpaylama {
+            dimension "flavor-type"
+            applicationId "com.mobile.warungpay"
+            versionCode 6
+            versionName "2.2.4"
+            signingConfig signingConfigs.warungpaylama
+        }
+        kurniareload {
+            dimension "flavor-type"
+            applicationId "id.kurniareload.mobile"
+            versionCode 1
+            versionName "2.0.0"
+        }
+        indilife {
+            dimension "flavor-type"
+            applicationId "id.indilife.mobile"
+            versionCode 1
+            versionName "2.0.0"
+        }
+        delta {
+            dimension "flavor-type"
+            applicationId "com.delta.app"
+            versionCode 1
+            versionName "2.0.0"
+        }
+        pmpay {
+            dimension "flavor-type"
+            applicationId "id.pmpay.mobile"
+            versionCode 4
+            versionName "2.1.4"
+        }
+        outlet {
+            dimension "flavor-type"
+            applicationId "id.outletpay.mobile"
+            versionCode 10
+            versionName "2.3.0"
+        }
+        staypay {
+            dimension "flavor-type"
+            applicationId "com.staypay.mobileapk"
+            versionCode 15
+            versionName "2.3.3"
+            signingConfig signingConfigs.staypay
+        }
+        ualreload {
+            dimension "flavor-type"
+            applicationId "id.ualreload.mobile"
+            versionCode 2
+            versionName "2.1.1"
+        }
+        paymobileku {
+            dimension "flavor-type"
+            applicationId "id.paymobileku.app"
+            versionCode 30
+            versionName "2.5.6"
+        }
+        smartsaldo {
+            dimension "flavor-type"
+            applicationId "id.smartsaldo.mobile"
+            versionCode 1
+            versionName "2.0.0"
+        }
+        lokapulsa {
+            dimension "flavor-type"
+            applicationId "id.lokapulsa.mobile"
+            versionCode 11
+            versionName "2.3.1"
+        }
+        mykonterr {
+            dimension "flavor-type"
+            applicationId "id.mykonter.app"
+            versionCode 10
+            versionName "2.3.0"
+            signingConfig signingConfigs.mykonterr
+        }
+        alpay {
+            dimension "flavor-type"
+            applicationId "com.alpay.mobile"
+            versionCode 5
+            versionName "2.1.4"
+        }
+        xenaja {
+            dimension "flavor-type"
+            applicationId "com.xenaja.app"
+            versionCode 2020
+            versionName "2.3.0"
+            signingConfig signingConfigs.xenaja
+        }
+        narosa {
+            dimension "flavor-type"
+            applicationId "com.narosa.mobile"
+            versionCode 11
+            versionName "2.3.1"
+            signingConfig signingConfigs.narosa
+        }
+        agenpayment {
+            dimension "flavor-type"
+            applicationId "id.agenpayment.app"
+            versionCode 11
+            versionName "2.3.1"
+        }
+        funfast {
+            dimension "flavor-type"
+            applicationId "id.funfast.mobile"
+            versionCode 1
+            versionName "2.0.0"
+            signingConfig signingConfigs.funfast
+        }
+        mixpay {
+            dimension "flavor-type"
+            applicationId "id.mixpay.mobile"
+            versionCode 2
+            versionName "2.0.1"
+        }
+        yapay {
+            dimension "flavor-type"
+            applicationId "id.yapay.mobile"
+            versionCode 2
+            versionName "2.0.1"
+            signingConfig signingConfigs.yapay
+        }
+        paysri {
+            dimension "flavor-type"
+            applicationId "co.paysri.id"
+            versionCode 7
+            versionName "1.7"
+            // signingConfig signingConfigs.paysri
+        }
+        pgkreload {
+            dimension "flavor-type"
+            applicationId "com.pgkreload.app"
+            versionCode 2
+            versionName "2.0.1"
+            signingConfig signingConfigs.pgkreload
+        }
+        avatar {
+            dimension "flavor-type"
+            applicationId "id.avatarpay.mobile"
+            versionCode 1
+            versionName "2.0.0"
+            signingConfig signingConfigs.avatar
+        }
+        violeta {
+            dimension "flavor-type"
+            applicationId "id.violetapedia.mobile"
+            versionCode 11
+            versionName "2.3.1"
+            signingConfig signingConfigs.violeta
+        }
+        dagangin {
+            dimension "flavor-type"
+            applicationId "com.daganginaja.app"
+            versionCode 11
+            versionName "2.3.1"
+            signingConfig signingConfigs.dagangin
+        }
+        ampedia {
+            dimension "flavor-type"
+            applicationId "com.ampedia.mobile"
+            versionCode 1
+            versionName "2.0.0"
+            signingConfig signingConfigs.ampedia
+        }
+        jagoduit {
+            dimension "flavor-type"
+            applicationId "com.jagoduit.android"
+            versionCode 1
+            versionName "2.0.0"
+        }
+        mkrdigital {
+            dimension "flavor-type"
+            applicationId "com.mkrdigital.mobile"
+            versionCode 10
+            versionName "2.3.0"
+            signingConfig signingConfigs.mkrdigital
+        }
+        s9p {
+            dimension "flavor-type"
+            applicationId "com.s9ppayment.mobile"
+            versionCode 10
+            versionName "2.3.0"
+            signingConfig signingConfigs.s9p
+        }
+        payuniovo {
+            dimension "flavor-type"
+            applicationId "mobile.payuni.id"
+            versionCode 3025
+            versionName "2.2.9"
+        }
+        lariz {
+            dimension "flavor-type"
+            applicationId "com.lariz.mobile"
+            versionCode 22
+            versionName "2.3.2"
+        }
+        lapaupayment {
+            dimension "flavor-type"
+            applicationId "com.lapaupayment.mobile"
+            versionCode 12
+            versionName "2.3.2"
+        }
+        iloadmobile {
+            dimension "flavor-type"
+            applicationId "com.iloadmobile.mobileapps"
+            versionCode 11
+            versionName "2.3.1"
+        }
+        cahayareload {
+            dimension "flavor-type"
+            applicationId "com.cahayareload.mobile"
+            versionCode 11
+            versionName "2.3.1"
+        }
+        propay {
+            dimension "flavor-type"
+            applicationId "com.propay.mobile"
+            versionCode 10
+            versionName "2.3.0"
+        }
+        cuanmaxpulsa {
+            dimension "flavor-type"
+            applicationId "id.cuanmax.mobile"
+            versionCode 11
+            versionName "2.3.1"
+        }
+        hexapay {
+            dimension "flavor-type"
+            applicationId "id.hexapay.mobileapps"
+            versionCode 14
+            versionName "2.1.4"
+        }
+        hexamobile {
+            dimension "flavor-type"
+            applicationId "com.hexamobile.androidapp"
+            versionCode 23
+            versionName "2.3.1"
+            signingConfig signingConfigs.hexamobile
+        }
+        ekonter {
+            dimension "flavor-type"
+            applicationId "com.ekonter.mobileapp"
+            versionCode 10
+            versionName "2.3.0"
+            signingConfig signingConfigs.ekonter
+        }
+        yadara {
+            dimension "flavor-type"
+            applicationId "com.yadarasmart.mobile"
+            versionCode 1
+            versionName "2.2.0"
+        }
+        eralink {
+            dimension "flavor-type"
+            applicationId "com.eralink.mobileapk"
+            versionCode 12
+            versionName "2.3.0"
+            signingConfig signingConfigs.eralink
+        }
+        santren {
+            dimension "flavor-type"
+            applicationId "com.santrenpay.mobile"
+            versionCode 13
+            versionName "2.3.3"
+            signingConfig signingConfigs.sanpay
+        }
+        maxipay {
+            dimension "flavor-type"
+            applicationId "com.maxipay.mobile"
+            versionCode 2
+            versionName "2.2.2"
+        }
+        fopay {
+            dimension "flavor-type"
+            applicationId "com.fopay.mobile"
+            versionCode 2
+            versionName "2.2.0"
+        }
+        warungpay {
+            dimension "flavor-type"
+            applicationId "com.warungpay.apkmobile"
+            versionCode 13
+            versionName "2.3.3"
+        }
+    }
+}
+
+flutter {
+    source '../..'
+}
+
+// dependencies {
+//     implementation 'com.android.support:multidex:1.0.3'
+//     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+//     implementation 'com.google.firebase:firebase-messaging:20.1.0'
+//     implementation 'com.google.firebase:firebase-analytics:17.2.2'
+//     implementation 'com.android.support:multidex:1.0.3'
+//     implementation 'com.google.android.play:core:1.10.3'
+//     testImplementation 'junit:junit:4.12'
+//     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+//     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+// }
+dependencies {
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
+    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'com.google.firebase:firebase-messaging:23.0.0' // Versi terbaru
+    implementation 'com.google.firebase:firebase-analytics:21.0.0' // Versi terbaru
+    implementation ('com.google.android.play:asset-delivery-ktx:2.2.2') {
+        exclude group: 'com.google.android.play', module: 'core'
+    }
+    implementation "androidx.window:window:1.1.0" // Versi terbaru
+    implementation "androidx.window:window-java:1.1.0"
+    implementation 'com.google.android.play:feature-delivery-ktx:2.1.0'
+    implementation 'com.google.android.play:review-ktx:2.0.1'
+    implementation 'com.google.android.play:app-update-ktx:2.1.0'
+    testImplementation 'junit:junit:4.13.2' // Versi terbaru
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3' // Versi terbaru
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0' // Versi terbaru
+}
+
