@@ -40,6 +40,7 @@ dependencies:
   contacts_service: ^0.6.3
   permission_handler: ^10.0.0
   flutter_image_compress: ^2.2.0
+  google_fonts: ^4.0.3
   image_picker: ^0.8.0+4
   share:
     git:
@@ -86,6 +87,8 @@ dependencies:
   image: ^3.0.1
   quickalert: ^1.0.2
   line_awesome_flutter: ^1.0.1
+  dotted_line: ^3.0.0
+  pin_code_fields: ^8.0.0
 
 dev_dependencies:
   flutter_test:

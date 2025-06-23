@@ -38,6 +38,7 @@ class TrxModel {
       this.paymentBy,
       this.paymentID,
       this.paymentDetail,
+      
       this.print});
 
   TrxModel.fromJson(Map<String, dynamic> json) {

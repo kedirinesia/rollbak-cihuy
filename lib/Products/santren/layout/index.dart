@@ -84,12 +84,11 @@ class _EpulsaHomeState extends State<EpulsaHome> {
             }
           },
           child: Container(
-            width: 56, // Ukuran sisi kotak
-            height: 56, // Ukuran sisi kotak
+            width: 56,
+            height: 56,
             alignment: Alignment.center,
             child: CachedNetworkImage(
-              imageUrl:
-                  'https://dokumen.payuni.co.id/logo/santren/qristengah.png',
+              imageUrl: 'https://dokumen.payuni.co.id/logo/santren/qristengah.png',
               width: 42.0,
               color: Colors.white,
             ),
@@ -98,76 +97,77 @@ class _EpulsaHomeState extends State<EpulsaHome> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       appBar: pageIndex == 0
-        ? AppBar(
-            title: Row(
-              children: [
-                CachedNetworkImage(
-                  imageUrl:
-                      'https://dokumen.payuni.co.id/logo/santren/appbar1.png',
-                  width: 75.0),
-                SizedBox(width: 25),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'SantrenPay Points',
-                      style: TextStyle(
-                        fontSize: 10,
-                        color: Colors.grey.shade800,
+          ? AppBar(
+              title: Row(
+                children: [
+                  CachedNetworkImage(
+                    imageUrl: 'https://dokumen.payuni.co.id/logo/santren/appbar1.png',
+                    width: 75.0),
+                  SizedBox(width: 25),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'SantrenPay Points',
+                        style: TextStyle(
+                          fontSize: 10,
+                          color: Colors.grey.shade800,
+                        ),
                       ),
-                    ),
-                    Text(
-                      '${formatNumber(bloc.user.valueWrapper?.value?.poin ?? 0)} Pts',
+                      Text(
+                        '${formatNumber(bloc.user.valueWrapper?.value?.poin ?? 0)} Pts',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0XFFF60a809),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(width: 25),
+                  InkWell(
+                    onTap: () =>
+                        Navigator.of(context).push(
+                            MaterialPageRoute(builder: (_) => ListReward())),
+                    child: Text(
+                      'Redeem',
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
-                        color: Color(0XFFF60a809),
+                        color: Color(0XFFF118e33),
                       ),
                     ),
-                  ],
-                ),
-                SizedBox(width: 25),
-                InkWell(
-                  onTap: () => 
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_) => ListReward())),
-                  child: Text(
-                    'Redeem',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0XFFF118e33),
-                    ),
                   ),
-                ),
+                ],
+              ),
+              backgroundColor: Color(0XFFaff368),
+              elevation: 0.0,
+              actions: <Widget>[
+                configAppBloc.liveChat.valueWrapper?.value != ''
+                    ? IconButton(
+                        icon: Icon(Icons.chat, color: Colors.white),
+                        onPressed: () { 
+                          final url = configAppBloc.liveChat.valueWrapper?.value;
+                          print("DEBUG | Webview akan menuju ke: $url");
+                          if (url != '') {
+                            return Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => Webview(
+                                    'Live Chat Support', url)));
+                          } else {
+                            return null;
+                          }
+                        })
+                    : Container(),
+                IconButton(
+                  color: Colors.white,
+                  icon: Icon(Icons.notifications, color: Colors.white),
+                  onPressed: () {
+                    Navigator.of(context).pushNamed('/notifikasi');
+                  },
+                )
               ],
-            ),
-            backgroundColor: Color(0XFFaff368),
-            elevation: 0.0,
-            actions: <Widget>[
-              configAppBloc.liveChat.valueWrapper?.value != ''
-                  ? IconButton(
-                      icon: Icon(Icons.chat, color: Colors.white),
-                      onPressed: () {
-                        if (configAppBloc.liveChat.valueWrapper?.value != '') {
-                          return Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => Webview('Live Chat Support',
-                                  configAppBloc.liveChat.valueWrapper?.value)));
-                        } else {
-                          return null;
-                        }
-                      })
-                  : Container(),
-              IconButton(
-                color: Colors.white,
-                icon: Icon(Icons.notifications, color: Colors.white),
-                onPressed: () {
-                  Navigator.of(context).pushNamed('/notifikasi');
-                },
-              )
-            ],
-          )
-        : null,
+            )
+          : null,
       bottomNavigationBar: BottomAppBar(
         notchMargin: 5.0,
         color: Colors.white,

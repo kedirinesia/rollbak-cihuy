@@ -1,3 +1,5 @@
+// @dart=2.9
+
 import 'package:flutter/material.dart';
 import 'package:mobile/app_config.dart';
 import 'package:mobile/bloc/Api.dart';
@@ -5,14 +7,10 @@ import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:permission_handler/permission_handler.dart';
 import './index.dart';
 
-void mainCommon() {
-  runApp(const MyApp());
-}
+void mainCommon() {}
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  Future<void> _requestPermissions() async {
+  void _requestPermissions() async {
     await [
       Permission.camera,
       Permission.contacts,
@@ -23,15 +21,14 @@ class MyApp extends StatelessWidget {
       Permission.locationWhenInUse,
       Permission.bluetoothConnect,
       Permission.bluetoothScan,
-      Permission.bluetoothAdvertise,
+      Permission.bluetoothAdvertise
     ].request();
   }
 
   @override
   Widget build(BuildContext context) {
-    final config = AppConfig.of(context);
+    var config = AppConfig.of(context);
 
-    // Inisialisasi API config
     apiBloc.sigVendor.add(config.resource.sig);
     apiBloc.apiUrl.add(config.resource.apiUrl);
     apiBloc.apiUrlKasir.add(config.resource.apiUrlKasir);
@@ -59,6 +56,9 @@ class MyApp extends StatelessWidget {
     configAppBloc.layoutApp.add(config.resource.layoutApp);
     configAppBloc.qrisStaticOnTopup.add(config.resource.qrisStaticOnTopup);
 
+    // if (config.resource.packagename == 'id.paymobileku.app' || config.resource.packagename == 'com.hexamobile.androidapp') {
+    //   _requestPermissions();
+    // }
     _requestPermissions();
 
     return MaterialApp(
@@ -69,3 +69,5 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+// void main() => runApp(PayuniApp());

@@ -83,16 +83,15 @@ class _DepositPageState extends DepositController
                           ]),
                       child: ListTile(
                         onTap: () {
-                          return Navigator.of(context).push(PageTransition(
-                              child: configAppBloc.layoutApp.valueWrapper
-                                          .value['detail-deposit'] !=
-                                      null
-                                  ? configAppBloc.layoutApp.valueWrapper
-                                      .value['detail-deposit'](m)
-                                  : DetailDeposit(m),
-                              type: PageTransitionType.rippleMiddle,
-                              duration: Duration(milliseconds: 10)));
-                        },
+  Navigator.of(context).push(
+    PageTransition(
+      child: DetailDeposit(m),
+      type: PageTransitionType.rippleMiddle,
+      duration: Duration(milliseconds: 10),
+    ),
+  );
+},
+
                         leading: CircleAvatar(
                             foregroundColor: packageName == 'com.lariz.mobile'
                                 ? Theme.of(context).secondaryHeaderColor

@@ -18,6 +18,7 @@ import 'package:mobile/models/mp_kategori.dart';
 import 'package:mobile/models/mp_produk.dart';
 import 'package:mobile/models/user.dart';
 import 'package:mobile/modules.dart';
+import 'package:mobile/screen/profile/invite/invite.dart';
 import 'package:mobile/screen/profile/my_qr.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
 import 'package:http/http.dart' as http;
@@ -346,9 +347,15 @@ class _Home4AppState extends Home4Model {
               ),
             ),
           ),
+          
+
+
           SizedBox(height: 10.0),
           CardInfo(),
-          SizedBox(height: 15.0),
+          SizedBox(height: 40),
+          InviteFriendBox(context: context),
+          SizedBox(height: 40),
+         
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 10),
             child: Text(
@@ -366,6 +373,99 @@ class _Home4AppState extends Home4Model {
       ),
     );
   }
+  
+ 
+
+Widget InviteFriendBox({@required BuildContext context}) {
+  return Container(
+    width: double.infinity,
+    margin: const EdgeInsets.symmetric(horizontal: 16),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(20),
+      gradient: const LinearGradient(
+        colors: [
+          Color(0xFFC0FF6B),
+          Color(0xFF96E072),
+        ],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+      ),
+      boxShadow: const [
+        BoxShadow(
+          color: Colors.black12,
+          blurRadius: 10,
+          offset: Offset(0, 6),
+        ),
+      ],
+    ),
+    // Tambahkan vertical padding agar box lebih tinggi
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 32),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(Icons.group_add, color: Colors.black87, size: 28),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  "Dapatkan Komisi dari Ajak Teman Kamu",
+                  style: const TextStyle(
+                    color: Colors.black87,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 17,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20), // Spacing diperbesar
+          Text(
+            "Mengajak Teman Kamu Untuk Menggunakan Payuni adalah Salah Satu Cara Untuk Mendapatkan Penghasilan Tambahan Buat Kamu.",
+            style: const TextStyle(
+              color: Colors.black54,
+              fontSize: 13,
+              height: 1.45,
+            ),
+          ),
+          const SizedBox(height: 30), // Spacing bawah diperbesar
+          SizedBox(
+            width: double.infinity,
+            child: OutlinedButton.icon(
+              icon: const Icon(Icons.share, color: Colors.black87),
+              label: const Text(
+                "Undang Teman",
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+              style: OutlinedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 15),
+                side: const BorderSide(color: Colors.black87),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(40),
+                ),
+                backgroundColor: Colors.transparent,
+              ),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => InvitePage()),
+                );
+              },
+            ),
+          ),
+          const SizedBox(height: 4), // Spasi bawah, opsional
+        ],
+      ),
+    ),
+  );
+}
+
+
+
 }
 
 class GradientLine extends StatelessWidget {

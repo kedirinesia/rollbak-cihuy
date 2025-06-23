@@ -18,7 +18,9 @@ class _StartWizardPageState extends State<StartWizardPage>
   ];
 
   Future<void> _precacheImage() async {
-    _images.map((e) async => await precacheImage(AssetImage(e), context));
+    for (var e in _images) {
+      await precacheImage(AssetImage(e), context);
+    }
   }
 
   @override
@@ -48,21 +50,25 @@ class _StartWizardPageState extends State<StartWizardPage>
           TabBarView(
             controller: _tabController,
             children: _images
-                .map((e) => Image.asset(
-                      e,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                    ))
+                .map(
+                  (e) => Center(
+                    child: FractionallySizedBox(
+                      widthFactor: 1.0,  
+                      heightFactor: 0.95,
+                      child: Image.asset(
+                        e,
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ),
+                )
                 .toList(),
           ),
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
               width: double.infinity,
-              padding: EdgeInsets.all(20),
-              // decoration: BoxDecoration(
-              //   color: Colors.black.withOpacity(.5),
-              // ),
+              padding: const EdgeInsets.all(20),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -75,17 +81,17 @@ class _StartWizardPageState extends State<StartWizardPage>
                           _selectedIndex == 1
                               ? 'Mulai'.toUpperCase()
                               : 'Lanjut'.toUpperCase(),
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(width: 10),
-                        Icon(
+                        const SizedBox(width: 10),
+                        const Icon(
                           Icons.navigate_next_rounded,
                         ),
                       ],
                     ),
-                    shape: StadiumBorder(),
+                    shape: const StadiumBorder(),
                     color: Colors.white,
                     onPressed: () {
                       if (_selectedIndex == 1) {
@@ -99,14 +105,14 @@ class _StartWizardPageState extends State<StartWizardPage>
                       }
                     },
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: List.generate(_images.length, (i) {
                       return Container(
                         width: 10,
                         height: 10,
-                        margin: EdgeInsets.symmetric(horizontal: 3),
+                        margin: const EdgeInsets.symmetric(horizontal: 3),
                         decoration: BoxDecoration(
                           color: i == _selectedIndex
                               ? Theme.of(context).primaryColor

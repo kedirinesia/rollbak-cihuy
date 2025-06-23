@@ -1242,7 +1242,7 @@ android {
             dimension "flavor-type"
             applicationId "com.santrenpay.mobile"
             versionCode 13
-            versionName "2.3.3"
+            versionName "2.4.0"
             signingConfig signingConfigs.sanpay
         }
         maxipay {

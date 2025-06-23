@@ -198,6 +198,7 @@ class _QrisPageState extends State<QrisPage>
                       child: TabBarView(physics: ScrollPhysics(), children: [
                         MyQR(),
                         _getKycPage(snapshot.data),
+                         MyQrisPage()
                       ]),
                     ),
                   ],

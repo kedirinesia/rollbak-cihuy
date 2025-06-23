@@ -13,6 +13,8 @@ import 'package:mobile/component/webview.dart';
 import 'package:mobile/Products/stokpay/layout/history.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
 
+import '../../../overrides/bubble_bottom_bar/lib/bubble_bottom_bar.dart';
+
 class HomeStokpay extends StatefulWidget {
   @override
   _HomeStokpayState createState() => _HomeStokpayState();

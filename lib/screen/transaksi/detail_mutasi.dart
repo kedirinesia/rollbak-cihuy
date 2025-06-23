@@ -1,23 +1,72 @@
 // @dart=2.9
-import 'dart:typed_data';
 
-import 'package:blue_thermal_printer/blue_thermal_printer.dart';
-import 'package:esc_pos_utils/esc_pos_utils.dart';
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/bloc/TemplateConfig.dart';
 import 'package:mobile/config.dart';
 import 'package:mobile/models/mutasi.dart';
+import 'package:mobile/models/trx.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/provider/analitycs.dart';
-import 'package:mobile/screen/transaksi/print_mutasi.dart';
-import 'package:mobile/screen/transaksi/select_printer.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:mobile/screen/transaksi/print.dart';
+import 'package:mobile/screen/transaksi/print_mutasi.dart'; // <-- Pastikan path benar
+
+class WatermarkNetworkLogo extends StatelessWidget {
+  final String logoUrl;
+  final double size;
+  final double opacity;
+  final double rotationDeg;
+
+  const WatermarkNetworkLogo({
+    Key key,
+    @required this.logoUrl,
+    this.size = 60,
+    this.opacity = 0.02,
+    this.rotationDeg = -19,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    if (logoUrl == null || logoUrl.isEmpty) return SizedBox();
+    return LayoutBuilder(
+      builder: (ctx, constraints) {
+        final rows = (constraints.maxHeight / (size * 1.5)).ceil();
+        final cols = (constraints.maxWidth / (size * 2.1)).ceil();
+        List<Widget> marks = [];
+        for (int i = 0; i < rows; i++) {
+          for (int j = 0; j < cols; j++) {
+            final top = i * size * 1.5;
+            final left = j * size * 2.1 + (i.isOdd ? size : 0);
+            marks.add(Positioned(
+              top: top,
+              left: left,
+              child: Opacity(
+                opacity: opacity,
+                child: Transform.rotate(
+                  angle: rotationDeg * math.pi / 180,
+                  child: Image.network(
+                    logoUrl,
+                    width: size,
+                    height: size,
+                    fit: BoxFit.contain,
+                    errorBuilder: (context, error, stackTrace) =>
+                        Icon(Icons.broken_image, size: size),
+                  ),
+                ),
+              ),
+            ));
+          }
+        }
+        return IgnorePointer(child: Stack(children: marks));
+      },
+    );
+  }
+}
 
 class DetailMutasi extends StatefulWidget {
   final MutasiModel mutasi;
-
   DetailMutasi(this.mutasi);
 
   @override
@@ -25,8 +74,6 @@ class DetailMutasi extends StatefulWidget {
 }
 
 class _DetailMutasiState extends State<DetailMutasi> {
-  BlueThermalPrinter _bluetooth = BlueThermalPrinter.instance;
-
   @override
   void initState() {
     super.initState();
@@ -36,262 +83,50 @@ class _DetailMutasiState extends State<DetailMutasi> {
     });
   }
 
-  Uint8List v1(PaperSize paperSize, CapabilityProfile profile) {
-    // Ticket ticket = new Ticket(paperSize);
-    Generator ticket = new Generator(paperSize, profile);
-    List<int> bytes = [];
-
-    ticket.setGlobalFont(PosFontType.fontB);
-    ticket.setStyles(PosStyles(height: PosTextSize.size1));
-
-    bytes += ticket.emptyLines(1);
-    bytes += ticket.text(
-      formatRupiah(widget.mutasi.jumlah * -1),
-      styles: PosStyles(
-        bold: true,
-        fontType: PosFontType.fontA,
-        width: PosTextSize.size2,
-        height: PosTextSize.size2,
-        align: PosAlign.center,
-      ),
+  /// Mapping MutasiModel ke TrxModel agar bisa di-print seperti transaksi biasa
+  TrxModel mutasiToTrx(MutasiModel mutasi) {
+    return TrxModel(
+      id: mutasi.id,
+      created_at: mutasi.created_at,
+      tujuan: mutasi.keterangan ?? '-',
+      harga_jual: mutasi.jumlah ?? 0,
+      admin: 0,
+      sn: '',
+      produk: {
+        'nama': (mutasi.type ?? 'Mutasi'),
+        'kode_produk': 'MUTASI',
+        'type': (mutasi.type?.toLowerCase() == 'transfer') ? 1 : 0,
+      },
+      status: 2,
+      print: [
+        {'label': 'Saldo Awal', 'value': formatRupiah(mutasi.saldo_awal)},
+        {'label': 'Saldo Akhir', 'value': formatRupiah(mutasi.saldo_akhir)},
+      ],
     );
-    bytes += ticket.text(
-      ' Transfer berhasil ',
-      styles: PosStyles(
-        reverse: true,
-        align: PosAlign.center,
-      ),
-    );
-    bytes += ticket.text(
-      widget.mutasi.id.toUpperCase(),
-      styles: PosStyles(
-        align: PosAlign.center,
-      ),
-    );
-    bytes += ticket.emptyLines(2);
-    bytes += ticket.hr(ch: '-');
-    bytes += ticket.text(
-      'RINCIAN TRANSFER',
-      styles: PosStyles(
-        bold: true,
-        align: PosAlign.center,
-      ),
-    );
-    bytes += ticket.hr(ch: '-');
-    bytes += ticket.row([
-      PosColumn(
-        width: 3,
-        text: 'Pengirim',
-        styles: PosStyles(
-          bold: true,
-        ),
-      ),
-      PosColumn(
-        width: 1,
-        text: ':',
-        styles: PosStyles(
-          align: PosAlign.center,
-          bold: true,
-        ),
-      ),
-      PosColumn(
-        width: 8,
-        text: bloc.user.valueWrapper?.value.nama,
-        styles: PosStyles(
-          align: PosAlign.right,
-          bold: true,
-        ),
-      ),
-    ]);
-    bytes += ticket.row([
-      PosColumn(
-        width: 3,
-        text: 'Nominal',
-        styles: PosStyles(
-          bold: true,
-        ),
-      ),
-      PosColumn(
-        width: 1,
-        text: ':',
-        styles: PosStyles(
-          align: PosAlign.center,
-          bold: true,
-        ),
-      ),
-      PosColumn(
-        width: 8,
-        text: formatRupiah(widget.mutasi.jumlah * -1),
-        styles: PosStyles(
-          align: PosAlign.right,
-          bold: true,
-        ),
-      ),
-    ]);
-    bytes += ticket.row([
-      PosColumn(
-        width: 3,
-        text: 'Sumber Dana',
-        styles: PosStyles(
-          bold: true,
-        ),
-      ),
-      PosColumn(
-        width: 1,
-        text: ':',
-        styles: PosStyles(
-          align: PosAlign.center,
-          bold: true,
-        ),
-      ),
-      PosColumn(
-        width: 8,
-        text: 'Saldo',
-        styles: PosStyles(
-          align: PosAlign.right,
-          bold: true,
-        ),
-      ),
-    ]);
-    bytes += ticket.row([
-      PosColumn(
-        width: 3,
-        text: 'Keterangan',
-        styles: PosStyles(
-          bold: true,
-        ),
-      ),
-      PosColumn(
-        width: 1,
-        text: ':',
-        styles: PosStyles(
-          align: PosAlign.center,
-          bold: true,
-        ),
-      ),
-      PosColumn(
-        width: 8,
-        text: widget.mutasi.keterangan,
-        styles: PosStyles(
-          align: PosAlign.right,
-          bold: true,
-        ),
-      ),
-    ]);
-    bytes += ticket.hr(ch: '-', linesAfter: 1);
-    bytes += ticket.text(
-      'Transfer via $appName',
-      styles: PosStyles(
-        align: PosAlign.center,
-      ),
-    );
-    bytes += ticket.text(
-      formatDate(widget.mutasi.created_at, 'dd MMM yyyy HH:mm'),
-      styles: PosStyles(
-        align: PosAlign.center,
-      ),
-    );
-    bytes += ticket.emptyLines(3);
-
-    return Uint8List.fromList(bytes);
-  }
-
-  Future<void> v2() async {
-    await _bluetooth.printNewLine();
-    await _bluetooth.printCustom(formatRupiah(widget.mutasi.jumlah * -1), 3, 1);
-    await _bluetooth.printCustom('Transfer Berhasil', 0, 1);
-    await _bluetooth.printCustom(widget.mutasi.id.toUpperCase(), 0, 1);
-    await _bluetooth.printNewLine();
-    await _bluetooth.printNewLine();
-    await _bluetooth.printCustom('------------------', 0, 1);
-    await _bluetooth.printCustom('RINCIAN TRANSFER', 1, 1);
-    await _bluetooth.printCustom('------------------', 0, 1);
-    await _bluetooth.printLeftRight(
-        'Pengirim', bloc.user.valueWrapper?.value.nama, 0);
-    await _bluetooth.printLeftRight(
-        'Nominal', formatRupiah(widget.mutasi.jumlah * -1), 0);
-    await _bluetooth.printLeftRight('Sumber Dana', 'Saldo', 0);
-    await _bluetooth.printLeftRight('Keterangan', widget.mutasi.keterangan, 0);
-    await _bluetooth.printCustom('------------------', 0, 1);
-    await _bluetooth.printNewLine();
-    await _bluetooth.printCustom('Transfer via $appName', 0, 1);
-    await _bluetooth.printCustom(
-        formatDate(widget.mutasi.created_at, 'dd MMM yyyy HH:mm'), 0, 1);
-    await _bluetooth.printNewLine();
-    await _bluetooth.printNewLine();
-    await _bluetooth.printNewLine();
-  }
-
-  Future<bool> checkBluetooth() async {
-    bool isOn = await _bluetooth.isOn;
-    if (!isOn) {
-      showToast(context, 'Bluetooth belum aktif');
-      return false;
-    }
-
-    PermissionStatus status = await Permission.accessMediaLocation.status;
-
-    if (status != PermissionStatus.granted) {
-      showToast(context, 'Aplikasi tidak diizinkan untuk mengakses bluetooth');
-      return false;
-    }
-
-    return true;
-  }
-
-  Future<void> startPrint() async {
-    bool status = await checkBluetooth();
-    if (!status) return;
-
-    BluetoothDevice device = await Navigator.of(context)
-        .push(MaterialPageRoute(builder: (_) => SelectPrinterPage()));
-    if (device == null) return;
-
-    if (await _bluetooth.isConnected) await _bluetooth.disconnect();
-    await _bluetooth.connect(device);
-    final profile = await CapabilityProfile.load();
-
-    try {
-      switch (bloc.printerType.valueWrapper?.value) {
-        case 1:
-          await _bluetooth.writeBytes(v1(PaperSize.mm58, profile));
-          break;
-        case 2:
-          await _bluetooth.writeBytes(v1(PaperSize.mm80, profile));
-          break;
-        case 3:
-          await v2();
-          break;
-        default:
-          await _bluetooth.writeBytes(v1(PaperSize.mm58, profile));
-      }
-      showToast(context, 'Berhasil mencetak struk');
-    } catch (_) {
-      showToast(context, 'Gagal mencetak struk');
-    } finally {
-      await _bluetooth.disconnect();
-    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final Color headerColor = Theme.of(context).primaryColor;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final logoUrl = configAppBloc.iconApp.valueWrapper?.value['logo'];
+    final nominal = widget.mutasi.jumlah;
+
     return Scaffold(
+      backgroundColor: Color(0xFFF5F7FA),
       appBar: AppBar(
         title: Text('Detail Mutasi'),
         centerTitle: true,
         elevation: 0,
-        backgroundColor: packageName == 'com.lariz.mobile'
-            ? Theme.of(context).secondaryHeaderColor
-            : Theme.of(context).primaryColor,
+        backgroundColor: headerColor,
+        iconTheme: IconThemeData(color: Colors.white),
         actions: [
           IconButton(
             icon: Icon(Icons.home_rounded),
             onPressed: () => Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
-                  builder: (_) =>
-                      configAppBloc.layoutApp?.valueWrapper?.value['home'] ??
-                      templateConfig[
-                          configAppBloc.templateCode.valueWrapper?.value],
+                  builder: (_) => configAppBloc.layoutApp?.valueWrapper?.value['home'] ??
+                      templateConfig[configAppBloc.templateCode.valueWrapper?.value],
                 ),
                 (route) => false),
           ),
@@ -299,165 +134,212 @@ class _DetailMutasiState extends State<DetailMutasi> {
       ),
       body: Stack(
         children: [
-          Column(
-            children: <Widget>[
-              Container(
-                width: double.infinity,
-                height: MediaQuery.of(context).size.height / 5,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      colors: [
-                        packageName == 'com.lariz.mobile'
-                            ? Theme.of(context).secondaryHeaderColor
-                            : Theme.of(context).primaryColor,
-                        Theme.of(context).canvasColor
-                      ],
-                      begin: AlignmentDirectional.topCenter,
-                      end: AlignmentDirectional.bottomCenter),
-                ),
-                child: Center(
-                    child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Text(
-                        formatRupiah(widget.mutasi.jumlah < 0
-                            ? widget.mutasi.jumlah * -1
-                            : widget.mutasi.jumlah),
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 40,
-                            fontWeight: FontWeight.bold)),
-                    SizedBox(height: 10),
-                    Text(widget.mutasi.jumlah < 0 ? 'DEBIT' : 'KREDIT',
-                        style: TextStyle(
-                            color: packageName == 'com.lariz.mobile'
-                                ? Theme.of(context).secondaryHeaderColor
-                                : Theme.of(context).primaryColor,
-                            fontWeight: FontWeight.bold))
-                  ],
-                )),
-              ),
-              Flexible(
-                flex: 1,
-                child: ListView(
-                  padding: EdgeInsets.all(15),
-                  children: <Widget>[
-                    SizedBox(height: 20.0),
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10.0),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.black.withOpacity(.1),
-                                offset: Offset(5, 10.0),
-                                blurRadius: 20)
-                          ]),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text('Informasi Mutasi',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: packageName == 'com.lariz.mobile'
-                                        ? Theme.of(context).secondaryHeaderColor
-                                        : Theme.of(context).primaryColor,
-                                  )),
-                              Icon(
-                                Icons.info,
-                                color: packageName == 'com.lariz.mobile'
-                                    ? Theme.of(context).secondaryHeaderColor
-                                    : Theme.of(context).primaryColor,
-                              )
-                            ],
-                          ),
-                          Divider(),
-                          SizedBox(height: 15),
-                          Text('ID Mutasi',
-                              style:
-                                  TextStyle(color: Colors.grey, fontSize: 11)),
-                          SizedBox(height: 5),
-                          Text(widget.mutasi.id.toUpperCase(),
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                          SizedBox(height: 10),
-                          Text('Waktu',
-                              style:
-                                  TextStyle(color: Colors.grey, fontSize: 11)),
-                          SizedBox(height: 5),
-                          Text(
-                              formatDate(widget.mutasi.created_at,
-                                  'd MMMM yyyy HH:mm:ss'),
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                          SizedBox(height: 10),
-                          Text('Saldo Awal',
-                              style:
-                                  TextStyle(color: Colors.grey, fontSize: 11)),
-                          SizedBox(height: 5),
-                          Text(formatRupiah(widget.mutasi.saldo_awal),
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                          SizedBox(height: 10),
-                          Text('Saldo Akhir',
-                              style:
-                                  TextStyle(color: Colors.grey, fontSize: 11)),
-                          SizedBox(height: 5),
-                          Text(formatRupiah(widget.mutasi.saldo_akhir),
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                          SizedBox(height: 10),
-                          Text('Keterangan',
-                              style:
-                                  TextStyle(color: Colors.grey, fontSize: 11)),
-                          SizedBox(height: 5),
-                          Text(widget.mutasi.keterangan,
-                              style: TextStyle(fontWeight: FontWeight.bold))
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
-          widget.mutasi.type == 'KS'
-              ? Align(
-                  alignment: Alignment.bottomRight,
-                  child: Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        FloatingActionButton(
-                          heroTag: 'print-1',
-                          backgroundColor: packageName == 'com.lariz.mobile'
-                              ? Theme.of(context).secondaryHeaderColor
-                              : Theme.of(context).primaryColor,
-                          child: Icon(Icons.print_rounded),
-                          onPressed: startPrint,
+          Container(height: 140, width: double.infinity, color: headerColor),
+          SingleChildScrollView(
+            child: Container(
+              margin: EdgeInsets.only(top: 65, bottom: 24),
+              width: double.infinity,
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 16),
+                    constraints: BoxConstraints(minHeight: screenHeight * 0.8),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(18),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.07),
+                          blurRadius: 16,
+                          offset: Offset(0, 6),
                         ),
-                        SizedBox(height: 15),
-                        FloatingActionButton(
-                          backgroundColor: packageName == 'com.lariz.mobile'
-                              ? Theme.of(context).secondaryHeaderColor
-                              : Theme.of(context).primaryColor,
-                          child: Icon(Icons.share_rounded),
-                          onPressed: () => Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (_) => PrintMutasiPage(widget.mutasi),
+                      ],
+                    ),
+                    child: Stack(
+                      children: [
+                        if (logoUrl != null && logoUrl.isNotEmpty)
+                          Positioned.fill(
+                            child: WatermarkNetworkLogo(
+                              logoUrl: logoUrl,
+                              size: 48,
+                              opacity: 0.13,
                             ),
+                          ),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(18, 38, 18, 22),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              if ((widget.mutasi.type ?? '').toLowerCase() == 'transfer') ...[
+                                Text(
+                                  'Transfer Berhasil',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: headerColor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(height: 6),
+                              ],
+                              Text(
+                                formatRupiah(nominal),
+                                style: TextStyle(
+                                  fontSize: 22,
+                                  color: nominal > 0 ? Colors.green : headerColor,
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 1,
+                                ),
+                              ),
+                              SizedBox(height: 5),
+                              Text(
+                                widget.mutasi.id.toUpperCase(),
+                                style: TextStyle(
+                                  color: Colors.grey[700],
+                                  fontSize: 12,
+                                ),
+                              ),
+                              SizedBox(height: 14),
+                              _buildDashedLine(),
+                              SizedBox(height: 16),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Informasi Mutasi',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: headerColor),
+                                  ),
+                                  Icon(Icons.info, color: headerColor),
+                                ],
+                              ),
+                              SizedBox(height: 12),
+                              buildRow('ID Mutasi', widget.mutasi.id.toUpperCase()),
+                              SizedBox(height: 8),
+                              buildRow('Waktu',
+                                  formatDate(widget.mutasi.created_at, 'd MMMM yyyy HH:mm:ss')),
+                              SizedBox(height: 8),
+                              buildRow('Saldo Awal', formatRupiah(widget.mutasi.saldo_awal)),
+                              SizedBox(height: 8),
+                              buildRow('Saldo Akhir', formatRupiah(widget.mutasi.saldo_akhir)),
+                              SizedBox(height: 8),
+                              buildRow('Keterangan', widget.mutasi.keterangan),
+                              SizedBox(height: 14),
+                              _buildDashedLine(),
+                              SizedBox(height: 30),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                   ' Transfer Via Santren Pay',
+                                    style: TextStyle(fontSize: 20, color: Colors.grey, fontWeight: FontWeight.w600)
+                                  ),
+                                  SizedBox(width: 6),
+                                  Icon(Icons.shield, color: Colors.grey, size: 18),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
                       ],
                     ),
                   ),
-                )
-              : Container(width: 0, height: 0),
+                  Positioned(
+                    top: -27,
+                    left: 0,
+                    right: 0,
+                    child: Center(
+                      child: Container(
+                        height: 54,
+                        width: 54,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.07),
+                              blurRadius: 8,
+                              offset: Offset(0, 4),
+                            ),
+                          ],
+                          border: Border.all(color: Colors.white, width: 2),
+                        ),
+                        child: Icon(Icons.arrow_upward,
+                            color: headerColor, size: 32),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
+      floatingActionButton: Builder(
+  builder: (context) {
+    final mutasiType = widget.mutasi.type?.toUpperCase() ?? '';
+    print('[DEBUG] Mutasi Type: $mutasiType');
+    print('[DEBUG] Mutasi ID: ${widget.mutasi.id}');
+    print('[DEBUG] Keterangan: ${widget.mutasi.keterangan}');
+
+    if (mutasiType == 'KS') {
+      print('[DEBUG] Menampilkan tombol cetak karena ini transfer saldo (KS)');
+      return FloatingActionButton.extended(
+        backgroundColor: Colors.green,
+        icon: Icon(Icons.print),
+        label: Text('Print'),
+        onPressed: () {
+          print('[DEBUG] Tombol print ditekan');
+          TrxModel trx = mutasiToTrx(widget.mutasi);
+          print('[DEBUG] TrxModel: ${trx.toString()}');
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (_) => CetakMutasiPage(mutasi: widget.mutasi),
+          ));
+        },
+      );
+    } else {
+      print('[DEBUG] Tombol cetak disembunyikan, karena bukan transfer (bukan KS)');
+      return SizedBox.shrink(); 
+    }
+  },
+),
+
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+    );
+  }
+
+  Widget _buildDashedLine() {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final dashWidth = 7.0;
+        final dashCount = (constraints.maxWidth / (2 * dashWidth)).floor();
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: List.generate(dashCount, (_) {
+            return Container(width: dashWidth, height: 1, color: Colors.grey.shade300);
+          }),
+        );
+      },
+    );
+  }
+
+  Widget buildRow(String label, String value) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: Text(label,
+              style: TextStyle(color: Colors.grey[700], fontSize: 13)),
+        ),
+        SizedBox(width: 12),
+        Flexible(
+          child: Text(value ?? '-',
+              textAlign: TextAlign.right,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
+        ),
+      ],
     );
   }
 }

@@ -150,7 +150,7 @@ class _DetailDepositState extends State<DetailDeposit> {
                         )
                       : SizedBox(),
               SizedBox(height: 10.0),
-              Text('Informasi Deposit',
+              Text('Informasi Depositnyaaa',
                   style: TextStyle(fontWeight: FontWeight.bold)),
               SizedBox(height: 10.0),
               Row(

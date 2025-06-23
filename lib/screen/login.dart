@@ -14,7 +14,6 @@ import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/forgot-password/step_1.dart';
 import 'package:mobile/screen/otp.dart';
 import 'package:mobile/screen/profile/cs/cs.dart';
-import 'package:mobile/screen/register.dart';
 import '../component/bezierContainer.dart';
 import 'package:http/http.dart' as http;
 import '../bloc/Api.dart' show apiUrl, sigVendor;
