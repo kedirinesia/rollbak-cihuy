@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/screen/register.dart';
 import 'package:mobile/screen/terms/policy.dart';
+import 'package:mobile/screen/verifyEmailPage.dart';
+
+import 'emailInputPage.dart';
 
 class PrivacyPolicyPage extends StatefulWidget {
   @override

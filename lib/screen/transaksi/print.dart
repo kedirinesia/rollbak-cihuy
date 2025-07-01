@@ -1,10 +1,15 @@
 // @dart=2.9
+
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
-import 'dart:math' as math;
 
+import 'package:blue_thermal_printer/blue_thermal_printer.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:esc_pos_utils/esc_pos_utils.dart';
+import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart' show bloc;
 import 'package:http/http.dart' as http;
@@ -17,178 +22,151 @@ import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/custom_alert_dialog.dart';
 import 'package:mobile/screen/transaksi/select_printer.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:quickalert/quickalert.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:esys_flutter_share/esys_flutter_share.dart';
-import 'package:blue_thermal_printer/blue_thermal_printer.dart';
-import 'package:esc_pos_utils/esc_pos_utils.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-// -------- WATERMARK LAYER --------
-class WatermarkNetworkLogo extends StatelessWidget {
-  final String logoUrl;
-  final double size;
-  final double opacity;
-  final double rotationDeg;
-
-  const WatermarkNetworkLogo({
-    Key key,
-    @required this.logoUrl,
-    this.size = 48,
-    this.opacity = 0.13,
-    this.rotationDeg = -19,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    if (logoUrl == null || logoUrl.isEmpty) return SizedBox();
-    return LayoutBuilder(
-      builder: (ctx, constraints) {
-        final rows = (constraints.maxHeight / (size * 1.5)).ceil();
-        final cols = (constraints.maxWidth / (size * 2.1)).ceil();
-        List<Widget> marks = [];
-        for (int i = 0; i < rows; i++) {
-          for (int j = 0; j < cols; j++) {
-            final top = i * size * 1.5;
-            final left = j * size * 2.1 + (i.isOdd ? size : 0);
-            marks.add(Positioned(
-              top: top,
-              left: left,
-              child: Opacity(
-                opacity: opacity,
-                child: Transform.rotate(
-                  angle: rotationDeg * math.pi / 180,
-                  child: Image.network(
-                    logoUrl,
-                    width: size,
-                    height: size,
-                    fit: BoxFit.contain,
-                    errorBuilder: (context, error, stackTrace) =>
-                        Icon(Icons.broken_image, size: size),
-                  ),
-                ),
-              ),
-            ));
-          }
-        }
-        return IgnorePointer(child: Stack(children: marks));
-      },
-    );
-  }
-}
-// -------- END WATERMARK LAYER --------
-
-Widget buildDashedLine() {
-  return LayoutBuilder(
-    builder: (_, constraints) {
-      final dashWidth = 7.0;
-      final dashCount = (constraints.maxWidth / (2 * dashWidth)).floor();
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: List.generate(dashCount, (_) {
-          return Container(width: dashWidth, height: 1, color: Colors.grey.shade400);
-        }),
-      );
-    },
-  );
-}
-
-
 
 class PrintPreview extends StatefulWidget {
-  
   final TrxModel trx;
   final bool isPostpaid;
-  PrintPreview({Key key, this.trx, this.isPostpaid = false}) : super(key: key);
+
+  PrintPreview({Key key, this.trx, this.isPostpaid = false}) : super(key: key) {
+    print("isPostpaid in constructor: $isPostpaid");
+  }
+
   @override
   _PrintPreviewState createState() => _PrintPreviewState();
 }
 
 class _PrintPreviewState extends PrintPreviewController {
+
+  
   BlueThermalPrinter _bluetooth = BlueThermalPrinter.instance;
   ScreenshotController _screenshotController = ScreenshotController();
   File image;
-
-  @override
-  void initState() {
-    super.initState();
-   
-    if (widget.trx.print == null || widget.trx.print.isEmpty) {
-      trxData = widget.trx;
-      harga = trxData.harga_jual ?? 0;
-      admin = trxData.admin ?? 0;
-      total = harga + admin + cetak;
-      txtHarga.text = harga.toString();
-      txtAdmin.text = admin.toString();
-      loadEditHargaLokal(); 
-      labelHarga = (trxData.produk != null && trxData.produk['kode_produk'] == 'MUTASI') ? 'Nominal' : 'Harga';
-      showSN = trxData.sn != null && trxData.sn.isNotEmpty;
-      print(labelHarga);
-      setState(() {});
-    } else {
-      getData();
-    }
-    analitycs.pageView('/transaksi/' + widget.trx.id + '/print', {
-      'userId': bloc.userId.valueWrapper.value,
-      'title': 'Print Transaksi'
-    });
-  }
+  bool isLogoPrinter = false;
+  String footerStruk =
+      'TERSEDIA PULSA, KUOTA ALL OPERATOR, TOKEN PLN, BAYAR TAGIHAN LISTRIK, PDAM, TELKOM, ITEM GAME, DAN MULTI PEMBAYARAN LAINNYA';
 
   Future<void> share() async {
     Directory temp = await getTemporaryDirectory();
     image = await File('${temp.path}/trx_${widget.trx.id}.png').create();
-    Uint8List bytes = await _screenshotController.capture(pixelRatio: 2.5, delay: Duration(milliseconds: 100));
-    if (bytes != null) {
-      await image.writeAsBytes(bytes);
-      await Share.file(
-        'Transaksi ${widget.trx.produk != null ? widget.trx.produk['nama'] : ''}',
-        'trx_${widget.trx.id}.png',
-        bytes,
-        'image/png',
-      );
-    }
+    Uint8List bytes = await _screenshotController.capture(
+      pixelRatio: 2.5,
+      delay: Duration(milliseconds: 100),
+    );
+    await image.writeAsBytes(bytes);
+    if (image == null) return;
+    await Share.file(
+      'Transaksi ${widget.trx.produk['nama']}',
+      'trx_${widget.trx.id}.png',
+      image.readAsBytesSync(),
+      'image/png',
+    );
   }
 
   Future<void> simpanEditHarga() async {
-  setState(() {
-    harga = int.tryParse(txtHarga.text) ?? 0;
-    admin = int.tryParse(txtAdmin.text) ?? 0;
-    total = harga + admin + cetak;
-    showEditor = false;
-  });
-
-  final prefs = await SharedPreferences.getInstance();
-  await prefs.setInt('harga_${widget.trx.id}', harga);
-  await prefs.setInt('admin_${widget.trx.id}', admin);
-
-  showToast(context, 'Perubahan disimpan untuk transaksi ini');
-}
-
-Future<void> loadEditHargaLokal() async {
-  final prefs = await SharedPreferences.getInstance();
-  final localHarga = prefs.getInt('harga_${widget.trx.id}');
-  final localAdmin = prefs.getInt('admin_${widget.trx.id}');
-
-  if (localHarga != null) {
-    harga = localHarga;
-    txtHarga.text = localHarga.toString();
+    String productId = widget.trx.produk['_id'];
+    print(productId);
+    String hargaJual = widget.isPostpaid ? '0' : txtHarga.text;
+    try {
+      http.Response response =
+          await http.post(Uri.parse('$apiUrl/product/member/$productId'),
+              headers: {
+                'Authorization': bloc.token.valueWrapper?.value,
+                'Content-Type': 'application/json'
+              },
+              body: json.encode({
+                'harga': hargaJual,
+                'admin': txtAdmin.text,
+              }));
+      print(response.body);
+      String message = json.decode(response.body)['message'];
+      if (response.statusCode == 200) {
+        showCustomDialog(
+            context: context,
+            type: DialogType.success,
+            title: 'Berhasil',
+            content: 'Edit Data Berhasil.',
+            onConfirmed: () {
+              setState(() {
+                showEditor = false;
+              });
+            });
+      } else {
+        String message = json.decode(response.body)['message'];
+        showCustomDialog(
+          context: context,
+          type: DialogType.error,
+          title: 'Gagal',
+          content: message,
+        );
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
   }
 
-  if (localAdmin != null) {
-    admin = localAdmin;
-    txtAdmin.text = localAdmin.toString();
+  @override
+  void initState() {
+    setState(() {
+      trxData = widget.trx;
+    });
+    getData();
+    analitycs.pageView('/transaksi/' + widget.trx.id + '/print',
+        {'userId': bloc.userId.valueWrapper.value, 'title': 'Print Transaksi'});
+    harga = trxData.harga_jual;
+    total = harga + admin;
+    txtHarga.text = harga.toString();
+    txtAdmin.text = admin.toString();
+
+    List packageList = [
+      'ayoba.co.id',
+    ];
+
+    packageList.forEach((element) {
+      if (element == packageName) {
+        setState(() {
+          isLogoPrinter = true;
+        });
+      }
+    });
+
+    if (dynamicFooterStruk) {
+      if (configAppBloc.info.valueWrapper.value.footerStruk.isNotEmpty) {
+        setState(() {
+          footerStruk = configAppBloc.info.valueWrapper.value.footerStruk;
+        });
+      }
+    }
+
+    super.initState();
   }
-
-  total = harga + admin + cetak;
-  setState(() {});
-}
-
-
 
   Widget snWidget() {
     if (showSN) {
       if (trxData.print.length == 0) {
-        return buildRow("Nomor Serial", trxData.sn ?? '-');
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text('SN',
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                )),
+            SizedBox(width: 5),
+            Flexible(
+              flex: 1,
+              child: Text(
+                trxData.sn,
+                textAlign: TextAlign.end,
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                ),
+              ),
+            )
+          ],
+        );
       } else {
         return SizedBox();
       }
@@ -197,28 +175,334 @@ Future<void> loadEditHargaLokal() async {
               .where((el) => el['label'].toString().toLowerCase() == 'token')
               .length >
           0) {
-        final tokenValue = trxData.print
-            .where((el) => el['label'].toString().toLowerCase() == 'token')
-            .first['value'];
-        return buildRow("Token", tokenValue ?? '-');
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Divider(thickness: 3),
+            Text(
+              trxData.print
+                  .where(
+                      (el) => el['label'].toString().toLowerCase() == 'token')
+                  .first['value'],
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Poppins',
+              ),
+            ),
+          ],
+        );
       } else {
         return SizedBox();
       }
     }
   }
 
-  Future<void> startPrint() async {
+  Uint8List v1(PaperSize paperSize, CapabilityProfile profile) {
+    Generator ticket = Generator(paperSize, profile);
+    List<int> bytes = [];
+    ticket.setGlobalFont(PosFontType.fontA);
+    int i = bloc.printerFontSize.valueWrapper.value - 1;
+    List<PosTextSize> sizes = [
+      PosTextSize.size1,
+      PosTextSize.size2,
+      PosTextSize.size3,
+      PosTextSize.size4,
+      PosTextSize.size5,
+      PosTextSize.size6,
+      PosTextSize.size7,
+      PosTextSize.size8,
+    ];
+
+    bytes += ticket.emptyLines(1);
+    bytes += ticket.text(
+      bloc.user.valueWrapper.value.namaToko.isEmpty
+          ? bloc.user.valueWrapper.value.nama
+          : bloc.user.valueWrapper.value.namaToko,
+      styles: PosStyles(
+        width: sizes[i + 1],
+        height: sizes[i + 1],
+        bold: true,
+        align: PosAlign.center,
+      ),
+    );
+    bytes += ticket.text(
+      bloc.user.valueWrapper.value.alamatToko.isEmpty
+          ? bloc.user.valueWrapper.value.alamat
+          : bloc.user.valueWrapper.value.alamatToko,
+      styles: PosStyles(
+        align: PosAlign.center,
+        width: sizes[i],
+        height: sizes[i],
+      ),
+      linesAfter: 1,
+    );
+    bytes += ticket.text(
+      formatDate(trxData.created_at, 'dd MMMM yyyy HH:mm:ss'),
+      styles: PosStyles(
+        width: sizes[i],
+        height: sizes[i],
+      ),
+    );
+    bytes += ticket.text(
+      'TrxID: ${trxData.id.toUpperCase()}',
+      styles: PosStyles(
+        width: sizes[i],
+        height: sizes[i],
+      ),
+    );
+    bytes += ticket.hr();
+    bytes += ticket.text(
+      'Transaksi:',
+      styles: PosStyles(
+        underline: true,
+        width: sizes[i],
+        height: sizes[i],
+      ),
+    );
+    bytes += printLine(ticket, [
+      {
+        'label': 'Nama Produk',
+        'value': trxData.produk['nama'],
+      },
+      {
+        'label': 'Tujuan',
+        'value': trxData.tujuan,
+      },
+    ]);
+    if (showDefaultTagihan) {
+      bytes += printLine(ticket, [
+        {
+          'label': labelHarga,
+          'value': formatRupiah(harga),
+        },
+      ]);
+    }
+    if (showDefaultAdmin) {
+      bytes += printLine(ticket, [
+        {
+          'label': 'Admin',
+          'value': formatRupiah(admin),
+        },
+      ]);
+    }
+    trxData.print.forEach((el) {
+      if (!['token', 'jumlah', 'nominal', 'tagihan', 'admin']
+          .contains(el['label'].toString().toLowerCase())) {
+        bytes += printLine(ticket, [
+          {
+            'label': el['label'],
+            'value': el['value'],
+          },
+        ]);
+      }
+    });
+    if (showSN) {
+      if (trxData.print.isEmpty) {
+        bytes += printLine(ticket, [
+          {
+            'label': 'SN',
+            'value': trxData.sn,
+          },
+        ]);
+      }
+    } else {
+      bytes += ticket.hr();
+      trxData.print.forEach((el) {
+        if (el['label'].toString().toLowerCase() == 'token') {
+          bytes += ticket.text(
+            el['value'].toString(),
+            styles: PosStyles(
+              bold: true,
+              align: PosAlign.center,
+              width: sizes[i + 1],
+              height: sizes[i + 1],
+            ),
+          );
+        }
+      });
+    }
+    bytes += ticket.hr();
+    bytes += printLine(
+      ticket,
+      [
+        {
+          'label': 'Total',
+          'value': formatRupiah(total),
+        }
+      ],
+      bold: true,
+    );
+    bytes += ticket.hr(linesAfter: 1);
+    bytes += ticket.text(
+      'STRUK INI MERUPAKAN BUKTI PEMBAYARAN YANG SAH',
+      styles: PosStyles(
+        align: PosAlign.center,
+        width: sizes[i],
+        height: sizes[i],
+      ),
+      linesAfter: 1,
+    );
+    bytes += ticket.text(
+      footerStruk,
+      styles: PosStyles(
+        align: PosAlign.center,
+        width: sizes[i],
+        height: sizes[i],
+      ),
+      linesAfter: 3,
+    );
+
+    return Uint8List.fromList(bytes);
+  }
+
+  Future<void> v2() async {
+    await _bluetooth.printNewLine();
+    await _bluetooth.printCustom(
+      bloc.user.valueWrapper.value.namaToko.isEmpty
+          ? bloc.user.valueWrapper.value.nama
+          : bloc.user.valueWrapper.value.namaToko,
+      2,
+      1,
+    );
+    await _bluetooth.printCustom(
+      bloc.user.valueWrapper.value.alamatToko.isEmpty
+          ? bloc.user.valueWrapper.value.alamat
+          : bloc.user.valueWrapper.value.alamatToko,
+      0,
+      1,
+    );
+    await _bluetooth.printNewLine();
+    await _bluetooth.printCustom(
+        formatDate(trxData.created_at, 'dd MMMM yyyy HH:mm:ss'), 0, 0);
+    await _bluetooth.printCustom('TrxID: ${trxData.id.toUpperCase()}', 0, 0);
+    await _bluetooth.printCustom('------------------', 0, 1);
+    await _bluetooth.printCustom('Transaksi:', 0, 0);
+    await _bluetooth.printLeftRight('Nama Produk', trxData.produk['nama'], 0);
+    await _bluetooth.printLeftRight('Tujuan', trxData.tujuan, 0);
+    if (showDefaultTagihan) {
+      await _bluetooth.printLeftRight(labelHarga, formatRupiah(harga) , 0);
+    }
+    if (showDefaultAdmin) {
+      await _bluetooth.printLeftRight('Admin', formatRupiah(admin), 0);
+    }
+    if (packageName == 'com.funmo.id') {
+      await _bluetooth.printLeftRight('Cetak', formatRupiah(cetak) , 0);
+    }
+    trxData.print.forEach((el) async {
+      if (!['token', 'jumlah', 'nominal', 'tagihan', 'admin']
+          .contains(el['label'].toString().toLowerCase())) {
+        await _bluetooth.printLeftRight(el['label'], el['value'], 0);
+      }
+    });
+    if (showSN) {
+      if (trxData.print.length == 0) {
+        await _bluetooth.printLeftRight('SN', trxData.sn, 0);
+      }
+    } else {
+      await _bluetooth.printCustom('------------------', 0, 1);
+      trxData.print.forEach((el) async {
+        print('tes');
+        if (el['label'].toString().toLowerCase() == 'token') {
+          await _bluetooth.printCustom(el['value'], 1, 1);
+        }
+      });
+    }
+    await _bluetooth.printCustom('------------------', 0, 1);
+    await _bluetooth.printLeftRight('Total', formatRupiah(total) , 1);
+    await _bluetooth.printCustom('------------------', 0, 1);
+    await _bluetooth.printNewLine();
+    await _bluetooth.printCustom(
+        'STRUK INI MERUPAKAN BUKTI PEMBAYARAN YANG SAH', 0, 1);
+    await _bluetooth.printNewLine();
+    await _bluetooth.printCustom(
+      footerStruk,
+      0,
+      1,
+    );
+    await _bluetooth.printNewLine();
+    await _bluetooth.printNewLine();
+    await _bluetooth.printNewLine();
+  }
+
+  Future<bool> checkBluetooth() async {
     PermissionStatus status = await Permission.locationWhenInUse.request();
     bool isOn = await _bluetooth.isOn;
 
-    if (status != PermissionStatus.granted) {
+    if (status == PermissionStatus.granted) {
+      if (isOn) {
+        return true;
+      } else {
+        showToast(context, 'Bluetooth belum aktif');
+        return false;
+      }
+    } else {
       showToast(context, 'Aplikasi memerlukan izin bluetooth');
-      return;
+      return false;
     }
-    if (!isOn) {
-      showToast(context, 'Bluetooth belum aktif');
-      return;
-    }
+  }
+
+  // static const platform = MethodChannel('com.findig.bluetooth_settings');
+
+  // Future<bool> checkBluetooth() async {
+  //   var isCheck = await _bluetooth.isOn;
+  //   if (!isCheck) {
+  //     showDialog(
+  //       context: context,
+  //       barrierDismissible: false,
+  //       builder: (_) => AlertDialog(
+  //         title: Text('Warning'),
+  //         content: Text('Bluetooth kamu belum aktif, silahkan aktifkan terlebih dahulu.'),
+  //         actions: [
+  //           // ignore: deprecated_member_use
+  //           TextButton(
+  //             child: Text('Aktifkan'),
+  //             onPressed: () async {
+  //               if (Platform.isAndroid) {
+  //                 if (await openBluetoothSettings()) {
+  //                   Navigator.of(context, rootNavigator: true).pop();
+  //                 }
+  //               }
+  //             }
+  //           ),
+  //           // ignore: deprecated_member_use
+  //           TextButton(
+  //             child: Text('Batal'),
+  //             onPressed: () {
+  //               Navigator.of(context, rootNavigator: true).pop();
+  //             }
+  //           ),
+  //         ],
+  //       ),
+  //     );
+  //     return false;
+  //   }
+  //   return true;
+  // }
+
+  // Future<bool> openBluetoothSettings() async {
+  //   try {
+  //     if (Platform.isAndroid) {
+  //       if (await Permission.location.request().isGranted &&
+  //           await Permission.bluetoothConnect.request().isGranted) {
+  //         final bool result = await platform.invokeMethod('openBluetoothSettings');
+  //         return result;
+  //       }
+  //     }
+  //     return false;
+  //   } on PlatformException catch (e) {
+  //     print("Failed to open Bluetooth settings: '${e.message}'.");
+  //     return false;
+  //   }
+  // }
+
+
+  Future<void> startPrint() async {
+    bool status = await checkBluetooth();
+    if (!status) return;
 
     BluetoothDevice device = await Navigator.of(context)
         .push(MaterialPageRoute(builder: (_) => SelectPrinterPage()));
@@ -229,97 +513,41 @@ Future<void> loadEditHargaLokal() async {
     final _profile = await CapabilityProfile.load();
 
     try {
-      Generator generator = Generator(PaperSize.mm58, _profile);
-      List<int> bytes = [];
-      // HEADER
-      bytes += generator.text(
-        bloc.user.valueWrapper.value.namaToko.isEmpty
-            ? bloc.user.valueWrapper.value.nama
-            : bloc.user.valueWrapper.value.namaToko,
-        styles: PosStyles(align: PosAlign.center, bold: true),
-        linesAfter: 1,
-      );
-      bytes += generator.text(
-        bloc.user.valueWrapper.value.alamatToko.isEmpty
-            ? bloc.user.valueWrapper.value.alamat
-            : bloc.user.valueWrapper.value.alamatToko,
-        styles: PosStyles(align: PosAlign.center),
-        linesAfter: 1,
-      );
-      bytes += generator.text(
-        formatDate(trxData.created_at, 'd MMMM yyyy HH:mm:ss'),
-        styles: PosStyles(align: PosAlign.center),
-      );
-      bytes += generator.text(
-        'TrxID: ${trxData.id.toUpperCase()}',
-        styles: PosStyles(align: PosAlign.center),
-        linesAfter: 1,
-      );
-      bytes += generator.hr();
-      bytes += generator.text('Transaksi:', styles: PosStyles(underline: true), linesAfter: 1);
-
-      final isMutasi = (trxData.produk != null && trxData.produk['kode_produk'] == 'MUTASI');
-      if (isMutasi) {
-        // Mutasi/transfer
-        bytes += generator.row([
-          PosColumn(text: 'Jenis', width: 6),
-          PosColumn(text: trxData.produk['nama'] ?? '-', width: 6, styles: PosStyles(align: PosAlign.right)),
-        ]);
-        bytes += generator.row([
-          PosColumn(text: 'Nominal', width: 6),
-          PosColumn(text: formatRupiah(harga), width: 6, styles: PosStyles(align: PosAlign.right)),
-        ]);
-        trxData.print?.forEach((el) {
-          bytes += generator.row([
-            PosColumn(text: el['label'] ?? '-', width: 6),
-            PosColumn(text: el['value'] ?? '-', width: 6, styles: PosStyles(align: PosAlign.right)),
-          ]);
-        });
-        bytes += generator.row([
-          PosColumn(text: 'Keterangan', width: 6),
-          PosColumn(text: trxData.tujuan ?? '-', width: 6, styles: PosStyles(align: PosAlign.right)),
-        ]);
-      } else {
-        // Transaksi reguler
-        bytes += generator.row([
-          PosColumn(text: 'Produk', width: 6),
-          PosColumn(text: trxData.produk['nama'] ?? '-', width: 6, styles: PosStyles(align: PosAlign.right)),
-        ]);
-        bytes += generator.row([
-          PosColumn(text: 'Tujuan', width: 6),
-          PosColumn(text: trxData.tujuan ?? '-', width: 6, styles: PosStyles(align: PosAlign.right)),
-        ]);
-        bytes += generator.row([
-          PosColumn(text: labelHarga, width: 6),
-          PosColumn(text: formatRupiah(harga), width: 6, styles: PosStyles(align: PosAlign.right)),
-        ]);
-        bytes += generator.row([
-          PosColumn(text: 'Admin', width: 6),
-          PosColumn(text: formatRupiah(admin), width: 6, styles: PosStyles(align: PosAlign.right)),
-        ]);
-        trxData.print?.forEach((el) {
-          bytes += generator.row([
-            PosColumn(text: el['label'] ?? '-', width: 6),
-            PosColumn(text: el['value'] ?? '-', width: 6, styles: PosStyles(align: PosAlign.right)),
-          ]);
-        });
-        if (showSN && (trxData.sn != null && trxData.sn.isNotEmpty)) {
-          bytes += generator.text('SN: ${trxData.sn}', styles: PosStyles(align: PosAlign.center, bold: true), linesAfter: 1);
-        }
+      switch (bloc.printerType.valueWrapper.value) {
+        case 1:
+          Uint8List bytes = v1(PaperSize.mm58, _profile);
+          int totalChunks = (bytes.length - (bytes.length % 100)) ~/ 100;
+          for (int i = 0; i < totalChunks; i++) {
+            if (i == totalChunks - 1) {
+              await _bluetooth.writeBytes(bytes.sublist(i * 100));
+            } else {
+              await _bluetooth
+                  .writeBytes(bytes.sublist(i * 100, (i + 1) * 100));
+            }
+            await Future.delayed(Duration(milliseconds: 200));
+          }
+          break;
+        case 2:
+          Uint8List bytes = v1(PaperSize.mm80, _profile);
+          int totalChunks = (bytes.length - (bytes.length % 100)) ~/ 100;
+          for (int i = 0; i < totalChunks; i++) {
+            if (i == totalChunks - 1) {
+              await _bluetooth.writeBytes(bytes.sublist(i * 100));
+            } else {
+              await _bluetooth
+                  .writeBytes(bytes.sublist(i * 100, (i + 1) * 100));
+            }
+            await Future.delayed(Duration(milliseconds: 200));
+          }
+          break;
+        case 3:
+          await v2();
+          break;
+        default:
+          await _bluetooth.writeBytes(v1(PaperSize.mm58, _profile));
       }
-
-      bytes += generator.hr();
-      bytes += generator.text(
-        'Total: ${formatRupiah(total)}',
-        styles: PosStyles(bold: true, align: PosAlign.center),
-        linesAfter: 1,
-      );
-      bytes += generator.hr();
-      bytes += generator.text('Struk ini merupakan bukti pembayaran yang sah', styles: PosStyles(align: PosAlign.center), linesAfter: 2);
-
-      await _bluetooth.writeBytes(Uint8List.fromList(bytes));
       showToast(context, 'Berhasil mencetak struk');
-    } catch (e) {
+    } catch (_) {
       showToast(context, 'Gagal mencetak struk');
     } finally {
       await _bluetooth.disconnect();
@@ -328,63 +556,30 @@ Future<void> loadEditHargaLokal() async {
 
   @override
   Widget build(BuildContext context) {
-    final headerColor = Color(0xFF43B368);
-    if (trxData == null) {
-      return Scaffold(
-        backgroundColor: Color(0xFFF5F7FA),
-        appBar: AppBar(
-          title: Text('Struk Transaksi'),
-          backgroundColor: headerColor,
-        ),
-        body: Center(child: CircularProgressIndicator()),
-      );
-    }
-    final isSuccess = trxData.status == 2;
-    final isPending = trxData.status == 0;
-    final statusIcon = isSuccess
-        ? Icons.check
-        : isPending
-            ? Icons.access_time
-            : Icons.close;
-    final statusText = isSuccess
-        ? "Transaksi Berhasil"
-        : isPending
-            ? "Transaksi Pending"
-            : "Transaksi Gagal";
-    final statusColor = isSuccess
-        ? headerColor
-        : isPending
-            ? Colors.orange
-            : Colors.red;
-    final logoUrl = configAppBloc.iconApp.valueWrapper?.value['logo'];
-
-    final screenHeight = MediaQuery.of(context).size.height;
-
+    print("isPostpaid: ${widget.isPostpaid}");
     return Scaffold(
-      backgroundColor: Color(0xFFF5F7FA),
       appBar: AppBar(
-        title: Text('Struk Transaksi'),
+        title: Text('Cetak'),
         centerTitle: true,
-        backgroundColor: headerColor,
-        elevation: 0,
-        actions: [
+        backgroundColor: packageName == 'com.lariz.mobile'
+            ? Theme.of(context).secondaryHeaderColor
+            : Theme.of(context).primaryColor,
+        actions: <Widget>[
           IconButton(
             icon: Icon(Icons.home_rounded),
-            onPressed: () {
-              Navigator.of(context).pushAndRemoveUntil(
+            onPressed: () => Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
-                  builder: (_) => configAppBloc
-                          .layoutApp
-                          ?.valueWrapper
-                          ?.value['home'] ??
+                  builder: (_) =>
+                      configAppBloc.layoutApp?.valueWrapper.value['home'] ??
                       templateConfig[
-                          configAppBloc.templateCode.valueWrapper?.value],
+                          configAppBloc.templateCode.valueWrapper.value],
                 ),
-                (_) => false,
-              );
-            },
+                (route) => false),
           ),
-          IconButton(icon: Icon(Icons.share_rounded), onPressed: share),
+          IconButton(
+            icon: Icon(Icons.share_rounded),
+            onPressed: share,
+          ),
           IconButton(
             icon: Icon(Icons.edit_rounded),
             onPressed: () {
@@ -395,355 +590,520 @@ Future<void> loadEditHargaLokal() async {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.print),
-        backgroundColor: headerColor,
-        onPressed: startPrint,
-      ),
-      body: Stack(
-        children: [
-          Container(color: headerColor, height: 130, width: double.infinity),
-          SingleChildScrollView(
-            child: Container(
-              margin: EdgeInsets.only(top: 55, bottom: 16),
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  Screenshot(
-                    controller: _screenshotController,
-                    child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 16),
-                      constraints: BoxConstraints(
-                        minHeight: screenHeight * 0.8,
-                      ),
-                      padding: EdgeInsets.fromLTRB(18, 38, 18, 22),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(18),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.07),
-                            blurRadius: 16,
-                            offset: Offset(0, 6),
-                          ),
-                        ],
-                      ),
-                      child: Stack(
-                        children: [
-                          if (logoUrl != null && logoUrl.isNotEmpty)
-                            Positioned.fill(
-                              child: WatermarkNetworkLogo(
-                                logoUrl: logoUrl,
-                                size: 48,
-                                opacity: 0.13,
-                                rotationDeg: -19,
-                              ),
+      body: Container(
+        margin: EdgeInsets.all(15),
+        child: Column(children: <Widget>[
+          !showEditor
+              ? SizedBox(width: 0, height: 0)
+              : Container(
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10.0),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black.withOpacity(.1),
+                            offset: Offset(5, 10),
+                            blurRadius: 20)
+                      ]),
+                  child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        packageName == 'com.eralink.mobileapk' || packageName == 'com.lariz.mobile'
+                          ? TextFormField(
+                                controller: txtHarga,
+                                keyboardType: TextInputType.number,
+                                cursorColor: Theme.of(context).primaryColor,
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: packageName == 'com.lariz.mobile'
+                                          ? Theme.of(context).secondaryHeaderColor
+                                          : Theme.of(context).primaryColor,
+                                      )
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: packageName == 'com.lariz.mobile'
+                                          ? Theme.of(context).secondaryHeaderColor
+                                          : Theme.of(context).primaryColor,
+                                      )
+                                    ),
+                                    labelText: labelHarga,
+                                    labelStyle: TextStyle(color: Theme.of(context).secondaryHeaderColor),
+                                    prefixText: 'Rp ',
+                                    prefixStyle: TextStyle(
+                                      color: Theme.of(context).secondaryHeaderColor
+                                    )),
+                                onChanged: (value) => setState(() {
+                                      if (value == null) {
+                                        harga = 0;
+                                        total = 0 + admin + cetak;
+                                      } else {
+                                        harga = int.parse(value);
+                                        total = harga + admin + cetak;
+                                      }
+                                    }))
+                          : TextFormField(
+                                controller: txtHarga,
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: labelHarga,
+                                    prefixText: 'Rp '),
+                                onChanged: (value) => setState(() {
+                                      if (value == null) {
+                                        harga = 0;
+                                        total = 0 + admin + cetak;
+                                      } else {
+                                        harga = int.parse(value);
+                                        total = harga + admin + cetak;
+                                      }
+                                    })),
+                        SizedBox(height: 10),
+                        packageName == 'com.eralink.mobileapk' || packageName == 'com.lariz.mobile'
+                          ? TextFormField(
+                                controller: txtAdmin,
+                                keyboardType: TextInputType.number,
+                                cursorColor: Theme.of(context).primaryColor,
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: packageName == 'com.lariz.mobile'
+                                          ? Theme.of(context).secondaryHeaderColor
+                                          : Theme.of(context).primaryColor,
+                                      )
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: packageName == 'com.lariz.mobile'
+                                          ? Theme.of(context).secondaryHeaderColor
+                                          : Theme.of(context).primaryColor,
+                                      )
+                                    ),
+                                    labelText: 'Admin',
+                                    labelStyle: TextStyle(color: Theme.of(context).secondaryHeaderColor),
+                                    prefixText: 'Rp ',
+                                    prefixStyle: TextStyle(color: Theme.of(context).secondaryHeaderColor)),
+                                onChanged: (value) => setState(() {
+                                      if (value == null) {
+                                        admin = 0;
+                                        total = harga + 0 + cetak;
+                                      } else {
+                                        admin = int.parse(value);
+                                        total = harga + admin + cetak;
+                                      }
+                                    }))
+                          : TextFormField(
+                                controller: txtAdmin,
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: 'Admin',
+                                    prefixText: 'Rp '),
+                                onChanged: (value) => setState(() {
+                                      if (value == null) {
+                                        admin = 0;
+                                        total = harga + 0 + cetak;
+                                      } else {
+                                        admin = int.parse(value);
+                                        total = harga + admin + cetak;
+                                      }
+                                    })),
+                        SizedBox(
+                            height: packageName == "com.funmo.id" ? 10 : 0),
+                        packageName == "com.funmo.id"
+                            ? TextFormField(
+                                controller: txtCetak,
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: 'Biaya Cetak',
+                                    prefixText: 'Rp '),
+                                onChanged: (value) => setState(() {
+                                      if (value == null) {
+                                        cetak = 0;
+                                        total = harga + admin + 0;
+                                      } else {
+                                        cetak = int.parse(value);
+                                        total = harga + admin + cetak;
+                                      }
+                                    }))
+                            : SizedBox(),
+                        SizedBox(height: 10),
+                        ButtonTheme(
+                          minWidth: double.infinity,
+                          height: 40,
+                          child: MaterialButton(
+                            color: packageName == 'com.lariz.mobile'
+                              ? Theme.of(context).secondaryHeaderColor
+                              : Theme.of(context).primaryColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                statusText,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: statusColor,
-                                  fontSize: 18,
-                                ),
+                            child: Text(
+                              'Simpan'.toUpperCase(),
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            onPressed: simpanEditHarga,
+                          ),
+                        ),
+                      ]),
+                ),
+          SizedBox(height: showEditor ? 15 : 0),
+          Flexible(
+            flex: 1,
+            child: ListView(
+              children: <Widget>[
+                Screenshot(
+                  controller: _screenshotController,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.0),
+                        image: configAppBloc.iconApp.valueWrapper
+                                    .value['backgroundStruk'] ==
+                                null
+                            ? null
+                            : DecorationImage(
+                                image: CachedNetworkImageProvider(configAppBloc
+                                    .iconApp
+                                    .valueWrapper
+                                    .value['backgroundStruk']),
+                                repeat: ImageRepeat.repeat,
+                                fit: BoxFit.scaleDown,
                               ),
-                              SizedBox(height: 4),
-                              Text(
-                                trxData.produk != null
-                                    ? "${trxData.produk['nama']} - ${trxData.tujuan ?? '-'}"
-                                    : "-",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFF3D5A7A),
-                                  fontSize: 13,
-                                ),
-                              ),
-                              SizedBox(height: 50),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      formatDate(
-                                          trxData.created_at, "d MMM yyyy HH:mm"),
-                                      style: TextStyle(
-                                          color: Colors.grey[600], fontSize: 11),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      "TrxID : ${trxData.id?.toUpperCase()}",
-                                      textAlign: TextAlign.right,
-                                      style: TextStyle(
-                                          color: Colors.grey[600], fontSize: 11),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 10),
-                              buildDashedLine(),
-                              SizedBox(height: 12),
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  "Detail Transaksi",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 12),
-                              buildRow(
-                                "Status",
-                                isSuccess
-                                    ? "Berhasil"
-                                    : isPending
-                                        ? "Pending"
-                                        : "Gagal",
-                                color: statusColor,
-                                isBold: true,
-                                icon: isSuccess
-                                    ? Icons.check_circle
-                                    : isPending
-                                        ? Icons.access_time
-                                        : Icons.cancel,
-                              ),
-                              buildRow(
-                                (trxData.produk != null && trxData.produk['kode_produk'] == 'MUTASI')
-                                    ? 'Jenis'
-                                    : "Jenis Transaksi",
-                                trxData.produk['nama'] ?? '-',
-                              ),
-                              buildRow(
-                                (trxData.produk != null && trxData.produk['kode_produk'] == 'MUTASI')
-                                    ? 'Keterangan'
-                                    : "Nomor",
-                                trxData.tujuan ?? '-',
-                              ),
-                              buildRow(
-                                (trxData.produk != null && trxData.produk['kode_produk'] == 'MUTASI')
-                                    ? 'Nominal'
-                                    : labelHarga,
-                                formatRupiah(harga),
-                              ),
-                              if (!(trxData.produk != null && trxData.produk['kode_produk'] == 'MUTASI'))
-                                buildRow("Admin", formatRupiah(admin)),
-                              trxData.print != null
-                                  ? Column(
-                                      children: trxData.print.map<Widget>((el) {
-                                        return buildRow(
-                                            el['label'], el['value']);
-                                      }).toList(),
-                                    )
-                                  : SizedBox(),
-                              snWidget(),
-                              SizedBox(height: 10),
-                              Divider(thickness: 1, height: 24),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text("Total Bayar",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold, fontSize: 16)),
-                                  Text(formatRupiah(total),
-                                      style: TextStyle(
-                                          color: Color(0xFF2676C5),
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16)),
-                                ],
-                              ),
-                              SizedBox(height: 10),
-                              buildDashedLine(),
-                              SizedBox(height: 30),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Flexible(
+                      ),
+                      child: Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(.85),
+                          borderRadius: BorderRadius.circular(10.0),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(.1),
+                              offset: Offset(5, 10),
+                              blurRadius: 20,
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            isLogoPrinter
+                                ? Stack(
+                                    children: [
+                                      configAppBloc.iconApp.valueWrapper
+                                                  .value['logoPrinter'] ==
+                                              null
+                                          ? SizedBox()
+                                          : Container(
+                                              child: CachedNetworkImage(
+                                                imageUrl: configAppBloc
+                                                    .iconApp
+                                                    .valueWrapper
+                                                    .value['logoPrinter'],
+                                                height: 30,
+                                              ),
+                                            ),
+                                      Align(
+                                        alignment: Alignment.topCenter,
+                                        child: Container(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                  bloc.user.valueWrapper.value
+                                                              .namaToko ==
+                                                          ''
+                                                      ? bloc.username
+                                                          .valueWrapper.value
+                                                      : bloc.user.valueWrapper
+                                                          .value?.namaToko,
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16,
+                                                    fontFamily: 'Poppins',
+                                                  )),
+                                              SizedBox(height: 5),
+                                              Text(
+                                                  bloc.user.valueWrapper.value
+                                                              .alamatToko ==
+                                                          ''
+                                                      ? bloc.user.valueWrapper
+                                                          .value.alamat
+                                                      : bloc.user.valueWrapper
+                                                          .value.alamatToko,
+                                                  style: TextStyle(
+                                                    fontSize: 12,
+                                                    fontFamily: 'Poppins',
+                                                  )),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                : Center(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.end,
                                       children: [
                                         Text(
-                                          "Struk Ini Adalah Bukti Pembayaran Yang Sah",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 13,
-                                          ),
-                                          textAlign: TextAlign.center,
-                                        ),
+                                            bloc.user.valueWrapper.value
+                                                        .namaToko ==
+                                                    ''
+                                                ? bloc.username.valueWrapper
+                                                    ?.value
+                                                : bloc.user.valueWrapper.value
+                                                    .namaToko,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                              fontFamily: 'Poppins',
+                                            )),
+                                        SizedBox(height: 5),
+                                        Text(
+                                            bloc.user.valueWrapper.value
+                                                        .alamatToko ==
+                                                    ''
+                                                ? bloc.user.valueWrapper.value
+                                                    .alamat
+                                                : bloc.user.valueWrapper.value
+                                                    .alamatToko,
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              fontFamily: 'Poppins',
+                                            )),
                                       ],
                                     ),
                                   ),
-                                  SizedBox(width: 7),
-                                  Icon(
-                                    Icons.verified_user_rounded,
-                                    color: Colors.grey[600],
-                                    size: 28,
-                                  ),
-                                ],
+                            SizedBox(height: 19),
+                            Text(
+                              formatDate(
+                                  trxData.created_at, 'd MMMM yyyy HH:mm:ss'),
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontFamily: 'Poppins',
                               ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  // — Floating Status Icon —
-                  Positioned(
-                    top: -27,
-                    left: 0,
-                    right: 0,
-                    child: Center(
-                      child: Container(
-                        height: 54,
-                        width: 54,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.07),
-                              blurRadius: 8,
-                              offset: Offset(0, 4),
                             ),
-                          ],
-                          border: Border.all(color: Colors.white, width: 2),
-                        ),
-                        child: Icon(statusIcon, color: statusColor, size: 32),
-                      ),
-                    ),
-                  ),
-                  // Edit Harga/Admin
-                  if (showEditor)
-                    Positioned.fill(
-                      child: Container(
-                        color: Colors.black.withOpacity(0.11),
-                        alignment: Alignment.center,
-                        child: Container(
-                          padding: EdgeInsets.all(16),
-                          width: 300,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(12),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.black12,
-                                  blurRadius: 10,
-                                  offset: Offset(0, 5))
-                            ],
-                          ),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              TextFormField(
-                                  controller: txtHarga,
-                                  keyboardType: TextInputType.number,
-                                  decoration: InputDecoration(
-                                      border: OutlineInputBorder(),
-                                      labelText: labelHarga,
-                                      prefixText: 'Rp '),
-                                  onChanged: (value) => setState(() {
-                                        if (value == null || value.isEmpty) {
-                                          harga = 0;
-                                          total = 0 + admin + cetak;
-                                        } else {
-                                          harga = int.parse(value);
-                                          total = harga + admin + cetak;
-                                        }
-                                      })),
-                              SizedBox(height: 10),
-                              TextFormField(
-                                  controller: txtAdmin,
-                                  keyboardType: TextInputType.number,
-                                  decoration: InputDecoration(
-                                      border: OutlineInputBorder(),
-                                      labelText: 'Admin',
-                                      prefixText: 'Rp '),
-                                  onChanged: (value) => setState(() {
-                                        if (value == null || value.isEmpty) {
-                                          admin = 0;
-                                          total = harga + 0 + cetak;
-                                        } else {
-                                          admin = int.parse(value);
-                                          total = harga + admin + cetak;
-                                        }
-                                      })),
-                              SizedBox(height: 10),
-                              SizedBox(
-                                width: double.infinity,
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    primary: headerColor,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
+                            SizedBox(height: 5),
+                            Text('TrxID : ${trxData.id.toUpperCase()}',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontFamily: 'Poppins',
+                                )),
+                            SizedBox(height: 10),
+                            Divider(thickness: 3),
+                            SizedBox(height: 10),
+                            Text('Transaksi:',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  decoration: TextDecoration.underline,
+                                  fontFamily: 'Poppins',
+                                )),
+                            SizedBox(height: 10),
+                            Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Text(
+                                    'Nama Produk',
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins',
                                     ),
                                   ),
-                                  child: Text('Simpan'),
-                                  onPressed: simpanEditHarga,
+                                  Expanded(
+                                    flex: 1,
+                                    child: Text(
+                                      trxData.produk == null
+                                          ? '-'
+                                          : trxData.produk['nama'] ?? '-',
+                                      style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                      ),
+                                      overflow: TextOverflow.clip,
+                                      textAlign: TextAlign.end,
+                                    ),
+                                  )
+                                ]),
+                            SizedBox(height: 10),
+                            Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Text('Tujuan',
+                                      style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                      )),
+                                  Text(trxData.tujuan,
+                                      style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                      ))
+                                ]),
+                            SizedBox(height: 10),
+                            showDefaultTagihan
+                                ? Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                        Text(labelHarga,
+                                            style: TextStyle(
+                                              fontFamily: 'Poppins',
+                                            )),
+                                       Text(formatRupiah(harga) ,
+                                            style: TextStyle(
+                                              fontFamily: 'Poppins',
+                                            ))
+                                      ])
+                                : SizedBox(),
+                            SizedBox(height: showDefaultTagihan ? 10 : 0),
+                            showDefaultAdmin
+                                ? Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                        Text('Admin'),
+                                        Text(formatRupiah(admin) )
+                                      ])
+                                : SizedBox(),
+                            SizedBox(height: showDefaultAdmin ? 10 : 0),
+                            packageName == "com.funmo.id"
+                                ? Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                        Text(
+                                          'Biaya Cetak',
+                                          style: TextStyle(
+                                            fontFamily: 'Poppins',
+                                          ),
+                                        ),
+                                        Text(
+                                          formatRupiah(cetak) ,
+                                          style: TextStyle(
+                                            fontFamily: 'Poppins',
+                                          ),
+                                        )
+                                      ])
+                                : SizedBox(),
+                            SizedBox(
+                                height: packageName == "com.funmo.id" ? 10 : 0),
+                            ListView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: trxData.print.length,
+                                itemBuilder: (ctx, i) {
+                                  if ([
+                                    'token',
+                                    'jumlah',
+                                    'nominal',
+                                    'tagihan',
+                                    'admin'
+                                  ].contains(trxData.print[i]['label']
+                                      .toString()
+                                      .toLowerCase())) {
+                                    return SizedBox();
+                                  } else {
+                                    return Container(
+                                      margin: EdgeInsets.only(bottom: 10),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          Text(
+                                            trxData.print[i]['label'],
+                                            style: TextStyle(
+                                              fontFamily: 'Poppins',
+                                            ),
+                                          ),
+                                          Text(
+                                            trxData.print[i]['value']
+                                                .toString(),
+                                            style: TextStyle(
+                                              fontFamily: 'Poppins',
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    );
+                                  }
+                                }),
+                            snWidget(),
+                            Divider(thickness: 3),
+                            Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Text('Total',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'Poppins',
+                                      )),
+                                  Text(
+                                    formatRupiah(total) ,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'Poppins',
+                                    ),
+                                  )
+                                ]),
+                            Divider(thickness: 3),
+                            SizedBox(height: 10),
+                            Align(
+                              alignment: Alignment.topCenter,
+                              child: Text(
+                                'Struk ini merupakan bukti pembayaran yang sah'
+                                    .toUpperCase(),
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontFamily: 'Poppins',
                                 ),
                               ),
-                              TextButton(
-                                child: Text("Tutup"),
-                                onPressed: () {
-                                  setState(() => showEditor = false);
-                                },
+                            ),
+                            SizedBox(height: 10),
+                            Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                footerStruk,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontFamily: 'Poppins',
+                                ),
                               ),
-                            ],
-                          ),
+                            ),
+                            SizedBox(height: 20.0)
+                          ],
                         ),
                       ),
-                    ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget buildRow(String label, String value,
-      {Color color, bool isBold = false, IconData icon}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5),
-      child: Row(
-        children: [
-          Expanded(flex: 4, child: Text(label, style: TextStyle(color: Colors.grey[800], fontSize: 13))),
-          Expanded(
-            flex: 7,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                if (icon != null)
-                  Padding(
-                    padding: const EdgeInsets.only(right: 4.0),
-                    child: Icon(icon, size: 16, color: color ?? Colors.black54),
-                  ),
-                Flexible(
-                  child: Text(
-                    value ?? '-',
-                    textAlign: TextAlign.right,
-                    style: TextStyle(
-                      color: color ?? Colors.black,
-                      fontWeight: isBold ? FontWeight.bold : FontWeight.w600,
-                      fontSize: 13,
                     ),
                   ),
                 ),
               ],
             ),
           ),
-        ],
+        ]),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.print),
+        backgroundColor: packageName == 'com.lariz.mobile'
+            ? Theme.of(context).secondaryHeaderColor
+            : Theme.of(context).primaryColor,
+        onPressed: startPrint,
       ),
     );
   }
 }
 
-
-
-// ------ CONTROLLER LOGIC ---------
 abstract class PrintPreviewController extends State<PrintPreview>
     with TickerProviderStateMixin {
   TrxModel trxData;
@@ -796,9 +1156,49 @@ abstract class PrintPreviewController extends State<PrintPreview>
           0) {
         showSN = true;
       }
+
       setState(() {});
+      print("Panggil ambilDataTerbaru");
+      await ambilDataTerbaru();
     } else {
       print('Error: ${response.body}');
+    }
+  }
+
+  Future<void> ambilDataTerbaru() async {
+    print("Fungsi ambilDataTerbaru dipanggil");
+    String productId = widget.trx.produk['_id'];
+    print(productId);
+    http.Response response = await http.get(
+      Uri.parse('$apiUrl/product/member/$productId'),
+      headers: {
+        'Authorization': bloc.token.valueWrapper?.value,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      var responseData = json.decode(response.body);
+      print("Full JSON Response: ${response.body}");
+      int hargaBaru = responseData['data']['harga'];
+      int adminBaru = responseData['data']['admin'];
+
+      if (widget.isPostpaid && hargaBaru <= 0) {
+        hargaBaru = trxData.harga_jual;
+      }
+
+      setState(() {
+        harga = hargaBaru;
+        admin = adminBaru;
+
+        txtHarga.text = hargaBaru.toString();
+        txtAdmin.text = adminBaru.toString();
+
+        total = harga + admin + cetak;
+      });
+
+      print('Harga baru: $hargaBaru, Admin baru: $adminBaru');
+    } else {
+      print('Gagal mengambil data terbaru: ${response.body}');
     }
   }
 }

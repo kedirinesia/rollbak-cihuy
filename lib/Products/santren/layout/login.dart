@@ -5,11 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:mobile/Products/santren/layout/step_1.dart';
 import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/config.dart';
 import 'package:mobile/modules.dart';
-import 'package:mobile/screen/forgot-password/step_1.dart';
+ 
 import 'package:mobile/screen/otp.dart';
 import 'package:mobile/Products/santren/layout/register.dart';
 

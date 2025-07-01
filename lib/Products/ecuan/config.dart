@@ -1,8 +1,8 @@
 // @dart=2.9
 
 import 'package:mobile/Products/ecuan/layout/index.dart';
-
-String sigVendor = '5e577a000efa1b22beabf8dd';
+//5e577a000efa1b22beabf8dd
+String sigVendor = '685a32de5fb4c98ea80e8734';
 
 const namaApp = 'E-Cuan';
 const labelSaldo = 'Saldo';
@@ -12,7 +12,7 @@ String brandId;
 String copyRight = '';
 int templateCode = 1;
 String gaId = '';
-String apiUrl = 'http://ecuan-app.findig.id/api/v1';
+String apiUrl = 'https://app.payuni.co.id/api/v1';
 String liveChat = 'https://tawk.to/chat/5e5f1d8ac32b5c1917396b24/default';
 int otpCount = 4;
 int pinCount = 4;

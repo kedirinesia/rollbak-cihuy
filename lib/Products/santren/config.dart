@@ -3,7 +3,8 @@
 import 'package:mobile/Products/santren/layout/index.dart';
 import 'package:mobile/Products/santren/layout/splash.dart';
 import 'package:mobile/Products/santren/layout/wizard.dart';
-
+//685a32de5fb4c98ea80e8734
+//66f3c061b83af34d76ec85e3
 String sigVendor = '66f3c061b83af34d76ec85e3';
 
 const namaApp = 'SantrenPay';

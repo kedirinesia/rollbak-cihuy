@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart';
-import '../../main.dart';
+import 'package:flutter/cupertino.dart';
+
 import '../../app_config.dart';
-import 'config.dart';
-import 'color.dart';
-import 'resource.dart';
+import '../../main.dart';
+import '../SEEPAYS/config.dart';
+import '../seepays/color.dart';
+import '../seepays/resource.dart';
 
 void main() {
   var configApp = AppConfig(

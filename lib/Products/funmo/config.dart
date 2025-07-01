@@ -12,7 +12,7 @@ String brandId;
 String copyRight = 'Funmo';
 int templateCode = 2;
 String gaId = '';
-String apiUrl = 'https://app.funmo.co.id/api/v1';
+String apiUrl = 'https://app.payuni.co.id/api/v1';
 String liveChat = 'https://tawk.to/chat/5e6a94cc8d24fc22658747b4/default';
 int otpCount = 4;
 int pinCount = 6;

@@ -2,12 +2,13 @@
 
 import 'dart:convert';
 import 'dart:io';
-import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:installed_apps/installed_apps.dart';
+
 import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
+
 import 'package:http/http.dart' as http;
 import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/bloc/TemplateConfig.dart';
@@ -15,460 +16,810 @@ import 'package:mobile/config.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/custom_alert_dialog.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+// import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
+
 import 'package:mobile/models/trx.dart';
 import 'package:mobile/models/bank.dart';
 import 'package:mobile/modules.dart';
+
 import 'package:mobile/screen/transaksi/print.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-/// ------------ WATERMARK LAYER ---------------
-class WatermarkNetworkLogo extends StatelessWidget {
-  final String logoUrl;
-  final double size;
-  final double opacity;
-  final double rotationDeg;
-
-  const WatermarkNetworkLogo({
-    Key key,
-    @required this.logoUrl,
-    this.size = 48,
-    this.opacity = 0.12,
-    this.rotationDeg = -19,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    if (logoUrl == null || logoUrl.isEmpty) return SizedBox();
-    return LayoutBuilder(
-      builder: (ctx, constraints) {
-        final rows = (constraints.maxHeight / (size * 1.5)).ceil();
-        final cols = (constraints.maxWidth / (size * 2.1)).ceil();
-        List<Widget> marks = [];
-
-        for (int i = 0; i < rows; i++) {
-          for (int j = 0; j < cols; j++) {
-            final top = i * size * 1.5;
-            final left = j * size * 2.1 + (i.isOdd ? size : 0);
-            marks.add(Positioned(
-              top: top,
-              left: left,
-              child: Opacity(
-                opacity: opacity,
-                child: Transform.rotate(
-                  angle: rotationDeg * math.pi / 180,
-                  child: Image.network(
-                    logoUrl,
-                    width: size,
-                    height: size,
-                    fit: BoxFit.contain,
-                  ),
-                ),
-              ),
-            ));
-          }
-        }
-
-        return IgnorePointer(child: Stack(children: marks));
-      },
-    );
-  }
-}
-/// ------------ END WATERMARK LAYER -----------
-
 class DetailTransaksi extends StatefulWidget {
   final TrxModel data;
-  DetailTransaksi(this.data);
 
+  DetailTransaksi(this.data);
   @override
   _DetailTransaksiState createState() => _DetailTransaksiState();
 }
 
 class _DetailTransaksiState extends State<DetailTransaksi> {
-  final _refreshController = RefreshController(initialRefresh: false);
+  final RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
   TrxModel trx;
   List<BankModel> banks = [];
-  ScreenshotController _screenshot = ScreenshotController();
+  ScreenshotController _screenshotController = ScreenshotController();
+  File image;
   bool danaApp = false;
 
   @override
   void initState() {
-    super.initState();
     trx = widget.data;
+    print("SAMPAI SINI $trx");
+    super.initState();
     analitycs.pageView('/history/transaksi/' + trx.id, {
       'userId': bloc.userId.valueWrapper?.value,
-      'title': 'History Transaksi'
+      'title': 'History Transaksi '
     });
-    _loadData();
-    _checkDanaApp();
+    getData();
+    checkingDanaApp();
   }
 
-  void _checkDanaApp() {
-    InstalledApps.getAppInfo('id.dana').then((_) {
-      setState(() => danaApp = true);
-    }).catchError((_) {
-      setState(() => danaApp = false);
+  @override
+  void dispose() {
+    _refreshController.dispose();
+    super.dispose();
+  }
+
+  void checkingDanaApp() async {
+    InstalledApps.getAppInfo('id.dana').then((app) {
+      print(app);
+      setState(() {
+        danaApp = true;
+      });
+    }).catchError((e) {
+      setState(() {
+        danaApp = false;
+      });
     });
   }
 
-  Future<void> _loadData() async {
-    final resp = await http.get(
-      Uri.parse('$apiUrl/trx/${trx.id}/print'),
-      headers: {'Authorization': bloc.token.valueWrapper?.value},
-    );
-    if (resp.statusCode == 200) {
-      final d = json.decode(resp.body)['data'];
-      if (d['produk'] == null || d['produk'].isEmpty) {
-        d['produk'] = widget.data.produk ?? {};
+  Future<String> getPhoneNumberCs() async {
+    try {
+      String link;
+
+      http.Response response = await http.get(Uri.parse('$apiUrl/cs/list'),
+          headers: {'Authorization': bloc.token.valueWrapper?.value});
+      if (response.statusCode == 200) {
+        List<dynamic> responseData = json.decode(response.body)['data'];
+        responseData.forEach((e) {
+          print(e['link']);
+          if (e['link'] is String &&
+              (e['link'] as String).contains('api.whatsapp.com')) {
+            link = e['link'];
+          }
+        });
       }
-      if (d['payment_by'] == 'transfer') await _loadBanks();
-      setState(() => trx = TrxModel.fromJson(d));
+      return link;
+    } catch (err) {
+      return '';
     }
   }
 
-  Future<void> _loadBanks() async {
-    final resp = await http.get(
-      Uri.parse('$apiUrl/bank/list?type=1'),
-      headers: {'Authorization': bloc.token.valueWrapper?.value},
-    );
-    if (resp.statusCode == 200) {
-      final list = json.decode(resp.body)['data'] as List;
-      banks = list.map((e) => BankModel.fromJson(e)).toList();
+  Future<void> sendWhatsApp() async {
+    // String phoneNumber = await getPhoneNumberCs();
+    String link = await getPhoneNumberCs();
+
+    if (link == null) return;
+    print(link);
+
+    // if (phoneNumber == null) return;
+
+    // phoneNumber = phoneNumber.replaceAll(RegExp("[^0-9]"), "");
+    // phoneNumber = phoneNumber.replaceFirst(RegExp('0'), '62');
+
+    // Map<String, String> phones = {
+    //   'mypay.co.id': '6282352513472',
+    //   'payku.id': '628871500528',
+    //   'com.payuni.popay': '628882436151',
+    //   'com.payuni.id': '6281617118314',
+    //   'co.pakaiaja.id': '628980000073',
+    //   'com.mocipay.app': '6282213893106',
+    //   'com.centralbayar.apk': '6285222222281',
+    //   'ayoba.co.id': '6287890000023',
+    // };
+
+    String keluhan = '';
+    if (trx.status == 0 || trx.status == 1) {
+      keluhan = '*Transaksi masih pending, Mohon dibantu kak.*';
+    } else if (trx.status == 2) {
+      keluhan = '*Transaksi sukses tapi belum masuk, Mohon dibantu kak.*';
+    } else if (trx.status == 3) {
+      keluhan = '*Bantu cek alasan gagalnya apa ya?*';
+    }
+
+    String message =
+        'Halo min, saya mengalami kendala transaksi, mohon dibantu.\r\nID: *${trx.id}*\r\nTujuan: *${trx.tujuan}*\r\nTanggal: *${formatDate(trx.created_at, "d MMMM yyyy HH:mm:ss")}*\r\nKode: *${trx.produk['kode_produk']}*\r\nNama Produk: *${trx.produk['nama']}*\r\nSN: *${trx.sn}*\r\n\r\nKeluhan: $keluhan';
+    // String url = Uri.encodeFull(
+    //     'https://api.whatsapp.com/send?phone=$phoneNumber&text=$message');
+    String url = '$link&text=${Uri.encodeFull(message)}';
+
+    launch(url);
+  }
+
+  Future<void> getData() async {
+    http.Response response = await http.get(
+        Uri.parse('$apiUrl/trx/${widget.data.id}/print'),
+        headers: {'Authorization': bloc.token.valueWrapper?.value});
+
+    if (response.statusCode == 200) {
+      var responseData = json.decode(response.body)['data'];
+      if (responseData['payment_by'] == 'transfer') {
+        await getBank();
+      }
+      setState(() {
+        trx = TrxModel.fromJson(responseData);
+        print("KIE SING BENER $trx");
+      });
+    }
+  }
+
+  Future<void> getBank() async {
+    http.Response response = await http.get(
+        Uri.parse('$apiUrl/bank/list?type=1'),
+        headers: {'Authorization': bloc.token.valueWrapper?.value});
+    if (response.statusCode == 200) {
+      List<dynamic> datas = json.decode(response.body)['data'];
+      banks = datas.map((e) => BankModel.fromJson(e)).toList();
     }
   }
 
   @override
-  Widget build(BuildContext c) {
-    final headerColor = Color(0xFF43B368);
-    final isSuccess = trx.status == 2;
-    final isPending = trx.status == 0;
-    final statusIcon = isSuccess
-        ? Icons.check
-        : isPending
-            ? Icons.access_time
-            : Icons.close;
-    final statusText = isSuccess
-        ? "Transaksi Berhasil"
-        : isPending
-            ? "Transaksi Pending"
-            : "Transaksi Gagal";
-    final statusColor = isSuccess
-        ? headerColor
-        : isPending
-            ? Colors.orange
-            : Colors.red;
-    final logoUrl = configAppBloc.iconApp.valueWrapper?.value['logo'];
-
+  Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF5F7FA),
       appBar: AppBar(
         title: Text('Detail Transaksi'),
         centerTitle: true,
-        backgroundColor: headerColor,
+        backgroundColor: packageName == 'com.lariz.mobile'
+            ? Theme.of(context).secondaryHeaderColor
+            : Theme.of(context).primaryColor,
         elevation: 0,
         actions: [
           IconButton(
             icon: Icon(Icons.home_rounded),
-            onPressed: () {
-              Navigator.of(context).pushAndRemoveUntil(
+            onPressed: () => Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
-                  builder: (_) => configAppBloc
-                          .layoutApp
-                          ?.valueWrapper
-                          ?.value['home'] ??
-                      templateConfig[configAppBloc.templateCode
-                          .valueWrapper
-                          ?.value],
+                  builder: (_) =>
+                      configAppBloc.layoutApp?.valueWrapper?.value['home'] ??
+                      templateConfig[
+                          configAppBloc.templateCode.valueWrapper?.value],
                 ),
-                (_) => false,
-              );
-            },
+                (route) => false),
           ),
         ],
       ),
-      floatingActionButton: trx.status == 2
-          ? FloatingActionButton(
-              child: Icon(Icons.print),
-              backgroundColor: headerColor,
-              onPressed: () {
-                if (trx.produk == null || trx.produk.isEmpty) {
-                  trx.produk = widget.data.produk ?? {};
-                }
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => PrintPreview(
-                      trx: trx,
-                      isPostpaid:
-                          trx.produk['type'] != null && trx.produk['type'] == 1,
-                    ),
-                  ),
-                );
-              },
-            )
-          : null,
-      body: Stack(
-        children: [
-          Container(color: headerColor, height: 130, width: double.infinity),
-          SmartRefresher(
-            controller: _refreshController,
-            onRefresh: () async {
-              await _loadData();
-              _refreshController.refreshCompleted();
-            },
-            enablePullUp: false,
-            child: SingleChildScrollView(
-              child: Container(
-                margin: EdgeInsets.only(top: 55, bottom: 16),
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    // — White Card + Watermark —
-                    Container(
-  constraints: BoxConstraints(
-    minHeight: MediaQuery.of(context).size.height - 150, // Ubah angka sesuai kebutuhan
-  ),
-  margin: EdgeInsets.symmetric(horizontal: 16),
-  padding: EdgeInsets.fromLTRB(18, 38, 18, 22),
-  decoration: BoxDecoration(
-    color: Colors.white,
-    borderRadius: BorderRadius.circular(18),
-    boxShadow: [
-      BoxShadow(
-        color: Colors.black.withOpacity(0.07),
-        blurRadius: 16,
-        offset: Offset(0, 6),
-      ),
-    ],
-  ),
-  child: Stack(
-    children: [
-                          if (logoUrl != null && logoUrl.isNotEmpty)
-                            Positioned.fill(
-                              child: WatermarkNetworkLogo(
-                                logoUrl: logoUrl,
-                                size: 48,
-                                opacity: 0.13,
-                                rotationDeg: -19,
-                              ),
-                            ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                statusText,
+      body: Container(
+        color: Theme.of(context).canvasColor,
+        child: SmartRefresher(
+          controller: _refreshController,
+          enablePullUp: false,
+          onRefresh: () async {
+            await getData();
+            _refreshController.refreshCompleted();
+          },
+          child: ListView(
+            shrinkWrap: true,
+            padding: EdgeInsets.all(15),
+            children: <Widget>[
+              Container(
+                  padding: EdgeInsets.all(15),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10.0),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black.withOpacity(.1),
+                            offset: Offset(5, 10.0),
+                            blurRadius: 20)
+                      ]),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                                trx.produk == null
+                                    ? '-'
+                                    : trx.produk['nama'] ?? '-',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  color: statusColor,
-                                  fontSize: 18,
-                                ),
-                              ),
-                              SizedBox(height: 4),
-                              Text(
-                                trx.produk != null
-                                    ? "${trx.produk['nama']} - ${trx.tujuan ?? '-'}"
-                                    : "-",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFF3D5A7A),
-                                  fontSize: 13,
-                                ),
-                              ),
-                              SizedBox(height: 50),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      formatDate(
-                                          trx.created_at, "d MMM yyyy HH:mm"),
-                                      style: TextStyle(
-                                          color: Colors.grey[600], fontSize: 11),
+                                  color: packageName == 'com.lariz.mobile'
+                                      ? Theme.of(context).secondaryHeaderColor
+                                      : Theme.of(context).primaryColor,
+                                ))
+                          ],
+                        ),
+                        Divider(),
+                        InkWell(
+                          onTap: () {
+                            Clipboard.setData(ClipboardData(text: trx.tujuan))
+                                .then((_) {
+                              showToast(
+                                  context, 'Berhasil menyalin nomor tujuan');
+                            });
+                          },
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text('Nomor Tujuan',
+                                    style: TextStyle(
+                                        color: Colors.grey, fontSize: 11)),
+                                SizedBox(height: 5),
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(trx.tujuan,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold)),
+                                    SizedBox(width: 5),
+                                    Icon(
+                                      Icons.copy_rounded,
+                                      size: 17,
+                                      color: packageName == 'com.lariz.mobile'
+                                          ? Theme.of(context)
+                                              .secondaryHeaderColor
+                                          : Theme.of(context).primaryColor,
                                     ),
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      "TrxID : ${trx.id?.toUpperCase()}",
-                                      textAlign: TextAlign.right,
-                                      style: TextStyle(
-                                          color: Colors.grey[600], fontSize: 11),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 10),
-                              _buildDashedLine(),
-                              SizedBox(height: 12),
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  "Detail Transaksi",
+                                  ],
+                                )
+                              ]),
+                        ),
+                        SizedBox(height: 10),
+                        Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text('Deskripsi Produk',
                                   style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 12),
-                              buildRow(
-                                "Status",
-                                isSuccess
-                                    ? "Berhasil"
-                                    : isPending
-                                        ? "Pending"
-                                        : "Gagal",
-                                color: statusColor,
-                                isBold: true,
-                                icon: isSuccess
-                                    ? Icons.check_circle
-                                    : isPending
-                                        ? Icons.access_time
-                                        : Icons.cancel,
-                              ),
-                              buildRow("Jenis Transaksi", trx.produk['nama'] ?? '-'),
-                              buildRow("No HP", trx.tujuan ?? '-'),
-                              buildRow("Jumlah", formatRupiah(trx.harga_jual)),
-                              buildRow("Admin", formatRupiah(trx.admin)),
-                              buildRow("Nomor Serial", trx.sn ?? '-'),
-                              SizedBox(height: 10),
-                              Divider(thickness: 1, height: 24),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text("Total Bayar",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold, fontSize: 16)),
-                                  Text(formatRupiah(trx.harga_jual),
-                                      style: TextStyle(
-                                          color: Color(0xFF2676C5),
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16)),
-                                ],
-                              ),
-                              SizedBox(height: 10),
-                              _buildDashedLine(),
-                              SizedBox(height: 30),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Flexible(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.end,
-                                      children: [
-                                        Text(
-                                          "Struk Ini Adalah Bukti Pembayaran Yang Sah",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 10,
-                                          ),
-                                          textAlign: TextAlign.left,
-                                        ),
-                                        Text(
-                                          "Transaksi diamankan",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 10,
-                                          ),
-                                          textAlign: TextAlign.left,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(width: 7),
-                                  Icon(
-                                    Icons.verified_user_rounded,
-                                    color: Colors.grey[600],
-                                    size: 28,
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
+                                      color: Colors.grey, fontSize: 11)),
+                              SizedBox(height: 5),
+                              Text(
+                                  trx.produk == null
+                                      ? '-'
+                                      : trx.produk['description'] ?? '-',
+                                  style: TextStyle(fontWeight: FontWeight.bold))
+                            ]),
+                        SizedBox(height: 10),
+                        Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text('Harga',
+                                  style: TextStyle(
+                                      color: Colors.grey, fontSize: 11)),
+                              SizedBox(height: 5),
+                              Text(formatRupiah(trx.harga_jual),
+                                  style: TextStyle(fontWeight: FontWeight.bold))
+                            ]),
+                        SizedBox(height: 10),
+                        Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text('Admin',
+                                  style: TextStyle(
+                                      color: Colors.grey, fontSize: 11)),
+                              SizedBox(height: 5),
+                              Text(formatRupiah(trx.admin),
+                                  style: TextStyle(fontWeight: FontWeight.bold))
+                            ]),
+                        SizedBox(height: 10),
+                        Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text('Methode Pembayaran',
+                                  style: TextStyle(
+                                      color: Colors.grey, fontSize: 11)),
+                              SizedBox(height: 5),
+                              Text(
+                                  trx.paymentBy != null
+                                      ? trx.paymentBy.toUpperCase()
+                                      : 'BALANCE',
+                                  style: TextStyle(fontWeight: FontWeight.bold))
+                            ]),
+                      ])),
+              SizedBox(height: trx.paymentBy == 'balance' ? 0.0 : 20.0),
+              trx.paymentBy == 'balance'
+                  ? SizedBox(height: 0.0)
+                  : trx.status == 4
+                      ? trx.paymentBy == 'transfer'
+                          ? viewPaymentTrf()
+                          : viewPaymentQris()
+                      : Container(),
+              SizedBox(height: 20.0),
+              Container(
+                padding: EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10.0),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.black.withOpacity(.1),
+                          offset: Offset(5, 10.0),
+                          blurRadius: 20)
+                    ]),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text('Informasi Transaksi',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: packageName == 'com.lariz.mobile'
+                                    ? Theme.of(context).secondaryHeaderColor
+                                    : Theme.of(context).primaryColor,
+                              )),
+                          Icon(
+                            Icons.receipt,
+                            color: packageName == 'com.lariz.mobile'
+                                ? Theme.of(context).secondaryHeaderColor
+                                : Theme.of(context).primaryColor,
+                          )
                         ],
                       ),
-                    ),
-
-                    // — Floating Status Icon —
-                    Positioned(
-                      top: -27,
-                      left: 0,
-                      right: 0,
-                      child: Center(
-                        child: Container(
-                          height: 54,
-                          width: 54,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.circle,
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.07),
-                                blurRadius: 8,
-                                offset: Offset(0, 4),
+                      Divider(),
+                      Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text('Status',
+                                style: TextStyle(
+                                    color: Colors.grey, fontSize: 11)),
+                            SizedBox(height: 5),
+                            Text(trx.statusModel.statusText.toUpperCase(),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: trx.statusModel.color))
+                          ]),
+                      SizedBox(height: 10),
+                      Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text('Keterangan',
+                                style: TextStyle(
+                                    color: Colors.grey, fontSize: 11)),
+                            SizedBox(height: 5),
+                            Text(trx.keterangan == null ? '-' : trx.keterangan,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ))
+                          ]),
+                      SizedBox(height: 10),
+                      Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text('Pengisian Ke',
+                                style: TextStyle(
+                                    color: Colors.grey, fontSize: 11)),
+                            SizedBox(height: 5),
+                            Text(trx.counter.toString(),
+                                style: TextStyle(fontWeight: FontWeight.bold))
+                          ]),
+                      SizedBox(height: 10),
+                      Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text('Bonus Poin',
+                                style: TextStyle(
+                                    color: Colors.grey, fontSize: 11)),
+                            SizedBox(height: 5),
+                            Text('${formatNumber(trx.point)} Poin',
+                                style: TextStyle(fontWeight: FontWeight.bold))
+                          ]),
+                      SizedBox(height: 10),
+                      trx.print.length == 0
+                          ? InkWell(
+                              onLongPress: () async {
+                                await Clipboard.setData(
+                                    ClipboardData(text: trx.sn));
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content:
+                                        Text("Serial number berhasil disalin"),
+                                  ),
+                                );
+                              },
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text('Nomor Serial',
+                                        style: TextStyle(
+                                            color: Colors.grey, fontSize: 11)),
+                                    SizedBox(height: 5),
+                                    Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          Flexible(
+                                              flex: 1,
+                                              child: Container(
+                                                child: Text(trx.sn,
+                                                    overflow: TextOverflow.clip,
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                              ))
+                                        ])
+                                  ]),
+                            )
+                          : SizedBox(),
+                      trx.print.length == 0 ? SizedBox(height: 10) : SizedBox(),
+                      ListView.separated(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: trx.print.length,
+                        separatorBuilder: (_, i) => SizedBox(height: 10),
+                        itemBuilder: (context, i) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                trx.print[i]['label'],
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 11,
+                                ),
+                              ),
+                              SizedBox(height: 5),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      trx.print[i]['value'].toString(),
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                      width: trx.print[i]['label']
+                                              .toString()
+                                              .toLowerCase()
+                                              .contains('token')
+                                          ? 5
+                                          : 0),
+                                  trx.print[i]['label']
+                                          .toString()
+                                          .toLowerCase()
+                                          .contains('token')
+                                      ? InkWell(
+                                          child: Icon(
+                                            Icons.content_copy,
+                                            size: 18,
+                                            color: Colors.grey,
+                                          ),
+                                          onTap: () async {
+                                            await Clipboard.setData(
+                                                ClipboardData(
+                                                    text: trx.print[i]
+                                                        ['value']));
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                    'Berhasil menyalin token'),
+                                              ),
+                                            );
+                                          },
+                                        )
+                                      : SizedBox(),
+                                ],
                               ),
                             ],
-                            border: Border.all(color: Colors.white, width: 2),
-                          ),
-                          child: Icon(statusIcon, color: statusColor, size: 32),
-                        ),
+                          );
+                        },
                       ),
+                      trx.print.length == 0 ? SizedBox() : SizedBox(height: 10),
+                      Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text('ID Transaksi',
+                                style: TextStyle(
+                                    color: Colors.grey, fontSize: 11)),
+                            SizedBox(height: 5),
+                            Text(trx.id.toUpperCase(),
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                          ]),
+                      SizedBox(height: 10),
+                      Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text('Waktu Transaksi',
+                                style: TextStyle(
+                                    color: Colors.grey, fontSize: 11)),
+                            SizedBox(height: 5),
+                            Text(
+                              "${formatDate(trx.created_at, "d MMMM yyyy HH:mm:ss")} WIB",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ]),
+                      SizedBox(height: 10),
+                      Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text('Waktu Status',
+                                style: TextStyle(
+                                    color: Colors.grey, fontSize: 11)),
+                            SizedBox(height: 5),
+                            Text(
+                              "${formatDate(trx.created_at, "d MMMM yyyy HH:mm:ss")} WIB",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            )
+                          ])
+                    ]),
+              ),
+              packageName == 'id.paymobileku.app'
+               ? SizedBox()
+               : TextButton(
+                child: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                  Hero(
+                    tag: 'cs',
+                    child: Icon(
+                      Icons.help_outline,
+                      color: packageName == 'com.lariz.mobile'
+                          ? Theme.of(context).secondaryHeaderColor
+                          : Theme.of(context).primaryColor,
                     ),
-                  ],
+                  ),
+                  SizedBox(width: 5),
+                  Text('Komplain')
+                ]),
+                onPressed: () {
+                  List<String> packageList = [
+                    'mypay.co.id',
+                    'id.payku.app',
+                    'popay.id',
+                    'mobile.payuni.id',
+                    'co.pakaiaja.id',
+                    'com.mocipay.app',
+                    'com.centralbayar.apk',
+                    'ayoba.co.id',
+                    'com.talentapay.android',
+                    'id.outletpay.mobile',
+                    'com.popayfdn',
+                    'com.xenaja.app',
+                    'com.ampedia.mobile',
+                    'id.paymobileku.app'
+                  ];
+
+                  var isPackage = false;
+
+                  packageList.forEach((element) {
+                    if (element == packageName) {
+                      isPackage = true;
+                    }
+                  });
+
+                  if (isPackage) return sendWhatsApp();
+
+                  return Navigator.of(context).pushNamed('/customer-service');
+                },
+              )
+            ],
+          ),
+        ),
+      ),
+      floatingActionButton: trx.status != 2
+          ? null
+          : FloatingActionButton(
+              child: Icon(Icons.print),
+              backgroundColor: packageName == 'com.lariz.mobile'
+                  ? Theme.of(context).secondaryHeaderColor
+                  : Theme.of(context).primaryColor,
+              onPressed: () {
+                print("Sudah Sampai Sini $trx");
+                if (widget.data.produk != null &&
+                    widget.data.produk != null &&
+                    widget.data.produk.containsKey('type')) {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => PrintPreview(
+                          trx: trx,
+                          isPostpaid: widget.data.produk['type'] == 1),
+                    ),
+                  );
+                } else {
+                  showCustomDialog(
+                      context: context,
+                      type: DialogType.error,
+                      title: 'Produk Tidak Ditemukan',
+                      content:
+                          'Maaf, Produk tidak ditemukan atau telah dihapus');
+                }
+              }),
+    );
+  }
+
+  Widget viewPaymentTrf() {
+    return Container(
+      padding: EdgeInsets.all(15),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10.0),
+          boxShadow: [
+            BoxShadow(
+                color: Colors.black.withOpacity(.1),
+                offset: Offset(5, 10.0),
+                blurRadius: 20)
+          ]),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: EdgeInsets.all(10),
+            child: Center(
+              child: Text(
+                formatRupiah(trx.harga_jual),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: packageName == 'com.lariz.mobile'
+                      ? Theme.of(context).secondaryHeaderColor
+                      : Theme.of(context).primaryColor,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 30,
                 ),
               ),
             ),
           ),
+          Center(
+              child: Text('Wajib Transfer Sesuai Nominal !',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.red))),
+          Divider(),
+          ListView.separated(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: banks.length,
+              separatorBuilder: (_, i) => SizedBox(height: 5),
+              itemBuilder: (context, i) {
+                BankModel bank = banks.elementAt(i);
+
+                return InkWell(
+                  onTap: () {
+                    if (bank.isGangguan) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(
+                              'Untuk saat ini, rekening tersebut sedang mengalami gangguan')));
+                    } else {
+                      Clipboard.setData(ClipboardData(text: bank.noRek));
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(
+                              'Nomor rekening berhasil disalin ke papan klip')));
+                    }
+                  },
+                  child: ListTile(
+                    dense: true,
+                    contentPadding: EdgeInsets.zero,
+                    title: Text(bank.namaBank,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18.0)),
+                    subtitle: Text('a.n. ${bank.namaRekening}',
+                        style: TextStyle(color: Colors.grey, fontSize: 12)),
+                    trailing: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          bank.noRek,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18.0),
+                        ),
+                        Text(bank.isGangguan ? 'GANGGUAN' : 'TERSEDIA',
+                            style: TextStyle(
+                                color:
+                                    bank.isGangguan ? Colors.red : Colors.green,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold)),
+                      ],
+                    ),
+                  ),
+                );
+              }),
         ],
       ),
     );
   }
 
-  Widget _buildDashedLine() {
-    return LayoutBuilder(
-      builder: (_, constraints) {
-        final dashWidth = 7.0;
-        final dashCount = (constraints.maxWidth / (2 * dashWidth)).floor();
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: List.generate(dashCount, (_) {
-            return Container(width: dashWidth, height: 1, color: Colors.grey.shade400);
-          }),
-        );
-      },
-    );
-  }
-
-  Widget buildRow(String label, String value, {Color color, bool isBold = false, IconData icon}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5),
-      child: Row(
-        children: [
-          Expanded(flex: 4, child: Text(label, style: TextStyle(color: Colors.grey[800], fontSize: 13))),
-          Expanded(
-            flex: 7,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                if (icon != null)
-                  Padding(
-                    padding: const EdgeInsets.only(right: 4.0),
-                    child: Icon(icon, size: 16, color: color ?? Colors.black54),
-                  ),
-                Flexible(
-                  child: Text(
-                    value ?? '-',
-                    textAlign: TextAlign.right,
-                    style: TextStyle(
-                      color: color ?? Colors.black,
-                      fontWeight: isBold ? FontWeight.bold : FontWeight.w600,
-                      fontSize: 13,
-                    ),
-                  ),
-                ),
-              ],
+  Widget viewPaymentQris() {
+    return Container(
+      padding: EdgeInsets.all(10),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10.0),
+          boxShadow: [
+            BoxShadow(
+                color: Colors.black.withOpacity(.1),
+                offset: Offset(5, 10.0),
+                blurRadius: 20)
+          ]),
+      child: Screenshot(
+        controller: _screenshotController,
+        child: ListView(
+          padding: EdgeInsets.all(20),
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          children: [
+            Align(
+              alignment: Alignment.center,
+              child: Text(formatRupiah(trx.harga_jual),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 40,
+                    color: packageName == 'com.lariz.mobile'
+                        ? Theme.of(context).secondaryHeaderColor
+                        : Theme.of(context).primaryColor,
+                  )),
             ),
-          ),
-        ],
+            SizedBox(height: 15),
+            Align(
+                alignment: Alignment.center,
+                child: Text(
+                    'Silahkan Lakukan Pembayaran Dengan Scan QRCode ini dengan Aplikasi yang mendukung Scan QRIS',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.red,
+                    ))),
+            SizedBox(height: 10),
+            Align(
+              alignment: Alignment.center,
+              child: QrImageView(
+                backgroundColor: Theme.of(context).canvasColor,
+                foregroundColor: Colors.black,
+                gapless: true,
+                size: MediaQuery.of(context).size.width * .75,
+                version: QrVersions.auto,
+                data: trx.paymentDetail.paymentImg,
+              ),
+            ),
+            SizedBox(height: 10),
+            trx.status == 4
+                ? Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                        'Bayar Sebelum ${formatDate(trx.paymentDetail.paymentExpired, "d MMMM yyyy HH:mm:ss")}',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        )))
+                : SizedBox(height: 0.0),
+            SizedBox(height: 10),
+            trx.status == 4
+                ? danaApp
+                    ? InkWell(
+                        onTap: () async {
+                          image = File.fromRawPath(
+                              await _screenshotController.capture(
+                                  pixelRatio: 2.5,
+                                  delay: Duration(milliseconds: 100)));
+                          if (image == null) return;
+                          await Share.shareFiles([image.path],
+                              text: 'Bayar Pakai Dana', packageApp: 'id.dana');
+                        },
+                        // child: Container(
+                        //   margin: EdgeInsets.only(right: 20, left: 20),
+                        //   padding: EdgeInsets.symmetric(
+                        //       vertical: 20, horizontal: 20.0),
+                        //   decoration: BoxDecoration(
+                        //       color: Colors.blue,
+                        //       borderRadius: BorderRadius.circular(10.0)),
+                        //   child: Center(
+                        //     child: Text('BAYAR PAKAI APLIKASI DANA',
+                        //         style: TextStyle(
+                        //             color: Colors.white,
+                        //             fontWeight: FontWeight.bold)),
+                        //   ),
+                        // ),
+                      )
+                    : Container()
+                : Container(),
+            SizedBox(height: 10),
+          ],
+        ),
       ),
     );
   }

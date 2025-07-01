@@ -336,9 +336,11 @@ class _Home4AppState extends Home4Model {
           GradientLine(),
           SizedBox(height: 15),
           MenuDepan(grid: 5, baris: 3, gradient: true),
-          SizedBox(height: 10),
+          InviteFriendBox(context: context),
+          SizedBox(height: 30),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 10),
+            
             child: Text(
               'Info Terbaru',
               style: TextStyle(
@@ -350,11 +352,10 @@ class _Home4AppState extends Home4Model {
           
 
 
-          SizedBox(height: 10.0),
+         
+          SizedBox(height: 20),
           CardInfo(),
-          SizedBox(height: 40),
-          InviteFriendBox(context: context),
-          SizedBox(height: 40),
+          SizedBox(height: 30),
          
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 10),
@@ -376,79 +377,86 @@ class _Home4AppState extends Home4Model {
   
  
 
-Widget InviteFriendBox({@required BuildContext context}) {
+Widget InviteFriendBox({  BuildContext context}) {
+  final w = MediaQuery.of(context).size.width;
+  final h = MediaQuery.of(context).size.height;
+
   return Container(
     width: double.infinity,
-    margin: const EdgeInsets.symmetric(horizontal: 16),
+    margin: EdgeInsets.symmetric(horizontal: w * 0.04, vertical: h * 0.04),
     decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(20),
-      gradient: const LinearGradient(
-        colors: [
-          Color(0xFFC0FF6B),
-          Color(0xFF96E072),
-        ],
+      borderRadius: BorderRadius.circular(24),
+      gradient: LinearGradient(
+        colors: [Color(0xFFC0FF6B), Color(0xFF96E072)],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
       ),
-      boxShadow: const [
-        BoxShadow(
-          color: Colors.black12,
-          blurRadius: 10,
-          offset: Offset(0, 6),
-        ),
+      boxShadow: [
+        BoxShadow(color: Colors.black12, blurRadius: 10, offset: Offset(0, 4)),
       ],
     ),
-    // Tambahkan vertical padding agar box lebih tinggi
     child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 32),
+      padding: EdgeInsets.symmetric(horizontal: w * 0.05, vertical: h * 0.032), // PAD KECIL
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Icon + Judul
           Row(
             children: [
-              Icon(Icons.group_add, color: Colors.black87, size: 28),
-              const SizedBox(width: 10),
+              Icon(Icons.group_add, color: Colors.black87, size: w * 0.058), // lebih kecil
+              SizedBox(width: w * 0.018),
               Expanded(
                 child: Text(
                   "Dapatkan Komisi dari Ajak Teman Kamu",
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.black87,
                     fontWeight: FontWeight.bold,
-                    fontSize: 17,
+                    fontSize: w * 0.041, // lebih kecil
                   ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],
+            
           ),
-          const SizedBox(height: 20), // Spacing diperbesar
+          SizedBox(height: h * 0.02), // jarak kecil
+          // Deskripsi
           Text(
             "Mengajak Teman Kamu Untuk Menggunakan Payuni adalah Salah Satu Cara Untuk Mendapatkan Penghasilan Tambahan Buat Kamu.",
-            style: const TextStyle(
+            style: TextStyle(
               color: Colors.black54,
-              fontSize: 13,
-              height: 1.45,
+              fontSize: w * 0.029, // lebih kecil
+              height: 1.5,
             ),
+            maxLines: 4,
+            overflow: TextOverflow.ellipsis,
           ),
-          const SizedBox(height: 30), // Spacing bawah diperbesar
+          SizedBox(height: h * 0.020), // jarak kecil
+          // Button
           SizedBox(
             width: double.infinity,
             child: OutlinedButton.icon(
-              icon: const Icon(Icons.share, color: Colors.black87),
-              label: const Text(
-                "Undang Teman",
-                style: TextStyle(
-                  color: Colors.black87,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
+              icon: Icon(Icons.share, color: Colors.black87, size: w * 0.045),
+              label: Padding(
+                padding: EdgeInsets.symmetric(vertical: h * 0.009),
+                child: Text(
+                  "Undang Teman",
+                  style: TextStyle(
+                    color: Colors.black87,
+                    fontWeight: FontWeight.bold,
+                    fontSize: w * 0.037,
+                  ),
                 ),
               ),
               style: OutlinedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                side: const BorderSide(color: Colors.black87),
+                side: BorderSide(color: Colors.black87, width: 1.2),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(40),
+                  borderRadius: BorderRadius.circular(30),
                 ),
                 backgroundColor: Colors.transparent,
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                minimumSize: Size(0, 0),
               ),
               onPressed: () {
                 Navigator.of(context).push(
@@ -457,12 +465,12 @@ Widget InviteFriendBox({@required BuildContext context}) {
               },
             ),
           ),
-          const SizedBox(height: 4), // Spasi bawah, opsional
         ],
       ),
     ),
   );
 }
+
 
 
 

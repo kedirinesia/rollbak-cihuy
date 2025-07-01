@@ -123,6 +123,12 @@ android {
             storeFile file('keystore/pgkreload.keystore')
             storePassword 'piknik'
         }
+         seepays {
+        keyAlias 'seepays'
+        keyPassword 'piknik'
+        storeFile file('keystore/seepays.keystore')
+        storePassword 'piknik'
+    }
         gopulsa {
             keyAlias 'gopulsa'
             keyPassword 'piknik'
@@ -973,6 +979,13 @@ android {
             versionCode 2
             versionName "2.0.1"
         }
+        seepays {
+            dimension "flavor-type"
+            applicationId "com.seepaysbiller.app"
+            versionCode 11
+            versionName "2.0.0"
+            signingConfig signingConfigs.seepays
+        }
         gopulsa {
             dimension "flavor-type"
             applicationId "com.gopulsa.app"
@@ -1078,8 +1091,8 @@ android {
         agenpayment {
             dimension "flavor-type"
             applicationId "id.agenpayment.app"
-            versionCode 11
-            versionName "2.3.1"
+            versionCode 15
+            versionName "2.4.1"
         }
         funfast {
             dimension "flavor-type"

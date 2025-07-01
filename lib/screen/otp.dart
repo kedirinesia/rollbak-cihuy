@@ -301,46 +301,23 @@ class _OtpPageState extends State<OtpPage> {
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(height: 40),
-                    
-SizedBox(
-  height: 80, // ⬅️ tinggi keseluruhan field OTP
-  child: PinInputTextField(
-    controller: kode,
-    pinLength: configAppBloc.otpCount.valueWrapper?.value ?? 4,
-    autoFocus: true,
-    keyboardType: TextInputType.number,
-    decoration: BoxLooseDecoration(
-      strokeColorBuilder: PinListenColorBuilder(
-        Theme.of(context).primaryColor,
-        Colors.grey.shade300,
-      ),
-      bgColorBuilder: FixedColorBuilder(Colors.white),
-      radius: Radius.circular(18),
-      strokeWidth: 2,
-      gapSpace: 20, 
-      textStyle: TextStyle(
-        fontSize: 26,  
-        fontWeight: FontWeight.bold,
-        color: Theme.of(context).primaryColor,
-      ),
-    ),
-    cursor: Cursor(
-      width: 3,
-      color: Theme.of(context).primaryColor,
-      radius: Radius.circular(1),
-      enabled: true,
-    ),
-    onChanged: (value) {
-      if (value.length == configAppBloc.otpCount.valueWrapper?.value) {
-        verify();
-      }
-    },
-  ),
-)
-
- ]
+                    PinInputTextField(
+                      controller: kode,
+                      pinLength: configAppBloc.otpCount.valueWrapper?.value,
+                      autoFocus: true,
+                      decoration: UnderlineDecoration(
+                          colorBuilder: PinListenColorBuilder(
+                              Theme.of(context).primaryColor,
+                              Theme.of(context).primaryColor)),
+                      onChanged: (value) {
+                        if (value.length ==
+                            configAppBloc.otpCount.valueWrapper?.value) {
+                          verify();
+                        }
+                      },
+                    )
+                  ]),
                 ),
-    )
     );
   }
 }

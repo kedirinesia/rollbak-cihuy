@@ -1,5 +1,6 @@
 // @dart=2.9
 
+import 'dart:async';
 import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/gestures.dart';
@@ -41,7 +42,16 @@ class _RegisterUserState extends State<RegisterUser> {
   TextEditingController kotaText = TextEditingController();
   TextEditingController kecamatanText = TextEditingController();
   TextEditingController referalCode = TextEditingController();
+  TextEditingController otpController = TextEditingController();
+
   bool loading = false;
+  bool sendingOtp = false;
+  bool verifyingOtp = false;
+  bool otpSent = false;
+  bool otpVerified = false;
+  int countdown = 0;
+  Timer timer;
+
   Lokasi provinsi;
   Lokasi kota;
   Lokasi kecamatan;
@@ -72,8 +82,195 @@ class _RegisterUserState extends State<RegisterUser> {
     kotaText.dispose();
     kecamatanText.dispose();
     referalCode.dispose();
+    otpController.dispose();
+    timer?.cancel();
     super.dispose();
   }
+
+  // ================== Fitur OTP ==================
+
+  void startCountdown() {
+    setState(() {
+      countdown = 60;
+    });
+    timer?.cancel();
+    timer = Timer.periodic(Duration(seconds: 1), (t) {
+      if (countdown > 1) {
+        setState(() {
+          countdown--;
+        });
+      } else {
+        setState(() {
+          countdown = 0;
+        });
+        timer?.cancel();
+      }
+    });
+  }
+
+  Future<void> sendOtpRegister() async {
+    final emailText = email.text.trim();
+    final memberNameText = nama.text.trim();
+
+    if (emailText.isEmpty || !RegExp(r'\S+@\S+\.\S+').hasMatch(emailText)) {
+      showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: Text('Kesalahan'),
+          content: Text('Masukkan alamat email yang valid!'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
+              child: Text('TUTUP'),
+            ),
+          ],
+        ),
+      );
+      return;
+    }
+    if (memberNameText.isEmpty) {
+      showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: Text('Kesalahan'),
+          content: Text('Nama wajib diisi!'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
+              child: Text('TUTUP'),
+            ),
+          ],
+        ),
+      );
+      return;
+    }
+    setState(() {
+      sendingOtp = true;
+    });
+    try {
+      final res = await http.post(
+        Uri.parse('https://fulung.net/api/Auth/send-otp-register'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'email': emailText,
+          'storeName': 'Verifikasi Pendaftaran',
+          'memberName': memberNameText,
+          'pesan': "Silakan masukkan kode berikut untuk menyelesaikan proses pendaftaran akun Anda."
+        }),
+      );
+      final json = jsonDecode(res.body);
+      setState(() {
+        otpSent = res.statusCode == 200;
+      });
+      if (res.statusCode == 200) startCountdown();
+      showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: Text(res.statusCode == 200 ? 'Berhasil' : 'Gagal'),
+          content: Text(json['message'] ?? 'Gagal mengirim kode OTP.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
+              child: Text('TUTUP'),
+            ),
+          ],
+        ),
+      );
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: Text('Gagal'),
+          content: Text('Gagal mengirim kode OTP.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
+              child: Text('TUTUP'),
+            ),
+          ],
+        ),
+      );
+    } finally {
+      setState(() {
+        sendingOtp = false;
+      });
+    }
+  }
+
+  Future<bool> verifyOtpRegister() async {
+    final emailText = email.text.trim();
+    final otpText = otpController.text.trim();
+
+    if (emailText.isEmpty || otpText.isEmpty) {
+      showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: Text('Gagal'),
+          content: Text('Email dan Kode OTP harus diisi!'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
+              child: Text('TUTUP'),
+            ),
+          ],
+        ),
+      );
+      return false;
+    }
+    setState(() {
+      verifyingOtp = true;
+    });
+    try {
+      final res = await http.post(
+        Uri.parse('https://fulung.net/api/Auth/verify-otp-register'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'email': emailText, 'otp': otpText}),
+      );
+      final json = jsonDecode(res.body);
+      if (res.statusCode == 200) {
+        setState(() {
+          otpVerified = true;
+        });
+        return true;
+      } else {
+        showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            title: Text('Gagal'),
+            content: Text(json['message'] ?? 'Kode OTP salah!'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
+                child: Text('TUTUP'),
+              ),
+            ],
+          ),
+        );
+        return false;
+      }
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: Text('Gagal'),
+          content: Text('Kode OTP Salah atau Kadaluarsa.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
+              child: Text('TUTUP'),
+            ),
+          ],
+        ),
+      );
+      return false;
+    } finally {
+      setState(() {
+        verifyingOtp = false;
+      });
+    }
+  }
+
+  // =============== END Fitur OTP ===============
 
   Future<void> submitRegister() async {
     if (pin.text.startsWith('0')) {
@@ -93,6 +290,11 @@ class _RegisterUserState extends State<RegisterUser> {
     }
 
     if (!_formKey.currentState.validate()) return;
+
+    // VERIFIKASI OTP DULU SEBELUM REGISTER
+    final otpOk = await verifyOtpRegister();
+    if (!otpOk) return;
+
     setState(() {
       loading = true;
     });
@@ -310,7 +512,6 @@ class _RegisterUserState extends State<RegisterUser> {
       );
     }
 
-    // Logic referal/toko tetap sama
     List<String> pkgNameRefCode = [
       'mobile.payuni.id',
       'id.funmo.mobile',
@@ -349,7 +550,6 @@ class _RegisterUserState extends State<RegisterUser> {
             )
           : Stack(
               children: [
-                // AppBar hijau tipis di atas
                 Container(
                   height: 35,
                   width: double.infinity,
@@ -363,7 +563,6 @@ class _RegisterUserState extends State<RegisterUser> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          // Judul
                           SizedBox(height: 40),
                           Text(
                             "Selamat Datang Di Santren Pay",
@@ -385,27 +584,25 @@ class _RegisterUserState extends State<RegisterUser> {
                             textAlign: TextAlign.center,
                           ),
                           SizedBox(height: 18),
-                          // Card utama
                           Container(
-  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-  constraints: BoxConstraints(
-    
-    maxWidth: 500,   
-    minWidth: 200,
-  ),
-  width: double.infinity,
-  decoration: BoxDecoration(
-    color: Colors.white,
-    borderRadius: BorderRadius.circular(31),  
-    boxShadow: [
-      BoxShadow(
-          color: Colors.black12,
-          blurRadius: 16,
-          spreadRadius: 2,
-          offset: Offset(0, 8))
-    ],
-  ),
-  child: Form(
+                            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                            constraints: BoxConstraints(
+                              maxWidth: 500,
+                              minWidth: 200,
+                            ),
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(31),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black12,
+                                    blurRadius: 16,
+                                    spreadRadius: 2,
+                                    offset: Offset(0, 8))
+                              ],
+                            ),
+                            child: Form(
                               key: _formKey,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -445,6 +642,57 @@ class _RegisterUserState extends State<RegisterUser> {
                                       else
                                         return null;
                                     },
+                                  ),
+                                  SizedBox(height: fieldSpacing),
+                                  // Tambahkan baris OTP di bawah email (atau di posisi mana pun sesuai selera)
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        flex: 2,
+                                        child: TextFormField(
+                                          controller: otpController,
+                                          keyboardType: TextInputType.number,
+                                          decoration: _inputDecoration(
+                                            hintText: 'Kode OTP',
+                                            icon: Icons.verified_user_rounded,
+                                          ),
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.digitsOnly,
+                                            LengthLimitingTextInputFormatter(6),
+                                          ],
+                                          validator: (value) {
+                                            if (value == null || value.isEmpty)
+                                              return 'Masukkan kode OTP';
+                                            return null;
+                                          },
+                                        ),
+                                      ),
+                                      SizedBox(width: 8),
+                                      Expanded(
+                                        flex: 1,
+                                        child: ElevatedButton(
+                                          onPressed: (sendingOtp || countdown > 0)
+                                              ? null
+                                              : sendOtpRegister,
+                                          style: ElevatedButton.styleFrom(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(10),
+                                            ),
+                                            padding: EdgeInsets.symmetric(vertical: 16),
+                                          ),
+                                          child: sendingOtp
+                                              ? SizedBox(
+                                                  width: 18,
+                                                  height: 18,
+                                                  child: CircularProgressIndicator(strokeWidth: 2))
+                                              : Text(
+                                                  countdown > 0
+                                                      ? 'Tunggu $countdown dtk'
+                                                      : (otpSent ? 'Terkirim' : 'Kirim OTP'),
+                                                ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                   SizedBox(height: fieldSpacing),
                                   TextFormField(
@@ -684,7 +932,6 @@ class _RegisterUserState extends State<RegisterUser> {
                               ),
                             ),
                           ),
-                          // Link masuk
                           SizedBox(height: 22),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,

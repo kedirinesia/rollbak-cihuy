@@ -13,7 +13,7 @@ String brandId;
 String copyRight = 'Stokpay';
 int templateCode = 2;
 String gaId = '';
-String apiUrl = 'https://stokpayment-app.findig.id/api/v1';
+String apiUrl = 'https://app.payuni.co.id/api/v1';
 // String liveChat = 'https://tawk.to/chat/60827b315eb20e09cf35cf5a/1f3ur2f95';
 String liveChat = '';
 int otpCount = 4;
