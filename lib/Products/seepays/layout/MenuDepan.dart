@@ -98,70 +98,82 @@ class _MenuDepanState extends State<MenuDepan> {
     'com.esaldoku.mobileserpul',
     'com.talentapay.android',
     'mypay.co.id',
-    'com.santrenpay.mobile'
+    'com.santrenpay.mobile',
+    'com.seepaysbiller.app'
   ];
 
-  onTapMenu(MenuModel menu) {
-    if (menu.jenis == 1) {
-      return Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-        return Pulsa(menu);
-      }));
-    } else if (menu.jenis == 2) {
-      if (menu.category_id != null &&
-          menu.category_id.isNotEmpty &&
-          menu.type == 1) {
-        return Navigator.of(context).push(PageTransition(
-            child: DetailDenom(menu), type: PageTransitionType.rippleRightUp));
-      } else if (menu.kodeProduk != null &&
-          menu.kodeProduk.isNotEmpty &&
-          menu.type == 2) {
-        return Navigator.of(context).push(PageTransition(
-            child: DetailDenomPostpaid(menu),
-            type: PageTransitionType.rippleRightUp));
-      } else if (menu.category_id == null || menu.category_id.isEmpty) {
-        if (menu.type == 3) {
-          return Navigator.of(context)
-              .push(MaterialPageRoute(builder: (_) => DynamicPrepaidDenom(menu)));
-        } else {
-          return Navigator.of(context)
-              .push(MaterialPageRoute(builder: (_) => ListSubMenu(menu)));
-        }
+ onTapMenu(MenuModel menu) {
+  print('📌 Menu diklik: ${menu.name} | jenis: ${menu.jenis}, type: ${menu.type}, category_id: ${menu.category_id}, kodeProduk: ${menu.kodeProduk}');
+
+  if (menu.jenis == 1) {
+    print('➡️ Menu menuju ke: Pulsa');
+    return Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+      return Pulsa(menu);
+    }));
+  } else if (menu.jenis == 2) {
+    if (menu.category_id != null && menu.category_id.isNotEmpty && menu.type == 1) {
+      print('➡️ Menu menuju ke: DetailDenom');
+      return Navigator.of(context).push(PageTransition(
+          child: DetailDenom(menu), type: PageTransitionType.rippleRightUp));
+    } else if (menu.kodeProduk != null && menu.kodeProduk.isNotEmpty && menu.type == 2) {
+      print('➡️ Menu menuju ke: DetailDenomPostpaid');
+      return Navigator.of(context).push(PageTransition(
+          child: DetailDenomPostpaid(menu),
+          type: PageTransitionType.rippleRightUp));
+    } else {
+      if (menu.type == 3) {
+        print('➡️ Menu menuju ke: DynamicPrepaidDenom');
+        return Navigator.of(context)
+            .push(MaterialPageRoute(builder: (_) => DynamicPrepaidDenom(menu)));
+      } else {
+        print('➡️ Menu menuju ke: ListSubMenu (category_id kosong/null)');
+        return Navigator.of(context)
+            .push(MaterialPageRoute(builder: (_) => ListSubMenu(menu)));
       }
-    } else if (menu.jenis == 4) {
+    }
+  } else if (menu.jenis == 4) {
+    print('➡️ Menu menuju ke: ListGridMenu');
+    return Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => ListGridMenu(menu),
+      ),
+    );
+  } else if (menu.jenis == 5 || menu.jenis == 6) {
+    if (menu.category_id == null || menu.category_id.isEmpty) {
+      print('➡️ Menu menuju ke: ListSubMenu');
       return Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (_) => ListGridMenu(menu),
+          builder: (_) => ListSubMenu(menu),
         ),
       );
-    } else if (menu.jenis == 5 || menu.jenis == 6) {
-      if (menu.category_id == null || menu.category_id.isEmpty) {
-        return Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => ListSubMenu(menu),
-          ),
-        );
-      } else if (pkgName.contains(packageName)) {
-        return Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => VoucherBulkPage(menu),
-          ),
-        );
-      } else {
-        return;
-      }
-    } else if (menu.jenis == 99) {
-      // Ambil list menu TANPA "Menu Lainnya" (jenis 99)
-      List<MenuModel> allMenus =
-          (widget.menus ?? _listMenu).where((m) => m.jenis != 99).toList();
-      Navigator.of(context).push(PageTransition(
-        child: MorePage(
-          allMenus,
-          isKotak: widget.gradient != null ? widget.gradient : false,
+    } else if (pkgName.contains(packageName)) {
+      print('➡️ Menu menuju ke: VoucherBulkPage');
+      return Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => VoucherBulkPage(menu),
         ),
-        type: PageTransitionType.slideInUp,
-      ));
+      );
+    } else {
+      print('❌ Tidak ada navigasi untuk kondisi jenis ${menu.jenis}');
+      return;
     }
+  } else if (menu.jenis == 99) {
+    print('➡️ Menu menuju ke: MorePage (Menu Lainnya)');
+    List<MenuModel> allMenus =
+        (widget.menus ?? _listMenu).where((m) => m.jenis != 99).toList();
+    return Navigator.of(context).push(PageTransition(
+      child: MorePage(
+        allMenus,
+        isKotak: widget.gradient != null ? widget.gradient : false,
+      ),
+      type: PageTransitionType.slideInUp,
+    ));
+  } else {
+    print('❌ Tidak ada navigasi untuk jenis ${menu.jenis}');
   }
+}
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -223,9 +235,9 @@ class _MenuDepanState extends State<MenuDepan> {
               },
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: widget.grid,
-                  crossAxisSpacing: 5,
-                  childAspectRatio: 0.8,
-                  mainAxisSpacing: 10.0),
+                  crossAxisSpacing: 2,
+                  childAspectRatio: 0.95,
+                  mainAxisSpacing: 4.0),
             ),
           );
   }

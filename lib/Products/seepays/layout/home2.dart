@@ -114,7 +114,7 @@ class _CarouselBannerAPIState extends State<CarouselBannerAPI> {
           builder: (BuildContext context) {
             return GestureDetector(
               onTap: () {
-                // TODO: Tambah aksi klik jika ingin
+           
               },
               child: Container(
                 margin: EdgeInsets.symmetric(horizontal: 3),
@@ -198,10 +198,10 @@ class _Home2AppState extends State<Home2App> with SingleTickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
-    // Header lebih pendek, floating card benar-benar di bawah saldo card
+    
     final double headerHeight = 200;
     final double saldoCardTop = 25;
-    final double saldoCardHeight = 90;
+    final double saldoCardHeight = 100;
     final double floatingGap = 20;
     final double floatingCardTop = saldoCardTop + saldoCardHeight + floatingGap;
 

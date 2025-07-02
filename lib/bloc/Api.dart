@@ -15,6 +15,6 @@ class ApiBloc extends Object {
 
 final apiBloc = ApiBloc();
 
-String apiUrl = apiBloc.apiUrl.value ?? 'https://milea.flutters.dev/api/v1';
+String apiUrl = apiBloc.apiUrl.value ?? 'https://app.payuni.co.id/api/v1';
 String apiUrlKasir = apiBloc.apiUrlKasir.value;
 String sigVendor = apiBloc.sigVendor.value;

@@ -1,7 +1,6 @@
 // @dart=2.9
 
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/config.dart';
@@ -74,12 +73,11 @@ abstract class ListSubMenuController extends State<ListSubMenu>
     'id.ptspay.mobileapp',
     'com.hexamobile.androidapp',
     'id.agenpayment.app',
-    // 'com.lapaupayment.mobile',
     'id.lokapulsa.mobile',
     'com.akupay.androidmobileapps',
-    // 'id.payu.co',
     'id.mykonter.app',
-    'com.santrenpay.mobile'
+    'com.santrenpay.mobile',
+    'com.seepaysbiller.app',  
   ];
 
   onTapMenu(MenuModel menu) async {

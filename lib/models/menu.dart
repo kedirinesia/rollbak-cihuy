@@ -35,6 +35,7 @@ class MenuModel {
     kodeProduk = json['kode_produk'] ?? '';
     isString = (json['menu_input'] as String).toLowerCase() == 'string';
     bebasNominal = json['bebas_nominal'] ?? false;
+    
   }
 
   factory MenuModel.create({MenuModel menu}) {
