@@ -33,7 +33,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    compileSdkVersion 34
+   compileSdkVersion 34
     namespace 'mobile.payuni.id'
 
     compileOptions {

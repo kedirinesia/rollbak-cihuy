@@ -1,25 +1,24 @@
 // @dart=2.9
 
+import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_page_transition/flutter_page_transition.dart';
- 
-import 'package:mobile/config.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+
 import 'package:mobile/models/menu.dart';
-import 'package:mobile/provider/api.dart';
+import '../../../component/menudepan-loading.dart';
+import '../../../config.dart';
+import '../../seepays/layout/morepage.dart';
+
 import 'package:mobile/screen/detail-denom-postpaid/detail-postpaid.dart';
 import 'package:mobile/screen/detail-denom/detail-denom.dart';
 import 'package:mobile/screen/dynamic-prepaid/dynamic-denom.dart';
-
 import 'package:mobile/screen/list-sub-menu/list-sub-menu.dart';
 import 'package:mobile/screen/list-grid-menu/list-grid-menu.dart';
 import 'package:mobile/screen/pulsa/pulsa.dart';
 import 'package:mobile/screen/transaksi/voucher_bulk.dart';
-
-import '../../../component/menudepan-loading.dart';
-import '../../seepays/layout/morepage.dart';
- 
-
 
 class MenuDepan extends StatefulWidget {
   final int grid;
@@ -43,7 +42,8 @@ class MenuDepan extends StatefulWidget {
 class _MenuDepanState extends State<MenuDepan> {
   bool loading = true;
   bool failed = false;
-  List<MenuModel> _listMenu = [];
+  List<MenuModel> _mainMenu = [];
+  List<MenuModel> _moreMenu = [];
 
   @override
   void initState() {
@@ -51,42 +51,68 @@ class _MenuDepanState extends State<MenuDepan> {
     if (widget.menus == null) {
       getMenu();
     } else {
-      setState(() {
-        loading = false;
-        _listMenu = widget.menus;
-      });
+      _splitMenus(widget.menus);
+      loading = false;
     }
   }
 
-  getMenu() async {
+  Future<void> getMenu() async {
     try {
-      List<dynamic> datas = await api.get('/menu/1', cache: true);
-      List<MenuModel> listMenu =
-          datas.map((item) => MenuModel.fromJson(item)).toList();
-      failed = false;
-
-      int maxShow = 15;
-      List<MenuModel> showMenu;
-      if (listMenu.length > maxShow - 1) {
-        showMenu = listMenu.sublist(0, maxShow - 1);
-      } else {
-        showMenu = List<MenuModel>.from(listMenu);
-      }
-
-      MenuModel buttonMore = MenuModel(
-        jenis: 99,
-        icon: 'https://dokumen.payuni.co.id/logo/Seepays/seepaysmenulainya.png',
-        name: 'Menu Lainnya',
-        type: 99,
+      final prefs = await SharedPreferences.getInstance();
+      var token = prefs.getString('token');
+      final response = await http.get(
+        Uri.parse('https://app.payuni.co.id/api/v1/menu/1'),
+        headers: {
+          'Authorization': token,
+          'Accept': 'application/json',
+        },
       );
-      _listMenu = List<MenuModel>.from(showMenu)..add(buttonMore);
+      if (response.statusCode == 200) {
+        final jsonBody = json.decode(response.body);
+        final List data = jsonBody['data'] ?? [];
+        List<MenuModel> listMenu = data.map((e) => MenuModel.fromJson(e)).toList();
+
+        // Sorting by orderNumber, yang null di bawah
+        listMenu.sort((a, b) => ((a.orderNumber ?? 9999).compareTo(b.orderNumber ?? 9999)));
+
+        _splitMenus(listMenu);
+      } else {
+        _mainMenu = [];
+        _moreMenu = [];
+        print('Failed to load menu: ${response.statusCode}');
+      }
     } catch (e) {
-      _listMenu = [];
+      _mainMenu = [];
+      _moreMenu = [];
+      print('Error getMenu: $e');
     } finally {
       setState(() {
         loading = false;
       });
     }
+  }
+
+  void _splitMenus(List<MenuModel> listMenu) {
+    int maxGrid = 14; // 14 menu utama
+    if (listMenu.length > maxGrid) {
+      _mainMenu = listMenu.sublist(0, maxGrid);
+      _moreMenu = listMenu.sublist(maxGrid);
+
+      // Tambahkan tombol "Menu Lainnya"
+      _mainMenu.add(MenuModel(
+        jenis: 99,
+        icon: 'https://dokumen.payuni.co.id/logo/Seepays/seepaysmenulainya.png',
+        name: 'Menu Lainnya',
+        type: 99,
+      ));
+    } else {
+      _mainMenu = List<MenuModel>.from(listMenu);
+      _moreMenu = [];
+    }
+    setState(() {
+      loading = false;
+      failed = false;
+    });
   }
 
   List<String> pkgName = [
@@ -102,78 +128,73 @@ class _MenuDepanState extends State<MenuDepan> {
     'com.seepaysbiller.app'
   ];
 
- onTapMenu(MenuModel menu) {
-  print('📌 Menu diklik: ${menu.name} | jenis: ${menu.jenis}, type: ${menu.type}, category_id: ${menu.category_id}, kodeProduk: ${menu.kodeProduk}');
-
-  if (menu.jenis == 1) {
-    print('➡️ Menu menuju ke: Pulsa');
-    return Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-      return Pulsa(menu);
-    }));
-  } else if (menu.jenis == 2) {
-    if (menu.category_id != null && menu.category_id.isNotEmpty && menu.type == 1) {
-      print('➡️ Menu menuju ke: DetailDenom');
-      return Navigator.of(context).push(PageTransition(
-          child: DetailDenom(menu), type: PageTransitionType.rippleRightUp));
-    } else if (menu.kodeProduk != null && menu.kodeProduk.isNotEmpty && menu.type == 2) {
-      print('➡️ Menu menuju ke: DetailDenomPostpaid');
-      return Navigator.of(context).push(PageTransition(
-          child: DetailDenomPostpaid(menu),
-          type: PageTransitionType.rippleRightUp));
-    } else {
-      if (menu.type == 3) {
-        print('➡️ Menu menuju ke: DynamicPrepaidDenom');
-        return Navigator.of(context)
-            .push(MaterialPageRoute(builder: (_) => DynamicPrepaidDenom(menu)));
+  onTapMenu(MenuModel menu) {
+    print('📌 Menu diklik: ${menu.name} | jenis: ${menu.jenis}, type: ${menu.type}, category_id: ${menu.category_id}, kodeProduk: ${menu.kodeProduk}');
+    if (menu.jenis == 1) {
+      print('➡️ Menu menuju ke: Pulsa');
+      return Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+        return Pulsa(menu);
+      }));
+    } else if (menu.jenis == 2) {
+      if (menu.category_id != null && menu.category_id.isNotEmpty && menu.type == 1) {
+        print('➡️ Menu menuju ke: DetailDenom');
+        return Navigator.of(context).push(PageTransition(
+            child: DetailDenom(menu), type: PageTransitionType.rippleRightUp));
+      } else if (menu.kodeProduk != null && menu.kodeProduk.isNotEmpty && menu.type == 2) {
+        print('➡️ Menu menuju ke: DetailDenomPostpaid');
+        return Navigator.of(context).push(PageTransition(
+            child: DetailDenomPostpaid(menu),
+            type: PageTransitionType.rippleRightUp));
       } else {
-        print('➡️ Menu menuju ke: ListSubMenu (category_id kosong/null)');
-        return Navigator.of(context)
-            .push(MaterialPageRoute(builder: (_) => ListSubMenu(menu)));
+        if (menu.type == 3) {
+          print('➡️ Menu menuju ke: DynamicPrepaidDenom');
+          return Navigator.of(context)
+              .push(MaterialPageRoute(builder: (_) => DynamicPrepaidDenom(menu)));
+        } else {
+          print('➡️ Menu menuju ke: ListSubMenu (category_id kosong/null)');
+          return Navigator.of(context)
+              .push(MaterialPageRoute(builder: (_) => ListSubMenu(menu)));
+        }
       }
-    }
-  } else if (menu.jenis == 4) {
-    print('➡️ Menu menuju ke: ListGridMenu');
-    return Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => ListGridMenu(menu),
-      ),
-    );
-  } else if (menu.jenis == 5 || menu.jenis == 6) {
-    if (menu.category_id == null || menu.category_id.isEmpty) {
-      print('➡️ Menu menuju ke: ListSubMenu');
+    } else if (menu.jenis == 4) {
+      print('➡️ Menu menuju ke: ListGridMenu');
       return Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (_) => ListSubMenu(menu),
+          builder: (_) => ListGridMenu(menu),
         ),
       );
-    } else if (pkgName.contains(packageName)) {
-      print('➡️ Menu menuju ke: VoucherBulkPage');
-      return Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (_) => VoucherBulkPage(menu),
+    } else if (menu.jenis == 5 || menu.jenis == 6) {
+      if (menu.category_id == null || menu.category_id.isEmpty) {
+        print('➡️ Menu menuju ke: ListSubMenu');
+        return Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => ListSubMenu(menu),
+          ),
+        );
+      } else if (pkgName.contains(packageName)) {
+        print('➡️ Menu menuju ke: VoucherBulkPage');
+        return Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => VoucherBulkPage(menu),
+          ),
+        );
+      } else {
+        print('❌ Tidak ada navigasi untuk kondisi jenis ${menu.jenis}');
+        return;
+      }
+    } else if (menu.jenis == 99) {
+      print('➡️ Menu menuju ke: MorePage (Menu Lainnya)');
+      return Navigator.of(context).push(PageTransition(
+        child: MorePage(
+          _moreMenu, // Kirim sisa menu ke MorePage
+          isKotak: widget.gradient != null ? widget.gradient : false,
         ),
-      );
+        type: PageTransitionType.slideInUp,
+      ));
     } else {
-      print('❌ Tidak ada navigasi untuk kondisi jenis ${menu.jenis}');
-      return;
+      print('❌ Tidak ada navigasi untuk jenis ${menu.jenis}');
     }
-  } else if (menu.jenis == 99) {
-    print('➡️ Menu menuju ke: MorePage (Menu Lainnya)');
-    List<MenuModel> allMenus =
-        (widget.menus ?? _listMenu).where((m) => m.jenis != 99).toList();
-    return Navigator.of(context).push(PageTransition(
-      child: MorePage(
-        allMenus,
-        isKotak: widget.gradient != null ? widget.gradient : false,
-      ),
-      type: PageTransitionType.slideInUp,
-    ));
-  } else {
-    print('❌ Tidak ada navigasi untuk jenis ${menu.jenis}');
   }
-}
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -185,9 +206,9 @@ class _MenuDepanState extends State<MenuDepan> {
               shrinkWrap: true,
               primary: false,
               physics: BouncingScrollPhysics(),
-              itemCount: _listMenu.length,
+              itemCount: _mainMenu.length,
               itemBuilder: (_, int index) {
-                MenuModel menu = _listMenu[index];
+                MenuModel menu = _mainMenu[index];
                 return Container(
                   child: InkWell(
                     onTap: () => onTapMenu(menu),
@@ -197,9 +218,9 @@ class _MenuDepanState extends State<MenuDepan> {
                         Container(
                           width: 54,
                           height: 54,
-                         decoration: BoxDecoration(
-                               color: Color(0xFFA259FF).withOpacity(0.06),
-                                shape: BoxShape.circle,
+                          decoration: BoxDecoration(
+                            color: Color(0xFFA259FF).withOpacity(0.06),
+                            shape: BoxShape.circle,
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.black12,

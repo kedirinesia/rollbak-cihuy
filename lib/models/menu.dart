@@ -11,18 +11,21 @@ class MenuModel {
   String kodeProduk;
   bool isString;
   bool bebasNominal;
+  int orderNumber;
 
-  MenuModel(
-      {this.name,
-      this.jenis,
-      this.description,
-      this.id,
-      this.category_id,
-      this.icon,
-      this.type,
-      this.kodeProduk,
-      this.isString,
-      this.bebasNominal});
+  MenuModel({
+    this.name,
+    this.jenis,
+    this.description,
+    this.id,
+    this.category_id,
+    this.icon,
+    this.type,
+    this.kodeProduk,
+    this.isString,
+    this.bebasNominal,
+    this.orderNumber,
+  });
 
   MenuModel.fromJson(Map<String, dynamic> json) {
     id = json['_id'];
@@ -32,10 +35,10 @@ class MenuModel {
     icon = json['icon'] ?? '';
     description = json['description'] ?? '';
     category_id = json['category_id'] ?? '';
-    kodeProduk = json['kode_produk'] ?? '';
-    isString = (json['menu_input'] as String).toLowerCase() == 'string';
+    kodeProduk = json['kode_produk'] ?? ''; // <--- fix biar konsisten ke field
+    isString = (json['menu_input']?.toString()?.toLowerCase() ?? '') == 'string';
     bebasNominal = json['bebas_nominal'] ?? false;
-    
+    orderNumber = json['order_number'];
   }
 
   factory MenuModel.create({MenuModel menu}) {
@@ -50,6 +53,7 @@ class MenuModel {
       kodeProduk: menu.kodeProduk,
       isString: menu.isString,
       bebasNominal: menu.bebasNominal,
+      orderNumber: menu.orderNumber, // <-- tambahkan ini
     );
   }
 
@@ -63,8 +67,9 @@ class MenuModel {
       description: map['description'] ?? '',
       category_id: map['category_id'] ?? '',
       kodeProduk: map['kode_produk'] ?? '',
-      isString: (map['menu_input'] as String) == 'string',
+      isString: (map['menu_input']?.toString()?.toLowerCase() ?? '') == 'string',
       bebasNominal: map['bebas_nominal'] ?? false,
+      orderNumber: map['order_number'], // <-- tambahkan ini juga
     );
   }
 
@@ -77,9 +82,10 @@ class MenuModel {
       'icon': this.icon,
       'description': this.description,
       'category_id': this.category_id,
-      'kodeProduk': this.kodeProduk,
+      'kode_produk': this.kodeProduk, // <--- key JSON harus kode_produk
       'isString': this.isString,
       'bebasNominal': this.bebasNominal,
+      'order_number': this.orderNumber, // <--- tambahkan agar toMap lengkap
     };
   }
 }

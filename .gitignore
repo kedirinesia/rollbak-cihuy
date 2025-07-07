@@ -1,5 +1,4 @@
 notes.txt
-.fvm/flutter_sdk
 # Miscellaneous
 *.class
 *.log
@@ -76,5 +75,7 @@ pubspec.lock
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 flutter_*.png
 .flutter-plugins-dependencies
-.fvm/flutter_sdk
 .vscode
+
+# FVM Version Cache
+.fvm/

@@ -21,7 +21,7 @@ class CarouselDepan extends StatefulWidget {
   final double marginBottom;
 
   CarouselDepan({
-    this.viewportFraction = 0.90, // lebih lebar, tapi tetap nampak kanan kirinya
+    this.viewportFraction = 0.80, // lebih lebar, tapi tetap nampak kanan kirinya
     this.aspectRatio = 16 / 7,   // sedikit lebih tinggi
     this.marginBottom = 16.0,
   });
@@ -94,7 +94,7 @@ class _CarouselDepanState extends State<CarouselDepan> {
       child: CarouselSlider.builder(
         itemCount: banner.length,
         options: CarouselOptions(
-          height: 235,
+          height: 160,
           autoPlay: true,
           enlargeCenterPage: true,
           enlargeStrategy: CenterPageEnlargeStrategy.height,
