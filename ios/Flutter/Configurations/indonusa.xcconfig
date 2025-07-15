@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.indonusapay.app
+APP_DISPLAY_NAME = Indonusa
+FLUTTER_TARGET = lib/main_indonusa.dart

@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.payuni.snreload
+APP_DISPLAY_NAME = Snreload
+FLUTTER_TARGET = lib/main_snreload.dart

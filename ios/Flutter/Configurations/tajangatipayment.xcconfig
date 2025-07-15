@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.tajangatipayment.androidmobile
+APP_DISPLAY_NAME = Tajangatipayment
+FLUTTER_TARGET = lib/main_tajangatipayment.dart

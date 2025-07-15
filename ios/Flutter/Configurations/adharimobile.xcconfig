@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.adharimobile.app
+APP_DISPLAY_NAME = Adharimobile
+FLUTTER_TARGET = lib/main_adharimobile.dart

@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.rcvpay.app
+APP_DISPLAY_NAME = Rcvpay
+FLUTTER_TARGET = lib/main_rcvpay.dart

@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = id.sarinu.siklus
+APP_DISPLAY_NAME = Siklus
+FLUTTER_TARGET = lib/main_siklus.dart

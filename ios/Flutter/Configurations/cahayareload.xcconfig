@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.cahayareload.mobile
+APP_DISPLAY_NAME = Cahayareload
+FLUTTER_TARGET = lib/main_cahayareload.dart

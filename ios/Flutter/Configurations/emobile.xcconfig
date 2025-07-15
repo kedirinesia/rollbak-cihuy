@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = id.emobile.app
+APP_DISPLAY_NAME = Emobile
+FLUTTER_TARGET = lib/main_emobile.dart

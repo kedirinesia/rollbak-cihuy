@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.ulliartha.app
+APP_DISPLAY_NAME = Ulliartha
+FLUTTER_TARGET = lib/main_ulliartha.dart

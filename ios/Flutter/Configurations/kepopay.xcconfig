@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.kepopay.mobile
+APP_DISPLAY_NAME = Kepopay
+FLUTTER_TARGET = lib/main_kepopay.dart

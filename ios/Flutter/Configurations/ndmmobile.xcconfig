@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = id.ndmmobile.apk
+APP_DISPLAY_NAME = Ndmmobile
+FLUTTER_TARGET = lib/main_ndmmobile.dart

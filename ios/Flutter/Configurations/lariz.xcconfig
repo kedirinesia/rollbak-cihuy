@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.lariz.mobile
+APP_DISPLAY_NAME = Lariz
+FLUTTER_TARGET = lib/main_lariz.dart

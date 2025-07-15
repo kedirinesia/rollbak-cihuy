@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.mitraaaw.app
+APP_DISPLAY_NAME = Mitraaaw
+FLUTTER_TARGET = lib/main_mitraaaw.dart

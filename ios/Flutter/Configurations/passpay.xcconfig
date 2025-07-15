@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.passpay.agenpulsamurah
+APP_DISPLAY_NAME = Passpay
+FLUTTER_TARGET = lib/main_passpay.dart

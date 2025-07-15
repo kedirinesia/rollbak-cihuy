@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.addtwowallet.mobile
+APP_DISPLAY_NAME = Add2wallet
+FLUTTER_TARGET = lib/main_add2wallet.dart

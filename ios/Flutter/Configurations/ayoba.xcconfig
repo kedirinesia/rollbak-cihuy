@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = ayoba.co.id
+APP_DISPLAY_NAME = Ayoba
+FLUTTER_TARGET = lib/main_ayoba.dart

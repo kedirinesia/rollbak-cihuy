@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = co.kimopay.id
+APP_DISPLAY_NAME = Mopay
+FLUTTER_TARGET = lib/main_mopay.dart

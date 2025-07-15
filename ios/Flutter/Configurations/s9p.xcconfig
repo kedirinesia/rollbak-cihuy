@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.s9ppayment.mobile
+APP_DISPLAY_NAME = S9p
+FLUTTER_TARGET = lib/main_s9p.dart

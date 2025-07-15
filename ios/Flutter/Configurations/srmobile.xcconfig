@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = id.srmobile.co
+APP_DISPLAY_NAME = Srmobile
+FLUTTER_TARGET = lib/main_srmobile.dart

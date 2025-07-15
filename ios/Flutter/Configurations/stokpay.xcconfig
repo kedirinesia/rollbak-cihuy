@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = app.stokpay.com
+APP_DISPLAY_NAME = Stokpay
+FLUTTER_TARGET = lib/main_stokpay.dart

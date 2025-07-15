@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.warungpay.apkmobile
+APP_DISPLAY_NAME = Warungpay
+FLUTTER_TARGET = lib/main_warungpay.dart

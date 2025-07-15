@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.dwpulsa.app
+APP_DISPLAY_NAME = Dwpulsa
+FLUTTER_TARGET = lib/main_dwpulsa.dart

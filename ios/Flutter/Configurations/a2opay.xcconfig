@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = id.a2opayreload.co
+APP_DISPLAY_NAME = A2opay
+FLUTTER_TARGET = lib/main_a2opay.dart

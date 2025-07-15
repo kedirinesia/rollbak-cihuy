@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.daganginaja.app
+APP_DISPLAY_NAME = Dagangin
+FLUTTER_TARGET = lib/main_dagangin.dart

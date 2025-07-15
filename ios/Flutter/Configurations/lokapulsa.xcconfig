@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = id.lokapulsa.mobile
+APP_DISPLAY_NAME = Lokapulsa
+FLUTTER_TARGET = lib/main_lokapulsa.dart

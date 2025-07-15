@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = id.paristronik.co
+APP_DISPLAY_NAME = Paristronik
+FLUTTER_TARGET = lib/main_paristronik.dart

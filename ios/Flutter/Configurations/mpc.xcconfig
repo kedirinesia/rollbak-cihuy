@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = co.mpc.id
+APP_DISPLAY_NAME = Mpc
+FLUTTER_TARGET = lib/main_mpc.dart

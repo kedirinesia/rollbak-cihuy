@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.iloadmobile.mobileapps
+APP_DISPLAY_NAME = Iloadmobile
+FLUTTER_TARGET = lib/main_iloadmobile.dart

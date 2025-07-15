@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.sarinah.androidapps
+APP_DISPLAY_NAME = Sarinahpulsa
+FLUTTER_TARGET = lib/main_sarinahpulsa.dart

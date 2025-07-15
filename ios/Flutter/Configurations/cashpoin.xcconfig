@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.cashpoin.app
+APP_DISPLAY_NAME = Cashpoin
+FLUTTER_TARGET = lib/main_cashpoin.dart

@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.payuni.greenpay
+APP_DISPLAY_NAME = Greenpay
+FLUTTER_TARGET = lib/main_greenpay.dart

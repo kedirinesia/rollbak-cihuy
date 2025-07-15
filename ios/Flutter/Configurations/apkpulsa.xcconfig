@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = mobile.apkpulsa
+APP_DISPLAY_NAME = Apkpulsa
+FLUTTER_TARGET = lib/main_apkpulsa.dart

@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = id.cuanmax.mobile
+APP_DISPLAY_NAME = Cuanmaxpulsa
+FLUTTER_TARGET = lib/main_cuanmaxpulsa.dart

@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.pandumedia.app
+APP_DISPLAY_NAME = Pandumedia
+FLUTTER_TARGET = lib/main_pandumedia.dart

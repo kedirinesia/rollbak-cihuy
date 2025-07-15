@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.ganku.app
+APP_DISPLAY_NAME = Ganku
+FLUTTER_TARGET = lib/main_ganku.dart

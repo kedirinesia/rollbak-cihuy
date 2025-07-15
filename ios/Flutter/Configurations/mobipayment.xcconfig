@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = mobipayment.co.id
+APP_DISPLAY_NAME = Mobipayment
+FLUTTER_TARGET = lib/main_mobipayment.dart

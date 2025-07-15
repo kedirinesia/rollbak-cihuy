@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.netflazz.app
+APP_DISPLAY_NAME = Netflazz
+FLUTTER_TARGET = lib/main_netflazz.dart

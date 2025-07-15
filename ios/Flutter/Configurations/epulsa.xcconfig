@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.epulsamobile.android
+APP_DISPLAY_NAME = Epulsa
+FLUTTER_TARGET = lib/main_epulsa.dart

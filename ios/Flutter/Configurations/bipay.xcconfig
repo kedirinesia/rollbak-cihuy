@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.bipay.android
+APP_DISPLAY_NAME = Bipay
+FLUTTER_TARGET = lib/main_bipay.dart

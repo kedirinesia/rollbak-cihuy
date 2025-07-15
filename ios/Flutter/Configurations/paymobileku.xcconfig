@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = id.paymobileku.app
+APP_DISPLAY_NAME = Paymobileku
+FLUTTER_TARGET = lib/main_paymobileku.dart

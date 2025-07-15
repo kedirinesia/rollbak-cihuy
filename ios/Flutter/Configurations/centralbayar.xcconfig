@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.centralbayar.centralbayarapps
+APP_DISPLAY_NAME = Centralbayar
+FLUTTER_TARGET = lib/main_centralbayar.dart

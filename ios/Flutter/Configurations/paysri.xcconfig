@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = co.paysri.id
+APP_DISPLAY_NAME = Paysri
+FLUTTER_TARGET = lib/main_paysri.dart

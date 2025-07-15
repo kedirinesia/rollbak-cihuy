@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.pay24jam.app
+APP_DISPLAY_NAME = Pay24jam
+FLUTTER_TARGET = lib/main_pay24jam.dart

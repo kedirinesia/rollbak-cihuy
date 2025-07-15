@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.funmoid.app
+APP_DISPLAY_NAME = Funmo
+FLUTTER_TARGET = lib/main_funmo.dart

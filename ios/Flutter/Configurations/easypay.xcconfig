@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = easypayment.co.id
+APP_DISPLAY_NAME = Easypay
+FLUTTER_TARGET = lib/main_easypay.dart

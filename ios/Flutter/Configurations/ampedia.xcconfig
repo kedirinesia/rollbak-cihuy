@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.ampedia.mobile
+APP_DISPLAY_NAME = Ampedia
+FLUTTER_TARGET = lib/main_ampedia.dart

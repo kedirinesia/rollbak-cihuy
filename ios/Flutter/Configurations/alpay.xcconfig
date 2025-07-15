@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.alpay.mobile
+APP_DISPLAY_NAME = Alpay
+FLUTTER_TARGET = lib/main_alpay.dart

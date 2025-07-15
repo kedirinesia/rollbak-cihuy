@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = id.yukpay.mobile
+APP_DISPLAY_NAME = Yukpay
+FLUTTER_TARGET = lib/main_yukpay.dart

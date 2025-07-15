@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.lapaupayment.mobile
+APP_DISPLAY_NAME = Lapaupayment
+FLUTTER_TARGET = lib/main_lapaupayment.dart

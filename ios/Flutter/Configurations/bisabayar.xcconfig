@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = id.bisabayar.app
+APP_DISPLAY_NAME = Bisabayar
+FLUTTER_TARGET = lib/main_bisabayar.dart

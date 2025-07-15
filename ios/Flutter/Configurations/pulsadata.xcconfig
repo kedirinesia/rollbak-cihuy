@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.pulsadata.app
+APP_DISPLAY_NAME = Pulsadata
+FLUTTER_TARGET = lib/main_pulsadata.dart

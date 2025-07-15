@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.tokupay.android
+APP_DISPLAY_NAME = Toku
+FLUTTER_TARGET = lib/main_toku.dart

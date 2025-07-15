@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.indopulsa.mobile
+APP_DISPLAY_NAME = Indopulsa
+FLUTTER_TARGET = lib/main_indopulsa.dart

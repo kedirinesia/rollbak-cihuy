@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = akartoko.id
+APP_DISPLAY_NAME = Akartoko
+FLUTTER_TARGET = lib/main_akartoko.dart

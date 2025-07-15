@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.topdipay.apk
+APP_DISPLAY_NAME = Tronic
+FLUTTER_TARGET = lib/main_tronic.dart

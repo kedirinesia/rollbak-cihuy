@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.staypay.mobileapk
+APP_DISPLAY_NAME = Staypay
+FLUTTER_TARGET = lib/main_staypay.dart

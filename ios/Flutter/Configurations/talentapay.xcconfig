@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.talentapay.android
+APP_DISPLAY_NAME = Talentapay
+FLUTTER_TARGET = lib/main_talentapay.dart

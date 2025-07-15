@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.payuni.paynur
+APP_DISPLAY_NAME = Paynur
+FLUTTER_TARGET = lib/main_paynur.dart

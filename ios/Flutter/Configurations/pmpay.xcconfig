@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = id.pmpay.mobile
+APP_DISPLAY_NAME = Pmpay
+FLUTTER_TARGET = lib/main_pmpay.dart

@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = id.sarinupay.app
+APP_DISPLAY_NAME = Productflavors
+FLUTTER_TARGET = lib/main_productFlavors.dart

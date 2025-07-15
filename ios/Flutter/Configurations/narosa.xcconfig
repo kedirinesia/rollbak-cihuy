@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.narosa.mobile
+APP_DISPLAY_NAME = Narosa
+FLUTTER_TARGET = lib/main_narosa.dart

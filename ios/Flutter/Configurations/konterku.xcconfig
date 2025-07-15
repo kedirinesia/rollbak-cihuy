@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.payuni.konterku
+APP_DISPLAY_NAME = Konterku
+FLUTTER_TARGET = lib/main_konterku.dart

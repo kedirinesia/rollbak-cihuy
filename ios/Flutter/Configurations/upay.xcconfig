@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = id.sakupay.mobile
+APP_DISPLAY_NAME = Upay
+FLUTTER_TARGET = lib/main_upay.dart

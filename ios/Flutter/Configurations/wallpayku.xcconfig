@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = id.wallpayku.android.mobile
+APP_DISPLAY_NAME = Wallpayku
+FLUTTER_TARGET = lib/main_wallpayku.dart

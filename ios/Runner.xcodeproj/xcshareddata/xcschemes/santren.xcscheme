@@ -1,0 +1,426 @@
+{
+  "version": "1.0.0",
+  "configurations": [
+    {
+      "name": "EazyIn",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--flavor",
+        "eazyin",
+        "-t",
+        "lib/Products/eazyin2/index.dart"
+      ]
+    },
+    {
+      "name": "MariPay",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--flavor",
+        "maripay",
+        "-t",
+        "lib/Products/maripay/index.dart"
+      ]
+    },
+    {
+      "name": "Ayoba",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--flavor",
+        "ayoba",
+        "-t",
+        "lib/Products/ayoba/index.dart"
+      ]
+    },
+    {
+      "name": "MyPay",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--flavor",
+        "mypay",
+        "-t",
+        "lib/Products/mypay/index.dart"
+      ]
+    },
+    {
+      "name": "CuanPlus",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--flavor",
+        "cuanplus",
+        "-t",
+        "lib/Products/cuanplus/index.dart"
+      ]
+    },
+    {
+      "name": "Stokpay",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--flavor",
+        "stokpay",
+        "-t",
+        "lib/Products/stokpay/index.dart",
+        "--no-sound-null-safety"
+      ]
+    },
+    {
+      "name": "PDPay",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--flavor",
+        "pdpay",
+        "-t",
+        "lib/Products/pdpay/index.dart"
+      ]
+    },
+    {
+      "name": "Pandumedia",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--flavor",
+        "pandumedia",
+        "-t",
+        "lib/Products/pandumedia/index.dart"
+      ]
+    },
+    {
+      "name": "Payku",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--flavor",
+        "payku",
+        "-t",
+        "lib/Products/payku/index.dart",
+        "--no-sound-null-safety"
+      ]
+    },
+    {
+      "name": "AkarToko",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--flavor",
+        "akartoko",
+        "-t",
+        "lib/Products/akartoko/index.dart"
+      ]
+    },
+    {
+      "name": "My Konter",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--flavor",
+        "mykonter",
+        "-t",
+        "lib/Products/mykonter/index.dart"
+      ]
+    },
+    {
+      "name": "OneShop",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--flavor",
+        "oneshop",
+        "-t",
+        "lib/Products/oneshop/index.dart"
+      ]
+    },
+    {
+      "name": "Talenta Pay",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--flavor",
+        "talentapay",
+        "-t",
+        "lib/Products/talentapay/index.dart",
+        "--no-sound-null-safety"
+      ]
+    },
+    {
+      "name": "EasyPay",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--flavor",
+        "easypay",
+        "-t",
+        "lib/Products/easypay/index.dart"
+      ]
+    },
+    {
+      "name": "Emobile",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--flavor",
+        "emobile",
+        "-t",
+        "lib/Products/emobile/index.dart"
+      ]
+    },
+    {
+      "name": "TopDiPay",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--flavor",
+        "topdipay",
+        "-t",
+        "lib/Products/topdipay/index.dart"
+      ]
+    },
+    {
+      "name": "MobiPay",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--flavor",
+        "mobipayment",
+        "-t",
+        "lib/Products/mobipayment/index.dart"
+      ]
+    },
+    {
+      "name": "Payuni Dev",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--flavor",
+        "payunidev",
+        "-t",
+        "lib/Products/payunidev/index.dart"
+      ]
+    },
+    {
+      "name": "Payuni",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--flavor",
+        "payuni",
+        "-t",
+        "lib/Products/payuni/index.dart"
+      ]
+    },
+    {
+      "name": "epulsa",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--flavor",
+        "epulsa",
+        "-t",
+        "lib/Products/epulsa/index.dart"
+      ]
+    },
+    {
+      "name": "Popay",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--flavor",
+        "popay",
+        "-t",
+        "lib/Products/popay/index.dart"
+      ]
+    },
+    {
+      "name": "Funmo",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--flavor",
+        "funmo",
+        "-t",
+        "lib/Products/funmo/index.dart"
+      ]
+    },
+    {
+      "name": "Payku",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--flavor",
+        "payku",
+        "-t",
+        "lib/Products/payku/index.dart"
+      ]
+    },
+    {
+      "name": "Sarinu",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--flavor",
+        "sarinu",
+        "-t",
+        "lib/Products/sarinu/index.dart"
+      ]
+    },
+    {
+      "name": "PakeAja",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--flavor",
+        "pakaiaja",
+        "-t",
+        "lib/Products/pakaiaja/index.dart"
+      ]
+    },
+    {
+      "name": "Paymobileku",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--flavor",
+        "paymobileku",
+        "-t",
+        "lib/Products/paymobileku/index.dart"
+      ]
+    },
+    {
+      "name": "Alpay",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--flavor",
+        "alpay",
+        "-t",
+        "lib/Products/alpay/index.dart",
+        "--no-sound-null-safety"
+      ]
+    },
+    {
+      "name": "Payuni 2",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--flavor",
+        "payuni",
+        "-t",
+        "lib/Products/payuni2/index.dart",
+        "--no-sound-null-safety"
+      ]
+    },
+    {
+      "name": "Outletpay",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--flavor",
+        "outlet",
+        "-t",
+        "lib/Products/outlet/index.dart",
+        "--no-sound-null-safety"
+      ]
+    },
+    {
+      "name": "Ualreload",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--flavor",
+        "ualreload",
+        "-t",
+        "lib/Products/ualreload/index.dart",
+        "--no-sound-null-safety"
+      ]
+    },
+    {
+      "name": "PGK Reload",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--flavor",
+        "pgkreload",
+        "-t",
+        "lib/Products/pgkreload/index.dart",
+        "--no-sound-null-safety"
+      ]
+    },
+    {
+      "name": "AMPedia",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--flavor",
+        "ampedia",
+        "-t",
+        "lib/Products/ampedia/index.dart",
+        "--no-sound-null-safety"
+      ]
+    },
+    {
+      "name": "Central Bayar",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--flavor",
+        "centralbayar",
+        "-t",
+        "lib/Products/centralbayar/index.dart",
+        "--no-sound-null-safety"
+      ]
+    },
+    {
+      "name": "E Saldoku",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--flavor",
+        "esaldoku",
+        "-t",
+        "lib/Products/esaldoku/index.dart",
+        "--no-sound-null-safety"
+      ]
+    },
+    {
+      "name": "Payuni OVO",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--flavor",
+        "payuniovo",
+        "-t",
+        "lib/Products/payuniovo/index.dart",
+        "--no-sound-null-safety"
+      ]
+    },
+    {
+      "name": "Lariz",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--flavor",
+        "lariz",
+        "-t",
+        "lib/Products/lariz/index.dart",
+        "--no-sound-null-safety"
+      ]
+    },
+    {
+      "name": "Santren",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--flavor",
+        "santren",
+        "-t",
+        "lib/Products/santren/index.dart",
+        "--no-sound-null-safety"
+      ]
+    },
+  ]
+}

@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = mypay.co.id
+APP_DISPLAY_NAME = Mypay
+FLUTTER_TARGET = lib/main_mypay.dart

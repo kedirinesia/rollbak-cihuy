@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.eazyin.mobile
+APP_DISPLAY_NAME = Eazyin
+FLUTTER_TARGET = lib/main_eazyin.dart

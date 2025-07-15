@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.dinarpay.app
+APP_DISPLAY_NAME = Dinarpay
+FLUTTER_TARGET = lib/main_dinarpay.dart

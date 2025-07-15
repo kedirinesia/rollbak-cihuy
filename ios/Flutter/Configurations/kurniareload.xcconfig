@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = id.kurniareload.mobile
+APP_DISPLAY_NAME = Kurniareload
+FLUTTER_TARGET = lib/main_kurniareload.dart

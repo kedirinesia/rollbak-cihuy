@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = mykonter.id
+APP_DISPLAY_NAME = Mykonter
+FLUTTER_TARGET = lib/main_mykonter.dart

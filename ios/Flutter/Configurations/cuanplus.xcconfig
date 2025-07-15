@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.cuanplus.app
+APP_DISPLAY_NAME = Cuanplus
+FLUTTER_TARGET = lib/main_cuanplus.dart

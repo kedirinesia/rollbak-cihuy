@@ -8,7 +8,7 @@ if (localPropertiesFile.exists()) {
 
 def flutterRoot = localProperties.getProperty('flutter.sdk')
 if (flutterRoot == null) {
-    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
+   
 }
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
@@ -53,7 +53,7 @@ android {
     defaultConfig {
         applicationId "mobile.payuni.id"
         minSdkVersion 21
-        targetSdkVersion 34
+        targetSdkVersion 35
         multiDexEnabled true
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -330,8 +330,8 @@ android {
         talentapay {
             dimension "flavor-type"
             applicationId "com.talentapay.android"
-            versionCode 2153
-            versionName "2.5.3"
+            versionCode 2154
+            versionName "2.5.5"
         }
         payunidev {
             dimension "flavor-type"
@@ -372,8 +372,8 @@ android {
         phoenix {
             dimension "flavor-type"
             applicationId "com.phoenixpayment.app"
-            versionCode 11
-            versionName "2.3.9"
+            versionCode 12
+            versionName "2.4.0  "
         }
         pulsadata {
             dimension "flavor-type"
@@ -409,8 +409,8 @@ android {
         payu {
             dimension "flavor-type"
             applicationId "id.payu.co"
-            versionCode 24
-            versionName "2.3.2"
+            versionCode 25
+            versionName "2.3.4"
         }
         epulsa {
             dimension "flavor-type"
@@ -489,8 +489,8 @@ android {
         bisabayar {
             dimension "flavor-type"
             applicationId "id.bisabayar.app"
-            versionCode 26
-            versionName "2.4.2"
+            versionCode 27
+            versionName "2.4.5"
         }
         boospay {
             dimension "flavor-type"
@@ -648,8 +648,8 @@ android {
         pulsatouchscreen {
             dimension "flavor-type"
             applicationId "id.ptspay.mobileapp"
-            versionCode 17
-            versionName "2.3.7"
+            versionCode 18
+            versionName "2.3.9"
             signingConfig signingConfigs.pulsatouchscreen
         }
         kepopay {
@@ -698,14 +698,14 @@ android {
         payfast {
             dimension "flavor-type"
             applicationId "com.payfast.apk"
-            versionCode 12
-            versionName "2.3.2"
+            versionCode 13
+            versionName "2.3.4"
         }
         sakupay {
             dimension "flavor-type"
             applicationId "id.sakupay.mobile"
-            versionCode 5
-            versionName "2.1.3"
+            versionCode 6
+            versionName "2.1.5"
         }
         mypulsa {
             dimension "flavor-type"
@@ -967,11 +967,11 @@ android {
             versionName "2.1.2"
             signingConfig signingConfigs.bipay
         }
-        flobamora {
+          {
             dimension "flavor-type"
             applicationId "com.flobamora.app"
-            versionCode 13
-            versionName "2.3.1"
+            versionCode 14
+            versionName "2.3.4"
         }
         indopulsa {
             dimension "flavor-type"
@@ -982,15 +982,15 @@ android {
         seepays {
             dimension "flavor-type"
             applicationId "com.seepaysbiller.app"
-            versionCode 11
-            versionName "2.0.0"
+            versionCode 12
+            versionName "2.0.2"
             signingConfig signingConfigs.seepays
         }
         gopulsa {
             dimension "flavor-type"
             applicationId "com.gopulsa.app"
-            versionCode 11
-            versionName "2.3.1"
+            versionCode 12
+            versionName "2.3.4"
             signingConfig signingConfigs.gopulsa
         }
         warungpaylama {
@@ -1033,8 +1033,8 @@ android {
         staypay {
             dimension "flavor-type"
             applicationId "com.staypay.mobileapk"
-            versionCode 15
-            versionName "2.3.3"
+            versionCode 16
+            versionName "2.3.4"
             signingConfig signingConfigs.staypay
         }
         ualreload {
@@ -1046,8 +1046,8 @@ android {
         paymobileku {
             dimension "flavor-type"
             applicationId "id.paymobileku.app"
-            versionCode 30
-            versionName "2.5.6"
+            versionCode 31
+            versionName "2.6.0"
         }
         smartsaldo {
             dimension "flavor-type"
@@ -1058,8 +1058,8 @@ android {
         lokapulsa {
             dimension "flavor-type"
             applicationId "id.lokapulsa.mobile"
-            versionCode 11
-            versionName "2.3.1"
+            versionCode 12
+            versionName "2.3.3"
         }
         mykonterr {
             dimension "flavor-type"
@@ -1091,8 +1091,8 @@ android {
         agenpayment {
             dimension "flavor-type"
             applicationId "id.agenpayment.app"
-            versionCode 15
-            versionName "2.4.1"
+            versionCode 17
+            versionName "2.4.4"
         }
         funfast {
             dimension "flavor-type"
@@ -1172,8 +1172,8 @@ android {
         s9p {
             dimension "flavor-type"
             applicationId "com.s9ppayment.mobile"
-            versionCode 10
-            versionName "2.3.0"
+            versionCode 11
+            versionName "2.3.2"
             signingConfig signingConfigs.s9p
         }
         payuniovo {
@@ -1185,8 +1185,8 @@ android {
         lariz {
             dimension "flavor-type"
             applicationId "com.lariz.mobile"
-            versionCode 22
-            versionName "2.3.2"
+            versionCode 23
+            versionName "2.3.4"
         }
         lapaupayment {
             dimension "flavor-type"
@@ -1227,8 +1227,8 @@ android {
         hexamobile {
             dimension "flavor-type"
             applicationId "com.hexamobile.androidapp"
-            versionCode 23
-            versionName "2.3.1"
+            versionCode 24
+            versionName "2.3.5"
             signingConfig signingConfigs.hexamobile
         }
         ekonter {
@@ -1254,15 +1254,15 @@ android {
         santren {
             dimension "flavor-type"
             applicationId "com.santrenpay.mobile"
-            versionCode 13
+            versionCode 16
             versionName "2.4.0"
             signingConfig signingConfigs.sanpay
         }
         maxipay {
             dimension "flavor-type"
             applicationId "com.maxipay.mobile"
-            versionCode 2
-            versionName "2.2.2"
+            versionCode 3
+            versionName "2.2.5"
         }
         fopay {
             dimension "flavor-type"

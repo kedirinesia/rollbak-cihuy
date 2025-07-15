@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.pulsamechine.mobile
+APP_DISPLAY_NAME = Pulsamechine
+FLUTTER_TARGET = lib/main_pulsamechine.dart

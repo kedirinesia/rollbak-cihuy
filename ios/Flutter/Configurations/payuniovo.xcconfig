@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = mobile.payuni.id
+APP_DISPLAY_NAME = Payuniovo
+FLUTTER_TARGET = lib/main_payuniovo.dart

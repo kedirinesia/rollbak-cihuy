@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.eftronik.mobile
+APP_DISPLAY_NAME = Eftronik
+FLUTTER_TARGET = lib/main_eftronik.dart
