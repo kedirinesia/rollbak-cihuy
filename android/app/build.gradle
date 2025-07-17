@@ -967,7 +967,9 @@ android {
             versionName "2.1.2"
             signingConfig signingConfigs.bipay
         }
+        flobamora
           {
+        
             dimension "flavor-type"
             applicationId "com.flobamora.app"
             versionCode 14
@@ -982,8 +984,8 @@ android {
         seepays {
             dimension "flavor-type"
             applicationId "com.seepaysbiller.app"
-            versionCode 12
-            versionName "2.0.2"
+            versionCode 15
+            versionName "2.0.5"
             signingConfig signingConfigs.seepays
         }
         gopulsa {

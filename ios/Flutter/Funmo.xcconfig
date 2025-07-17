@@ -17,4 +17,4 @@ FLUTTER_TARGET=lib/Products/funmo/index.dart
 FLUTTER_BUILD_NAME=1.0.0
 FLUTTER_BUILD_NUMBER=1
 ASSETCATALOG_COMPILER_APPICON_NAME=AppIcon-funmo
-FLUTTER_ROOT=/Users/ipn/flutter
+FLUTTER_ROOT=/Users/findigiosdev/fvm/versions/3.7.11
