@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
- 
-import 'package:mobile/Products/payku/layout/register.dart';
-import 'package:mobile/Products/payku/layout/terms/policy.dart';
+// import 'package:mobile/Products/payuniovo/layout/register.dart';
+import 'package:mobile/Products/mykonterr/layout/terms/policy.dart';
 
 class PrivacyPolicyPage extends StatefulWidget {
   @override
@@ -36,7 +35,7 @@ class _TermsOfServicePageState extends State<PrivacyPolicyPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Privacy Policy'),
+        title: Text('Kebijakan Privacy'),
         centerTitle: true,
         leading: Container(),
       ),
@@ -59,37 +58,14 @@ class _TermsOfServicePageState extends State<PrivacyPolicyPage> {
           ? SafeArea(
               child: Container(
                 padding: EdgeInsets.all(10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: FilledButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Text('Tidak Setuju', style: TextStyle(color: Theme.of(context).primaryColor),),
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStatePropertyAll(Colors.white),
-                          side: MaterialStatePropertyAll(BorderSide(color: Theme.of(context).primaryColor))),
-                      ),
-                    ),
-                    SizedBox(width: 10),
-                    Expanded(
-                      child: FilledButton(
-                        onPressed: () {
-                          Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                              builder: (_) => RegisterUser()
-                            )
-                          );
-                        },
-                        child: Text('Setuju & Lanjutkan'),
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStatePropertyAll(Theme.of(context).primaryColor),
-                        ),
-                      ),
-                    ),
-                  ],
+                child: FilledButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Close'),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(Theme.of(context).primaryColor),
+                  ),
                 ),
               ),
             )

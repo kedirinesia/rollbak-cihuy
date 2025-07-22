@@ -5,7 +5,7 @@ class StartWizardPage extends StatefulWidget {
   const StartWizardPage({Key? key}) : super(key: key);
 
   @override
-  State<StartWizardPage> createState() => _StartWizardPageState();
+  State<StartWizardPage> createState() => _StartWizardPageState();  
 }
 
 class _StartWizardPageState extends State<StartWizardPage>

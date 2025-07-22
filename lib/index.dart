@@ -129,7 +129,8 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
       });
     }
 
-    print('TOKEN: $token');
+       print('TOKEN: $token');
+   
     if (token.isNotEmpty) {
       Map<String, dynamic> userInfo = await getUser(token);
       if (userInfo['status'] == 200) {
@@ -256,7 +257,8 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
       SharedPreferences.getInstance().then((instance) {
         String token = instance.getString('token');
         if (token != null) {
-          print('TOKEN: $token');
+             print('TOKEN: $token');
+   
           Timer.periodic(new Duration(seconds: 100), (timer) async {
             UserModel user = await UserProvider().getProfile();
             bloc.user.add(user);

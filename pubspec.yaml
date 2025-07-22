@@ -50,7 +50,7 @@ dependencies:
       ref: master
   package_info: ^2.0.2
 
-  # 🔄 GANTI plugin deprecated
+  
   animated_bottom_navigation_bar: ^1.1.0 # alternatif animated_bottom_navigation_bar
   webview_flutter: ^3.0.0                # pengganti webview_flutter
 

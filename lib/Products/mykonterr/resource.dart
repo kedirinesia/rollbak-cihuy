@@ -17,7 +17,7 @@ class StringResource implements Resource {
   int otpCount = config.otpCount;
   bool limitPinLogin = config.limitPinLogin;
   bool autoReload = config.autoReload;
-  bool gangguanDisplay = false;
+  bool gangguanDisplay = config.gangguanDisplay;
   bool boldNomorTujuan = false;
   bool qrisStaticOnTopup = false;
   bool dynamicFooterStruk = false;
@@ -26,5 +26,5 @@ class StringResource implements Resource {
   bool realtimePrepaid = config.realtimePrepaid;
   bool enableMultiChannel = config.enableMultiChannel;
   Map<String, String> iconApp = config.assetGambar;
-  Map<String, dynamic> layoutApp = {};
+  Map<String, dynamic> layoutApp = config.layout;
 }

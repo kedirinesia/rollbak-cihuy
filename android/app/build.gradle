@@ -1035,8 +1035,8 @@ android {
         staypay {
             dimension "flavor-type"
             applicationId "com.staypay.mobileapk"
-            versionCode 16
-            versionName "2.3.4"
+            versionCode 17
+            versionName "2.3.7"
             signingConfig signingConfigs.staypay
         }
         ualreload {

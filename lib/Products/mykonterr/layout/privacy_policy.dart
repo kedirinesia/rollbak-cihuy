@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
- 
-import 'package:mobile/Products/payku/layout/register.dart';
-import 'package:mobile/Products/payku/layout/terms/policy.dart';
+import 'package:mobile/screen/register.dart';
+import 'package:mobile/Products/mykonterr/layout/terms/policy.dart';
 
 class PrivacyPolicyPage extends StatefulWidget {
   @override

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 ThemeData colors = ThemeData.light().copyWith(
-  primaryColor: Color(0XFF07ABA0),
+  primaryColor: Color(0XFF07aba0),
   secondaryHeaderColor: Color(0XFFf39c12),
   hintColor: Color(0XFF07ABA0),
   canvasColor: Colors.white,
