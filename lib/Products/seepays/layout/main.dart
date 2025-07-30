@@ -61,50 +61,7 @@ class _MainAppState extends State<MainApp> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              configAppBloc.namaApp.valueWrapper?.value ?? '',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Text(
-              'Point ${bloc.poin.valueWrapper?.value ?? 0}',
-              style: TextStyle(
-                color: Colors.white70,
-                fontSize: 18,
-              ),
-            ),
-          ],
-        ),
-        backgroundColor: Theme.of(context).primaryColor,
-        elevation: 0.0,
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.chat, color: Colors.white),
-            onPressed: () {
-              final chatUrl = configAppBloc.liveChat.valueWrapper?.value;
-              if (chatUrl != null && chatUrl.isNotEmpty) {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => Webview('Live Chat Support', chatUrl),
-                ));
-              }
-            },
-          ),
-          IconButton(
-            color: Colors.white,
-            icon: Icon(Icons.notifications),
-            onPressed: () {
-              Navigator.of(context).pushNamed('/notifikasi');
-            },
-          ),
-        ],
-      ),
+      
       body: TabBarView(
         controller: _motionTabBarController,
         physics: NeverScrollableScrollPhysics(),

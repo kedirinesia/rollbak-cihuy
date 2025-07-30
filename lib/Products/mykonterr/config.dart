@@ -2,7 +2,6 @@
 
 import 'package:mobile/Products/mykonterr/layout/home.dart';
 import 'package:mobile/Products/mykonterr/layout/splash.dart';
-import 'package:mobile/Products/mykonterr/layout/login.dart';
 import 'package:mobile/Products/mykonterr/layout/onboarding.dart';
 
 String sigVendor = '63a54d23c04ce7c61d034e23';
@@ -38,6 +37,6 @@ Map<String, String> assetGambar = {
 
 Map<String, dynamic> layout = {
   'home': HomeBlibli(),
-  'login' : OnBoardingScreen(),
+  'login': OnBoardingScreen(),
   'splash': SplashScreen(),
 };

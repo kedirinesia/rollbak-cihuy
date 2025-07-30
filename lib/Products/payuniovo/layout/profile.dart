@@ -30,7 +30,6 @@ import 'package:nav/nav.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
-import 'package:nav/nav.dart';
 
 class ProfilePopay extends StatefulWidget {
   @override
@@ -468,7 +467,7 @@ class _ProfilePopayState extends State<ProfilePopay> {
                                 color: Colors.red[400]),
                             trailing: Icon(Icons.arrow_forward_ios),
                           ),
-                           SizedBox(height: 40.0),
+                          SizedBox(height: 40.0),
                           Container(
                             child: Text('User Agreement',
                                 style: TextStyle(
@@ -478,11 +477,11 @@ class _ProfilePopayState extends State<ProfilePopay> {
                           Divider(),
                           ListTile(
                             onTap: () {
-                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) {
-                                return PrivacyPolicyPage();
-                              },
-                            ));
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) {
+                                  return PrivacyPolicyPage();
+                                },
+                              ));
                             },
                             title: Text('Privacy Policy',
                                 style: TextStyle(fontSize: 12.0)),

@@ -1,7 +1,6 @@
 // @dart=2.9
 
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:animations/animations.dart';
 import 'package:flutter/gestures.dart';
@@ -12,14 +11,11 @@ import 'package:mobile/Products/payku/layout/terms/policy_dialog.dart';
 import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
-import 'package:mobile/component/webview.dart';
 import 'package:mobile/models/lokasi.dart';
 import 'package:mobile/screen/select_state/kecamatan.dart';
 import 'package:mobile/screen/select_state/kota.dart';
 import 'package:mobile/screen/select_state/provinsi.dart';
 import 'package:quickalert/quickalert.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 class RegisterUser extends StatefulWidget {
   @override

@@ -13,12 +13,10 @@ import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/bloc/TemplateConfig.dart';
 import 'package:mobile/component/alert.dart';
 import 'package:mobile/config.dart';
-import 'package:mobile/index.dart';
 import 'package:mobile/models/user.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/screen/disable.dart';
 import 'package:nav/nav.dart';
-import 'package:pin_input_text_field/pin_input_text_field.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 enum OTP { sms, whatsapp, email }

@@ -130,7 +130,8 @@ class _BannerComponentState extends State<BannerComponent> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Container(
-                  padding: const EdgeInsets.only(right: 16, top: 12, bottom: 12),
+                  padding:
+                      const EdgeInsets.only(right: 16, top: 12, bottom: 12),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(16),
@@ -172,9 +173,7 @@ class _BannerComponentState extends State<BannerComponent> {
                           ),
                         ),
                       ),
-              
                       const SizedBox(width: 16),
-              
                       Expanded(
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -190,7 +189,9 @@ class _BannerComponentState extends State<BannerComponent> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  formatRupiah(bloc.user?.valueWrapper?.value?.saldo ?? 0),
+                                  formatRupiah(
+                                      bloc.user?.valueWrapper?.value?.saldo ??
+                                          0),
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 13,
@@ -209,13 +210,11 @@ class _BannerComponentState extends State<BannerComponent> {
                           ],
                         ),
                       ),
-              
                       const SizedBox(width: 16),
-              
                       Expanded(
                         child: InkWell(
                           onTap: () =>
-                                Navigator.of(context).pushNamed('/komisi'),
+                              Navigator.of(context).pushNamed('/komisi'),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -229,8 +228,15 @@ class _BannerComponentState extends State<BannerComponent> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text(formatRupiah(bloc.user?.valueWrapper?.value?.komisi ?? 0), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
-                                  Text('Komisi Tersedia', style: TextStyle(fontSize: 10)),
+                                  Text(
+                                      formatRupiah(bloc.user?.valueWrapper
+                                              ?.value?.komisi ??
+                                          0),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 13)),
+                                  Text('Komisi Tersedia',
+                                      style: TextStyle(fontSize: 10)),
                                 ],
                               ),
                             ],
@@ -256,11 +262,10 @@ class _BannerComponentState extends State<BannerComponent> {
                     child: Row(
                       children: [
                         Image.network(
-                          'https://dokumen.payuni.co.id/logo/mykonter/custom/iconqris.png',
-                          width: 25,
-                          height: 25,
-                          fit: BoxFit.contain
-                        ),
+                            'https://dokumen.payuni.co.id/logo/mykonter/custom/iconqris.png',
+                            width: 25,
+                            height: 25,
+                            fit: BoxFit.contain),
                         SizedBox(width: 10),
                         Text('Oris', style: TextStyle(fontSize: 10)),
                       ],
@@ -275,20 +280,18 @@ class _BannerComponentState extends State<BannerComponent> {
                     child: Row(
                       children: [
                         Image.network(
-                          'https://dokumen.payuni.co.id/logo/mykonter/custom/icontfsaldo.png',
-                          width: 25,
-                          height: 25,
-                          fit: BoxFit.contain
-                        ),
+                            'https://dokumen.payuni.co.id/logo/mykonter/custom/icontfsaldo.png',
+                            width: 25,
+                            height: 25,
+                            fit: BoxFit.contain),
                         SizedBox(width: 10),
                         Text('Transfer Saldo', style: TextStyle(fontSize: 10)),
                       ],
                     ),
                   ),
                   InkWell(
-                    onTap: () => Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (_) => ListReward())),
+                    onTap: () => Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (_) => ListReward())),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -302,8 +305,13 @@ class _BannerComponentState extends State<BannerComponent> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('${bloc.user?.valueWrapper?.value?.poin} Pts', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
-                            Text('Poin My Konter', style: TextStyle(fontSize: 8,))
+                            Text('${bloc.user?.valueWrapper?.value?.poin} Pts',
+                                style: TextStyle(
+                                    fontSize: 10, fontWeight: FontWeight.bold)),
+                            Text('Poin My Konter',
+                                style: TextStyle(
+                                  fontSize: 8,
+                                ))
                           ],
                         ),
                       ],

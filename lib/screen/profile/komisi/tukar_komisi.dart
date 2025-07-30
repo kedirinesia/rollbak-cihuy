@@ -58,31 +58,33 @@ class _TukarKomisiState extends TukarKomisiController {
                 width: double.infinity,
                 margin: EdgeInsets.all(15),
                 child: packageName == 'com.eralink.mobileapk'
-                  ? TextFormField(
-                      controller: nominal,
-                      cursorColor: Theme.of(context).primaryColor,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Theme.of(context).primaryColor)
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Theme.of(context).primaryColor)
-                          ),
-                          labelText: 'Nominal',
-                          labelStyle: TextStyle(color: Theme.of(context).secondaryHeaderColor),
-                          prefixText: 'Rp ',
-                          prefixStyle: TextStyle(color: Theme.of(context).secondaryHeaderColor)),
-                    )
-                  : TextFormField(
-                      controller: nominal,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Nominal',
-                          prefixText: 'Rp '),
-                    ),
+                    ? TextFormField(
+                        controller: nominal,
+                        cursorColor: Theme.of(context).primaryColor,
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).primaryColor)),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).primaryColor)),
+                            labelText: 'Nominal',
+                            labelStyle: TextStyle(
+                                color: Theme.of(context).secondaryHeaderColor),
+                            prefixText: 'Rp ',
+                            prefixStyle: TextStyle(
+                                color: Theme.of(context).secondaryHeaderColor)),
+                      )
+                    : TextFormField(
+                        controller: nominal,
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Nominal',
+                            prefixText: 'Rp '),
+                      ),
               )
       ]),
       floatingActionButton: loading

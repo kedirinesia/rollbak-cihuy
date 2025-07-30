@@ -10,7 +10,6 @@ import 'package:mobile/Products/ayoba/config.dart';
 import 'package:mobile/Products/ayoba/layout/components/dashboard_panel.dart';
 import 'package:mobile/Products/ayoba/layout/components/rewards.dart';
 import 'package:mobile/Products/ayoba/layout/components/sticky_navbar.dart';
-import 'package:mobile/Products/ayoba/layout/components/carousel_header.dart';
 import 'package:mobile/Products/ayoba/layout/components/menu_depan.dart';
 import 'package:mobile/Products/ayoba/layout/components/carousel_depan.dart';
 import 'package:mobile/Products/ayoba/layout/qris.dart';

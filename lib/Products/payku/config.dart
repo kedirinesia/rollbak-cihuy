@@ -1,6 +1,5 @@
 // @dart=2.9
 
-import 'dart:io' show Platform;
 import 'package:mobile/Products/payku/layout/detail-deposit.dart';
 import 'package:mobile/Products/payku/layout/kirim-saldo.dart';
 import 'package:mobile/Products/payku/layout/navbar.dart';

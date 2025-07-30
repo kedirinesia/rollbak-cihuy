@@ -1,7 +1,6 @@
 // @dart=2.9
 
 import 'package:flutter/material.dart';
-import 'package:mobile/screen/history/order.dart';
 import 'package:mobile/screen/history/deposit/deposit.dart';
 import 'package:mobile/screen/history/mutasi/mutasi.dart';
 import 'package:mobile/screen/history/transaksi.dart';
@@ -20,7 +19,7 @@ class _HistoryPageState extends State<HistoryPage>
       initialIndex: 0,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Theme.of(context).appBarTheme.color,
+          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
           bottom: TabBar(
               indicatorColor: Theme.of(context).appBarTheme.iconTheme.color,
               labelColor: Theme.of(context).appBarTheme.iconTheme.color,

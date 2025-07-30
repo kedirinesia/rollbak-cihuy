@@ -1,7 +1,6 @@
 // @dart=2.9
 
 import 'dart:async';
-import 'dart:ffi';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -17,11 +16,9 @@ import 'package:mobile/modules.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:mobile/provider/analitycs.dart';
-import 'package:mobile/screen/laporan/history_trx.dart';
 import 'package:mobile/screen/transaksi/detail_transaksi.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import 'package:grouped_list/grouped_list.dart';
-import 'package:rxdart/rxdart.dart';
 
 class MyNewPage extends StatefulWidget {
   const MyNewPage({key}) : super(key: key);

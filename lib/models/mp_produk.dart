@@ -7,13 +7,8 @@ class ProdukMarket {
   final int price;
   final String categoryId;
 
-  ProdukMarket({
-    this.id,
-    this.title,
-    this.thumbnail,
-    this.price,
-    this.categoryId
-  });
+  ProdukMarket(
+      {this.id, this.title, this.thumbnail, this.price, this.categoryId});
 
   factory ProdukMarket.fromJson(dynamic data) {
     return ProdukMarket(

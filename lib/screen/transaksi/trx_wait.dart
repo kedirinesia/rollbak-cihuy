@@ -4,7 +4,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
@@ -46,20 +45,18 @@ class _TransactionWaitPageState extends State<TransactionWaitPage> {
           timer.cancel();
           return Navigator.of(context).pushReplacement(
             MaterialPageRoute(
-              builder: (_) => packageName == 'id.paymobileku.app'
-                ? HistoryPage(initIndex: 1)
-                : DetailTransaksi(trx)
-            ),
+                builder: (_) => packageName == 'id.paymobileku.app'
+                    ? HistoryPage(initIndex: 1)
+                    : DetailTransaksi(trx)),
           );
         } else {
           if (_count >= 6) {
             timer.cancel();
             return Navigator.of(context).pushReplacement(
               MaterialPageRoute(
-                builder: (_) => packageName == 'id.paymobileku.app'
-                  ? HistoryPage(initIndex: 1)
-                  : DetailTransaksi(trx)
-              ),
+                  builder: (_) => packageName == 'id.paymobileku.app'
+                      ? HistoryPage(initIndex: 1)
+                      : DetailTransaksi(trx)),
             );
           }
         }
@@ -105,17 +102,17 @@ class _TransactionWaitPageState extends State<TransactionWaitPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             packageName == 'id.paymobileku.app'
-             ? Image.asset(
-                'assets/img/waiting.gif',
-                // width: 350.0,
-                // height: 300.0,
-              )
-             : Image.asset(
-                'assets/img/wait.gif',
-                width: 250.0,
-                height: 250.0,
-              ),
-          SizedBox(height: 10),
+                ? Image.asset(
+                    'assets/img/waiting.gif',
+                    // width: 350.0,
+                    // height: 300.0,
+                  )
+                : Image.asset(
+                    'assets/img/wait.gif',
+                    width: 250.0,
+                    height: 250.0,
+                  ),
+            SizedBox(height: 10),
             Text(
               'Tunggu sebentar, ya..',
               textAlign: TextAlign.center,

@@ -28,7 +28,6 @@ import 'package:nav/nav.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
-import 'package:nav/nav.dart';
 
 class ProfilePopay extends StatefulWidget {
   @override
@@ -476,7 +475,8 @@ class _ProfilePopayState extends State<ProfilePopay> {
                           Divider(),
                           ListTile(
                             onTap: () async {
-                              String url = '${configAppBloc.info.valueWrapper?.value.urlPrivacyPolicy}';
+                              String url =
+                                  '${configAppBloc.info.valueWrapper?.value.urlPrivacyPolicy}';
                               await launch(url);
                             },
                             title: Text('Privacy Policy',
@@ -488,7 +488,8 @@ class _ProfilePopayState extends State<ProfilePopay> {
                           Divider(),
                           ListTile(
                             onTap: () async {
-                              String url = '${configAppBloc.info.valueWrapper?.value.urlServicePolicy}';
+                              String url =
+                                  '${configAppBloc.info.valueWrapper?.value.urlServicePolicy}';
                               await launch(url);
                             },
                             title: Text('Terms & Conditions',

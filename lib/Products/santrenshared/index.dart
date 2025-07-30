@@ -10,7 +10,7 @@ void main() {
     appDisplayName: namaApp,
     appInternalId: sigVendor,
     theme: colors,
-    resource : StringResource(),
+    resource: StringResource(),
     child: MyApp(),
   );
 

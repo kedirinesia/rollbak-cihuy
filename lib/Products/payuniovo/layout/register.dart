@@ -1,26 +1,21 @@
 // @dart=2.9
 
 import 'dart:convert';
-import 'dart:math';
 
-import 'package:animations/animations.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/Products/payuniovo/layout/agreement/privacy_page.dart';
 import 'package:mobile/Products/payuniovo/layout/agreement/service_page.dart';
-import 'package:mobile/Products/payuniovo/layout/terms/policy_dialog.dart';
 import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
-import 'package:mobile/component/webview.dart';
 import 'package:mobile/models/lokasi.dart';
 import 'package:mobile/screen/select_state/kecamatan.dart';
 import 'package:mobile/screen/select_state/kota.dart';
 import 'package:mobile/screen/select_state/provinsi.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:mobile/screen/linkverif.dart';
 
 class RegisterUser extends StatefulWidget {
   @override
@@ -132,28 +127,10 @@ class _RegisterUserState extends State<RegisterUser> {
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
         String message = data['message'];
-        showDialog(
-            context: context,
-            builder: (_) {
-              return AlertDialog(
-                title: Text('Registrasi Berhasil'),
-                content: Text(message),
-                actions: <Widget>[
-                  TextButton(
-                    child: Text(
-                      'TUTUP',
-                      style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                      ),
-                    ),
-                    onPressed: () {
-                      Navigator.of(_, rootNavigator: true).pop();
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              );
-            });
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (_) => LinkVerifPage()),
+          (route) => false,
+        );
       } else {
         String message = json.decode(response.body)['message'];
         showDialog(
@@ -264,12 +241,9 @@ class _RegisterUserState extends State<RegisterUser> {
                         child: Text('Kembali'),
                         onPressed: controlsDetails.onStepCancel,
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.white,
-                          onPrimary: Theme.of(context).primaryColor,
-                          side: BorderSide(
-                            color: Theme.of(context).primaryColor
-                          )
-                        ),
+                            foregroundColor: Theme.of(context).primaryColor, backgroundColor: Colors.white,
+                            side: BorderSide(
+                                color: Theme.of(context).primaryColor)),
                       ),
                     ),
                   // Expanded(

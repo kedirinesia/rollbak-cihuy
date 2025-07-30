@@ -2,8 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:http/retry.dart';
-import 'package:mobile/Products/lariz/layout/wizard/wizard.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/provider/api.dart';

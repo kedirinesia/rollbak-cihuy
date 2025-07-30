@@ -9,7 +9,6 @@ import 'package:mobile/Products/ecuan/layout/home.dart';
 import 'package:mobile/Products/ecuan/layout/profile.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
-import 'package:mobile/component/webview.dart';
 import 'package:mobile/screen/marketplace/index.dart';
 import 'package:mobile/screen/profile/downline/downline.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -67,7 +66,7 @@ class _SarinuHomeState extends State<SarinuHome>
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         appBar: AppBar(
-          backgroundColor: Theme.of(context).appBarTheme.color,
+          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[

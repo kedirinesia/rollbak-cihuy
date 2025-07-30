@@ -1,7 +1,6 @@
 // @dart=2.9
 
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -134,7 +133,8 @@ class _DetailDepositState extends State<DetailDeposit> {
             physics: ScrollPhysics(),
             children: <Widget>[
               CachedNetworkImage(
-                  imageUrl: 'https://dokumen.payuni.co.id/logo/hexapay/logodeposithexa.png',
+                  imageUrl:
+                      'https://dokumen.payuni.co.id/logo/hexapay/logodeposithexa.png',
                   width: 100.0),
               SizedBox(height: 10),
               Row(

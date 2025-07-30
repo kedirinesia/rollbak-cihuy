@@ -21,7 +21,6 @@ import 'package:mobile/screen/transaksi/detail_transaksi.dart';
 import 'package:mobile/screen/transaksi/trx_wait.dart';
 import 'package:mobile/screen/transaksi/verifikasi_pin.dart';
 import '../../bloc/Bloc.dart' show bloc;
-import '../../bloc/ConfigApp.dart';
 import 'dart:convert';
 
 class InquiryPrepaid extends StatefulWidget {
@@ -55,362 +54,53 @@ class _InquiryPrepaidState extends InquiryPrepaidController {
 
   @override
   Widget build(BuildContext context) {
-    return afterTrx 
-      ? TransactionWaitPage()
-    
-    : Scaffold(
-      body: CustomScrollView(
-        slivers: <Widget>[
-          SliverAppBar(
-            iconTheme: IconThemeData(color: Colors.white),
-            expandedHeight: configAppBloc.enableMultiChannel.valueWrapper?.value
-                ? null
-                : 200.0,
-            backgroundColor: packageName == 'com.lariz.mobile'
-                ? Theme.of(context).secondaryHeaderColor
-                : Theme.of(context).primaryColor,
-            pinned: true,
-            flexibleSpace: FlexibleSpaceBar(
-              title: Text('Konfirmasi Pembelian'),
-              centerTitle: true,
-            ),
-            actions: [
-              IconButton(
-                icon: Icon(Icons.home_rounded),
-                onPressed: () => Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(
-                      builder: (_) =>
-                          configAppBloc
-                              .layoutApp?.valueWrapper?.value['home'] ??
-                          templateConfig[
-                              configAppBloc.templateCode.valueWrapper?.value],
+    return afterTrx
+        ? TransactionWaitPage()
+        : Scaffold(
+            body: CustomScrollView(
+              slivers: <Widget>[
+                SliverAppBar(
+                  iconTheme: IconThemeData(color: Colors.white),
+                  expandedHeight:
+                      configAppBloc.enableMultiChannel.valueWrapper?.value
+                          ? null
+                          : 200.0,
+                  backgroundColor: packageName == 'com.lariz.mobile'
+                      ? Theme.of(context).secondaryHeaderColor
+                      : Theme.of(context).primaryColor,
+                  pinned: true,
+                  flexibleSpace: FlexibleSpaceBar(
+                    title: Text('Konfirmasi Pembelian'),
+                    centerTitle: true,
+                  ),
+                  actions: [
+                    IconButton(
+                      icon: Icon(Icons.home_rounded),
+                      onPressed: () => Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                            builder: (_) =>
+                                configAppBloc
+                                    .layoutApp?.valueWrapper?.value['home'] ??
+                                templateConfig[configAppBloc
+                                    .templateCode.valueWrapper?.value],
+                          ),
+                          (route) => false),
                     ),
-                    (route) => false),
-              ),
-            ],
-          ),
-          loading
-              ? loadingWidget()
-              : SliverList(
-                  delegate: SliverChildListDelegate(
-                    [
-                      Container(
-                        padding: EdgeInsets.all(15),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
+                  ],
+                ),
+                loading
+                    ? loadingWidget()
+                    : SliverList(
+                        delegate: SliverChildListDelegate(
+                          [
                             Container(
-                              width: double.infinity,
-                              padding: EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.black.withOpacity(.1),
-                                        offset: Offset(5, 10),
-                                        blurRadius: 20)
-                                  ]),
+                              padding: EdgeInsets.all(15),
                               child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Text('Detail Pembelian',
-                                              style: TextStyle(
-                                                  color: packageName ==
-                                                          'com.lariz.mobile'
-                                                      ? Theme.of(context)
-                                                          .secondaryHeaderColor
-                                                      : Theme.of(context)
-                                                          .primaryColor,
-                                                  fontWeight: FontWeight.bold)),
-                                          Icon(
-                                            Icons.receipt,
-                                            color: packageName ==
-                                                    'com.lariz.mobile'
-                                                ? Theme.of(context)
-                                                    .secondaryHeaderColor
-                                                : Theme.of(context)
-                                                    .primaryColor,
-                                          )
-                                        ]),
-                                    Divider(),
-                                    SizedBox(height: 10),
-                                    Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Text('Nama Produk',
-                                              style: TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: 10)),
-                                          SizedBox(width: 5),
-                                          Flexible(
-                                            flex: 1,
-                                            child: Text(data['nama'],
-                                                style: TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                                textAlign: TextAlign.right),
-                                          ),
-                                        ]),
-                                    SizedBox(height: 10),
-                                    Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Text('Description',
-                                              style: TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: 10)),
-                                          SizedBox(width: 5),
-                                          Flexible(
-                                            flex: 1,
-                                            child: Text(
-                                                data['description'] ?? '',
-                                                style: TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                                textAlign: TextAlign.right),
-                                          ),
-                                        ]),
-                                    SizedBox(height: 10),
-                                    Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Text('Nomor Tujuan',
-                                              style: TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: 10)),
-                                          Text(data['tujuan'],
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold)),
-                                        ]),
-                                    SizedBox(height: 10),
-                                    Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Text('Pengisian Ke',
-                                              style: TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: 10)),
-                                          Text(data['counter'].toString(),
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold)),
-                                        ]),
-                                    SizedBox(height: 10),
-                                    Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Text('Poin',
-                                              style: TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: 10)),
-                                          Text(data['point'].toString(),
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold)),
-                                        ]),
-                                    data['params'] == null
-                                        ? SizedBox()
-                                        : data['params'].length > 0
-                                            ? ListView.separated(
-                                                shrinkWrap: true,
-                                                padding:
-                                                    EdgeInsets.only(top: 10),
-                                                physics:
-                                                    NeverScrollableScrollPhysics(),
-                                                itemCount:
-                                                    data['params'].length,
-                                                separatorBuilder: (_, i) =>
-                                                    SizedBox(height: 10),
-                                                itemBuilder: (ctx, i) {
-                                                  Map<String, dynamic> item =
-                                                      data['params'][i];
-                                                  return Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: <Widget>[
-                                                        Text(item['label'],
-                                                            style: TextStyle(
-                                                                color:
-                                                                    Colors.grey,
-                                                                fontSize: 10)),
-                                                        Flexible(
-                                                          flex: 1,
-                                                          child: Text(
-                                                              item['value'],
-                                                              style: TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
-                                                        ),
-                                                      ]);
-                                                })
-                                            : SizedBox()
-                                  ]),
-                            ),
-                            SizedBox(height: 15),
-                            Container(
-                              width: double.infinity,
-                              padding: EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.black.withOpacity(.1),
-                                        offset: Offset(5, 10),
-                                        blurRadius: 20)
-                                  ]),
-                              child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Text('Detail Harga',
-                                              style: TextStyle(
-                                                  color: packageName ==
-                                                          'com.lariz.mobile'
-                                                      ? Theme.of(context)
-                                                          .secondaryHeaderColor
-                                                      : Theme.of(context)
-                                                          .primaryColor,
-                                                  fontWeight: FontWeight.bold)),
-                                          Icon(
-                                            Icons.receipt,
-                                            color: packageName ==
-                                                    'com.lariz.mobile'
-                                                ? Theme.of(context)
-                                                    .secondaryHeaderColor
-                                                : Theme.of(context)
-                                                    .primaryColor,
-                                          )
-                                        ]),
-                                    Divider(),
-                                    SizedBox(height: 10),
-                                    Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Text('Harga Awal',
-                                              style: TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: 10)),
-                                          Text(formatRupiah(data['harga_jual']),
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold)),
-                                        ]),
-                                    SizedBox(height: 10),
-                                    Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Text('Diskon',
-                                              style: TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: 10)),
-                                          Text(formatRupiah(data['discount']),
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold)),
-                                        ]),
-                                    SizedBox(height: 10),
-                                    Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Text('Cashback',
-                                              style: TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: 10)),
-                                          Text(formatRupiah(data['cashback']),
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold)),
-                                        ]),
-                                    SizedBox(height: 10),
-                                    Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Text('Admin',
-                                              style: TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: 10)),
-                                          Text(
-                                              formatRupiah(_opsiBayar == 0
-                                                  ? 0
-                                                  : _opsiBayar == 1
-                                                      ? data['unik']
-                                                      : _opsiBayar == 2
-                                                          ? (_jumlahBayar +
-                                                                  data[
-                                                                      'discount'] -
-                                                                  data[
-                                                                      'harga_jual'])
-                                                              .toInt()
-                                                          : 0),
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold)),
-                                        ]),
-                                    SizedBox(height: 10),
-                                    Divider(),
-                                    SizedBox(height: 10),
-                                    Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Text('Total Bayar',
-                                              style: TextStyle(
-                                                  color: packageName ==
-                                                          'com.lariz.mobile'
-                                                      ? Theme.of(context)
-                                                          .secondaryHeaderColor
-                                                      : Theme.of(context)
-                                                          .primaryColor,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 20)),
-                                          Text(
-                                              _opsiBayar == 0
-                                                  ? formatRupiah(
-                                                      data['harga_jual'] -
-                                                          data['discount'])
-                                                  : formatRupiah(_jumlahBayar),
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20,
-                                                color: packageName ==
-                                                        'com.lariz.mobile'
-                                                    ? Theme.of(context)
-                                                        .secondaryHeaderColor
-                                                    : Theme.of(context)
-                                                        .primaryColor,
-                                              )),
-                                        ]),
-                                  ]),
-                            ),
-                            SizedBox(
-                                height: configAppBloc
-                                        .enableMultiChannel.valueWrapper?.value
-                                    ? 15.0
-                                    : 0.0),
-                            configAppBloc.enableMultiChannel.valueWrapper?.value
-                                ? Container(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
                                     width: double.infinity,
-                                    padding: EdgeInsets.all(20),
+                                    padding: EdgeInsets.all(10),
                                     decoration: BoxDecoration(
                                         color: Colors.white,
                                         borderRadius:
@@ -420,142 +110,588 @@ class _InquiryPrepaidState extends InquiryPrepaidController {
                                               color:
                                                   Colors.black.withOpacity(.1),
                                               offset: Offset(5, 10),
-                                              blurRadius: 20),
+                                              blurRadius: 20)
                                         ]),
                                     child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text('Metode Pembayaran',
-                                                style: TextStyle(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: <Widget>[
+                                                Text('Detail Pembelian',
+                                                    style: TextStyle(
+                                                        color: packageName ==
+                                                                'com.lariz.mobile'
+                                                            ? Theme.of(context)
+                                                                .secondaryHeaderColor
+                                                            : Theme.of(context)
+                                                                .primaryColor,
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                                Icon(
+                                                  Icons.receipt,
+                                                  color: packageName ==
+                                                          'com.lariz.mobile'
+                                                      ? Theme.of(context)
+                                                          .secondaryHeaderColor
+                                                      : Theme.of(context)
+                                                          .primaryColor,
+                                                )
+                                              ]),
+                                          Divider(),
+                                          SizedBox(height: 10),
+                                          Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                Text('Nama Produk',
+                                                    style: TextStyle(
+                                                        color: Colors.grey,
+                                                        fontSize: 10)),
+                                                SizedBox(width: 5),
+                                                Flexible(
+                                                  flex: 1,
+                                                  child: Text(data['nama'],
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                      textAlign:
+                                                          TextAlign.right),
+                                                ),
+                                              ]),
+                                          SizedBox(height: 10),
+                                          Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                Text('Description',
+                                                    style: TextStyle(
+                                                        color: Colors.grey,
+                                                        fontSize: 10)),
+                                                SizedBox(width: 5),
+                                                Flexible(
+                                                  flex: 1,
+                                                  child: Text(
+                                                      data['description'] ?? '',
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                      textAlign:
+                                                          TextAlign.right),
+                                                ),
+                                              ]),
+                                          SizedBox(height: 10),
+                                          Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: <Widget>[
+                                                Text('Nomor Tujuan',
+                                                    style: TextStyle(
+                                                        color: Colors.grey,
+                                                        fontSize: 10)),
+                                                Text(data['tujuan'],
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                              ]),
+                                          SizedBox(height: 10),
+                                          Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: <Widget>[
+                                                Text('Pengisian Ke',
+                                                    style: TextStyle(
+                                                        color: Colors.grey,
+                                                        fontSize: 10)),
+                                                Text(data['counter'].toString(),
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                              ]),
+                                          SizedBox(height: 10),
+                                          Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: <Widget>[
+                                                Text('Poin',
+                                                    style: TextStyle(
+                                                        color: Colors.grey,
+                                                        fontSize: 10)),
+                                                Text(data['point'].toString(),
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                              ]),
+                                          data['params'] == null
+                                              ? SizedBox()
+                                              : data['params'].length > 0
+                                                  ? ListView.separated(
+                                                      shrinkWrap: true,
+                                                      padding: EdgeInsets.only(
+                                                          top: 10),
+                                                      physics:
+                                                          NeverScrollableScrollPhysics(),
+                                                      itemCount:
+                                                          data['params'].length,
+                                                      separatorBuilder: (_,
+                                                              i) =>
+                                                          SizedBox(height: 10),
+                                                      itemBuilder: (ctx, i) {
+                                                        Map<String, dynamic>
+                                                            item =
+                                                            data['params'][i];
+                                                        return Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            children: <Widget>[
+                                                              Text(
+                                                                  item['label'],
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .grey,
+                                                                      fontSize:
+                                                                          10)),
+                                                              Flexible(
+                                                                flex: 1,
+                                                                child: Text(
+                                                                    item[
+                                                                        'value'],
+                                                                    style: TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight.bold)),
+                                                              ),
+                                                            ]);
+                                                      })
+                                                  : SizedBox()
+                                        ]),
+                                  ),
+                                  SizedBox(height: 15),
+                                  Container(
+                                    width: double.infinity,
+                                    padding: EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color:
+                                                  Colors.black.withOpacity(.1),
+                                              offset: Offset(5, 10),
+                                              blurRadius: 20)
+                                        ]),
+                                    child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: <Widget>[
+                                                Text('Detail Harga',
+                                                    style: TextStyle(
+                                                        color: packageName ==
+                                                                'com.lariz.mobile'
+                                                            ? Theme.of(context)
+                                                                .secondaryHeaderColor
+                                                            : Theme.of(context)
+                                                                .primaryColor,
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                                Icon(
+                                                  Icons.receipt,
+                                                  color: packageName ==
+                                                          'com.lariz.mobile'
+                                                      ? Theme.of(context)
+                                                          .secondaryHeaderColor
+                                                      : Theme.of(context)
+                                                          .primaryColor,
+                                                )
+                                              ]),
+                                          Divider(),
+                                          SizedBox(height: 10),
+                                          Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: <Widget>[
+                                                Text('Harga Awal',
+                                                    style: TextStyle(
+                                                        color: Colors.grey,
+                                                        fontSize: 10)),
+                                                Text(
+                                                    formatRupiah(
+                                                        data['harga_jual']),
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                              ]),
+                                          SizedBox(height: 10),
+                                          Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: <Widget>[
+                                                Text('Diskon',
+                                                    style: TextStyle(
+                                                        color: Colors.grey,
+                                                        fontSize: 10)),
+                                                Text(
+                                                    formatRupiah(
+                                                        data['discount']),
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                              ]),
+                                          SizedBox(height: 10),
+                                          Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: <Widget>[
+                                                Text('Cashback',
+                                                    style: TextStyle(
+                                                        color: Colors.grey,
+                                                        fontSize: 10)),
+                                                Text(
+                                                    formatRupiah(
+                                                        data['cashback']),
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                              ]),
+                                          SizedBox(height: 10),
+                                          Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: <Widget>[
+                                                Text('Admin',
+                                                    style: TextStyle(
+                                                        color: Colors.grey,
+                                                        fontSize: 10)),
+                                                Text(
+                                                    formatRupiah(_opsiBayar == 0
+                                                        ? 0
+                                                        : _opsiBayar == 1
+                                                            ? data['unik']
+                                                            : _opsiBayar == 2
+                                                                ? (_jumlahBayar +
+                                                                        data[
+                                                                            'discount'] -
+                                                                        data[
+                                                                            'harga_jual'])
+                                                                    .toInt()
+                                                                : 0),
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                              ]),
+                                          SizedBox(height: 10),
+                                          Divider(),
+                                          SizedBox(height: 10),
+                                          Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: <Widget>[
+                                                Text('Total Bayar',
+                                                    style: TextStyle(
+                                                        color: packageName ==
+                                                                'com.lariz.mobile'
+                                                            ? Theme.of(context)
+                                                                .secondaryHeaderColor
+                                                            : Theme.of(context)
+                                                                .primaryColor,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 20)),
+                                                Text(
+                                                    _opsiBayar == 0
+                                                        ? formatRupiah(data[
+                                                                'harga_jual'] -
+                                                            data['discount'])
+                                                        : formatRupiah(
+                                                            _jumlahBayar),
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 20,
+                                                      color: packageName ==
+                                                              'com.lariz.mobile'
+                                                          ? Theme.of(context)
+                                                              .secondaryHeaderColor
+                                                          : Theme.of(context)
+                                                              .primaryColor,
+                                                    )),
+                                              ]),
+                                        ]),
+                                  ),
+                                  SizedBox(
+                                      height: configAppBloc.enableMultiChannel
+                                              .valueWrapper?.value
+                                          ? 15.0
+                                          : 0.0),
+                                  configAppBloc.enableMultiChannel.valueWrapper
+                                          ?.value
+                                      ? Container(
+                                          width: double.infinity,
+                                          padding: EdgeInsets.all(20),
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(10.0),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                    color: Colors.black
+                                                        .withOpacity(.1),
+                                                    offset: Offset(5, 10),
+                                                    blurRadius: 20),
+                                              ]),
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text('Metode Pembayaran',
+                                                      style: TextStyle(
+                                                          color: packageName == 'com.lariz.mobile'
+                                                              ? Theme.of(
+                                                                      context)
+                                                                  .secondaryHeaderColor
+                                                              : Theme.of(
+                                                                      context)
+                                                                  .primaryColor,
+                                                          fontWeight:
+                                                              FontWeight.bold)),
+                                                  Icon(
+                                                    Icons.receipt,
                                                     color: packageName ==
                                                             'com.lariz.mobile'
                                                         ? Theme.of(context)
                                                             .secondaryHeaderColor
                                                         : Theme.of(context)
                                                             .primaryColor,
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                            Icon(
-                                              Icons.receipt,
-                                              color: packageName ==
-                                                      'com.lariz.mobile'
-                                                  ? Theme.of(context)
-                                                      .secondaryHeaderColor
-                                                  : Theme.of(context)
-                                                      .primaryColor,
-                                            )
-                                          ],
-                                        ),
-                                        Divider(),
-                                        SizedBox(height: 10),
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                          ),
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              InkWell(
-                                                onTap: () {
-                                                  setState(() {
-                                                    _opsiBayar = 0;
-                                                  });
-                                                },
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                      color: _opsiBayar == 0
-                                                          ? packageName ==
-                                                                  'com.lariz.mobile'
-                                                              ? Theme.of(
-                                                                      context)
-                                                                  .secondaryHeaderColor
-                                                              : Theme.of(
-                                                                      context)
-                                                                  .primaryColor
-                                                          : Colors.white,
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                            color: Colors.black
-                                                                .withOpacity(
-                                                                    .1),
-                                                            blurRadius: 10.0,
-                                                            offset:
-                                                                Offset(0, 5))
-                                                      ],
-                                                      borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  10.0))),
-                                                  child: ListTile(
-                                                      leading: CircleAvatar(
-                                                        foregroundColor: _opsiBayar ==
-                                                                0
-                                                            ? packageName ==
-                                                                    'com.lariz.mobile'
-                                                                ? Theme.of(
-                                                                        context)
-                                                                    .secondaryHeaderColor
-                                                                : Theme.of(
-                                                                        context)
-                                                                    .primaryColor
-                                                            : Colors.white,
-                                                        backgroundColor: _opsiBayar ==
-                                                                0
-                                                            ? Colors.white
-                                                            : packageName ==
-                                                                    'com.lariz.mobile'
-                                                                ? Theme.of(
-                                                                        context)
-                                                                    .secondaryHeaderColor
-                                                                : Theme.of(
-                                                                        context)
-                                                                    .primaryColor,
-                                                        child: Icon(Icons
-                                                            .wallet_giftcard),
-                                                      ),
-                                                      title: Text(
-                                                          'Saldo $namaApp',
-                                                          style: TextStyle(
-                                                              color: _opsiBayar ==
-                                                                      0
-                                                                  ? Colors.white
-                                                                  : Colors
-                                                                      .black)),
-                                                      subtitle: Text(
-                                                          formatRupiah(bloc
-                                                              .user
-                                                              .valueWrapper
-                                                              .value
-                                                              .saldo),
-                                                          style: TextStyle(
-                                                              color: _opsiBayar ==
-                                                                      0
-                                                                  ? Colors.white
-                                                                  : Colors
-                                                                      .black))),
-                                                ),
+                                                  )
+                                                ],
                                               ),
-                                              SizedBox(height: 10.0),
-                                              configAppBloc
-                                                          .packagename
-                                                          .valueWrapper
-                                                          ?.value !=
-                                                      'com.xenaja.app'
-                                                  ? InkWell(
+                                              Divider(),
+                                              SizedBox(height: 10),
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                ),
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    InkWell(
                                                       onTap: () {
-                                                        checkMinDep(1);
+                                                        setState(() {
+                                                          _opsiBayar = 0;
+                                                        });
                                                       },
                                                       child: Container(
                                                         decoration:
                                                             BoxDecoration(
                                                                 color: _opsiBayar ==
-                                                                        1
+                                                                        0
+                                                                    ? packageName ==
+                                                                            'com.lariz.mobile'
+                                                                        ? Theme.of(context)
+                                                                            .secondaryHeaderColor
+                                                                        : Theme.of(context)
+                                                                            .primaryColor
+                                                                    : Colors
+                                                                        .white,
+                                                                boxShadow: [
+                                                                  BoxShadow(
+                                                                      color: Colors
+                                                                          .black
+                                                                          .withOpacity(
+                                                                              .1),
+                                                                      blurRadius:
+                                                                          10.0,
+                                                                      offset:
+                                                                          Offset(
+                                                                              0,
+                                                                              5))
+                                                                ],
+                                                                borderRadius: BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
+                                                                            10.0))),
+                                                        child: ListTile(
+                                                            leading:
+                                                                CircleAvatar(
+                                                              foregroundColor: _opsiBayar ==
+                                                                      0
+                                                                  ? packageName ==
+                                                                          'com.lariz.mobile'
+                                                                      ? Theme.of(
+                                                                              context)
+                                                                          .secondaryHeaderColor
+                                                                      : Theme.of(
+                                                                              context)
+                                                                          .primaryColor
+                                                                  : Colors
+                                                                      .white,
+                                                              backgroundColor: _opsiBayar ==
+                                                                      0
+                                                                  ? Colors.white
+                                                                  : packageName ==
+                                                                          'com.lariz.mobile'
+                                                                      ? Theme.of(
+                                                                              context)
+                                                                          .secondaryHeaderColor
+                                                                      : Theme.of(
+                                                                              context)
+                                                                          .primaryColor,
+                                                              child: Icon(Icons
+                                                                  .wallet_giftcard),
+                                                            ),
+                                                            title: Text(
+                                                                'Saldo $namaApp',
+                                                                style: TextStyle(
+                                                                    color: _opsiBayar ==
+                                                                            0
+                                                                        ? Colors
+                                                                            .white
+                                                                        : Colors
+                                                                            .black)),
+                                                            subtitle: Text(
+                                                                formatRupiah(bloc
+                                                                    .user
+                                                                    .valueWrapper
+                                                                    .value
+                                                                    .saldo),
+                                                                style: TextStyle(
+                                                                    color: _opsiBayar ==
+                                                                            0
+                                                                        ? Colors
+                                                                            .white
+                                                                        : Colors
+                                                                            .black))),
+                                                      ),
+                                                    ),
+                                                    SizedBox(height: 10.0),
+                                                    configAppBloc
+                                                                .packagename
+                                                                .valueWrapper
+                                                                ?.value !=
+                                                            'com.xenaja.app'
+                                                        ? InkWell(
+                                                            onTap: () {
+                                                              checkMinDep(1);
+                                                            },
+                                                            child: Container(
+                                                              decoration: BoxDecoration(
+                                                                  color: _opsiBayar == 1
+                                                                      ? packageName == 'com.lariz.mobile'
+                                                                          ? Theme.of(context).secondaryHeaderColor
+                                                                          : Theme.of(context).primaryColor
+                                                                      : Colors.white,
+                                                                  boxShadow: [
+                                                                    BoxShadow(
+                                                                        color: Colors
+                                                                            .black
+                                                                            .withOpacity(
+                                                                                .1),
+                                                                        blurRadius:
+                                                                            10.0,
+                                                                        offset: Offset(
+                                                                            0,
+                                                                            5))
+                                                                  ],
+                                                                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                                                              child: ListTile(
+                                                                leading:
+                                                                    CircleAvatar(
+                                                                  foregroundColor: _opsiBayar ==
+                                                                          1
+                                                                      ? packageName ==
+                                                                              'com.lariz.mobile'
+                                                                          ? Theme.of(context)
+                                                                              .secondaryHeaderColor
+                                                                          : Theme.of(context)
+                                                                              .primaryColor
+                                                                      : Colors
+                                                                          .white,
+                                                                  backgroundColor: _opsiBayar ==
+                                                                          1
+                                                                      ? Colors
+                                                                          .white
+                                                                      : packageName ==
+                                                                              'com.lariz.mobile'
+                                                                          ? Theme.of(context)
+                                                                              .secondaryHeaderColor
+                                                                          : Theme.of(context)
+                                                                              .primaryColor,
+                                                                  child: Icon(Icons
+                                                                      .credit_card),
+                                                                ),
+                                                                trailing:
+                                                                    _opsiBayar ==
+                                                                            1
+                                                                        ? Text(
+                                                                            formatRupiah(data['harga_unik']),
+                                                                            style:
+                                                                                TextStyle(
+                                                                              color: Colors.white,
+                                                                              fontWeight: FontWeight.bold,
+                                                                            ),
+                                                                          )
+                                                                        : Text(
+                                                                            ''),
+                                                                title: Text(
+                                                                    'Transfer Bank',
+                                                                    style: TextStyle(
+                                                                        color: _opsiBayar ==
+                                                                                1
+                                                                            ? Colors.white
+                                                                            : Colors.black)),
+                                                              ),
+                                                            ),
+                                                          )
+                                                        : Container(),
+                                                    SizedBox(
+                                                        height: configAppBloc
+                                                                    .packagename
+                                                                    .valueWrapper
+                                                                    .value !=
+                                                                'com.xenaja.app'
+                                                            ? 10.0
+                                                            : 0.0),
+                                                    InkWell(
+                                                      onTap: () {
+                                                        checkMinDep(2);
+                                                      },
+                                                      child: Container(
+                                                        decoration:
+                                                            BoxDecoration(
+                                                                color: _opsiBayar ==
+                                                                        2
                                                                     ? packageName ==
                                                                             'com.lariz.mobile'
                                                                         ? Theme.of(context)
@@ -584,7 +720,7 @@ class _InquiryPrepaidState extends InquiryPrepaidController {
                                                         child: ListTile(
                                                           leading: CircleAvatar(
                                                             foregroundColor: _opsiBayar ==
-                                                                    1
+                                                                    2
                                                                 ? packageName ==
                                                                         'com.lariz.mobile'
                                                                     ? Theme.of(
@@ -595,7 +731,7 @@ class _InquiryPrepaidState extends InquiryPrepaidController {
                                                                         .primaryColor
                                                                 : Colors.white,
                                                             backgroundColor: _opsiBayar ==
-                                                                    1
+                                                                    2
                                                                 ? Colors.white
                                                                 : packageName ==
                                                                         'com.lariz.mobile'
@@ -605,244 +741,162 @@ class _InquiryPrepaidState extends InquiryPrepaidController {
                                                                     : Theme.of(
                                                                             context)
                                                                         .primaryColor,
-                                                            child: Icon(Icons
-                                                                .credit_card),
+                                                            child: Icon(
+                                                                Icons.qr_code),
                                                           ),
-                                                          trailing:
-                                                              _opsiBayar == 1
-                                                                  ? Text(
-                                                                      formatRupiah(
-                                                                          data[
-                                                                              'harga_unik']),
-                                                                      style:
-                                                                          TextStyle(
-                                                                        color: Colors
-                                                                            .white,
-                                                                        fontWeight:
-                                                                            FontWeight.bold,
-                                                                      ),
-                                                                    )
-                                                                  : Text(''),
                                                           title: Text(
-                                                              'Transfer Bank',
+                                                              'Scan Qris',
                                                               style: TextStyle(
                                                                   color: _opsiBayar ==
-                                                                          1
+                                                                          2
                                                                       ? Colors
                                                                           .white
                                                                       : Colors
                                                                           .black)),
+                                                          trailing:
+                                                              _opsiBayar == 2
+                                                                  ? Text(
+                                                                      formatRupiah(
+                                                                          _jumlahBayar),
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight.bold,
+                                                                        color: Colors
+                                                                            .white,
+                                                                      ),
+                                                                    )
+                                                                  : Text(''),
                                                         ),
                                                       ),
-                                                    )
-                                                  : Container(),
-                                              SizedBox(
-                                                  height: configAppBloc
-                                                              .packagename
-                                                              .valueWrapper
-                                                              .value !=
-                                                          'com.xenaja.app'
-                                                      ? 10.0
-                                                      : 0.0),
-                                              InkWell(
-                                                onTap: () {
-                                                  checkMinDep(2);
-                                                },
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                      color: _opsiBayar == 2
-                                                          ? packageName ==
-                                                                  'com.lariz.mobile'
-                                                              ? Theme.of(
-                                                                      context)
-                                                                  .secondaryHeaderColor
-                                                              : Theme.of(
-                                                                      context)
-                                                                  .primaryColor
-                                                          : Colors.white,
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                            color: Colors.black
-                                                                .withOpacity(
-                                                                    .1),
-                                                            blurRadius: 10.0,
-                                                            offset:
-                                                                Offset(0, 5))
-                                                      ],
-                                                      borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  10.0))),
-                                                  child: ListTile(
-                                                    leading: CircleAvatar(
-                                                      foregroundColor: _opsiBayar ==
-                                                              2
-                                                          ? packageName ==
-                                                                  'com.lariz.mobile'
-                                                              ? Theme.of(
-                                                                      context)
-                                                                  .secondaryHeaderColor
-                                                              : Theme.of(
-                                                                      context)
-                                                                  .primaryColor
-                                                          : Colors.white,
-                                                      backgroundColor: _opsiBayar ==
-                                                              2
-                                                          ? Colors.white
-                                                          : packageName ==
-                                                                  'com.lariz.mobile'
-                                                              ? Theme.of(
-                                                                      context)
-                                                                  .secondaryHeaderColor
-                                                              : Theme.of(
-                                                                      context)
-                                                                  .primaryColor,
-                                                      child:
-                                                          Icon(Icons.qr_code),
                                                     ),
-                                                    title: Text('Scan Qris',
-                                                        style: TextStyle(
-                                                            color: _opsiBayar ==
-                                                                    2
-                                                                ? Colors.white
-                                                                : Colors
-                                                                    .black)),
-                                                    trailing: _opsiBayar == 2
-                                                        ? Text(
-                                                            formatRupiah(
-                                                                _jumlahBayar),
-                                                            style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              color:
-                                                                  Colors.white,
-                                                            ),
-                                                          )
-                                                        : Text(''),
-                                                  ),
+                                                  ],
                                                 ),
                                               ),
                                             ],
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                : SizedBox(height: 0.0),
-                            SizedBox(height: boxFavorite ? 15.0 : 0.0),
-                            boxFavorite
-                                ? Container(
-                                    width: double.infinity,
-                                    padding: EdgeInsets.all(20),
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                        boxShadow: [
-                                          BoxShadow(
-                                              color:
-                                                  Colors.black.withOpacity(.1),
-                                              offset: Offset(5, 10),
-                                              blurRadius: 20),
-                                        ]),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              'Simpan Nomor',
-                                              style: TextStyle(
-                                                color: packageName ==
-                                                        'com.lariz.mobile'
-                                                    ? Theme.of(context)
-                                                        .secondaryHeaderColor
-                                                    : Theme.of(context)
-                                                        .primaryColor,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                            Icon(
-                                              Icons.receipt,
-                                              color: packageName ==
-                                                      'com.lariz.mobile'
-                                                  ? Theme.of(context)
-                                                      .secondaryHeaderColor
-                                                  : Theme.of(context)
-                                                      .primaryColor,
-                                            )
-                                          ],
-                                        ),
-                                        Divider(),
-                                        SizedBox(height: 10),
-                                        TextFormField(
-                                          controller: tujuanController,
-                                          keyboardType: TextInputType.text,
-                                          decoration: InputDecoration(
-                                            isDense: true,
-                                            border: OutlineInputBorder(),
-                                            labelText: 'Nomor Tujuan',
-                                            prefixIcon: Icon(Icons.contacts),
-                                          ),
-                                        ),
-                                        SizedBox(height: 10),
-                                        TextFormField(
-                                          controller: namaController,
-                                          keyboardType: TextInputType.text,
-                                          decoration: InputDecoration(
-                                            isDense: true,
-                                            border: OutlineInputBorder(),
-                                            labelText: 'Nama',
-                                            prefixIcon: Icon(Icons.person),
-                                          ),
-                                        ),
-                                        SizedBox(height: 20),
-                                        SizedBox(
+                                        )
+                                      : SizedBox(height: 0.0),
+                                  SizedBox(height: boxFavorite ? 15.0 : 0.0),
+                                  boxFavorite
+                                      ? Container(
                                           width: double.infinity,
-                                          height: 40.0,
-                                          child: TextButton(
-                                            child: Text(
-                                              'SIMPAN',
-                                              style: TextStyle(
-                                                color: packageName ==
-                                                        'com.lariz.mobile'
-                                                    ? Theme.of(context)
-                                                        .secondaryHeaderColor
-                                                    : Theme.of(context)
-                                                        .primaryColor,
+                                          padding: EdgeInsets.all(20),
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(10.0),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                    color: Colors.black
+                                                        .withOpacity(.1),
+                                                    offset: Offset(5, 10),
+                                                    blurRadius: 20),
+                                              ]),
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    'Simpan Nomor',
+                                                    style: TextStyle(
+                                                      color: packageName ==
+                                                              'com.lariz.mobile'
+                                                          ? Theme.of(context)
+                                                              .secondaryHeaderColor
+                                                          : Theme.of(context)
+                                                              .primaryColor,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                  Icon(
+                                                    Icons.receipt,
+                                                    color: packageName ==
+                                                            'com.lariz.mobile'
+                                                        ? Theme.of(context)
+                                                            .secondaryHeaderColor
+                                                        : Theme.of(context)
+                                                            .primaryColor,
+                                                  )
+                                                ],
                                               ),
-                                            ),
-                                            onPressed: simpanFavorite,
+                                              Divider(),
+                                              SizedBox(height: 10),
+                                              TextFormField(
+                                                controller: tujuanController,
+                                                keyboardType:
+                                                    TextInputType.text,
+                                                decoration: InputDecoration(
+                                                  isDense: true,
+                                                  border: OutlineInputBorder(),
+                                                  labelText: 'Nomor Tujuan',
+                                                  prefixIcon:
+                                                      Icon(Icons.contacts),
+                                                ),
+                                              ),
+                                              SizedBox(height: 10),
+                                              TextFormField(
+                                                controller: namaController,
+                                                keyboardType:
+                                                    TextInputType.text,
+                                                decoration: InputDecoration(
+                                                  isDense: true,
+                                                  border: OutlineInputBorder(),
+                                                  labelText: 'Nama',
+                                                  prefixIcon:
+                                                      Icon(Icons.person),
+                                                ),
+                                              ),
+                                              SizedBox(height: 20),
+                                              SizedBox(
+                                                width: double.infinity,
+                                                height: 40.0,
+                                                child: TextButton(
+                                                  child: Text(
+                                                    'SIMPAN',
+                                                    style: TextStyle(
+                                                      color: packageName ==
+                                                              'com.lariz.mobile'
+                                                          ? Theme.of(context)
+                                                              .secondaryHeaderColor
+                                                          : Theme.of(context)
+                                                              .primaryColor,
+                                                    ),
+                                                  ),
+                                                  onPressed: simpanFavorite,
+                                                ),
+                                              )
+                                            ],
                                           ),
                                         )
-                                      ],
-                                    ),
-                                  )
-                                : SizedBox(height: 80.0),
+                                      : SizedBox(height: 80.0),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                       ),
-                    ],
-                  ),
-                ),
-        ],
-      ),
-      floatingActionButton: loading
-          ? null
-          : FloatingActionButton.extended(
-              backgroundColor: packageName == 'com.lariz.mobile'
-                  ? Theme.of(context).secondaryHeaderColor
-                  : Theme.of(context).primaryColor,
-              label: Text('Bayar'),
-              icon: Icon(Icons.navigate_next),
-              onPressed: () => _opsiBayar == 0 ? bayar() : purchaseOther(),
+              ],
             ),
-    );
+            floatingActionButton: loading
+                ? null
+                : FloatingActionButton.extended(
+                    backgroundColor: packageName == 'com.lariz.mobile'
+                        ? Theme.of(context).secondaryHeaderColor
+                        : Theme.of(context).primaryColor,
+                    label: Text('Bayar'),
+                    icon: Icon(Icons.navigate_next),
+                    onPressed: () =>
+                        _opsiBayar == 0 ? bayar() : purchaseOther(),
+                  ),
+          );
   }
 }
 
@@ -1206,18 +1260,17 @@ abstract class InquiryPrepaidController extends State<InquiryPrepaid> {
             TrxModel trx = await getLatestTrx();
             Navigator.of(context).popUntil(ModalRoute.withName('/'));
             packageName == 'com.talentapay.android'
-              ? Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => HistoryPageTalenta(initIndex: 1),
-                  ),
-                )
-              : Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => packageName == 'com.eralink.mobileapk'
-                      ? DetailTransaksi(trx)
-                      : HistoryPage(initIndex: 1)
-                  ),
-                );
+                ? Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => HistoryPageTalenta(initIndex: 1),
+                    ),
+                  )
+                : Navigator.of(context).push(
+                    MaterialPageRoute(
+                        builder: (_) => packageName == 'com.eralink.mobileapk'
+                            ? DetailTransaksi(trx)
+                            : HistoryPage(initIndex: 1)),
+                  );
           }
         } else {
           setState(() {

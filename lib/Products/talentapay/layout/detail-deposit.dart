@@ -224,7 +224,7 @@ class _DetailDepositState extends State<DetailDeposit> {
                       widget.dep.status == 0)
                   ? ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Theme.of(context).primaryColor,
+                        backgroundColor: Theme.of(context).primaryColor,
                       ),
                       onPressed: () => Navigator.of(context).push(
                           MaterialPageRoute(

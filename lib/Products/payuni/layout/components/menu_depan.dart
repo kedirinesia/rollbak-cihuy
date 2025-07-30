@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile/Products/ayoba/layout/more_menu.dart';
 import 'package:mobile/models/menu.dart';
 import 'package:mobile/provider/api.dart';
 import 'package:mobile/screen/detail-denom-postpaid/detail-postpaid.dart';
@@ -10,7 +9,6 @@ import 'package:mobile/screen/list-sub-menu/list-sub-menu.dart';
 import 'package:mobile/screen/pulsa/pulsa.dart';
 import 'package:mobile/Products/ayoba/layout/list_grid_menu.dart';
 import 'package:mobile/screen/transaksi/bulk.dart';
-import 'package:mobile/screen/transaksi/voucher_bulk.dart';
 import 'package:shimmer/shimmer.dart';
 
 class MenuComponent extends StatefulWidget {

@@ -34,7 +34,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  
   @override
   void initState() {
     bloc.mainColor.add(Colors.purple);
@@ -103,7 +102,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            backgroundColor: Colors.white,
+      backgroundColor: Colors.white,
       body: WillPopScope(
         onWillPop: _onBackPressed,
         child: SingleChildScrollView(
@@ -298,13 +297,15 @@ class _ProfilePageState extends State<ProfilePage> {
                                 DefaultCacheManager()
                                     .emptyCache()
                                     .then((value) {
-                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                      content:
-                                          Text('Berhasil memperbarui konten')));
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content: Text(
+                                              'Berhasil memperbarui konten')));
                                 }).catchError((err) {
-                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                      content:
-                                          Text('Gagal memperbarui konten')));
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content: Text(
+                                              'Gagal memperbarui konten')));
                                 });
                               },
                               title: Text('Perbarui Konten',

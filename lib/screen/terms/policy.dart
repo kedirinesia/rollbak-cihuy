@@ -19,15 +19,18 @@ class MarkdownDisplayScreen extends StatelessWidget {
   final String appName;
 
   Future<String> loadMarkdown() async {
-    String content = await rootBundle.loadString('assets/img/shared/$mdFileName');
-    return content.replaceAll('{{appName}}', appName); // Gantikan placeholder dengan nama aplikasi
+    String content =
+        await rootBundle.loadString('assets/img/shared/$mdFileName');
+    return content.replaceAll(
+        '{{appName}}', appName); // Gantikan placeholder dengan nama aplikasi
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: FutureBuilder(
-        future: Future.delayed(Duration(milliseconds: 150)).then((value) => loadMarkdown()),
+        future: Future.delayed(Duration(milliseconds: 150))
+            .then((value) => loadMarkdown()),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Container(

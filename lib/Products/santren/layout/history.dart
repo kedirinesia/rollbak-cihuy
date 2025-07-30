@@ -7,10 +7,7 @@ import 'package:mobile/Products/santren/layout/transaksi.dart';
 
 import '../../../bloc/ConfigApp.dart';
 import '../../../config.dart';
- 
- 
 
- 
 // ignore: must_be_immutable
 class HistoryPage extends StatefulWidget {
   int initIndex;
@@ -82,7 +79,7 @@ class _HistoryPageState extends State<HistoryPage>
                     DepositPage(),
                     HistoryTransaksi(),
                     MutasiPage(),
-                 //   HistoryOrderPage(),
+                    //   HistoryOrderPage(),
                   ]
                 : [
                     DepositPage(),

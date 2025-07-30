@@ -9,15 +9,12 @@ import 'package:hive/hive.dart';
 import 'package:mobile/Products/paymobileku/layout/history.dart';
 import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
-import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/models/daftar_transfer.dart';
 import 'package:mobile/models/postpaid.dart';
 import 'package:mobile/models/wd_bank.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/kyc/verification1.dart';
-import 'package:mobile/screen/profile/kyc/verification.dart';
-import 'package:mobile/screen/transaksi/trx_wait.dart';
 import 'package:mobile/screen/transaksi/verifikasi_pin.dart';
 import 'package:http/http.dart' as http;
 
@@ -235,7 +232,7 @@ class _TransferBankPageState extends State<TransferBankPage> {
       isPurchase = true;
     });
 
-    if (animasiLoading){
+    if (animasiLoading) {
       setState(() {
         loadingRealtime();
       });
@@ -385,269 +382,296 @@ class _TransferBankPageState extends State<TransferBankPage> {
             title: Text(!checked ? 'Transfer' : 'Konfirmasi Transfer'),
             centerTitle: true,
             elevation: 0),
-        body:
-        animasiLoading
-        ? loadingRealtime()
-        : Container(
-          width: double.infinity,
-          height: double.infinity,
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Expanded(
-                  child: Container(
-                    color: Colors.white,
-                    child: loading
-                        ? Container(
-                            width: double.infinity,
-                            height: double.infinity,
-                            padding: EdgeInsets.all(20),
-                            child: Center(
-                                child: SpinKitThreeBounce(
-                                    color: Theme.of(context).primaryColor,
-                                    size: 35)))
-                        : !checked
-                            ? Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(height: 15),
-                                    selectBank(context),
-                                    SizedBox(height: 10),
-                                    inputDestionationNumber(context),
-                                    SizedBox(height: 10),
-                                    inputNominalTransfer(context),
-                                    SizedBox(height: 15),
-                                  ],
-                                ),
-                              )
-                            : ListView(
-                                children: [
-                                  Container(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 15),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+        body: animasiLoading
+            ? loadingRealtime()
+            : Container(
+                width: double.infinity,
+                height: double.infinity,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Expanded(
+                        child: Container(
+                          color: Colors.white,
+                          child: loading
+                              ? Container(
+                                  width: double.infinity,
+                                  height: double.infinity,
+                                  padding: EdgeInsets.all(20),
+                                  child: Center(
+                                      child: SpinKitThreeBounce(
+                                          color: Theme.of(context).primaryColor,
+                                          size: 35)))
+                              : !checked
+                                  ? Container(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(height: 15),
+                                          selectBank(context),
+                                          SizedBox(height: 10),
+                                          inputDestionationNumber(context),
+                                          SizedBox(height: 10),
+                                          inputNominalTransfer(context),
+                                          SizedBox(height: 15),
+                                        ],
+                                      ),
+                                    )
+                                  : ListView(
                                       children: [
-                                        ListView(
-                                          shrinkWrap: true,
-                                          physics:
-                                              NeverScrollableScrollPhysics(),
-                                          children: <Widget>[
-                                            SizedBox(height: 15),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(
-                                                  'Detail Transfer',
-                                                  style: TextStyle(
-                                                    color: Theme.of(context)
-                                                        .primaryColor,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                                SvgPicture.asset(
-                                                  "assets/img/payuni2/receipt.svg",
-                                                  color: Colors.black,
-                                                  height: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.027,
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.027,
-                                                ),
-                                              ],
-                                            ),
-                                            Divider(),
-                                            Text('Nomor Rekening',
-                                                style: TextStyle(
-                                                    color: Colors.grey,
-                                                    fontSize: 11)),
-                                            SizedBox(height: 5),
-                                            Text(inq.noPelanggan,
-                                                style: TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                            SizedBox(height: 10),
-                                            Text('Nama Pemilik',
-                                                style: TextStyle(
-                                                    color: Colors.grey,
-                                                    fontSize: 11)),
-                                            SizedBox(height: 5),
-                                            Text(inq.nama,
-                                                style: TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                            SizedBox(height: 10),
-                                            Text('Nominal',
-                                                style: TextStyle(
-                                                    color: Colors.grey,
-                                                    fontSize: 11)),
-                                            SizedBox(height: 5),
-                                            Text(formatRupiah(inq.tagihan),
-                                                style: TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                            SizedBox(height: 10),
-                                            Text('Admin',
-                                                style: TextStyle(
-                                                    color: Colors.grey,
-                                                    fontSize: 11)),
-                                            SizedBox(height: 5),
-                                            Text(formatRupiah(inq.admin),
-                                                style: TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                            SizedBox(height: 10),
-                                            Text('Cashback',
-                                                style: TextStyle(
-                                                    color: Colors.grey,
-                                                    fontSize: 11)),
-                                            SizedBox(height: 5),
-                                            Text(formatRupiah(inq.fee),
-                                                style: TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                            SizedBox(height: 5),
-                                            Divider(),
-                                            SizedBox(height: 5),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text('Total Bayar',
-                                                    style: TextStyle(
-                                                        color: Colors.grey,
-                                                        fontSize: 13,
-                                                        fontWeight:
-                                                            FontWeight.bold)),
-                                                Text(formatRupiah(inq.total),
-                                                    style: TextStyle(
-                                                        fontSize: 15,
-                                                        color: Colors.green,
-                                                        fontWeight:
-                                                            FontWeight.bold))
-                                              ],
-                                            ),
-                                            SizedBox(height: 20),
-                                            Column(
-                                              children: [
-                                                Container(
-                                                  width: double.infinity,
-                                                  padding: EdgeInsets.all(10),
-                                                  decoration: BoxDecoration(
-                                                      color: inq.total >
-                                                              bloc
-                                                                  .saldo
-                                                                  .valueWrapper
-                                                                  .value
-                                                          ? Colors.red
-                                                              .withOpacity(.1)
-                                                          : Theme.of(context)
-                                                              .primaryColor
-                                                              .withOpacity(.1),
-                                                      border: Border.all(
-                                                        color: inq.total >
-                                                                bloc
-                                                                    .saldo
-                                                                    .valueWrapper
-                                                                    .value
-                                                            ? Colors.red
-                                                                .withOpacity(.1)
-                                                            : Theme.of(context)
-                                                                .primaryColor
-                                                                .withOpacity(
-                                                                    .1),
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5)),
-                                                  child: Row(
+                                        Container(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 15),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              ListView(
+                                                shrinkWrap: true,
+                                                physics:
+                                                    NeverScrollableScrollPhysics(),
+                                                children: <Widget>[
+                                                  SizedBox(height: 15),
+                                                  Row(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
-                                                            .center,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .center,
-                                                    children: <Widget>[
-                                                      Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.min,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        children: <Widget>[
-                                                          Text('Saldo Anda',
-                                                              style: TextStyle(
-                                                                  fontSize: 11,
-                                                                  color: Colors
-                                                                      .grey)),
-                                                          Text(
-                                                            formatRupiah(bloc
-                                                                .saldo
-                                                                .valueWrapper
-                                                                .value),
-                                                            style: TextStyle(
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        'Detail Transfer',
+                                                        style: TextStyle(
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .primaryColor,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                      SvgPicture.asset(
+                                                        "assets/img/payuni2/receipt.svg",
+                                                        color: Colors.black,
+                                                        height: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height *
+                                                            0.027,
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height *
+                                                            0.027,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Divider(),
+                                                  Text('Nomor Rekening',
+                                                      style: TextStyle(
+                                                          color: Colors.grey,
+                                                          fontSize: 11)),
+                                                  SizedBox(height: 5),
+                                                  Text(inq.noPelanggan,
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold)),
+                                                  SizedBox(height: 10),
+                                                  Text('Nama Pemilik',
+                                                      style: TextStyle(
+                                                          color: Colors.grey,
+                                                          fontSize: 11)),
+                                                  SizedBox(height: 5),
+                                                  Text(inq.nama,
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold)),
+                                                  SizedBox(height: 10),
+                                                  Text('Nominal',
+                                                      style: TextStyle(
+                                                          color: Colors.grey,
+                                                          fontSize: 11)),
+                                                  SizedBox(height: 5),
+                                                  Text(
+                                                      formatRupiah(inq.tagihan),
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold)),
+                                                  SizedBox(height: 10),
+                                                  Text('Admin',
+                                                      style: TextStyle(
+                                                          color: Colors.grey,
+                                                          fontSize: 11)),
+                                                  SizedBox(height: 5),
+                                                  Text(formatRupiah(inq.admin),
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold)),
+                                                  SizedBox(height: 10),
+                                                  Text('Cashback',
+                                                      style: TextStyle(
+                                                          color: Colors.grey,
+                                                          fontSize: 11)),
+                                                  SizedBox(height: 5),
+                                                  Text(formatRupiah(inq.fee),
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold)),
+                                                  SizedBox(height: 5),
+                                                  Divider(),
+                                                  SizedBox(height: 5),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Text('Total Bayar',
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.grey,
+                                                              fontSize: 13,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold)),
+                                                      Text(
+                                                          formatRupiah(
+                                                              inq.total),
+                                                          style: TextStyle(
+                                                              fontSize: 15,
+                                                              color:
+                                                                  Colors.green,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold))
+                                                    ],
+                                                  ),
+                                                  SizedBox(height: 20),
+                                                  Column(
+                                                    children: [
+                                                      Container(
+                                                        width: double.infinity,
+                                                        padding:
+                                                            EdgeInsets.all(10),
+                                                        decoration:
+                                                            BoxDecoration(
                                                                 color: inq.total >
                                                                         bloc
                                                                             .saldo
                                                                             .valueWrapper
                                                                             .value
                                                                     ? Colors.red
+                                                                        .withOpacity(
+                                                                            .1)
                                                                     : Theme.of(
                                                                             context)
-                                                                        .primaryColor,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold),
-                                                          ),
-                                                        ],
-                                                      )
-                                                    ],
-                                                  ),
-                                                ),
-                                                SizedBox(height: 10),
-                                                inq.total >
-                                                        bloc.saldo.valueWrapper
-                                                            .value
-                                                    ? Container(
-                                                        child: Center(
-                                                          child: Text(
-                                                            'Maaf Saldo anda tidak mencukupi !',
-                                                            style: TextStyle(
-                                                              color: Colors.red,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                            ),
-                                                          ),
+                                                                        .primaryColor
+                                                                        .withOpacity(
+                                                                            .1),
+                                                                border:
+                                                                    Border.all(
+                                                                  color: inq.total >
+                                                                          bloc
+                                                                              .saldo
+                                                                              .valueWrapper
+                                                                              .value
+                                                                      ? Colors
+                                                                          .red
+                                                                          .withOpacity(
+                                                                              .1)
+                                                                      : Theme.of(
+                                                                              context)
+                                                                          .primaryColor
+                                                                          .withOpacity(
+                                                                              .1),
+                                                                ),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            5)),
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          children: <Widget>[
+                                                            Column(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .min,
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .start,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: <
+                                                                  Widget>[
+                                                                Text(
+                                                                    'Saldo Anda',
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            11,
+                                                                        color: Colors
+                                                                            .grey)),
+                                                                Text(
+                                                                  formatRupiah(bloc
+                                                                      .saldo
+                                                                      .valueWrapper
+                                                                      .value),
+                                                                  style: TextStyle(
+                                                                      color: inq.total >
+                                                                              bloc
+                                                                                  .saldo.valueWrapper.value
+                                                                          ? Colors
+                                                                              .red
+                                                                          : Theme.of(context)
+                                                                              .primaryColor,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold),
+                                                                ),
+                                                              ],
+                                                            )
+                                                          ],
                                                         ),
-                                                      )
-                                                    : SizedBox(),
-                                              ],
-                                            )
-                                          ],
+                                                      ),
+                                                      SizedBox(height: 10),
+                                                      inq.total >
+                                                              bloc
+                                                                  .saldo
+                                                                  .valueWrapper
+                                                                  .value
+                                                          ? Container(
+                                                              child: Center(
+                                                                child: Text(
+                                                                  'Maaf Saldo anda tidak mencukupi !',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Colors
+                                                                        .red,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            )
+                                                          : SizedBox(),
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ],
                                     ),
-                                  ),
-                                ],
-                              ),
-                  ),
-                ),
-                submitWithdrawButton(context),
-              ]),
-        ));
+                        ),
+                      ),
+                      submitWithdrawButton(context),
+                    ]),
+              ));
   }
 
   Widget selectBank(value) {
@@ -774,9 +798,12 @@ class _TransferBankPageState extends State<TransferBankPage> {
             keyboardType: TextInputType.number,
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             onChanged: (value) {
-              int amount = int.tryParse(nominal.text.replaceAll(RegExp('[^0-9]'), '')) ?? 0;
+              int amount =
+                  int.tryParse(nominal.text.replaceAll(RegExp('[^0-9]'), '')) ??
+                      0;
               nominal.text = FormatRupiah(amount);
-              nominal.selection = TextSelection.fromPosition(TextPosition(offset: nominal.text.length));
+              nominal.selection = TextSelection.fromPosition(
+                  TextPosition(offset: nominal.text.length));
             },
             decoration: InputDecoration(
               filled: true,
@@ -819,9 +846,7 @@ class _TransferBankPageState extends State<TransferBankPage> {
           child: ElevatedButton(
             onPressed: null,
             style: ElevatedButton.styleFrom(
-              primary: Theme.of(context).primaryColor,
-              onPrimary: Theme.of(context).primaryColor,
-              onSurface: Theme.of(context).primaryColor,
+              foregroundColor: Theme.of(context).primaryColor, backgroundColor: Theme.of(context).primaryColor, disabledForegroundColor: Theme.of(context).primaryColor.withOpacity(0.38), disabledBackgroundColor: Theme.of(context).primaryColor.withOpacity(0.12),
             ),
             child: Padding(
               padding: EdgeInsets.all(15.0),
@@ -845,9 +870,7 @@ class _TransferBankPageState extends State<TransferBankPage> {
             child: ElevatedButton(
               onPressed: null,
               style: ElevatedButton.styleFrom(
-                primary: Theme.of(context).primaryColor,
-                onPrimary: Theme.of(context).primaryColor,
-                onSurface: Theme.of(context).primaryColor,
+                foregroundColor: Theme.of(context).primaryColor, backgroundColor: Theme.of(context).primaryColor, disabledForegroundColor: Theme.of(context).primaryColor.withOpacity(0.38), disabledBackgroundColor: Theme.of(context).primaryColor.withOpacity(0.12),
               ),
               child: Padding(
                 padding: EdgeInsets.all(15.0),
@@ -870,9 +893,7 @@ class _TransferBankPageState extends State<TransferBankPage> {
         child: ElevatedButton(
           onPressed: checked ? purchase : inquiry,
           style: ElevatedButton.styleFrom(
-            primary: Theme.of(context).primaryColor,
-            onPrimary: Theme.of(context).primaryColor,
-            onSurface: Theme.of(context).primaryColor,
+            foregroundColor: Theme.of(context).primaryColor, backgroundColor: Theme.of(context).primaryColor, disabledForegroundColor: Theme.of(context).primaryColor.withOpacity(0.38), disabledBackgroundColor: Theme.of(context).primaryColor.withOpacity(0.12),
           ),
           child: Padding(
             padding: EdgeInsets.all(15.0),
@@ -893,9 +914,7 @@ class _TransferBankPageState extends State<TransferBankPage> {
         child: ElevatedButton(
           onPressed: null,
           style: ElevatedButton.styleFrom(
-            primary: Theme.of(context).primaryColor,
-            onPrimary: Theme.of(context).primaryColor,
-            onSurface: Theme.of(context).primaryColor,
+            foregroundColor: Theme.of(context).primaryColor, backgroundColor: Theme.of(context).primaryColor, disabledForegroundColor: Theme.of(context).primaryColor.withOpacity(0.38), disabledBackgroundColor: Theme.of(context).primaryColor.withOpacity(0.12),
           ),
           child: Padding(
             padding: EdgeInsets.all(15.0),
@@ -928,7 +947,7 @@ class _TransferBankPageState extends State<TransferBankPage> {
               // width: 350.0,
               // height: 300.0,
             ),
-          SizedBox(height: 10),
+            SizedBox(height: 10),
             Text(
               'Tunggu sebentar, ya..',
               textAlign: TextAlign.center,

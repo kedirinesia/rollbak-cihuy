@@ -14,7 +14,6 @@ import 'package:mobile/models/wd_bank.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/kyc/verification1.dart';
-import 'package:mobile/screen/profile/kyc/verification.dart';
 import 'package:mobile/screen/transaksi/verifikasi_pin.dart';
 import 'package:http/http.dart' as http;
 
@@ -798,9 +797,7 @@ class _TransferBankPageState extends State<TransferBankPage> {
           child: ElevatedButton(
             onPressed: null,
             style: ElevatedButton.styleFrom(
-              primary: Theme.of(context).primaryColor,
-              onPrimary: Theme.of(context).primaryColor,
-              onSurface: Theme.of(context).primaryColor,
+              foregroundColor: Theme.of(context).primaryColor, backgroundColor: Theme.of(context).primaryColor, disabledForegroundColor: Theme.of(context).primaryColor.withOpacity(0.38), disabledBackgroundColor: Theme.of(context).primaryColor.withOpacity(0.12),
             ),
             child: Padding(
               padding: EdgeInsets.all(15.0),
@@ -824,9 +821,7 @@ class _TransferBankPageState extends State<TransferBankPage> {
             child: ElevatedButton(
               onPressed: null,
               style: ElevatedButton.styleFrom(
-                primary: Theme.of(context).primaryColor,
-                onPrimary: Theme.of(context).primaryColor,
-                onSurface: Theme.of(context).primaryColor,
+                foregroundColor: Theme.of(context).primaryColor, backgroundColor: Theme.of(context).primaryColor, disabledForegroundColor: Theme.of(context).primaryColor.withOpacity(0.38), disabledBackgroundColor: Theme.of(context).primaryColor.withOpacity(0.12),
               ),
               child: Padding(
                 padding: EdgeInsets.all(15.0),
@@ -849,9 +844,7 @@ class _TransferBankPageState extends State<TransferBankPage> {
         child: ElevatedButton(
           onPressed: checked ? purchase : inquiry,
           style: ElevatedButton.styleFrom(
-            primary: Theme.of(context).primaryColor,
-            onPrimary: Theme.of(context).primaryColor,
-            onSurface: Theme.of(context).primaryColor,
+            foregroundColor: Theme.of(context).primaryColor, backgroundColor: Theme.of(context).primaryColor, disabledForegroundColor: Theme.of(context).primaryColor.withOpacity(0.38), disabledBackgroundColor: Theme.of(context).primaryColor.withOpacity(0.12),
           ),
           child: Padding(
             padding: EdgeInsets.all(15.0),
@@ -872,9 +865,7 @@ class _TransferBankPageState extends State<TransferBankPage> {
         child: ElevatedButton(
           onPressed: null,
           style: ElevatedButton.styleFrom(
-            primary: Theme.of(context).primaryColor,
-            onPrimary: Theme.of(context).primaryColor,
-            onSurface: Theme.of(context).primaryColor,
+            foregroundColor: Theme.of(context).primaryColor, backgroundColor: Theme.of(context).primaryColor, disabledForegroundColor: Theme.of(context).primaryColor.withOpacity(0.38), disabledBackgroundColor: Theme.of(context).primaryColor.withOpacity(0.12),
           ),
           child: Padding(
             padding: EdgeInsets.all(15.0),

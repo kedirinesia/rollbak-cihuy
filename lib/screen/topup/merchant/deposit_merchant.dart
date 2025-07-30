@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile/config.dart';
 import 'package:mobile/screen/payment_tutorial.dart';
-import 'package:mobile/screen/transaksi/detail_deposit.dart'
-    as DetailDepositShared;
 import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/bloc/TemplateConfig.dart';
 import 'package:mobile/models/topup_va.dart';

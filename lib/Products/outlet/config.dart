@@ -1,8 +1,6 @@
 // @dart=2.9
 
 import 'package:mobile/Products/outlet/layout/index.dart';
-import 'package:mobile/Products/outlet/layout/splash.dart';
-import 'package:mobile/Products/outlet/layout/wizard.dart';
 
 String sigVendor = '63db2cb02200a001b19f2624';
 

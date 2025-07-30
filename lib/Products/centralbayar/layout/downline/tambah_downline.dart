@@ -60,16 +60,19 @@ class _TambahDownlineState extends TambahDownlineController {
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Color(0XFF009B90))
-                                  ),
+                                      borderSide:
+                                          BorderSide(color: Color(0XFF009B90))),
                                   enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Color(0XFF009B90))
-                                  ),
+                                      borderSide:
+                                          BorderSide(color: Color(0XFF009B90))),
                                   labelText: 'Nama Downline',
                                   labelStyle: TextStyle(
                                     color: Color(0XFFF5AB35),
                                   ),
-                                  prefixIcon: Icon(Icons.person, color: Color(0XFFF5AB35),),
+                                  prefixIcon: Icon(
+                                    Icons.person,
+                                    color: Color(0XFFF5AB35),
+                                  ),
                                 ),
                                 validator: (val) {
                                   if (val == null || val.isEmpty)
@@ -89,16 +92,17 @@ class _TambahDownlineState extends TambahDownlineController {
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Color(0XFF009B90))
-                                  ),
+                                      borderSide:
+                                          BorderSide(color: Color(0XFF009B90))),
                                   enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Color(0XFF009B90))
-                                  ),
+                                      borderSide:
+                                          BorderSide(color: Color(0XFF009B90))),
                                   labelText: 'Nomor HP Downline',
                                   labelStyle: TextStyle(
                                     color: Color(0XFFF5AB35),
                                   ),
-                                  prefixIcon: Icon(Icons.phone, color: Color(0XFFF5AB35)),
+                                  prefixIcon: Icon(Icons.phone,
+                                      color: Color(0XFFF5AB35)),
                                   hintText: packageName == "com.emobile.app"
                                       ? "Nomor harus terdaftar di WhatsApp"
                                       : null,
@@ -118,16 +122,17 @@ class _TambahDownlineState extends TambahDownlineController {
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Color(0XFF009B90))
-                                  ),
+                                      borderSide:
+                                          BorderSide(color: Color(0XFF009B90))),
                                   enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Color(0XFF009B90))
-                                  ),
+                                      borderSide:
+                                          BorderSide(color: Color(0XFF009B90))),
                                   labelText: 'Nama Toko',
                                   labelStyle: TextStyle(
                                     color: Color(0XFFF5AB35),
                                   ),
-                                  prefixIcon: Icon(Icons.store, color: Color(0XFFF5AB35)),
+                                  prefixIcon: Icon(Icons.store,
+                                      color: Color(0XFFF5AB35)),
                                 ),
                               ),
                               SizedBox(height: 15),
@@ -138,16 +143,17 @@ class _TambahDownlineState extends TambahDownlineController {
                                 decoration: InputDecoration(
                                     border: OutlineInputBorder(),
                                     focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Color(0XFF009B90))
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Color(0XFF009B90))
-                                  ),
+                                        borderSide: BorderSide(
+                                            color: Color(0XFF009B90))),
+                                    enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Color(0XFF009B90))),
                                     labelText: 'Alamat Toko',
                                     labelStyle: TextStyle(
-                                    color: Color(0XFFF5AB35),
-                                  ),
-                                    prefixIcon: Icon(Icons.location_on, color: Color(0XFFF5AB35))),
+                                      color: Color(0XFFF5AB35),
+                                    ),
+                                    prefixIcon: Icon(Icons.location_on,
+                                        color: Color(0XFFF5AB35))),
                               ),
                               SizedBox(height: 15),
                               TextFormField(
@@ -158,16 +164,17 @@ class _TambahDownlineState extends TambahDownlineController {
                                 decoration: InputDecoration(
                                     border: OutlineInputBorder(),
                                     focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Color(0XFF009B90))
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Color(0XFF009B90))
-                                  ),
+                                        borderSide: BorderSide(
+                                            color: Color(0XFF009B90))),
+                                    enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Color(0XFF009B90))),
                                     labelText: 'Provinsi',
                                     labelStyle: TextStyle(
-                                    color: Color(0XFFF5AB35),
-                                  ),
-                                    prefixIcon: Icon(Icons.map,color: Color(0XFFF5AB35))),
+                                      color: Color(0XFFF5AB35),
+                                    ),
+                                    prefixIcon: Icon(Icons.map,
+                                        color: Color(0XFFF5AB35))),
                                 onTap: () async {
                                   Lokasi lokasi = await Navigator.of(context)
                                       .push(MaterialPageRoute(
@@ -194,16 +201,17 @@ class _TambahDownlineState extends TambahDownlineController {
                                 decoration: InputDecoration(
                                     border: OutlineInputBorder(),
                                     focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Color(0XFF009B90))
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Color(0XFF009B90))
-                                  ),
+                                        borderSide: BorderSide(
+                                            color: Color(0XFF009B90))),
+                                    enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Color(0XFF009B90))),
                                     labelText: 'Kota',
                                     labelStyle: TextStyle(
-                                    color: Color(0XFFF5AB35),
-                                  ),
-                                    prefixIcon: Icon(Icons.map, color: Color(0XFFF5AB35))),
+                                      color: Color(0XFFF5AB35),
+                                    ),
+                                    prefixIcon: Icon(Icons.map,
+                                        color: Color(0XFFF5AB35))),
                                 onTap: () async {
                                   if (provinsi == null) return;
                                   Lokasi lokasi = await Navigator.of(context)
@@ -231,16 +239,17 @@ class _TambahDownlineState extends TambahDownlineController {
                                 decoration: InputDecoration(
                                     border: OutlineInputBorder(),
                                     focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Color(0XFF009B90))
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Color(0XFF009B90))
-                                  ),
+                                        borderSide: BorderSide(
+                                            color: Color(0XFF009B90))),
+                                    enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Color(0XFF009B90))),
                                     labelText: 'Kecamatan',
                                     labelStyle: TextStyle(
-                                    color: Color(0XFFF5AB35),
-                                  ),
-                                    prefixIcon: Icon(Icons.map, color: Color(0XFFF5AB35))),
+                                      color: Color(0XFFF5AB35),
+                                    ),
+                                    prefixIcon: Icon(Icons.map,
+                                        color: Color(0XFFF5AB35))),
                                 onTap: () async {
                                   if (kota == null) return;
                                   Lokasi lokasi = await Navigator.of(context)
@@ -267,16 +276,17 @@ class _TambahDownlineState extends TambahDownlineController {
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Color(0XFF009B90))
-                                  ),
+                                      borderSide:
+                                          BorderSide(color: Color(0XFF009B90))),
                                   enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Color(0XFF009B90))
-                                  ),
+                                      borderSide:
+                                          BorderSide(color: Color(0XFF009B90))),
                                   labelText: 'Alamat',
                                   labelStyle: TextStyle(
                                     color: Color(0XFFF5AB35),
                                   ),
-                                  prefixIcon: Icon(Icons.home, color: Color(0XFFF5AB35)),
+                                  prefixIcon: Icon(Icons.home,
+                                      color: Color(0XFFF5AB35)),
                                 ),
                                 validator: (val) {
                                   if (val == null || val.isEmpty)
@@ -299,16 +309,17 @@ class _TambahDownlineState extends TambahDownlineController {
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Color(0XFF009B90))
-                                  ),
+                                      borderSide:
+                                          BorderSide(color: Color(0XFF009B90))),
                                   enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Color(0XFF009B90))
-                                  ),
+                                      borderSide:
+                                          BorderSide(color: Color(0XFF009B90))),
                                   labelText: 'PIN Downline',
                                   labelStyle: TextStyle(
                                     color: Color(0XFFF5AB35),
                                   ),
-                                  prefixIcon: Icon(Icons.lock, color: Color(0XFFF5AB35)),
+                                  prefixIcon: Icon(Icons.lock,
+                                      color: Color(0XFFF5AB35)),
                                 ),
                                 validator: (val) {
                                   if (val == null || val.isEmpty)
@@ -328,16 +339,17 @@ class _TambahDownlineState extends TambahDownlineController {
                                 decoration: InputDecoration(
                                     border: OutlineInputBorder(),
                                     focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Color(0XFF009B90))
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Color(0XFF009B90))
-                                  ),
+                                        borderSide: BorderSide(
+                                            color: Color(0XFF009B90))),
+                                    enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Color(0XFF009B90))),
                                     labelText: 'Markup',
                                     labelStyle: TextStyle(
-                                    color: Color(0XFFF5AB35),
-                                  ),
-                                    prefixIcon: Icon(Icons.monetization_on, color: Color(0XFFF5AB35)),
+                                      color: Color(0XFFF5AB35),
+                                    ),
+                                    prefixIcon: Icon(Icons.monetization_on,
+                                        color: Color(0XFFF5AB35)),
                                     prefixText: 'Rp '),
                               ),
                               SizedBox(height: 15)

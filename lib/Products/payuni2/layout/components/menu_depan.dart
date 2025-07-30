@@ -4,13 +4,11 @@ import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:mobile/Products/payuni2/config.dart';
 import 'package:mobile/Products/payuni2/layout/more_menu.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/component/alert.dart';
 import 'package:mobile/models/menu.dart';
-import 'package:mobile/modules.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/screen/detail-denom-postpaid/detail-postpaid.dart';
 import 'package:mobile/screen/detail-denom/detail-denom.dart';

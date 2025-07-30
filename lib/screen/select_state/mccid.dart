@@ -74,19 +74,19 @@ class _SelectMccCodePageState extends State<SelectMccCodePage> {
                       cursorColor: Theme.of(context).primaryColor,
                       decoration: InputDecoration(
                           enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Theme.of(context).primaryColor)
-                          ),
+                              borderSide: BorderSide(
+                                  color: Theme.of(context).primaryColor)),
                           focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Theme.of(context).primaryColor)
-                          ),
+                              borderSide: BorderSide(
+                                  color: Theme.of(context).primaryColor)),
                           isDense: true,
-                          icon: Icon(Icons.search, color: Theme.of(context).primaryColor),
+                          icon: Icon(Icons.search,
+                              color: Theme.of(context).primaryColor),
                           hintText: 'Cari Jenis Usaha',
                           hintStyle: TextStyle(
-                            color: packageName == 'com.eralink.mobileapk'
-                              ? Theme.of(context).secondaryHeaderColor
-                              : Theme.of(context).primaryColor
-                          )),
+                              color: packageName == 'com.eralink.mobileapk'
+                                  ? Theme.of(context).secondaryHeaderColor
+                                  : Theme.of(context).primaryColor)),
                       onChanged: (value) {
                         filtered = mccid
                             .where((el) => el.nama

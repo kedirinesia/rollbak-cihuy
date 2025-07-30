@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:mobile/Products/mopay/config.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:mobile/config.dart';
 
 class CustomerServicePage extends StatefulWidget {
   @override
@@ -11,12 +10,12 @@ class CustomerServicePage extends StatefulWidget {
 }
 
 class _CustomerServicePageState extends State<CustomerServicePage> {
-    Completer<WebViewController> _controller = Completer<WebViewController>();
+  Completer<WebViewController> _controller = Completer<WebViewController>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-                appBar: AppBar(
+        appBar: AppBar(
             title:
                 Text('Mopay Live Chat', style: TextStyle(color: Colors.white)),
             centerTitle: true,

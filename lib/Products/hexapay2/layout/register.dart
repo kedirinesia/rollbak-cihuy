@@ -1,24 +1,19 @@
 // @dart=2.9
 
 import 'dart:convert';
-import 'dart:math';
 
-import 'package:animations/animations.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
-import 'package:mobile/Products/hexapay2/layout/terms/policy_dialog.dart';
 import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
-import 'package:mobile/component/webview.dart';
 import 'package:mobile/models/lokasi.dart';
 import 'package:mobile/screen/select_state/kecamatan.dart';
 import 'package:mobile/screen/select_state/kota.dart';
 import 'package:mobile/screen/select_state/provinsi.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 class RegisterUser extends StatefulWidget {
   @override
@@ -334,9 +329,8 @@ class _RegisterUserState extends State<RegisterUser> {
                     fontWeight: FontWeight.bold),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () async {
-                    await launchUrl(
-                      Uri.parse('https://hexadata.id/policy/syarat-dan-ketentuan/145')
-                    );
+                    await launchUrl(Uri.parse(
+                        'https://hexadata.id/policy/syarat-dan-ketentuan/145'));
                   },
               ),
               TextSpan(text: "dan "),
@@ -348,9 +342,8 @@ class _RegisterUserState extends State<RegisterUser> {
                     fontWeight: FontWeight.bold),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () async {
-                    await launchUrl(
-                      Uri.parse(configAppBloc.info.valueWrapper?.value.urlPrivacyPolicy)
-                    );
+                    await launchUrl(Uri.parse(configAppBloc
+                        .info.valueWrapper?.value.urlPrivacyPolicy));
                   },
               ),
             ],

@@ -296,7 +296,7 @@ class CustomerViewState extends State<CustomerView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            appBar: AppBar(
+      appBar: AppBar(
         title: Text("Pelanggan"),
         centerTitle: true,
         elevation: 0,

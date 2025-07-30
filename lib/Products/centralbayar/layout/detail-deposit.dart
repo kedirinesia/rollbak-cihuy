@@ -1,12 +1,10 @@
 // @dart=2.9
 
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:installed_apps/app_info.dart';
 import 'package:installed_apps/installed_apps.dart';
 import 'package:mobile/Products/centralbayar/layout/components/template.dart';
 import 'package:mobile/bloc/Bloc.dart';

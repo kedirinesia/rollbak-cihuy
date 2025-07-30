@@ -1,6 +1,5 @@
 // @dart=2.9
 
-import 'dart:io' show Platform;
 import 'package:mobile/Products/alpay/layout/detail_deposit.dart';
 import 'package:mobile/Products/alpay/layout/home.dart';
 import 'package:mobile/Products/alpay/layout/kirim_saldo.dart';

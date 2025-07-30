@@ -19,7 +19,6 @@ import 'package:mobile/models/mp_produk.dart';
 import 'package:mobile/models/user.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/screen/profile/invite/invite.dart';
-import 'package:mobile/screen/profile/my_qr.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
 import 'package:http/http.dart' as http;
 
@@ -62,7 +61,7 @@ class _Home4AppState extends Home4Model {
       print("Error saat memngambil saldo: $e");
     }
   }
-  
+
   Future<List<ProdukMarket>> getProducts() async {
     try {
       http.Response response = await http.get(
@@ -168,11 +167,17 @@ class _Home4AppState extends Home4Model {
                                   children: [
                                     Text(
                                       'Saldo Anda',
-                                      style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+                                      style: TextStyle(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold),
                                     ),
                                     Text(
-                                      formatRupiah(bloc.user.valueWrapper?.value?.saldo ?? 0),
-                                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+                                      formatRupiah(bloc.user.valueWrapper?.value
+                                              ?.saldo ??
+                                          0),
+                                      style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.bold),
                                     ),
                                   ],
                                 ),
@@ -185,11 +190,17 @@ class _Home4AppState extends Home4Model {
                                   children: [
                                     Text(
                                       'Komisi',
-                                      style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+                                      style: TextStyle(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold),
                                     ),
                                     Text(
-                                      formatRupiah(bloc.user.valueWrapper?.value?.komisi ?? 0),
-                                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+                                      formatRupiah(bloc.user.valueWrapper?.value
+                                              ?.komisi ??
+                                          0),
+                                      style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.bold),
                                     ),
                                   ],
                                 ),
@@ -224,8 +235,8 @@ class _Home4AppState extends Home4Model {
                 Expanded(
                   child: InkWell(
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (_) => QrisPage()));
+                      Navigator.of(context)
+                          .push(MaterialPageRoute(builder: (_) => QrisPage()));
                     },
                     child: Column(
                       children: [
@@ -235,11 +246,8 @@ class _Home4AppState extends Home4Model {
                         //   width: 30,
                         //   fit: BoxFit.cover,
                         // ),
-                        Icon(
-                          Icons.qr_code_2_rounded,
-                          size: 30,
-                          color: Theme.of(context).primaryColor
-                        ),
+                        Icon(Icons.qr_code_2_rounded,
+                            size: 30, color: Theme.of(context).primaryColor),
                         SizedBox(height: 5),
                         Text(
                           'QRIS',
@@ -280,9 +288,8 @@ class _Home4AppState extends Home4Model {
                 Expanded(
                   child: InkWell(
                     onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(builder: (_) => TransferManuPage())
-                      );
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (_) => TransferManuPage()));
                     },
                     child: Column(
                       children: [
@@ -340,7 +347,6 @@ class _Home4AppState extends Home4Model {
           SizedBox(height: 30),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 10),
-            
             child: Text(
               'Info Terbaru',
               style: TextStyle(
@@ -349,14 +355,9 @@ class _Home4AppState extends Home4Model {
               ),
             ),
           ),
-          
-
-
-         
           SizedBox(height: 20),
           CardInfo(),
           SizedBox(height: 30),
-         
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 10),
             child: Text(
@@ -374,106 +375,102 @@ class _Home4AppState extends Home4Model {
       ),
     );
   }
-  
- 
 
-Widget InviteFriendBox({  BuildContext context}) {
-  final w = MediaQuery.of(context).size.width;
-  final h = MediaQuery.of(context).size.height;
+  Widget InviteFriendBox({BuildContext context}) {
+    final w = MediaQuery.of(context).size.width;
+    final h = MediaQuery.of(context).size.height;
 
-  return Container(
-    width: double.infinity,
-    margin: EdgeInsets.symmetric(horizontal: w * 0.04, vertical: h * 0.04),
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(24),
-      gradient: LinearGradient(
-        colors: [Color(0xFFC0FF6B), Color(0xFF96E072)],
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-      ),
-      boxShadow: [
-        BoxShadow(color: Colors.black12, blurRadius: 10, offset: Offset(0, 4)),
-      ],
-    ),
-    child: Padding(
-      padding: EdgeInsets.symmetric(horizontal: w * 0.05, vertical: h * 0.032), // PAD KECIL
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Icon + Judul
-          Row(
-            children: [
-              Icon(Icons.group_add, color: Colors.black87, size: w * 0.058), // lebih kecil
-              SizedBox(width: w * 0.018),
-              Expanded(
-                child: Text(
-                  "Dapatkan Komisi dari Ajak Teman Kamu",
-                  style: TextStyle(
-                    color: Colors.black87,
-                    fontWeight: FontWeight.bold,
-                    fontSize: w * 0.041, // lebih kecil
-                  ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ],
-            
-          ),
-          SizedBox(height: h * 0.02), // jarak kecil
-          // Deskripsi
-          Text(
-            "Mengajak Teman Kamu Untuk Menggunakan Payuni adalah Salah Satu Cara Untuk Mendapatkan Penghasilan Tambahan Buat Kamu.",
-            style: TextStyle(
-              color: Colors.black54,
-              fontSize: w * 0.029, // lebih kecil
-              height: 1.5,
-            ),
-            maxLines: 4,
-            overflow: TextOverflow.ellipsis,
-          ),
-          SizedBox(height: h * 0.020), // jarak kecil
-          // Button
-          SizedBox(
-            width: double.infinity,
-            child: OutlinedButton.icon(
-              icon: Icon(Icons.share, color: Colors.black87, size: w * 0.045),
-              label: Padding(
-                padding: EdgeInsets.symmetric(vertical: h * 0.009),
-                child: Text(
-                  "Undang Teman",
-                  style: TextStyle(
-                    color: Colors.black87,
-                    fontWeight: FontWeight.bold,
-                    fontSize: w * 0.037,
-                  ),
-                ),
-              ),
-              style: OutlinedButton.styleFrom(
-                side: BorderSide(color: Colors.black87, width: 1.2),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                backgroundColor: Colors.transparent,
-                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                minimumSize: Size(0, 0),
-              ),
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => InvitePage()),
-                );
-              },
-            ),
-          ),
+    return Container(
+      width: double.infinity,
+      margin: EdgeInsets.symmetric(horizontal: w * 0.04, vertical: h * 0.04),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(24),
+        gradient: LinearGradient(
+          colors: [Color(0xFFC0FF6B), Color(0xFF96E072)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        boxShadow: [
+          BoxShadow(
+              color: Colors.black12, blurRadius: 10, offset: Offset(0, 4)),
         ],
       ),
-    ),
-  );
-}
-
-
-
-
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+            horizontal: w * 0.05, vertical: h * 0.032), // PAD KECIL
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Icon + Judul
+            Row(
+              children: [
+                Icon(Icons.group_add,
+                    color: Colors.black87, size: w * 0.058), // lebih kecil
+                SizedBox(width: w * 0.018),
+                Expanded(
+                  child: Text(
+                    "Dapatkan Komisi dari Ajak Teman Kamu",
+                    style: TextStyle(
+                      color: Colors.black87,
+                      fontWeight: FontWeight.bold,
+                      fontSize: w * 0.041, // lebih kecil
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: h * 0.02), // jarak kecil
+            // Deskripsi
+            Text(
+              "Mengajak Teman Kamu Untuk Menggunakan Payuni adalah Salah Satu Cara Untuk Mendapatkan Penghasilan Tambahan Buat Kamu.",
+              style: TextStyle(
+                color: Colors.black54,
+                fontSize: w * 0.029, // lebih kecil
+                height: 1.5,
+              ),
+              maxLines: 4,
+              overflow: TextOverflow.ellipsis,
+            ),
+            SizedBox(height: h * 0.020), // jarak kecil
+            // Button
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton.icon(
+                icon: Icon(Icons.share, color: Colors.black87, size: w * 0.045),
+                label: Padding(
+                  padding: EdgeInsets.symmetric(vertical: h * 0.009),
+                  child: Text(
+                    "Undang Teman",
+                    style: TextStyle(
+                      color: Colors.black87,
+                      fontWeight: FontWeight.bold,
+                      fontSize: w * 0.037,
+                    ),
+                  ),
+                ),
+                style: OutlinedButton.styleFrom(
+                  side: BorderSide(color: Colors.black87, width: 1.2),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  backgroundColor: Colors.transparent,
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  minimumSize: Size(0, 0),
+                ),
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => InvitePage()),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
 
 class GradientLine extends StatelessWidget {

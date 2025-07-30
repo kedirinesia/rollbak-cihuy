@@ -77,7 +77,7 @@ abstract class ListSubMenuController extends State<ListSubMenu>
     'com.akupay.androidmobileapps',
     'id.mykonter.app',
     'com.santrenpay.mobile',
-    'com.seepaysbiller.app',  
+    'com.seepaysbiller.app',
   ];
 
   onTapMenu(MenuModel menu) async {

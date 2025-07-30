@@ -20,32 +20,27 @@ class _Home5AppState extends Home5Model {
           width: double.infinity,
           height: 300.0,
           decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [
-              Theme.of(context).primaryColor,
-              Theme.of(context).primaryColor.withOpacity(.4)
-            ])
-          ),
+              gradient: LinearGradient(colors: [
+            Theme.of(context).primaryColor,
+            Theme.of(context).primaryColor.withOpacity(.4)
+          ])),
         ),
         CustomScrollView(
           shrinkWrap: true,
           physics: ClampingScrollPhysics(),
-          slivers : <Widget>[
+          slivers: <Widget>[
             SliverAppBar(
-              title: Text(appName, style: TextStyle(
-                color: Colors.white
-              )),
+              title: Text(appName, style: TextStyle(color: Colors.white)),
               backgroundColor: Colors.transparent,
-              flexibleSpace: FlexibleSpaceBar(
-                
-              ),
+              flexibleSpace: FlexibleSpaceBar(),
             ),
-            SliverFillViewport(delegate: SliverChildListDelegate([
+            SliverFillViewport(
+                delegate: SliverChildListDelegate([
               Container(
                 margin: EdgeInsets.only(top: 50.0),
                 decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20.0)
-                ),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20.0)),
                 child: ListView(
                   physics: ScrollPhysics(),
                   children: <Widget>[

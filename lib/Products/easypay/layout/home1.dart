@@ -6,7 +6,6 @@ import 'package:badges/badges.dart' as BadgeModule;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mobile/Products/easypay/layout/profile.dart';
 import 'package:mobile/provider/analitycs.dart';

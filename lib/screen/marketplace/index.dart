@@ -42,7 +42,9 @@ class _MarketPageState extends State<MarketPage> {
               IconButton(
                 icon: Icon(
                   Icons.home_rounded,
-                  color: _index == 0 ? Theme.of(context).primaryColor : Colors.grey,
+                  color: _index == 0
+                      ? Theme.of(context).primaryColor
+                      : Colors.grey,
                 ),
                 onPressed: () {
                   setState(() {
@@ -53,7 +55,9 @@ class _MarketPageState extends State<MarketPage> {
               IconButton(
                 icon: Icon(
                   Icons.view_list_rounded,
-                  color: _index == 1 ? Theme.of(context).primaryColor : Colors.grey,
+                  color: _index == 1
+                      ? Theme.of(context).primaryColor
+                      : Colors.grey,
                 ),
                 onPressed: () {
                   setState(() {
@@ -64,7 +68,9 @@ class _MarketPageState extends State<MarketPage> {
               IconButton(
                 icon: Icon(
                   Icons.history_rounded,
-                  color: _index == 2 ? Theme.of(context).primaryColor : Colors.grey,
+                  color: _index == 2
+                      ? Theme.of(context).primaryColor
+                      : Colors.grey,
                 ),
                 onPressed: () {
                   setState(() {

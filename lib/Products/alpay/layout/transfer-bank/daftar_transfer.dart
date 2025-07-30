@@ -4,7 +4,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_page_transition/flutter_page_transition.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mobile/Products/alpay/layout/transfer-bank/form_daftar_tranfer.dart';
 import 'package:mobile/Products/alpay/layout/transfer-bank/transfer_bank.dart';

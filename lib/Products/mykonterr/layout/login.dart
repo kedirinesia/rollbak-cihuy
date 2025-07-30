@@ -6,10 +6,7 @@ import 'package:mobile/Products/mykonterr/layout/privacy_policy.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/provider/api.dart';
 import 'package:nav/nav.dart';
-import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -113,7 +110,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           width: 60,
                         ),
                         const SizedBox(height: 4),
-                        Text('Bantuan', style: TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.w600)),
+                        Text('Bantuan',
+                            style: TextStyle(
+                                color: Theme.of(context).primaryColor,
+                                fontWeight: FontWeight.w600)),
                       ],
                     ),
                   ),
@@ -127,28 +127,34 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 100,
                   ),
                   const SizedBox(height: 16),
-                  const Text('Masuk', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                  const Text('Masuk',
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 32),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24.0, vertical: 32),
                 child: Form(
                   key: _form,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      const Text('Nomer Hanphone', style: TextStyle(fontWeight: FontWeight.bold)),
+                      const Text('Nomer Hanphone',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
                       const SizedBox(height: 6),
                       TextFormField(
                         controller: _phone,
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                           hintText: 'Nomer Handphone',
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8)),
                         ),
                       ),
                       const SizedBox(height: 16),
-                      const Text('PIN', style: TextStyle(fontWeight: FontWeight.bold)),
+                      const Text('PIN',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
                       const SizedBox(height: 6),
                       TextFormField(
                         controller: _password,
@@ -157,14 +163,17 @@ class _LoginScreenState extends State<LoginScreen> {
                         decoration: InputDecoration(
                           hintText: 'PIN',
                           suffixIcon: IconButton(
-                            icon: Icon(_hidePassword ? Icons.visibility : Icons.visibility_off),
+                            icon: Icon(_hidePassword
+                                ? Icons.visibility
+                                : Icons.visibility_off),
                             onPressed: () {
                               setState(() {
                                 _hidePassword = !_hidePassword;
                               });
                             },
                           ),
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8)),
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -174,9 +183,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           const Text('Lupa PIN?'),
                           TextButton(
                             onPressed: () => Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                          builder: (_) => StepOneForgotPIN())),
-                            child: Text('Atur ulang', style: TextStyle(color: Theme.of(context).primaryColor)),
+                                MaterialPageRoute(
+                                    builder: (_) => StepOneForgotPIN())),
+                            child: Text('Atur ulang',
+                                style: TextStyle(
+                                    color: Theme.of(context).primaryColor)),
                           )
                         ],
                       ),
@@ -186,9 +197,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Theme.of(context).primaryColor,
                           minimumSize: const Size.fromHeight(48),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8)),
                         ),
-                        child: const Text('Masuk', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                        child: const Text('Masuk',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold)),
                       ),
                       const SizedBox(height: 16),
                       Row(
@@ -197,11 +211,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           const Text('Belum Mempunyai akun?'),
                           TextButton(
                             onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(builder: (_) => PrivacyPolicyPage())
-                              );
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (_) => PrivacyPolicyPage()));
                             },
-                            child: Text('Daftrar', style: TextStyle(color: Theme.of(context).primaryColor)),
+                            child: Text('Daftrar',
+                                style: TextStyle(
+                                    color: Theme.of(context).primaryColor)),
                           )
                         ],
                       ),

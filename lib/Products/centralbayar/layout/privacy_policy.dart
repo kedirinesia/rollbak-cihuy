@@ -49,7 +49,9 @@ class _TermsOfServicePageState extends State<PrivacyPolicyPageRegister> {
               MarkdownDisplayScreen(
                 mdFileName: 'privacy_policy.md',
               ),
-            SizedBox(height: 50,)
+              SizedBox(
+                height: 50,
+              )
             ],
           ),
         ),
@@ -66,10 +68,16 @@ class _TermsOfServicePageState extends State<PrivacyPolicyPageRegister> {
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        child: Text('Tidak Setuju', style: TextStyle(color: Theme.of(context).primaryColor),),
+                        child: Text(
+                          'Tidak Setuju',
+                          style:
+                              TextStyle(color: Theme.of(context).primaryColor),
+                        ),
                         style: ButtonStyle(
-                          backgroundColor: MaterialStatePropertyAll(Colors.white),
-                          side: MaterialStatePropertyAll(BorderSide(color: Theme.of(context).primaryColor))),
+                            backgroundColor:
+                                MaterialStatePropertyAll(Colors.white),
+                            side: MaterialStatePropertyAll(BorderSide(
+                                color: Theme.of(context).primaryColor))),
                       ),
                     ),
                     SizedBox(width: 10),
@@ -77,14 +85,13 @@ class _TermsOfServicePageState extends State<PrivacyPolicyPageRegister> {
                       child: FilledButton(
                         onPressed: () {
                           Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                              builder: (_) => RegisterUser()
-                            )
-                          );
+                              MaterialPageRoute(
+                                  builder: (_) => RegisterUser()));
                         },
                         child: Text('Setuju & Lanjutkan'),
                         style: ButtonStyle(
-                          backgroundColor: MaterialStatePropertyAll(Theme.of(context).primaryColor),
+                          backgroundColor: MaterialStatePropertyAll(
+                              Theme.of(context).primaryColor),
                         ),
                       ),
                     ),

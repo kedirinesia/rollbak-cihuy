@@ -1,10 +1,8 @@
 // @dart=2.9
 
-import 'dart:io' show Platform;
 import 'package:mobile/Products/ampedia/layout/detail-deposit.dart';
 import 'package:mobile/Products/ampedia/layout/home.dart';
 import 'package:mobile/Products/ampedia/layout/kirim-saldo.dart';
-import 'package:mobile/Products/ampedia/layout/splash.dart';
 import 'package:mobile/Products/ampedia/layout/topup/topup.dart';
 import 'package:mobile/models/deposit.dart';
 

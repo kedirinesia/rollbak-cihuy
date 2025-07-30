@@ -22,14 +22,14 @@ class _BantuanScreenState extends State<BantuanScreen> {
 
   Future<void> fetchCustomerServices() async {
     final response = await http.get(
-  Uri.parse('https://santren-app.findig.id/api/v1/cs/list/public'),
-  headers: {
-    'merchantcode': '66f3c061b83af34d76ec85e3',  
-    'Accept': 'application/json',             
-  },
-);
+      Uri.parse('https://santren-app.findig.id/api/v1/cs/list/public'),
+      headers: {
+        'merchantcode': '66f3c061b83af34d76ec85e3',
+        'Accept': 'application/json',
+      },
+    );
 
-      print('Response: ${response.body}'); 
+    print('Response: ${response.body}');
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
@@ -80,7 +80,8 @@ class _BantuanScreenState extends State<BantuanScreen> {
                   : customerServices.isNotEmpty
                       ? ListView.separated(
                           itemCount: customerServices.length,
-                          separatorBuilder: (_, __) => const SizedBox(height: 14),
+                          separatorBuilder: (_, __) =>
+                              const SizedBox(height: 14),
                           itemBuilder: (context, index) {
                             final item = customerServices[index];
                             return Card(
@@ -98,23 +99,30 @@ class _BantuanScreenState extends State<BantuanScreen> {
                                           height: 40,
                                           fit: BoxFit.cover,
                                           errorBuilder: (_, __, ___) =>
-                                              const Icon(Icons.support_agent, size: 40, color: Colors.grey),
+                                              const Icon(Icons.support_agent,
+                                                  size: 40, color: Colors.grey),
                                         )
-                                      : const Icon(Icons.support_agent, size: 40, color: Colors.grey),
+                                      : const Icon(Icons.support_agent,
+                                          size: 40, color: Colors.grey),
                                 ),
                                 title: Text(
                                   item["title"] ?? '-',
-                                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16),
                                 ),
                                 subtitle: Text(
                                   item["contact"] ?? '-',
-                                  style: TextStyle(fontSize: 14, color: Colors.grey[700]),
+                                  style: TextStyle(
+                                      fontSize: 14, color: Colors.grey[700]),
                                 ),
                                 trailing: item["link"] != "."
                                     ? IconButton(
-                                        icon: const Icon(Icons.chat_bubble, color: Colors.blue, size: 28),
+                                        icon: const Icon(Icons.chat_bubble,
+                                            color: Colors.blue, size: 28),
                                         tooltip: "Hubungi via ${item["title"]}",
-                                        onPressed: () => _launchUrl(context, item["link"] ?? ''),
+                                        onPressed: () => _launchUrl(
+                                            context, item["link"] ?? ''),
                                       )
                                     : null,
                               ),

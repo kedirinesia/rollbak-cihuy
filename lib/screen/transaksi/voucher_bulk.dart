@@ -8,7 +8,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/component/alert.dart';
@@ -240,7 +239,7 @@ class _VoucherBulkPageState extends State<VoucherBulkPage> {
 
       http.Response response = await http
           .post(
-            Uri.parse('$apiUrl/trx/prepaid/purchase'),
+            Uri.parse('$apiUrl/api/v1/trx/prepaid/voucher/purchase'),
             headers: {
               'Content-Type': 'application/json',
               'Authorization': bloc.token.valueWrapper.value,
@@ -331,62 +330,62 @@ class _VoucherBulkPageState extends State<VoucherBulkPage> {
           ),
           SizedBox(height: 5),
           packageName == 'com.eralink.mobileapk'
-            ? TextFormField(
-                controller: _voucherStartCode,
-                enabled: !_loading,
-                keyboardType: TextInputType.number,
-                cursorColor: Theme.of(context).primaryColor,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                ],
-                decoration: InputDecoration(
-                  isDense: true,
-                  border: OutlineInputBorder(),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Theme.of(context).primaryColor)
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
+              ? TextFormField(
+                  controller: _voucherStartCode,
+                  enabled: !_loading,
+                  keyboardType: TextInputType.number,
+                  cursorColor: Theme.of(context).primaryColor,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
+                  decoration: InputDecoration(
+                    isDense: true,
+                    border: OutlineInputBorder(),
+                    enabledBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Theme.of(context).primaryColor)),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: packageName == 'com.lariz.mobile'
+                            ? Theme.of(context).secondaryHeaderColor
+                            : Theme.of(context).primaryColor,
+                      ),
+                    ),
+                    suffixIcon: IconButton(
+                      icon: Icon(Icons.qr_code_2_rounded),
                       color: packageName == 'com.lariz.mobile'
                           ? Theme.of(context).secondaryHeaderColor
                           : Theme.of(context).primaryColor,
+                      onPressed: () => _scanBarcode('start'),
                     ),
                   ),
-                  suffixIcon: IconButton(
-                    icon: Icon(Icons.qr_code_2_rounded),
-                    color: packageName == 'com.lariz.mobile'
-                        ? Theme.of(context).secondaryHeaderColor
-                        : Theme.of(context).primaryColor,
-                    onPressed: () => _scanBarcode('start'),
-                  ),
-                ),
-              )
-            : TextFormField(
-                controller: _voucherStartCode,
-                enabled: !_loading,
-                keyboardType: TextInputType.number,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                ],
-                decoration: InputDecoration(
-                  isDense: true,
-                  border: OutlineInputBorder(),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
+                )
+              : TextFormField(
+                  controller: _voucherStartCode,
+                  enabled: !_loading,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
+                  decoration: InputDecoration(
+                    isDense: true,
+                    border: OutlineInputBorder(),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: packageName == 'com.lariz.mobile'
+                            ? Theme.of(context).secondaryHeaderColor
+                            : Theme.of(context).primaryColor,
+                      ),
+                    ),
+                    suffixIcon: IconButton(
+                      icon: Icon(Icons.qr_code_2_rounded),
                       color: packageName == 'com.lariz.mobile'
                           ? Theme.of(context).secondaryHeaderColor
                           : Theme.of(context).primaryColor,
+                      onPressed: () => _scanBarcode('start'),
                     ),
                   ),
-                  suffixIcon: IconButton(
-                    icon: Icon(Icons.qr_code_2_rounded),
-                    color: packageName == 'com.lariz.mobile'
-                        ? Theme.of(context).secondaryHeaderColor
-                        : Theme.of(context).primaryColor,
-                    onPressed: () => _scanBarcode('start'),
-                  ),
                 ),
-              ),
           SizedBox(height: 15),
           Text(
             'Kode Voucher Akhir',
@@ -397,62 +396,62 @@ class _VoucherBulkPageState extends State<VoucherBulkPage> {
           ),
           SizedBox(height: 5),
           packageName == 'com.eralink.mobileapk'
-            ? TextFormField(
-                controller: _voucherEndCode,
-                enabled: !_loading,
-                keyboardType: TextInputType.number,
-                cursorColor: Theme.of(context).primaryColor,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                ],
-                decoration: InputDecoration(
-                  isDense: true,
-                  border: OutlineInputBorder(),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Theme.of(context).primaryColor)
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
+              ? TextFormField(
+                  controller: _voucherEndCode,
+                  enabled: !_loading,
+                  keyboardType: TextInputType.number,
+                  cursorColor: Theme.of(context).primaryColor,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
+                  decoration: InputDecoration(
+                    isDense: true,
+                    border: OutlineInputBorder(),
+                    enabledBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Theme.of(context).primaryColor)),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: packageName == 'com.lariz.mobile'
+                            ? Theme.of(context).secondaryHeaderColor
+                            : Theme.of(context).primaryColor,
+                      ),
+                    ),
+                    suffixIcon: IconButton(
+                      icon: Icon(Icons.qr_code_2_rounded),
                       color: packageName == 'com.lariz.mobile'
                           ? Theme.of(context).secondaryHeaderColor
                           : Theme.of(context).primaryColor,
+                      onPressed: () => _scanBarcode('end'),
                     ),
                   ),
-                  suffixIcon: IconButton(
-                    icon: Icon(Icons.qr_code_2_rounded),
-                    color: packageName == 'com.lariz.mobile'
-                        ? Theme.of(context).secondaryHeaderColor
-                        : Theme.of(context).primaryColor,
-                    onPressed: () => _scanBarcode('end'),
-                  ),
-                ),
-              )
-            : TextFormField(
-                controller: _voucherEndCode,
-                enabled: !_loading,
-                keyboardType: TextInputType.number,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                ],
-                decoration: InputDecoration(
-                  isDense: true,
-                  border: OutlineInputBorder(),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
+                )
+              : TextFormField(
+                  controller: _voucherEndCode,
+                  enabled: !_loading,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
+                  decoration: InputDecoration(
+                    isDense: true,
+                    border: OutlineInputBorder(),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: packageName == 'com.lariz.mobile'
+                            ? Theme.of(context).secondaryHeaderColor
+                            : Theme.of(context).primaryColor,
+                      ),
+                    ),
+                    suffixIcon: IconButton(
+                      icon: Icon(Icons.qr_code_2_rounded),
                       color: packageName == 'com.lariz.mobile'
                           ? Theme.of(context).secondaryHeaderColor
                           : Theme.of(context).primaryColor,
+                      onPressed: () => _scanBarcode('end'),
                     ),
                   ),
-                  suffixIcon: IconButton(
-                    icon: Icon(Icons.qr_code_2_rounded),
-                    color: packageName == 'com.lariz.mobile'
-                        ? Theme.of(context).secondaryHeaderColor
-                        : Theme.of(context).primaryColor,
-                    onPressed: () => _scanBarcode('end'),
-                  ),
                 ),
-              ),
           SizedBox(height: 15),
           MaterialButton(
             minWidth: double.infinity,
@@ -712,62 +711,62 @@ class _VoucherBulkPageState extends State<VoucherBulkPage> {
           ),
           SizedBox(height: 5),
           packageName == 'com.eralink.mobileapk'
-            ? TextFormField(
-                controller: _voucherCode,
-                enabled: !_loading,
-                keyboardType: TextInputType.number,
-                cursorColor: Theme.of(context).primaryColor,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                ],
-                decoration: InputDecoration(
-                  isDense: true,
-                  border: OutlineInputBorder(),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Theme.of(context).primaryColor)
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
+              ? TextFormField(
+                  controller: _voucherCode,
+                  enabled: !_loading,
+                  keyboardType: TextInputType.number,
+                  cursorColor: Theme.of(context).primaryColor,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
+                  decoration: InputDecoration(
+                    isDense: true,
+                    border: OutlineInputBorder(),
+                    enabledBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Theme.of(context).primaryColor)),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: packageName == 'com.lariz.mobile'
+                            ? Theme.of(context).secondaryHeaderColor
+                            : Theme.of(context).primaryColor,
+                      ),
+                    ),
+                    suffixIcon: IconButton(
+                      icon: Icon(Icons.qr_code_2_rounded),
                       color: packageName == 'com.lariz.mobile'
                           ? Theme.of(context).secondaryHeaderColor
                           : Theme.of(context).primaryColor,
+                      onPressed: () => _scanBarcode('single'),
                     ),
                   ),
-                  suffixIcon: IconButton(
-                    icon: Icon(Icons.qr_code_2_rounded),
-                    color: packageName == 'com.lariz.mobile'
-                        ? Theme.of(context).secondaryHeaderColor
-                        : Theme.of(context).primaryColor,
-                    onPressed: () => _scanBarcode('single'),
-                  ),
-                ),
-              )
-            : TextFormField(
-                controller: _voucherCode,
-                enabled: !_loading,
-                keyboardType: TextInputType.number,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                ],
-                decoration: InputDecoration(
-                  isDense: true,
-                  border: OutlineInputBorder(),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
+                )
+              : TextFormField(
+                  controller: _voucherCode,
+                  enabled: !_loading,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
+                  decoration: InputDecoration(
+                    isDense: true,
+                    border: OutlineInputBorder(),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: packageName == 'com.lariz.mobile'
+                            ? Theme.of(context).secondaryHeaderColor
+                            : Theme.of(context).primaryColor,
+                      ),
+                    ),
+                    suffixIcon: IconButton(
+                      icon: Icon(Icons.qr_code_2_rounded),
                       color: packageName == 'com.lariz.mobile'
                           ? Theme.of(context).secondaryHeaderColor
                           : Theme.of(context).primaryColor,
+                      onPressed: () => _scanBarcode('single'),
                     ),
                   ),
-                  suffixIcon: IconButton(
-                    icon: Icon(Icons.qr_code_2_rounded),
-                    color: packageName == 'com.lariz.mobile'
-                        ? Theme.of(context).secondaryHeaderColor
-                        : Theme.of(context).primaryColor,
-                    onPressed: () => _scanBarcode('single'),
-                  ),
                 ),
-              ),
         ],
       );
     }

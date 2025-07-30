@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:mobile/component/contact.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
 import 'package:mobile/Products/greenpay/layout/components/template.dart';
 

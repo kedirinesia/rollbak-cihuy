@@ -1,6 +1,5 @@
 // @dart=2.9
 
-import 'dart:io' show Platform;
 import 'package:mobile/Products/cuanplus/layout/detail-deposit.dart';
 import 'package:mobile/Products/cuanplus/layout/home.dart';
 import 'package:mobile/Products/cuanplus/layout/kirim-saldo.dart';

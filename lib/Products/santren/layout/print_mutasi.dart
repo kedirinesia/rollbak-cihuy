@@ -13,14 +13,11 @@ import 'package:path_provider/path_provider.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/bloc/TemplateConfig.dart';
-import 'package:mobile/config.dart';
 import 'package:mobile/models/mutasi.dart';
 import 'package:mobile/modules.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../bloc/Bloc.dart';
-
- 
 
 class WatermarkNetworkLogo extends StatelessWidget {
   final String logoUrl;
@@ -82,7 +79,8 @@ Widget buildDashedLine() {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: List.generate(dashCount, (_) {
-          return Container(width: dashWidth, height: 1, color: Colors.grey.shade400);
+          return Container(
+              width: dashWidth, height: 1, color: Colors.grey.shade400);
         }),
       );
     },
@@ -90,8 +88,6 @@ Widget buildDashedLine() {
 }
 
 class CetakMutasiPage extends StatefulWidget {
-
-  
   final MutasiModel mutasi;
   CetakMutasiPage({Key key, @required this.mutasi}) : super(key: key);
 
@@ -100,39 +96,39 @@ class CetakMutasiPage extends StatefulWidget {
 }
 
 class _CetakMutasiPageState extends State<CetakMutasiPage> {
-
   ScreenshotController _screenshotController = ScreenshotController();
   bool showEditor = false;
   TextEditingController txtNominal = TextEditingController();
   int nominal;
-    final BlueThermalPrinter _bluetooth = BlueThermalPrinter.instance;
+  final BlueThermalPrinter _bluetooth = BlueThermalPrinter.instance;
   @override
   void initState() {
     super.initState();
     nominal = widget.mutasi.jumlah ?? 0;
     txtNominal.text = nominal.toString();
-     loadNominalLokal(); 
+    loadNominalLokal();
   }
+
   Future<void> simpanNominalLokal(int value) async {
-  final prefs = await SharedPreferences.getInstance();
-  await prefs.setInt('mutasi_nominal_${widget.mutasi.id}', value);
-}
-Future<void> loadNominalLokal() async {
-  final prefs = await SharedPreferences.getInstance();
-  final savedNominal = prefs.getInt('mutasi_nominal_${widget.mutasi.id}');
-  if (savedNominal != null) {
-    setState(() {
-      nominal = savedNominal;
-      txtNominal.text = nominal.toString();
-    });
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('mutasi_nominal_${widget.mutasi.id}', value);
   }
-}
 
-
+  Future<void> loadNominalLokal() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedNominal = prefs.getInt('mutasi_nominal_${widget.mutasi.id}');
+    if (savedNominal != null) {
+      setState(() {
+        nominal = savedNominal;
+        txtNominal.text = nominal.toString();
+      });
+    }
+  }
 
   Future<void> shareScreenshot() async {
     Directory temp = await getTemporaryDirectory();
-    File image = await File('${temp.path}/mutasi_${widget.mutasi.id}.png').create();
+    File image =
+        await File('${temp.path}/mutasi_${widget.mutasi.id}.png').create();
     Uint8List bytes = await _screenshotController.capture(
       pixelRatio: 2.5,
       delay: Duration(milliseconds: 100),
@@ -147,115 +143,129 @@ Future<void> loadNominalLokal() async {
       );
     }
   }
-  
 
- Future<void> startPrint() async {
-  final printer = BlueThermalPrinter.instance;
+  Future<void> startPrint() async {
+    final printer = BlueThermalPrinter.instance;
 
-  // Minta izin lokasi (diperlukan untuk Bluetooth)
-  final permission = await Permission.locationWhenInUse.request();
-  if (!permission.isGranted) {
-    showToast(context, 'Aplikasi memerlukan izin lokasi untuk menggunakan Bluetooth.');
-    return;
-  }
-
-  // Cek status Bluetooth
-  final isOn = await printer.isOn;
-  if (!isOn) {
-    showToast(context, 'Bluetooth belum aktif. Silakan aktifkan terlebih dahulu.');
-    return;
-  }
-
-  // Pilih perangkat printer
-  final BluetoothDevice device = await Navigator.of(context).push(
-    MaterialPageRoute(builder: (_) => SelectPrinterPage()),
-  );
-
-  if (device == null) {
-    showToast(context, 'Printer tidak dipilih.');
-    return;
-  }
-
-  try {
-    // Disconnect jika sudah terkoneksi
-    if (await printer.isConnected) {
-      await printer.disconnect();
+    // Minta izin lokasi (diperlukan untuk Bluetooth)
+    final permission = await Permission.locationWhenInUse.request();
+    if (!permission.isGranted) {
+      showToast(context,
+          'Aplikasi memerlukan izin lokasi untuk menggunakan Bluetooth.');
+      return;
     }
 
-    // Connect ke printer baru
-    await printer.connect(device);
+    // Cek status Bluetooth
+    final isOn = await printer.isOn;
+    if (!isOn) {
+      showToast(
+          context, 'Bluetooth belum aktif. Silakan aktifkan terlebih dahulu.');
+      return;
+    }
 
-    // Load profil dan generator ESC/POS
-    final profile = await CapabilityProfile.load();
-    final generator = Generator(PaperSize.mm58, profile);
-    List<int> bytes = [];
-
-    // Ambil data toko dari BLoC
-    final toko = bloc.user.valueWrapper.value;
-    final namaToko = toko.namaToko?.isNotEmpty == true ? toko.namaToko : toko.nama;
-    final alamatToko = toko.alamat ?? '-';
-
-    // Header
-    bytes += generator.text(namaToko, styles: PosStyles(align: PosAlign.center, bold: true), linesAfter: 1);
-    bytes += generator.text(alamatToko, styles: PosStyles(align: PosAlign.center), linesAfter: 1);
-    bytes += generator.text(
-      formatDate(widget.mutasi.created_at, "d MMMM yyyy HH:mm:ss"),
-      styles: PosStyles(align: PosAlign.center),
-    );
-    bytes += generator.text('MutasiID: ${widget.mutasi.id.toUpperCase()}',
-        styles: PosStyles(align: PosAlign.center), linesAfter: 1);
-    bytes += generator.hr();
-
-    // Isi Mutasi
-    bytes += generator.text('Detail Mutasi:', styles: PosStyles(underline: true), linesAfter: 1);
-    bytes += generator.row([
-      PosColumn(text: 'Jenis', width: 6),
-      PosColumn(text: widget.mutasi.type ?? '-', width: 6, styles: PosStyles(align: PosAlign.right)),
-    ]);
-    bytes += generator.row([
-      PosColumn(text: 'Keterangan', width: 6),
-      PosColumn(text: widget.mutasi.keterangan ?? '-', width: 6, styles: PosStyles(align: PosAlign.right)),
-    ]);
-    bytes += generator.row([
-      PosColumn(text: 'Nominal', width: 6),
-      PosColumn(text: formatRupiah(nominal), width: 6, styles: PosStyles(align: PosAlign.right)),
-    ]);
-    bytes += generator.row([
-      PosColumn(text: 'Saldo Awal', width: 6),
-      PosColumn(text: formatRupiah(widget.mutasi.saldo_awal), width: 6, styles: PosStyles(align: PosAlign.right)),
-    ]);
-    bytes += generator.row([
-      PosColumn(text: 'Saldo Akhir', width: 6),
-      PosColumn(text: formatRupiah(widget.mutasi.saldo_akhir), width: 6, styles: PosStyles(align: PosAlign.right)),
-    ]);
-
-    bytes += generator.hr();
-    bytes += generator.text(
-      'Total Mutasi: ${formatRupiah(nominal)}',
-      styles: PosStyles(bold: true, align: PosAlign.center),
-      linesAfter: 1,
-    );
-    bytes += generator.hr();
-    bytes += generator.text(
-      'Struk ini adalah bukti mutasi yang sah',
-      styles: PosStyles(align: PosAlign.center),
-      linesAfter: 2,
+    // Pilih perangkat printer
+    final BluetoothDevice device = await Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => SelectPrinterPage()),
     );
 
-    
-    await printer.writeBytes(Uint8List.fromList(bytes));
-    showToast(context, 'Struk berhasil dicetak');
-  } catch (e) {
-    showToast(context, 'Gagal mencetak struk: $e');
-  } finally {
-    await printer.disconnect();
+    if (device == null) {
+      showToast(context, 'Printer tidak dipilih.');
+      return;
+    }
+
+    try {
+      // Disconnect jika sudah terkoneksi
+      if (await printer.isConnected) {
+        await printer.disconnect();
+      }
+
+      // Connect ke printer baru
+      await printer.connect(device);
+
+      // Load profil dan generator ESC/POS
+      final profile = await CapabilityProfile.load();
+      final generator = Generator(PaperSize.mm58, profile);
+      List<int> bytes = [];
+
+      // Ambil data toko dari BLoC
+      final toko = bloc.user.valueWrapper.value;
+      final namaToko =
+          toko.namaToko?.isNotEmpty == true ? toko.namaToko : toko.nama;
+      final alamatToko = toko.alamat ?? '-';
+
+      // Header
+      bytes += generator.text(namaToko,
+          styles: PosStyles(align: PosAlign.center, bold: true), linesAfter: 1);
+      bytes += generator.text(alamatToko,
+          styles: PosStyles(align: PosAlign.center), linesAfter: 1);
+      bytes += generator.text(
+        formatDate(widget.mutasi.created_at, "d MMMM yyyy HH:mm:ss"),
+        styles: PosStyles(align: PosAlign.center),
+      );
+      bytes += generator.text('MutasiID: ${widget.mutasi.id.toUpperCase()}',
+          styles: PosStyles(align: PosAlign.center), linesAfter: 1);
+      bytes += generator.hr();
+
+      // Isi Mutasi
+      bytes += generator.text('Detail Mutasi:',
+          styles: PosStyles(underline: true), linesAfter: 1);
+      bytes += generator.row([
+        PosColumn(text: 'Jenis', width: 6),
+        PosColumn(
+            text: widget.mutasi.type ?? '-',
+            width: 6,
+            styles: PosStyles(align: PosAlign.right)),
+      ]);
+      bytes += generator.row([
+        PosColumn(text: 'Keterangan', width: 6),
+        PosColumn(
+            text: widget.mutasi.keterangan ?? '-',
+            width: 6,
+            styles: PosStyles(align: PosAlign.right)),
+      ]);
+      bytes += generator.row([
+        PosColumn(text: 'Nominal', width: 6),
+        PosColumn(
+            text: formatRupiah(nominal),
+            width: 6,
+            styles: PosStyles(align: PosAlign.right)),
+      ]);
+      bytes += generator.row([
+        PosColumn(text: 'Saldo Awal', width: 6),
+        PosColumn(
+            text: formatRupiah(widget.mutasi.saldo_awal),
+            width: 6,
+            styles: PosStyles(align: PosAlign.right)),
+      ]);
+      bytes += generator.row([
+        PosColumn(text: 'Saldo Akhir', width: 6),
+        PosColumn(
+            text: formatRupiah(widget.mutasi.saldo_akhir),
+            width: 6,
+            styles: PosStyles(align: PosAlign.right)),
+      ]);
+
+      bytes += generator.hr();
+      bytes += generator.text(
+        'Total Mutasi: ${formatRupiah(nominal)}',
+        styles: PosStyles(bold: true, align: PosAlign.center),
+        linesAfter: 1,
+      );
+      bytes += generator.hr();
+      bytes += generator.text(
+        'Struk ini adalah bukti mutasi yang sah',
+        styles: PosStyles(align: PosAlign.center),
+        linesAfter: 2,
+      );
+
+      await printer.writeBytes(Uint8List.fromList(bytes));
+      showToast(context, 'Struk berhasil dicetak');
+    } catch (e) {
+      showToast(context, 'Gagal mencetak struk: $e');
+    } finally {
+      await printer.disconnect();
+    }
   }
-}
-
-
-   
- 
-
 
   @override
   Widget build(BuildContext context) {
@@ -288,8 +298,10 @@ Future<void> loadNominalLokal() async {
             onPressed: () {
               Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
-                  builder: (_) => configAppBloc.layoutApp?.valueWrapper?.value['home']
-                      ?? templateConfig[configAppBloc.templateCode.valueWrapper?.value],
+                  builder: (_) =>
+                      configAppBloc.layoutApp?.valueWrapper?.value['home'] ??
+                      templateConfig[
+                          configAppBloc.templateCode.valueWrapper?.value],
                 ),
                 (_) => false,
               );
@@ -298,11 +310,10 @@ Future<void> loadNominalLokal() async {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-  backgroundColor: headerColor,
-  child: Icon(Icons.print),
-  onPressed: () => startPrint(), 
-),
-
+        backgroundColor: headerColor,
+        child: Icon(Icons.print),
+        onPressed: () => startPrint(),
+      ),
       body: Stack(
         children: [
           Container(color: headerColor, height: 130, width: double.infinity),
@@ -366,9 +377,11 @@ Future<void> loadNominalLokal() async {
                                 children: [
                                   Expanded(
                                     child: Text(
-                                      formatDate(widget.mutasi.created_at, "d MMM yyyy HH:mm"),
+                                      formatDate(widget.mutasi.created_at,
+                                          "d MMM yyyy HH:mm"),
                                       style: TextStyle(
-                                          color: Colors.grey[600], fontSize: 11),
+                                          color: Colors.grey[600],
+                                          fontSize: 11),
                                     ),
                                   ),
                                   Expanded(
@@ -376,7 +389,8 @@ Future<void> loadNominalLokal() async {
                                       "Saldo: ${formatRupiah(widget.mutasi.saldo_akhir)}",
                                       textAlign: TextAlign.right,
                                       style: TextStyle(
-                                          color: Colors.grey[600], fontSize: 11),
+                                          color: Colors.grey[600],
+                                          fontSize: 11),
                                     ),
                                   ),
                                 ],
@@ -396,18 +410,23 @@ Future<void> loadNominalLokal() async {
                               ),
                               SizedBox(height: 12),
                               buildRow("Jenis", widget.mutasi.type ?? "-"),
-                              buildRow("Keterangan", widget.mutasi.keterangan ?? "-"),
+                              buildRow("Keterangan",
+                                  widget.mutasi.keterangan ?? "-"),
                               buildRow("Nominal", formatRupiah(nominal)),
-                              buildRow("Saldo Awal", formatRupiah(widget.mutasi.saldo_awal)),
-                              buildRow("Saldo Akhir", formatRupiah(widget.mutasi.saldo_akhir)),
+                              buildRow("Saldo Awal",
+                                  formatRupiah(widget.mutasi.saldo_awal)),
+                              buildRow("Saldo Akhir",
+                                  formatRupiah(widget.mutasi.saldo_akhir)),
                               SizedBox(height: 20),
                               Divider(thickness: 1, height: 24),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text("Total Mutasi",
                                       style: TextStyle(
-                                          fontWeight: FontWeight.bold, fontSize: 16)),
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16)),
                                   Text(formatRupiah(nominal),
                                       style: TextStyle(
                                           color: Color(0xFF2676C5),
@@ -423,7 +442,8 @@ Future<void> loadNominalLokal() async {
                                 children: [
                                   Flexible(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
                                       children: [
                                         Text(
                                           "Struk Ini Adalah Bukti Mutasi Yang Sah",
@@ -435,7 +455,6 @@ Future<void> loadNominalLokal() async {
                                         ),
                                       ],
                                     ),
-                                     
                                   ),
                                   SizedBox(width: 7),
                                   Icon(
@@ -521,24 +540,26 @@ Future<void> loadNominalLokal() async {
                                 width: double.infinity,
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    primary: headerColor,
+                                    backgroundColor: headerColor,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(8),
                                     ),
                                   ),
                                   child: Text('Simpan'),
                                   onPressed: () async {
-  final parsed = int.tryParse(txtNominal.text) ?? 0;
-  setState(() {
-    nominal = parsed;
-    showEditor = false;
-  });
-  await simpanNominalLokal(parsed);  
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(content: Text('Nominal berhasil disimpan untuk transaksi ini.')),
-  );
-},
-
+                                    final parsed =
+                                        int.tryParse(txtNominal.text) ?? 0;
+                                    setState(() {
+                                      nominal = parsed;
+                                      showEditor = false;
+                                    });
+                                    await simpanNominalLokal(parsed);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content: Text(
+                                              'Nominal berhasil disimpan untuk transaksi ini.')),
+                                    );
+                                  },
                                 ),
                               ),
                               TextButton(

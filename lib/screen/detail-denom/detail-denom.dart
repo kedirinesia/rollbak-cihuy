@@ -147,126 +147,133 @@ class _DetailDenomState extends DetailDenomController {
                 Container(
                   padding: EdgeInsets.all(20),
                   child: packageName == 'com.eralink.mobileapk'
-                    ? TextFormField(
-                        controller: tujuan,
-                        keyboardType: widget.menu.isString
-                            ? TextInputType.text
-                            : TextInputType.number,
-                        cursorColor: Theme.of(context).primaryColor,
-                        inputFormatters: [
-                          widget.menu.isString
-                              ? FilteringTextInputFormatter.allow(
-                                  RegExp("[0-9a-zA-Z-_.#@!&*+,/?]"))
-                              : FilteringTextInputFormatter.digitsOnly,
-                        ],
-                        style: TextStyle(
-                          fontWeight:
-                              configAppBloc.boldNomorTujuan.valueWrapper.value
-                                  ? FontWeight.bold
-                                  : FontWeight.normal,
-                        ),
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Theme.of(context).primaryColor)
+                      ? TextFormField(
+                          controller: tujuan,
+                          keyboardType: widget.menu.isString
+                              ? TextInputType.text
+                              : TextInputType.number,
+                          cursorColor: Theme.of(context).primaryColor,
+                          inputFormatters: [
+                            widget.menu.isString
+                                ? FilteringTextInputFormatter.allow(
+                                    RegExp("[0-9a-zA-Z-_.#@!&*+,/?]"))
+                                : FilteringTextInputFormatter.digitsOnly,
+                          ],
+                          style: TextStyle(
+                            fontWeight:
+                                configAppBloc.boldNomorTujuan.valueWrapper.value
+                                    ? FontWeight.bold
+                                    : FontWeight.normal,
                           ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Theme.of(context).primaryColor)
-                          ),
-                          isDense: true,
-                          labelText: 'Nomor Tujuan',
-                          labelStyle: TextStyle(
-                            color: Theme.of(context).secondaryHeaderColor
-                          ),
-                          prefixIcon: activateContact
-                              ? InkWell(
-                                  child: Icon(Icons.cached, color: Theme.of(context).primaryColor,),
-                                  onTap: () async {
-                                    FavoriteNumberModel response =
-                                        await Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                          builder: (_) =>
-                                              FavoriteNumber('prepaid')),
-                                    );
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).primaryColor)),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).primaryColor)),
+                            isDense: true,
+                            labelText: 'Nomor Tujuan',
+                            labelStyle: TextStyle(
+                                color: Theme.of(context).secondaryHeaderColor),
+                            prefixIcon: activateContact
+                                ? InkWell(
+                                    child: Icon(
+                                      Icons.cached,
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                    onTap: () async {
+                                      FavoriteNumberModel response =
+                                          await Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (_) =>
+                                                FavoriteNumber('prepaid')),
+                                      );
 
-                                    print('response favorite-number -> $response');
-                                    if (response == null) return;
-                                    setState(() {
-                                      tujuan.text = response.tujuan;
-                                    });
-                                  })
-                              : Icon(Icons.phone),
-                          suffixIcon: activateContact
-                              ? InkWell(
-                                  child: Icon(Icons.contacts, color: Theme.of(context).primaryColor,),
-                                  onTap: () {
-                                    Navigator.of(context)
-                                        .push(MaterialPageRoute(
-                                            builder: (_) => ContactPage()))
-                                        .then((nomor) {
-                                      if (nomor != null) {
-                                        tujuan.text = nomor;
-                                      }
-                                    });
-                                  })
-                              : SizedBox(),
-                        ),
-                      )
-                    : TextFormField(
-                        controller: tujuan,
-                        keyboardType: widget.menu.isString
-                            ? TextInputType.text
-                            : TextInputType.number,
-                        inputFormatters: [
-                          widget.menu.isString
-                              ? FilteringTextInputFormatter.allow(
-                                  RegExp("[0-9a-zA-Z-_.#@!&*+,/?]"))
-                              : FilteringTextInputFormatter.digitsOnly,
-                        ],
-                        style: TextStyle(
-                          fontWeight:
-                              configAppBloc.boldNomorTujuan.valueWrapper.value
-                                  ? FontWeight.bold
-                                  : FontWeight.normal,
-                        ),
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          isDense: true,
-                          labelText: 'Nomor Tujuan',
-                          prefixIcon: activateContact
-                              ? InkWell(
-                                  child: Icon(Icons.cached),
-                                  onTap: () async {
-                                    FavoriteNumberModel response =
-                                        await Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                          builder: (_) =>
-                                              FavoriteNumber('prepaid')),
-                                    );
+                                      print(
+                                          'response favorite-number -> $response');
+                                      if (response == null) return;
+                                      setState(() {
+                                        tujuan.text = response.tujuan;
+                                      });
+                                    })
+                                : Icon(Icons.phone),
+                            suffixIcon: activateContact
+                                ? InkWell(
+                                    child: Icon(
+                                      Icons.contacts,
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                    onTap: () {
+                                      Navigator.of(context)
+                                          .push(MaterialPageRoute(
+                                              builder: (_) => ContactPage()))
+                                          .then((nomor) {
+                                        if (nomor != null) {
+                                          tujuan.text = nomor;
+                                        }
+                                      });
+                                    })
+                                : SizedBox(),
+                          ),
+                        )
+                      : TextFormField(
+                          controller: tujuan,
+                          keyboardType: widget.menu.isString
+                              ? TextInputType.text
+                              : TextInputType.number,
+                          inputFormatters: [
+                            widget.menu.isString
+                                ? FilteringTextInputFormatter.allow(
+                                    RegExp("[0-9a-zA-Z-_.#@!&*+,/?]"))
+                                : FilteringTextInputFormatter.digitsOnly,
+                          ],
+                          style: TextStyle(
+                            fontWeight:
+                                configAppBloc.boldNomorTujuan.valueWrapper.value
+                                    ? FontWeight.bold
+                                    : FontWeight.normal,
+                          ),
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            isDense: true,
+                            labelText: 'Nomor Tujuan',
+                            prefixIcon: activateContact
+                                ? InkWell(
+                                    child: Icon(Icons.cached),
+                                    onTap: () async {
+                                      FavoriteNumberModel response =
+                                          await Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (_) =>
+                                                FavoriteNumber('prepaid')),
+                                      );
 
-                                    print('response favorite-number -> $response');
-                                    if (response == null) return;
-                                    setState(() {
-                                      tujuan.text = response.tujuan;
-                                    });
-                                  })
-                              : Icon(Icons.phone),
-                          suffixIcon: activateContact
-                              ? InkWell(
-                                  child: Icon(Icons.contacts),
-                                  onTap: () {
-                                    Navigator.of(context)
-                                        .push(MaterialPageRoute(
-                                            builder: (_) => ContactPage()))
-                                        .then((nomor) {
-                                      if (nomor != null) {
-                                        tujuan.text = nomor;
-                                      }
-                                    });
-                                  })
-                              : SizedBox(),
+                                      print(
+                                          'response favorite-number -> $response');
+                                      if (response == null) return;
+                                      setState(() {
+                                        tujuan.text = response.tujuan;
+                                      });
+                                    })
+                                : Icon(Icons.phone),
+                            suffixIcon: activateContact
+                                ? InkWell(
+                                    child: Icon(Icons.contacts),
+                                    onTap: () {
+                                      Navigator.of(context)
+                                          .push(MaterialPageRoute(
+                                              builder: (_) => ContactPage()))
+                                          .then((nomor) {
+                                        if (nomor != null) {
+                                          tujuan.text = nomor;
+                                        }
+                                      });
+                                    })
+                                : SizedBox(),
+                          ),
                         ),
-                      ),
                 ),
                 loading
                     ? Expanded(

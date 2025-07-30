@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
-import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/component/alert.dart';
 import 'package:mobile/component/template-main.dart';
 import 'package:http/http.dart' as http;

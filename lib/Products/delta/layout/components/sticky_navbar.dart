@@ -6,7 +6,6 @@ import 'package:badges/badges.dart' as BadgeModule;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/modules.dart';
@@ -73,7 +72,8 @@ class _StickyNavBarState extends State<StickyNavBar> {
                 Padding(
                   padding: const EdgeInsets.only(right: 8.0),
                   child: CachedNetworkImage(
-                      imageUrl: 'https://dokumen.payuni.co.id/logo/delta/iconputih.png',
+                      imageUrl:
+                          'https://dokumen.payuni.co.id/logo/delta/iconputih.png',
                       width: 25.0),
                 ),
                 AnimatedCrossFade(

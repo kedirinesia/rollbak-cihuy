@@ -20,7 +20,7 @@ class SelectSupplier extends StatefulWidget {
 }
 
 class SelectSupplierState extends State<SelectSupplier> {
-    List<SupplierModel> suppliers = [];
+  List<SupplierModel> suppliers = [];
   List<SupplierModel> filtered = [];
   bool isLoading = true;
 
@@ -50,12 +50,14 @@ class SelectSupplierState extends State<SelectSupplier> {
         });
       } else {
         String message = json.decode(response.body)['message'];
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(message)));
       }
     } catch (err) {
       String message =
           'Terjadi kesalahan saat mengambil data dari server, ${err.toString()}';
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(message)));
     } finally {
       setState(() {
         isLoading = false;
@@ -66,7 +68,7 @@ class SelectSupplierState extends State<SelectSupplier> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            appBar: AppBar(title: Text('Supplier'), centerTitle: true, elevation: 0),
+      appBar: AppBar(title: Text('Supplier'), centerTitle: true, elevation: 0),
       body: Container(
         width: double.infinity,
         height: double.infinity,

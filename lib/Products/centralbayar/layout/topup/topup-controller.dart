@@ -78,7 +78,9 @@ abstract class TopupController extends State<TopupPage> {
     } else if (payment.type == 9) {
       return Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (_) => configAppBloc.layoutApp.valueWrapper?.value['qris-static'] ?? MyQrisPage(),
+          builder: (_) =>
+              configAppBloc.layoutApp.valueWrapper?.value['qris-static'] ??
+              MyQrisPage(),
         ),
       );
     }

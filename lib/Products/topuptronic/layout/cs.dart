@@ -10,14 +10,14 @@ class CustomerServicePage extends StatefulWidget {
 }
 
 class _CustomerServicePageState extends State<CustomerServicePage> {
-    Completer<WebViewController> _controller = Completer<WebViewController>();
+  Completer<WebViewController> _controller = Completer<WebViewController>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-                appBar: AppBar(
-            title:
-                Text('TopupTronic Live Chat', style: TextStyle(color: Colors.white)),
+        appBar: AppBar(
+            title: Text('TopupTronic Live Chat',
+                style: TextStyle(color: Colors.white)),
             centerTitle: true,
             elevation: 0,
             iconTheme: IconThemeData(color: Colors.white)),

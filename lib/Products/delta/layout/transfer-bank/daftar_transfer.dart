@@ -4,7 +4,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_page_transition/flutter_page_transition.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mobile/Products/delta/layout/transfer-bank/form_daftar_tranfer.dart';
 import 'package:mobile/Products/delta/layout/transfer-bank/transfer_bank.dart';
@@ -20,7 +19,7 @@ class DaftarTransferPage extends StatefulWidget {
 class _DaftarTransferPageState extends State<DaftarTransferPage> {
   TextEditingController pencarianDaftar = TextEditingController();
 
-    String searchString = '';
+  String searchString = '';
   bool isSort = false;
 
   void searchDaftarTransfer({String search}) {
@@ -56,7 +55,7 @@ class _DaftarTransferPageState extends State<DaftarTransferPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: false,
       backgroundColor: Color(0XFFF0F0F0),
       appBar: AppBar(title: Text('Transfer'), centerTitle: true, elevation: 0),
       body: Container(

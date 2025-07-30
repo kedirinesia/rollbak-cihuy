@@ -11,7 +11,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobile/component/webview.dart';
 import 'package:mobile/Products/hexamobile/layout/history.dart';
 import 'package:mobile/screen/kasir/main.dart';
-import 'package:mobile/screen/profile/downline/downline.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
 
 class PakaiAjaHome extends StatefulWidget {
@@ -72,17 +71,17 @@ class _PakaiAjaHomeState extends State<PakaiAjaHome> {
         floatingActionButton: FloatingActionButton(
           backgroundColor: Theme.of(context).primaryColor,
           child: CachedNetworkImage(
-                    imageUrl: 'https://dokumen.payuni.co.id/logo/payku/qris.png',
-                    color: Colors.white,
-                    width: 40.0,
-                    height: 40.0,
-                  ),
+            imageUrl: 'https://dokumen.payuni.co.id/logo/payku/qris.png',
+            color: Colors.white,
+            width: 40.0,
+            height: 40.0,
+          ),
           elevation: 0.0,
           onPressed: () async {
             var barcode = await BarcodeScanner.scan();
             if (barcode.rawContent.isNotEmpty) {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => TransferByQR(barcode.rawContent)));
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (_) => TransferByQR(barcode.rawContent)));
             }
             // if (configAppBloc.isKasir.valueWrapper?.value) {
             //   Navigator.of(context).pushNamed('/kasir');
@@ -195,10 +194,10 @@ class _PakaiAjaHomeState extends State<PakaiAjaHome> {
                     child: Column(
                       children: <Widget>[
                         SvgPicture.asset('assets/img/storefront.svg',
-                          color: pageIndex == 2
-                            ? Theme.of(context).primaryColor
-                            : Colors.grey,
-                          width: 20.0),
+                            color: pageIndex == 2
+                                ? Theme.of(context).primaryColor
+                                : Colors.grey,
+                            width: 20.0),
                         SizedBox(
                           height: 5.0,
                         ),

@@ -69,7 +69,7 @@ class _FavoriteMenuState extends State<FavoriteMenu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            appBar: AppBar(
+      appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
         title: Text('Tambah Menu Favorit', style: TextStyle(fontSize: 18)),
         elevation: 0,

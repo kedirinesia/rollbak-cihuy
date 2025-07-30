@@ -109,7 +109,7 @@ class _DynamicPrepaidDenomState extends DynamicDenomController {
                       children: [
                         Expanded(
                           child: packageName == 'com.eralink.mobileapk'
-                            ? TextFormField(
+                              ? TextFormField(
                                   controller: tujuan,
                                   keyboardType: widget.menu.isString
                                       ? TextInputType.text
@@ -119,23 +119,29 @@ class _DynamicPrepaidDenomState extends DynamicDenomController {
                                     widget.menu.isString
                                         ? FilteringTextInputFormatter.allow(
                                             RegExp("[0-9a-zA-Z-_.]"))
-                                        : FilteringTextInputFormatter.digitsOnly,
+                                        : FilteringTextInputFormatter
+                                            .digitsOnly,
                                   ],
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(),
                                     enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(color: Theme.of(context).primaryColor)
-                                    ),
+                                        borderSide: BorderSide(
+                                            color: Theme.of(context)
+                                                .primaryColor)),
                                     focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(color: Theme.of(context).primaryColor)
-                                    ),
+                                        borderSide: BorderSide(
+                                            color: Theme.of(context)
+                                                .primaryColor)),
                                     isDense: true,
                                     labelText: 'Nomor Tujuan',
                                     labelStyle: TextStyle(
-                                      color: Theme.of(context).secondaryHeaderColor
-                                    ),
+                                        color: Theme.of(context)
+                                            .secondaryHeaderColor),
                                     prefixIcon: InkWell(
-                                        child: Icon(Icons.cached, color: Theme.of(context).primaryColor,),
+                                        child: Icon(
+                                          Icons.cached,
+                                          color: Theme.of(context).primaryColor,
+                                        ),
                                         onTap: () async {
                                           FavoriteNumberModel response =
                                               await Navigator.of(context).push(
@@ -152,11 +158,15 @@ class _DynamicPrepaidDenomState extends DynamicDenomController {
                                           });
                                         }),
                                     suffixIcon: InkWell(
-                                        child: Icon(Icons.contacts, color: Theme.of(context).primaryColor,),
+                                        child: Icon(
+                                          Icons.contacts,
+                                          color: Theme.of(context).primaryColor,
+                                        ),
                                         onTap: () {
                                           Navigator.of(context)
                                               .push(MaterialPageRoute(
-                                                  builder: (_) => ContactPage()))
+                                                  builder: (_) =>
+                                                      ContactPage()))
                                               .then((nomor) {
                                             if (nomor != null) {
                                               tujuan.text = nomor;
@@ -164,7 +174,7 @@ class _DynamicPrepaidDenomState extends DynamicDenomController {
                                           });
                                         }),
                                   ))
-                            : TextFormField(
+                              : TextFormField(
                                   controller: tujuan,
                                   keyboardType: widget.menu.isString
                                       ? TextInputType.text
@@ -173,7 +183,8 @@ class _DynamicPrepaidDenomState extends DynamicDenomController {
                                     widget.menu.isString
                                         ? FilteringTextInputFormatter.allow(
                                             RegExp("[0-9a-zA-Z-_.]"))
-                                        : FilteringTextInputFormatter.digitsOnly,
+                                        : FilteringTextInputFormatter
+                                            .digitsOnly,
                                   ],
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(),
@@ -201,7 +212,8 @@ class _DynamicPrepaidDenomState extends DynamicDenomController {
                                         onTap: () {
                                           Navigator.of(context)
                                               .push(MaterialPageRoute(
-                                                  builder: (_) => ContactPage()))
+                                                  builder: (_) =>
+                                                      ContactPage()))
                                               .then((nomor) {
                                             if (nomor != null) {
                                               tujuan.text = nomor;

@@ -1,8 +1,6 @@
 // @dart=2.9
 
 import 'package:flutter/material.dart';
-import 'package:mobile/bloc/ConfigApp.dart';
-import 'package:mobile/bloc/TemplateConfig.dart';
 import 'package:mobile/Products/outlet/layout/notifikasi/notifikasi_controller.dart';
 import 'package:mobile/Products/outlet/layout/card_info.dart';
 
@@ -12,7 +10,7 @@ class Notifikasi extends StatefulWidget {
 }
 
 class _NotifikasiState extends NotifikasiController {
-    // with SingleTickerProviderStateMixin {
+  // with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     // return Scaffold(
@@ -37,22 +35,22 @@ class _NotifikasiState extends NotifikasiController {
       // initialIndex: 0,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Theme.of(context).appBarTheme.color,
+          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
           bottom: TabBar(
-            indicatorColor: Theme.of(context).appBarTheme.iconTheme.color,
-            labelColor: Theme.of(context).appBarTheme.iconTheme.color,
-            unselectedLabelColor:
-              Theme.of(context).appBarTheme.iconTheme.color.withOpacity(.7),
-            tabs: [
-              Tab(text: "Notifikasi"),
-              Tab(text: "Informasi"),
-            ]),
+              indicatorColor: Theme.of(context).appBarTheme.iconTheme.color,
+              labelColor: Theme.of(context).appBarTheme.iconTheme.color,
+              unselectedLabelColor:
+                  Theme.of(context).appBarTheme.iconTheme.color.withOpacity(.7),
+              tabs: [
+                Tab(text: "Notifikasi"),
+                Tab(text: "Informasi"),
+              ]),
         ),
         // body: loading ? loadingWidget() : listWidget(),
-        body: TabBarView(physics: ScrollPhysics(), children: [
-          loading ? loadingWidget() : listWidget(),
-          CardInfo()
-        ],),
+        body: TabBarView(
+          physics: ScrollPhysics(),
+          children: [loading ? loadingWidget() : listWidget(), CardInfo()],
+        ),
       ),
     );
   }

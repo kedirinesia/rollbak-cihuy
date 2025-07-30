@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:mobile/bloc/Api.dart';
-import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/config.dart';
 import 'package:mobile/models/postpaid.dart';
 import 'package:mobile/modules.dart';
@@ -14,9 +13,7 @@ import 'package:mobile/screen/detail-denom-postpaid/detail-postpaid.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/bloc/Bloc.dart' show bloc;
 import 'package:mobile/screen/transaksi/detail_postpaid.dart';
-import 'package:mobile/screen/transaksi/trx_wait.dart';
 import 'package:mobile/screen/transaksi/verifikasi_pin.dart';
-import 'package:http/http.dart' as http;
 
 abstract class DetailDenomPostpaidController extends State<DetailDenomPostpaid>
     with TickerProviderStateMixin {
@@ -158,13 +155,13 @@ abstract class DetailDenomPostpaidController extends State<DetailDenomPostpaid>
               body: json.encode({'tracking_id': inq.trackingId, 'pin': pin}));
       print(response.body);
       if (response.statusCode == 200) {
-          PostpaidPurchaseModel data =
-              PostpaidPurchaseModel.fromJson(json.decode(response.body)['data']);
-          // TrxModel trx = TrxModel(id: data.id);
-          Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (_) => DetailPostpaid(data)));
-          // Navigator.of(context).pushReplacement(
-          //     MaterialPageRoute(builder: (_) => DetailTransaksi(trx)));
+        PostpaidPurchaseModel data =
+            PostpaidPurchaseModel.fromJson(json.decode(response.body)['data']);
+        // TrxModel trx = TrxModel(id: data.id);
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (_) => DetailPostpaid(data)));
+        // Navigator.of(context).pushReplacement(
+        //     MaterialPageRoute(builder: (_) => DetailTransaksi(trx)));
       } else {
         String message = json.decode(response.body)['message'];
         setState(() {

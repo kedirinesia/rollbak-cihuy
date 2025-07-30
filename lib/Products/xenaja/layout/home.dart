@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:marquee/marquee.dart';
-import 'package:mobile/Products/esaldoku/color.dart';
 import 'package:mobile/Products/xenaja/layout/components/menuTool.dart';
 import 'package:mobile/Products/xenaja/layout/profile.dart';
 import 'package:mobile/Products/xenaja/layout/qris.dart';
@@ -14,7 +13,6 @@ import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/bloc/ConfigApp.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobile/component/alert.dart';
 import 'package:mobile/component/card_info.dart';
 import 'package:mobile/component/carousel-depan.dart';
@@ -33,8 +31,6 @@ import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
 
 import 'package:mobile/screen/marketplace/index.dart';
 import 'package:mobile/provider/analitycs.dart' show analitycs;
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'dart:math';
 
 class HomePopay extends StatefulWidget {
   @override

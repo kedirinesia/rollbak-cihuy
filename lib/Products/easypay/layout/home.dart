@@ -37,7 +37,7 @@ class _HomePopayState extends State<HomePopay> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            backgroundColor: Colors.grey[100],
+      backgroundColor: Colors.grey[100],
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,
         child: configAppBloc.isMarketplace.valueWrapper?.value

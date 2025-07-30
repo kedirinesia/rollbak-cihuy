@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/screen/register.dart';
 import 'package:mobile/screen/terms/policy.dart';
-import 'package:mobile/screen/verifyEmailPage.dart';
 
-import 'emailInputPage.dart';
 
 class PrivacyPolicyPage extends StatefulWidget {
   @override
@@ -37,8 +35,9 @@ class _TermsOfServicePageState extends State<PrivacyPolicyPage> {
 
   @override
   Widget build(BuildContext context) {
-    final String appName = configAppBloc.namaApp.valueWrapper?.value ?? 'Default App';
-    
+    final String appName =
+        configAppBloc.namaApp.valueWrapper?.value ?? 'Default App';
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Privacy Policy'),
@@ -56,7 +55,9 @@ class _TermsOfServicePageState extends State<PrivacyPolicyPage> {
                 mdFileName: 'privacy_policy.md',
                 appName: appName,
               ),
-            SizedBox(height: 50,)
+              SizedBox(
+                height: 50,
+              )
             ],
           ),
         ),
@@ -73,10 +74,16 @@ class _TermsOfServicePageState extends State<PrivacyPolicyPage> {
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        child: Text('Tidak Setuju', style: TextStyle(color: Theme.of(context).primaryColor),),
+                        child: Text(
+                          'Tidak Setuju',
+                          style:
+                              TextStyle(color: Theme.of(context).primaryColor),
+                        ),
                         style: ButtonStyle(
-                          backgroundColor: MaterialStatePropertyAll(Colors.white),
-                          side: MaterialStatePropertyAll(BorderSide(color: Theme.of(context).primaryColor))),
+                            backgroundColor:
+                                MaterialStatePropertyAll(Colors.white),
+                            side: MaterialStatePropertyAll(BorderSide(
+                                color: Theme.of(context).primaryColor))),
                       ),
                     ),
                     SizedBox(width: 10),
@@ -84,14 +91,13 @@ class _TermsOfServicePageState extends State<PrivacyPolicyPage> {
                       child: FilledButton(
                         onPressed: () {
                           Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                              builder: (_) => RegisterUser()
-                            )
-                          );
+                              MaterialPageRoute(
+                                  builder: (_) => RegisterUser()));
                         },
                         child: Text('Setuju & Lanjutkan'),
                         style: ButtonStyle(
-                          backgroundColor: MaterialStatePropertyAll(Theme.of(context).primaryColor),
+                          backgroundColor: MaterialStatePropertyAll(
+                              Theme.of(context).primaryColor),
                         ),
                       ),
                     ),

@@ -4,13 +4,10 @@ import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:mobile/Products/ualreload/config.dart';
-import 'package:mobile/Products/ualreload/layout/more_menu.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/component/alert.dart';
 import 'package:mobile/models/menu.dart';
-import 'package:mobile/modules.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/screen/detail-denom-postpaid/detail-postpaid.dart';
 import 'package:mobile/screen/detail-denom/detail-denom.dart';
@@ -19,7 +16,6 @@ import 'package:mobile/screen/list-sub-menu/list-sub-menu.dart';
 import 'package:mobile/screen/pulsa/pulsa.dart';
 import 'package:mobile/Products/ualreload/layout/list_grid_menu.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:slide_popup_dialog/slide_dialog.dart';
 import 'package:slide_popup_dialog/slide_popup_dialog.dart' as SlideDialog;
 
 class MenuComponent extends StatefulWidget {
@@ -45,7 +41,7 @@ class _MenuComponentState extends State<MenuComponent> {
     super.initState();
     menus();
   }
-  
+
   Future menus() async {
     try {
       String url = '$apiUrl/menu/1';
@@ -148,9 +144,9 @@ class _MenuComponentState extends State<MenuComponent> {
       showMoreMenu(_postpaidDenomMenu);
     }
   }
-  
+
   void showMoreMenu(List<MenuModel> items) {
-      SlideDialog.showSlideDialog(
+    SlideDialog.showSlideDialog(
       context: context,
       child: Expanded(
         child: Column(
@@ -225,7 +221,7 @@ class _MenuComponentState extends State<MenuComponent> {
                           ],
                         ),
                       ),
-                      );
+                    );
                     // );
                   },
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

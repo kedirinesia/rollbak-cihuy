@@ -36,7 +36,8 @@ class MenuModel {
     description = json['description'] ?? '';
     category_id = json['category_id'] ?? '';
     kodeProduk = json['kode_produk'] ?? ''; // <--- fix biar konsisten ke field
-    isString = (json['menu_input']?.toString()?.toLowerCase() ?? '') == 'string';
+    isString =
+        (json['menu_input']?.toString()?.toLowerCase() ?? '') == 'string';
     bebasNominal = json['bebas_nominal'] ?? false;
     orderNumber = json['order_number'];
   }
@@ -67,7 +68,8 @@ class MenuModel {
       description: map['description'] ?? '',
       category_id: map['category_id'] ?? '',
       kodeProduk: map['kode_produk'] ?? '',
-      isString: (map['menu_input']?.toString()?.toLowerCase() ?? '') == 'string',
+      isString:
+          (map['menu_input']?.toString()?.toLowerCase() ?? '') == 'string',
       bebasNominal: map['bebas_nominal'] ?? false,
       orderNumber: map['order_number'], // <-- tambahkan ini juga
     );

@@ -13,7 +13,6 @@ import 'package:mobile/Products/violeta/layout/agreement/privacy_page.dart';
 import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
-import 'package:mobile/component/alert.dart';
 import 'package:mobile/component/bezierContainer.dart';
 import 'package:mobile/config.dart';
 import 'package:mobile/models/lokasi.dart';
@@ -22,7 +21,7 @@ import 'package:mobile/screen/select_state/kecamatan.dart';
 import 'package:mobile/screen/select_state/kota.dart';
 import 'package:mobile/screen/select_state/provinsi.dart';
 import 'package:mobile/screen/text_kapital.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'dart:async'; // Import Timer
 
 class RegisterUser extends StatefulWidget {
   @override
@@ -34,6 +33,8 @@ class _RegisterUserState extends State<RegisterUser> {
   TextEditingController nama = TextEditingController();
   TextEditingController nomorHp = TextEditingController();
   TextEditingController email = TextEditingController();
+  TextEditingController otpController =
+      TextEditingController(); // Tambah controller OTP
   TextEditingController pin = TextEditingController();
   TextEditingController alamat = TextEditingController();
   TextEditingController namaToko = TextEditingController();
@@ -52,6 +53,12 @@ class _RegisterUserState extends State<RegisterUser> {
   bool isReferalCode = false;
   bool isAgree = false;
 
+  // OTP State
+  bool sendingOtp = false;
+  bool otpSent = false;
+  int countdown = 0;
+  Timer timer;
+
   @override
   void initState() {
     super.initState();
@@ -66,6 +73,7 @@ class _RegisterUserState extends State<RegisterUser> {
     nama.dispose();
     nomorHp.dispose();
     email.dispose();
+    otpController.dispose(); // Dispose OTP
     pin.dispose();
     alamat.dispose();
     namaToko.dispose();
@@ -74,7 +82,103 @@ class _RegisterUserState extends State<RegisterUser> {
     kotaText.dispose();
     kecamatanText.dispose();
     referalCode.dispose();
+    timer?.cancel(); // Dispose timer
     super.dispose();
+  }
+
+  void startCountdown() {
+    setState(() {
+      countdown = 60;
+    });
+    timer?.cancel();
+    timer = Timer.periodic(Duration(seconds: 1), (t) {
+      if (countdown > 1) {
+        setState(() {
+          countdown--;
+        });
+      } else {
+        setState(() {
+          countdown = 0;
+        });
+        timer?.cancel();
+      }
+    });
+  }
+
+  Future<void> sendOtp() async {
+    final emailText = email.text.trim();
+    if (emailText.isEmpty || !RegExp(r'\S+@\S+\.\S+').hasMatch(emailText)) {
+      showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: Text('Kesalahan'),
+          content: Text('Masukkan alamat email yang valid!'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
+              child: Text('TUTUP'),
+            ),
+          ],
+        ),
+      );
+      return;
+    }
+    setState(() {
+      sendingOtp = true;
+    });
+    try {
+      final res = await http.post(
+        Uri.parse('https://fulung.net/api/Auth/send-otp-register'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'email': emailText,
+          'storeName': namaToko.text.trim().isEmpty
+              ? "Verifikasi Pendaftaran"
+              : namaToko.text.trim(),
+          'memberName': nama.text.trim().isEmpty ? emailText : nama.text.trim(),
+          'pesan':
+              "Silakan masukkan kode berikut untuk menyelesaikan proses pendaftaran akun Anda."
+        }),
+      );
+      final json = jsonDecode(res.body);
+      setState(() {
+        otpSent = res.statusCode == 200;
+      });
+      if (res.statusCode == 200) {
+        startCountdown();
+      }
+      showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: Text(otpSent ? 'Berhasil' : 'Gagal'),
+          content: Text(json['message'] ?? 'Gagal mengirim kode OTP.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
+              child: Text('TUTUP'),
+            ),
+          ],
+        ),
+      );
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: Text('Gagal'),
+          content: Text('Gagal mengirim kode OTP.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
+              child: Text('TUTUP'),
+            ),
+          ],
+        ),
+      );
+    } finally {
+      setState(() {
+        sendingOtp = false;
+      });
+    }
   }
 
   Future<void> submitRegister() async {
@@ -308,11 +412,10 @@ class _RegisterUserState extends State<RegisterUser> {
                     fontWeight: FontWeight.bold),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) {
-                        return ServicePolicyPage();
-                      }
-                    ));
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return ServicePolicyPage();
+                    }));
                   },
               ),
               TextSpan(text: "dan "),
@@ -324,11 +427,10 @@ class _RegisterUserState extends State<RegisterUser> {
                     fontWeight: FontWeight.bold),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) {
-                        return PrivacyPolicyPage();
-                      }
-                    ));
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return PrivacyPolicyPage();
+                    }));
                   },
               ),
             ],
@@ -513,7 +615,69 @@ class _RegisterUserState extends State<RegisterUser> {
                                   else
                                     return null;
                                 },
-                              )
+                              ),
+                              SizedBox(height: 15),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    flex: 2,
+                                    child: TextFormField(
+                                      controller: otpController,
+                                      keyboardType: TextInputType.number,
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.digitsOnly,
+                                        LengthLimitingTextInputFormatter(6),
+                                      ],
+                                      decoration: _inputDecoration.copyWith(
+                                        prefixIcon: Icon(
+                                          Icons.verified_user_rounded,
+                                          color: Theme.of(context).primaryColor,
+                                        ),
+                                        hintText: 'Kode OTP',
+                                      ),
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty)
+                                          return 'Masukkan kode verifikasi OTP';
+                                        if (value.length != 6)
+                                          return 'OTP harus 6 digit';
+                                        return null;
+                                      },
+                                    ),
+                                  ),
+                                  SizedBox(width: 8),
+                                  Expanded(
+                                    flex: 1,
+                                    child: ElevatedButton(
+                                      onPressed: (sendingOtp || countdown > 0)
+                                          ? null
+                                          : sendOtp,
+                                      style: ElevatedButton.styleFrom(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 16),
+                                      ),
+                                      child: sendingOtp
+                                          ? SizedBox(
+                                              height: 16,
+                                              width: 16,
+                                              child: CircularProgressIndicator(
+                                                strokeWidth: 2,
+                                              ),
+                                            )
+                                          : Text(
+                                              countdown > 0
+                                                  ? 'Tunggu $countdown dtk'
+                                                  : (otpSent
+                                                      ? 'Terkirim'
+                                                      : 'Kirim Kode'),
+                                            ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ],
                           ),
                           SizedBox(height: 15),
@@ -674,7 +838,8 @@ class _RegisterUserState extends State<RegisterUser> {
                                     SizedBox(height: 15),
                                     TextFormField(
                                       controller: namaToko,
-                                      cursorColor: Theme.of(context).primaryColor,
+                                      cursorColor:
+                                          Theme.of(context).primaryColor,
                                       keyboardType: TextInputType.text,
                                       decoration: _inputDecoration.copyWith(
                                         prefixIcon: Icon(
@@ -729,7 +894,8 @@ class _RegisterUserState extends State<RegisterUser> {
                                     SizedBox(height: 15),
                                     TextFormField(
                                       controller: alamatToko,
-                                      cursorColor: Theme.of(context).primaryColor,
+                                      cursorColor:
+                                          Theme.of(context).primaryColor,
                                       keyboardType: TextInputType.text,
                                       decoration: _inputDecoration.copyWith(
                                         prefixIcon: Icon(
@@ -754,7 +920,8 @@ class _RegisterUserState extends State<RegisterUser> {
                                     SizedBox(height: 15),
                                     TextFormField(
                                       controller: referalCode,
-                                      cursorColor: Theme.of(context).primaryColor,
+                                      cursorColor:
+                                          Theme.of(context).primaryColor,
                                       keyboardType: TextInputType.text,
                                       decoration: _inputDecoration.copyWith(
                                         prefixIcon: Icon(

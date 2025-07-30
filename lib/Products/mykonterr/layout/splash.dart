@@ -1,7 +1,6 @@
 // @dart=2.9
 
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +29,7 @@ class _SplashTalentapayState extends State<SplashScreen>
       SharedPreferences prefs = await SharedPreferences.getInstance();
       bool splashLoading = prefs.getBool('splash-loading') ?? false;
 
-      print("ooooo ${splashLoading}");
+      print("ooooo $splashLoading");
       if (!splashLoading) {
         print(_linearProgress);
         if (_linearProgress < 0.7) {

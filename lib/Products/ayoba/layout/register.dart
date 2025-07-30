@@ -1,15 +1,12 @@
 // @dart=2.9
 
 import 'dart:convert';
-import 'dart:math';
 
-import 'package:animations/animations.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/Products/ayoba/layout/agreement/privacy_page.dart';
-import 'package:mobile/Products/ayoba/layout/terms/policy_dialog.dart';
 import 'package:mobile/Products/ayoba/layout/agreement/service_page.dart';
 import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
@@ -19,8 +16,6 @@ import 'package:mobile/screen/select_state/kecamatan.dart';
 import 'package:mobile/screen/select_state/kota.dart';
 import 'package:mobile/screen/select_state/provinsi.dart';
 import 'package:quickalert/quickalert.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 class RegisterUser extends StatefulWidget {
   @override
@@ -287,11 +282,10 @@ class _RegisterUserState extends State<RegisterUser> {
                     fontWeight: FontWeight.bold),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) {
-                        return ServicePolicyPage();
-                      }
-                    ));
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return ServicePolicyPage();
+                    }));
                   },
               ),
               TextSpan(text: "dan "),

@@ -90,8 +90,8 @@ class _BelanjaPageState extends State<BelanjaPage> {
     return Scaffold(
       appBar: AppBar(
         title: packageName == 'com.hexamobile.androidapp'
-          ? Text('Hexa Data Store')
-          : Text('Marketplace'),
+            ? Text('Hexa Data Store')
+            : Text('Marketplace'),
         centerTitle: true,
         elevation: 0,
       ),
@@ -333,15 +333,15 @@ class _BelanjaPageState extends State<BelanjaPage> {
                                                 maxLines: 2,
                                                 overflow: TextOverflow.clip,
                                                 style: TextStyle(
-                                                    fontSize: 13,
-                                                    )),
+                                                  fontSize: 13,
+                                                )),
                                             Text(formatRupiah(product.price),
                                                 style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Theme.of(context)
-                                                        .primaryColor,
-                                                    ))
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
+                                                ))
                                           ],
                                         ),
                                       ),

@@ -6,7 +6,7 @@ class MoreMenuPage extends StatefulWidget {
   final List<MenuModel> menus;
   final bool isKotak;
 
-  const MoreMenuPage(this.menus, { key, this.isKotak = false }) : super(key: key);
+  const MoreMenuPage(this.menus, {key, this.isKotak = false}) : super(key: key);
 
   @override
   _MoreMenuPageState createState() => _MoreMenuPageState();
@@ -26,7 +26,7 @@ class _MoreMenuPageState extends State<MoreMenuPage> {
       isSearching = true;
     });
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,12 +39,9 @@ class _MoreMenuPageState extends State<MoreMenuPage> {
             ),
             expandedHeight: 200.0,
           ),
-          SliverList(delegate: SliverChildListDelegate([
-            MenuDepan(
-              grid: 4,
-              gradient: widget.isKotak,
-              menus: widget.menus
-            )
+          SliverList(
+              delegate: SliverChildListDelegate([
+            MenuDepan(grid: 4, gradient: widget.isKotak, menus: widget.menus)
           ]))
         ],
       ),

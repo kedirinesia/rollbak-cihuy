@@ -10,7 +10,6 @@ import 'package:mobile/screen/dynamic-prepaid/dynamic-denom.dart';
 import 'package:mobile/screen/list-sub-menu/list-sub-menu.dart';
 import 'package:mobile/screen/pulsa/pulsa.dart';
 import 'package:mobile/screen/transaksi/voucher_bulk.dart';
-import 'package:path/path.dart';
 
 class MoreMenuPage extends StatefulWidget {
   List<MenuModel> allMenu;
@@ -23,17 +22,18 @@ class MoreMenuPage extends StatefulWidget {
 
 class _MoreMenuScreenState extends State<MoreMenuPage>
     with TickerProviderStateMixin {
-
   List<MenuModel> _prepaidMenus = [];
   List<MenuModel> _postpaidMenus = [];
-
-  
 
   @override
   void initState() {
     super.initState();
-    _prepaidMenus = widget.allMenu.where((menu) => menu.type == 1 || menu.type == 3).toList(); // Anggap type 0 adalah Prabayar
-    _postpaidMenus = widget.allMenu.where((menu) => menu.type == 2).toList(); // Anggap type 1 adalah Pascabayar
+    _prepaidMenus = widget.allMenu
+        .where((menu) => menu.type == 1 || menu.type == 3)
+        .toList(); // Anggap type 0 adalah Prabayar
+    _postpaidMenus = widget.allMenu
+        .where((menu) => menu.type == 2)
+        .toList(); // Anggap type 1 adalah Pascabayar
 
     print(_prepaidMenus);
     print(_postpaidMenus);
@@ -117,10 +117,9 @@ class _MoreMenuScreenState extends State<MoreMenuPage>
               child: Text(
                 'Prabayar',
                 style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.grey.shade700,
-                  fontSize: 14
-                ),
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey.shade700,
+                    fontSize: 14),
                 textAlign: TextAlign.start,
               ),
             ),
@@ -132,10 +131,9 @@ class _MoreMenuScreenState extends State<MoreMenuPage>
               child: Text(
                 'Pascabayar',
                 style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.grey.shade700,
-                  fontSize: 14
-                ),
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey.shade700,
+                    fontSize: 14),
                 textAlign: TextAlign.start,
               ),
             ),
@@ -146,75 +144,66 @@ class _MoreMenuScreenState extends State<MoreMenuPage>
       ),
     );
   }
-  
 
   Widget _buildMenuGrid(List<MenuModel> menus) {
     return Container(
-            margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-            child: GridView.builder(
-              shrinkWrap: true,
-              primary: false,
-              physics: BouncingScrollPhysics(),
-              itemCount: menus.length,
-              itemBuilder: (context, index) {
-                MenuModel menu = menus[index];
-                return Container(
-                  // color: Colors.red.withOpacity(.1),
-                  child: InkWell(
-                    onTap: () => onTapMenu(menu, context),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          width: 50,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100),
-                            gradient: LinearGradient(
-                                begin: AlignmentDirectional.topCenter,
-                                end: AlignmentDirectional.bottomEnd,
-                                colors: [
-                                  Theme.of(context)
-                                      .primaryColor
-                                      .withOpacity(.1),
-                                  Theme.of(context)
-                                      .primaryColor
-                                      .withOpacity(.1),
-                                  Theme.of(context)
-                                      .primaryColor
-                                      .withOpacity(.1)
-                                ]),
-                          ),
-                          padding: EdgeInsets.all(8.0),
-                          child: CachedNetworkImage(
-                              imageUrl: menu.icon,
-                              width: 40.0,
-                              fit: BoxFit.cover),
-                        ),
-                        SizedBox(height: 8),
-                        Flexible(
-                          child: Text(
-                            menu.name,
-                            style: TextStyle(
-                                fontSize: 10.0,
-                                color: Colors.grey.shade500,
-                                fontWeight: FontWeight.bold),
-                            softWrap: true,
-                            textAlign: TextAlign.center,
-                          ),
-                        )
-                      ],
+      margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+      child: GridView.builder(
+        shrinkWrap: true,
+        primary: false,
+        physics: BouncingScrollPhysics(),
+        itemCount: menus.length,
+        itemBuilder: (context, index) {
+          MenuModel menu = menus[index];
+          return Container(
+            // color: Colors.red.withOpacity(.1),
+            child: InkWell(
+              onTap: () => onTapMenu(menu, context),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    width: 50,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(100),
+                      gradient: LinearGradient(
+                          begin: AlignmentDirectional.topCenter,
+                          end: AlignmentDirectional.bottomEnd,
+                          colors: [
+                            Theme.of(context).primaryColor.withOpacity(.1),
+                            Theme.of(context).primaryColor.withOpacity(.1),
+                            Theme.of(context).primaryColor.withOpacity(.1)
+                          ]),
                     ),
+                    padding: EdgeInsets.all(8.0),
+                    child: CachedNetworkImage(
+                        imageUrl: menu.icon, width: 40.0, fit: BoxFit.cover),
                   ),
-                );
-              },
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 5,
-                  crossAxisSpacing: 5,
-                  mainAxisSpacing: 30,
-                  childAspectRatio: .95),
+                  SizedBox(height: 8),
+                  Flexible(
+                    child: Text(
+                      menu.name,
+                      style: TextStyle(
+                          fontSize: 10.0,
+                          color: Colors.grey.shade500,
+                          fontWeight: FontWeight.bold),
+                      softWrap: true,
+                      textAlign: TextAlign.center,
+                    ),
+                  )
+                ],
+              ),
             ),
           );
+        },
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 5,
+            crossAxisSpacing: 5,
+            mainAxisSpacing: 30,
+            childAspectRatio: .95),
+      ),
+    );
     // return GridView.builder(
     //   shrinkWrap: true,
     //   physics: NeverScrollableScrollPhysics(),

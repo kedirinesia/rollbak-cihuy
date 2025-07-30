@@ -43,11 +43,8 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
       });
       _timer?.cancel();
       // Redirect ke halaman daftar (atau halaman utama)
-       Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                              builder: (_) => RegisterUser()
-                            )
-                          );
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (_) => RegisterUser()));
     }
   }
 
@@ -56,13 +53,11 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
     try {
       User? user = FirebaseAuth.instance.currentUser;
       await user?.sendEmailVerification();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Verification email resent!'))
-      );
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Verification email resent!')));
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to resend email: $e'))
-      );
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Failed to resend email: $e')));
     }
     setState(() => _isResending = false);
   }
@@ -72,57 +67,58 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
     return Scaffold(
       body: Center(
         child: _isVerified
-          ? CircularProgressIndicator() // While redirecting
-          : Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.mail, size: 72, color: Colors.purple),
-                SizedBox(height: 16),
-                Text(
-                  'Verify your email address',
-                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: 16),
-                Text(
-                  'We have sent a verification link to\n${widget.email}',
-                  style: TextStyle(fontSize: 16),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: 16),
-                Text(
-                  'Click on the link to complete the verification process.\n'
-                  'You might need to check your spam folder.',
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: 24),
-                ElevatedButton(
-                  onPressed: _isResending ? null : _resendEmail,
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.purple[300],
-                    padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+            ? CircularProgressIndicator() // While redirecting
+            : Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.mail, size: 72, color: Colors.purple),
+                  SizedBox(height: 16),
+                  Text(
+                    'Verify your email address',
+                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center,
                   ),
-                  child: Text('Resend email'),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text('Return to Site'),
-                      Icon(Icons.arrow_right_alt),
-                    ],
+                  SizedBox(height: 16),
+                  Text(
+                    'We have sent a verification link to\n${widget.email}',
+                    style: TextStyle(fontSize: 16),
+                    textAlign: TextAlign.center,
                   ),
-                ),
-                SizedBox(height: 20),
-                Text(
-                  'You can reach us if you have any questions.',
-                  style: TextStyle(color: Colors.grey),
-                ),
-              ],
-            ),
+                  SizedBox(height: 16),
+                  Text(
+                    'Click on the link to complete the verification process.\n'
+                    'You might need to check your spam folder.',
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: 24),
+                  ElevatedButton(
+                    onPressed: _isResending ? null : _resendEmail,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.purple[300],
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                    ),
+                    child: Text('Resend email'),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text('Return to Site'),
+                        Icon(Icons.arrow_right_alt),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    'You can reach us if you have any questions.',
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                ],
+              ),
       ),
     );
   }

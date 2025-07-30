@@ -1,5 +1,4 @@
 // @dart=2.9
-import 'dart:io' show Platform;
 import 'package:mobile/Products/talentapay/layout/detail-deposit.dart';
 import 'package:mobile/Products/talentapay/layout/home.dart';
 import 'package:mobile/Products/talentapay/layout/kirim-saldo.dart';

@@ -6,13 +6,11 @@ import 'package:mobile/Products/santren/layout/print_mutasi.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/bloc/TemplateConfig.dart';
-import 'package:mobile/config.dart';
 import 'package:mobile/models/mutasi.dart';
 import 'package:mobile/models/trx.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/provider/analitycs.dart';
-import 'package:mobile/screen/transaksi/print.dart';
-import 'package:mobile/screen/transaksi/print_mutasi.dart'; // <-- Pastikan path benar
+// <-- Pastikan path benar
 
 class WatermarkNetworkLogo extends StatelessWidget {
   final String logoUrl;
@@ -126,8 +124,10 @@ class _DetailMutasiState extends State<DetailMutasi> {
             icon: Icon(Icons.home_rounded),
             onPressed: () => Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
-                  builder: (_) => configAppBloc.layoutApp?.valueWrapper?.value['home'] ??
-                      templateConfig[configAppBloc.templateCode.valueWrapper?.value],
+                  builder: (_) =>
+                      configAppBloc.layoutApp?.valueWrapper?.value['home'] ??
+                      templateConfig[
+                          configAppBloc.templateCode.valueWrapper?.value],
                 ),
                 (route) => false),
           ),
@@ -172,7 +172,8 @@ class _DetailMutasiState extends State<DetailMutasi> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              if ((widget.mutasi.type ?? '').toLowerCase() == 'transfer') ...[
+                              if ((widget.mutasi.type ?? '').toLowerCase() ==
+                                  'transfer') ...[
                                 Text(
                                   'Transfer Berhasil',
                                   style: TextStyle(
@@ -187,7 +188,8 @@ class _DetailMutasiState extends State<DetailMutasi> {
                                 formatRupiah(nominal),
                                 style: TextStyle(
                                   fontSize: 22,
-                                  color: nominal > 0 ? Colors.green : headerColor,
+                                  color:
+                                      nominal > 0 ? Colors.green : headerColor,
                                   fontWeight: FontWeight.bold,
                                   letterSpacing: 1,
                                 ),
@@ -204,7 +206,8 @@ class _DetailMutasiState extends State<DetailMutasi> {
                               _buildDashedLine(),
                               SizedBox(height: 16),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     'Informasi Mutasi',
@@ -217,14 +220,19 @@ class _DetailMutasiState extends State<DetailMutasi> {
                                 ],
                               ),
                               SizedBox(height: 12),
-                              buildRow('ID Mutasi', widget.mutasi.id.toUpperCase()),
+                              buildRow(
+                                  'ID Mutasi', widget.mutasi.id.toUpperCase()),
                               SizedBox(height: 8),
-                              buildRow('Waktu',
-                                  formatDate(widget.mutasi.created_at, 'd MMMM yyyy HH:mm:ss')),
+                              buildRow(
+                                  'Waktu',
+                                  formatDate(widget.mutasi.created_at,
+                                      'd MMMM yyyy HH:mm:ss')),
                               SizedBox(height: 8),
-                              buildRow('Saldo Awal', formatRupiah(widget.mutasi.saldo_awal)),
+                              buildRow('Saldo Awal',
+                                  formatRupiah(widget.mutasi.saldo_awal)),
                               SizedBox(height: 8),
-                              buildRow('Saldo Akhir', formatRupiah(widget.mutasi.saldo_akhir)),
+                              buildRow('Saldo Akhir',
+                                  formatRupiah(widget.mutasi.saldo_akhir)),
                               SizedBox(height: 8),
                               buildRow('Keterangan', widget.mutasi.keterangan),
                               SizedBox(height: 14),
@@ -233,12 +241,14 @@ class _DetailMutasiState extends State<DetailMutasi> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text(
-                                   ' Transfer Via Santren Pay',
-                                    style: TextStyle(fontSize: 20, color: Colors.grey, fontWeight: FontWeight.w600)
-                                  ),
+                                  Text(' Transfer Via Santren Pay',
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.w600)),
                                   SizedBox(width: 6),
-                                  Icon(Icons.shield, color: Colors.grey, size: 18),
+                                  Icon(Icons.shield,
+                                      color: Colors.grey, size: 18),
                                 ],
                               ),
                             ],
@@ -279,34 +289,35 @@ class _DetailMutasiState extends State<DetailMutasi> {
         ],
       ),
       floatingActionButton: Builder(
-  builder: (context) {
-    final mutasiType = widget.mutasi.type?.toUpperCase() ?? '';
-    print('[DEBUG] Mutasi Type: $mutasiType');
-    print('[DEBUG] Mutasi ID: ${widget.mutasi.id}');
-    print('[DEBUG] Keterangan: ${widget.mutasi.keterangan}');
+        builder: (context) {
+          final mutasiType = widget.mutasi.type?.toUpperCase() ?? '';
+          print('[DEBUG] Mutasi Type: $mutasiType');
+          print('[DEBUG] Mutasi ID: ${widget.mutasi.id}');
+          print('[DEBUG] Keterangan: ${widget.mutasi.keterangan}');
 
-    if (mutasiType == 'KS') {
-      print('[DEBUG] Menampilkan tombol cetak karena ini transfer saldo (KS)');
-      return FloatingActionButton.extended(
-        backgroundColor: Colors.green,
-        icon: Icon(Icons.print),
-        label: Text('Print'),
-        onPressed: () {
-          print('[DEBUG] Tombol print ditekan');
-          TrxModel trx = mutasiToTrx(widget.mutasi);
-          print('[DEBUG] TrxModel: ${trx.toString()}');
-          Navigator.of(context).push(MaterialPageRoute(
-            builder: (_) => CetakMutasiPage(mutasi: widget.mutasi),
-          ));
+          if (mutasiType == 'KS') {
+            print(
+                '[DEBUG] Menampilkan tombol cetak karena ini transfer saldo (KS)');
+            return FloatingActionButton.extended(
+              backgroundColor: Colors.green,
+              icon: Icon(Icons.print),
+              label: Text('Print'),
+              onPressed: () {
+                print('[DEBUG] Tombol print ditekan');
+                TrxModel trx = mutasiToTrx(widget.mutasi);
+                print('[DEBUG] TrxModel: ${trx.toString()}');
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (_) => CetakMutasiPage(mutasi: widget.mutasi),
+                ));
+              },
+            );
+          } else {
+            print(
+                '[DEBUG] Tombol cetak disembunyikan, karena bukan transfer (bukan KS)');
+            return SizedBox.shrink();
+          }
         },
-      );
-    } else {
-      print('[DEBUG] Tombol cetak disembunyikan, karena bukan transfer (bukan KS)');
-      return SizedBox.shrink(); 
-    }
-  },
-),
-
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
@@ -319,7 +330,8 @@ class _DetailMutasiState extends State<DetailMutasi> {
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: List.generate(dashCount, (_) {
-            return Container(width: dashWidth, height: 1, color: Colors.grey.shade300);
+            return Container(
+                width: dashWidth, height: 1, color: Colors.grey.shade300);
           }),
         );
       },

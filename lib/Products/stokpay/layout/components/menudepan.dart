@@ -64,8 +64,7 @@ class _MenuDepanState extends State<MenuDepan> {
         int endMore = listMenu.length;
         MenuModel buttonMore = MenuModel(
             jenis: 99,
-            icon:
-                'https://img.stokpay.com/icon/more.png',
+            icon: 'https://img.stokpay.com/icon/more.png',
             name: 'Lainnya',
             type: 99);
 

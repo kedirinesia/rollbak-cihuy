@@ -1,13 +1,9 @@
-import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/component/webview.dart';
 import 'package:mobile/models/banner.dart';
-import 'package:http/http.dart' as http;
-import 'package:mobile/bloc/Bloc.dart' show bloc;
-import 'package:mobile/bloc/Api.dart' show apiUrl;
 import 'package:mobile/models/menu.dart';
 import 'package:mobile/provider/api.dart';
 import 'package:mobile/screen/detail-denom/detail-denom.dart';

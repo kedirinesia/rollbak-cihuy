@@ -11,7 +11,6 @@ import 'package:http/http.dart' as http;
 import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
-import 'package:mobile/component/alert.dart';
 import 'package:mobile/component/bezierContainer.dart';
 import 'package:mobile/config.dart';
 import 'package:mobile/models/lokasi.dart';
@@ -306,7 +305,8 @@ class _RegisterUserState extends State<RegisterUser> {
                     fontWeight: FontWeight.bold),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () async {
-                    await launchUrl(Uri.parse(configAppBloc.info.valueWrapper?.value.urlServicePolicy));
+                    await launchUrl(Uri.parse(configAppBloc
+                        .info.valueWrapper?.value.urlServicePolicy));
                   },
               ),
               TextSpan(text: "dan "),
@@ -318,7 +318,8 @@ class _RegisterUserState extends State<RegisterUser> {
                     fontWeight: FontWeight.bold),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () async {
-                    await launchUrl(Uri.parse(configAppBloc.info.valueWrapper?.value.urlPrivacyPolicy));
+                    await launchUrl(Uri.parse(configAppBloc
+                        .info.valueWrapper?.value.urlPrivacyPolicy));
                   },
               ),
             ],
@@ -664,7 +665,8 @@ class _RegisterUserState extends State<RegisterUser> {
                                     SizedBox(height: 15),
                                     TextFormField(
                                       controller: namaToko,
-                                      cursorColor: Theme.of(context).primaryColor,
+                                      cursorColor:
+                                          Theme.of(context).primaryColor,
                                       keyboardType: TextInputType.text,
                                       decoration: _inputDecoration.copyWith(
                                         prefixIcon: Icon(
@@ -719,7 +721,8 @@ class _RegisterUserState extends State<RegisterUser> {
                                     SizedBox(height: 15),
                                     TextFormField(
                                       controller: alamatToko,
-                                      cursorColor: Theme.of(context).primaryColor,
+                                      cursorColor:
+                                          Theme.of(context).primaryColor,
                                       keyboardType: TextInputType.text,
                                       decoration: _inputDecoration.copyWith(
                                         prefixIcon: Icon(
@@ -744,7 +747,8 @@ class _RegisterUserState extends State<RegisterUser> {
                                     SizedBox(height: 15),
                                     TextFormField(
                                       controller: referalCode,
-                                      cursorColor: Theme.of(context).primaryColor,
+                                      cursorColor:
+                                          Theme.of(context).primaryColor,
                                       keyboardType: TextInputType.text,
                                       decoration: _inputDecoration.copyWith(
                                         prefixIcon: Icon(

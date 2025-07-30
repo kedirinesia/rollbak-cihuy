@@ -22,7 +22,7 @@ class DetailPesananPage extends StatefulWidget {
 }
 
 class _DetailPesananPageState extends State<DetailPesananPage> {
-    bool loading = true;
+  bool loading = true;
   MPTransaksi trx;
 
   @override

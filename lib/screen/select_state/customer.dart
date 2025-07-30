@@ -20,7 +20,7 @@ class SelectCustomer extends StatefulWidget {
 }
 
 class SelectCustomerState extends State<SelectCustomer> {
-    List<CustomerModel> customers = [];
+  List<CustomerModel> customers = [];
   List<CustomerModel> filtered = [];
   bool isLoading = true;
 
@@ -49,12 +49,14 @@ class SelectCustomerState extends State<SelectCustomer> {
         });
       } else {
         String message = json.decode(response.body)['message'];
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(message)));
       }
     } catch (err) {
       String message =
           'Terjadi kesalahan saat mengambil data dari server, ${err.toString()}';
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(message)));
     } finally {
       setState(() {
         isLoading = false;
@@ -65,7 +67,7 @@ class SelectCustomerState extends State<SelectCustomer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            appBar: AppBar(title: Text('Pelanggan'), centerTitle: true, elevation: 0),
+      appBar: AppBar(title: Text('Pelanggan'), centerTitle: true, elevation: 0),
       body: Container(
         width: double.infinity,
         height: double.infinity,

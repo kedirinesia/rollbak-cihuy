@@ -109,19 +109,17 @@ class _QrisTopupState extends State<QrisTopup> {
                   decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Theme.of(context).primaryColor)
-                      ),
+                          borderSide: BorderSide(
+                              color: Theme.of(context).primaryColor)),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Theme.of(context).primaryColor)
-                      ),
+                          borderSide: BorderSide(
+                              color: Theme.of(context).primaryColor)),
                       labelText: 'Nominal',
                       labelStyle: TextStyle(
-                        color: Theme.of(context).secondaryHeaderColor
-                      ),
+                          color: Theme.of(context).secondaryHeaderColor),
                       prefixText: 'Rp ',
                       prefixStyle: TextStyle(
-                        color: Theme.of(context).secondaryHeaderColor
-                      ),
+                          color: Theme.of(context).secondaryHeaderColor),
                       isDense: true),
                   onChanged: (value) {
                     int amount = int.tryParse(

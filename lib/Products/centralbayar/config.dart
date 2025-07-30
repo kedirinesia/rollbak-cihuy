@@ -39,7 +39,8 @@ Map<String, String> assetGambar = {
   'logoPrinter':
       'https://firebasestorage.googleapis.com/v0/b/payuni-2019y.appspot.com/o/merchants%2Fpopay%2Ficons%2FPhoto_1536510356016-1%20(1).png?alt=media&token=3853ec11-ed0a-4cc0-8e6e-579824373ae1',
   'logoLogin': 'https://dokumen.payuni.co.id/logo/centralbayar/logologin.png',
-  'logoLoginHeader': 'https://dokumen.payuni.co.id/logo/centralbayar/new/appbarpanjang.png'
+  'logoLoginHeader':
+      'https://dokumen.payuni.co.id/logo/centralbayar/new/appbarpanjang.png'
 };
 
 Map<String, dynamic> layout = {

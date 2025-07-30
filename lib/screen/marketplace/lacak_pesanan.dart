@@ -21,7 +21,7 @@ class LacakPesananPage extends StatefulWidget {
 }
 
 class _LacakPesananPageState extends State<LacakPesananPage> {
-    @override
+  @override
   void initState() {
     super.initState();
     analitycs.pageView('/lacak/pesanan', {
@@ -61,7 +61,7 @@ class _LacakPesananPageState extends State<LacakPesananPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            appBar: AppBar(title: Text('Lacak Pengiriman'), elevation: 0),
+      appBar: AppBar(title: Text('Lacak Pengiriman'), elevation: 0),
       body: Container(
         width: double.infinity,
         height: double.infinity,

@@ -1,6 +1,5 @@
 // @dart=2.9
 
-import 'dart:io' show Platform;
 import 'package:mobile/Products/hexapay2/layout/detail-deposit.dart';
 import 'package:mobile/Products/hexapay2/layout/kirim-saldo.dart';
 import 'package:mobile/Products/hexapay2/layout/navbar.dart';
@@ -44,7 +43,8 @@ Map<String, String> assetGambar = {
   'imageHeader': 'https://dokumen.payuni.co.id/logo/hexapay/appbarhexapay.png',
   'imageAppbar': 'https://dokumen.payuni.co.id/logo/hexapay/navbarhexapay.png',
   // 'backgroundStruk': 'https://www.payuni.co.id/struk.png',
-  'logoLogin': 'https://dokumen.payuni.co.id/logo/hexapay/logopanjangkencil.png',
+  'logoLogin':
+      'https://dokumen.payuni.co.id/logo/hexapay/logopanjangkencil.png',
   'logoApp': 'https://dokumen.payuni.co.id/logo/hexapay/iconlayout.png',
 };
 

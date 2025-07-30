@@ -16,11 +16,11 @@ class HomeBlibli extends StatefulWidget {
 class _HomeBlibliState extends State<HomeBlibli> {
   int pageIndex = 0;
   List<Widget> halaman = [PayuniHome(), HistoryPage(), CS1(), ProfilePopay()];
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            backgroundColor: Colors.grey[100],
+      backgroundColor: Colors.grey[100],
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,
         child: Icon(Icons.storefront_rounded),

@@ -47,150 +47,145 @@ class _ListAlamatPageState extends State<ListAlamatPage> {
   //   if (response.statusCode == 200) setState(() {});
   // }
 
-  Future<void> deleteShipping(AlamatModel _alamat) async{
+  Future<void> deleteShipping(AlamatModel _alamat) async {
     showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        content: Text('Apakah anda yakin ingin menghapus alamat ini ?'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context, rootNavigator: true).pop();
-            },
-            child: Text(
-              'TIDAK',
-              style: TextStyle(
-                color: Theme.of(context).primaryColor
-              ),
-            ),
-          ),
-          TextButton(
-            child: Text(
-              'YA',
-              style: TextStyle(
-                color: Theme.of(context).primaryColor,
-              ),
-            ),
-            onPressed: () async {
-              setState(() {
-                loading = true;
-              });
-              Navigator.of(context, rootNavigator: true).pop();
-
-              try {
-                var idAlamat = _alamat.id;
-                Map<String, dynamic> dataToSend = {
-                  'id': idAlamat
-                };
-
-                http.Response response = await http.post(
-                  Uri.parse('$apiUrl/market/shipping/remove'),
-                  headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': bloc.token.valueWrapper?.value,
+        context: context,
+        builder: (_) => AlertDialog(
+              content: Text('Apakah anda yakin ingin menghapus alamat ini ?'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context, rootNavigator: true).pop();
                   },
-                  body: json.encode(dataToSend));
+                  child: Text(
+                    'TIDAK',
+                    style: TextStyle(color: Theme.of(context).primaryColor),
+                  ),
+                ),
+                TextButton(
+                  child: Text(
+                    'YA',
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                  onPressed: () async {
+                    setState(() {
+                      loading = true;
+                    });
+                    Navigator.of(context, rootNavigator: true).pop();
 
-                var responseData = json.decode(response.body);
-                int status = responseData['status'];
-                String message = responseData['message'] ?? 'Terjadi kesalahan saat mengambil data dari server';
-                if (response.statusCode == 200) {
-                  List<dynamic> datas = responseData['data'];
+                    try {
+                      var idAlamat = _alamat.id;
+                      Map<String, dynamic> dataToSend = {'id': idAlamat};
 
-                  if (status == 200) {
-                    showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                            title: Text('Berhasil'),
-                            content: Text(message),
-                            actions: <Widget>[
-                              TextButton(
-                                child: Text(
-                                  'OK',
-                                  style: TextStyle(
-                                    color: Theme.of(context)
-                                        .primaryColor,
-                                  ),
-                                ),
-                                onPressed: () =>
-                                    Navigator.of(context).pop(),
-                              )
-                            ],
-                          ));
+                      http.Response response = await http.post(
+                          Uri.parse('$apiUrl/market/shipping/remove'),
+                          headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': bloc.token.valueWrapper?.value,
+                          },
+                          body: json.encode(dataToSend));
 
-                    // refreshData();
-                  } else {
-                    showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                            title: Text('Gagal'),
-                            content: Text(message),
-                            actions: <Widget>[
-                              TextButton(
-                                child: Text(
-                                  'OK',
-                                  style: TextStyle(
-                                    color: Theme.of(context)
-                                        .primaryColor,
-                                  ),
-                                ),
-                                onPressed: () =>
-                                    Navigator.of(context).pop(),
-                              )
-                            ],
-                          ));
-                  }
-                } else {
-                  showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                          title: Text('Gagal'),
-                          content: Text(message),
-                          actions: <Widget>[
-                            TextButton(
-                              child: Text(
-                                'OK',
-                                style: TextStyle(
-                                  color:
-                                      Theme.of(context).primaryColor,
-                                ),
-                              ),
-                              onPressed: () =>
-                                  Navigator.of(context).pop(),
-                            )
-                          ],
-                        ));
-                }
-              } catch (err) {
-                  showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                            title: Text('Gagal'),
-                            content: Text(
-                                'Terjadi kesalahan saat mengirim data ke server\nError: ${err.toString()}'),
-                            actions: <Widget>[
-                              TextButton(
-                                child: Text(
-                                  'OK',
-                                  style: TextStyle(
-                                    color: Theme.of(context).primaryColor,
-                                  ),
-                                ),
-                                onPressed: () =>
-                                    Navigator.of(context).pop(),
-                              )
-                            ],
-                          ));
-              } finally {
-                  setState(() {
-                    loading = false;
-                  });
-              }
-            },
-          )
-        ],
-      )
-    );
+                      var responseData = json.decode(response.body);
+                      int status = responseData['status'];
+                      String message = responseData['message'] ??
+                          'Terjadi kesalahan saat mengambil data dari server';
+                      if (response.statusCode == 200) {
+                        List<dynamic> datas = responseData['data'];
+
+                        if (status == 200) {
+                          showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                    title: Text('Berhasil'),
+                                    content: Text(message),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: Text(
+                                          'OK',
+                                          style: TextStyle(
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                          ),
+                                        ),
+                                        onPressed: () =>
+                                            Navigator.of(context).pop(),
+                                      )
+                                    ],
+                                  ));
+
+                          // refreshData();
+                        } else {
+                          showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                    title: Text('Gagal'),
+                                    content: Text(message),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: Text(
+                                          'OK',
+                                          style: TextStyle(
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                          ),
+                                        ),
+                                        onPressed: () =>
+                                            Navigator.of(context).pop(),
+                                      )
+                                    ],
+                                  ));
+                        }
+                      } else {
+                        showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                                  title: Text('Gagal'),
+                                  content: Text(message),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      child: Text(
+                                        'OK',
+                                        style: TextStyle(
+                                          color: Theme.of(context).primaryColor,
+                                        ),
+                                      ),
+                                      onPressed: () =>
+                                          Navigator.of(context).pop(),
+                                    )
+                                  ],
+                                ));
+                      }
+                    } catch (err) {
+                      showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                                title: Text('Gagal'),
+                                content: Text(
+                                    'Terjadi kesalahan saat mengirim data ke server\nError: ${err.toString()}'),
+                                actions: <Widget>[
+                                  TextButton(
+                                    child: Text(
+                                      'OK',
+                                      style: TextStyle(
+                                        color: Theme.of(context).primaryColor,
+                                      ),
+                                    ),
+                                    onPressed: () =>
+                                        Navigator.of(context).pop(),
+                                  )
+                                ],
+                              ));
+                    } finally {
+                      setState(() {
+                        loading = false;
+                      });
+                    }
+                  },
+                )
+              ],
+            ));
   }
 
   Future<void> showOptions(AlamatModel alamat) async {
@@ -231,9 +226,7 @@ class _ListAlamatPageState extends State<ListAlamatPage> {
         ),
       );
       if (state) fetchAlamat();
-      setState(() {
-        
-      });
+      setState(() {});
     }
     if (option == 2) deleteShipping(alamat);
   }

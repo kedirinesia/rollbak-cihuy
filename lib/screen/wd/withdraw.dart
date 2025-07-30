@@ -12,7 +12,6 @@ import 'package:mobile/models/wd_bank.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/kyc/verification1.dart';
-import 'package:mobile/screen/profile/kyc/verification.dart';
 import 'package:mobile/screen/transaksi/verifikasi_pin.dart';
 import 'package:mobile/screen/wd/list_bank.dart';
 import 'package:http/http.dart' as http;
@@ -367,116 +366,138 @@ class _WithdrawPageState extends State<WithdrawPage> {
                         : ListView(
                             children: <Widget>[
                               packageName == 'com.eralink.mobileapk'
-                                ? Text('Bank Tujuan',
+                                  ? Text('Bank Tujuan',
                                       style: TextStyle(
-                                          color: Theme.of(context).secondaryHeaderColor, fontSize: 12))
-                                : Text('Bank Tujuan',
+                                          color: Theme.of(context)
+                                              .secondaryHeaderColor,
+                                          fontSize: 12))
+                                  : Text('Bank Tujuan',
                                       style: TextStyle(
                                           color: Colors.grey, fontSize: 12)),
                               packageName == 'com.eralink.mobileapk'
-                                ? TextFormField(
+                                  ? TextFormField(
                                       controller: bank,
                                       readOnly: true,
                                       decoration: InputDecoration(
                                         enabledBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(color: Theme.of(context).primaryColor)
-                                        ),
+                                            borderSide: BorderSide(
+                                                color: Theme.of(context)
+                                                    .primaryColor)),
                                         focusedBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(color: Theme.of(context).primaryColor)
-                                        ),
+                                            borderSide: BorderSide(
+                                                color: Theme.of(context)
+                                                    .primaryColor)),
                                         isDense: true,
                                       ),
                                       onTap: () => getBank())
-                                : TextFormField(
+                                  : TextFormField(
                                       controller: bank,
                                       readOnly: true,
-                                      decoration: InputDecoration(isDense: true),
+                                      decoration:
+                                          InputDecoration(isDense: true),
                                       onTap: () => getBank()),
                               SizedBox(height: 10),
                               packageName == 'com.eralink.mobileapk'
-                                ? Text('Nomor Rekening Tujuan',
+                                  ? Text('Nomor Rekening Tujuan',
                                       style: TextStyle(
-                                          color: Theme.of(context).secondaryHeaderColor, fontSize: 12))
-                                : Text('Nomor Rekening Tujuan',
+                                          color: Theme.of(context)
+                                              .secondaryHeaderColor,
+                                          fontSize: 12))
+                                  : Text('Nomor Rekening Tujuan',
                                       style: TextStyle(
                                           color: Colors.grey, fontSize: 12)),
                               packageName == 'com.eralink.mobileapk'
-                                ? TextFormField(
+                                  ? TextFormField(
                                       controller: tujuan,
                                       keyboardType: TextInputType.number,
-                                      cursorColor: Theme.of(context).primaryColor,
+                                      cursorColor:
+                                          Theme.of(context).primaryColor,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.digitsOnly
                                       ],
                                       decoration: InputDecoration(
                                         enabledBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(color: Theme.of(context).primaryColor)
-                                        ),
+                                            borderSide: BorderSide(
+                                                color: Theme.of(context)
+                                                    .primaryColor)),
                                         focusedBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(color: Theme.of(context).primaryColor)
-                                        ),
+                                            borderSide: BorderSide(
+                                                color: Theme.of(context)
+                                                    .primaryColor)),
                                         isDense: true,
                                       ))
-                                : TextFormField(
+                                  : TextFormField(
                                       controller: tujuan,
                                       keyboardType: TextInputType.number,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.digitsOnly
                                       ],
-                                      decoration: InputDecoration(isDense: true)),
+                                      decoration:
+                                          InputDecoration(isDense: true)),
                               SizedBox(height: 10),
                               packageName == 'com.eralink.mobileapk'
-                                ? Text('Nominal',
+                                  ? Text('Nominal',
                                       style: TextStyle(
-                                          color: Theme.of(context).secondaryHeaderColor, fontSize: 12))
-                                : Text('Nominal',
+                                          color: Theme.of(context)
+                                              .secondaryHeaderColor,
+                                          fontSize: 12))
+                                  : Text('Nominal',
                                       style: TextStyle(
                                           color: Colors.grey, fontSize: 12)),
                               packageName == 'com.eralink.mobileapk'
-                                ? TextFormField(
-                                    controller: nominal,
-                                    keyboardType: TextInputType.number,
-                                    cursorColor: Theme.of(context).primaryColor,
-                                    inputFormatters: [
-                                      FilteringTextInputFormatter.digitsOnly
-                                    ],
-                                    decoration: InputDecoration(
-                                        enabledBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(color: Theme.of(context).primaryColor)
-                                        ),
-                                        focusedBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(color: Theme.of(context).primaryColor)
-                                        ),
-                                        isDense: true,
-                                        prefixText: 'Rp  '),
-                                    onChanged: (value) {
-                                      int amount = int.tryParse(nominal.text
-                                              .replaceAll(RegExp('[^0-9]'), '')) ??
-                                          0;
-                                      nominal.text = FormatRupiah(amount);
-                                      nominal.selection =
-                                          TextSelection.fromPosition(TextPosition(
-                                              offset: nominal.text.length));
-                                    },
-                                  )
-                                : TextFormField(
-                                    controller: nominal,
-                                    keyboardType: TextInputType.number,
-                                    inputFormatters: [
-                                      FilteringTextInputFormatter.digitsOnly
-                                    ],
-                                    decoration: InputDecoration(
-                                        isDense: true, prefixText: 'Rp  '),
-                                    onChanged: (value) {
-                                      int amount = int.tryParse(nominal.text
-                                              .replaceAll(RegExp('[^0-9]'), '')) ??
-                                          0;
-                                      nominal.text = FormatRupiah(amount);
-                                      nominal.selection =
-                                          TextSelection.fromPosition(TextPosition(
-                                              offset: nominal.text.length));
-                                    },
-                                  ),
+                                  ? TextFormField(
+                                      controller: nominal,
+                                      keyboardType: TextInputType.number,
+                                      cursorColor:
+                                          Theme.of(context).primaryColor,
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.digitsOnly
+                                      ],
+                                      decoration: InputDecoration(
+                                          enabledBorder: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Theme.of(context)
+                                                      .primaryColor)),
+                                          focusedBorder: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Theme.of(context)
+                                                      .primaryColor)),
+                                          isDense: true,
+                                          prefixText: 'Rp  '),
+                                      onChanged: (value) {
+                                        int amount = int.tryParse(nominal.text
+                                                .replaceAll(
+                                                    RegExp('[^0-9]'), '')) ??
+                                            0;
+                                        nominal.text = FormatRupiah(amount);
+                                        nominal.selection =
+                                            TextSelection.fromPosition(
+                                                TextPosition(
+                                                    offset:
+                                                        nominal.text.length));
+                                      },
+                                    )
+                                  : TextFormField(
+                                      controller: nominal,
+                                      keyboardType: TextInputType.number,
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.digitsOnly
+                                      ],
+                                      decoration: InputDecoration(
+                                          isDense: true, prefixText: 'Rp  '),
+                                      onChanged: (value) {
+                                        int amount = int.tryParse(nominal.text
+                                                .replaceAll(
+                                                    RegExp('[^0-9]'), '')) ??
+                                            0;
+                                        nominal.text = FormatRupiah(amount);
+                                        nominal.selection =
+                                            TextSelection.fromPosition(
+                                                TextPosition(
+                                                    offset:
+                                                        nominal.text.length));
+                                      },
+                                    ),
                               SizedBox(height: 10),
                               selectedBank != null
                                   ? Container(

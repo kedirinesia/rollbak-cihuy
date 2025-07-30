@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_page_transition/flutter_page_transition.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
@@ -232,8 +231,9 @@ class MenuGrid extends StatelessWidget {
                   ),
                   SizedBox(height: 5.0),
                   Text('Withdraw',
-                      style:
-                          TextStyle(fontSize: 12.0, color: Theme.of(context).primaryColor))
+                      style: TextStyle(
+                          fontSize: 12.0,
+                          color: Theme.of(context).primaryColor))
                 ],
               ),
             ),
@@ -264,7 +264,8 @@ class MenuGrid extends StatelessWidget {
                           ]),
                     ),
                     padding: EdgeInsets.all(8.0),
-                    child: Image.asset('assets/img/funmo/tfsaldo.png', width: 20.0),
+                    child: Image.asset('assets/img/funmo/tfsaldo.png',
+                        width: 20.0),
                   ),
                   SizedBox(height: 5.0),
                   Text('Kirim',
@@ -298,8 +299,8 @@ class MenuGrid extends StatelessWidget {
                           ]),
                     ),
                     padding: EdgeInsets.all(8.0),
-                    child:
-                        Image.asset('assets/img/funmo/reward.png', fit: BoxFit.cover),
+                    child: Image.asset('assets/img/funmo/reward.png',
+                        fit: BoxFit.cover),
                   ),
                   SizedBox(height: 5.0),
                   Text('Rewards',
@@ -333,7 +334,8 @@ class MenuGrid extends StatelessWidget {
                           ]),
                     ),
                     padding: EdgeInsets.all(8.0),
-                    child: Image.asset('assets/img/funmo/komisi.png', width: 20.0),
+                    child:
+                        Image.asset('assets/img/funmo/komisi.png', width: 20.0),
                   ),
                   SizedBox(height: 5.0),
                   Text('Komisi',

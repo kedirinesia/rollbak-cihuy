@@ -22,7 +22,7 @@ class TopupChannel extends StatefulWidget {
 
 class _TopupChannelState extends State<TopupChannel> {
   bool loading = false;
-    TextEditingController nominal = TextEditingController();
+  TextEditingController nominal = TextEditingController();
 
   void topup() async {
     if (nominal.text.isEmpty) {
@@ -71,7 +71,8 @@ class _TopupChannelState extends State<TopupChannel> {
     } else {
       String message = json.decode(response.body)['message'] ??
           'Terjadi masalah pada server';
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(message)));
     }
 
     setState(() {
@@ -82,7 +83,7 @@ class _TopupChannelState extends State<TopupChannel> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            appBar: AppBar(
+      appBar: AppBar(
           title: Text(widget.payment.title), centerTitle: true, elevation: 0),
       body: loading
           ? Container(

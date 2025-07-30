@@ -42,7 +42,7 @@ class _CardInfoState extends State<CardInfo> {
             child: CarouselSlider(
               items: snapshot.data.map((d) {
                 InfoModel info = d;
-          
+
                 return InkWell(
                   onTap: () => Navigator.of(context)
                       .push(MaterialPageRoute(builder: (_) => InfoPage(info))),
@@ -68,7 +68,8 @@ class _CardInfoState extends State<CardInfo> {
                                   ),
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         info.title,
@@ -100,11 +101,10 @@ class _CardInfoState extends State<CardInfo> {
                 );
               }).toList(),
               options: CarouselOptions(
-                viewportFraction: .55,
-                autoPlay: true,
-                autoPlayInterval: Duration(milliseconds: 5000),
-                padEnds: false
-              ),
+                  viewportFraction: .55,
+                  autoPlay: true,
+                  autoPlayInterval: Duration(milliseconds: 5000),
+                  padEnds: false),
             ),
           );
         });

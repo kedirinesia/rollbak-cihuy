@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/Products/ayoba/layout/register.dart';
 import 'package:mobile/Products/ayoba/layout/terms/policy.dart';
 
 class ServicePolicyPage extends StatefulWidget {
@@ -49,7 +48,9 @@ class _TermsOfServicePageState extends State<ServicePolicyPage> {
               MarkdownDisplayScreen(
                 mdFileName: 'term_condition.md',
               ),
-            SizedBox(height: 50,)
+              SizedBox(
+                height: 50,
+              )
             ],
           ),
         ),
@@ -64,7 +65,8 @@ class _TermsOfServicePageState extends State<ServicePolicyPage> {
                   },
                   child: Text('Close'),
                   style: ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Theme.of(context).primaryColor),
+                    backgroundColor: MaterialStatePropertyAll(
+                        Theme.of(context).primaryColor),
                   ),
                 ),
               ),

@@ -7,7 +7,6 @@ import 'package:mobile/Products/funfast/layout/home1.dart';
 // import 'package:mobile/Products/funmo/layout/history.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/component/webview.dart';
-import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:mobile/screen/history/history.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
 import '../../../component/fonts/funmo/my_flutter_app_icons.dart';

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/Products/paymobileku/layout/transfer-bank/daftar_transfer.dart';
-import 'package:mobile/screen/transfer_saldo/transfer_saldo.dart';
 
 class TransferOptionPage extends StatefulWidget {
   const TransferOptionPage({Key? key}) : super(key: key);

@@ -15,7 +15,6 @@ class ListKurirPage extends StatefulWidget {
 }
 
 class _ListKurirPageState extends State<ListKurirPage> {
-  
   Future<List<MPKurir>> getCouriers() async {
     try {
       http.Response response = await http.get(
@@ -36,7 +35,7 @@ class _ListKurirPageState extends State<ListKurirPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            appBar: AppBar(title: Text('Pilih Kurir'), elevation: 0),
+      appBar: AppBar(title: Text('Pilih Kurir'), elevation: 0),
       body: FutureBuilder<List<MPKurir>>(
         future: getCouriers(),
         builder: (ctx, snapshot) {

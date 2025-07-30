@@ -41,7 +41,7 @@ String formatRupiah(int nominal) {
   return 'Rp $rupiah';
 }
 
-String  FormatRupiah(int nominal) {
+String FormatRupiah(int nominal) {
   String Rupiah = NumberFormat.decimalPattern('id').format(nominal);
   return '$Rupiah';
 }

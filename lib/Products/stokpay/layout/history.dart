@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/screen/history/deposit/deposit.dart';
 import 'package:mobile/screen/history/transaksi.dart';
-import 'package:mobile/screen/history/order.dart';
 
 class HistoryPage extends StatefulWidget {
   @override
@@ -19,7 +18,7 @@ class _HistoryPageState extends State<HistoryPage>
       initialIndex: 0,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Theme.of(context).appBarTheme.color,
+          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
           bottom: TabBar(
               indicatorColor: Theme.of(context).appBarTheme.iconTheme.color,
               labelColor: Theme.of(context).appBarTheme.iconTheme.color,

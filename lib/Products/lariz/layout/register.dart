@@ -1,26 +1,20 @@
 // @dart=2.9
 
 import 'dart:convert';
-import 'dart:math';
 
-import 'package:animations/animations.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/Products/lariz/layout/agreement/privacy_page.dart';
 import 'package:mobile/Products/lariz/layout/agreement/service_page.dart';
-import 'package:mobile/Products/lariz/layout/terms/policy_dialog.dart';
 import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
-import 'package:mobile/component/webview.dart';
 import 'package:mobile/models/lokasi.dart';
 import 'package:mobile/Products/lariz/layout/select_state/kecamatan.dart';
 import 'package:mobile/Products/lariz/layout/select_state/kota.dart';
 import 'package:mobile/Products/lariz/layout/select_state/provinsi.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 class RegisterUser extends StatefulWidget {
   @override
@@ -364,11 +358,10 @@ class _RegisterUserState extends State<RegisterUser> {
                     //     );
                     //   },
                     // );
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) {
-                        return PrivacyPolicyPage();
-                      }
-                    ));
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return PrivacyPolicyPage();
+                    }));
                   },
               ),
             ],

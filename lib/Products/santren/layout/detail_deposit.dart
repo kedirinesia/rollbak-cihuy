@@ -23,13 +23,12 @@ class WatermarkNetworkLogo extends StatelessWidget {
   final double rotationDeg;
 
   const WatermarkNetworkLogo({
-  Key key,
-  @required this.logoUrl,
-  this.size = 100,     
-  this.opacity = 0.22,  
-  this.rotationDeg = -19,
-}) : super(key: key);
-
+    Key key,
+    @required this.logoUrl,
+    this.size = 100,
+    this.opacity = 0.22,
+    this.rotationDeg = -19,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +65,7 @@ class WatermarkNetworkLogo extends StatelessWidget {
     );
   }
 }
+
 /// -------- END WATERMARK LAYER --------
 
 class DetailDeposit extends StatefulWidget {
@@ -121,9 +121,8 @@ class _DetailDepositState extends DetailDepositController {
   }
 
   Future<void> getNamaPengguna() async {
-    final token = bloc.token.valueWrapper != null
-        ? bloc.token.valueWrapper.value
-        : null;
+    final token =
+        bloc.token.valueWrapper != null ? bloc.token.valueWrapper.value : null;
     setState(() => loadingNama = true);
     try {
       final response = await http.get(
@@ -163,8 +162,7 @@ class _DetailDepositState extends DetailDepositController {
   String safe(String s) => s != null && s.trim().isNotEmpty ? s : '-';
 
   Widget fab() {
-    if (_dep.statusModel.status == 0 &&
-        (_dep.type == 1 || _dep.type == 2)) {
+    if (_dep.statusModel.status == 0 && (_dep.type == 1 || _dep.type == 2)) {
       return FloatingActionButton.extended(
         backgroundColor: Theme.of(context).primaryColor,
         icon: Icon(Icons.navigate_next),
@@ -411,7 +409,8 @@ class _DetailDepositState extends DetailDepositController {
                             ),
                             SizedBox(height: 5),
                             Text(
-                              formatDate(_dep.created_at, 'd MMM yyyy HH:mm:ss'),
+                              formatDate(
+                                  _dep.created_at, 'd MMM yyyy HH:mm:ss'),
                               style: TextStyle(
                                 color: Colors.grey[600],
                                 fontSize: 12,
@@ -486,15 +485,20 @@ class _DetailDepositState extends DetailDepositController {
                             SizedBox(height: 10),
                             buildRowText("Nominal", formatRupiah(_dep.nominal)),
                             SizedBox(height: 10),
-                            buildRowText("Biaya Admin", formatRupiah(_dep.admin)),
+                            buildRowText(
+                                "Biaya Admin", formatRupiah(_dep.admin)),
                             SizedBox(height: 10),
                             buildRowText("Keterangan", safe(_dep.keterangan)),
                             SizedBox(height: 10),
-                            buildRowText("Waktu Deposit",
-                                formatDate(_dep.created_at, 'd MMM yyyy HH:mm:ss')),
+                            buildRowText(
+                                "Waktu Deposit",
+                                formatDate(
+                                    _dep.created_at, 'd MMM yyyy HH:mm:ss')),
                             SizedBox(height: 10),
-                            buildRowText("Waktu Kadaluarsa",
-                                formatDate(_dep.expired_at, 'd MMM yyyy HH:mm:ss')),
+                            buildRowText(
+                                "Waktu Kadaluarsa",
+                                formatDate(
+                                    _dep.expired_at, 'd MMM yyyy HH:mm:ss')),
                             SizedBox(height: 14),
                             _buildDashedLine(),
                             SizedBox(height: 10),

@@ -67,7 +67,7 @@ class PolicyDialog extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Theme.of(context).textTheme.button.color,
+                  color: Theme.of(context).textTheme.labelLarge.color,
                 ),
               ),
             ),

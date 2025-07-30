@@ -70,10 +70,12 @@ class _MenuDepanState extends State<MenuDepan> {
       if (response.statusCode == 200) {
         final jsonBody = json.decode(response.body);
         final List data = jsonBody['data'] ?? [];
-        List<MenuModel> listMenu = data.map((e) => MenuModel.fromJson(e)).toList();
+        List<MenuModel> listMenu =
+            data.map((e) => MenuModel.fromJson(e)).toList();
 
         // Sorting by orderNumber, yang null di bawah
-        listMenu.sort((a, b) => ((a.orderNumber ?? 9999).compareTo(b.orderNumber ?? 9999)));
+        listMenu.sort((a, b) =>
+            ((a.orderNumber ?? 9999).compareTo(b.orderNumber ?? 9999)));
 
         _splitMenus(listMenu);
       } else {
@@ -129,18 +131,23 @@ class _MenuDepanState extends State<MenuDepan> {
   ];
 
   onTapMenu(MenuModel menu) {
-    print('📌 Menu diklik: ${menu.name} | jenis: ${menu.jenis}, type: ${menu.type}, category_id: ${menu.category_id}, kodeProduk: ${menu.kodeProduk}');
+    print(
+        '📌 Menu diklik: ${menu.name} | jenis: ${menu.jenis}, type: ${menu.type}, category_id: ${menu.category_id}, kodeProduk: ${menu.kodeProduk}');
     if (menu.jenis == 1) {
       print('➡️ Menu menuju ke: Pulsa');
       return Navigator.of(context).push(MaterialPageRoute(builder: (_) {
         return Pulsa(menu);
       }));
     } else if (menu.jenis == 2) {
-      if (menu.category_id != null && menu.category_id.isNotEmpty && menu.type == 1) {
+      if (menu.category_id != null &&
+          menu.category_id.isNotEmpty &&
+          menu.type == 1) {
         print('➡️ Menu menuju ke: DetailDenom');
         return Navigator.of(context).push(PageTransition(
             child: DetailDenom(menu), type: PageTransitionType.rippleRightUp));
-      } else if (menu.kodeProduk != null && menu.kodeProduk.isNotEmpty && menu.type == 2) {
+      } else if (menu.kodeProduk != null &&
+          menu.kodeProduk.isNotEmpty &&
+          menu.type == 2) {
         print('➡️ Menu menuju ke: DetailDenomPostpaid');
         return Navigator.of(context).push(PageTransition(
             child: DetailDenomPostpaid(menu),
@@ -148,8 +155,8 @@ class _MenuDepanState extends State<MenuDepan> {
       } else {
         if (menu.type == 3) {
           print('➡️ Menu menuju ke: DynamicPrepaidDenom');
-          return Navigator.of(context)
-              .push(MaterialPageRoute(builder: (_) => DynamicPrepaidDenom(menu)));
+          return Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => DynamicPrepaidDenom(menu)));
         } else {
           print('➡️ Menu menuju ke: ListSubMenu (category_id kosong/null)');
           return Navigator.of(context)

@@ -46,7 +46,6 @@ class _HomePayuniState extends State<HomePayuni> with TickerProviderStateMixin {
     ProfilePopay()
   ];
 
-  
   @override
   void initState() {
     super.initState();
@@ -116,7 +115,7 @@ class _HomePayuniState extends State<HomePayuni> with TickerProviderStateMixin {
         toolbarHeight: 0.0,
         elevation: 0,
       ),
-            floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,
         child: SvgPicture.asset(
           "assets/img/payuni2/scan.svg",

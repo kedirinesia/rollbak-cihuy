@@ -3,7 +3,6 @@
 import 'dart:convert';
 
 import 'package:badges/badges.dart' as BadgeModule;
-import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -28,8 +27,6 @@ import 'package:mobile/screen/marketplace/detail_produk.dart';
 import 'package:mobile/screen/marketplace/list_produk.dart';
 import 'package:mobile/screen/profile/reward/list_reward.dart';
 import 'package:mobile/screen/topup/topup.dart';
-import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
-import 'package:mobile/screen/wd/withdraw.dart';
 
 class PakeAjaHome extends StatefulWidget {
   @override
@@ -69,7 +66,7 @@ class _PakeAjaHomeState extends State<PakeAjaHome> {
       return [];
     }
   }
-  
+
   Widget topPanel() {
     return Container(
       color: Colors.white,
@@ -116,7 +113,8 @@ class _PakeAjaHomeState extends State<PakeAjaHome> {
               title: Text(formatRupiah(bloc.user.valueWrapper?.value.saldo),
                   style:
                       TextStyle(fontWeight: FontWeight.bold, fontSize: 13.0)),
-              subtitle: Text('Saldo HexaMobile', style: TextStyle(fontSize: 10.0)),
+              subtitle:
+                  Text('Saldo HexaMobile', style: TextStyle(fontSize: 10.0)),
             ),
           ),
           Expanded(
@@ -167,7 +165,8 @@ class _PakeAjaHomeState extends State<PakeAjaHome> {
             //   }
             // },
             onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (_) => QrisPage()));
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (_) => QrisPage()));
             },
             child: Container(
               width: 50.0,
@@ -206,7 +205,8 @@ class _PakeAjaHomeState extends State<PakeAjaHome> {
               child: Column(
                 children: [
                   CachedNetworkImage(
-                    imageUrl: 'https://firebasestorage.googleapis.com/v0/b/payuni-2019y.appspot.com/o/merchants%2FPakeAja%2Fbussiness-and-finance.png?alt=media&token=6c649761-535b-46a5-ab69-cd42f482e3b4',
+                    imageUrl:
+                        'https://firebasestorage.googleapis.com/v0/b/payuni-2019y.appspot.com/o/merchants%2FPakeAja%2Fbussiness-and-finance.png?alt=media&token=6c649761-535b-46a5-ab69-cd42f482e3b4',
                     width: 30,
                     height: 30,
                   ),
@@ -269,7 +269,8 @@ class _PakeAjaHomeState extends State<PakeAjaHome> {
         ),
       ),
       child: Marquee(
-        text: configAppBloc.info.valueWrapper.value.marquee != null && configAppBloc.info.valueWrapper.value.marquee.message != null
+        text: configAppBloc.info.valueWrapper.value.marquee != null &&
+                configAppBloc.info.valueWrapper.value.marquee.message != null
             ? configAppBloc.info.valueWrapper.value.marquee.message
             : 'SEPUTAR INFO : Selalu waspada terhadap segala bentuk PENIPUAN, pihak kami tidak pernah telp / meminta kode OTP apapun. Biasakan SAVE kontak kami 08980000073 atau bisa ke LIVECHAT',
         style: TextStyle(color: Colors.white),

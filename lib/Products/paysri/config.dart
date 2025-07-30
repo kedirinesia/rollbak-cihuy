@@ -1,10 +1,8 @@
 // @dart=2.9
 
-import 'dart:io' show Platform;
 import 'package:mobile/Products/paysri/layout/detail-deposit.dart';
 import 'package:mobile/Products/paysri/layout/home.dart';
 import 'package:mobile/Products/paysri/layout/kirim-saldo.dart';
-import 'package:mobile/Products/paysri/layout/splash.dart';
 import 'package:mobile/Products/paysri/layout/topup.dart';
 import 'package:mobile/models/deposit.dart';
 
@@ -46,7 +44,8 @@ Map<String, String> assetGambar = {
       'https://firebasestorage.googleapis.com/v0/b/payuni-2019y.appspot.com/o/merchants%2Fpayku%2FPaykuDown.png?alt=media&token=f255e74b-527a-4231-aa56-02363ba73a3a',
   // 'backgroundStruk':
   //     'https://dokumen.payuni.co.id/icon/payku/logocetakstruk.png',
-  'logoLogin': 'https://img.paysri.id/wp-content/uploads/logo-paysri-2023-web-report-456.png',
+  'logoLogin':
+      'https://img.paysri.id/wp-content/uploads/logo-paysri-2023-web-report-456.png',
   // 'logoApp': 'https://dokumen.payuni.co.id/logo/payku/splash1.png',
 };
 

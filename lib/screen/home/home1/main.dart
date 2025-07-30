@@ -16,7 +16,6 @@ import 'package:mobile/screen/profile/downline/downline.dart';
 import 'package:mobile/screen/profile/profile.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
 
-import '../../../bloc/ConfigApp.dart';
 
 class MainApp extends StatefulWidget {
   @override

@@ -19,7 +19,6 @@ class MainKasir extends StatefulWidget {
 }
 
 class MainKasirState extends State<MainKasir> {
-  
   List boxItems = [
     {
       "title": "Satuan",
@@ -146,7 +145,7 @@ class MainKasirState extends State<MainKasir> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         elevation: 0.0,
         title: Text('Kasir'),

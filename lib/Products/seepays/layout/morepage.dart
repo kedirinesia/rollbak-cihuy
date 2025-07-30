@@ -4,10 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:mobile/Products/seepays/layout/MenuDepan.dart';
 import 'package:mobile/models/menu.dart';
 
-import '../../../screen/home/more/more_model.dart';
-
- 
- 
 
 class MorePage extends StatefulWidget {
   final List<MenuModel> menus;
@@ -20,7 +16,6 @@ class MorePage extends StatefulWidget {
 }
 
 class _MorePageState extends State<MorePage> {
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(

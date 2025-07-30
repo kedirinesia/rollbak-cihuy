@@ -12,14 +12,10 @@ import 'package:mobile/component/card_info.dart';
 import 'package:mobile/Products/paysri/layout/components/carousel-depan.dart';
 import 'package:mobile/component/menudepan.dart';
 import 'package:mobile/component/rewards.dart';
-import 'package:mobile/component/webview.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/screen/history/history.dart';
 import 'package:mobile/screen/kasir/main.dart';
-import 'package:mobile/screen/marketplace/index.dart';
-import 'package:mobile/screen/profile/cs/cs.dart';
 import 'package:mobile/screen/profile/invite/invite.dart';
-import 'package:mobile/screen/profile/reward/list_reward.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
 import 'package:mobile/Products/paysri/layout/cs.dart';
 
@@ -32,7 +28,7 @@ class _HomePopayState extends State<HomePopay> with TickerProviderStateMixin {
   AnimationController _rotationController;
   int pageIndex = 0;
   List<Widget> halaman = [Container(), HistoryPage(), CS1(), ProfilePopay()];
-  
+
   @override
   void initState() {
     super.initState();
@@ -48,7 +44,7 @@ class _HomePopayState extends State<HomePopay> with TickerProviderStateMixin {
 
   Widget build(BuildContext context) {
     return Scaffold(
-            backgroundColor: Colors.grey[100],
+      backgroundColor: Colors.grey[100],
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,
         child: configAppBloc.isKasir.valueWrapper?.value

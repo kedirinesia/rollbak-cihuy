@@ -72,7 +72,7 @@ class _KirimSaldoState extends State<KirimSaldo> {
                 SizedBox(height: 20.0),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Theme.of(context).primaryColor,
+                    backgroundColor: Theme.of(context).primaryColor,
                   ),
                   onPressed: cek,
                   child: Text('Selanjutnya',

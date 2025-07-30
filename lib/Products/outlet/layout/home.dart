@@ -9,7 +9,6 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:mobile/Products/outlet/layout/home_model.dart';
 import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
-import 'package:mobile/Products/outlet/layout/card_info.dart';
 import 'package:mobile/component/carousel-depan.dart';
 import 'package:mobile/Products/outlet/layout/component/menu_depan.dart';
 import 'package:mobile/component/rewards.dart';

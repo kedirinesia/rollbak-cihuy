@@ -4,7 +4,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mobile/Products/ualreload/config.dart';
 import 'package:mobile/bloc/Bloc.dart';
@@ -174,8 +173,7 @@ class _GenerateRefCodeState extends State<GenerateRefCode> {
                                   child: value.length == 0
                                       ? ElevatedButton.icon(
                                           style: ElevatedButton.styleFrom(
-                                            primary:
-                                                Theme.of(context).primaryColor,
+                                            backgroundColor: Theme.of(context).primaryColor,
                                           ),
                                           onPressed: () {
                                             generateReferalCode();
@@ -194,12 +192,7 @@ class _GenerateRefCodeState extends State<GenerateRefCode> {
                                         )
                                       : ElevatedButton.icon(
                                           style: ElevatedButton.styleFrom(
-                                            primary:
-                                                Theme.of(context).primaryColor,
-                                            onPrimary:
-                                                Theme.of(context).primaryColor,
-                                            onSurface:
-                                                Theme.of(context).primaryColor,
+                                            foregroundColor: Theme.of(context).primaryColor, backgroundColor: Theme.of(context).primaryColor, disabledForegroundColor: Theme.of(context).primaryColor.withOpacity(0.38), disabledBackgroundColor: Theme.of(context).primaryColor.withOpacity(0.12),
                                           ),
                                           onPressed: null,
                                           icon: FaIcon(

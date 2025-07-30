@@ -14,7 +14,6 @@ import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/forgot-password/step_1.dart';
 import 'package:mobile/screen/otp.dart';
 import 'package:mobile/screen/profile/cs/cs.dart';
-import 'package:mobile/Products/centralbayar/layout/register.dart';
 import 'package:mobile/component/bezierContainer.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/bloc/Api.dart' show apiUrl, sigVendor;
@@ -45,9 +44,7 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-  List<String> pkgNameBorder = [
-    'com.eralink.mobileapk'
-  ];
+  List<String> pkgNameBorder = ['com.eralink.mobileapk'];
 
   submitLogin() async {
     if (formKey.currentState.validate()) {
@@ -114,35 +111,35 @@ class _LoginPageState extends State<LoginPage> {
             height: 10,
           ),
           packageName == 'com.eralink.mobileapk'
-            ? TextFormField(
-                controller: controller,
-                validator: validator,
-                keyboardType: TextInputType.number,
-                cursorColor: Theme.of(context).primaryColor,
-                obscureText: isPassword,
-                maxLength: maxLength,
-                inputFormatters: formatters,
-                decoration: InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Theme.of(context).secondaryHeaderColor)
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Theme.of(context).secondaryHeaderColor)
-                    ),
-                    fillColor: Colors.white,
-                    filled: true
-                    ),)
-            : TextFormField(
-                controller: controller,
-                validator: validator,
-                keyboardType: TextInputType.number,
-                obscureText: isPassword,
-                maxLength: maxLength,
-                inputFormatters: formatters,
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    fillColor: Color(0xfff3f3f4),
-                    filled: true))
+              ? TextFormField(
+                  controller: controller,
+                  validator: validator,
+                  keyboardType: TextInputType.number,
+                  cursorColor: Theme.of(context).primaryColor,
+                  obscureText: isPassword,
+                  maxLength: maxLength,
+                  inputFormatters: formatters,
+                  decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Theme.of(context).secondaryHeaderColor)),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Theme.of(context).secondaryHeaderColor)),
+                      fillColor: Colors.white,
+                      filled: true),
+                )
+              : TextFormField(
+                  controller: controller,
+                  validator: validator,
+                  keyboardType: TextInputType.number,
+                  obscureText: isPassword,
+                  maxLength: maxLength,
+                  inputFormatters: formatters,
+                  decoration: InputDecoration(
+                      border: InputBorder.none,
+                      fillColor: Color(0xfff3f3f4),
+                      filled: true))
         ],
       ),
     );
@@ -171,14 +168,17 @@ class _LoginPageState extends State<LoginPage> {
                         spreadRadius: 2)
                   ],
                   gradient: packageName == "com.eralink.mobileapk"
-                    ? LinearGradient(colors: [Theme.of(context).primaryColor, Theme.of(context).primaryColor])
-                    : LinearGradient(
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                        colors: [
+                      ? LinearGradient(colors: [
                           Theme.of(context).primaryColor,
-                          Theme.of(context).secondaryHeaderColor,
-                        ])),
+                          Theme.of(context).primaryColor
+                        ])
+                      : LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                          colors: [
+                              Theme.of(context).primaryColor,
+                              Theme.of(context).secondaryHeaderColor,
+                            ])),
               child: Text(
                 'Masuk',
                 style: TextStyle(fontSize: 20, color: Colors.white),
@@ -202,8 +202,8 @@ class _LoginPageState extends State<LoginPage> {
           ),
           InkWell(
             onTap: () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (_) => PrivacyPolicyPageRegister()));
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (_) => PrivacyPolicyPageRegister()));
             },
             child: Text(
               'Daftar Sekarang',
@@ -317,7 +317,9 @@ class _LoginPageState extends State<LoginPage> {
                           builder: (_) => StepOneForgotPIN())),
                       child: Text('Lupa PIN ?',
                           style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.w800, color: Theme.of(context).primaryColor)),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w800,
+                              color: Theme.of(context).primaryColor)),
                     ),
                   ),
                   SizedBox(height: 20),

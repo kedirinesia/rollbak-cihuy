@@ -14,7 +14,6 @@ import 'package:mobile/modules.dart';
 import 'package:mobile/screen/profile/print_settings.dart';
 import 'package:mobile/Products/eralink/layout/topup/topup.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
-import 'package:mobile/screen/wd/withdraw.dart';
 import 'home_model.dart';
 
 class Home4App extends StatefulWidget {
@@ -128,7 +127,8 @@ class _Home4AppState extends Home4Model {
                                       turns: _animationController,
                                       child: IconButton(
                                           icon: Icon(Icons.refresh, size: 30.0),
-                                          color: Theme.of(context).secondaryHeaderColor,
+                                          color: Theme.of(context)
+                                              .secondaryHeaderColor,
                                           onPressed: () {
                                             _animationController
                                                 .fling()
@@ -244,7 +244,7 @@ class _Home4AppState extends Home4Model {
                     Padding(
                       padding: const EdgeInsets.only(top: 20.0, left: 10.0),
                       child: InkWell(
-                        onTap: () =>  Navigator.of(context).push(
+                        onTap: () => Navigator.of(context).push(
                           MaterialPageRoute(builder: (_) => TopupPage()),
                         ),
                         child: Column(

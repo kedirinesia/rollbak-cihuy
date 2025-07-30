@@ -4,14 +4,13 @@ import '../../app_config.dart';
 import '../seepays/resource.dart';
 import 'config.dart';
 import 'color.dart';
- 
 
 void main() {
   var configApp = AppConfig(
     appDisplayName: namaApp,
     appInternalId: sigVendor,
     theme: colors,
-    resource : StringResource(),
+    resource: StringResource(),
     child: MyApp(),
   );
 

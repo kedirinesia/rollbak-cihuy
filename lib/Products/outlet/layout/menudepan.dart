@@ -63,8 +63,7 @@ class _MenuDepanState extends State<MenuDepan> {
         int endMore = listMenu.length;
         MenuModel buttonMore = MenuModel(
             jenis: 99,
-            icon:
-                'https://ayoba.co.id/dokumen/icon/lainnya.png',
+            icon: 'https://ayoba.co.id/dokumen/icon/lainnya.png',
             name: 'Lainnya',
             type: 99);
 

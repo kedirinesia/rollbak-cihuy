@@ -114,9 +114,9 @@ class _MenuDepanState extends State<MenuDepan> {
       print('REDIRECT KE HALAMAN LIST GRID');
       return Navigator.of(context).push(
         MaterialPageRoute(
-          builder : (_) => ListGridMenu(menu),
+          builder: (_) => ListGridMenu(menu),
         ),
-      ); 
+      );
     } else if (menu.jenis == 99) {
       Navigator.of(context).push(PageTransition(
           child: MoreMenuPage(_menuMore,

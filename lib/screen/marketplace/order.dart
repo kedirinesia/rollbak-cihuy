@@ -544,7 +544,7 @@ class _OrderPageState extends State<OrderPage> {
                                       : selectedService.cost)))
                       ? ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            primary: Theme.of(context).primaryColor,
+                            backgroundColor: Theme.of(context).primaryColor,
                           ),
                           child: Text('TOP UP'.toUpperCase()),
                           onPressed: () => Navigator.of(context)
@@ -552,7 +552,7 @@ class _OrderPageState extends State<OrderPage> {
                                   builder: (_) => TopupPage())))
                       : ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            primary: Theme.of(context).primaryColor,
+                            backgroundColor: Theme.of(context).primaryColor,
                           ),
                           child: Text('Bayar Pesanan'.toUpperCase()),
                           onPressed: placeOrder),
@@ -601,7 +601,7 @@ class _OrderPageState extends State<OrderPage> {
               ElevatedButton(
                 onPressed: () => submitCode(),
                 style: ElevatedButton.styleFrom(
-                  primary: Theme.of(context).primaryColor,
+                  backgroundColor: Theme.of(context).primaryColor,
                 ),
                 child: Text('Gunakan'),
               ),

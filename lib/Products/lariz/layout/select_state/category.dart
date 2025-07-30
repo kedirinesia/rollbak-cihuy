@@ -21,7 +21,7 @@ class SelectCategory extends StatefulWidget {
 }
 
 class SelectCategoryState extends State<SelectCategory> {
-    List<CategoryModel> categories = [];
+  List<CategoryModel> categories = [];
   List<CategoryModel> filtered = [];
   bool isLoading = true;
 
@@ -50,12 +50,14 @@ class SelectCategoryState extends State<SelectCategory> {
         });
       } else {
         String message = json.decode(response.body)['message'];
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(message)));
       }
     } catch (err) {
       String message =
           'Terjadi kesalahan saat mengambil data dari server, ${err.toString()}';
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(message)));
     } finally {
       setState(() {
         isLoading = false;
@@ -66,7 +68,7 @@ class SelectCategoryState extends State<SelectCategory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            appBar: AppBar(title: Text('Kategori'), centerTitle: true, elevation: 0),
+      appBar: AppBar(title: Text('Kategori'), centerTitle: true, elevation: 0),
       body: Container(
         width: double.infinity,
         height: double.infinity,

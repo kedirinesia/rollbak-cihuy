@@ -18,7 +18,6 @@ import 'package:mobile/screen/profile/kyc/not_verified_user.dart';
 import 'package:mobile/screen/transaksi/trx_wait.dart';
 import 'package:mobile/screen/transaksi/verifikasi_pin.dart';
 import '../../bloc/Bloc.dart' show bloc;
-import '../../bloc/ConfigApp.dart';
 import 'dart:convert';
 
 class InquiryDynamicPrepaid extends StatefulWidget {
@@ -765,16 +764,16 @@ abstract class InquiryDynamicPrepaidController
             await getLatestTrx();
             Navigator.of(context).popUntil(ModalRoute.withName('/'));
             packageName == 'com.talentapay.android'
-              ? Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => HistoryPageTalenta(initIndex: 1),
-                  ),
-                )
-              : Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => HistoryPage(initIndex: 1),
-                  ),
-                );
+                ? Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => HistoryPageTalenta(initIndex: 1),
+                    ),
+                  )
+                : Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => HistoryPage(initIndex: 1),
+                    ),
+                  );
           }
         } else {
           String message = json.decode(response.body)['message'] ??

@@ -6,7 +6,6 @@ import 'package:mobile/Products/eazyin/layout/index.dart';
 import 'package:mobile/Products/outlet/layout/home.dart';
 import 'package:mobile/Products/outlet/layout/history.dart';
 import 'package:mobile/bloc/Bloc.dart';
-import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/Products/outlet/layout/notifikasi/notifikasi.dart';
 import 'package:mobile/Products/outlet/layout/profile.dart';
 import 'package:mobile/screen/cs.dart';

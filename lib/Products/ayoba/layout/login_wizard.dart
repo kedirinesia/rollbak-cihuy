@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:mobile/Products/ayoba/layout/login.dart';
 import 'package:mobile/Products/ayoba/layout/privacy_policy.dart';
 import 'package:nav/nav.dart';
-import 'package:mobile/Products/ayoba/layout/register.dart';
 
 class LoginWizardPage extends StatefulWidget {
   const LoginWizardPage({Key? key}) : super(key: key);

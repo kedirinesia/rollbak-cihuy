@@ -28,5 +28,4 @@ class StringResource implements Resource {
   Map<String, String> iconApp = config.assetGambar;
   Map<String, dynamic> layoutApp = config.layout;
 //  Map<String, dynamic> layoutApp = {};
-
 }

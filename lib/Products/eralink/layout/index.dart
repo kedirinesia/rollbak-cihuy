@@ -23,7 +23,12 @@ class _CentralBayarHomeState extends State<CentralBayarHome>
   Color mainColor = Colors.white;
   Color mainTextColor = Colors.blue;
 
-  List<Widget> halaman = [Home4App(), HistoryPage(), DownlinePage(), ProfilePage()];
+  List<Widget> halaman = [
+    Home4App(),
+    HistoryPage(),
+    DownlinePage(),
+    ProfilePage()
+  ];
   int pageIndex = 0;
 
   @override
@@ -144,7 +149,10 @@ class _CentralBayarHomeState extends State<CentralBayarHome>
                         SizedBox(
                           height: 5.0,
                         ),
-                        Text('Home', style: TextStyle(fontSize: 10.0, color: Theme.of(context).primaryColor))
+                        Text('Home',
+                            style: TextStyle(
+                                fontSize: 10.0,
+                                color: Theme.of(context).primaryColor))
                       ],
                     ),
                   ),
@@ -169,7 +177,10 @@ class _CentralBayarHomeState extends State<CentralBayarHome>
                         SizedBox(
                           height: 5.0,
                         ),
-                        Text('History', style: TextStyle(fontSize: 10.0, color: Theme.of(context).primaryColor))
+                        Text('History',
+                            style: TextStyle(
+                                fontSize: 10.0,
+                                color: Theme.of(context).primaryColor))
                       ],
                     ),
                   ),
@@ -194,7 +205,10 @@ class _CentralBayarHomeState extends State<CentralBayarHome>
                         SizedBox(
                           height: 5.0,
                         ),
-                        Text('Keagenan', style: TextStyle(fontSize: 10.0, color: Theme.of(context).primaryColor))
+                        Text('Keagenan',
+                            style: TextStyle(
+                                fontSize: 10.0,
+                                color: Theme.of(context).primaryColor))
                       ],
                     ),
                   ),
@@ -219,7 +233,10 @@ class _CentralBayarHomeState extends State<CentralBayarHome>
                         SizedBox(
                           height: 5.0,
                         ),
-                        Text('Profile', style: TextStyle(fontSize: 10.0, color: Theme.of(context).primaryColor))
+                        Text('Profile',
+                            style: TextStyle(
+                                fontSize: 10.0,
+                                color: Theme.of(context).primaryColor))
                       ],
                     ),
                   ),

@@ -21,7 +21,7 @@ class SelectSatuan extends StatefulWidget {
 }
 
 class SelectSatuanState extends State<SelectSatuan> {
-    List<SatuanModel> satuans = [];
+  List<SatuanModel> satuans = [];
   List<SatuanModel> filtered = [];
   bool isLoading = true;
 
@@ -56,12 +56,14 @@ class SelectSatuanState extends State<SelectSatuan> {
         });
       } else {
         String message = json.decode(response.body)['message'];
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(message)));
       }
     } catch (err) {
       String message =
           'Terjadi kesalahan saat mengambil data dari server, ${err.toString()}';
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(message)));
     } finally {
       setState(() {
         isLoading = false;
@@ -72,7 +74,7 @@ class SelectSatuanState extends State<SelectSatuan> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            appBar: AppBar(title: Text('Satuan'), centerTitle: true, elevation: 0),
+      appBar: AppBar(title: Text('Satuan'), centerTitle: true, elevation: 0),
       body: Container(
         width: double.infinity,
         height: double.infinity,

@@ -1,6 +1,5 @@
 // @dart=2.9
 
-import 'dart:io' show Platform;
 import 'package:mobile/Products/mopay/layout/detail-deposit.dart';
 import 'package:mobile/Products/mopay/layout/home.dart';
 import 'package:mobile/Products/mopay/layout/kirim-saldo.dart';

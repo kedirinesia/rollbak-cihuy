@@ -65,7 +65,7 @@ class _SarinuHomeState extends State<SarinuHome>
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         appBar: AppBar(
-          backgroundColor: Theme.of(context).appBarTheme.color,
+          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[

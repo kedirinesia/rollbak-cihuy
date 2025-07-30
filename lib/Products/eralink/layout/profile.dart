@@ -12,7 +12,6 @@ import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/config.dart';
-import 'package:mobile/modules.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/cs.dart';
 import 'package:mobile/Products/eralink/layout/login.dart';
@@ -513,46 +512,46 @@ class MenuGrid extends StatelessWidget {
             ),
           ),
           packageName == 'com.eralink.mobileapk'
-            ? InkWell(
-                onTap: () {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) => DownlinePage()));
-                },
-                child: Container(
-                  padding: EdgeInsets.all(10.0),
-                  child: Column(
-                    children: <Widget>[
-                      Icon(Icons.person_pin,
-                          size: 32.0, color: Theme.of(context).primaryColor),
-                      SizedBox(height: 5.0),
-                      Text('Downline',
-                          style: TextStyle(
-                              fontSize: 12.0,
-                              color: Theme.of(context).primaryColor))
-                    ],
+              ? InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => DownlinePage()));
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(10.0),
+                    child: Column(
+                      children: <Widget>[
+                        Icon(Icons.person_pin,
+                            size: 32.0, color: Theme.of(context).primaryColor),
+                        SizedBox(height: 5.0),
+                        Text('Downline',
+                            style: TextStyle(
+                                fontSize: 12.0,
+                                color: Theme.of(context).primaryColor))
+                      ],
+                    ),
+                  ),
+                )
+              : InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => Downline()));
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(10.0),
+                    child: Column(
+                      children: <Widget>[
+                        Icon(Icons.person_pin,
+                            size: 32.0, color: Theme.of(context).primaryColor),
+                        SizedBox(height: 5.0),
+                        Text('Downline',
+                            style: TextStyle(
+                                fontSize: 12.0,
+                                color: Theme.of(context).primaryColor))
+                      ],
+                    ),
                   ),
                 ),
-              )
-            : InkWell(
-                onTap: () {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) => Downline()));
-                },
-                child: Container(
-                  padding: EdgeInsets.all(10.0),
-                  child: Column(
-                    children: <Widget>[
-                      Icon(Icons.person_pin,
-                          size: 32.0, color: Theme.of(context).primaryColor),
-                      SizedBox(height: 5.0),
-                      Text('Downline',
-                          style: TextStyle(
-                              fontSize: 12.0,
-                              color: Theme.of(context).primaryColor))
-                    ],
-                  ),
-                ),
-              ),
           InkWell(
             onTap: () {
               if (configAppBloc.info.valueWrapper?.value.inviteLink) {

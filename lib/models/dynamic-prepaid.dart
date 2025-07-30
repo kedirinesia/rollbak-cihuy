@@ -1,6 +1,5 @@
 // @dart=2.9
 
-
 class DynamicPrepaidDenomModel {
   String name;
   String description;

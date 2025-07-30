@@ -38,7 +38,6 @@ class _HomePayuni1State extends State<HomePayuni1>
   ScrollController _scrollController = ScrollController();
   AnimationController _animationController;
 
-  
   @override
   void initState() {
     super.initState();
@@ -121,7 +120,7 @@ class _HomePayuni1State extends State<HomePayuni1>
         toolbarHeight: 0.0,
         elevation: 0,
       ),
-            body: LazyLoadRefreshIndicator(
+      body: LazyLoadRefreshIndicator(
         onRefresh: () async {
           try {
             await Future.delayed(Duration(milliseconds: 500));

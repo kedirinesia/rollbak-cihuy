@@ -28,7 +28,7 @@ class MethodPayment extends StatefulWidget {
 
 class MethodPaymentState extends State<MethodPayment> {
   bool loaded = true;
-    List<VirtualAccount> VAList = [];
+  List<VirtualAccount> VAList = [];
 
   @override
   initState() {
@@ -128,7 +128,7 @@ class MethodPaymentState extends State<MethodPayment> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            appBar: AppBar(
+      appBar: AppBar(
           title: Text(widget.payment.title), centerTitle: true, elevation: 0),
       body: loaded
           ? loading()

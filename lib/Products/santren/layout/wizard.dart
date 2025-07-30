@@ -5,7 +5,7 @@ class StartWizardPage extends StatefulWidget {
   const StartWizardPage({Key? key}) : super(key: key);
 
   @override
-  State<StartWizardPage> createState() => _StartWizardPageState();  
+  State<StartWizardPage> createState() => _StartWizardPageState();
 }
 
 class _StartWizardPageState extends State<StartWizardPage>
@@ -53,7 +53,7 @@ class _StartWizardPageState extends State<StartWizardPage>
                 .map(
                   (e) => Center(
                     child: FractionallySizedBox(
-                      widthFactor: 1.0,  
+                      widthFactor: 1.0,
                       heightFactor: 0.95,
                       child: Image.asset(
                         e,

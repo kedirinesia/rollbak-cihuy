@@ -211,7 +211,7 @@ class LapBeliState extends State<LapBeli> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            appBar: AppBar(
+      appBar: AppBar(
         elevation: 0.0,
         centerTitle: true,
         title: Text('Laporan Pembelian'),

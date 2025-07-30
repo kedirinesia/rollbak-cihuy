@@ -20,7 +20,7 @@ class HistoryOrderPage extends StatefulWidget {
 }
 
 class _HistoryOrderPageState extends State<HistoryOrderPage> {
-    List<MPTransaksi> items = [];
+  List<MPTransaksi> items = [];
   int page = 0;
   bool loading = true;
   bool isEdge = false;
@@ -61,7 +61,7 @@ class _HistoryOrderPageState extends State<HistoryOrderPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            appBar: AppBar(title: Text('Riwayat Pesanan'), elevation: 0),
+      appBar: AppBar(title: Text('Riwayat Pesanan'), elevation: 0),
       body: LazyLoadRefreshIndicator(
           onEndOfPage: getItems,
           onRefresh: () {

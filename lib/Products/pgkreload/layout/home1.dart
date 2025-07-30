@@ -19,7 +19,6 @@ import 'package:mobile/models/mp_kategori.dart';
 import 'package:mobile/models/mp_produk.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/screen/marketplace/list_produk.dart';
-import 'package:shimmer/shimmer.dart';
 
 class HomeAyoba1 extends StatefulWidget {
   @override
@@ -34,7 +33,6 @@ class _HomeAyoba1State extends State<HomeAyoba1> with TickerProviderStateMixin {
   ScrollController _scrollController = ScrollController();
   AnimationController _animationController;
 
-  
   @override
   void initState() {
     super.initState();
@@ -125,7 +123,7 @@ class _HomeAyoba1State extends State<HomeAyoba1> with TickerProviderStateMixin {
         toolbarHeight: 0.0,
         elevation: 0,
       ),
-            body: RefreshIndicator(
+      body: RefreshIndicator(
         onRefresh: () async {
           await Future.delayed(Duration(milliseconds: 500));
           await updateUserInfo();
@@ -422,7 +420,7 @@ class _HomeAyoba1State extends State<HomeAyoba1> with TickerProviderStateMixin {
   //     ],
   //   );
   // }
-    Widget kategoriWidget() {
+  Widget kategoriWidget() {
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.start,

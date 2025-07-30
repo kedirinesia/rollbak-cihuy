@@ -19,7 +19,6 @@ class DetailMetodePayment extends StatefulWidget {
 }
 
 class DetailMetodePaymentState extends State<DetailMetodePayment> {
-  
   @override
   initState() {
     super.initState();
@@ -34,7 +33,7 @@ class DetailMetodePaymentState extends State<DetailMetodePayment> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            appBar: AppBar(
+      appBar: AppBar(
           title: Text('Detail Pembayaran'), centerTitle: true, elevation: 0),
       body: ListView(
         children: [

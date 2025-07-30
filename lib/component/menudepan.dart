@@ -2,6 +2,7 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_page_transition/flutter_page_transition.dart';
 import 'package:mobile/component/menudepan-loading.dart';
 import 'package:mobile/config.dart';
@@ -15,8 +16,6 @@ import 'package:mobile/screen/list-sub-menu/list-sub-menu.dart';
 import 'package:mobile/screen/list-grid-menu/list-grid-menu.dart';
 import 'package:mobile/screen/pulsa/pulsa.dart';
 import 'package:mobile/screen/transaksi/voucher_bulk.dart';
-import '../models/menu.dart';
-import '../screen/detail-denom/detail-denom.dart';
 
 class MenuDepan extends StatefulWidget {
   final int grid;
@@ -44,6 +43,15 @@ class _MenuDepanState extends State<MenuDepan> {
   @override
   void initState() {
     super.initState();
+    // Set system UI overlay style to handle system navigation bar
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        systemNavigationBarColor: Colors.transparent,
+        systemNavigationBarDividerColor: Colors.transparent,
+      ),
+    );
+    
     if (widget.menus == null) {
       print("GET MENU BY API");
       getMenu();

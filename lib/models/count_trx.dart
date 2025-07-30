@@ -1,6 +1,5 @@
 // @dart=2.9
 
-import 'package:mobile/modules.dart';
 
 class CountTrx {
   final int totalTrx;

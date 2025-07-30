@@ -26,7 +26,7 @@ class SelectTrxPiutang extends StatefulWidget {
 }
 
 class SelectTrxPiutangState extends State<SelectTrxPiutang> {
-    List<KasirPrintModel> printTrxs = [];
+  List<KasirPrintModel> printTrxs = [];
   List<KasirPrintModel> filtered = [];
   bool isLoading = true;
 
@@ -65,12 +65,14 @@ class SelectTrxPiutangState extends State<SelectTrxPiutang> {
         });
       } else {
         String message = json.decode(response.body)['message'];
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(message)));
       }
     } catch (err) {
       String message =
           'Terjadi kesalahan saat mengambil data dari server, ${err.toString()}';
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(message)));
     } finally {
       setState(() {
         isLoading = false;
@@ -81,7 +83,7 @@ class SelectTrxPiutangState extends State<SelectTrxPiutang> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            appBar: AppBar(
+      appBar: AppBar(
           title: Text('Transaksi Belum Lunas'),
           centerTitle: true,
           elevation: 0),

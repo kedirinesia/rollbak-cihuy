@@ -87,7 +87,7 @@ class _TransferManuPageState extends State<TransferManuPage> {
                           onTap: () => Navigator.of(context).push(
                             MaterialPageRoute(
                                 builder: (context) => TransferBankPage()),
-                                // builder: (context) => WithdrawPage()),
+                            // builder: (context) => WithdrawPage()),
                           ),
                           leading: CircleAvatar(
                             child: CachedNetworkImage(

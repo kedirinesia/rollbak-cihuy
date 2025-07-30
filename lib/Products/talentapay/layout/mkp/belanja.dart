@@ -292,7 +292,9 @@ class _BelanjaPageState extends State<BelanjaPage> {
                               onTap: () => Navigator.of(context).push(
                                   MaterialPageRoute(
                                       builder: (_) => ProductDetailMarketplace(
-                                          product.id, product.title, product.categoryId))),
+                                          product.id,
+                                          product.title,
+                                          product.categoryId))),
                               child: Container(
                                 width: double.infinity,
                                 height: double.infinity,
@@ -330,15 +332,15 @@ class _BelanjaPageState extends State<BelanjaPage> {
                                                 maxLines: 2,
                                                 overflow: TextOverflow.clip,
                                                 style: TextStyle(
-                                                    fontSize: 8,
-                                                    )),
+                                                  fontSize: 8,
+                                                )),
                                             Text(formatRupiah(product.price),
                                                 style: TextStyle(
-                                                    fontSize: 9,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Theme.of(context)
-                                                        .primaryColor,
-                                                    ))
+                                                  fontSize: 9,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
+                                                ))
                                           ],
                                         ),
                                       ),

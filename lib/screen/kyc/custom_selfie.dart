@@ -1,13 +1,10 @@
 // @dart=2.9
 
 import 'dart:io';
-import 'dart:ui';
 // import 'dart:async';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:image/image.dart' as img;
-import 'package:path/path.dart';
 // import 'package:path_provider/path_provider.dart';
 
 class CustomSelfieScreen extends StatefulWidget {

@@ -1,6 +1,7 @@
 // @dart=2.9
 
 import 'package:mobile/Products/ecuan/layout/index.dart';
+
 //5e577a000efa1b22beabf8dd
 String sigVendor = '685a32de5fb4c98ea80e8734';
 

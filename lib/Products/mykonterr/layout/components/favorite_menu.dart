@@ -7,8 +7,6 @@ import 'package:hive/hive.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/bloc/TemplateConfig.dart';
 import 'package:mobile/models/menu.dart';
-import 'package:mobile/modules.dart';
-import 'package:toast/toast.dart';
 
 class FavoriteMenu extends StatefulWidget {
   final favoriteMenu;

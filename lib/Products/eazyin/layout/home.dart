@@ -3,13 +3,11 @@
 import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:marquee/marquee.dart';
 import 'package:mobile/Products/eazyin/layout/components/carousel_depan.dart';
 import 'package:mobile/Products/eazyin/layout/home_model.dart';
 import 'package:mobile/Products/eazyin/layout/components/menu_depan.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/Products/maripay/layout/card_info.dart';
-import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/component/rewards.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/screen/profile/print_settings.dart';

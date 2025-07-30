@@ -5,7 +5,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/Products/mypay/layout/qris/qris_page.dart';
 import 'package:mobile/Products/mypay/layout/transfer.dart';
-import 'package:mobile/screen/profile/profile.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
 
 class MenuToolPopay extends StatefulWidget {

@@ -5,7 +5,6 @@ import 'dart:convert';
 
 import 'package:app_links/app_links.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:contacts_service/contacts_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -32,7 +31,6 @@ import 'package:mobile/screen/kasir/category.dart'; // halaman category
 import 'package:mobile/screen/kasir/customer/customerView.dart'; // halaman view pelanggan
 import 'package:mobile/screen/kasir/hutang-piutang/index.dart'; // halaman hutang piutang
 import 'package:mobile/screen/kasir/laporan/indexLap.dart'; // halaman hutang piutang
-import 'package:permission_handler/permission_handler.dart';
 // PAGE KASIR
 import 'package:mobile/screen/kasir/main.dart'; // halaman depan kasir
 import 'package:mobile/screen/kasir/penjualan/listProduct.dart'; // halaman depan transaksi penjualan
@@ -50,6 +48,7 @@ import 'package:mobile/screen/wd/withdraw.dart';
 import 'package:nav/nav.dart';
 import 'package:path_provider/path_provider.dart' as PathProvider;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:package_info/package_info.dart';
 
 import 'models/user.dart';
 
@@ -72,6 +71,7 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
       FlutterLocalNotificationsPlugin();
   bool loading = true;
   Widget homePageWidget = Container();
+  String appVersionCode = '';
 
   initialState() {
     super.initState();
@@ -84,8 +84,28 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
   }
 
   Future<Map<String, dynamic>> getUser(String token) async {
+    Map<String, String> headers = {
+      'Authorization': token,
+    };
+    
+    if (appVersionCode.isNotEmpty) {
+      headers['App-Version'] = appVersionCode;
+    }
+    
+    print('=== GET USER/INFO ===');
+    print('URL: $apiUrl/user/info');
+    print('Headers: ${json.encode(headers)}');
+    print('Method: GET');
+    print('Body: null (GET request)');
+    print('====================');
+    
     http.Response response = await http
-        .get(Uri.parse('$apiUrl/user/info'), headers: {'Authorization': token});
+        .get(Uri.parse('$apiUrl/user/info'), headers: headers);
+    
+    print('Response Status: ${response.statusCode}');
+    print('Response Body: ${response.body}');
+    print('====================');
+    
     return json.decode(response.body);
   }
 
@@ -129,8 +149,8 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
       });
     }
 
-       print('TOKEN: $token');
-   
+    print('TOKEN: $token');
+
     if (token.isNotEmpty) {
       Map<String, dynamic> userInfo = await getUser(token);
       if (userInfo['status'] == 200) {
@@ -253,12 +273,13 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
     initNotif();
     hiveInit();
     // checkContact();
+    printVersionInfo(); // Tambahkan ini untuk print version info ke console
     if (configAppBloc.autoReload.valueWrapper.value) {
       SharedPreferences.getInstance().then((instance) {
         String token = instance.getString('token');
         if (token != null) {
-             print('TOKEN: $token');
-   
+          print('TOKEN: $token');
+
           Timer.periodic(new Duration(seconds: 100), (timer) async {
             UserModel user = await UserProvider().getProfile();
             bloc.user.add(user);
@@ -273,9 +294,29 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
     }
   }
 
+  Future<void> printVersionInfo() async {
+    final info = await PackageInfo.fromPlatform();
+    appVersionCode = info.buildNumber;
+    print('Version Name: ${info.version}');
+    print('Version Code: ${info.buildNumber}');
+    print('Package Name: ${info.packageName}');
+  }
+
   void appLink() {
     _appLinks = AppLinks(onAppLink: (uri, str) {
-      showToast(context, str);
+      print('Deep link received: $uri');
+      
+      // Handle agenpayment://login deep link
+      if (uri.scheme == 'agenpayment' && uri.host == 'login') {
+        // Navigate to login page
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (_) => configAppBloc.layoutApp.valueWrapper?.value['login'] ?? LoginPage()),
+          (route) => false
+        );
+        showToast(context, 'Navigating to login page via deep link');
+      } else {
+        showToast(context, str);
+      }
     });
   }
 
@@ -434,12 +475,31 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
   }
 
   void sendDeviceToken() async {
-    await http.post(Uri.parse('$apiUrl/user/device_token'),
-        headers: {
-          'Authorization': bloc.token.valueWrapper?.value,
-          'Content-Type': 'application/json'
-        },
-        body: json.encode({'token': bloc.deviceToken.valueWrapper?.value}));
+    Map<String, String> headers = {
+      'Authorization': bloc.token.valueWrapper?.value,
+      'Content-Type': 'application/json'
+    };
+    
+    if (appVersionCode.isNotEmpty) {
+      headers['App-Version'] = appVersionCode;
+    }
+    
+    Map<String, dynamic> body = {'token': bloc.deviceToken.valueWrapper?.value};
+    
+    print('=== POST USER/DEVICE_TOKEN ===');
+    print('URL: $apiUrl/user/device_token');
+    print('Headers: ${json.encode(headers)}');
+    print('Method: POST');
+    print('Body: ${json.encode(body)}');
+    print('=============================');
+    
+    http.Response response = await http.post(Uri.parse('$apiUrl/user/device_token'),
+        headers: headers,
+        body: json.encode(body));
+    
+    print('Response Status: ${response.statusCode}');
+    print('Response Body: ${response.body}');
+    print('=============================');
   }
 
   // Future<void> _requestNotifPermission() async {

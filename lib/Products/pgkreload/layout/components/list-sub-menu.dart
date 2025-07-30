@@ -170,15 +170,15 @@ class _ListSubMenuState extends ListSubMenuController {
                                     .primaryColor
                                     .withOpacity(.1),
                                 child: menu.icon != ''
-                                        ? Container(
-                                            width: double.infinity,
-                                            height: double.infinity,
-                                            padding: EdgeInsets.all(2),
-                                            child: CachedNetworkImage(
-                                              imageUrl: menu.icon,
-                                            ),
-                                          )
-                                        : Container(
+                                    ? Container(
+                                        width: double.infinity,
+                                        height: double.infinity,
+                                        padding: EdgeInsets.all(2),
+                                        child: CachedNetworkImage(
+                                          imageUrl: menu.icon,
+                                        ),
+                                      )
+                                    : Container(
                                         width: double.infinity,
                                         height: double.infinity,
                                         padding: EdgeInsets.all(2),

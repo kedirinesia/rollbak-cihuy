@@ -2,7 +2,6 @@
 
 import 'dart:async';
 import 'dart:convert';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,8 +10,6 @@ import 'package:http/http.dart' as http;
 import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
-import 'package:mobile/component/alert.dart';
-import 'package:mobile/component/bezierContainer.dart';
 import 'package:mobile/config.dart';
 import 'package:mobile/models/lokasi.dart';
 import 'package:mobile/provider/analitycs.dart';
@@ -22,7 +19,6 @@ import 'package:mobile/screen/select_state/kecamatan.dart';
 import 'package:mobile/screen/select_state/kota.dart';
 import 'package:mobile/screen/select_state/provinsi.dart';
 import 'package:mobile/screen/text_kapital.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class RegisterUser extends StatefulWidget {
   @override
@@ -155,7 +151,8 @@ class _RegisterUserState extends State<RegisterUser> {
           'email': emailText,
           'storeName': 'Verifikasi Pendaftaran',
           'memberName': memberNameText,
-          'pesan': "Silakan masukkan kode berikut untuk menyelesaikan proses pendaftaran akun Anda."
+          'pesan':
+              "Silakan masukkan kode berikut untuk menyelesaikan proses pendaftaran akun Anda."
         }),
       );
       final json = jsonDecode(res.body);
@@ -240,7 +237,8 @@ class _RegisterUserState extends State<RegisterUser> {
             content: Text(json['message'] ?? 'Kode OTP salah!'),
             actions: [
               TextButton(
-                onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
+                onPressed: () =>
+                    Navigator.of(context, rootNavigator: true).pop(),
                 child: Text('TUTUP'),
               ),
             ],
@@ -559,7 +557,8 @@ class _RegisterUserState extends State<RegisterUser> {
                   child: SingleChildScrollView(
                     physics: BouncingScrollPhysics(),
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 18, vertical: 10),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -585,7 +584,8 @@ class _RegisterUserState extends State<RegisterUser> {
                           ),
                           SizedBox(height: 18),
                           Container(
-                            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 30),
                             constraints: BoxConstraints(
                               maxWidth: 500,
                               minWidth: 200,
@@ -637,7 +637,8 @@ class _RegisterUserState extends State<RegisterUser> {
                                     validator: (value) {
                                       if (value == null || value.isEmpty)
                                         return 'Email tidak boleh kosong';
-                                      else if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value))
+                                      else if (!RegExp(r'\S+@\S+\.\S+')
+                                          .hasMatch(value))
                                         return 'Masukkan alamat email yang valid';
                                       else
                                         return null;
@@ -657,7 +658,8 @@ class _RegisterUserState extends State<RegisterUser> {
                                             icon: Icons.verified_user_rounded,
                                           ),
                                           inputFormatters: [
-                                            FilteringTextInputFormatter.digitsOnly,
+                                            FilteringTextInputFormatter
+                                                .digitsOnly,
                                             LengthLimitingTextInputFormatter(6),
                                           ],
                                           validator: (value) {
@@ -671,24 +673,31 @@ class _RegisterUserState extends State<RegisterUser> {
                                       Expanded(
                                         flex: 1,
                                         child: ElevatedButton(
-                                          onPressed: (sendingOtp || countdown > 0)
-                                              ? null
-                                              : sendOtpRegister,
+                                          onPressed:
+                                              (sendingOtp || countdown > 0)
+                                                  ? null
+                                                  : sendOtpRegister,
                                           style: ElevatedButton.styleFrom(
                                             shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(10),
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
                                             ),
-                                            padding: EdgeInsets.symmetric(vertical: 16),
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 16),
                                           ),
                                           child: sendingOtp
                                               ? SizedBox(
                                                   width: 18,
                                                   height: 18,
-                                                  child: CircularProgressIndicator(strokeWidth: 2))
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                          strokeWidth: 2))
                                               : Text(
                                                   countdown > 0
                                                       ? 'Tunggu $countdown dtk'
-                                                      : (otpSent ? 'Terkirim' : 'Kirim OTP'),
+                                                      : (otpSent
+                                                          ? 'Terkirim'
+                                                          : 'Kirim OTP'),
                                                 ),
                                         ),
                                       ),
@@ -721,7 +730,8 @@ class _RegisterUserState extends State<RegisterUser> {
                                     cursorColor: primaryGreen,
                                     inputFormatters: [
                                       FilteringTextInputFormatter.digitsOnly,
-                                      LengthLimitingTextInputFormatter(pinCount),
+                                      LengthLimitingTextInputFormatter(
+                                          pinCount),
                                     ],
                                     obscureText: true,
                                     decoration: _inputDecoration(
@@ -744,7 +754,8 @@ class _RegisterUserState extends State<RegisterUser> {
                                       icon: Icons.place_rounded,
                                     ),
                                     onTap: () async {
-                                      Lokasi lokasi = await Navigator.of(context).push(
+                                      Lokasi lokasi =
+                                          await Navigator.of(context).push(
                                         MaterialPageRoute(
                                           builder: (_) => SelectProvinsiPage(),
                                         ),
@@ -776,9 +787,11 @@ class _RegisterUserState extends State<RegisterUser> {
                                     ),
                                     onTap: () async {
                                       if (provinsi == null) return;
-                                      Lokasi lokasi = await Navigator.of(context).push(
+                                      Lokasi lokasi =
+                                          await Navigator.of(context).push(
                                         MaterialPageRoute(
-                                          builder: (_) => SelectKotaPage(provinsi),
+                                          builder: (_) =>
+                                              SelectKotaPage(provinsi),
                                         ),
                                       );
                                       if (lokasi == null) return;
@@ -806,9 +819,11 @@ class _RegisterUserState extends State<RegisterUser> {
                                     ),
                                     onTap: () async {
                                       if (kota == null) return;
-                                      Lokasi lokasi = await Navigator.of(context).push(
+                                      Lokasi lokasi =
+                                          await Navigator.of(context).push(
                                         MaterialPageRoute(
-                                          builder: (_) => SelectKecamatanPage(kota),
+                                          builder: (_) =>
+                                              SelectKecamatanPage(kota),
                                         ),
                                       );
                                       if (lokasi == null) return;
@@ -890,7 +905,8 @@ class _RegisterUserState extends State<RegisterUser> {
                                         UpperCaseTextFormatter(),
                                       ],
                                       validator: (value) {
-                                        if (packageName == 'id.paymobileku.app' &&
+                                        if (packageName ==
+                                                'id.paymobileku.app' &&
                                             (value == null || value.isEmpty)) {
                                           return 'Kode Referal tidak boleh kosong';
                                         }
@@ -912,12 +928,14 @@ class _RegisterUserState extends State<RegisterUser> {
                                             ? primaryGreen
                                             : primaryGreen.withOpacity(.5),
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(36),
+                                          borderRadius:
+                                              BorderRadius.circular(36),
                                         ),
                                         padding:
                                             EdgeInsets.symmetric(vertical: 13),
                                       ),
-                                      onPressed: isAgree ? submitRegister : null,
+                                      onPressed:
+                                          isAgree ? submitRegister : null,
                                       child: Text(
                                         "Daftar Sekarang",
                                         style: TextStyle(

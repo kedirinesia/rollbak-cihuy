@@ -1,28 +1,21 @@
 // @dart=2.9
 
 import 'dart:convert';
-import 'dart:io';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:installed_apps/installed_apps.dart';
 import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/bloc/TemplateConfig.dart';
-import 'package:mobile/config.dart';
 import 'package:mobile/provider/analitycs.dart';
-import 'package:mobile/screen/custom_alert_dialog.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import 'package:mobile/models/trx.dart';
 import 'package:mobile/models/bank.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/screen/transaksi/print.dart';
 import 'package:screenshot/screenshot.dart';
-import 'package:share/share.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 /// ------------ WATERMARK LAYER ---------------
 class WatermarkNetworkLogo extends StatelessWidget {
@@ -76,6 +69,7 @@ class WatermarkNetworkLogo extends StatelessWidget {
     );
   }
 }
+
 /// ------------ END WATERMARK LAYER -----------
 
 class DetailTransaksi extends StatefulWidget {
@@ -92,6 +86,9 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
   List<BankModel> banks = [];
   ScreenshotController _screenshot = ScreenshotController();
   bool danaApp = false;
+  bool customPrint = false;
+  String customHeaderText = "";
+  String customFooterText = "";
 
   @override
   void initState() {
@@ -174,13 +171,10 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
             onPressed: () {
               Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
-                  builder: (_) => configAppBloc
-                          .layoutApp
-                          ?.valueWrapper
-                          ?.value['home'] ??
-                      templateConfig[configAppBloc.templateCode
-                          .valueWrapper
-                          ?.value],
+                  builder: (_) =>
+                      configAppBloc.layoutApp?.valueWrapper?.value['home'] ??
+                      templateConfig[
+                          configAppBloc.templateCode.valueWrapper?.value],
                 ),
                 (_) => false,
               );
@@ -212,7 +206,7 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
         children: [
           Container(color: headerColor, height: 130, width: double.infinity),
           SmartRefresher(
-            controller: _refreshController,
+            controller: _refreshController,  
             onRefresh: () async {
               await _loadData();
               _refreshController.refreshCompleted();
@@ -226,24 +220,25 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
                   children: [
                     // — White Card + Watermark —
                     Container(
-  constraints: BoxConstraints(
-    minHeight: MediaQuery.of(context).size.height - 150, // Ubah angka sesuai kebutuhan
-  ),
-  margin: EdgeInsets.symmetric(horizontal: 16),
-  padding: EdgeInsets.fromLTRB(18, 38, 18, 22),
-  decoration: BoxDecoration(
-    color: Colors.white,
-    borderRadius: BorderRadius.circular(18),
-    boxShadow: [
-      BoxShadow(
-        color: Colors.black.withOpacity(0.07),
-        blurRadius: 16,
-        offset: Offset(0, 6),
-      ),
-    ],
-  ),
-  child: Stack(
-    children: [
+                      constraints: BoxConstraints(
+                        minHeight: MediaQuery.of(context).size.height -
+                            150, // Ubah angka sesuai kebutuhan
+                      ),
+                      margin: EdgeInsets.symmetric(horizontal: 16),
+                      padding: EdgeInsets.fromLTRB(18, 38, 18, 22),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(18),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.07),
+                            blurRadius: 16,
+                            offset: Offset(0, 6),
+                          ),
+                        ],
+                      ),
+                      child: Stack(
+                        children: [
                           if (logoUrl != null && logoUrl.isNotEmpty)
                             Positioned.fill(
                               child: WatermarkNetworkLogo(
@@ -283,7 +278,8 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
                                       formatDate(
                                           trx.created_at, "d MMM yyyy HH:mm"),
                                       style: TextStyle(
-                                          color: Colors.grey[600], fontSize: 11),
+                                          color: Colors.grey[600],
+                                          fontSize: 11),
                                     ),
                                   ),
                                   Expanded(
@@ -291,7 +287,8 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
                                       "TrxID : ${trx.id?.toUpperCase()}",
                                       textAlign: TextAlign.right,
                                       style: TextStyle(
-                                          color: Colors.grey[600], fontSize: 11),
+                                          color: Colors.grey[600],
+                                          fontSize: 11),
                                     ),
                                   ),
                                 ],
@@ -325,7 +322,8 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
                                         ? Icons.access_time
                                         : Icons.cancel,
                               ),
-                              buildRow("Jenis Transaksi", trx.produk['nama'] ?? '-'),
+                              buildRow(
+                                  "Jenis Transaksi", trx.produk['nama'] ?? '-'),
                               buildRow("No HP", trx.tujuan ?? '-'),
                               buildRow("Jumlah", formatRupiah(trx.harga_jual)),
                               buildRow("Admin", formatRupiah(trx.admin)),
@@ -333,11 +331,13 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
                               SizedBox(height: 10),
                               Divider(thickness: 1, height: 24),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text("Total Bayar",
                                       style: TextStyle(
-                                          fontWeight: FontWeight.bold, fontSize: 16)),
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16)),
                                   Text(formatRupiah(trx.harga_jual),
                                       style: TextStyle(
                                           color: Color(0xFF2676C5),
@@ -353,7 +353,8 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
                                 children: [
                                   Flexible(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
                                       children: [
                                         Text(
                                           "Struk Ini Adalah Bukti Pembayaran Yang Sah",
@@ -431,19 +432,24 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: List.generate(dashCount, (_) {
-            return Container(width: dashWidth, height: 1, color: Colors.grey.shade400);
+            return Container(
+                width: dashWidth, height: 1, color: Colors.grey.shade400);
           }),
         );
       },
     );
   }
 
-  Widget buildRow(String label, String value, {Color color, bool isBold = false, IconData icon}) {
+  Widget buildRow(String label, String value,
+      {Color color, bool isBold = false, IconData icon}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: Row(
         children: [
-          Expanded(flex: 4, child: Text(label, style: TextStyle(color: Colors.grey[800], fontSize: 13))),
+          Expanded(
+              flex: 4,
+              child: Text(label,
+                  style: TextStyle(color: Colors.grey[800], fontSize: 13))),
           Expanded(
             flex: 7,
             child: Row(

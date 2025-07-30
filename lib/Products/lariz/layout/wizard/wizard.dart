@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:mobile/Products/lariz/layout/login.dart';
 import 'package:mobile/Products/lariz/layout/wizard/model_wizard.dart';
 
 class IntroScreen extends StatefulWidget {

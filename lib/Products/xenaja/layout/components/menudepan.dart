@@ -13,8 +13,6 @@ import 'package:mobile/screen/home/more/more.dart';
 import 'package:mobile/screen/list-sub-menu/list-sub-menu.dart';
 import 'package:mobile/screen/list-grid-menu/list-grid-menu.dart';
 import 'package:mobile/screen/pulsa/pulsa.dart';
-import 'package:mobile/models/menu.dart';
-import 'package:mobile/screen/detail-denom/detail-denom.dart';
 
 class MenuDepan extends StatefulWidget {
   final int grid;

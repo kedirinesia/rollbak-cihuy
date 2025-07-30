@@ -6,7 +6,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/component/alert.dart';
 import 'package:mobile/provider/api.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:permission_handler/permission_handler.dart';
 
@@ -42,10 +41,13 @@ class _MyQrisPageState extends State<MyQrisPage> {
 
     Directory dir = Directory('/storage/emulated/0/Download');
     await dir.create();
-    File img = await File('${dir.path}/qris_saya_${bloc.user.valueWrapper!.value.id}.jpg').create();
+    File img = await File(
+            '${dir.path}/qris_saya_${bloc.user.valueWrapper!.value.id}.jpg')
+        .create();
     http.Response res = await http.get(Uri.parse(_qrImage!));
     await img.writeAsBytes(res.bodyBytes);
-    ScaffoldMessenger.of(context).showSnackBar(Alert('Berhasil mengunduh dokumen QRIS di \'${dir.path}\''));
+    ScaffoldMessenger.of(context).showSnackBar(
+        Alert('Berhasil mengunduh dokumen QRIS di \'${dir.path}\''));
   }
 
   @override

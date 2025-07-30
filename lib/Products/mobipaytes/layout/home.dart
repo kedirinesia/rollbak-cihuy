@@ -14,7 +14,6 @@ import 'package:mobile/component/rewards.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/screen/history/history.dart';
 import 'package:mobile/screen/profile/invite/invite.dart';
-import 'package:mobile/screen/profile/komisi/riwayat_komisi.dart';
 import 'package:mobile/screen/profile/reward/list_reward.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
 
@@ -31,11 +30,11 @@ class _HomePopayState extends State<HomePopay> {
     ListReward(),
     ProfilePopay()
   ];
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            backgroundColor: Colors.grey[100],
+      backgroundColor: Colors.grey[100],
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,
         child: CachedNetworkImage(
@@ -106,8 +105,8 @@ class _HomePopayState extends State<HomePopay> {
                                     InkWell(
                                       onTap: () {
                                         updateUserInfo();
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                            SnackBar(
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
                                                 content:
                                                     Text('Berhasil Refresh')));
                                       },

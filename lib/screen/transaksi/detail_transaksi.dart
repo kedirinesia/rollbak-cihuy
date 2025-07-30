@@ -24,6 +24,7 @@ import 'package:mobile/models/bank.dart';
 import 'package:mobile/modules.dart';
 
 import 'package:mobile/screen/transaksi/print.dart';
+import 'package:mobile/screen/printPreviewSby.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -44,6 +45,7 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
   ScreenshotController _screenshotController = ScreenshotController();
   File image;
   bool danaApp = false;
+  bool customPrint = false;
 
   @override
   void initState() {
@@ -78,23 +80,41 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
   }
 
   Future<String> getPhoneNumberCs() async {
+    print("=== FETCHING CUSTOMER SERVICE DATA ===");
+    print("API URL: $apiUrl/cs/list");
+    print("Token: ${bloc.token.valueWrapper?.value}");
+    
     try {
       String link;
 
       http.Response response = await http.get(Uri.parse('$apiUrl/cs/list'),
           headers: {'Authorization': bloc.token.valueWrapper?.value});
+      
+      print("CS Response Status Code: ${response.statusCode}");
+      print("CS Response Body: ${response.body}");
+      
       if (response.statusCode == 200) {
         List<dynamic> responseData = json.decode(response.body)['data'];
+        print("=== PARSED CS DATA ===");
+        print("Number of CS entries: ${responseData.length}");
+        print("Raw CS data: $responseData");
+        
         responseData.forEach((e) {
-          print(e['link']);
+          print("CS Entry: $e");
+          print("CS Link: ${e['link']}");
           if (e['link'] is String &&
               (e['link'] as String).contains('api.whatsapp.com')) {
             link = e['link'];
+            print("Found WhatsApp link: $link");
           }
         });
+        print("Final selected link: $link");
+      } else {
+        print("CS API call failed with status code: ${response.statusCode}");
       }
       return link;
     } catch (err) {
+      print("Error fetching CS data: $err");
       return '';
     }
   }
@@ -141,29 +161,80 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
   }
 
   Future<void> getData() async {
+    print("=== FETCHING TRANSACTION DATA ===");
+    print("API URL: $apiUrl/trx/${widget.data.id}/print");
+    print("Token: ${bloc.token.valueWrapper?.value}");
+    
     http.Response response = await http.get(
         Uri.parse('$apiUrl/trx/${widget.data.id}/print'),
         headers: {'Authorization': bloc.token.valueWrapper?.value});
 
+    print("Response Status Code: ${response.statusCode}");
+    print("Response Body: ${response.body}");
+    
     if (response.statusCode == 200) {
       var responseData = json.decode(response.body)['data'];
+      print("=== PARSED RESPONSE DATA ===");
+      print("Full Response Data: $responseData");
+      print("Payment By: ${responseData['payment_by']}");
+      
       if (responseData['payment_by'] == 'transfer') {
+        print("Payment is transfer, fetching bank data...");
         await getBank();
       }
       setState(() {
         trx = TrxModel.fromJson(responseData);
-        print("KIE SING BENER $trx");
+        customPrint = responseData['custom_print'] ?? false;
+        print("=== TRANSACTION MODEL CREATED ===");
+        print("Transaction ID: ${trx.id}");
+        print("Transaction Status: ${trx.status}");
+        print("Transaction Amount: ${trx.harga_jual}");
+        print("Transaction Target: ${trx.tujuan}");
+        print("Product Info: ${trx.produk}");
+        print("Payment Method: ${trx.paymentBy}");
+        print("Serial Number: ${trx.sn}");
+        print("Created At: ${trx.created_at}");
+        print("Keterangan: ${trx.keterangan}");
+        print("Point: ${trx.point}");
+        print("Print Data: ${trx.print}");
+        print("Payment Detail: ${trx.paymentDetail}");
+        print("Status Model: ${trx.statusModel}");
+        print("Custom Print: $customPrint");
       });
+    } else {
+      print("API call failed with status code: ${response.statusCode}");
     }
   }
 
   Future<void> getBank() async {
+    print("=== FETCHING BANK DATA ===");
+    print("API URL: $apiUrl/bank/list?type=1");
+    print("Token: ${bloc.token.valueWrapper?.value}");
+    
     http.Response response = await http.get(
         Uri.parse('$apiUrl/bank/list?type=1'),
         headers: {'Authorization': bloc.token.valueWrapper?.value});
+    
+    print("Bank Response Status Code: ${response.statusCode}");
+    print("Bank Response Body: ${response.body}");
+    
     if (response.statusCode == 200) {
       List<dynamic> datas = json.decode(response.body)['data'];
+      print("=== PARSED BANK DATA ===");
+      print("Number of banks: ${datas.length}");
+      print("Raw bank data: $datas");
+      
       banks = datas.map((e) => BankModel.fromJson(e)).toList();
+      print("=== BANK MODELS CREATED ===");
+      for (int i = 0; i < banks.length; i++) {
+        print("Bank ${i + 1}:");
+        print("  - Name: ${banks[i].namaBank}");
+        print("  - Account Number: ${banks[i].noRek}");
+        print("  - Account Holder: ${banks[i].namaRekening}");
+        print("  - Is Gangguan: ${banks[i].isGangguan}");
+      }
+    } else {
+      print("Bank API call failed with status code: ${response.statusCode}");
     }
   }
 
@@ -552,52 +623,55 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
                     ]),
               ),
               packageName == 'id.paymobileku.app'
-               ? SizedBox()
-               : TextButton(
-                child: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
-                  Hero(
-                    tag: 'cs',
-                    child: Icon(
-                      Icons.help_outline,
-                      color: packageName == 'com.lariz.mobile'
-                          ? Theme.of(context).secondaryHeaderColor
-                          : Theme.of(context).primaryColor,
-                    ),
-                  ),
-                  SizedBox(width: 5),
-                  Text('Komplain')
-                ]),
-                onPressed: () {
-                  List<String> packageList = [
-                    'mypay.co.id',
-                    'id.payku.app',
-                    'popay.id',
-                    'mobile.payuni.id',
-                    'co.pakaiaja.id',
-                    'com.mocipay.app',
-                    'com.centralbayar.apk',
-                    'ayoba.co.id',
-                    'com.talentapay.android',
-                    'id.outletpay.mobile',
-                    'com.popayfdn',
-                    'com.xenaja.app',
-                    'com.ampedia.mobile',
-                    'id.paymobileku.app'
-                  ];
+                  ? SizedBox()
+                  : TextButton(
+                      child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Hero(
+                              tag: 'cs',
+                              child: Icon(
+                                Icons.help_outline,
+                                color: packageName == 'com.lariz.mobile'
+                                    ? Theme.of(context).secondaryHeaderColor
+                                    : Theme.of(context).primaryColor,
+                              ),
+                            ),
+                            SizedBox(width: 5),
+                            Text('Komplain')
+                          ]),
+                      onPressed: () {
+                        List<String> packageList = [
+                          'mypay.co.id',
+                          'id.payku.app',
+                          'popay.id',
+                          'mobile.payuni.id',
+                          'co.pakaiaja.id',
+                          'com.mocipay.app',
+                          'com.centralbayar.apk',
+                          'ayoba.co.id',
+                          'com.talentapay.android',
+                          'id.outletpay.mobile',
+                          'com.popayfdn',
+                          'com.xenaja.app',
+                          'com.ampedia.mobile',
+                          'id.paymobileku.app'
+                        ];
 
-                  var isPackage = false;
+                        var isPackage = false;
 
-                  packageList.forEach((element) {
-                    if (element == packageName) {
-                      isPackage = true;
-                    }
-                  });
+                        packageList.forEach((element) {
+                          if (element == packageName) {
+                            isPackage = true;
+                          }
+                        });
 
-                  if (isPackage) return sendWhatsApp();
+                        if (isPackage) return sendWhatsApp();
 
-                  return Navigator.of(context).pushNamed('/customer-service');
-                },
-              )
+                        return Navigator.of(context)
+                            .pushNamed('/customer-service');
+                      },
+                    )
             ],
           ),
         ),
@@ -614,13 +688,24 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
                 if (widget.data.produk != null &&
                     widget.data.produk != null &&
                     widget.data.produk.containsKey('type')) {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => PrintPreview(
-                          trx: trx,
-                          isPostpaid: widget.data.produk['type'] == 1),
-                    ),
-                  );
+                  
+                  // Check if custom_print is true
+                  if (customPrint) {
+                    print("Redirecting to printPreviewSby for custom print transaction");
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => PrintPreviewSby(trx: trx),
+                      ),
+                    );
+                  } else {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => PrintPreview(
+                            trx: trx,
+                            isPostpaid: widget.data.produk['type'] == 1),
+                      ),
+                    );
+                  }
                 } else {
                   showCustomDialog(
                       context: context,

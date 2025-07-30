@@ -78,11 +78,10 @@ class IntroWidget extends StatelessWidget {
                         children: [
                           TextButton(
                             onPressed: () {
-                              Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                  builder: (_) => LoginPage(),
-                                )
-                              );
+                              Navigator.of(context)
+                                  .pushReplacement(MaterialPageRoute(
+                                builder: (_) => LoginPage(),
+                              ));
                             },
                             child: const Text(
                               'Skip Now',

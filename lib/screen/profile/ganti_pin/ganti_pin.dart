@@ -54,100 +54,106 @@ class _GantiPinState extends GantiPinController {
                     padding: EdgeInsets.all(15),
                     child: Column(children: <Widget>[
                       packageName == 'com.eralink.mobileapk'
-                        ? TextFormField(
-                            controller: pinLama,
-                            cursorColor: Theme.of(context).primaryColor,
-                            decoration: InputDecoration(
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Theme.of(context).primaryColor)
+                          ? TextFormField(
+                              controller: pinLama,
+                              cursorColor: Theme.of(context).primaryColor,
+                              decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Theme.of(context).primaryColor)),
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Theme.of(context).primaryColor)),
+                                labelText: 'PIN Lama',
+                                labelStyle: TextStyle(
+                                    color:
+                                        Theme.of(context).secondaryHeaderColor),
+                                border: OutlineInputBorder(),
                               ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Theme.of(context).primaryColor)
+                              obscureText: true,
+                              maxLength:
+                                  configAppBloc.pinCount.valueWrapper?.value,
+                              keyboardType: TextInputType.number,
+                            )
+                          : TextFormField(
+                              controller: pinLama,
+                              decoration: InputDecoration(
+                                labelText: 'PIN Lama',
+                                border: OutlineInputBorder(),
                               ),
-                              labelText: 'PIN Lama',
-                              labelStyle: TextStyle(
-                                color: Theme.of(context).secondaryHeaderColor
-                              ),
-                              border: OutlineInputBorder(),
+                              obscureText: true,
+                              maxLength:
+                                  configAppBloc.pinCount.valueWrapper?.value,
+                              keyboardType: TextInputType.number,
                             ),
-                            obscureText: true,
-                            maxLength: configAppBloc.pinCount.valueWrapper?.value,
-                            keyboardType: TextInputType.number,
-                          )
-                        : TextFormField(
-                            controller: pinLama,
-                            decoration: InputDecoration(
-                              labelText: 'PIN Lama',
-                              border: OutlineInputBorder(),
-                            ),
-                            obscureText: true,
-                            maxLength: configAppBloc.pinCount.valueWrapper?.value,
-                            keyboardType: TextInputType.number,
-                          ),
                       SizedBox(height: 15),
                       packageName == 'com.eralink.mobileapk'
-                        ? TextFormField(
-                            controller: pinBaru,
-                            cursorColor: Theme.of(context).primaryColor,
-                            decoration: InputDecoration(
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Theme.of(context).primaryColor)
+                          ? TextFormField(
+                              controller: pinBaru,
+                              cursorColor: Theme.of(context).primaryColor,
+                              decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Theme.of(context).primaryColor)),
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Theme.of(context).primaryColor)),
+                                labelText: 'PIN Baru',
+                                labelStyle: TextStyle(
+                                    color:
+                                        Theme.of(context).secondaryHeaderColor),
+                                border: OutlineInputBorder(),
                               ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Theme.of(context).primaryColor)
+                              obscureText: true,
+                              maxLength:
+                                  configAppBloc.pinCount.valueWrapper?.value,
+                              keyboardType: TextInputType.number,
+                            )
+                          : TextFormField(
+                              controller: pinBaru,
+                              decoration: InputDecoration(
+                                labelText: 'PIN Baru',
+                                border: OutlineInputBorder(),
                               ),
-                              labelText: 'PIN Baru',
-                              labelStyle: TextStyle(
-                                color: Theme.of(context).secondaryHeaderColor
-                              ),
-                              border: OutlineInputBorder(),
+                              obscureText: true,
+                              maxLength:
+                                  configAppBloc.pinCount.valueWrapper?.value,
+                              keyboardType: TextInputType.number,
                             ),
-                            obscureText: true,
-                            maxLength: configAppBloc.pinCount.valueWrapper?.value,
-                            keyboardType: TextInputType.number,
-                          )
-                        : TextFormField(
-                            controller: pinBaru,
-                            decoration: InputDecoration(
-                              labelText: 'PIN Baru',
-                              border: OutlineInputBorder(),
-                            ),
-                            obscureText: true,
-                            maxLength: configAppBloc.pinCount.valueWrapper?.value,
-                            keyboardType: TextInputType.number,
-                          ),
                       SizedBox(height: 15),
                       packageName == 'com.eralink.mobileapk'
-                        ? TextFormField(
-                            controller: pinConfirm,
-                            cursorColor: Theme.of(context).primaryColor,
-                            decoration: InputDecoration(
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Theme.of(context).primaryColor)
+                          ? TextFormField(
+                              controller: pinConfirm,
+                              cursorColor: Theme.of(context).primaryColor,
+                              decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Theme.of(context).primaryColor)),
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Theme.of(context).primaryColor)),
+                                labelText: 'Ulangi PIN Baru',
+                                labelStyle: TextStyle(
+                                  color: Theme.of(context).secondaryHeaderColor,
+                                ),
+                                border: OutlineInputBorder(),
                               ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Theme.of(context).primaryColor)
+                              obscureText: true,
+                              maxLength:
+                                  configAppBloc.pinCount.valueWrapper?.value,
+                              keyboardType: TextInputType.number,
+                            )
+                          : TextFormField(
+                              controller: pinConfirm,
+                              decoration: InputDecoration(
+                                labelText: 'Ulangi PIN Baru',
+                                border: OutlineInputBorder(),
                               ),
-                              labelText: 'Ulangi PIN Baru',
-                              labelStyle: TextStyle(
-                                color: Theme.of(context).secondaryHeaderColor,
-                              ),
-                              border: OutlineInputBorder(),
-                            ),
-                            obscureText: true,
-                            maxLength: configAppBloc.pinCount.valueWrapper?.value,
-                            keyboardType: TextInputType.number,
-                          )
-                        : TextFormField(
-                            controller: pinConfirm,
-                            decoration: InputDecoration(
-                              labelText: 'Ulangi PIN Baru',
-                              border: OutlineInputBorder(),
-                            ),
-                            obscureText: true,
-                            maxLength: configAppBloc.pinCount.valueWrapper?.value,
-                            keyboardType: TextInputType.number,
-                          )
+                              obscureText: true,
+                              maxLength:
+                                  configAppBloc.pinCount.valueWrapper?.value,
+                              keyboardType: TextInputType.number,
+                            )
                     ]))
           ]))
         ],

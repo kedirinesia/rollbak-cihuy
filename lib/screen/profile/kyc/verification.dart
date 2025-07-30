@@ -17,7 +17,7 @@ class KycVerification extends StatefulWidget {
 
 class _KycVerificationState extends State<KycVerification> {
   bool loading = false;
-    TextEditingController nik = TextEditingController();
+  TextEditingController nik = TextEditingController();
   File ktp;
   File selfie;
 
@@ -105,7 +105,7 @@ class _KycVerificationState extends State<KycVerification> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            appBar: AppBar(
+      appBar: AppBar(
           title: Text('Verifikasi Identitas'), centerTitle: true, elevation: 0),
       body: (bloc.user.valueWrapper?.value.kyc != '' &&
               bloc.user.valueWrapper?.value.kyc['status'] != 2 &&

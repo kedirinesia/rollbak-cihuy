@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../screen/login.dart';
- 
-
- 
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({Key? key}) : super(key: key);
@@ -17,21 +14,27 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   final List<Map<String, String>> pages = [
     {
-      "image": "https://dokumen.payuni.co.id/logo/mykonter/custom/splascreen1.png",
+      "image":
+          "https://dokumen.payuni.co.id/logo/mykonter/custom/splascreen1.png",
       "title": "Semua Layanan PPOB\ndalam Satu Aplikasi",
-      "desc": "Bayar tagihan Listrik, Pulsa, Paket data, PDAM, BPJS dan banyak lagi.",
+      "desc":
+          "Bayar tagihan Listrik, Pulsa, Paket data, PDAM, BPJS dan banyak lagi.",
       "btn": "Mulai Sekarang"
     },
     {
-      "image": "https://dokumen.payuni.co.id/logo/mykonter/custom/splasscreen2.png",
+      "image":
+          "https://dokumen.payuni.co.id/logo/mykonter/custom/splasscreen2.png",
       "title": "Tambah Penghasilan\ndari Rumah",
-      "desc": "Dapatkan komisi dari setiap transaksi. Cocok untuk konter dan bisnis rumahan.",
+      "desc":
+          "Dapatkan komisi dari setiap transaksi. Cocok untuk konter dan bisnis rumahan.",
       "btn": "Lanjutkan"
     },
     {
-      "image": "https://dokumen.payuni.co.id/logo/mykonter/custom/splasscreen3.png",
+      "image":
+          "https://dokumen.payuni.co.id/logo/mykonter/custom/splasscreen3.png",
       "title": "Riwayat & Laporan\nTransaksi Lengkap",
-      "desc": "Lihat semua Transaksi dan Laporan Keuangan harian anda secara Real-Time.",
+      "desc":
+          "Lihat semua Transaksi dan Laporan Keuangan harian anda secara Real-Time.",
       "btn": "Lanjutkan"
     },
   ];
@@ -44,7 +47,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
       );
     } else {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) =>  LoginPage()),
+        MaterialPageRoute(builder: (_) => LoginPage()),
       );
     }
   }
@@ -68,10 +71,13 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   (idx) => Expanded(
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 300),
-                      margin: EdgeInsets.only(right: idx < pages.length - 1 ? 8 : 0),
+                      margin: EdgeInsets.only(
+                          right: idx < pages.length - 1 ? 8 : 0),
                       height: 6,
                       decoration: BoxDecoration(
-                        color: _pageIndex == idx ? primaryColor : const Color(0xFFE0E0E0),
+                        color: _pageIndex == idx
+                            ? primaryColor
+                            : const Color(0xFFE0E0E0),
                         borderRadius: BorderRadius.circular(4),
                       ),
                     ),
@@ -86,7 +92,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 itemCount: pages.length,
                 onPageChanged: (index) => setState(() => _pageIndex = index),
                 itemBuilder: (context, i) => Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 4),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 26, vertical: 4),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -150,7 +157,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                 ),
                               ),
                               const SizedBox(width: 8),
-                              const Icon(Icons.arrow_forward, color: Colors.white, size: 21),
+                              const Icon(Icons.arrow_forward,
+                                  color: Colors.white, size: 21),
                             ],
                           ),
                         ),

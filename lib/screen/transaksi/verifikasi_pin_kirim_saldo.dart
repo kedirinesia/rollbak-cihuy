@@ -17,7 +17,8 @@ import 'package:mobile/bloc/Api.dart';
 
 class VerifikasiPinKirimSaldo extends StatefulWidget {
   @override
-  _VerifikasiPinKirimSaldoState createState() => _VerifikasiPinKirimSaldoState();
+  _VerifikasiPinKirimSaldoState createState() =>
+      _VerifikasiPinKirimSaldoState();
 }
 
 class _VerifikasiPinKirimSaldoState extends VerifikasiPinKirimSaldoController {
@@ -94,8 +95,8 @@ class _VerifikasiPinKirimSaldoState extends VerifikasiPinKirimSaldoController {
   }
 }
 
-abstract class VerifikasiPinKirimSaldoController extends State<VerifikasiPinKirimSaldo>
-    with TickerProviderStateMixin {
+abstract class VerifikasiPinKirimSaldoController
+    extends State<VerifikasiPinKirimSaldo> with TickerProviderStateMixin {
   TextEditingController pin = TextEditingController();
   bool loading = false;
 

@@ -17,7 +17,7 @@ class WithdrawBankPage extends StatefulWidget {
 }
 
 class _WithdrawBankPageState extends State<WithdrawBankPage> {
-    List<WithdrawBankModel> banks = [];
+  List<WithdrawBankModel> banks = [];
   List<WithdrawBankModel> filtered = [];
   bool isLoading = true;
 
@@ -48,7 +48,8 @@ class _WithdrawBankPageState extends State<WithdrawBankPage> {
     } else {
       String message = json.decode(response.body)['message'] ??
           'Terjadi kesalahan saat mengambil data dari server';
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(message)));
     }
 
     setState(() {
@@ -59,7 +60,7 @@ class _WithdrawBankPageState extends State<WithdrawBankPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-                appBar:
+        appBar:
             AppBar(title: Text('Daftar Bank'), centerTitle: true, elevation: 0),
         body: Container(
             width: double.infinity,
@@ -70,33 +71,36 @@ class _WithdrawBankPageState extends State<WithdrawBankPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   packageName == 'com.eralink.mobileapk'
-                    ? TextFormField(
-                      keyboardType: TextInputType.text,
-                      cursorColor: Theme.of(context).primaryColor,
-                      decoration: InputDecoration(
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Theme.of(context).primaryColor)
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Theme.of(context).primaryColor)
-                          ),
-                          isDense: true,
-                          icon: Icon(Icons.search, color: Theme.of(context).primaryColor,),
-                          hintText: 'Cari Bank',
-                          hintStyle: TextStyle(
-                            color: Theme.of(context).secondaryHeaderColor
-                          )),
-                      onChanged: (value) {
-                        filtered = banks
-                            .where((el) => el.nama
-                                .toString()
-                                .toLowerCase()
-                                .contains(value.toLowerCase()))
-                            .toList();
+                      ? TextFormField(
+                          keyboardType: TextInputType.text,
+                          cursorColor: Theme.of(context).primaryColor,
+                          decoration: InputDecoration(
+                              enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context).primaryColor)),
+                              focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context).primaryColor)),
+                              isDense: true,
+                              icon: Icon(
+                                Icons.search,
+                                color: Theme.of(context).primaryColor,
+                              ),
+                              hintText: 'Cari Bank',
+                              hintStyle: TextStyle(
+                                  color:
+                                      Theme.of(context).secondaryHeaderColor)),
+                          onChanged: (value) {
+                            filtered = banks
+                                .where((el) => el.nama
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(value.toLowerCase()))
+                                .toList();
 
-                        setState(() {});
-                      })
-                    : TextFormField(
+                            setState(() {});
+                          })
+                      : TextFormField(
                           keyboardType: TextInputType.text,
                           decoration: InputDecoration(
                               isDense: true,

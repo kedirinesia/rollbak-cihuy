@@ -14,7 +14,7 @@ class CustomerServicePage extends StatefulWidget {
 }
 
 class _CustomerServicePageState extends State<CustomerServicePage> {
-    Completer<WebViewController> _controller = Completer<WebViewController>();
+  Completer<WebViewController> _controller = Completer<WebViewController>();
   @override
   void initState() {
     super.initState();
@@ -27,7 +27,7 @@ class _CustomerServicePageState extends State<CustomerServicePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-                appBar: AppBar(
+        appBar: AppBar(
             title: Text('Easy Payment Live Chat',
                 style: TextStyle(color: Colors.white)),
             centerTitle: true,

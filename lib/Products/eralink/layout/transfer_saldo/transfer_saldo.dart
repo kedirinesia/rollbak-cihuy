@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/component/contact.dart';
-import 'package:mobile/config.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/Products/eralink/layout/transfer_saldo/inquiry_transfer.dart';
 
@@ -62,18 +61,22 @@ class _TransferSaldoState extends State<TransferSaldo> {
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Theme.of(context).primaryColor)
-                      ),
+                          borderSide: BorderSide(
+                              color: Theme.of(context).primaryColor)),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Theme.of(context).primaryColor)
+                          borderSide: BorderSide(
+                              color: Theme.of(context).primaryColor)),
+                      prefixIcon: Icon(
+                        Icons.phone,
+                        color: Color(0XFF009B90),
                       ),
-                      prefixIcon: Icon(Icons.phone, color: Color(0XFF009B90),),
                       labelText: 'Nomor Tujuan',
-                      labelStyle:TextStyle(
-                        color: Color(0XFFF5AB35)
-                      ),
+                      labelStyle: TextStyle(color: Color(0XFFF5AB35)),
                       suffixIcon: IconButton(
-                          icon: Icon(Icons.contacts, color: Color(0XFF009B90),),
+                          icon: Icon(
+                            Icons.contacts,
+                            color: Color(0XFF009B90),
+                          ),
                           onPressed: () {
                             Navigator.of(context)
                                 .push(MaterialPageRoute(
@@ -94,20 +97,15 @@ class _TransferSaldoState extends State<TransferSaldo> {
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Theme.of(context).primaryColor)
-                        ),
+                            borderSide: BorderSide(
+                                color: Theme.of(context).primaryColor)),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Theme.of(context).primaryColor)
-                        ),
+                            borderSide: BorderSide(
+                                color: Theme.of(context).primaryColor)),
                         prefixText: 'Rp ',
-                        prefixStyle: TextStyle(
-                          color: Color(0XFFF5AB35)
-                        ),
+                        prefixStyle: TextStyle(color: Color(0XFFF5AB35)),
                         labelText: 'Nominal',
-                        labelStyle: TextStyle(
-                          color: Color(0XFFF5AB35)
-                        )
-                    ),
+                        labelStyle: TextStyle(color: Color(0XFFF5AB35))),
                     keyboardType: TextInputType.number,
                   ),
                   SizedBox(height: 15)

@@ -11,7 +11,6 @@ import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/models/reward.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/bloc/Bloc.dart' show bloc;
-import 'package:shimmer/shimmer.dart';
 
 class RewardComponent extends StatefulWidget {
   final double width;

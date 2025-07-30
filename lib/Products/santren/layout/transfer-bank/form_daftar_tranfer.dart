@@ -20,7 +20,6 @@ class FormDaftarTransfer extends StatefulWidget {
 }
 
 class _FormDaftarTransferState extends State<FormDaftarTransfer> {
-  
   TextEditingController namaTujuan = TextEditingController();
   TextEditingController noTujuan = TextEditingController();
 
@@ -91,7 +90,7 @@ class _FormDaftarTransferState extends State<FormDaftarTransfer> {
     var value;
 
     return Scaffold(
-            backgroundColor: Color(0XFFF0F0F0),
+      backgroundColor: Color(0XFFF0F0F0),
       appBar:
           AppBar(title: Text('Transfer Baru'), centerTitle: true, elevation: 0),
       body: Container(
@@ -253,9 +252,7 @@ class _FormDaftarTransferState extends State<FormDaftarTransfer> {
       child: ElevatedButton(
         onPressed: submitFormData,
         style: ElevatedButton.styleFrom(
-          primary: Theme.of(context).primaryColor,
-          onPrimary: Theme.of(context).primaryColor,
-          onSurface: Theme.of(context).primaryColor,
+          foregroundColor: Theme.of(context).primaryColor, backgroundColor: Theme.of(context).primaryColor, disabledForegroundColor: Theme.of(context).primaryColor.withOpacity(0.38), disabledBackgroundColor: Theme.of(context).primaryColor.withOpacity(0.12),
         ),
         child: Padding(
           padding: EdgeInsets.all(15.0),

@@ -3,7 +3,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile/component/webview.dart';
 import 'package:mobile/config.dart';
 import 'package:mobile/models/banner.dart';
 import 'package:mobile/models/menu.dart';
@@ -46,7 +45,8 @@ class _CarouselDepanState extends State<CarouselDepan> {
   fetchBanner() async {
     String path = '/banner/list?limit=3';
 
-    if (packageName == 'com.onetronic.mobile' || packageName == 'com.santrenpay.mobile') {
+    if (packageName == 'com.onetronic.mobile' ||
+        packageName == 'com.santrenpay.mobile') {
       path = '/banner/list';
     }
 
@@ -106,87 +106,87 @@ class _CarouselDepanState extends State<CarouselDepan> {
     return loading
         ? loadingBanner()
         : Container(
-                margin: EdgeInsets.only(bottom: widget.marginBottom),
-                child: CarouselSlider.builder(
-                  itemCount: banner.length,
-                  options: CarouselOptions(
-                    autoPlay: true,
-                    enlargeCenterPage: true,
-                    viewportFraction: widget.viewportFraction,
-                    aspectRatio: widget.aspectRatio,
-                    initialPage: 2,
-                    pauseAutoPlayOnTouch: true,
-                    onPageChanged: (index, reason) {
-                      setState(() {
-                        _current = index;
-                      });
-                    },
-                  ),
-                  itemBuilder: (_, i, __) {
-                    BannerModel bannerInfo = banner[i];
+            margin: EdgeInsets.only(bottom: widget.marginBottom),
+            child: CarouselSlider.builder(
+              itemCount: banner.length,
+              options: CarouselOptions(
+                autoPlay: true,
+                enlargeCenterPage: true,
+                viewportFraction: widget.viewportFraction,
+                aspectRatio: widget.aspectRatio,
+                initialPage: 2,
+                pauseAutoPlayOnTouch: true,
+                onPageChanged: (index, reason) {
+                  setState(() {
+                    _current = index;
+                  });
+                },
+              ),
+              itemBuilder: (_, i, __) {
+                BannerModel bannerInfo = banner[i];
 
-                    return InkWell(
-                      onTap: () => onClickBanner(bannerInfo),
-                      child: Container(
-                        width: double.infinity,
-                        margin: EdgeInsets.symmetric(horizontal: 5.0),
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade200,
-                          borderRadius: BorderRadius.circular(12.5),
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(12.5),
-                          child: CachedNetworkImage(
-                            imageUrl: bannerInfo.cover,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
+                return InkWell(
+                  onTap: () => onClickBanner(bannerInfo),
+                  child: Container(
+                    width: double.infinity,
+                    margin: EdgeInsets.symmetric(horizontal: 5.0),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade200,
+                      borderRadius: BorderRadius.circular(12.5),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(12.5),
+                      child: CachedNetworkImage(
+                        imageUrl: bannerInfo.cover,
+                        fit: BoxFit.cover,
                       ),
-                    );
-                  },
-                ),
-                // child: CarouselSlider(
-                //   options: CarouselOptions(
-                //     autoPlay: true,
-                //     aspectRatio: widget.aspectRatio,
-                //     enlargeCenterPage: true,
-                //     viewportFraction: widget.viewportFraction,
-                //     pauseAutoPlayOnManualNavigate: true,
-                //     initialPage: 2,
-                //     onPageChanged: (index, reason) {
-                //       setState(() {
-                //         _current = index;
-                //       });
-                //     },
-                //   ),
-                //   items: banner.map((i) {
-                //     return Builder(
-                //       builder: (BuildContext context) {
-                //         return InkWell(
-                //           onTap: () => onClickBanner(i),
-                //           child: Container(
-                //             width: double.infinity,
-                //             margin: EdgeInsets.symmetric(horizontal: 5.0),
-                //             decoration: BoxDecoration(
-                //               color: Colors.grey.shade200,
-                //               borderRadius: BorderRadius.circular(12.5),
-                //             ),
-                //             child: ClipRRect(
-                //               borderRadius: BorderRadius.circular(12.5),
-                //               child: i.cover != null // Pengecekan apakah cover tidak null
-                //                   ? CachedNetworkImage(
-                //                       imageUrl: i.cover,
-                //                       fit: BoxFit.cover,
-                //                     )
-                //                   : Container(),
-                //             ),
-                //           ),
-                //         );
-                //       },
-                //     );
-                //   }).toList(),
-                // ),
-              );
+                    ),
+                  ),
+                );
+              },
+            ),
+            // child: CarouselSlider(
+            //   options: CarouselOptions(
+            //     autoPlay: true,
+            //     aspectRatio: widget.aspectRatio,
+            //     enlargeCenterPage: true,
+            //     viewportFraction: widget.viewportFraction,
+            //     pauseAutoPlayOnManualNavigate: true,
+            //     initialPage: 2,
+            //     onPageChanged: (index, reason) {
+            //       setState(() {
+            //         _current = index;
+            //       });
+            //     },
+            //   ),
+            //   items: banner.map((i) {
+            //     return Builder(
+            //       builder: (BuildContext context) {
+            //         return InkWell(
+            //           onTap: () => onClickBanner(i),
+            //           child: Container(
+            //             width: double.infinity,
+            //             margin: EdgeInsets.symmetric(horizontal: 5.0),
+            //             decoration: BoxDecoration(
+            //               color: Colors.grey.shade200,
+            //               borderRadius: BorderRadius.circular(12.5),
+            //             ),
+            //             child: ClipRRect(
+            //               borderRadius: BorderRadius.circular(12.5),
+            //               child: i.cover != null // Pengecekan apakah cover tidak null
+            //                   ? CachedNetworkImage(
+            //                       imageUrl: i.cover,
+            //                       fit: BoxFit.cover,
+            //                     )
+            //                   : Container(),
+            //             ),
+            //           ),
+            //         );
+            //       },
+            //     );
+            //   }).toList(),
+            // ),
+          );
   }
 
   Widget loadingBanner() {

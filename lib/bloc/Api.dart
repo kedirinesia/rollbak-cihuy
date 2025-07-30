@@ -10,11 +10,11 @@ class ApiBloc extends Object {
     sigVendor.close();
     apiUrl.close();
     apiUrlKasir.close();
-  }
+  } 
 }
 
 final apiBloc = ApiBloc();
 
-String apiUrl = apiBloc.apiUrl.value ?? 'https://app.payuni.co.id/api/v1';
+String  apiUrl = apiBloc.apiUrl.value ?? 'https://app.payuni.co.id/api/v1';
 String apiUrlKasir = apiBloc.apiUrlKasir.value;
 String sigVendor = apiBloc.sigVendor.value;

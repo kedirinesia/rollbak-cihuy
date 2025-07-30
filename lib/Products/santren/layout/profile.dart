@@ -330,11 +330,11 @@ class _ProfilePageState extends State<ProfilePage> {
                           Divider(),
                           ListTile(
                             onTap: () {
-                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) {
-                                return PrivacyPolicyPage();
-                              },
-                            ));
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) {
+                                  return PrivacyPolicyPage();
+                                },
+                              ));
                             },
                             title: Text('Privacy Policy',
                                 style: TextStyle(fontSize: 12.0)),

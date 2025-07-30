@@ -1,18 +1,13 @@
 // @dart=2.9
 
-import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:barcode_scan2/platform_wrapper.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mobile/Products/mykonterr/layout/cs.dart';
 import 'package:mobile/Products/mykonterr/layout/home1.dart';
 import 'package:mobile/Products/mykonterr/layout/profile.dart';
 import 'package:mobile/Products/mykonterr/layout/history.dart';
 import 'package:mobile/bloc/Bloc.dart';
-import 'package:mobile/bloc/ConfigApp.dart';
-import 'package:mobile/screen/kasir/main.dart';
 import 'package:mobile/screen/profile/downline/downline.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
 
@@ -25,8 +20,13 @@ class _HomeBlibliState extends State<HomeBlibli> {
   Color mainColor = Colors.white;
   Color mainTextColor = Colors.blue;
   int pageIndex = 0;
-  List<Widget> halaman = [PayuniHome(), HistoryPage(), Downline(), ProfilePopay()];
-  
+  List<Widget> halaman = [
+    PayuniHome(),
+    HistoryPage(),
+    Downline(),
+    ProfilePopay()
+  ];
+
   @override
   void initState() {
     super.initState();
@@ -67,8 +67,10 @@ class _HomeBlibliState extends State<HomeBlibli> {
         floatingActionButton: FloatingActionButton(
           backgroundColor: Theme.of(context).primaryColor,
           child: CachedNetworkImage(
-                  imageUrl:
-                      'https://dokumen.payuni.co.id/logo/payku/qris.png', color: Colors.white, width: 40.0, height: 40.0),
+              imageUrl: 'https://dokumen.payuni.co.id/logo/payku/qris.png',
+              color: Colors.white,
+              width: 40.0,
+              height: 40.0),
           elevation: 0.0,
           // onPressed: () => Navigator.of(context).push(
           //   MaterialPageRoute(
@@ -79,8 +81,7 @@ class _HomeBlibliState extends State<HomeBlibli> {
             var barcode = await BarcodeScanner.scan();
             if (barcode.rawContent.isNotEmpty) {
               Navigator.of(context).push(MaterialPageRoute(
-                builder: (_) => TransferByQR(barcode.rawContent)
-              ));
+                  builder: (_) => TransferByQR(barcode.rawContent)));
             }
           },
         ),

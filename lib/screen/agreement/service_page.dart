@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
-import 'package:mobile/screen/register.dart';
 import 'package:mobile/screen/terms/policy.dart';
 
 class ServicePolicyPage extends StatefulWidget {
@@ -34,7 +33,8 @@ class _TermsOfServicePageState extends State<ServicePolicyPage> {
 
   @override
   Widget build(BuildContext context) {
-    final String appName = configAppBloc.namaApp.valueWrapper?.value ?? 'Default App';
+    final String appName =
+        configAppBloc.namaApp.valueWrapper?.value ?? 'Default App';
     return Scaffold(
       appBar: AppBar(
         title: Text('Syarat & Ketentuan'),
@@ -52,7 +52,9 @@ class _TermsOfServicePageState extends State<ServicePolicyPage> {
                 mdFileName: 'term_condition.md',
                 appName: appName,
               ),
-            SizedBox(height: 50,)
+              SizedBox(
+                height: 50,
+              )
             ],
           ),
         ),
@@ -67,7 +69,8 @@ class _TermsOfServicePageState extends State<ServicePolicyPage> {
                   },
                   child: Text('Close'),
                   style: ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Theme.of(context).primaryColor),
+                    backgroundColor: MaterialStatePropertyAll(
+                        Theme.of(context).primaryColor),
                   ),
                 ),
               ),

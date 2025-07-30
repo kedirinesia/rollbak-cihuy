@@ -29,7 +29,7 @@ class ListProdukMarketplace extends StatefulWidget {
 }
 
 class _ListProdukMarketplaceState extends State<ListProdukMarketplace> {
-    List<ProdukMarket> products = [];
+  List<ProdukMarket> products = [];
   int page = 0;
   String pageTitle;
   bool isLoading = true;
@@ -97,7 +97,7 @@ class _ListProdukMarketplaceState extends State<ListProdukMarketplace> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            appBar: search
+      appBar: search
           ? AppBar(
               title: TextField(
                 controller: query,

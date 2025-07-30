@@ -24,7 +24,6 @@ class _HomeAyobaState extends State<HomeAyoba> {
     ProfilePopay()
   ];
 
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +38,7 @@ class _HomeAyobaState extends State<HomeAyoba> {
         toolbarHeight: 0.0,
         elevation: 0,
       ),
-            floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,
         child: SvgPicture.asset(
           "assets/img/payuni2/scan.svg",

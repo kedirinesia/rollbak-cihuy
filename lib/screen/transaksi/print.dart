@@ -2,7 +2,6 @@
 
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -22,7 +21,6 @@ import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/custom_alert_dialog.dart';
 import 'package:mobile/screen/transaksi/select_printer.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:quickalert/quickalert.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -39,8 +37,6 @@ class PrintPreview extends StatefulWidget {
 }
 
 class _PrintPreviewState extends PrintPreviewController {
-
-  
   BlueThermalPrinter _bluetooth = BlueThermalPrinter.instance;
   ScreenshotController _screenshotController = ScreenshotController();
   File image;
@@ -384,13 +380,13 @@ class _PrintPreviewState extends PrintPreviewController {
     await _bluetooth.printLeftRight('Nama Produk', trxData.produk['nama'], 0);
     await _bluetooth.printLeftRight('Tujuan', trxData.tujuan, 0);
     if (showDefaultTagihan) {
-      await _bluetooth.printLeftRight(labelHarga, formatRupiah(harga) , 0);
+      await _bluetooth.printLeftRight(labelHarga, formatRupiah(harga), 0);
     }
     if (showDefaultAdmin) {
       await _bluetooth.printLeftRight('Admin', formatRupiah(admin), 0);
     }
     if (packageName == 'com.funmo.id') {
-      await _bluetooth.printLeftRight('Cetak', formatRupiah(cetak) , 0);
+      await _bluetooth.printLeftRight('Cetak', formatRupiah(cetak), 0);
     }
     trxData.print.forEach((el) async {
       if (!['token', 'jumlah', 'nominal', 'tagihan', 'admin']
@@ -412,7 +408,7 @@ class _PrintPreviewState extends PrintPreviewController {
       });
     }
     await _bluetooth.printCustom('------------------', 0, 1);
-    await _bluetooth.printLeftRight('Total', formatRupiah(total) , 1);
+    await _bluetooth.printLeftRight('Total', formatRupiah(total), 1);
     await _bluetooth.printCustom('------------------', 0, 1);
     await _bluetooth.printNewLine();
     await _bluetooth.printCustom(
@@ -498,7 +494,6 @@ class _PrintPreviewState extends PrintPreviewController {
   //     return false;
   //   }
   // }
-
 
   Future<void> startPrint() async {
     bool status = await checkBluetooth();
@@ -610,33 +605,36 @@ class _PrintPreviewState extends PrintPreviewController {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        packageName == 'com.eralink.mobileapk' || packageName == 'com.lariz.mobile'
-                          ? TextFormField(
+                        packageName == 'com.eralink.mobileapk' ||
+                                packageName == 'com.lariz.mobile'
+                            ? TextFormField(
                                 controller: txtHarga,
                                 keyboardType: TextInputType.number,
                                 cursorColor: Theme.of(context).primaryColor,
                                 decoration: InputDecoration(
                                     border: OutlineInputBorder(),
                                     enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: packageName == 'com.lariz.mobile'
-                                          ? Theme.of(context).secondaryHeaderColor
+                                        borderSide: BorderSide(
+                                      color: packageName == 'com.lariz.mobile'
+                                          ? Theme.of(context)
+                                              .secondaryHeaderColor
                                           : Theme.of(context).primaryColor,
-                                      )
-                                    ),
+                                    )),
                                     focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: packageName == 'com.lariz.mobile'
-                                          ? Theme.of(context).secondaryHeaderColor
+                                        borderSide: BorderSide(
+                                      color: packageName == 'com.lariz.mobile'
+                                          ? Theme.of(context)
+                                              .secondaryHeaderColor
                                           : Theme.of(context).primaryColor,
-                                      )
-                                    ),
+                                    )),
                                     labelText: labelHarga,
-                                    labelStyle: TextStyle(color: Theme.of(context).secondaryHeaderColor),
+                                    labelStyle: TextStyle(
+                                        color: Theme.of(context)
+                                            .secondaryHeaderColor),
                                     prefixText: 'Rp ',
                                     prefixStyle: TextStyle(
-                                      color: Theme.of(context).secondaryHeaderColor
-                                    )),
+                                        color: Theme.of(context)
+                                            .secondaryHeaderColor)),
                                 onChanged: (value) => setState(() {
                                       if (value == null) {
                                         harga = 0;
@@ -646,7 +644,7 @@ class _PrintPreviewState extends PrintPreviewController {
                                         total = harga + admin + cetak;
                                       }
                                     }))
-                          : TextFormField(
+                            : TextFormField(
                                 controller: txtHarga,
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
@@ -663,31 +661,36 @@ class _PrintPreviewState extends PrintPreviewController {
                                       }
                                     })),
                         SizedBox(height: 10),
-                        packageName == 'com.eralink.mobileapk' || packageName == 'com.lariz.mobile'
-                          ? TextFormField(
+                        packageName == 'com.eralink.mobileapk' ||
+                                packageName == 'com.lariz.mobile'
+                            ? TextFormField(
                                 controller: txtAdmin,
                                 keyboardType: TextInputType.number,
                                 cursorColor: Theme.of(context).primaryColor,
                                 decoration: InputDecoration(
                                     border: OutlineInputBorder(),
                                     enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: packageName == 'com.lariz.mobile'
-                                          ? Theme.of(context).secondaryHeaderColor
+                                        borderSide: BorderSide(
+                                      color: packageName == 'com.lariz.mobile'
+                                          ? Theme.of(context)
+                                              .secondaryHeaderColor
                                           : Theme.of(context).primaryColor,
-                                      )
-                                    ),
+                                    )),
                                     focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: packageName == 'com.lariz.mobile'
-                                          ? Theme.of(context).secondaryHeaderColor
+                                        borderSide: BorderSide(
+                                      color: packageName == 'com.lariz.mobile'
+                                          ? Theme.of(context)
+                                              .secondaryHeaderColor
                                           : Theme.of(context).primaryColor,
-                                      )
-                                    ),
+                                    )),
                                     labelText: 'Admin',
-                                    labelStyle: TextStyle(color: Theme.of(context).secondaryHeaderColor),
+                                    labelStyle: TextStyle(
+                                        color: Theme.of(context)
+                                            .secondaryHeaderColor),
                                     prefixText: 'Rp ',
-                                    prefixStyle: TextStyle(color: Theme.of(context).secondaryHeaderColor)),
+                                    prefixStyle: TextStyle(
+                                        color: Theme.of(context)
+                                            .secondaryHeaderColor)),
                                 onChanged: (value) => setState(() {
                                       if (value == null) {
                                         admin = 0;
@@ -697,7 +700,7 @@ class _PrintPreviewState extends PrintPreviewController {
                                         total = harga + admin + cetak;
                                       }
                                     }))
-                          : TextFormField(
+                            : TextFormField(
                                 controller: txtAdmin,
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
@@ -739,8 +742,8 @@ class _PrintPreviewState extends PrintPreviewController {
                           height: 40,
                           child: MaterialButton(
                             color: packageName == 'com.lariz.mobile'
-                              ? Theme.of(context).secondaryHeaderColor
-                              : Theme.of(context).primaryColor,
+                                ? Theme.of(context).secondaryHeaderColor
+                                : Theme.of(context).primaryColor,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
@@ -959,7 +962,7 @@ class _PrintPreviewState extends PrintPreviewController {
                                             style: TextStyle(
                                               fontFamily: 'Poppins',
                                             )),
-                                       Text(formatRupiah(harga) ,
+                                        Text(formatRupiah(harga),
                                             style: TextStyle(
                                               fontFamily: 'Poppins',
                                             ))
@@ -972,7 +975,7 @@ class _PrintPreviewState extends PrintPreviewController {
                                         MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
                                         Text('Admin'),
-                                        Text(formatRupiah(admin) )
+                                        Text(formatRupiah(admin))
                                       ])
                                 : SizedBox(),
                             SizedBox(height: showDefaultAdmin ? 10 : 0),
@@ -988,7 +991,7 @@ class _PrintPreviewState extends PrintPreviewController {
                                           ),
                                         ),
                                         Text(
-                                          formatRupiah(cetak) ,
+                                          formatRupiah(cetak),
                                           style: TextStyle(
                                             fontFamily: 'Poppins',
                                           ),
@@ -1049,7 +1052,7 @@ class _PrintPreviewState extends PrintPreviewController {
                                         fontFamily: 'Poppins',
                                       )),
                                   Text(
-                                    formatRupiah(total) ,
+                                    formatRupiah(total),
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontFamily: 'Poppins',

@@ -54,9 +54,9 @@ class _CardInfoState extends State<CardInfo> {
                           color: Colors.grey.withOpacity(.5), width: 1),
                       borderRadius: BorderRadius.circular(12.5),
                       image: DecorationImage(
-                          image: info.icon != null 
-                            ? CachedNetworkImageProvider(info.icon)
-                            : Container(),
+                          image: info.icon != null
+                              ? CachedNetworkImageProvider(info.icon)
+                              : Container(),
                           fit: BoxFit.cover)),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -65,12 +65,12 @@ class _CardInfoState extends State<CardInfo> {
                     children: [
                       Expanded(
                         child: info.icon != null
-                          ? CachedNetworkImage(
-                              imageUrl: info.icon,
-                              fit: BoxFit.contain,
-                              repeat: ImageRepeat.noRepeat,
-                            )
-                          : Container(),
+                            ? CachedNetworkImage(
+                                imageUrl: info.icon,
+                                fit: BoxFit.contain,
+                                repeat: ImageRepeat.noRepeat,
+                              )
+                            : Container(),
                       ),
                       Container(
                         width: double.infinity,

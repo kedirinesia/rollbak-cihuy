@@ -10,11 +10,9 @@ import 'package:mobile/bloc/Bloc.dart' show bloc;
 import 'package:http/http.dart' as http;
 import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/bloc/TemplateConfig.dart';
-import 'package:mobile/config.dart';
 import 'package:mobile/models/trx.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/provider/analitycs.dart';
-import 'package:mobile/screen/custom_alert_dialog.dart';
 import 'package:mobile/screen/transaksi/select_printer.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:screenshot/screenshot.dart';
@@ -86,17 +84,15 @@ Widget buildDashedLine() {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: List.generate(dashCount, (_) {
-          return Container(width: dashWidth, height: 1, color: Colors.grey.shade400);
+          return Container(
+              width: dashWidth, height: 1, color: Colors.grey.shade400);
         }),
       );
     },
   );
 }
 
-
-
 class PrintPreview extends StatefulWidget {
-  
   final TrxModel trx;
   final bool isPostpaid;
   PrintPreview({Key key, this.trx, this.isPostpaid = false}) : super(key: key);
@@ -112,7 +108,7 @@ class _PrintPreviewState extends PrintPreviewController {
   @override
   void initState() {
     super.initState();
-   
+
     if (widget.trx.print == null || widget.trx.print.isEmpty) {
       trxData = widget.trx;
       harga = trxData.harga_jual ?? 0;
@@ -120,24 +116,26 @@ class _PrintPreviewState extends PrintPreviewController {
       total = harga + admin + cetak;
       txtHarga.text = harga.toString();
       txtAdmin.text = admin.toString();
-      loadEditHargaLokal(); 
-      labelHarga = (trxData.produk != null && trxData.produk['kode_produk'] == 'MUTASI') ? 'Nominal' : 'Harga';
+      loadEditHargaLokal();
+      labelHarga =
+          (trxData.produk != null && trxData.produk['kode_produk'] == 'MUTASI')
+              ? 'Nominal'
+              : 'Harga';
       showSN = trxData.sn != null && trxData.sn.isNotEmpty;
       print(labelHarga);
       setState(() {});
     } else {
       getData();
     }
-    analitycs.pageView('/transaksi/' + widget.trx.id + '/print', {
-      'userId': bloc.userId.valueWrapper.value,
-      'title': 'Print Transaksi'
-    });
+    analitycs.pageView('/transaksi/' + widget.trx.id + '/print',
+        {'userId': bloc.userId.valueWrapper.value, 'title': 'Print Transaksi'});
   }
 
   Future<void> share() async {
     Directory temp = await getTemporaryDirectory();
     image = await File('${temp.path}/trx_${widget.trx.id}.png').create();
-    Uint8List bytes = await _screenshotController.capture(pixelRatio: 2.5, delay: Duration(milliseconds: 100));
+    Uint8List bytes = await _screenshotController.capture(
+        pixelRatio: 2.5, delay: Duration(milliseconds: 100));
     if (bytes != null) {
       await image.writeAsBytes(bytes);
       await Share.file(
@@ -150,40 +148,38 @@ class _PrintPreviewState extends PrintPreviewController {
   }
 
   Future<void> simpanEditHarga() async {
-  setState(() {
-    harga = int.tryParse(txtHarga.text) ?? 0;
-    admin = int.tryParse(txtAdmin.text) ?? 0;
+    setState(() {
+      harga = int.tryParse(txtHarga.text) ?? 0;
+      admin = int.tryParse(txtAdmin.text) ?? 0;
+      total = harga + admin + cetak;
+      showEditor = false;
+    });
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('harga_${widget.trx.id}', harga);
+    await prefs.setInt('admin_${widget.trx.id}', admin);
+
+    showToast(context, 'Perubahan disimpan untuk transaksi ini');
+  }
+
+  Future<void> loadEditHargaLokal() async {
+    final prefs = await SharedPreferences.getInstance();
+    final localHarga = prefs.getInt('harga_${widget.trx.id}');
+    final localAdmin = prefs.getInt('admin_${widget.trx.id}');
+
+    if (localHarga != null) {
+      harga = localHarga;
+      txtHarga.text = localHarga.toString();
+    }
+
+    if (localAdmin != null) {
+      admin = localAdmin;
+      txtAdmin.text = localAdmin.toString();
+    }
+
     total = harga + admin + cetak;
-    showEditor = false;
-  });
-
-  final prefs = await SharedPreferences.getInstance();
-  await prefs.setInt('harga_${widget.trx.id}', harga);
-  await prefs.setInt('admin_${widget.trx.id}', admin);
-
-  showToast(context, 'Perubahan disimpan untuk transaksi ini');
-}
-
-Future<void> loadEditHargaLokal() async {
-  final prefs = await SharedPreferences.getInstance();
-  final localHarga = prefs.getInt('harga_${widget.trx.id}');
-  final localAdmin = prefs.getInt('admin_${widget.trx.id}');
-
-  if (localHarga != null) {
-    harga = localHarga;
-    txtHarga.text = localHarga.toString();
+    setState(() {});
   }
-
-  if (localAdmin != null) {
-    admin = localAdmin;
-    txtAdmin.text = localAdmin.toString();
-  }
-
-  total = harga + admin + cetak;
-  setState(() {});
-}
-
-
 
   Widget snWidget() {
     if (showSN) {
@@ -256,55 +252,86 @@ Future<void> loadEditHargaLokal() async {
         linesAfter: 1,
       );
       bytes += generator.hr();
-      bytes += generator.text('Transaksi:', styles: PosStyles(underline: true), linesAfter: 1);
+      bytes += generator.text('Transaksi:',
+          styles: PosStyles(underline: true), linesAfter: 1);
 
-      final isMutasi = (trxData.produk != null && trxData.produk['kode_produk'] == 'MUTASI');
+      final isMutasi =
+          (trxData.produk != null && trxData.produk['kode_produk'] == 'MUTASI');
       if (isMutasi) {
         // Mutasi/transfer
         bytes += generator.row([
           PosColumn(text: 'Jenis', width: 6),
-          PosColumn(text: trxData.produk['nama'] ?? '-', width: 6, styles: PosStyles(align: PosAlign.right)),
+          PosColumn(
+              text: trxData.produk['nama'] ?? '-',
+              width: 6,
+              styles: PosStyles(align: PosAlign.right)),
         ]);
         bytes += generator.row([
           PosColumn(text: 'Nominal', width: 6),
-          PosColumn(text: formatRupiah(harga), width: 6, styles: PosStyles(align: PosAlign.right)),
+          PosColumn(
+              text: formatRupiah(harga),
+              width: 6,
+              styles: PosStyles(align: PosAlign.right)),
         ]);
         trxData.print?.forEach((el) {
           bytes += generator.row([
             PosColumn(text: el['label'] ?? '-', width: 6),
-            PosColumn(text: el['value'] ?? '-', width: 6, styles: PosStyles(align: PosAlign.right)),
+            PosColumn(
+                text: el['value'] ?? '-',
+                width: 6,
+                styles: PosStyles(align: PosAlign.right)),
           ]);
         });
         bytes += generator.row([
           PosColumn(text: 'Keterangan', width: 6),
-          PosColumn(text: trxData.tujuan ?? '-', width: 6, styles: PosStyles(align: PosAlign.right)),
+          PosColumn(
+              text: trxData.tujuan ?? '-',
+              width: 6,
+              styles: PosStyles(align: PosAlign.right)),
         ]);
       } else {
         // Transaksi reguler
         bytes += generator.row([
           PosColumn(text: 'Produk', width: 6),
-          PosColumn(text: trxData.produk['nama'] ?? '-', width: 6, styles: PosStyles(align: PosAlign.right)),
+          PosColumn(
+              text: trxData.produk['nama'] ?? '-',
+              width: 6,
+              styles: PosStyles(align: PosAlign.right)),
         ]);
         bytes += generator.row([
           PosColumn(text: 'Tujuan', width: 6),
-          PosColumn(text: trxData.tujuan ?? '-', width: 6, styles: PosStyles(align: PosAlign.right)),
+          PosColumn(
+              text: trxData.tujuan ?? '-',
+              width: 6,
+              styles: PosStyles(align: PosAlign.right)),
         ]);
         bytes += generator.row([
           PosColumn(text: labelHarga, width: 6),
-          PosColumn(text: formatRupiah(harga), width: 6, styles: PosStyles(align: PosAlign.right)),
+          PosColumn(
+              text: formatRupiah(harga),
+              width: 6,
+              styles: PosStyles(align: PosAlign.right)),
         ]);
         bytes += generator.row([
           PosColumn(text: 'Admin', width: 6),
-          PosColumn(text: formatRupiah(admin), width: 6, styles: PosStyles(align: PosAlign.right)),
+          PosColumn(
+              text: formatRupiah(admin),
+              width: 6,
+              styles: PosStyles(align: PosAlign.right)),
         ]);
         trxData.print?.forEach((el) {
           bytes += generator.row([
             PosColumn(text: el['label'] ?? '-', width: 6),
-            PosColumn(text: el['value'] ?? '-', width: 6, styles: PosStyles(align: PosAlign.right)),
+            PosColumn(
+                text: el['value'] ?? '-',
+                width: 6,
+                styles: PosStyles(align: PosAlign.right)),
           ]);
         });
         if (showSN && (trxData.sn != null && trxData.sn.isNotEmpty)) {
-          bytes += generator.text('SN: ${trxData.sn}', styles: PosStyles(align: PosAlign.center, bold: true), linesAfter: 1);
+          bytes += generator.text('SN: ${trxData.sn}',
+              styles: PosStyles(align: PosAlign.center, bold: true),
+              linesAfter: 1);
         }
       }
 
@@ -315,7 +342,8 @@ Future<void> loadEditHargaLokal() async {
         linesAfter: 1,
       );
       bytes += generator.hr();
-      bytes += generator.text('Struk ini merupakan bukti pembayaran yang sah', styles: PosStyles(align: PosAlign.center), linesAfter: 2);
+      bytes += generator.text('Struk ini merupakan bukti pembayaran yang sah',
+          styles: PosStyles(align: PosAlign.center), linesAfter: 2);
 
       await _bluetooth.writeBytes(Uint8List.fromList(bytes));
       showToast(context, 'Berhasil mencetak struk');
@@ -373,10 +401,8 @@ Future<void> loadEditHargaLokal() async {
             onPressed: () {
               Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
-                  builder: (_) => configAppBloc
-                          .layoutApp
-                          ?.valueWrapper
-                          ?.value['home'] ??
+                  builder: (_) =>
+                      configAppBloc.layoutApp?.valueWrapper?.value['home'] ??
                       templateConfig[
                           configAppBloc.templateCode.valueWrapper?.value],
                 ),
@@ -466,10 +492,11 @@ Future<void> loadEditHargaLokal() async {
                                 children: [
                                   Expanded(
                                     child: Text(
-                                      formatDate(
-                                          trxData.created_at, "d MMM yyyy HH:mm"),
+                                      formatDate(trxData.created_at,
+                                          "d MMM yyyy HH:mm"),
                                       style: TextStyle(
-                                          color: Colors.grey[600], fontSize: 11),
+                                          color: Colors.grey[600],
+                                          fontSize: 11),
                                     ),
                                   ),
                                   Expanded(
@@ -477,7 +504,8 @@ Future<void> loadEditHargaLokal() async {
                                       "TrxID : ${trxData.id?.toUpperCase()}",
                                       textAlign: TextAlign.right,
                                       style: TextStyle(
-                                          color: Colors.grey[600], fontSize: 11),
+                                          color: Colors.grey[600],
+                                          fontSize: 11),
                                     ),
                                   ),
                                 ],
@@ -512,24 +540,31 @@ Future<void> loadEditHargaLokal() async {
                                         : Icons.cancel,
                               ),
                               buildRow(
-                                (trxData.produk != null && trxData.produk['kode_produk'] == 'MUTASI')
+                                (trxData.produk != null &&
+                                        trxData.produk['kode_produk'] ==
+                                            'MUTASI')
                                     ? 'Jenis'
                                     : "Jenis Transaksi",
                                 trxData.produk['nama'] ?? '-',
                               ),
                               buildRow(
-                                (trxData.produk != null && trxData.produk['kode_produk'] == 'MUTASI')
+                                (trxData.produk != null &&
+                                        trxData.produk['kode_produk'] ==
+                                            'MUTASI')
                                     ? 'Keterangan'
                                     : "Nomor",
                                 trxData.tujuan ?? '-',
                               ),
                               buildRow(
-                                (trxData.produk != null && trxData.produk['kode_produk'] == 'MUTASI')
+                                (trxData.produk != null &&
+                                        trxData.produk['kode_produk'] ==
+                                            'MUTASI')
                                     ? 'Nominal'
                                     : labelHarga,
                                 formatRupiah(harga),
                               ),
-                              if (!(trxData.produk != null && trxData.produk['kode_produk'] == 'MUTASI'))
+                              if (!(trxData.produk != null &&
+                                  trxData.produk['kode_produk'] == 'MUTASI'))
                                 buildRow("Admin", formatRupiah(admin)),
                               trxData.print != null
                                   ? Column(
@@ -543,11 +578,13 @@ Future<void> loadEditHargaLokal() async {
                               SizedBox(height: 10),
                               Divider(thickness: 1, height: 24),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text("Total Bayar",
                                       style: TextStyle(
-                                          fontWeight: FontWeight.bold, fontSize: 16)),
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16)),
                                   Text(formatRupiah(total),
                                       style: TextStyle(
                                           color: Color(0xFF2676C5),
@@ -563,7 +600,8 @@ Future<void> loadEditHargaLokal() async {
                                 children: [
                                   Flexible(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
                                       children: [
                                         Text(
                                           "Struk Ini Adalah Bukti Pembayaran Yang Sah",
@@ -675,7 +713,7 @@ Future<void> loadEditHargaLokal() async {
                                 width: double.infinity,
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    primary: headerColor,
+                                    backgroundColor: headerColor,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(8),
                                     ),
@@ -710,7 +748,10 @@ Future<void> loadEditHargaLokal() async {
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: Row(
         children: [
-          Expanded(flex: 4, child: Text(label, style: TextStyle(color: Colors.grey[800], fontSize: 13))),
+          Expanded(
+              flex: 4,
+              child: Text(label,
+                  style: TextStyle(color: Colors.grey[800], fontSize: 13))),
           Expanded(
             flex: 7,
             child: Row(
@@ -740,8 +781,6 @@ Future<void> loadEditHargaLokal() async {
     );
   }
 }
-
-
 
 // ------ CONTROLLER LOGIC ---------
 abstract class PrintPreviewController extends State<PrintPreview>

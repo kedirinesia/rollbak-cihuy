@@ -10,8 +10,6 @@ import 'package:mobile/Products/paymobileku/layout/agreement/service_page.dart';
 import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
-import 'package:mobile/config.dart';
-import 'package:mobile/modules.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/cs.dart';
 import 'package:mobile/screen/laporan/laporan.dart';
@@ -21,8 +19,6 @@ import 'package:mobile/screen/profile/detail_profile.dart';
 import 'package:mobile/screen/profile/downline/downline.dart';
 import 'package:mobile/screen/profile/ganti_pin/ganti_pin.dart';
 import 'package:mobile/screen/profile/komisi/riwayat_komisi.dart';
-import 'package:mobile/screen/profile/my_qr.dart';
-import 'package:mobile/Products/paymobileku/layout/qris.dart';
 import 'package:mobile/screen/profile/print_settings.dart';
 import 'package:mobile/screen/profile/reward/list_reward.dart';
 import 'package:mobile/Products/paymobileku/layout/edit-profile.dart';
@@ -353,11 +349,11 @@ class _ProfilePageState extends State<ProfilePage> {
                           Divider(),
                           ListTile(
                             onTap: () {
-                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) {
-                                return PrivacyPolicyPage();
-                              },
-                            ));
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) {
+                                  return PrivacyPolicyPage();
+                                },
+                              ));
                             },
                             title: Text('Privacy Policy',
                                 style: TextStyle(fontSize: 12.0)),

@@ -12,14 +12,9 @@ import 'package:mobile/component/card_info.dart';
 import 'package:mobile/Products/ampedia/layout/components/carousel-depan.dart';
 import 'package:mobile/component/menudepan.dart';
 import 'package:mobile/component/rewards.dart';
-import 'package:mobile/component/webview.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/screen/history/history.dart';
 import 'package:mobile/screen/kasir/main.dart';
-import 'package:mobile/screen/marketplace/index.dart';
-import 'package:mobile/screen/profile/cs/cs.dart';
-import 'package:mobile/screen/profile/invite/invite.dart';
-import 'package:mobile/screen/profile/reward/list_reward.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
 import 'package:mobile/Products/ampedia/layout/cs.dart';
 

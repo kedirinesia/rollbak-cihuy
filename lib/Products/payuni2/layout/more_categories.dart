@@ -15,11 +15,10 @@ class MoreCategoriesPage extends StatefulWidget {
 }
 
 class _MoreCategoriesPageState extends State<MoreCategoriesPage> {
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            appBar: AppBar(
+      appBar: AppBar(
         title: Text('Semua Kategori'),
         elevation: 0,
       ),

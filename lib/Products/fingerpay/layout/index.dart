@@ -26,7 +26,7 @@ class _EpulsaHomeState extends State<EpulsaHome> {
 
   List<Widget> halaman = [Home4App(), HistoryPage(), Downline(), ProfilePage()];
   int pageIndex = 0;
-  
+
   @override
   void initState() {
     super.initState();
@@ -69,7 +69,7 @@ class _EpulsaHomeState extends State<EpulsaHome> {
     ));
 
     return Scaffold(
-            backgroundColor: Colors.grey[100],
+      backgroundColor: Colors.grey[100],
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,
         child: configAppBloc.isKasir.valueWrapper?.value
@@ -108,7 +108,6 @@ class _EpulsaHomeState extends State<EpulsaHome> {
         iconTheme: IconThemeData(
           color: Colors.white,
         ),
-        brightness: Brightness.light,
         actions: <Widget>[
           configAppBloc.liveChat.valueWrapper?.value != ''
               ? IconButton(
@@ -129,7 +128,7 @@ class _EpulsaHomeState extends State<EpulsaHome> {
               Navigator.of(context).pushNamed('/notifikasi');
             },
           )
-        ],
+        ], systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
       bottomNavigationBar: BottomAppBar(
         notchMargin: 5.0,

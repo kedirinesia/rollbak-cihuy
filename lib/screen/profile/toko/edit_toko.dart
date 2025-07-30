@@ -205,231 +205,266 @@ class _EditTokoState extends State<EditToko> {
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         packageName == 'com.eralink.mobileapk'
-                        ? TextFormField(
-                            controller: nama,
-                            cursorColor: Theme.of(context).primaryColor,
-                            keyboardType: TextInputType.text,
-                            decoration: InputDecoration(
-                                isDense: true,
-                                border: OutlineInputBorder(),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Theme.of(context).primaryColor)
+                            ? TextFormField(
+                                controller: nama,
+                                cursorColor: Theme.of(context).primaryColor,
+                                keyboardType: TextInputType.text,
+                                decoration: InputDecoration(
+                                  isDense: true,
+                                  border: OutlineInputBorder(),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color:
+                                              Theme.of(context).primaryColor)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color:
+                                              Theme.of(context).primaryColor)),
+                                  labelText: 'Nama Pengguna',
+                                  labelStyle: TextStyle(
+                                      color: Theme.of(context)
+                                          .secondaryHeaderColor),
+                                  prefixIcon: Icon(
+                                    Icons.person_rounded,
+                                    color: Theme.of(context).primaryColor,
+                                  ),
                                 ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Theme.of(context).primaryColor)
+                                validator: (val) {
+                                  if (val == null || val.isEmpty)
+                                    return 'Nama tidak boleh kosong';
+                                  else
+                                    return null;
+                                },
+                              )
+                            : TextFormField(
+                                controller: nama,
+                                keyboardType: TextInputType.text,
+                                decoration: InputDecoration(
+                                  isDense: true,
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Nama Pengguna',
+                                  prefixIcon: Icon(Icons.person_rounded),
                                 ),
-                                labelText: 'Nama Pengguna',
-                                labelStyle: TextStyle(color: Theme.of(context).secondaryHeaderColor),
-                                prefixIcon: Icon(Icons.person_rounded, color: Theme.of(context).primaryColor,),
-                            ),
-                            validator: (val) {
-                              if (val == null || val.isEmpty)
-                                return 'Nama tidak boleh kosong';
-                              else
-                                return null;
-                            },
-                          )
-                        : TextFormField(
-                            controller: nama,
-                            keyboardType: TextInputType.text,
-                            decoration: InputDecoration(
-                              isDense: true,
-                              border: OutlineInputBorder(),
-                              labelText: 'Nama Pengguna',
-                              prefixIcon: Icon(Icons.person_rounded),
-                            ),
-                            validator: (val) {
-                              if (val == null || val.isEmpty)
-                                return 'Nama tidak boleh kosong';
-                              else
-                                return null;
-                            },
-                          ),
+                                validator: (val) {
+                                  if (val == null || val.isEmpty)
+                                    return 'Nama tidak boleh kosong';
+                                  else
+                                    return null;
+                                },
+                              ),
                         SizedBox(height: 15),
                         packageName == 'com.eralink.mobileapk'
-                        ? TextFormField(
-                            controller: email,
-                            cursorColor: Theme.of(context).primaryColor,
-                            keyboardType: TextInputType.emailAddress,
-                            decoration: InputDecoration(
-                                isDense: true,
-                                border: OutlineInputBorder(),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Theme.of(context).primaryColor)
+                            ? TextFormField(
+                                controller: email,
+                                cursorColor: Theme.of(context).primaryColor,
+                                keyboardType: TextInputType.emailAddress,
+                                decoration: InputDecoration(
+                                  isDense: true,
+                                  border: OutlineInputBorder(),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color:
+                                              Theme.of(context).primaryColor)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color:
+                                              Theme.of(context).primaryColor)),
+                                  labelText: 'Email',
+                                  labelStyle: TextStyle(
+                                      color: Theme.of(context)
+                                          .secondaryHeaderColor),
+                                  prefixIcon: Icon(
+                                    Icons.email_rounded,
+                                    color: Theme.of(context).primaryColor,
+                                  ),
                                 ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Theme.of(context).primaryColor)
+                                validator: (val) {
+                                  if (val == null || val.isEmpty)
+                                    return 'Email tidak boleh kosong';
+                                  else
+                                    return null;
+                                },
+                              )
+                            : TextFormField(
+                                controller: email,
+                                keyboardType: TextInputType.emailAddress,
+                                decoration: InputDecoration(
+                                  isDense: true,
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Email',
+                                  prefixIcon: Icon(Icons.email_rounded),
                                 ),
-                                labelText: 'Email',
-                                labelStyle: TextStyle(color: Theme.of(context).secondaryHeaderColor),
-                                prefixIcon: Icon(Icons.email_rounded, color: Theme.of(context).primaryColor,),
-                            ),
-                            validator: (val) {
-                              if (val == null || val.isEmpty)
-                                return 'Email tidak boleh kosong';
-                              else
-                                return null;
-                            },
-                          )
-                        : TextFormField(
-                            controller: email,
-                            keyboardType: TextInputType.emailAddress,
-                            decoration: InputDecoration(
-                                isDense: true,
-                                border: OutlineInputBorder(),
-                                labelText: 'Email',
-                                prefixIcon: Icon(Icons.email_rounded),
-                            ),
-                            validator: (val) {
-                              if (val == null || val.isEmpty)
-                                return 'Email tidak boleh kosong';
-                              else
-                                return null;
-                            },
-                          ),
+                                validator: (val) {
+                                  if (val == null || val.isEmpty)
+                                    return 'Email tidak boleh kosong';
+                                  else
+                                    return null;
+                                },
+                              ),
                         SizedBox(height: 15),
                         packageName == 'com.eralink.mobileapk'
-                        ? TextFormField(
-                            controller: alamat,
-                            cursorColor: Theme.of(context).primaryColor,
-                            keyboardType: TextInputType.text,
-                            decoration: InputDecoration(
-                                isDense: true,
-                                border: OutlineInputBorder(),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Theme.of(context).primaryColor)
+                            ? TextFormField(
+                                controller: alamat,
+                                cursorColor: Theme.of(context).primaryColor,
+                                keyboardType: TextInputType.text,
+                                decoration: InputDecoration(
+                                  isDense: true,
+                                  border: OutlineInputBorder(),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color:
+                                              Theme.of(context).primaryColor)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color:
+                                              Theme.of(context).primaryColor)),
+                                  labelText: 'Alamat',
+                                  labelStyle: TextStyle(
+                                      color: Theme.of(context)
+                                          .secondaryHeaderColor),
+                                  prefixIcon: Icon(
+                                    Icons.location_on,
+                                    color: Theme.of(context).primaryColor,
+                                  ),
                                 ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Theme.of(context).primaryColor)
+                                validator: (val) {
+                                  if (val == null || val.isEmpty)
+                                    return 'Alamat tidak boleh kosong';
+                                  else
+                                    return null;
+                                },
+                              )
+                            : TextFormField(
+                                controller: alamat,
+                                keyboardType: TextInputType.text,
+                                decoration: InputDecoration(
+                                  isDense: true,
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Alamat',
+                                  prefixIcon: Icon(Icons.location_on),
                                 ),
-                                labelText: 'Alamat',
-                                labelStyle: TextStyle(color: Theme.of(context).secondaryHeaderColor),
-                                prefixIcon: Icon(Icons.location_on, color: Theme.of(context).primaryColor,),
-                            ),
-                            validator: (val) {
-                              if (val == null || val.isEmpty)
-                                return 'Alamat tidak boleh kosong';
-                              else
-                                return null;
-                            },
-                          )
-                        : TextFormField(
-                            controller: alamat,
-                            keyboardType: TextInputType.text,
-                            decoration: InputDecoration(
-                                isDense: true,
-                                border: OutlineInputBorder(),
-                                labelText: 'Alamat',
-                                prefixIcon: Icon(Icons.location_on),
-                            ),
-                            validator: (val) {
-                              if (val == null || val.isEmpty)
-                                return 'Alamat tidak boleh kosong';
-                              else
-                                return null;
-                            },
-                          ),
+                                validator: (val) {
+                                  if (val == null || val.isEmpty)
+                                    return 'Alamat tidak boleh kosong';
+                                  else
+                                    return null;
+                                },
+                              ),
                         SizedBox(height: 15),
                         packageName == 'com.eralink.mobileapk'
-                        ? TextFormField(
-                            controller: namaToko,
-                            cursorColor: Theme.of(context).primaryColor,
-                            keyboardType: TextInputType.text,
-                            decoration: InputDecoration(
-                                isDense: true,
-                                border: OutlineInputBorder(),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Theme.of(context).primaryColor)
+                            ? TextFormField(
+                                controller: namaToko,
+                                cursorColor: Theme.of(context).primaryColor,
+                                keyboardType: TextInputType.text,
+                                decoration: InputDecoration(
+                                  isDense: true,
+                                  border: OutlineInputBorder(),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color:
+                                              Theme.of(context).primaryColor)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color:
+                                              Theme.of(context).primaryColor)),
+                                  labelText: 'Nama Toko',
+                                  labelStyle: TextStyle(
+                                      color: Theme.of(context)
+                                          .secondaryHeaderColor),
+                                  prefixIcon: Icon(
+                                    Icons.store,
+                                    color: Theme.of(context).primaryColor,
+                                  ),
                                 ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Theme.of(context).primaryColor)
+                                validator: (val) {
+                                  if (val == null || val.isEmpty)
+                                    return 'Nama toko tidak boleh kosong';
+                                  else
+                                    return null;
+                                },
+                              )
+                            : TextFormField(
+                                controller: namaToko,
+                                keyboardType: TextInputType.text,
+                                decoration: InputDecoration(
+                                  isDense: true,
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Nama Toko',
+                                  prefixIcon: Icon(Icons.store),
                                 ),
-                                labelText: 'Nama Toko',
-                                labelStyle: TextStyle(color: Theme.of(context).secondaryHeaderColor),
-                                prefixIcon: Icon(Icons.store, color: Theme.of(context).primaryColor,),
-                            ),
-                            validator: (val) {
-                              if (val == null || val.isEmpty)
-                                return 'Nama toko tidak boleh kosong';
-                              else
-                                return null;
-                            },
-                          )
-                        : TextFormField(
-                            controller: namaToko,
-                            keyboardType: TextInputType.text,
-                            decoration: InputDecoration(
-                                isDense: true,
-                                border: OutlineInputBorder(),
-                                labelText: 'Nama Toko',
-                                prefixIcon: Icon(Icons.store),
-                            ),
-                            validator: (val) {
-                              if (val == null || val.isEmpty)
-                                return 'Nama toko tidak boleh kosong';
-                              else
-                                return null;
-                            },
-                          ),
+                                validator: (val) {
+                                  if (val == null || val.isEmpty)
+                                    return 'Nama toko tidak boleh kosong';
+                                  else
+                                    return null;
+                                },
+                              ),
                         SizedBox(height: 15),
                         packageName == 'com.eralink.mobileapk'
-                        ? TextFormField(
-                            controller: alamatToko,
-                            cursorColor: Theme.of(context).primaryColor,
-                            keyboardType: TextInputType.text,
-                            decoration: InputDecoration(
-                                isDense: true,
-                                border: OutlineInputBorder(),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Theme.of(context).primaryColor)
+                            ? TextFormField(
+                                controller: alamatToko,
+                                cursorColor: Theme.of(context).primaryColor,
+                                keyboardType: TextInputType.text,
+                                decoration: InputDecoration(
+                                  isDense: true,
+                                  border: OutlineInputBorder(),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color:
+                                              Theme.of(context).primaryColor)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color:
+                                              Theme.of(context).primaryColor)),
+                                  labelText: 'Alamat Toko',
+                                  labelStyle: TextStyle(
+                                      color: Theme.of(context)
+                                          .secondaryHeaderColor),
+                                  prefixIcon: Icon(
+                                    Icons.location_on,
+                                    color: Theme.of(context).primaryColor,
+                                  ),
                                 ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Theme.of(context).primaryColor)
+                                validator: (val) {
+                                  if (val == null || val.isEmpty)
+                                    return 'Alamat toko tidak boleh kosong';
+                                  else
+                                    return null;
+                                },
+                              )
+                            : TextFormField(
+                                controller: alamatToko,
+                                keyboardType: TextInputType.text,
+                                decoration: InputDecoration(
+                                  isDense: true,
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Alamat Toko',
+                                  prefixIcon: Icon(Icons.location_on),
                                 ),
-                                labelText: 'Alamat Toko',
-                                labelStyle: TextStyle(color: Theme.of(context).secondaryHeaderColor),
-                                prefixIcon: Icon(Icons.location_on, color: Theme.of(context).primaryColor,),
-                            ),
-                            validator: (val) {
-                              if (val == null || val.isEmpty)
-                                return 'Alamat toko tidak boleh kosong';
-                              else
-                                return null;
-                            },
-                          )
-                        : TextFormField(
-                            controller: alamatToko,
-                            keyboardType: TextInputType.text,
-                            decoration: InputDecoration(
-                                isDense: true,
-                                border: OutlineInputBorder(),
-                                labelText: 'Alamat Toko',
-                                prefixIcon: Icon(Icons.location_on),
-                            ),
-                            validator: (val) {
-                              if (val == null || val.isEmpty)
-                                return 'Alamat toko tidak boleh kosong';
-                              else
-                                return null;
-                            },
-                          ),
+                                validator: (val) {
+                                  if (val == null || val.isEmpty)
+                                    return 'Alamat toko tidak boleh kosong';
+                                  else
+                                    return null;
+                                },
+                              ),
                       ],
                     ),
                   ),
                 )
         ],
         floatingActionButton: FloatingActionButton.extended(
-            backgroundColor: packageName == 'com.lariz.mobile'
-                ? Theme.of(context).secondaryHeaderColor
-                : Theme.of(context).primaryColor,
-            icon: Icon(Icons.save),
-            label: Text('Simpan'),
-            // onPressed: () => edit(),
-            onPressed: () {
-              if (_formKey.currentState.validate()) {
-                updateProfile();
-              }
-            },
+          backgroundColor: packageName == 'com.lariz.mobile'
+              ? Theme.of(context).secondaryHeaderColor
+              : Theme.of(context).primaryColor,
+          icon: Icon(Icons.save),
+          label: Text('Simpan'),
+          // onPressed: () => edit(),
+          onPressed: () {
+            if (_formKey.currentState.validate()) {
+              updateProfile();
+            }
+          },
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked);
   }

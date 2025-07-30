@@ -20,9 +20,10 @@ class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
   Color mainColor = Colors.white;
   Color mainTextColor = Colors.blue;
 
-  List<Widget> halaman = configAppBloc.packagename.valueWrapper.value == 'id.violetapedia.mobile'
-  ? [Home3App(), HistoryPage(), ProfilePageVioleta()]
-  : [Home3App(), HistoryPage(), ProfilePage()];
+  List<Widget> halaman =
+      configAppBloc.packagename.valueWrapper.value == 'id.violetapedia.mobile'
+          ? [Home3App(), HistoryPage(), ProfilePageVioleta()]
+          : [Home3App(), HistoryPage(), ProfilePage()];
   int pageIndex = 0;
 
   @override

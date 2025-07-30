@@ -24,7 +24,8 @@ class _CSState extends State<CS1> {
 
   void getData() async {
     try {
-      List<dynamic> datas = await api.get('/cs/list/public', auth: false, cache: true);
+      List<dynamic> datas =
+          await api.get('/cs/list/public', auth: false, cache: true);
       listCs.add(CustomerService());
       listCs.addAll(datas.map((e) => CustomerService.fromJson(e)).toList());
     } catch (_) {

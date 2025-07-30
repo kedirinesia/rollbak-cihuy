@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:mobile/Products/ampedia/layout/components/template.dart';
 import 'package:mobile/bloc/Bloc.dart';
-import 'package:mobile/component/template-main.dart';
 import 'package:mobile/models/payment-list.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/Products/ampedia/layout/topup/topup-controller.dart';

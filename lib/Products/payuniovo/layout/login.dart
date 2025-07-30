@@ -1,16 +1,13 @@
-import 'package:cached_network_image/cached_network_image.dart';
+  import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:http/retry.dart';
 import 'package:mobile/Products/payuniovo/layout/privacy_policy.dart';
-import 'package:mobile/Products/payuniovo/layout/wizard/wizard.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/provider/api.dart';
 import 'package:mobile/Products/payuniovo/layout/forgot-password/step_1.dart';
 import 'package:mobile/Products/payuniovo/layout/otp.dart';
-import 'package:mobile/Products/payuniovo/layout/register.dart';
 import 'package:nav/nav.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_page_transition/flutter_page_transition.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/config.dart';
 import 'package:mobile/models/deposit.dart';
 import 'package:mobile/modules.dart';
@@ -83,15 +82,14 @@ class _DepositPageState extends DepositController
                           ]),
                       child: ListTile(
                         onTap: () {
-  Navigator.of(context).push(
-    PageTransition(
-      child: DetailDeposit(m),
-      type: PageTransitionType.rippleMiddle,
-      duration: Duration(milliseconds: 10),
-    ),
-  );
-},
-
+                          Navigator.of(context).push(
+                            PageTransition(
+                              child: DetailDeposit(m),
+                              type: PageTransitionType.rippleMiddle,
+                              duration: Duration(milliseconds: 10),
+                            ),
+                          );
+                        },
                         leading: CircleAvatar(
                             foregroundColor: packageName == 'com.lariz.mobile'
                                 ? Theme.of(context).secondaryHeaderColor

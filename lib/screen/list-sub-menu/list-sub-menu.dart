@@ -6,7 +6,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/bloc/TemplateConfig.dart';
-import 'package:mobile/config.dart';
 import 'package:mobile/models/menu.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -152,8 +151,8 @@ class _ListSubMenuState extends ListSubMenuController {
                                       List<MenuModel> list = tempMenu
                                           .where((menu) => menu.name
                                               .toLowerCase()
-                                              .contains(query.text
-                                                  .toLowerCase()))
+                                              .contains(
+                                                  query.text.toLowerCase()))
                                           .toList();
                                       setState(() {
                                         listMenu = list;
@@ -206,8 +205,7 @@ class _ListSubMenuState extends ListSubMenuController {
                                       borderRadius: BorderRadius.circular(10.0),
                                       boxShadow: [
                                         BoxShadow(
-                                            color:
-                                                Colors.black.withOpacity(.1),
+                                            color: Colors.black.withOpacity(.1),
                                             offset: Offset(5, 10.0),
                                             blurRadius: 20)
                                       ]),

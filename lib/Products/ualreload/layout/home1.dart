@@ -8,9 +8,6 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:http/http.dart' as http;
 import 'package:lazy_load_refresh_indicator/lazy_load_refresh_indicator.dart';
 import 'package:mobile/Products/ualreload/config.dart';
-import 'package:mobile/Products/ualreload/layout/components/product_of_choice/main.dart';
-import 'package:mobile/Products/ualreload/layout/components/product_of_choice/product_of_choice_loading.dart';
-import 'package:mobile/Products/ualreload/layout/components/product_of_choice/product_of_choice_nothing.dart';
 import 'package:mobile/Products/ualreload/layout/components/rewards.dart';
 import 'package:mobile/Products/ualreload/layout/components/sticky_navbar.dart';
 import 'package:mobile/Products/ualreload/layout/components/carousel_header.dart';
@@ -38,7 +35,6 @@ class _HomePayuni1State extends State<HomePayuni1>
   ScrollController _scrollController = ScrollController();
   AnimationController _animationController;
 
-  
   @override
   void initState() {
     super.initState();
@@ -121,7 +117,7 @@ class _HomePayuni1State extends State<HomePayuni1>
         toolbarHeight: 0.0,
         elevation: 0,
       ),
-            body: LazyLoadRefreshIndicator(
+      body: LazyLoadRefreshIndicator(
         onRefresh: () async {
           try {
             await Future.delayed(Duration(milliseconds: 500));

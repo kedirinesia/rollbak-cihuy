@@ -2,7 +2,6 @@
 
 import 'dart:convert';
 
-import 'package:blue_thermal_printer/blue_thermal_printer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/Products/payuniovo/config.dart';

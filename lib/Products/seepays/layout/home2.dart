@@ -199,9 +199,9 @@ class _Home2AppState extends State<Home2App> with SingleTickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
     
-    final double headerHeight = 200;
-    final double saldoCardTop = 25;
-    final double saldoCardHeight = 100;
+    final double headerHeight = 260;
+    final double saldoCardTop = 140; // Sesuaikan posisi saldo card di tengah oval elliptical
+    final double saldoCardHeight =120;
     final double floatingGap = 20;
     final double floatingCardTop = saldoCardTop + saldoCardHeight + floatingGap;
 
@@ -210,32 +210,100 @@ class _Home2AppState extends State<Home2App> with SingleTickerProviderStateMixin
       body: SingleChildScrollView(
         child: Stack(
           children: <Widget>[
-            // HEADER GRADIENT
-            Container(
-  width: double.infinity,
-  height: headerHeight,
-  decoration: BoxDecoration(
-    borderRadius: BorderRadius.only(
-      bottomLeft: Radius.circular(38),    // Atur angka sesuai efek yang diinginkan
-      bottomRight: Radius.circular(38),
-    ),
-    gradient: LinearGradient(
-      colors: [
-        Color(0xFFA259FF),    
-        Color(0xFFA259FF),   
-      ],
-      begin: Alignment.topCenter,
-      end: Alignment.bottomCenter,
-    ),
-  ),
-),
+                        // HEADER GRADIENT
+            Positioned(
+              top: 40,
+              left: 20,
+              right: 20,
+              child: Container(
+                width: 400,
+                height: 200,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.elliptical(200, 100)),
+                  gradient: LinearGradient(
+                    colors: [
+                      Color(0xFFA259FF),    
+                      Color(0xFFA259FF),   
+                    ],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  ),
+                ),
+              ),
+            ),
+ 
 
+            // TITLE TEXT - SEEPAYS AND POINT
+            Positioned(
+              top: 80, // Sesuaikan dengan header oval elliptical
+              left: 0,
+              child: Padding(
+                padding: EdgeInsets.only(left: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "SEEPAY",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 32,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 0.5,
+                      ),
+                    ),
+                    SizedBox(height: 4),
+                    Text(
+                      "Point: ${bloc.poin.valueWrapper?.value ?? 0}",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            // APP LOGO - TOP RIGHT
+            Positioned(
+              top: 80, // Sesuaikan dengan header oval elliptical
+              right: 20,
+              child: Container(
+                width: 60,
+                height: 60,
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.asset(
+                    'assets/seepaysicon.png',
+                    fit: BoxFit.contain,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.3),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Icon(
+                          Icons.apps,
+                          color: Colors.white,
+                          size: 30,
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ),
 
             // SALDO CARD DI HEADER
             Positioned(
               top: saldoCardTop,
-              left: 20,
-              right: 20,
+              left: 50,
+              right: 50,
               child: Container(
                 height: saldoCardHeight,
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),

@@ -40,15 +40,20 @@ class _TopupPageState extends State<TopupPage> with TickerProviderStateMixin {
 
   onTapMenu(PaymentModel payment) {
     if (payment.type == 1 || payment.type == 2) {
-      return Navigator.of(context).push(MaterialPageRoute(builder: (_) => TopupBank(payment)));
+      return Navigator.of(context)
+          .push(MaterialPageRoute(builder: (_) => TopupBank(payment)));
     } else if (payment.type == 5) {
-      return Navigator.of(context).push(MaterialPageRoute(builder: (_) => TopupVA()));
+      return Navigator.of(context)
+          .push(MaterialPageRoute(builder: (_) => TopupVA()));
     } else if (payment.type == 4 || payment.type == 6) {
-      return Navigator.of(context).push(MaterialPageRoute(builder: (_) => TopupMerchant(payment)));
+      return Navigator.of(context)
+          .push(MaterialPageRoute(builder: (_) => TopupMerchant(payment)));
     } else if (payment.type == 7) {
-      return Navigator.of(context).push(MaterialPageRoute(builder: (_) => TopupChannel(payment)));
+      return Navigator.of(context)
+          .push(MaterialPageRoute(builder: (_) => TopupChannel(payment)));
     } else if (payment.type == 8) {
-      return Navigator.of(context).push(MaterialPageRoute(builder: (_) => QrisTopup()));
+      return Navigator.of(context)
+          .push(MaterialPageRoute(builder: (_) => QrisTopup()));
     }
   }
 
@@ -57,7 +62,8 @@ class _TopupPageState extends State<TopupPage> with TickerProviderStateMixin {
     final spinkit = SpinKitThreeBounce(
       color: Theme.of(context).primaryColor,
       size: 50.0,
-      controller: AnimationController(vsync: this, duration: const Duration(milliseconds: 1200)),
+      controller: AnimationController(
+          vsync: this, duration: const Duration(milliseconds: 1200)),
     );
 
     return TemplatePopay(
@@ -81,7 +87,8 @@ class _TopupPageState extends State<TopupPage> with TickerProviderStateMixin {
                   return InkWell(
                     onTap: () => onTapMenu(mm),
                     child: Container(
-                      margin: EdgeInsets.only(bottom: 20.0, left: 10.0, right: 10.0),
+                      margin: EdgeInsets.only(
+                          bottom: 20.0, left: 10.0, right: 10.0),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
                           color: Colors.white,
@@ -94,7 +101,8 @@ class _TopupPageState extends State<TopupPage> with TickerProviderStateMixin {
                       child: ListTile(
                         leading: CircleAvatar(
                           foregroundColor: Theme.of(context).primaryColor,
-                          backgroundColor: Theme.of(context).primaryColor.withOpacity(.1),
+                          backgroundColor:
+                              Theme.of(context).primaryColor.withOpacity(.1),
                           child: mm.icon.isNotEmpty
                               ? Padding(
                                   padding: EdgeInsets.all(10.0),
@@ -115,13 +123,15 @@ class _TopupPageState extends State<TopupPage> with TickerProviderStateMixin {
                             mm.admin != null
                                 ? Text(
                                     '+${mm.admin['satuan'] == 'persen' ? '' : 'Rp '}${mm.admin['nominal']}${mm.admin['satuan'] == 'persen' ? '%' : ''} (admin)',
-                                    style: TextStyle(fontSize: 11, color: Colors.grey[800]),
+                                    style: TextStyle(
+                                        fontSize: 11, color: Colors.grey[800]),
                                   )
                                 : SizedBox()
                           ],
                         ),
                         subtitle: Text(mm.description ?? ' ',
-                            style: TextStyle(fontSize: 10.0, color: Colors.grey.shade700)),
+                            style: TextStyle(
+                                fontSize: 10.0, color: Colors.grey.shade700)),
                       ),
                     ),
                   );

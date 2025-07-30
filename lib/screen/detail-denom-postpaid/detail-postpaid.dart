@@ -138,102 +138,112 @@ class _DetailDenomPostpaidState extends DetailDenomPostpaidController {
             Container(
               padding: EdgeInsets.all(20),
               child: packageName == 'com.eralink.mobileapk'
-                ? TextFormField(
-                    controller: idpel,
-                    keyboardType: widget.menu.isString
-                        ? TextInputType.text
-                        : TextInputType.number,
-                    cursorColor: Theme.of(context).primaryColor,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.allow(RegExp("[0-9a-zA-Z-_.]")),
-                    ],
-                    style: TextStyle(
-                      fontWeight: configAppBloc.boldNomorTujuan.valueWrapper.value
-                          ? FontWeight.bold
-                          : FontWeight.normal,
-                    ),
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Theme.of(context).primaryColor)
+                  ? TextFormField(
+                      controller: idpel,
+                      keyboardType: widget.menu.isString
+                          ? TextInputType.text
+                          : TextInputType.number,
+                      cursorColor: Theme.of(context).primaryColor,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(
+                            RegExp("[0-9a-zA-Z-_.]")),
+                      ],
+                      style: TextStyle(
+                        fontWeight:
+                            configAppBloc.boldNomorTujuan.valueWrapper.value
+                                ? FontWeight.bold
+                                : FontWeight.normal,
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Theme.of(context).primaryColor)
-                      ),
-                      labelText: 'Nomor Pelanggan',
-                      labelStyle: TextStyle(
-                        color: Theme.of(context).secondaryHeaderColor,
-                      ),
-                      isDense: true,
-                      prefixIcon: InkWell(
-                          child: Icon(Icons.cached, color: Theme.of(context).primaryColor,),
-                          onTap: () async {
-                            FavoriteNumberModel response =
-                                await Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (_) => FavoriteNumber('postpaid')),
-                            );
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context).primaryColor)),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context).primaryColor)),
+                        labelText: 'Nomor Pelanggan',
+                        labelStyle: TextStyle(
+                          color: Theme.of(context).secondaryHeaderColor,
+                        ),
+                        isDense: true,
+                        prefixIcon: InkWell(
+                            child: Icon(
+                              Icons.cached,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            onTap: () async {
+                              FavoriteNumberModel response =
+                                  await Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (_) => FavoriteNumber('postpaid')),
+                              );
 
-                            if (response == null) return;
-                            setState(() {
-                              idpel.text = response.tujuan;
-                            });
-                          }),
-                      suffixIcon: InkWell(
-                          child: Icon(Icons.contacts, color: Theme.of(context).primaryColor,),
-                          onTap: () async {
-                            idpel.text = await Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                        builder: (_) => ContactPage())) ??
-                                idpel.text;
-                          }),
-                    ),
-                    onFieldSubmitted: (value) =>
-                        cekTagihan(widget.menu.kodeProduk),
-                  )
-                : TextFormField(
-                    controller: idpel,
-                    keyboardType: widget.menu.isString
-                        ? TextInputType.text
-                        : TextInputType.number,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.allow(RegExp("[0-9a-zA-Z-_.]")),
-                    ],
-                    style: TextStyle(
-                      fontWeight: configAppBloc.boldNomorTujuan.valueWrapper.value
-                          ? FontWeight.bold
-                          : FontWeight.normal,
-                    ),
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Nomor Pelanggan',
-                      isDense: true,
-                      prefixIcon: InkWell(
-                          child: Icon(Icons.cached),
-                          onTap: () async {
-                            FavoriteNumberModel response =
-                                await Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (_) => FavoriteNumber('postpaid')),
-                            );
+                              if (response == null) return;
+                              setState(() {
+                                idpel.text = response.tujuan;
+                              });
+                            }),
+                        suffixIcon: InkWell(
+                            child: Icon(
+                              Icons.contacts,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            onTap: () async {
+                              idpel.text = await Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                          builder: (_) => ContactPage())) ??
+                                  idpel.text;
+                            }),
+                      ),
+                      onFieldSubmitted: (value) =>
+                          cekTagihan(widget.menu.kodeProduk),
+                    )
+                  : TextFormField(
+                      controller: idpel,
+                      keyboardType: widget.menu.isString
+                          ? TextInputType.text
+                          : TextInputType.number,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(
+                            RegExp("[0-9a-zA-Z-_.]")),
+                      ],
+                      style: TextStyle(
+                        fontWeight:
+                            configAppBloc.boldNomorTujuan.valueWrapper.value
+                                ? FontWeight.bold
+                                : FontWeight.normal,
+                      ),
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Nomor Pelanggan',
+                        isDense: true,
+                        prefixIcon: InkWell(
+                            child: Icon(Icons.cached),
+                            onTap: () async {
+                              FavoriteNumberModel response =
+                                  await Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (_) => FavoriteNumber('postpaid')),
+                              );
 
-                            if (response == null) return;
-                            setState(() {
-                              idpel.text = response.tujuan;
-                            });
-                          }),
-                      suffixIcon: InkWell(
-                          child: Icon(Icons.contacts),
-                          onTap: () async {
-                            idpel.text = await Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                        builder: (_) => ContactPage())) ??
-                                idpel.text;
-                          }),
+                              if (response == null) return;
+                              setState(() {
+                                idpel.text = response.tujuan;
+                              });
+                            }),
+                        suffixIcon: InkWell(
+                            child: Icon(Icons.contacts),
+                            onTap: () async {
+                              idpel.text = await Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                          builder: (_) => ContactPage())) ??
+                                  idpel.text;
+                            }),
+                      ),
+                      onFieldSubmitted: (value) =>
+                          cekTagihan(widget.menu.kodeProduk),
                     ),
-                    onFieldSubmitted: (value) =>
-                        cekTagihan(widget.menu.kodeProduk),
-                  ),
             ),
             Flexible(
               flex: 1,

@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'package:marquee/marquee.dart';
 import 'package:mobile/models/user.dart';
 import 'package:mobile/screen/marketplace/belanja.dart';
 import 'package:mobile/Products/pakaiaja/layout/card_info.dart';

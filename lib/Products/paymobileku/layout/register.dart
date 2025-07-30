@@ -1,28 +1,26 @@
 // @dart=2.9
 
 import 'dart:convert';
-
+import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
-import 'package:mobile/Products/paymobileku/layout/agreement/privacy_page.dart';
-import 'package:mobile/Products/paymobileku/layout/agreement/service_page.dart';
 import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
-import 'package:mobile/component/alert.dart';
 import 'package:mobile/component/bezierContainer.dart';
 import 'package:mobile/config.dart';
 import 'package:mobile/models/lokasi.dart';
 import 'package:mobile/provider/analitycs.dart';
+import 'package:mobile/screen/agreement/privacy_page.dart';
+import 'package:mobile/screen/agreement/service_page.dart';
 import 'package:mobile/screen/select_state/kecamatan.dart';
 import 'package:mobile/screen/select_state/kota.dart';
 import 'package:mobile/screen/select_state/provinsi.dart';
 import 'package:mobile/screen/text_kapital.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class RegisterUser extends StatefulWidget {
   @override
@@ -30,6 +28,9 @@ class RegisterUser extends StatefulWidget {
 }
 
 class _RegisterUserState extends State<RegisterUser> {
+  int countdown = 0;
+  Timer timer;
+
   final _formKey = GlobalKey<FormState>();
   TextEditingController nama = TextEditingController();
   TextEditingController nomorHp = TextEditingController();
@@ -42,11 +43,17 @@ class _RegisterUserState extends State<RegisterUser> {
   TextEditingController kotaText = TextEditingController();
   TextEditingController kecamatanText = TextEditingController();
   TextEditingController referalCode = TextEditingController();
+  TextEditingController otpController = TextEditingController();
+
   bool loading = false;
+  bool sendingOtp = false;
+  bool otpSent = false;
+  bool verifyingOtp = false;
+  bool otpVerified = false;
+
   Lokasi provinsi;
   Lokasi kota;
   Lokasi kecamatan;
-  // bool isEmail = false;
   bool isNamaToko = true;
   bool isAlmtToko = true;
   bool isReferalCode = false;
@@ -63,6 +70,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
   @override
   void dispose() {
+    timer?.cancel();
     nama.dispose();
     nomorHp.dispose();
     email.dispose();
@@ -74,7 +82,177 @@ class _RegisterUserState extends State<RegisterUser> {
     kotaText.dispose();
     kecamatanText.dispose();
     referalCode.dispose();
+    otpController.dispose();
     super.dispose();
+  }
+
+  void startCountdown() {
+    setState(() {
+      countdown = 60;
+    });
+    timer?.cancel();
+    timer = Timer.periodic(Duration(seconds: 1), (t) {
+      if (countdown > 1) {
+        setState(() {
+          countdown--;
+        });
+      } else {
+        setState(() {
+          countdown = 0;
+        });
+        timer?.cancel();
+      }
+    });
+  }
+
+  Future<void> sendOtp() async {
+    final emailText = email.text.trim();
+    if (emailText.isEmpty || !RegExp(r'\S+@\S+\.\S+').hasMatch(emailText)) {
+      showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: Text('Kesalahan'),
+          content: Text('Masukkan alamat email yang valid!'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
+              child: Text('TUTUP'),
+            ),
+          ],
+        ),
+      );
+      return;
+    }
+    setState(() {
+      sendingOtp = true;
+    });
+    try {
+      final res = await http.post(
+        Uri.parse('https://fulung.net/api/Auth/send-otp-register'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'email': emailText,
+          'storeName': namaToko.text.trim().isEmpty
+              ? "Verifikasi Pendaftaran"
+              : namaToko.text.trim(),
+          'memberName': nama.text.trim().isEmpty ? emailText : nama.text.trim(),
+          'pesan':
+              "Silakan masukkan kode berikut untuk menyelesaikan proses pendaftaran akun Anda."
+        }),
+      );
+
+      final json = jsonDecode(res.body);
+      setState(() {
+        otpSent = res.statusCode == 200;
+      });
+      if (res.statusCode == 200) {
+        startCountdown();
+      }
+      showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: Text(otpSent ? 'Berhasil' : 'Gagal'),
+          content: Text(json['message'] ?? 'Gagal mengirim kode OTP.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
+              child: Text('TUTUP'),
+            ),
+          ],
+        ),
+      );
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: Text('Gagal'),
+          content: Text('Gagal mengirim kode OTP.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
+              child: Text('TUTUP'),
+            ),
+          ],
+        ),
+      );
+    } finally {
+      setState(() {
+        sendingOtp = false;
+      });
+    }
+  }
+
+  Future<bool> verifyOtp() async {
+    final emailText = email.text.trim();
+    final otpText = otpController.text.trim();
+    if (emailText.isEmpty || otpText.isEmpty) {
+      showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: Text('Gagal'),
+          content: Text('Email dan Kode OTP harus diisi!'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
+              child: Text('TUTUP'),
+            ),
+          ],
+        ),
+      );
+      return false;
+    }
+    setState(() {
+      verifyingOtp = true;
+    });
+    try {
+      final res = await http.post(
+        Uri.parse('https://fulung.net/api/Auth/verify-otp-register'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'email': emailText, 'otp': otpText}),
+      );
+      final json = jsonDecode(res.body);
+      if (res.statusCode == 200) {
+        setState(() {
+          otpVerified = true;
+        });
+        return true;
+      } else {
+        showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            title: Text('Gagal'),
+            content: Text(json['message'] ?? 'Kode OTP salah!'),
+            actions: [
+              TextButton(
+                onPressed: () =>
+                    Navigator.of(context, rootNavigator: true).pop(),
+                child: Text('TUTUP'),
+              ),
+            ],
+          ),
+        );
+        return false;
+      }
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: Text('Gagal'),
+          content: Text('OTP Salah Atau Kadaluwarsa.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
+              child: Text('TUTUP'),
+            ),
+          ],
+        ),
+      );
+      return false;
+    } finally {
+      setState(() {
+        verifyingOtp = false;
+      });
+    }
   }
 
   Future<void> submitRegister() async {
@@ -95,6 +273,11 @@ class _RegisterUserState extends State<RegisterUser> {
     }
 
     if (!_formKey.currentState.validate()) return;
+
+    // Verifikasi OTP dulu sebelum lanjut proses register
+    final otpOk = await verifyOtp();
+    if (!otpOk) return;
+
     setState(() {
       loading = true;
     });
@@ -150,8 +333,10 @@ class _RegisterUserState extends State<RegisterUser> {
                       ),
                     ),
                     onPressed: () {
-                      Navigator.of(_, rootNavigator: true).pop();
-                      Navigator.of(context).pop();
+                      Navigator.of(_, rootNavigator: true)
+                          .pop(); // Tutup dialog
+                      Navigator.of(context)
+                          .pop(); // Kembali ke halaman sebelumnya (Login)
                     },
                   ),
                 ],
@@ -187,7 +372,7 @@ class _RegisterUserState extends State<RegisterUser> {
         builder: (_) {
           return AlertDialog(
             title: Text('Registrasi Gagal'),
-            content: Text(e ?? 'Terjadi kesalahan pada sistem'),
+            content: Text(e?.toString() ?? 'Terjadi kesalahan pada sistem'),
             actions: <Widget>[
               TextButton(
                 onPressed: () =>
@@ -268,7 +453,7 @@ class _RegisterUserState extends State<RegisterUser> {
         SizedBox(width: 5),
         RichText(
           text: TextSpan(
-            text: "Saya mengerti dan menyetujui\n ",
+            text: "Lihat ",
             style: TextStyle(
                 color: Colors.black87,
                 fontSize: 12,
@@ -282,11 +467,10 @@ class _RegisterUserState extends State<RegisterUser> {
                     fontWeight: FontWeight.bold),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) {
-                        return ServicePolicyPage();
-                      }
-                    ));
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return ServicePolicyPage();
+                    }));
                   },
               ),
               TextSpan(text: "dan "),
@@ -298,11 +482,10 @@ class _RegisterUserState extends State<RegisterUser> {
                     fontWeight: FontWeight.bold),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) {
-                        return PrivacyPolicyPage();
-                      }
-                    ));
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return PrivacyPolicyProfilePage();
+                    }));
                   },
               ),
             ],
@@ -342,14 +525,6 @@ class _RegisterUserState extends State<RegisterUser> {
         isAlmtToko = false;
       }
     });
-
-    // List<String> pkgNameEmail = ['id.paymobileku.app'];
-
-    // pkgNameEmail.forEach((element) {
-    //   if (element == packageName) {
-    //     isEmail = true;
-    //   }
-    // });
 
     OutlineInputBorder _normalBorder = OutlineInputBorder(
       borderSide: BorderSide(
@@ -464,31 +639,83 @@ class _RegisterUserState extends State<RegisterUser> {
                                 return null;
                             },
                           ),
-                          Column(
+                          SizedBox(height: 15),
+                          Row(
                             children: [
-                              SizedBox(height: 15),
-                              TextFormField(
-                                controller: email,
-                                keyboardType: TextInputType.emailAddress,
-                                cursorColor: Theme.of(context).primaryColor,
-                                decoration: _inputDecoration.copyWith(
-                                  prefixIcon: Icon(
-                                    Icons.email_rounded,
-                                    color: Theme.of(context).primaryColor,
+                              Expanded(
+                                flex: 2,
+                                child: TextFormField(
+                                  controller: email,
+                                  keyboardType: TextInputType.emailAddress,
+                                  cursorColor: Theme.of(context).primaryColor,
+                                  decoration: _inputDecoration.copyWith(
+                                    hintText: 'Masukkan email',
+                                    prefixIcon: Icon(
+                                      Icons.email_rounded,
+                                      color: Theme.of(context).primaryColor,
+                                    ),
                                   ),
-                                  hintText: 'Email',
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty)
+                                      return 'Email tidak boleh kosong';
+                                    else if (!RegExp(r'\S+@\S+\.\S+')
+                                        .hasMatch(value))
+                                      return 'Masukkan alamat email yang valid';
+                                    else
+                                      return null;
+                                  },
                                 ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty)
-                                    return 'Email tidak boleh kosong';
-                                  else if (!RegExp(r'\S+@\S+\.\S+')
-                                      .hasMatch(value))
-                                    return 'Masukkan alamat email yang valid';
-                                  else
-                                    return null;
-                                },
-                              )
+                              ),
+                              SizedBox(width: 8),
+                              Expanded(
+                                flex: 1,
+                                child: ElevatedButton(
+                                  onPressed: (sendingOtp || countdown > 0)
+                                      ? null
+                                      : sendOtp,
+                                  style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    padding: EdgeInsets.symmetric(vertical: 16),
+                                  ),
+                                  child: sendingOtp
+                                      ? SizedBox(
+                                          height: 16,
+                                          width: 16,
+                                          child: CircularProgressIndicator(
+                                            strokeWidth: 2,
+                                          ),
+                                        )
+                                      : Text(
+                                          countdown > 0
+                                              ? 'Tunggu $countdown dtk'
+                                              : (otpSent
+                                                  ? 'Terkirim'
+                                                  : 'Kirim Kode'),
+                                        ),
+                                ),
+                              ),
                             ],
+                          ),
+                          SizedBox(height: 10),
+                          TextFormField(
+                            controller: otpController,
+                            keyboardType: TextInputType.number,
+                            decoration: _inputDecoration.copyWith(
+                              hintText: 'Verifikasi Kode',
+                              prefixIcon: Icon(Icons.verified_user_rounded,
+                                  color: Theme.of(context).primaryColor),
+                            ),
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                              LengthLimitingTextInputFormatter(6),
+                            ],
+                            validator: (value) {
+                              if (value == null || value.isEmpty)
+                                return 'Masukkan kode verifikasi OTP';
+                              return null;
+                            },
                           ),
                           SizedBox(height: 15),
                           TextFormField(
@@ -641,14 +868,14 @@ class _RegisterUserState extends State<RegisterUser> {
                                 return null;
                             },
                           ),
-                          // SizedBox(height: 15),
                           isNamaToko
                               ? Column(
                                   children: [
                                     SizedBox(height: 15),
                                     TextFormField(
                                       controller: namaToko,
-                                      cursorColor: Theme.of(context).primaryColor,
+                                      cursorColor:
+                                          Theme.of(context).primaryColor,
                                       keyboardType: TextInputType.text,
                                       decoration: _inputDecoration.copyWith(
                                         prefixIcon: Icon(
@@ -667,43 +894,14 @@ class _RegisterUserState extends State<RegisterUser> {
                                   ],
                                 )
                               : SizedBox(),
-                          // SizedBox(height: 15),
-                          // TextFormField(
-                          //   controller: namaToko,
-                          //   keyboardType: TextInputType.text,
-                          //   decoration: _inputDecoration.copyWith(
-                          //     prefixIcon: Icon(
-                          //       Icons.storefront_rounded,
-                          //       color: Theme.of(context).primaryColor,
-                          //     ),
-                          //     hintText: 'Nama Toko',
-                          //   ),
-                          //   validator: (val) {
-                          //     if (val == null || val.isEmpty)
-                          //       return 'Nama toko tidak boleh kosong';
-                          //     else
-                          //       return null;
-                          //   },
-                          // ),
-                          // SizedBox(height: 15),
-                          // TextField(
-                          //   controller: alamatToko,
-                          //   keyboardType: TextInputType.text,
-                          //   decoration: _inputDecoration.copyWith(
-                          //     prefixIcon: Icon(
-                          //       Icons.place_rounded,
-                          //       color: Theme.of(context).primaryColor,
-                          //     ),
-                          //     hintText: 'Alamat Toko',
-                          //   ),
-                          // ),
                           isAlmtToko
                               ? Column(
                                   children: [
                                     SizedBox(height: 15),
                                     TextFormField(
                                       controller: alamatToko,
-                                      cursorColor: Theme.of(context).primaryColor,
+                                      cursorColor:
+                                          Theme.of(context).primaryColor,
                                       keyboardType: TextInputType.text,
                                       decoration: _inputDecoration.copyWith(
                                         prefixIcon: Icon(
@@ -728,7 +926,8 @@ class _RegisterUserState extends State<RegisterUser> {
                                     SizedBox(height: 15),
                                     TextFormField(
                                       controller: referalCode,
-                                      cursorColor: Theme.of(context).primaryColor,
+                                      cursorColor:
+                                          Theme.of(context).primaryColor,
                                       keyboardType: TextInputType.text,
                                       decoration: _inputDecoration.copyWith(
                                         prefixIcon: Icon(
@@ -740,14 +939,14 @@ class _RegisterUserState extends State<RegisterUser> {
                                       inputFormatters: [
                                         UpperCaseTextFormatter(),
                                       ],
-                                      // validator: (value) {
-                                      //   if (packageName ==
-                                      //           'id.paymobileku.app' &&
-                                      //       (value == null || value.isEmpty)) {
-                                      //     return 'Kode Referal tidak boleh kosong';
-                                      //   }
-                                      //   return null;
-                                      // },
+                                      validator: (value) {
+                                        if (packageName ==
+                                                'id.paymobileku.app' &&
+                                            (value == null || value.isEmpty)) {
+                                          return 'Kode Referal tidak boleh kosong';
+                                        }
+                                        return null;
+                                      },
                                     )
                                   ],
                                 )
@@ -757,8 +956,19 @@ class _RegisterUserState extends State<RegisterUser> {
                           SizedBox(height: 20),
                           isAgree
                               ? MaterialButton(
-                                  onPressed: submitRegister,
-                                  child: Text('Daftar Sekarang'),
+                                  onPressed: loading || verifyingOtp
+                                      ? null
+                                      : submitRegister,
+                                  child: (loading || verifyingOtp)
+                                      ? SizedBox(
+                                          height: 20,
+                                          width: 20,
+                                          child: CircularProgressIndicator(
+                                              strokeWidth: 2,
+                                              valueColor:
+                                                  AlwaysStoppedAnimation<Color>(
+                                                      Colors.white)))
+                                      : Text('Daftar Sekarang'),
                                   elevation: 0,
                                   color: Theme.of(context).primaryColor,
                                   textColor: Colors.white,

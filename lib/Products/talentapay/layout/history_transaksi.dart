@@ -2,7 +2,6 @@
 
 import 'dart:convert';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -15,7 +14,6 @@ import 'package:mobile/models/trx.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/modules.dart';
 import 'package:mobile/provider/analitycs.dart';
-import 'package:mobile/screen/custom_alert_dialog.dart';
 import 'package:mobile/screen/transaksi/detail_transaksi.dart';
 import 'package:nav/nav.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
@@ -143,7 +141,7 @@ class _HistoryTransaksiState extends State<HistoryTransaksi> {
       print('ERROR GET TRX LIST: $e');
     } finally {
       setState(() {
-        loading = false;  
+        loading = false;
       });
     }
   }
@@ -427,216 +425,225 @@ class _HistoryTransaksiState extends State<HistoryTransaksi> {
               listTrx.isNotEmpty
                   ? Expanded(
                       child: SmartRefresher(
-                        controller: refreshController,
-                        enablePullUp: true,
-                        enablePullDown: true,
-                        onRefresh: () async {
-                          await getData(reset: true);
-                          refreshController.refreshCompleted();
-                        },
-                        onLoading: () async {
-                          // currentPage += 1;
-                          await getData(reset: false);
-                          refreshController.loadComplete();
-                        },
-                        child: GroupedListView<dynamic, String>(
-                          shrinkWrap: true,
-                          physics: ScrollPhysics(),
-                          elements: listTrx,
-                          sort: false,
-                          groupBy: (element) {
-                            DateTime dateTime = DateTime.parse(element.created_at);
-                            return formatDate(dateTime.toIso8601String(), 'dd MMM yyy');
+                          controller: refreshController,
+                          enablePullUp: true,
+                          enablePullDown: true,
+                          onRefresh: () async {
+                            await getData(reset: true);
+                            refreshController.refreshCompleted();
                           },
-                          groupSeparatorBuilder: (String groupByValue) => Container(
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).primaryColor.withOpacity(.3),
-                            ),
-                            width: double.infinity,
-                            child: Padding(
-                              padding: EdgeInsets.all(10),
-                              child: Row(
-                                children: [
-                                  Flexible(
-                                    child: Row(
-                                      children: [
-                                        Container(
-                                          margin: EdgeInsets.symmetric(horizontal: 10),
-                                          child: Text(
-                                            groupByValue,
-                                            textAlign: TextAlign.start,
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.bold,
+                          onLoading: () async {
+                            // currentPage += 1;
+                            await getData(reset: false);
+                            refreshController.loadComplete();
+                          },
+                          child: GroupedListView<dynamic, String>(
+                            shrinkWrap: true,
+                            physics: ScrollPhysics(),
+                            elements: listTrx,
+                            sort: false,
+                            groupBy: (element) {
+                              DateTime dateTime =
+                                  DateTime.parse(element.created_at);
+                              return formatDate(
+                                  dateTime.toIso8601String(), 'dd MMM yyy');
+                            },
+                            groupSeparatorBuilder: (String groupByValue) =>
+                                Container(
+                              decoration: BoxDecoration(
+                                color: Theme.of(context)
+                                    .primaryColor
+                                    .withOpacity(.3),
+                              ),
+                              width: double.infinity,
+                              child: Padding(
+                                padding: EdgeInsets.all(10),
+                                child: Row(
+                                  children: [
+                                    Flexible(
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            margin: EdgeInsets.symmetric(
+                                                horizontal: 10),
+                                            child: Text(
+                                              groupByValue,
+                                              textAlign: TextAlign.start,
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          itemBuilder: (context, element) {
-                            var trx = element as TrxModel;
-                            return Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: BorderDirectional(
-                                  bottom: BorderSide(
-                                    color: Colors.grey.shade200,
-                                  ),
-                                ),
-                              ),
-                              child: ListTile(
-                                onTap: () => Nav.push(DetailTransaksi(trx)),
-                                leading: CircleAvatar(
-                                  foregroundColor: Theme.of(context).primaryColor,
-                                  backgroundColor: trx.statusModel.color.withOpacity(.1),
-                                  child: Image.network(trx.statusModel.icon, width: 20),
-                                ),
-                                title: Text(
-                                  '${trx.produk['kode_produk']}.${trx.tujuan}',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey.shade700,
-                                  ),
-                                ),
-                                subtitle: Text(
-                                  trx.produk == null
-                                    ? '-'
-                                    : trx.produk['nama'],
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                    fontSize: 10.0,
-                                    color: Colors.grey.shade700,
-                                  ),
-                                ),
-                                trailing: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Hero(
-                                      tag: 'harga-${trx.id}',
-                                      child: Text(
-                                        formatRupiah(trx.harga_jual),
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.green,
-                                          fontSize: 12,
-                                        ),
+                                        ],
                                       ),
                                     ),
-                                    SizedBox(height: 5),
-                                    Text(
-                                      trx.statusModel.statusText,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: trx.statusModel.color,
-                                        fontSize: 10,
-                                      ),
-                                    )
                                   ],
                                 ),
                               ),
-                            );
-                          },
-                          useStickyGroupSeparators: true,
-                          floatingHeader: true,
-                        )
+                            ),
+                            itemBuilder: (context, element) {
+                              var trx = element as TrxModel;
+                              return Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border: BorderDirectional(
+                                    bottom: BorderSide(
+                                      color: Colors.grey.shade200,
+                                    ),
+                                  ),
+                                ),
+                                child: ListTile(
+                                  onTap: () => Nav.push(DetailTransaksi(trx)),
+                                  leading: CircleAvatar(
+                                    foregroundColor:
+                                        Theme.of(context).primaryColor,
+                                    backgroundColor:
+                                        trx.statusModel.color.withOpacity(.1),
+                                    child: Image.network(trx.statusModel.icon,
+                                        width: 20),
+                                  ),
+                                  title: Text(
+                                    '${trx.produk['kode_produk']}.${trx.tujuan}',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.grey.shade700,
+                                    ),
+                                  ),
+                                  subtitle: Text(
+                                    trx.produk == null
+                                        ? '-'
+                                        : trx.produk['nama'],
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                    style: TextStyle(
+                                      fontSize: 10.0,
+                                      color: Colors.grey.shade700,
+                                    ),
+                                  ),
+                                  trailing: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Hero(
+                                        tag: 'harga-${trx.id}',
+                                        child: Text(
+                                          formatRupiah(trx.harga_jual),
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.green,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(height: 5),
+                                      Text(
+                                        trx.statusModel.statusText,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: trx.statusModel.color,
+                                          fontSize: 10,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                            useStickyGroupSeparators: true,
+                            floatingHeader: true,
+                          )
 
-                        // child: ListView.separated(
-                        //   shrinkWrap: true,
-                        //   physics: ScrollPhysics(),
-                        //   padding: EdgeInsets.symmetric(vertical: 10),
-                        //   itemCount: listTrx.length,
-                        //   separatorBuilder: (_, __) => SizedBox(height: 10),
-                        //   itemBuilder: (_, i) {
-                        //     TrxModel trx = listTrx[i];
+                          // child: ListView.separated(
+                          //   shrinkWrap: true,
+                          //   physics: ScrollPhysics(),
+                          //   padding: EdgeInsets.symmetric(vertical: 10),
+                          //   itemCount: listTrx.length,
+                          //   separatorBuilder: (_, __) => SizedBox(height: 10),
+                          //   itemBuilder: (_, i) {
+                          //     TrxModel trx = listTrx[i];
 
-                        //     return Container(
-                        //       margin: EdgeInsets.symmetric(horizontal: 10),
-                        //       decoration: BoxDecoration(
-                        //           color: Colors.white,
-                        //           borderRadius: BorderRadius.circular(10),
-                        //           boxShadow: [
-                        //             BoxShadow(
-                        //                 color: Colors.grey.withOpacity(.5),
-                        //                 offset: Offset(3, 3),
-                        //                 blurRadius: 15)
-                        //           ]),
-                        //       child: ListTile(
-                        //         onTap: () {
-                        //           return Navigator.of(context).push(
-                        //             MaterialPageRoute(
-                        //               builder: (_) => DetailTransaksi(trx),
-                        //             ),
-                        //           );
-                        //         },
+                          //     return Container(
+                          //       margin: EdgeInsets.symmetric(horizontal: 10),
+                          //       decoration: BoxDecoration(
+                          //           color: Colors.white,
+                          //           borderRadius: BorderRadius.circular(10),
+                          //           boxShadow: [
+                          //             BoxShadow(
+                          //                 color: Colors.grey.withOpacity(.5),
+                          //                 offset: Offset(3, 3),
+                          //                 blurRadius: 15)
+                          //           ]),
+                          //       child: ListTile(
+                          //         onTap: () {
+                          //           return Navigator.of(context).push(
+                          //             MaterialPageRoute(
+                          //               builder: (_) => DetailTransaksi(trx),
+                          //             ),
+                          //           );
+                          //         },
 
-                        //         leading: CircleAvatar(
-                        //           foregroundColor: packageName ==
-                        //                   'com.lariz.mobile'
-                        //               ? Theme.of(context).secondaryHeaderColor
-                        //               : Theme.of(context).primaryColor,
-                        //           backgroundColor:
-                        //               trx.statusModel.color.withOpacity(.1),
-                        //           child: CachedNetworkImage(
-                        //             imageUrl: trx.statusModel.icon,
-                        //             width: 20,
-                        //           ),
-                        //         ),
-                        //         title: Text(
-                        //           trx.tujuan,
-                        //           style: TextStyle(
-                        //             fontSize: 12,
-                        //             fontWeight: FontWeight.bold,
-                        //             color: Colors.grey.shade700,
-                        //           ),
-                        //         ),
-                        //         subtitle: Text(
-                        //           trx.produk == null ? '-' : trx.produk['nama'],
-                        //           overflow: TextOverflow.ellipsis,
-                        //           maxLines: 1,
-                        //           style: TextStyle(
-                        //             fontSize: 10.0,
-                        //             color: Colors.grey.shade700,
-                        //           ),
-                        //         ),
-                        //         trailing: Column(
-                        //           crossAxisAlignment: CrossAxisAlignment.end,
-                        //           mainAxisAlignment: MainAxisAlignment.center,
-                        //           children: <Widget>[
-                        //             Hero(
-                        //               tag: 'harga-${trx.id}',
-                        //               child: Text(
-                        //                 formatRupiah(trx.harga_jual),
-                        //                 style: TextStyle(
-                        //                   fontWeight: FontWeight.bold,
-                        //                   color: Colors.green,
-                        //                   fontSize: 12,
-                        //                 ),
-                        //               ),
-                        //             ),
-                        //             SizedBox(height: 5),
-                        //             Text(
-                        //               trx.statusModel.statusText,
-                        //               style: TextStyle(
-                        //                 fontWeight: FontWeight.bold,
-                        //                 color: trx.statusModel.color,
-                        //                 fontSize: 10,
-                        //               ),
-                        //             ),
-                        //           ],
-                        //         ),
-                        //       ),
-                        //     );
-                        //   },
-                        // ),
-                      ),
+                          //         leading: CircleAvatar(
+                          //           foregroundColor: packageName ==
+                          //                   'com.lariz.mobile'
+                          //               ? Theme.of(context).secondaryHeaderColor
+                          //               : Theme.of(context).primaryColor,
+                          //           backgroundColor:
+                          //               trx.statusModel.color.withOpacity(.1),
+                          //           child: CachedNetworkImage(
+                          //             imageUrl: trx.statusModel.icon,
+                          //             width: 20,
+                          //           ),
+                          //         ),
+                          //         title: Text(
+                          //           trx.tujuan,
+                          //           style: TextStyle(
+                          //             fontSize: 12,
+                          //             fontWeight: FontWeight.bold,
+                          //             color: Colors.grey.shade700,
+                          //           ),
+                          //         ),
+                          //         subtitle: Text(
+                          //           trx.produk == null ? '-' : trx.produk['nama'],
+                          //           overflow: TextOverflow.ellipsis,
+                          //           maxLines: 1,
+                          //           style: TextStyle(
+                          //             fontSize: 10.0,
+                          //             color: Colors.grey.shade700,
+                          //           ),
+                          //         ),
+                          //         trailing: Column(
+                          //           crossAxisAlignment: CrossAxisAlignment.end,
+                          //           mainAxisAlignment: MainAxisAlignment.center,
+                          //           children: <Widget>[
+                          //             Hero(
+                          //               tag: 'harga-${trx.id}',
+                          //               child: Text(
+                          //                 formatRupiah(trx.harga_jual),
+                          //                 style: TextStyle(
+                          //                   fontWeight: FontWeight.bold,
+                          //                   color: Colors.green,
+                          //                   fontSize: 12,
+                          //                 ),
+                          //               ),
+                          //             ),
+                          //             SizedBox(height: 5),
+                          //             Text(
+                          //               trx.statusModel.statusText,
+                          //               style: TextStyle(
+                          //                 fontWeight: FontWeight.bold,
+                          //                 color: trx.statusModel.color,
+                          //                 fontSize: 10,
+                          //               ),
+                          //             ),
+                          //           ],
+                          //         ),
+                          //       ),
+                          //     );
+                          //   },
+                          // ),
+                          ),
                     )
                   : Expanded(
                       child: Container(

@@ -126,14 +126,15 @@ class _TransferDepositPageState extends State<TransferDepositPage> {
                   ),
                   SizedBox(height: 5),
                   packageName == 'id.paymobileku.app'
-                    ? Text(
-                        'Harap transfer sesuai nominal yang tertera'.toUpperCase(),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.red[600]))
-                    : SizedBox()
+                      ? Text(
+                          'Harap transfer sesuai nominal yang tertera'
+                              .toUpperCase(),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.red[600]))
+                      : SizedBox()
                 ],
               ),
             ))),
@@ -225,13 +226,13 @@ class _TransferDepositPageState extends State<TransferDepositPage> {
           height: 20.0,
         ),
         packageName == 'id.paymobileku.app'
-        ? SizedBox()
-        : Text('Harap transfer sesuai nominal yang tertera'.toUpperCase(),
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.bold,
-                color: Colors.red[600])),
+            ? SizedBox()
+            : Text('Harap transfer sesuai nominal yang tertera'.toUpperCase(),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.red[600])),
         SizedBox(height: 20),
         PaymentTutorialPage(),
         SizedBox(height: 10),

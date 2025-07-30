@@ -18,7 +18,7 @@ String brandId;
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';
-String apiUrl = 'https://payuni-app.findig.id/api/v1';
+String apiUrl = 'https://app.payuni.co.id/api/v1';
 // String apiUrl = 'http://192.168.88.163:8089/api/v1';
 // String apiUrlKasir = 'http://192.168.43.170:8082/api/v1';
 

@@ -17,7 +17,7 @@ class StepThreeForgotPIN extends StatefulWidget {
 }
 
 class _StepThreeForgotPINState extends State<StepThreeForgotPIN> {
-    TextEditingController pin = TextEditingController();
+  TextEditingController pin = TextEditingController();
   TextEditingController confirmPin = TextEditingController();
   bool loading = false;
 
@@ -74,7 +74,8 @@ class _StepThreeForgotPINState extends State<StepThreeForgotPIN> {
     } else {
       String message = json.decode(response.body)['message'] ??
           'Terjadi kendala pada server';
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(message)));
     }
 
     setState(() {
@@ -85,7 +86,7 @@ class _StepThreeForgotPINState extends State<StepThreeForgotPIN> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            appBar: AppBar(
+      appBar: AppBar(
           title: Text('Reset PIN',
               style: TextStyle(color: Theme.of(context).primaryColor)),
           centerTitle: true,
@@ -100,7 +101,7 @@ class _StepThreeForgotPINState extends State<StepThreeForgotPIN> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               packageName == 'com.eralink.mobileapk'
-                ? TextFormField(
+                  ? TextFormField(
                       controller: pin,
                       keyboardType: TextInputType.number,
                       cursorColor: Theme.of(context).primaryColor,
@@ -109,43 +110,42 @@ class _StepThreeForgotPINState extends State<StepThreeForgotPIN> {
                       decoration: InputDecoration(
                           border: OutlineInputBorder(),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Theme.of(context).primaryColor)
-                          ),
+                              borderSide: BorderSide(
+                                  color: Theme.of(context).primaryColor)),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Theme.of(context).primaryColor)
-                          ),
+                              borderSide: BorderSide(
+                                  color: Theme.of(context).primaryColor)),
                           labelText: 'PIN Baru',
                           labelStyle: TextStyle(
-                            color: Theme.of(context).secondaryHeaderColor
-                          )))
-                : TextFormField(
+                              color: Theme.of(context).secondaryHeaderColor)))
+                  : TextFormField(
                       controller: pin,
                       keyboardType: TextInputType.number,
                       maxLength: configAppBloc.pinCount.valueWrapper?.value,
                       obscureText: true,
                       decoration: InputDecoration(
                           border: OutlineInputBorder(), labelText: 'PIN Baru')),
-                SizedBox(height: 10),
+              SizedBox(height: 10),
               packageName == 'com.eralink.mobileapk'
-                ? TextFormField(
-                    controller: confirmPin,
-                    keyboardType: TextInputType.number,
-                    cursorColor: Theme.of(context).primaryColor,
-                    maxLength: configAppBloc.pinCount.valueWrapper?.value,
-                    obscureText: true,
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Theme.of(context).primaryColor)
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Theme.of(context).primaryColor)
-                        ),
-                        labelText: 'Ulangi PIN Baru',
-                        labelStyle: TextStyle(
-                          color: Theme.of(context).secondaryHeaderColor,
-                        )))
-                : TextFormField(
+                  ? TextFormField(
+                      controller: confirmPin,
+                      keyboardType: TextInputType.number,
+                      cursorColor: Theme.of(context).primaryColor,
+                      maxLength: configAppBloc.pinCount.valueWrapper?.value,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Theme.of(context).primaryColor)),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Theme.of(context).primaryColor)),
+                          labelText: 'Ulangi PIN Baru',
+                          labelStyle: TextStyle(
+                            color: Theme.of(context).secondaryHeaderColor,
+                          )))
+                  : TextFormField(
                       controller: confirmPin,
                       keyboardType: TextInputType.number,
                       maxLength: configAppBloc.pinCount.valueWrapper?.value,
@@ -160,8 +160,8 @@ class _StepThreeForgotPINState extends State<StepThreeForgotPIN> {
                 textTheme: ButtonTextTheme.primary,
                 child: ElevatedButton(
                   style: ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Theme.of(context).primaryColor)
-                  ),
+                      backgroundColor: MaterialStatePropertyAll(
+                          Theme.of(context).primaryColor)),
                   child: Text('Ubah PIN'),
                   onPressed: () => submit(),
                 ),

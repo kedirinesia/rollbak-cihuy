@@ -7,11 +7,9 @@ import 'package:mobile/Products/talentapay/layout/cs.dart';
 import 'package:mobile/Products/talentapay/layout/home1.dart';
 import 'package:mobile/Products/talentapay/layout/profile.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
-import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/Products/talentapay/layout/history.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
 
-import 'package:mobile/screen/marketplace/index.dart';
 
 class HomePopay extends StatefulWidget {
   @override
@@ -26,11 +24,11 @@ class _HomePopayState extends State<HomePopay> {
     CustomerServicePage(),
     ProfilePopay()
   ];
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            backgroundColor: Colors.grey[100],
+      backgroundColor: Colors.grey[100],
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,
         child: configAppBloc.isMarketplace.valueWrapper?.value

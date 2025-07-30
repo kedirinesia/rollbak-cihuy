@@ -1,12 +1,10 @@
 // @dart=2.9
 
 import 'dart:io';
-import 'dart:ui';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:image/image.dart' as img;
-import 'package:path/path.dart';
 
 class CustomCameraScreen extends StatefulWidget {
   @override

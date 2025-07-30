@@ -78,7 +78,7 @@ class _ProfilePopayState extends State<ProfilePopay> {
           Scaffold(
               backgroundColor: Colors.transparent,
               resizeToAvoidBottomInset: true,
-                            appBar: AppBar(
+              appBar: AppBar(
                 backgroundColor: Colors.transparent,
                 elevation: 0.0,
                 title: Text('Profile'),
@@ -413,12 +413,15 @@ class _ProfilePopayState extends State<ProfilePopay> {
                           ListTile(
                             onTap: () {
                               DefaultCacheManager().emptyCache().then((value) {
-                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                    content:
-                                        Text('Berhasil memperbarui konten')));
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content: Text(
+                                            'Berhasil memperbarui konten')));
                               }).catchError((err) {
-                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                    content: Text('Gagal memperbarui konten')));
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content:
+                                            Text('Gagal memperbarui konten')));
                               });
                             },
                             title: Text('Perbarui Konten',

@@ -20,7 +20,7 @@ class _HistoryPageState extends State<HistoryPage>
       initialIndex: 0,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Theme.of(context).appBarTheme.color,
+          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
           bottom: TabBar(
               indicatorColor: Theme.of(context).appBarTheme.iconTheme.color,
               labelColor: Theme.of(context).appBarTheme.iconTheme.color,
@@ -28,16 +28,19 @@ class _HistoryPageState extends State<HistoryPage>
                   Theme.of(context).appBarTheme.iconTheme.color.withOpacity(.7),
               tabs: [
                 Tab(
-                  icon: Icon(Icons.account_balance_wallet), text: "Deposit",
+                  icon: Icon(Icons.account_balance_wallet),
+                  text: "Deposit",
                 ),
                 Tab(
-                  icon: Icon(Icons.view_list), text: "Transaksi",
+                  icon: Icon(Icons.view_list),
+                  text: "Transaksi",
                 ),
                 // Tab(
                 //   icon: Icon(Icons.local_shipping_rounded),
                 // ),
                 Tab(
-                  icon: Icon(Icons.receipt_long), text: "Mutasi",
+                  icon: Icon(Icons.receipt_long),
+                  text: "Mutasi",
                 )
               ]),
         ),

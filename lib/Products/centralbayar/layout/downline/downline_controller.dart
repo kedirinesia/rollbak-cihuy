@@ -6,7 +6,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
@@ -265,18 +264,21 @@ abstract class DownlineController extends State<DownlinePage>
                 cursorColor: Theme.of(context).primaryColor,
                 keyboardType: TextInputType.text,
                 decoration: InputDecoration(
-                  isDense: true,
-                  border: OutlineInputBorder(),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Theme.of(context).primaryColor)
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Theme.of(context).primaryColor)
-                  ),
-                  prefixIcon: Icon(Icons.search_rounded, color: Theme.of(context).primaryColor,),
-                  hintText: 'Pencarian',
-                  hintStyle: TextStyle(color: Theme.of(context).secondaryHeaderColor)
-                ),
+                    isDense: true,
+                    border: OutlineInputBorder(),
+                    enabledBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Theme.of(context).primaryColor)),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Theme.of(context).primaryColor)),
+                    prefixIcon: Icon(
+                      Icons.search_rounded,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    hintText: 'Pencarian',
+                    hintStyle: TextStyle(
+                        color: Theme.of(context).secondaryHeaderColor)),
                 onChanged: (value) {
                   searchResult = downlines
                       .where((el) =>
@@ -334,7 +336,8 @@ abstract class DownlineController extends State<DownlinePage>
                                         downline.nama,
                                         style: TextStyle(
                                           fontSize: 11,
-                                          color: Theme.of(context).secondaryHeaderColor,
+                                          color: Theme.of(context)
+                                              .secondaryHeaderColor,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -356,9 +359,9 @@ abstract class DownlineController extends State<DownlinePage>
                                       Text(
                                         formatNumber(downline.downlineTotal),
                                         style: TextStyle(
-                                          fontSize: 11,
-                                          color: Theme.of(context).primaryColor
-                                        ),
+                                            fontSize: 11,
+                                            color:
+                                                Theme.of(context).primaryColor),
                                       ),
                                     ],
                                   ),
@@ -410,9 +413,9 @@ abstract class DownlineController extends State<DownlinePage>
                                       Text(
                                         formatRupiah(downline.saldo),
                                         style: TextStyle(
-                                          fontSize: 11,
-                                          color: Theme.of(context).primaryColor
-                                        ),
+                                            fontSize: 11,
+                                            color:
+                                                Theme.of(context).primaryColor),
                                       ),
                                     ],
                                   ),
@@ -432,9 +435,9 @@ abstract class DownlineController extends State<DownlinePage>
                                       Text(
                                         formatNumber(downline.point),
                                         style: TextStyle(
-                                          fontSize: 11,
-                                          color: Theme.of(context).primaryColor
-                                        ),
+                                            fontSize: 11,
+                                            color:
+                                                Theme.of(context).primaryColor),
                                       ),
                                     ],
                                   ),
@@ -454,9 +457,9 @@ abstract class DownlineController extends State<DownlinePage>
                                       Text(
                                         formatRupiah(downline.markup ?? 0),
                                         style: TextStyle(
-                                          fontSize: 11,
-                                          color: Theme.of(context).primaryColor
-                                        ),
+                                            fontSize: 11,
+                                            color:
+                                                Theme.of(context).primaryColor),
                                       ),
                                     ],
                                   ),

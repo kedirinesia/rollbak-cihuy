@@ -2,7 +2,6 @@
 
 import 'dart:convert';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile/Products/payuniovo/layout/components/dashboard_panel.dart';
@@ -13,15 +12,9 @@ import 'package:mobile/component/rewards.dart';
 import 'package:mobile/Products/payuniovo/layout/components/sticky_navbar.dart';
 import 'package:mobile/Products/payuniovo/layout/components/carousel_header.dart';
 import 'package:mobile/Products/payuniovo/layout/components/menu_depan.dart';
-import 'package:mobile/Products/payuniovo/layout/components/carousel-depan.dart';
-import 'package:mobile/models/mp_kategori.dart';
-import 'package:mobile/models/mp_produk.dart';
 import 'package:mobile/screen/kyc/reject.dart';
 import 'package:mobile/screen/kyc/verification1.dart';
 import 'package:mobile/screen/kyc/waiting.dart';
-import 'package:mobile/screen/marketplace/belanja.dart';
-import 'package:mobile/screen/marketplace/detail_produk.dart';
-import 'package:mobile/screen/marketplace/list_produk.dart';
 import 'package:mobile/screen/profile/invite/invite.dart';
 import 'package:mobile/component/card_info.dart';
 import 'package:mobile/modules.dart';

@@ -7,8 +7,6 @@ import 'package:mobile/Products/payuniovo/layout/qris.dart';
 import 'package:mobile/Products/payuniovo/layout/qris/my_qr.dart';
 import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
-import 'package:mobile/bloc/ConfigApp.dart';
-import 'package:mobile/config.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/screen/kyc/reject.dart';
 import 'package:mobile/screen/kyc/verification1.dart';

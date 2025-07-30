@@ -1,8 +1,6 @@
 // @dart=2.9
 
 import 'dart:convert';
-import 'dart:ui';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/Products/payku/layout/dialog-popup/constants.dart';
 import 'package:mobile/bloc/Api.dart';

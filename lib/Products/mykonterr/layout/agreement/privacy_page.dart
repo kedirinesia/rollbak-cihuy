@@ -49,7 +49,9 @@ class _TermsOfServicePageState extends State<PrivacyPolicyPage> {
               MarkdownDisplayScreen(
                 mdFileName: 'privacy_policy.md',
               ),
-            SizedBox(height: 50,)
+              SizedBox(
+                height: 50,
+              )
             ],
           ),
         ),
@@ -64,7 +66,8 @@ class _TermsOfServicePageState extends State<PrivacyPolicyPage> {
                   },
                   child: Text('Close'),
                   style: ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Theme.of(context).primaryColor),
+                    backgroundColor: MaterialStatePropertyAll(
+                        Theme.of(context).primaryColor),
                   ),
                 ),
               ),

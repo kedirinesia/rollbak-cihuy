@@ -381,7 +381,7 @@ class SatuanPageState extends State<SatuanPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            appBar: AppBar(
+      appBar: AppBar(
         title: Text('Satuan'),
         centerTitle: true,
         elevation: 0.0,

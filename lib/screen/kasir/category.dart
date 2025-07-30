@@ -381,7 +381,7 @@ class CategoryState extends State<CategoryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            appBar: AppBar(
+      appBar: AppBar(
         title: Text('Kategori'),
         centerTitle: true,
         elevation: 0.0,

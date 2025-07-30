@@ -79,7 +79,7 @@ class _ProductDetailMarketplaceState extends State<ProductDetailMarketplace> {
           loading = false;
         });
         getRelatedProducts(product.categoryId);
-       
+
         print(product.images);
       } else {
         showToast(context, 'Gagal mengambil data produk');
@@ -102,7 +102,8 @@ class _ProductDetailMarketplaceState extends State<ProductDetailMarketplace> {
       if (response.statusCode == 200) {
         List<dynamic> productData = json.decode(response.body)['data'];
         setState(() {
-          relatedProducts = productData.map((data) => ProdukMarket.fromJson(data)).toList();
+          relatedProducts =
+              productData.map((data) => ProdukMarket.fromJson(data)).toList();
         });
       } else {
         print('Error fetching related products: ${response.statusCode}');
@@ -113,7 +114,6 @@ class _ProductDetailMarketplaceState extends State<ProductDetailMarketplace> {
       return [];
     }
   }
-
 
   Future<List<ProdukMarket>> getProducts() async {
     try {
@@ -412,19 +412,28 @@ class _ProductDetailMarketplaceState extends State<ProductDetailMarketplace> {
                                 : relatedProducts.isEmpty
                                     ? Text('Tidak ada produk terkait.')
                                     : Container(
-                                        height: ((MediaQuery.of(context).size.width - 60) * .25) * 1.5,
+                                        height: ((MediaQuery.of(context)
+                                                        .size
+                                                        .width -
+                                                    60) *
+                                                .25) *
+                                            1.5,
                                         child: ListView.separated(
                                           scrollDirection: Axis.horizontal,
                                           itemCount: relatedProducts.length,
-                                          separatorBuilder: (_, i) => SizedBox(width: 10),
+                                          separatorBuilder: (_, i) =>
+                                              SizedBox(width: 10),
                                           itemBuilder: (ctx, i) {
-                                            ProdukMarket produk = relatedProducts[i];
+                                            ProdukMarket produk =
+                                                relatedProducts[i];
                                             return AspectRatio(
                                               aspectRatio: 1 / 1.5,
                                               child: InkWell(
-                                                onTap: () => Navigator.of(context).push(
+                                                onTap: () =>
+                                                    Navigator.of(context).push(
                                                   MaterialPageRoute(
-                                                    builder: (_) => ProductDetailMarketplace(
+                                                    builder: (_) =>
+                                                        ProductDetailMarketplace(
                                                       produk.id,
                                                       produk.title,
                                                       produk.categoryId,
@@ -433,33 +442,53 @@ class _ProductDetailMarketplaceState extends State<ProductDetailMarketplace> {
                                                 ),
                                                 child: Container(
                                                   decoration: BoxDecoration(
-                                                    color: Colors.grey.withOpacity(.08),
-                                                    borderRadius: BorderRadius.circular(10),
+                                                    color: Colors.grey
+                                                        .withOpacity(.08),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
                                                   ),
                                                   child: Column(
                                                     children: [
                                                       AspectRatio(
                                                         aspectRatio: 1,
                                                         child: Padding(
-                                                          padding: const EdgeInsets.all(5),
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(5),
                                                           child: ClipRRect(
-                                                            borderRadius: BorderRadius.circular(5),
-                                                            child: CachedNetworkImage(
-                                                              imageUrl: produk.thumbnail,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        5),
+                                                            child:
+                                                                CachedNetworkImage(
+                                                              imageUrl: produk
+                                                                  .thumbnail,
                                                               fit: BoxFit.cover,
-                                                              width: double.infinity,
-                                                              height: double.infinity,
+                                                              width: double
+                                                                  .infinity,
+                                                              height: double
+                                                                  .infinity,
                                                             ),
                                                           ),
                                                         ),
                                                       ),
                                                       Padding(
-                                                        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .symmetric(
+                                                                vertical: 5,
+                                                                horizontal: 10),
                                                         child: Text(
                                                           produk.title,
                                                           maxLines: 2,
-                                                          overflow: TextOverflow.ellipsis,
-                                                          style: TextStyle(fontSize: 11, color: Colors.black87),
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          style: TextStyle(
+                                                              fontSize: 11,
+                                                              color: Colors
+                                                                  .black87),
                                                         ),
                                                       ),
                                                     ],

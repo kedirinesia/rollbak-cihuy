@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:mobile/Products/fingerpay/layout/home.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/modules.dart';
-import 'package:mobile/provider/user.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_saldo.dart';
 
 abstract class Home4Model extends State<Home4App>
@@ -112,7 +111,7 @@ abstract class Home4Model extends State<Home4App>
                 ),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5)),
-                color: Theme.of(context).accentColor,
+                color: Theme.of(context).colorScheme.secondary,
                 onPressed: () {
                   Navigator.of(context).pushNamed('/topup');
                 },

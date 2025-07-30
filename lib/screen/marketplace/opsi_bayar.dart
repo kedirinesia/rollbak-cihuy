@@ -22,7 +22,7 @@ class OpsiBayarPage extends StatefulWidget {
 }
 
 class _OpsiBayarPageState extends State<OpsiBayarPage> {
-    List<MetodeBayarModel> purchaseMethods = [
+  List<MetodeBayarModel> purchaseMethods = [
     MetodeBayarModel(
         title: 'Saldo',
         code: 'saldo',
@@ -74,7 +74,7 @@ class _OpsiBayarPageState extends State<OpsiBayarPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            appBar: AppBar(title: Text('Metode Pembayaran'), elevation: 0),
+      appBar: AppBar(title: Text('Metode Pembayaran'), elevation: 0),
       body: loading
           ? LoadWidget()
           : ListView.builder(

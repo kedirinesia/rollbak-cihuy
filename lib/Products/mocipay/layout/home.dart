@@ -30,11 +30,11 @@ class _HomePopayState extends State<HomePopay> {
     ListReward(),
     ProfilePopay()
   ];
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            backgroundColor: Colors.grey[100],
+      backgroundColor: Colors.grey[100],
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,
         child: CachedNetworkImage(
@@ -105,8 +105,8 @@ class _HomePopayState extends State<HomePopay> {
                                     InkWell(
                                       onTap: () {
                                         updateUserInfo();
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                            SnackBar(
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
                                                 content:
                                                     Text('Berhasil Refresh')));
                                       },

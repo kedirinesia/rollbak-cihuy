@@ -63,22 +63,29 @@ class _InvitePageState extends InvitePageController {
                           textAlign: TextAlign.center),
                       SizedBox(height: 15),
                       packageName == 'com.eralink.mobileapk'
-                        ? TextFormField(
-                              style: TextStyle(color: Theme.of(context).secondaryHeaderColor),
+                          ? TextFormField(
+                              style: TextStyle(
+                                  color:
+                                      Theme.of(context).secondaryHeaderColor),
                               controller: url,
                               readOnly: true,
                               decoration: InputDecoration(
                                   border: OutlineInputBorder(),
                                   enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Theme.of(context).primaryColor)
-                                  ),
+                                      borderSide: BorderSide(
+                                          color:
+                                              Theme.of(context).primaryColor)),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Theme.of(context).primaryColor)
-                                  ),
+                                      borderSide: BorderSide(
+                                          color:
+                                              Theme.of(context).primaryColor)),
                                   isDense: true,
                                   suffixIcon: Builder(
                                     builder: (context) => IconButton(
-                                      icon: Icon(Icons.content_copy, color: Theme.of(context).primaryColor,),
+                                      icon: Icon(
+                                        Icons.content_copy,
+                                        color: Theme.of(context).primaryColor,
+                                      ),
                                       onPressed: () {
                                         Clipboard.setData(ClipboardData(
                                             text: inviteLink.toString()));
@@ -90,7 +97,7 @@ class _InvitePageState extends InvitePageController {
                                       },
                                     ),
                                   )))
-                        : TextFormField(
+                          : TextFormField(
                               controller: url,
                               readOnly: true,
                               decoration: InputDecoration(

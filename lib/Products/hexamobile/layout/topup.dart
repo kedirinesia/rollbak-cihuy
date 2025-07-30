@@ -9,11 +9,8 @@ import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/models/payment-list.dart';
 import 'package:mobile/screen/topup/bank/bank.dart';
 import 'package:mobile/screen/topup/channel/channel.dart';
-import 'package:mobile/screen/topup/ewallet/ewallet.dart';
 import 'package:mobile/screen/topup/merchant/merchant.dart';
 import 'package:mobile/screen/topup/qris/qris.dart';
-import 'package:mobile/screen/topup/topup-controller.dart';
-import 'package:mobile/screen/topup/topup.dart';
 import 'package:mobile/provider/api.dart';
 import 'package:mobile/screen/topup/va/va.dart';
 
@@ -63,7 +60,7 @@ class _TopupPageState extends State<TopupPage> with TickerProviderStateMixin {
   //         .push(MaterialPageRoute(builder: (_) => QrisTopup()));
   //   }
   // }
-   onTapMenu(PaymentModel payment) {
+  onTapMenu(PaymentModel payment) {
     if (payment.type == 1 || payment.type == 2) {
       return Navigator.of(context)
           .push(MaterialPageRoute(builder: (_) => TopupBank(payment)));
@@ -82,7 +79,9 @@ class _TopupPageState extends State<TopupPage> with TickerProviderStateMixin {
     } else if (payment.type == 9) {
       return Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (_) => configAppBloc.layoutApp.valueWrapper?.value['qris-static'] ?? MyQrisPage(),
+          builder: (_) =>
+              configAppBloc.layoutApp.valueWrapper?.value['qris-static'] ??
+              MyQrisPage(),
         ),
       );
     }

@@ -13,7 +13,6 @@ import 'package:mobile/modules.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/kyc/reject.dart';
 import 'package:mobile/screen/kyc/waiting.dart';
-import 'package:mobile/screen/profile/kyc/verification.dart';
 import 'package:mobile/screen/kyc/verification1.dart';
 import 'package:mobile/screen/profile/my_qris.dart';
 

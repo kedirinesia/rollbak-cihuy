@@ -1181,8 +1181,8 @@ android {
         payuniovo {
             dimension "flavor-type"
             applicationId "mobile.payuni.id"
-            versionCode 3025
-            versionName "2.2.9"
+            versionCode 4000
+            versionName "2.3.0"
         }
         lariz {
             dimension "flavor-type"

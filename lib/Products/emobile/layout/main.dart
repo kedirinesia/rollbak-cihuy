@@ -7,7 +7,6 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:mobile/Products/emobile/layout/home.dart';
 import 'package:mobile/Products/emobile/layout/profile.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
-import 'package:mobile/component/webview.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/screen/history/history.dart';
 import 'package:mobile/screen/profile/downline/downline.dart';
@@ -28,7 +27,7 @@ class _HomePopayState extends State<HomePopay>
     Downline(),
     ProfilePopay(),
   ];
-  
+
   AnimationController _animationController;
 
   @override
@@ -46,7 +45,7 @@ class _HomePopayState extends State<HomePopay>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            backgroundColor: Colors.grey[100],
+      backgroundColor: Colors.grey[100],
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,
         child: CachedNetworkImage(

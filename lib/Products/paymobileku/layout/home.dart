@@ -3,7 +3,6 @@
 import 'dart:convert';
 
 import 'package:badges/badges.dart' as BadgeModule;
-import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -26,9 +25,7 @@ import 'package:mobile/screen/marketplace/detail_produk.dart';
 import 'package:mobile/screen/marketplace/list_produk.dart';
 import 'package:mobile/screen/profile/reward/list_reward.dart';
 import 'package:mobile/Products/paymobileku/layout/topup.dart';
-import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
 import 'package:mobile/Products/paymobileku/layout/transfer.dart';
-import 'package:mobile/screen/wd/withdraw.dart';
 import 'package:mobile/component/rewards.dart';
 import 'package:marquee/marquee.dart';
 

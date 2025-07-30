@@ -1,15 +1,12 @@
 // @dart=2.9
 
-import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobile/Products/delta/layout/livechat.dart';
-import 'package:mobile/bloc/Api.dart';
 // import 'package:mobile/Products/payku/layout/livechat.dart';
-import 'package:http/http.dart' as http;
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/config.dart';
 import 'package:mobile/models/cs.dart';
@@ -75,7 +72,7 @@ class _CSState extends State<CS1> {
 //         List<dynamic> datas = jsonResponse['data'];
 
 //         print("Decoded JSON: $datas");
-        
+
 //         listCs.add(CustomerService());
 //         listCs.addAll(datas.map((e) => CustomerService.fromJson(e)).toList());
 //         print("Data berhasil ditambahkan ke listCs");

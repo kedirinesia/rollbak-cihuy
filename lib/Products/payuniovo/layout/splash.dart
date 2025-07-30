@@ -28,12 +28,13 @@ class _SplashPopayState extends State<SplashPopay>
 
     backgroundAnimation = AnimationController(
         duration: const Duration(milliseconds: 3000), vsync: this);
-    colorBg =
-        ColorTween(begin: const Color(0XFF6a2fff), end: Color.fromARGB(255, 148, 41, 255))
-            .animate(backgroundAnimation)
-          ..addListener(() {
-            setState(() {});
-          });
+    colorBg = ColorTween(
+            begin: const Color(0XFF6a2fff),
+            end: Color.fromARGB(255, 148, 41, 255))
+        .animate(backgroundAnimation)
+      ..addListener(() {
+        setState(() {});
+      });
     backgroundAnimation.repeat(reverse: true);
   }
 

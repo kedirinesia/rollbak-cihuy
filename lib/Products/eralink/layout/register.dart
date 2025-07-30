@@ -13,7 +13,6 @@ import 'package:mobile/Products/eralink/layout/agreement/service_page.dart';
 import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
-import 'package:mobile/component/alert.dart';
 import 'package:mobile/component/bezierContainer.dart';
 import 'package:mobile/config.dart';
 import 'package:mobile/models/lokasi.dart';
@@ -22,7 +21,6 @@ import 'package:mobile/screen/select_state/kecamatan.dart';
 import 'package:mobile/screen/select_state/kota.dart';
 import 'package:mobile/screen/select_state/provinsi.dart';
 import 'package:mobile/screen/text_kapital.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class RegisterUser extends StatefulWidget {
   @override
@@ -674,7 +672,8 @@ class _RegisterUserState extends State<RegisterUser> {
                                     SizedBox(height: 15),
                                     TextFormField(
                                       controller: namaToko,
-                                      cursorColor: Theme.of(context).primaryColor,
+                                      cursorColor:
+                                          Theme.of(context).primaryColor,
                                       keyboardType: TextInputType.text,
                                       decoration: _inputDecoration.copyWith(
                                         prefixIcon: Icon(
@@ -729,7 +728,8 @@ class _RegisterUserState extends State<RegisterUser> {
                                     SizedBox(height: 15),
                                     TextFormField(
                                       controller: alamatToko,
-                                      cursorColor: Theme.of(context).primaryColor,
+                                      cursorColor:
+                                          Theme.of(context).primaryColor,
                                       keyboardType: TextInputType.text,
                                       decoration: _inputDecoration.copyWith(
                                         prefixIcon: Icon(
@@ -754,7 +754,8 @@ class _RegisterUserState extends State<RegisterUser> {
                                     SizedBox(height: 15),
                                     TextFormField(
                                       controller: referalCode,
-                                      cursorColor: Theme.of(context).primaryColor,
+                                      cursorColor:
+                                          Theme.of(context).primaryColor,
                                       keyboardType: TextInputType.text,
                                       decoration: _inputDecoration.copyWith(
                                         prefixIcon: Icon(

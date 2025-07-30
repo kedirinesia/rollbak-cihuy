@@ -3,19 +3,16 @@
 import 'dart:convert';
 
 import 'dart:async';
-import 'dart:io';
 import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mobile/Products/paymobileku/layout/history.dart';
 import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/bloc/TemplateConfig.dart';
-import 'package:mobile/component/alert.dart';
 import 'package:mobile/models/menu.dart';
 import 'package:mobile/models/prepaid-denom.dart';
 import 'package:mobile/models/trx.dart';
@@ -23,7 +20,6 @@ import 'package:mobile/modules.dart';
 import 'package:mobile/screen/transaksi/inquiry_prepaid.dart';
 import 'package:mobile/screen/transaksi/list_voucher_denom.dart';
 import 'package:mobile/screen/transaksi/verifikasi_pin.dart';
-import 'package:mobile/models/prepaid-denom.dart';
 import 'package:http/http.dart' as http;
 
 class BulkPage extends StatefulWidget {
@@ -248,7 +244,6 @@ class _BulkPageState extends State<BulkPage> {
                       );
                     }
                   });
-                  
                 });
                 return AlertDialog(
                   title: Text('Success'),
@@ -588,18 +583,18 @@ class _BulkPageState extends State<BulkPage> {
         centerTitle: true,
         elevation: 0,
         actions: [
-            IconButton(
-              icon: Icon(Icons.home_rounded),
-              onPressed: () => Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(
-                    builder: (_) =>
-                        configAppBloc.layoutApp?.valueWrapper?.value['home'] ??
-                        templateConfig[
-                            configAppBloc.templateCode.valueWrapper?.value],
-                  ),
-                  (route) => false),
-            ),
-          ],
+          IconButton(
+            icon: Icon(Icons.home_rounded),
+            onPressed: () => Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                  builder: (_) =>
+                      configAppBloc.layoutApp?.valueWrapper?.value['home'] ??
+                      templateConfig[
+                          configAppBloc.templateCode.valueWrapper?.value],
+                ),
+                (route) => false),
+          ),
+        ],
       ),
       body: Column(
         children: [

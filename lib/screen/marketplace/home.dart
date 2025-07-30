@@ -25,7 +25,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-    TextEditingController query = TextEditingController();
+  TextEditingController query = TextEditingController();
   bool search = false;
   @override
   void initState() {
@@ -78,7 +78,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-                appBar: search
+        appBar: search
             ? AppBar(
                 title: TextField(
                   controller: query,

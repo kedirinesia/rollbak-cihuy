@@ -38,9 +38,8 @@ class _EmailInputPageState extends State<EmailInputPage> {
         builder: (_) => VerifyEmailPage(email: email),
       ));
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Gagal kirim verifikasi: $e'))
-      );
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Gagal kirim verifikasi: $e')));
     }
     setState(() => loading = false);
   }
@@ -61,7 +60,9 @@ class _EmailInputPageState extends State<EmailInputPage> {
             SizedBox(height: 24),
             ElevatedButton(
               onPressed: loading ? null : sendVerification,
-              child: loading ? CircularProgressIndicator() : Text("Kirim Verifikasi"),
+              child: loading
+                  ? CircularProgressIndicator()
+                  : Text("Kirim Verifikasi"),
             ),
           ],
         ),

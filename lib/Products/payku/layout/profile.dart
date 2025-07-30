@@ -25,11 +25,9 @@ import 'package:mobile/screen/profile/profile.dart';
 import 'package:mobile/screen/profile/reward/list_reward.dart';
 import 'package:mobile/screen/profile/toko/edit_toko.dart';
 import 'package:nav/nav.dart';
-import 'package:quickalert/quickalert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
-import 'package:nav/nav.dart';
 
 class ProfilePopay extends StatefulWidget {
   @override

@@ -15,8 +15,7 @@ import 'package:mobile/models/trx.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/modules.dart';
 import 'package:mobile/provider/analitycs.dart';
-import 'package:mobile/screen/custom_alert_dialog.dart';
- 
+
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 class HistoryTransaksi extends StatefulWidget {
@@ -228,7 +227,8 @@ class _HistoryTransaksiState extends State<HistoryTransaksi> {
                         'Filter Transaksi',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: packageName == 'com.lariz.mobile' || packageName == 'com.eralink.mobileapk'
+                          color: packageName == 'com.lariz.mobile' ||
+                                  packageName == 'com.eralink.mobileapk'
                               ? Theme.of(context).secondaryHeaderColor
                               : Theme.of(context).primaryColor,
                         ),
@@ -245,266 +245,292 @@ class _HistoryTransaksiState extends State<HistoryTransaksi> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           packageName == 'com.eralink.mobileapk'
-                            ? DropdownButtonFormField(
-                                iconEnabledColor: Theme.of(context).primaryColor,
-                                items: statusList,
-                                value: status,
-                                decoration: InputDecoration(
-                                    isDense: true,
-                                    contentPadding: EdgeInsets.symmetric(
-                                      vertical: 10,
-                                      horizontal: 15,
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(color: Theme.of(context).primaryColor)
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(color: Theme.of(context).primaryColor)
-                                    ),
-                                    hintText: 'Status Transaksi',
-                                    hintStyle: TextStyle(color: Theme.of(context).secondaryHeaderColor)
-                                    ),
-                                onChanged: (val) => setState(() {
-                                  status = val;
-                                }),
-                              )
-                            : DropdownButtonFormField(
-                                items: statusList,
-                                value: status,
-                                decoration: InputDecoration(
-                                    isDense: true,
-                                    contentPadding: EdgeInsets.symmetric(
-                                      vertical: 10,
-                                      horizontal: 15,
-                                    ),
-                                    border: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: packageName == 'com.lariz.mobile'
-                                            ? Theme.of(context).secondaryHeaderColor
-                                            : Theme.of(context).primaryColor,
-                                        width: 1,
+                              ? DropdownButtonFormField(
+                                  iconEnabledColor:
+                                      Theme.of(context).primaryColor,
+                                  items: statusList,
+                                  value: status,
+                                  decoration: InputDecoration(
+                                      isDense: true,
+                                      contentPadding: EdgeInsets.symmetric(
+                                        vertical: 10,
+                                        horizontal: 15,
                                       ),
-                                    ),
-                                    hintText: 'Status Transaksi',
-                                    hintStyle: packageName == 'com.lariz.mobile'
-                                        ? TextStyle(
-                                            color: Theme.of(context)
-                                                .secondaryHeaderColor)
-                                        : null),
-                                onChanged: (val) => setState(() {
-                                  status = val;
-                                }),
-                              ),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Theme.of(context)
+                                                  .primaryColor)),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Theme.of(context)
+                                                  .primaryColor)),
+                                      hintText: 'Status Transaksi',
+                                      hintStyle: TextStyle(
+                                          color: Theme.of(context)
+                                              .secondaryHeaderColor)),
+                                  onChanged: (val) => setState(() {
+                                    status = val;
+                                  }),
+                                )
+                              : DropdownButtonFormField(
+                                  items: statusList,
+                                  value: status,
+                                  decoration: InputDecoration(
+                                      isDense: true,
+                                      contentPadding: EdgeInsets.symmetric(
+                                        vertical: 10,
+                                        horizontal: 15,
+                                      ),
+                                      border: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: packageName ==
+                                                  'com.lariz.mobile'
+                                              ? Theme.of(context)
+                                                  .secondaryHeaderColor
+                                              : Theme.of(context).primaryColor,
+                                          width: 1,
+                                        ),
+                                      ),
+                                      hintText: 'Status Transaksi',
+                                      hintStyle:
+                                          packageName == 'com.lariz.mobile'
+                                              ? TextStyle(
+                                                  color: Theme.of(context)
+                                                      .secondaryHeaderColor)
+                                              : null),
+                                  onChanged: (val) => setState(() {
+                                    status = val;
+                                  }),
+                                ),
                           SizedBox(height: 10),
                           Row(
                             children: [
                               Expanded(
                                 child: packageName == 'com.eralink.mobileapk'
-                                  ? TextField(
-                                      style: TextStyle(color: Theme.of(context).secondaryHeaderColor),
-                                      controller: startDateText,
-                                      readOnly: true,
-                                      textAlign: TextAlign.center,
-                                      onTap: setStartDate,
-                                      decoration: InputDecoration(
-                                        isDense: true,
-                                        contentPadding: EdgeInsets.symmetric(
-                                          vertical: 10,
-                                          horizontal: 15,
+                                    ? TextField(
+                                        style: TextStyle(
+                                            color: Theme.of(context)
+                                                .secondaryHeaderColor),
+                                        controller: startDateText,
+                                        readOnly: true,
+                                        textAlign: TextAlign.center,
+                                        onTap: setStartDate,
+                                        decoration: InputDecoration(
+                                          isDense: true,
+                                          contentPadding: EdgeInsets.symmetric(
+                                            vertical: 10,
+                                            horizontal: 15,
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Theme.of(context)
+                                                      .primaryColor)),
+                                          focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Theme.of(context)
+                                                      .primaryColor)),
                                         ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(color: Theme.of(context).primaryColor)
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(color: Theme.of(context).primaryColor)
-                                        ),
-                                      ),
-                                    )
-                                  : TextField(
-                                      controller: startDateText,
-                                      readOnly: true,
-                                      textAlign: TextAlign.center,
-                                      onTap: setStartDate,
-                                      decoration: InputDecoration(
-                                        isDense: true,
-                                        contentPadding: EdgeInsets.symmetric(
-                                          vertical: 10,
-                                          horizontal: 15,
-                                        ),
-                                        border: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: packageName == 'com.lariz.mobile'
-                                                ? Theme.of(context)
-                                                    .secondaryHeaderColor
-                                                : Theme.of(context).primaryColor,
-                                            width: 1,
+                                      )
+                                    : TextField(
+                                        controller: startDateText,
+                                        readOnly: true,
+                                        textAlign: TextAlign.center,
+                                        onTap: setStartDate,
+                                        decoration: InputDecoration(
+                                          isDense: true,
+                                          contentPadding: EdgeInsets.symmetric(
+                                            vertical: 10,
+                                            horizontal: 15,
+                                          ),
+                                          border: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: packageName ==
+                                                      'com.lariz.mobile'
+                                                  ? Theme.of(context)
+                                                      .secondaryHeaderColor
+                                                  : Theme.of(context)
+                                                      .primaryColor,
+                                              width: 1,
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
                               ),
                               Text(
                                 '  -  ',
                                 style: TextStyle(
                                   fontSize: 16,
                                   color: packageName == 'com.eralink.mobileapk'
-                                    ? Theme.of(context).primaryColor
-                                    : Colors.grey,
+                                      ? Theme.of(context).primaryColor
+                                      : Colors.grey,
                                 ),
                               ),
                               Expanded(
                                 child: packageName == 'com.eralink.mobileapk'
-                                  ? TextField(
-                                      style: TextStyle(color: Theme.of(context).secondaryHeaderColor),
-                                      controller: endDateText,
-                                      readOnly: true,
-                                      textAlign: TextAlign.center,
-                                      onTap: setEndDate,
-                                      decoration: InputDecoration(
-                                        isDense: true,
-                                        contentPadding: EdgeInsets.symmetric(
-                                          vertical: 10,
-                                          horizontal: 15,
+                                    ? TextField(
+                                        style: TextStyle(
+                                            color: Theme.of(context)
+                                                .secondaryHeaderColor),
+                                        controller: endDateText,
+                                        readOnly: true,
+                                        textAlign: TextAlign.center,
+                                        onTap: setEndDate,
+                                        decoration: InputDecoration(
+                                          isDense: true,
+                                          contentPadding: EdgeInsets.symmetric(
+                                            vertical: 10,
+                                            horizontal: 15,
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Theme.of(context)
+                                                      .primaryColor)),
+                                          focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Theme.of(context)
+                                                      .primaryColor)),
                                         ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(color: Theme.of(context).primaryColor)
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(color: Theme.of(context).primaryColor)
-                                        ),
-                                      ),
-                                    )
-                                  : TextField(
-                                      controller: endDateText,
-                                      readOnly: true,
-                                      textAlign: TextAlign.center,
-                                      onTap: setEndDate,
-                                      decoration: InputDecoration(
-                                        isDense: true,
-                                        contentPadding: EdgeInsets.symmetric(
-                                          vertical: 10,
-                                          horizontal: 15,
-                                        ),
-                                        border: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: packageName == 'com.lariz.mobile'
-                                                ? Theme.of(context)
-                                                    .secondaryHeaderColor
-                                                : Theme.of(context).primaryColor,
-                                            width: 1,
+                                      )
+                                    : TextField(
+                                        controller: endDateText,
+                                        readOnly: true,
+                                        textAlign: TextAlign.center,
+                                        onTap: setEndDate,
+                                        decoration: InputDecoration(
+                                          isDense: true,
+                                          contentPadding: EdgeInsets.symmetric(
+                                            vertical: 10,
+                                            horizontal: 15,
+                                          ),
+                                          border: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: packageName ==
+                                                      'com.lariz.mobile'
+                                                  ? Theme.of(context)
+                                                      .secondaryHeaderColor
+                                                  : Theme.of(context)
+                                                      .primaryColor,
+                                              width: 1,
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
                               ),
                             ],
                           ),
                           SizedBox(height: 10),
                           packageName == 'com.eralink.mobileapk'
-                            ? TextField(
-                                controller: tujuanText,
-                                cursorColor: Theme.of(context).primaryColor,
-                                keyboardType: TextInputType.text,
-                                decoration: InputDecoration(
-                                    isDense: true,
-                                    contentPadding: EdgeInsets.symmetric(
-                                      vertical: 10,
-                                      horizontal: 15,
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(color: Theme.of(context).primaryColor)
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(color: Theme.of(context).primaryColor)
-                                    ),
-                                    hintText: 'Nomor Tujuan',
-                                    hintStyle: TextStyle(color: Theme.of(context).secondaryHeaderColor)
-                                    ),
-                              )
-                            : TextField(
-                                controller: tujuanText,
-                                keyboardType: TextInputType.text,
-                                decoration: InputDecoration(
-                                    isDense: true,
-                                    contentPadding: EdgeInsets.symmetric(
-                                      vertical: 10,
-                                      horizontal: 15,
-                                    ),
-                                    border: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: packageName == 'com.lariz.mobile'
-                                            ? Theme.of(context).secondaryHeaderColor
-                                            : Theme.of(context).primaryColor,
-                                        width: 1,
+                              ? TextField(
+                                  controller: tujuanText,
+                                  cursorColor: Theme.of(context).primaryColor,
+                                  keyboardType: TextInputType.text,
+                                  decoration: InputDecoration(
+                                      isDense: true,
+                                      contentPadding: EdgeInsets.symmetric(
+                                        vertical: 10,
+                                        horizontal: 15,
                                       ),
-                                    ),
-                                    hintText: 'Nomor Tujuan',
-                                    hintStyle: packageName == 'com.lariz.mobile'
-                                        ? TextStyle(
-                                            color: Theme.of(context)
-                                                .secondaryHeaderColor)
-                                        : null),
-                              ),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Theme.of(context)
+                                                  .primaryColor)),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Theme.of(context)
+                                                  .primaryColor)),
+                                      hintText: 'Nomor Tujuan',
+                                      hintStyle: TextStyle(
+                                          color: Theme.of(context)
+                                              .secondaryHeaderColor)),
+                                )
+                              : TextField(
+                                  controller: tujuanText,
+                                  keyboardType: TextInputType.text,
+                                  decoration: InputDecoration(
+                                      isDense: true,
+                                      contentPadding: EdgeInsets.symmetric(
+                                        vertical: 10,
+                                        horizontal: 15,
+                                      ),
+                                      border: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: packageName ==
+                                                  'com.lariz.mobile'
+                                              ? Theme.of(context)
+                                                  .secondaryHeaderColor
+                                              : Theme.of(context).primaryColor,
+                                          width: 1,
+                                        ),
+                                      ),
+                                      hintText: 'Nomor Tujuan',
+                                      hintStyle:
+                                          packageName == 'com.lariz.mobile'
+                                              ? TextStyle(
+                                                  color: Theme.of(context)
+                                                      .secondaryHeaderColor)
+                                              : null),
+                                ),
                           SizedBox(height: 10),
                           Row(
                             children: [
                               Expanded(
                                 child: packageName == 'com.eralink.mobileapk'
-                                  ? OutlinedButton(
-                                      style: OutlinedButton.styleFrom(
-                                        side: BorderSide(
+                                    ? OutlinedButton(
+                                        style: OutlinedButton.styleFrom(
+                                            side: BorderSide(
                                           color: Theme.of(context).primaryColor,
-                                        )
-                                      ),
-                                      child: Text(
-                                        'ATUR ULANG',
-                                        style: TextStyle(
-                                          color: Colors.black,
+                                        )),
+                                        child: Text(
+                                          'ATUR ULANG',
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                          ),
                                         ),
-                                      ),
-                                      onPressed: resetFilter,
-                                    )
-                                  : OutlinedButton(
-                                      child: Text(
-                                        'ATUR ULANG',
-                                        style: TextStyle(
-                                          color: Colors.black,
+                                        onPressed: resetFilter,
+                                      )
+                                    : OutlinedButton(
+                                        child: Text(
+                                          'ATUR ULANG',
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                          ),
                                         ),
+                                        onPressed: resetFilter,
                                       ),
-                                      onPressed: resetFilter,
-                                    ),
                               ),
                               SizedBox(width: 10),
                               Expanded(
                                 child: packageName == 'com.eralink.mobileapk'
-                                  ? OutlinedButton(
-                                    style: OutlinedButton.styleFrom(
-                                      side: BorderSide(
-                                        color: Theme.of(context).primaryColor
+                                    ? OutlinedButton(
+                                        style: OutlinedButton.styleFrom(
+                                            side: BorderSide(
+                                                color: Theme.of(context)
+                                                    .primaryColor)),
+                                        child: Text(
+                                          'ATUR FILTER',
+                                          style: TextStyle(
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        onPressed: setFilter,
                                       )
-                                    ),
-                                      child: Text(
-                                        'ATUR FILTER',
-                                        style: TextStyle(
-                                          color: Theme.of(context).primaryColor,
-                                          fontWeight: FontWeight.bold,
+                                    : OutlinedButton(
+                                        child: Text(
+                                          'ATUR FILTER',
+                                          style: TextStyle(
+                                            color: packageName ==
+                                                    'com.lariz.mobile'
+                                                ? Theme.of(context)
+                                                    .secondaryHeaderColor
+                                                : Theme.of(context)
+                                                    .primaryColor,
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
+                                        onPressed: setFilter,
                                       ),
-                                      onPressed: setFilter,
-                                    )
-                                  : OutlinedButton(
-                                      child: Text(
-                                        'ATUR FILTER',
-                                        style: TextStyle(
-                                          color: packageName == 'com.lariz.mobile'
-                                              ? Theme.of(context)
-                                                  .secondaryHeaderColor
-                                              : Theme.of(context).primaryColor,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      onPressed: setFilter,
-                                    ),
                               ),
                             ],
                           ),

@@ -31,7 +31,7 @@ class _HistoryPageState extends State<HistoryPage>
       initialIndex: 0,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Theme.of(context).appBarTheme.color,
+          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
           bottom: TabBar(
               indicatorColor: Theme.of(context).appBarTheme.iconTheme.color,
               labelColor: Theme.of(context).appBarTheme.iconTheme.color,

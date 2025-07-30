@@ -127,7 +127,7 @@ class _CartMarketPageState extends State<CartMarketPage> {
         },
       );
       print("Response from fetchHargaBaru: ${response.body}");
-      
+
       if (response.statusCode == 200) {
         var data = json.decode(response.body);
         print("Harga baru diperoleh: ${data['data']['harga_jual']}");
@@ -155,15 +155,14 @@ class _CartMarketPageState extends State<CartMarketPage> {
         if (currentPrice != null && produk.price != currentPrice) {
           ProdukCartMarket updatedProduk = ProdukCartMarket.create(
             produk: ProdukDetailMarket(
-              id: produk.id,
-              title: produk.title,
-              description: produk.description,
-              thumbnail: produk.thumbnail,
-              weight: produk.weight,
-              price: currentPrice, // Harga baru
-              stock: produk.stock,
-              images: produk.images
-            ),
+                id: produk.id,
+                title: produk.title,
+                description: produk.description,
+                thumbnail: produk.thumbnail,
+                weight: produk.weight,
+                price: currentPrice, // Harga baru
+                stock: produk.stock,
+                images: produk.images),
             count: produk.count,
           );
 
@@ -175,7 +174,6 @@ class _CartMarketPageState extends State<CartMarketPage> {
     }
   }
 
-  
   void checkout() {
     Navigator.of(context).push(
       MaterialPageRoute(
@@ -212,7 +210,7 @@ class _CartMarketPageState extends State<CartMarketPage> {
                     builder: (context, Box<dynamic> box, _) {
                       print("Current cart items: ${box.values.toList()}");
                       if (box.length == 0) return Container();
-          
+
                       return ListView.separated(
                         padding: EdgeInsets.all(15),
                         itemCount: box.length,
@@ -220,12 +218,13 @@ class _CartMarketPageState extends State<CartMarketPage> {
                         itemBuilder: (ctx, i) {
                           ProdukCartMarket produk =
                               ProdukCartMarket.parse(box.getAt(i));
-                          print("Produk di UI - Judul: ${produk.title}, Harga: ${produk.price}");
-          
+                          print(
+                              "Produk di UI - Judul: ${produk.title}, Harga: ${produk.price}");
+
                           if (produk.count < 1) {
                             Hive.box('cart').deleteAt(i);
                           }
-          
+
                           return Dismissible(
                             key: Key('cart-item-$i'),
                             background: Container(
@@ -418,13 +417,13 @@ class _CartMarketPageState extends State<CartMarketPage> {
                               valueListenable: Hive.box('cart').listenable(),
                               builder: (context, value, child) {
                                 int total = 0;
-          
+
                                 value.values.forEach((el) {
                                   ProdukCartMarket produk =
                                       ProdukCartMarket.parse(el);
                                   total += (produk.price * produk.count);
                                 });
-          
+
                                 return Text(formatRupiah(total),
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,

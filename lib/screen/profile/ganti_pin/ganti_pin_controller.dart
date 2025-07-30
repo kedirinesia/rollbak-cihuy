@@ -10,7 +10,7 @@ import 'package:mobile/screen/profile/ganti_pin/ganti_pin.dart';
 
 abstract class GantiPinController extends State<GantiPin>
     with TickerProviderStateMixin {
-    bool loading = false;
+  bool loading = false;
   TextEditingController pinLama = TextEditingController();
   TextEditingController pinBaru = TextEditingController();
   TextEditingController pinConfirm = TextEditingController();
@@ -49,7 +49,8 @@ abstract class GantiPinController extends State<GantiPin>
           .showSnackBar(SnackBar(content: Text("PIN berhasil diubah")));
     } else {
       String message = json.decode(response.body)['message'];
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(message)));
     }
 
     setState(() {

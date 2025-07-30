@@ -4,7 +4,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mobile/Products/paymobileku/config.dart';
 import 'package:mobile/bloc/Bloc.dart';
@@ -94,40 +93,40 @@ class _GenerateRefCodeState extends State<GenerateRefCode> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-          showModalBottomSheet(
-            context: context,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20.0),
-                topRight: Radius.circular(20.0),
-              ),
+        showModalBottomSheet(
+          context: context,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20.0),
+              topRight: Radius.circular(20.0),
             ),
-            isScrollControlled: true,
-            builder: (BuildContext context) {
-              return Padding(
-                padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).viewInsets.bottom),
-                child: Container(
-                  height: MediaQuery.of(context).size.height * 0.3,
-                  child: Column(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.only(top: 20),
-                        child: Text(
-                          'Buat Kode Referral Kamu',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 16),
-                        ),
+          ),
+          isScrollControlled: true,
+          builder: (BuildContext context) {
+            return Padding(
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.3,
+                child: Column(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.only(top: 20),
+                      child: Text(
+                        'Buat Kode Referral Kamu',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16),
                       ),
-                      SizedBox(height: 20),
-                      ValueListenableBuilder(
-                        valueListenable: Hive.box('ref-code').listenable(),
-                        builder: (context, value, child) {
-                          return Column(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.symmetric(horizontal: 20),
-                                child: TextFormField(
+                    ),
+                    SizedBox(height: 20),
+                    ValueListenableBuilder(
+                      valueListenable: Hive.box('ref-code').listenable(),
+                      builder: (context, value, child) {
+                        return Column(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.symmetric(horizontal: 20),
+                              child: TextFormField(
                                   keyboardType: TextInputType.text,
                                   enableInteractiveSelection: true,
                                   obscureText: false,
@@ -161,47 +160,42 @@ class _GenerateRefCodeState extends State<GenerateRefCode> {
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16,
                                   ),
-                                  controller: refCodeController
-                                ),
-                              ),
-                              SizedBox(height: 20),
-                              Align(
-                                alignment: Alignment.bottomRight,
-                                child: Padding(
+                                  controller: refCodeController),
+                            ),
+                            SizedBox(height: 20),
+                            Align(
+                              alignment: Alignment.bottomRight,
+                              child: Padding(
                                   padding: EdgeInsets.only(right: 20),
                                   child: ElevatedButton.icon(
-                                          style: ElevatedButton.styleFrom(
-                                            primary:
-                                                Theme.of(context).primaryColor,
-                                          ),
-                                          onPressed: () {
-                                            generateReferalCode();
-                                            Navigator.of(context).pop(context);
-                                          },
-                                          icon: FaIcon(
-                                            FontAwesomeIcons.floppyDisk,
-                                            size: 15,
-                                            color: Colors.black,
-                                          ),
-                                          label: Text(
-                                            'SIMPAN PERUBAHAN',
-                                            style:
-                                                TextStyle(color: Colors.black),
-                                          ),
-                                        )
-                                ),
-                              )
-                            ],
-                          );
-                        },
-                      ),
-                    ],
-                  ),
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Theme.of(context).primaryColor,
+                                    ),
+                                    onPressed: () {
+                                      generateReferalCode();
+                                      Navigator.of(context).pop(context);
+                                    },
+                                    icon: FaIcon(
+                                      FontAwesomeIcons.floppyDisk,
+                                      size: 15,
+                                      color: Colors.black,
+                                    ),
+                                    label: Text(
+                                      'SIMPAN PERUBAHAN',
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  )),
+                            )
+                          ],
+                        );
+                      },
+                    ),
+                  ],
                 ),
-              );
-            },
-          );
-
+              ),
+            );
+          },
+        );
       },
       child: Container(
         child: Row(

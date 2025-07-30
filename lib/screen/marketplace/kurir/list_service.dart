@@ -21,7 +21,6 @@ class ListCourierServicePage extends StatefulWidget {
 }
 
 class _ListCourierServicePageState extends State<ListCourierServicePage> {
-  
   Future<List<MPKurirService>> getServices() async {
     try {
       Map<String, dynamic> dataToSend = {
@@ -54,7 +53,7 @@ class _ListCourierServicePageState extends State<ListCourierServicePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            appBar: AppBar(
+      appBar: AppBar(
         title: Text('Pilih Layanan'),
         elevation: 0,
       ),

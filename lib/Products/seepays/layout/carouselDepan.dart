@@ -4,8 +4,6 @@ import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile/component/webview.dart';
-import 'package:mobile/config.dart';
 import 'package:mobile/models/banner.dart';
 import 'package:mobile/models/menu.dart';
 import 'package:mobile/screen/detail-denom/detail-denom.dart';
@@ -21,8 +19,9 @@ class CarouselDepan extends StatefulWidget {
   final double marginBottom;
 
   CarouselDepan({
-    this.viewportFraction = 0.80, // lebih lebar, tapi tetap nampak kanan kirinya
-    this.aspectRatio = 16 / 7,   // sedikit lebih tinggi
+    this.viewportFraction =
+        0.80, // lebih lebar, tapi tetap nampak kanan kirinya
+    this.aspectRatio = 16 / 7, // sedikit lebih tinggi
     this.marginBottom = 16.0,
   });
 
@@ -58,7 +57,8 @@ class _CarouselDepanState extends State<CarouselDepan> {
       if (response.statusCode == 200) {
         final jsonResp = json.decode(response.body);
         final datas = jsonResp['data'] ?? [];
-        banner = datas.map<BannerModel>((e) => BannerModel.fromJson(e)).toList();
+        banner =
+            datas.map<BannerModel>((e) => BannerModel.fromJson(e)).toList();
       }
     } catch (_) {}
     setState(() => loading = false);
@@ -68,10 +68,13 @@ class _CarouselDepanState extends State<CarouselDepan> {
     List<String> urls = banner.url?.split('/') ?? [];
     if (urls.length > 1 && urls[0] == 'menu') {
       MenuModel menu = MenuModel(id: urls[1], name: banner.title, icon: '');
-      return Navigator.of(context).push(MaterialPageRoute(builder: (_) => ListGridMenu(menu)));
+      return Navigator.of(context)
+          .push(MaterialPageRoute(builder: (_) => ListGridMenu(menu)));
     } else if (urls.length > 1 && urls[0] == 'prepaid') {
-      MenuModel menu = MenuModel(id: banner.id, name: banner.title, category_id: urls[1], icon: '');
-      return Navigator.of(context).push(MaterialPageRoute(builder: (_) => DetailDenom(menu)));
+      MenuModel menu = MenuModel(
+          id: banner.id, name: banner.title, category_id: urls[1], icon: '');
+      return Navigator.of(context)
+          .push(MaterialPageRoute(builder: (_) => DetailDenom(menu)));
     } else if (banner.url != null && banner.url.isNotEmpty) {
       return launch(banner.url);
     }
@@ -85,7 +88,8 @@ class _CarouselDepanState extends State<CarouselDepan> {
       return Container(
         height: 200,
         alignment: Alignment.center,
-        child: Text('Banner Tidak Ditemukan', style: TextStyle(color: Colors.grey)),
+        child: Text('Banner Tidak Ditemukan',
+            style: TextStyle(color: Colors.grey)),
       );
     }
 
@@ -128,8 +132,10 @@ class _CarouselDepanState extends State<CarouselDepan> {
                     imageUrl: banner[i].cover,
                     fit: BoxFit.cover,
                     width: double.infinity,
-                    placeholder: (ctx, url) => Center(child: CircularProgressIndicator()),
-                    errorWidget: (_, __, ___) => Center(child: Icon(Icons.broken_image, color: Colors.grey)),
+                    placeholder: (ctx, url) =>
+                        Center(child: CircularProgressIndicator()),
+                    errorWidget: (_, __, ___) => Center(
+                        child: Icon(Icons.broken_image, color: Colors.grey)),
                   ),
                 ),
               ),

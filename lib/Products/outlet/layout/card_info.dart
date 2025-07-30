@@ -48,7 +48,7 @@ class _CardInfoState extends State<CardInfo> {
                 child: InkWell(
                   onTap: () => Navigator.of(context)
                       .push(MaterialPageRoute(builder: (_) => InfoPage(info))),
-                // child: Text("SUKSES"),
+                  // child: Text("SUKSES"),
                   child: Container(
                     width: double.infinity,
                     // margin: EdgeInsets.symmetric(horizontal: 5.0),

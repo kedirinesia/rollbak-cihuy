@@ -5,7 +5,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:mobile/Products/alpay/layout/home1.dart';
 import 'package:mobile/Products/alpay/layout/profile.dart';
 import 'package:mobile/Products/alpay/layout/livechat.dart';
-import 'package:mobile/screen/kasir/main.dart';
 import 'package:mobile/screen/profile/downline/downline.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
 import 'package:barcode_scan2/platform_wrapper.dart';
@@ -116,7 +115,8 @@ class _HomePayuniState extends State<HomePayuni> {
                             color: pageIndex == 2
                                 ? Theme.of(context).primaryColor
                                 : Colors.grey,
-                            width: 25.0, height: 25.0),
+                            width: 25.0,
+                            height: 25.0),
                         SizedBox(
                           height: 3.0,
                         ),

@@ -11,7 +11,7 @@
 ///      fonts:
 ///       - asset: fonts/MyFlutterApp.ttf
 ///
-/// 
+///
 ///
 import 'package:flutter/widgets.dart';
 
@@ -21,5 +21,6 @@ class MyFlutterApp {
   static const _kFontFam = 'funmo';
   static const _kFontPkg = null;
 
-  static const IconData funmo = IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData funmo =
+      IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

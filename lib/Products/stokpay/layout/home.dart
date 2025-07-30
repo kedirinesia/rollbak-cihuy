@@ -1,7 +1,6 @@
 // @dart=2.9
 
 import 'package:barcode_scan2/barcode_scan2.dart';
-import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,7 +8,6 @@ import 'package:mobile/Products/stokpay/layout/home1.dart';
 import 'package:mobile/Products/stokpay/layout/profile.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/component/half_circle.dart';
-import 'package:mobile/component/webview.dart';
 import 'package:mobile/Products/stokpay/layout/history.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
 

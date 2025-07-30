@@ -2,12 +2,10 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:marquee/marquee.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/component/carousel-depan.dart';
 import 'package:mobile/component/menudepan.dart';
 import 'package:mobile/component/rewards.dart';
-import 'package:mobile/models/app_info.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/screen/profile/reward/list_reward.dart';
 import 'package:mobile/screen/topup/topup.dart';

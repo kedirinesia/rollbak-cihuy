@@ -313,9 +313,7 @@ class _FormDaftarTransferState extends State<FormDaftarTransfer> {
       child: ElevatedButton(
         onPressed: submitFormData,
         style: ElevatedButton.styleFrom(
-          primary: Theme.of(context).secondaryHeaderColor,
-          onPrimary: Theme.of(context).secondaryHeaderColor,
-          onSurface: Theme.of(context).secondaryHeaderColor,
+          foregroundColor: Theme.of(context).secondaryHeaderColor, backgroundColor: Theme.of(context).secondaryHeaderColor, disabledForegroundColor: Theme.of(context).secondaryHeaderColor.withOpacity(0.38), disabledBackgroundColor: Theme.of(context).secondaryHeaderColor.withOpacity(0.12),
         ),
         child: Padding(
           padding: EdgeInsets.all(15.0),

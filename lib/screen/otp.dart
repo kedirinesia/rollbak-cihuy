@@ -11,7 +11,6 @@ import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/bloc/TemplateConfig.dart';
 import 'package:mobile/config.dart';
-import 'package:mobile/index.dart';
 import 'package:mobile/models/user.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/screen/disable.dart';
@@ -53,16 +52,16 @@ class _OtpPageState extends State<OtpPage> {
                 'validate_id': widget.validateId,
                 // 'type': method == OTP.sms ? 'sms' : 'whatsapp'
                 'type': method == OTP.sms
-                  ? 'sms'
-                  : (method == OTP.email ? 'email' : 'whatsapp'),
+                    ? 'sms'
+                    : (method == OTP.email ? 'email' : 'whatsapp'),
               }
             : {
                 'codeLength': configAppBloc.otpCount.valueWrapper?.value,
                 'validate_id': widget.validateId,
                 // 'type': method == OTP.sms ? 'sms' : 'whatsapp',
                 'type': method == OTP.sms
-                  ? 'sms'
-                  : (method == OTP.email ? 'email' : 'whatsapp'),
+                    ? 'sms'
+                    : (method == OTP.email ? 'email' : 'whatsapp'),
                 'wl_id': configAppBloc.brandId.valueWrapper?.value
               }));
 
@@ -173,7 +172,10 @@ class _OtpPageState extends State<OtpPage> {
     });
   }
 
-  List<String> packageNames = ["com.eralink.mobileapk", "com.talentapay.android"];
+  List<String> packageNames = [
+    "com.eralink.mobileapk",
+    "com.talentapay.android"
+  ];
 
   Widget selectMethod() {
     return Container(
@@ -239,16 +241,14 @@ class _OtpPageState extends State<OtpPage> {
         SizedBox(height: 10),
         Container(
           decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10.0),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(.1),
-                offset: Offset(5, 10.0),
-                blurRadius: 20
-              ),
-            ]
-          ),
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10.0),
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black.withOpacity(.1),
+                    offset: Offset(5, 10.0),
+                    blurRadius: 20),
+              ]),
           child: ListTile(
             leading: CircleAvatar(
               backgroundColor: Colors.transparent,

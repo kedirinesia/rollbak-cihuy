@@ -11,7 +11,6 @@ import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/config.dart';
-import 'package:mobile/index.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/screen/cs.dart';
 import 'package:mobile/screen/login.dart';
@@ -25,7 +24,6 @@ import 'package:mobile/screen/profile/print_settings.dart';
 import 'package:mobile/screen/profile/profile.dart';
 import 'package:mobile/screen/profile/reward/list_reward.dart';
 import 'package:mobile/screen/profile/toko/edit_toko.dart';
-import 'package:mobile/Products/pgkreload/layout/qris.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
@@ -77,9 +75,8 @@ class _ProfilePopayState extends State<ProfilePopay> {
         responseData.forEach((e) {
           print(e['title']);
           if (e['title'].toLowerCase() == "whatsapp") {
-              phoneNumber = e['contact'];
+            phoneNumber = e['contact'];
           }
-          
         });
       }
 
@@ -94,8 +91,8 @@ class _ProfilePopayState extends State<ProfilePopay> {
 
     if (phoneNumber == null) return;
 
-      phoneNumber = phoneNumber.replaceAll(RegExp("[^0-9]"), "");
-      phoneNumber = phoneNumber.replaceFirst(RegExp('0'), '62');
+    phoneNumber = phoneNumber.replaceAll(RegExp("[^0-9]"), "");
+    phoneNumber = phoneNumber.replaceFirst(RegExp('0'), '62');
 
     String message =
         'Kepada Yth. Customer Service ${configAppBloc.namaApp.valueWrapper?.value},\r\n\nSaya yang bertanda tangan di bawah ini:\r\n\nNama: *${bloc.user.valueWrapper?.value.nama}*\r\nNomor: *${bloc.user.valueWrapper?.value.phone}*\r\n\nDengan ini mengajukan permohonan penutupan akun pada aplikasi ${configAppBloc.namaApp.valueWrapper?.value} yang telah saya daftarkan dengan nomor tersebut di atas. Saya memohon agar pihak customer service dapat membantu saya dalam proses penutupan akun dengan segera.\r\n\nSaya juga memastikan bahwa semua data dan informasi yang terkait dengan akun saya telah saya hapus atau dihapus oleh pihak ${configAppBloc.namaApp.valueWrapper?.value}.\r\n\nTerima kasih atas perhatian dan kerjasamanya.\r\n\nHormat saya,\r\n\n[${bloc.user.valueWrapper?.value.nama}]';
@@ -122,7 +119,7 @@ class _ProfilePopayState extends State<ProfilePopay> {
           Scaffold(
               backgroundColor: Colors.transparent,
               resizeToAvoidBottomInset: true,
-                            appBar: AppBar(
+              appBar: AppBar(
                 backgroundColor: Colors.transparent,
                 elevation: 0.0,
                 title: Text('Profile'),
@@ -510,12 +507,15 @@ class _ProfilePopayState extends State<ProfilePopay> {
                           ListTile(
                             onTap: () {
                               DefaultCacheManager().emptyCache().then((value) {
-                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                    content:
-                                        Text('Berhasil memperbarui konten')));
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content: Text(
+                                            'Berhasil memperbarui konten')));
                               }).catchError((err) {
-                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                    content: Text('Gagal memperbarui konten')));
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content:
+                                            Text('Gagal memperbarui konten')));
                               });
                             },
                             title: Text('Perbarui Konten',

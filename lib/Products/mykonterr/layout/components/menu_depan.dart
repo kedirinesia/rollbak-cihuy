@@ -2,7 +2,6 @@
 
 import 'dart:convert';
 
-import 'package:blue_thermal_printer/blue_thermal_printer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/Products/mykonterr/config.dart';
@@ -86,7 +85,8 @@ class _MenuComponentState extends State<MenuComponent> {
         _prepaidDenomMenuDepan.add(
           MenuModel(
             jenis: 88,
-            icon: 'https://dokumen.payuni.co.id/logo/mykonter/custom/menulainya.png',
+            icon:
+                'https://dokumen.payuni.co.id/logo/mykonter/custom/menulainya.png',
             name: 'Lainnya',
             type: 88,
           ),
@@ -95,7 +95,8 @@ class _MenuComponentState extends State<MenuComponent> {
         _postpaidDenomMenuDepan.add(
           MenuModel(
             jenis: 99,
-            icon: 'https://dokumen.payuni.co.id/logo/mykonter/custom/menulainya.png',
+            icon:
+                'https://dokumen.payuni.co.id/logo/mykonter/custom/menulainya.png',
             name: 'Lainnya',
             type: 99,
           ),

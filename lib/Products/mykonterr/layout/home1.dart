@@ -1,31 +1,17 @@
 // @dart=2.9
 
-import 'dart:convert';
 
-import 'package:badges/badges.dart' as BadgeModule;
-import 'package:barcode_scan2/barcode_scan2.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mobile/component/rewards.dart';
 import 'package:mobile/Products/mykonterr/layout/components/card_info.dart';
 import 'package:mobile/Products/mykonterr/layout/components/banner.dart';
 import 'package:mobile/Products/mykonterr/layout/cs.dart';
-import 'package:mobile/Products/mykonterr/layout/kirim-saldo.dart';
 import 'package:mobile/Products/mykonterr/layout/components/menu_depan.dart';
-import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
-import 'package:mobile/models/mp_kategori.dart';
-import 'package:mobile/models/mp_produk.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/screen/notifikasi/notifikasi.dart';
-import 'package:http/http.dart' as http;
 import 'package:mobile/screen/profile/invite/invite.dart';
-import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
-import 'package:mobile/screen/wd/withdraw.dart';
 
 class PayuniHome extends StatefulWidget {
   @override
@@ -124,7 +110,10 @@ class _PayuniHomeState extends State<PayuniHome>
                           child: ListTile(
                             title: Text('Info Menarik dari MyKonter',
                                 style: TextStyle(
-                                    fontSize: 13.0, fontWeight: FontWeight.bold, color: Theme.of(context).secondaryHeaderColor)),
+                                    fontSize: 13.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(context)
+                                        .secondaryHeaderColor)),
                             subtitle: Text(
                                 'Baca Info Supaya Tidak Ketinggalan Kebahagiaan',
                                 style: TextStyle(
@@ -143,9 +132,13 @@ class _PayuniHomeState extends State<PayuniHome>
                                 end: Alignment.bottomRight,
                                 colors: [
                                   Theme.of(context).primaryColor,
-                                  Theme.of(context).primaryColor.withOpacity(.75),
+                                  Theme.of(context)
+                                      .primaryColor
+                                      .withOpacity(.75),
                                   Theme.of(context).primaryColor,
-                                  Theme.of(context).primaryColor.withOpacity(.5),
+                                  Theme.of(context)
+                                      .primaryColor
+                                      .withOpacity(.5),
                                 ],
                               ),
                               borderRadius: BorderRadius.circular(15.0)),
@@ -176,10 +169,12 @@ class _PayuniHomeState extends State<PayuniHome>
                                     decoration: BoxDecoration(
                                         border: Border.all(
                                             color: Colors.white, width: 1.0),
-                                        borderRadius: BorderRadius.circular(15.0)),
+                                        borderRadius:
+                                            BorderRadius.circular(15.0)),
                                     child: Text('Undang Teman',
                                         style: TextStyle(
-                                            fontSize: 12.0, color: Colors.white)),
+                                            fontSize: 12.0,
+                                            color: Colors.white)),
                                   ))
                             ],
                           ),
@@ -191,16 +186,12 @@ class _PayuniHomeState extends State<PayuniHome>
                             title: Text(
                               'Dapat Hadiah dari My Konter',
                               style: TextStyle(
-                                fontSize: 13.0,
-                                fontWeight: FontWeight.bold
-                              ),
+                                  fontSize: 13.0, fontWeight: FontWeight.bold),
                             ),
                             subtitle: Text(
                               'Kumpulkan Poin Kamu dan Tukarkan dengan Reward yang Tersedia Dari My Konter',
                               style: TextStyle(
-                                fontSize: 11.0,
-                                color: Colors.grey[500]
-                              ),
+                                  fontSize: 11.0, color: Colors.grey[500]),
                             ),
                           ),
                         ),
@@ -234,9 +225,7 @@ class _PayuniHomeState extends State<PayuniHome>
                     ),
                   ],
                 ),
-
                 const Spacer(),
-
                 InkWell(
                   onTap: () => Navigator.of(context).push(
                     MaterialPageRoute(
@@ -259,9 +248,7 @@ class _PayuniHomeState extends State<PayuniHome>
                     ),
                   ),
                 ),
-
                 const SizedBox(width: 12),
-
                 InkWell(
                   onTap: () => Navigator.of(context).push(
                     MaterialPageRoute(

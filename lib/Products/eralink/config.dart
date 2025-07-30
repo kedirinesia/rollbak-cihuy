@@ -38,8 +38,10 @@ Map<String, String> assetGambar = {
       'https://firebasestorage.googleapis.com/v0/b/wajib-online.appspot.com/o/icons%2Fsmartdigital%2Fshield.png?alt=media&token=24fa363a-0e3d-45ac-910c-509597784c5e',
   'logoPrinter':
       'https://firebasestorage.googleapis.com/v0/b/payuni-2019y.appspot.com/o/merchants%2Fpopay%2Ficons%2FPhoto_1536510356016-1%20(1).png?alt=media&token=3853ec11-ed0a-4cc0-8e6e-579824373ae1',
-  'logoLogin': 'https://dokumen.payuni.co.id/logo/centralbayar/rebranding/IconLoginbaru.png',
-  'logoLoginHeader': 'https://dokumen.payuni.co.id/logo/centralbayar/rebranding/iconhome.png'
+  'logoLogin':
+      'https://dokumen.payuni.co.id/logo/centralbayar/rebranding/IconLoginbaru.png',
+  'logoLoginHeader':
+      'https://dokumen.payuni.co.id/logo/centralbayar/rebranding/iconhome.png'
 };
 
 Map<String, dynamic> layout = {

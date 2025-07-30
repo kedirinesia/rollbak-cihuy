@@ -5,12 +5,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/Products/hexapay2/layout/forgot-password/step_3.dart';
-import 'package:pin_input_text_field/pin_input_text_field.dart';
 import 'package:http/http.dart' as http;
 
 class StepTwoForgotPIN extends StatefulWidget {

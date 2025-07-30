@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:mobile/Products/hexapay2/layout/login.dart';
 import 'package:mobile/Products/hexapay2/layout/wizard/model_wizard.dart';
 
 class IntroScreen extends StatefulWidget {

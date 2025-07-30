@@ -7,9 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:mobile/Products/santren/layout/step_2.dart';
 import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
-import 'package:mobile/config.dart';
 import 'package:mobile/modules.dart';
- 
 
 class StepOneForgotPIN extends StatefulWidget {
   @override
@@ -88,27 +86,26 @@ class _StepOneForgotPINState extends State<StepOneForgotPIN> {
                       Icon(Icons.lock_outline,
                           size: 130, color: Color(0xFF4CAF00)),
                       SizedBox(height: 20),
-                     RichText(
-                      
-  textAlign: TextAlign.center,
-  text: TextSpan(
-    style: TextStyle(
-      fontFamily: 'Montserrat',
-      fontSize: 32,
-      color: Colors.black87,
-    ),
-    children: [
-      TextSpan(
-        text: 'Forgot\n',
-        style: TextStyle(fontWeight: FontWeight.w800),
-      ),
-      TextSpan(
-        text: 'Password?',
-        style: TextStyle(fontWeight: FontWeight.w400),
-      ),
-    ],
-  ),
-),
+                      RichText(
+                        textAlign: TextAlign.center,
+                        text: TextSpan(
+                          style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontSize: 32,
+                            color: Colors.black87,
+                          ),
+                          children: [
+                            TextSpan(
+                              text: 'Forgot\n',
+                              style: TextStyle(fontWeight: FontWeight.w800),
+                            ),
+                            TextSpan(
+                              text: 'Password?',
+                              style: TextStyle(fontWeight: FontWeight.w400),
+                            ),
+                          ],
+                        ),
+                      ),
                       SizedBox(height: 12),
                       Text(
                         "Kami akan mengirimkan kode otp untuk memastikan bahwa nomor yang anda gunakan untuk login adalah milik anda",
@@ -167,8 +164,7 @@ class _StepOneForgotPINState extends State<StepOneForgotPIN> {
                                   decoration: InputDecoration(
                                     hintText: 'No Hp',
                                     hintStyle: TextStyle(
-                                        fontFamily: 'Montserrat',
-                                        fontSize: 14),
+                                        fontFamily: 'Montserrat', fontSize: 14),
                                     border: InputBorder.none,
                                   ),
                                 ),

@@ -8,7 +8,6 @@ import 'package:mobile/modules.dart';
 import 'package:mobile/screen/cs.dart';
 import 'package:mobile/screen/forgot-password/step_1.dart';
 import 'package:mobile/screen/otp.dart';
-import 'package:mobile/screen/profile/cs/cs.dart';
 import 'package:mobile/screen/register.dart';
 import 'package:http/http.dart' as http;
 
@@ -92,7 +91,6 @@ class _LoginPageState extends State<LoginPage> {
                   child: MaterialButton(
                     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     color: Colors.white,
-                    
                     padding: EdgeInsets.zero,
                     visualDensity: VisualDensity.compact,
                     child: Text(

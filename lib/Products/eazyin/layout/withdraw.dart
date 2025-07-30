@@ -12,7 +12,6 @@ import 'package:mobile/models/wd_bank.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/kyc/verification1.dart';
-import 'package:mobile/screen/profile/kyc/verification.dart';
 import 'package:mobile/screen/transaksi/verifikasi_pin.dart';
 import 'package:mobile/screen/wd/list_bank.dart';
 import 'package:http/http.dart' as http;
@@ -23,7 +22,7 @@ class WithdrawPage extends StatefulWidget {
 }
 
 class _WithdrawPageState extends State<WithdrawPage> {
-    TextEditingController bank = TextEditingController();
+  TextEditingController bank = TextEditingController();
   TextEditingController tujuan = TextEditingController();
   TextEditingController nominal = TextEditingController();
   TextEditingController namaController = TextEditingController();
@@ -205,7 +204,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
             body: json.encode(dataToSend));
 
     if (response.statusCode == 200) {
-      await checkNumberFavorite(tujuan.text);
+      checkNumberFavorite(tujuan.text);
       Map<String, dynamic> data = json.decode(response.body)['data'];
       inq = PostpaidInquiryModel.fromJson(data);
       checked = true;
@@ -301,7 +300,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-                appBar: AppBar(
+        appBar: AppBar(
             title: Text('Withdraw Saldo'), centerTitle: true, elevation: 0),
         body: Container(
           width: double.infinity,

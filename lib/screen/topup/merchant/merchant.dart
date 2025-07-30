@@ -27,7 +27,8 @@ class _TopupMerchantState extends State<TopupMerchant> {
   TextEditingController nominal = TextEditingController();
 
   void topup() async {
-    double parsedNominal = double.parse(nominal.text.replaceAll('.', '').replaceAll('Rp', ''));
+    double parsedNominal =
+        double.parse(nominal.text.replaceAll('.', '').replaceAll('Rp', ''));
     if (nominal.text.isEmpty) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Nominal masih kosong')));

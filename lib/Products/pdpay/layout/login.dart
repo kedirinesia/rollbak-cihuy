@@ -91,7 +91,6 @@ class _LoginPageState extends State<LoginPage> {
                   child: MaterialButton(
                     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     color: Colors.white,
-                    
                     padding: EdgeInsets.zero,
                     visualDensity: VisualDensity.compact,
                     child: Text(

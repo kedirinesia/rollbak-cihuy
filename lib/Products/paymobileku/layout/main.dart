@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:mobile/Products/paymobileku/layout/home.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobile/component/webview.dart';
 import 'package:mobile/Products/paymobileku/layout/history.dart';
 import 'package:mobile/Products/paymobileku/layout/downline/downline.dart';
@@ -88,7 +87,7 @@ class _PakaiAjaHomeState extends State<PakaiAjaHome> {
           onPressed: () async {
             if (configAppBloc.isMarketplace.valueWrapper?.value) {
               Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (_) => BelanjaPage()));
+                  .push(MaterialPageRoute(builder: (_) => BelanjaPage()));
             } else {
               var barcode = await BarcodeScanner.scan();
               if (barcode.rawContent.isNotEmpty) {

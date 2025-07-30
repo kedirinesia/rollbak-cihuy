@@ -12,7 +12,6 @@ import 'package:mobile/screen/dynamic-prepaid/dynamic-denom.dart';
 import 'package:mobile/screen/home/more/more.dart';
 import 'package:mobile/screen/list-grid-menu/list-grid-menu.dart';
 import 'package:mobile/screen/list-sub-menu/list-sub-menu.dart';
-import 'package:mobile/screen/transaksi/bulk.dart';
 import 'package:mobile/screen/transaksi/voucher_bulk.dart';
 import 'package:mobile/screen/pulsa/pulsa.dart';
 
@@ -111,8 +110,7 @@ class _MenuDepanState extends State<MenuDepan> {
       } else if (menu.category_id.isEmpty) {
         if (menu.type == 3) {
           return Navigator.of(context).push(
-            MaterialPageRoute(builder: (_) => DynamicPrepaidDenom(menu))
-          );
+              MaterialPageRoute(builder: (_) => DynamicPrepaidDenom(menu)));
         } else {
           return Navigator.of(context)
               .push(MaterialPageRoute(builder: (_) => ListSubMenu(menu)));

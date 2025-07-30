@@ -28,7 +28,6 @@ import 'package:nav/nav.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
-import 'package:nav/nav.dart';
 
 class ProfilePopay extends StatefulWidget {
   @override

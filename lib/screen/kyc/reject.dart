@@ -96,10 +96,9 @@ class KycRejectPage extends StatelessWidget {
             style: TextStyle(fontSize: 18),
           ),
           style: ElevatedButton.styleFrom(
-            primary: packageName == 'com.lariz.mobile'
+            foregroundColor: Colors.white, backgroundColor: packageName == 'com.lariz.mobile'
                 ? Theme.of(context).secondaryHeaderColor
                 : Theme.of(context).primaryColor,
-            onPrimary: Colors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),

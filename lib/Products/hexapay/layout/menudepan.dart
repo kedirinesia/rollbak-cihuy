@@ -9,7 +9,6 @@ import 'package:mobile/models/menu.dart';
 import 'package:mobile/provider/api.dart';
 import 'package:mobile/screen/detail-denom-postpaid/detail-postpaid.dart';
 import 'package:mobile/screen/detail-denom/detail-denom.dart';
-import 'package:mobile/screen/home/more/more.dart';
 import 'package:mobile/screen/list-sub-menu/list-sub-menu.dart';
 import 'package:mobile/screen/pulsa/pulsa.dart';
 
@@ -73,8 +72,7 @@ class _MenuDepanState extends State<MenuDepan> {
 
         MenuModel buttonMore = MenuModel(
             jenis: 99,
-            icon:
-                'https://dokumen.payuni.co.id/logo/hexapay/iconlainya.png',
+            icon: 'https://dokumen.payuni.co.id/logo/hexapay/iconlainya.png',
             name: 'Lainnya',
             type: 99);
         menuDepan.add(buttonMore);
@@ -93,7 +91,7 @@ class _MenuDepanState extends State<MenuDepan> {
       _menuMore = [];
       setState(() {
         loading = false;
-      }); 
+      });
     }
   }
 
@@ -122,8 +120,8 @@ class _MenuDepanState extends State<MenuDepan> {
       }
     } else if (menu.jenis == 99) {
       return Navigator.of(context).push(PageTransition(
-            child: MoreMenuPage(_menuMore),
-            type: PageTransitionType.rippleRightUp));
+          child: MoreMenuPage(_menuMore),
+          type: PageTransitionType.rippleRightUp));
     }
   }
 
@@ -186,11 +184,11 @@ class _MenuDepanState extends State<MenuDepan> {
                                   : 8.0
                               : 8.0),
                           child: menu.icon != null
-                            ? CachedNetworkImage(
-                                imageUrl: menu.icon,
-                                width: 40.0,
-                                fit: BoxFit.cover)
-                            : Container(),
+                              ? CachedNetworkImage(
+                                  imageUrl: menu.icon,
+                                  width: 40.0,
+                                  fit: BoxFit.cover)
+                              : Container(),
                         ),
                         SizedBox(height: 8),
                         Flexible(

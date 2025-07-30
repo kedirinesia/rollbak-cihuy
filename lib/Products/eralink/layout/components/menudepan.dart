@@ -14,8 +14,6 @@ import 'package:mobile/Products/eralink/layout/components/moremenu.dart';
 import 'package:mobile/screen/list-sub-menu/list-sub-menu.dart';
 import 'package:mobile/screen/list-grid-menu/list-grid-menu.dart';
 import 'package:mobile/screen/pulsa/pulsa.dart';
-import 'package:mobile/models/menu.dart';
-import 'package:mobile/screen/detail-denom/detail-denom.dart';
 import 'package:mobile/screen/transaksi/voucher_bulk.dart';
 
 class MenuDepan extends StatefulWidget {

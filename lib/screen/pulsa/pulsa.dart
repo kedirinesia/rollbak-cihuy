@@ -215,181 +215,191 @@ class _PulsaState extends PulsaController {
                 ),
                 Container(
                     padding: EdgeInsets.all(20),
-                    child:  packageName == 'com.eralink.mobileapk'
-                      ? TextFormField(
-                          controller: nomorHp,
-                          keyboardType: TextInputType.number,
-                          cursorColor: Theme.of(context).primaryColor,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                          ],
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Theme.of(context).primaryColor)
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Theme.of(context).primaryColor)
-                            ),
-                            isDense: true,
-                            labelText: 'Nomor Tujuan',
-                            labelStyle: TextStyle(
-                              color: Theme.of(context).secondaryHeaderColor
-                            ),
-                            prefixIcon: InkWell(
-                                child: Icon(Icons.cached, color: Theme.of(context).primaryColor,),
-                                onTap: () async {
-                                  FavoriteNumberModel response =
-                                      await Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (_) => FavoriteNumber('prepaid'),
-                                    ),
-                                  );
+                    child: packageName == 'com.eralink.mobileapk'
+                        ? TextFormField(
+                            controller: nomorHp,
+                            keyboardType: TextInputType.number,
+                            cursorColor: Theme.of(context).primaryColor,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                            ],
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context).primaryColor)),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context).primaryColor)),
+                              isDense: true,
+                              labelText: 'Nomor Tujuan',
+                              labelStyle: TextStyle(
+                                  color:
+                                      Theme.of(context).secondaryHeaderColor),
+                              prefixIcon: InkWell(
+                                  child: Icon(
+                                    Icons.cached,
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                  onTap: () async {
+                                    FavoriteNumberModel response =
+                                        await Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (_) =>
+                                            FavoriteNumber('prepaid'),
+                                      ),
+                                    );
 
-                                  print('response favorite-number -> $response');
-                                  if (response == null) return;
-                                  setState(() {
-                                    nomorHp.text = response.tujuan;
-                                  });
+                                    print(
+                                        'response favorite-number -> $response');
+                                    if (response == null) return;
+                                    setState(() {
+                                      nomorHp.text = response.tujuan;
+                                    });
 
-                                  if (response.tujuan.length >= 4 &&
-                                      response.tujuan.startsWith('08')) {
-                                    if (response.tujuan.substring(0, 4) !=
-                                        prefixNomor) {
-                                      setState(() {
-                                        listDenom.clear();
-                                        prefixNomor =
-                                            response.tujuan.substring(0, 4);
-                                        loading = true;
-                                        pkgNameLogoMenuCoverList.forEach((e) {
-                                          if (e == packageName)
-                                            logoProductMenuCover = true;
+                                    if (response.tujuan.length >= 4 &&
+                                        response.tujuan.startsWith('08')) {
+                                      if (response.tujuan.substring(0, 4) !=
+                                          prefixNomor) {
+                                        setState(() {
+                                          listDenom.clear();
+                                          prefixNomor =
+                                              response.tujuan.substring(0, 4);
+                                          loading = true;
+                                          pkgNameLogoMenuCoverList.forEach((e) {
+                                            if (e == packageName)
+                                              logoProductMenuCover = true;
+                                          });
                                         });
-                                      });
-                                      getDenom(response.tujuan);
+                                        getDenom(response.tujuan);
+                                      }
                                     }
-                                  }
-                                }),
-                            suffixIcon: InkWell(
-                              child: Icon(Icons.contacts, color: Theme.of(context).primaryColor,),
-                              onTap: () {
-                                Navigator.of(context)
-                                    .push(MaterialPageRoute(
-                                        builder: (_) => ContactPage()))
-                                    .then((nomor) {
-                                  if (nomor != null) {
-                                    nomorHp.text = nomor;
-                                    getDenom(nomor);
-                                  }
-                                });
-                              },
-                            ),
-                          ),
-                          style: TextStyle(
-                            fontWeight:
-                                configAppBloc.boldNomorTujuan.valueWrapper.value
-                                    ? FontWeight.bold
-                                    : FontWeight.normal,
-                          ),
-                          onChanged: (str) {
-                            if (str.length >= 4 && str.startsWith('08')) {
-                              if (str.substring(0, 4) != prefixNomor) {
-                                setState(() {
-                                  listDenom.clear();
-                                  prefixNomor = str.substring(0, 4);
-                                  loading = true;
-                                  pkgNameLogoMenuCoverList.forEach((e) {
-                                    if (e == packageName)
-                                      logoProductMenuCover = true;
+                                  }),
+                              suffixIcon: InkWell(
+                                child: Icon(
+                                  Icons.contacts,
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                                onTap: () {
+                                  Navigator.of(context)
+                                      .push(MaterialPageRoute(
+                                          builder: (_) => ContactPage()))
+                                      .then((nomor) {
+                                    if (nomor != null) {
+                                      nomorHp.text = nomor;
+                                      getDenom(nomor);
+                                    }
                                   });
-                                });
-                                getDenom(str);
-                              }
-                            }
-                          },
-                        )
-                      : TextFormField(
-                          controller: nomorHp,
-                          keyboardType: TextInputType.number,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                          ],
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            isDense: true,
-                            labelText: 'Nomor Tujuan',
-                            prefixIcon: InkWell(
-                                child: Icon(Icons.cached),
-                                onTap: () async {
-                                  FavoriteNumberModel response =
-                                      await Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (_) => FavoriteNumber('prepaid'),
-                                    ),
-                                  );
-
-                                  print('response favorite-number -> $response');
-                                  if (response == null) return;
+                                },
+                              ),
+                            ),
+                            style: TextStyle(
+                              fontWeight: configAppBloc
+                                      .boldNomorTujuan.valueWrapper.value
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
+                            ),
+                            onChanged: (str) {
+                              if (str.length >= 4 && str.startsWith('08')) {
+                                if (str.substring(0, 4) != prefixNomor) {
                                   setState(() {
-                                    nomorHp.text = response.tujuan;
+                                    listDenom.clear();
+                                    prefixNomor = str.substring(0, 4);
+                                    loading = true;
+                                    pkgNameLogoMenuCoverList.forEach((e) {
+                                      if (e == packageName)
+                                        logoProductMenuCover = true;
+                                    });
                                   });
-
-                                  if (response.tujuan.length >= 4 &&
-                                      response.tujuan.startsWith('08')) {
-                                    if (response.tujuan.substring(0, 4) !=
-                                        prefixNomor) {
-                                      setState(() {
-                                        listDenom.clear();
-                                        prefixNomor =
-                                            response.tujuan.substring(0, 4);
-                                        loading = true;
-                                        pkgNameLogoMenuCoverList.forEach((e) {
-                                          if (e == packageName)
-                                            logoProductMenuCover = true;
-                                        });
-                                      });
-                                      getDenom(response.tujuan);
-                                    }
-                                  }
-                                }),
-                            suffixIcon: InkWell(
-                              child: Icon(Icons.contacts),
-                              onTap: () {
-                                Navigator.of(context)
-                                    .push(MaterialPageRoute(
-                                        builder: (_) => ContactPage()))
-                                    .then((nomor) {
-                                  if (nomor != null) {
-                                    nomorHp.text = nomor;
-                                    getDenom(nomor);
-                                  }
-                                });
-                              },
-                            ),
-                          ),
-                          style: TextStyle(
-                            fontWeight:
-                                configAppBloc.boldNomorTujuan.valueWrapper.value
-                                    ? FontWeight.bold
-                                    : FontWeight.normal,
-                          ),
-                          onChanged: (str) {
-                            if (str.length >= 4 && str.startsWith('08')) {
-                              if (str.substring(0, 4) != prefixNomor) {
-                                setState(() {
-                                  listDenom.clear();
-                                  prefixNomor = str.substring(0, 4);
-                                  loading = true;
-                                  pkgNameLogoMenuCoverList.forEach((e) {
-                                    if (e == packageName)
-                                      logoProductMenuCover = true;
-                                  });
-                                });
-                                getDenom(str);
+                                  getDenom(str);
+                                }
                               }
-                            }
-                          },
-                        )),
+                            },
+                          )
+                        : TextFormField(
+                            controller: nomorHp,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                            ],
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              isDense: true,
+                              labelText: 'Nomor Tujuan',
+                              prefixIcon: InkWell(
+                                  child: Icon(Icons.cached),
+                                  onTap: () async {
+                                    FavoriteNumberModel response =
+                                        await Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (_) =>
+                                            FavoriteNumber('prepaid'),
+                                      ),
+                                    );
+
+                                    print(
+                                        'response favorite-number -> $response');
+                                    if (response == null) return;
+                                    setState(() {
+                                      nomorHp.text = response.tujuan;
+                                    });
+
+                                    if (response.tujuan.length >= 4 &&
+                                        response.tujuan.startsWith('08')) {
+                                      if (response.tujuan.substring(0, 4) !=
+                                          prefixNomor) {
+                                        setState(() {
+                                          listDenom.clear();
+                                          prefixNomor =
+                                              response.tujuan.substring(0, 4);
+                                          loading = true;
+                                          pkgNameLogoMenuCoverList.forEach((e) {
+                                            if (e == packageName)
+                                              logoProductMenuCover = true;
+                                          });
+                                        });
+                                        getDenom(response.tujuan);
+                                      }
+                                    }
+                                  }),
+                              suffixIcon: InkWell(
+                                child: Icon(Icons.contacts),
+                                onTap: () {
+                                  Navigator.of(context)
+                                      .push(MaterialPageRoute(
+                                          builder: (_) => ContactPage()))
+                                      .then((nomor) {
+                                    if (nomor != null) {
+                                      nomorHp.text = nomor;
+                                      getDenom(nomor);
+                                    }
+                                  });
+                                },
+                              ),
+                            ),
+                            style: TextStyle(
+                              fontWeight: configAppBloc
+                                      .boldNomorTujuan.valueWrapper.value
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
+                            ),
+                            onChanged: (str) {
+                              if (str.length >= 4 && str.startsWith('08')) {
+                                if (str.substring(0, 4) != prefixNomor) {
+                                  setState(() {
+                                    listDenom.clear();
+                                    prefixNomor = str.substring(0, 4);
+                                    loading = true;
+                                    pkgNameLogoMenuCoverList.forEach((e) {
+                                      if (e == packageName)
+                                        logoProductMenuCover = true;
+                                    });
+                                  });
+                                  getDenom(str);
+                                }
+                              }
+                            },
+                          )),
                 loading
                     ? Expanded(
                         child: Container(

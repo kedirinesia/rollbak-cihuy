@@ -22,7 +22,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:toast/toast.dart';
 import 'package:http/http.dart' as http;
 
-import '../../modules.dart';
 
 class ProductDetailMarketplace extends StatefulWidget {
   final String id;
