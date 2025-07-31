@@ -271,18 +271,6 @@ class _PrintPreviewSbyState extends PrintPreviewSbyController {
         align: PosAlign.center,
       ),
     );
-    // Print custom header text if available
-    if (customHeaderText.isNotEmpty) {
-      bytes += ticket.text(
-        customHeaderText,
-        styles: PosStyles(
-          width: sizes[i + 1],
-          height: sizes[i + 1],
-          bold: true,
-          align: PosAlign.center,
-        ),
-      );
-    }
     bytes += ticket.text(
       bloc.user.valueWrapper.value.alamatToko.isEmpty
           ? bloc.user.valueWrapper.value.alamat
@@ -291,6 +279,15 @@ class _PrintPreviewSbyState extends PrintPreviewSbyController {
         align: PosAlign.center,
         width: sizes[i],
         height: sizes[i],
+      ),
+    );
+    // Print custom header text
+    bytes += ticket.text(
+      customHeaderText,
+      styles: PosStyles(
+        width: sizes[i],
+        height: sizes[i],
+        align: PosAlign.center,
       ),
       linesAfter: 1,
     );
@@ -443,20 +440,18 @@ class _PrintPreviewSbyState extends PrintPreviewSbyController {
       2,
       1,
     );
-    // Print custom header text if available
-    if (customHeaderText.isNotEmpty) {
-      await _bluetooth.printCustom(
-        customHeaderText,
-        2,
-        1,
-      );
-    }
     await _bluetooth.printCustom(
       bloc.user.valueWrapper.value.alamatToko.isEmpty
           ? bloc.user.valueWrapper.value.alamat
           : bloc.user.valueWrapper.value.alamatToko,
       0,
       1,
+    );
+    // Print custom header text
+    await _bluetooth.printCustom(
+      customHeaderText,
+      0,
+      0,
     );
     await _bluetooth.printNewLine();
     await _bluetooth.printCustom(
@@ -898,125 +893,74 @@ class _PrintPreviewSbyState extends PrintPreviewSbyController {
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            isLogoPrinter
-                                ? Stack(
-                                    children: [
-                                      configAppBloc.iconApp.valueWrapper
-                                                  .value['logoPrinter'] ==
-                                              null
-                                          ? SizedBox()
-                                          : Container(
-                                              child: CachedNetworkImage(
-                                                imageUrl: configAppBloc
-                                                    .iconApp
-                                                    .valueWrapper
-                                                    .value['logoPrinter'],
-                                                height: 30,
-                                              ),
-                                            ),
-                                      Align(
-                                        alignment: Alignment.topCenter,
-                                        child: Container(
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              Column(
-                                                children: [
-                                                  Text(
-                                                      bloc.user.valueWrapper.value
-                                                                  .namaToko ==
-                                                              ''
-                                                          ? bloc.username
-                                                              .valueWrapper.value
-                                                          : bloc.user.valueWrapper
-                                                              .value?.namaToko,
-                                                      style: TextStyle(
-                                                        fontWeight: FontWeight.bold,
-                                                        fontSize: 16,
-                                                        fontFamily: 'Poppins',
-                                                      )),
-                                                  if (customHeaderText.isNotEmpty)
-                                                    Text(
-                                                      customHeaderText,
-                                                      style: TextStyle(
-                                                        fontWeight: FontWeight.bold,
-                                                        fontSize: 16,
-                                                        fontFamily: 'Poppins',
-                                                      ),
-                                                    ),
-                                                ],
-                                              ),
-                                              SizedBox(height: 5),
-                                              Text(
-                                                  bloc.user.valueWrapper.value
-                                                              .alamatToko ==
-                                                          ''
-                                                      ? bloc.user.valueWrapper
-                                                          .value.alamat
-                                                      : bloc.user.valueWrapper
-                                                          .value.alamatToko,
-                                                  style: TextStyle(
-                                                    fontSize: 12,
-                                                    fontFamily: 'Poppins',
-                                                  )),
-                                            ],
-                                          ),
+                            // Always show header regardless of isLogoPrinter
+                            Stack(
+                              children: [
+                                // Show logo if available and isLogoPrinter is true
+                                isLogoPrinter && configAppBloc.iconApp.valueWrapper
+                                            .value['logoPrinter'] != null
+                                    ? Container(
+                                        child: CachedNetworkImage(
+                                          imageUrl: configAppBloc
+                                              .iconApp
+                                              .valueWrapper
+                                              .value['logoPrinter'],
+                                          height: 30,
                                         ),
-                                      ),
-                                    ],
-                                  )
-                                : Center(
+                                      )
+                                    : SizedBox(),
+                                Align(
+                                  alignment: Alignment.topCenter,
+                                  child: Container(
                                     child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
                                       children: [
-
-                                          
                                         Column(
                                           children: [
                                             Text(
                                                 bloc.user.valueWrapper.value
                                                             .namaToko ==
                                                         ''
-                                                    ? bloc.username.valueWrapper
-                                                        ?.value
-                                                    : bloc.user.valueWrapper.value
-                                                        .namaToko,
+                                                    ? bloc.username
+                                                        .valueWrapper.value
+                                                    : bloc.user.valueWrapper
+                                                        .value?.namaToko,
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 16,
                                                   fontFamily: 'Poppins',
                                                 )),
-                                               
-                                                Text(
-                                            bloc.user.valueWrapper.value
-                                                        .alamatToko ==
-                                                    ''
-                                                ? bloc.user.valueWrapper.value
-                                                    .alamat
-                                                : bloc.user.valueWrapper.value
-                                                    .alamatToko,
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                              fontFamily: 'Poppins',
-                                            )),
-                                             SizedBox(height: 30),
-                                            if (customHeaderText.isNotEmpty)
-                                              Text(
-                                                customHeaderText,
+                                            SizedBox(height: 5),
+                                            Text(
+                                                bloc.user.valueWrapper.value
+                                                            .alamatToko ==
+                                                        ''
+                                                    ? bloc.user.valueWrapper
+                                                        .value.alamat
+                                                    : bloc.user.valueWrapper
+                                                        .value.alamatToko,
                                                 style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 16,
+                                                  fontSize: 12,
                                                   fontFamily: 'Poppins',
-                                                ),
+                                                )),
+                                            SizedBox(height: 5),
+                                            Text(
+                                              customHeaderText,
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                fontFamily: 'Poppins',
+                                                fontWeight: FontWeight.w600,
                                               ),
-                                              
+                                            ),
                                           ],
                                         ),
-                                        SizedBox(height: 5),
-                                      
                                       ],
                                     ),
                                   ),
+                                ),
+                              ],
+                            ),
                             SizedBox(height: 19),
                             Text(
                               formatDate(
@@ -1258,11 +1202,13 @@ abstract class PrintPreviewSbyController extends State<PrintPreviewSby>
       trxData = TrxModel.fromJson(responseData);
       
       // Extract custom header and footer text
-      customHeaderText = responseData['header_text'] ?? "";
+      customHeaderText = responseData['header_text'] ?? "STRUK PEMBAYARAN PDAM SURYA SEMBADA KOTA SURABAYA";
       //customFooterText = responseData['footer_text'] ?? "";
       customFooterText = "PDAM SURABAYA MENYATAKAN STRUK INI SEBAGAI BUKTI PEMBAYARAN YANG SAH, MOHON DISIMPAN \n\nINFO TAGIHAN DIAKSES DI www.pdam‑sby.go.id CALL CENTER (031)‑292‑6666.";
 
 
+      print("=== CUSTOM HEADER TEXT ===");
+      print("Custom Header Text: $customHeaderText");
       print("=== CUSTOM FOOTER TEXT ===");
       print("Custom Footer Text: $customFooterText");
       

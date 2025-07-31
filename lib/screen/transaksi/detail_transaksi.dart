@@ -689,8 +689,17 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
                     widget.data.produk != null &&
                     widget.data.produk.containsKey('type')) {
                   
+                  // Check if product code is WASBY
+                  if (trx.produk != null && trx.produk['kode_produk'] == 'WASBY') {
+                    print("Redirecting to printPreviewSby for WASBY product");
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => PrintPreviewSby(trx: trx),
+                      ),
+                    );
+                  }
                   // Check if custom_print is true
-                  if (customPrint) {
+                  else if (customPrint) {
                     print("Redirecting to printPreviewSby for custom print transaction");
                     Navigator.of(context).push(
                       MaterialPageRoute(

@@ -199,8 +199,8 @@ class _Home2AppState extends State<Home2App> with SingleTickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
     
-    final double headerHeight = 260;
-    final double saldoCardTop = 140; // Sesuaikan posisi saldo card di tengah oval elliptical
+    final double headerHeight = 240;
+    final double saldoCardTop = 140;  
     final double saldoCardHeight =120;
     final double floatingGap = 20;
     final double floatingCardTop = saldoCardTop + saldoCardHeight + floatingGap;
@@ -210,23 +210,30 @@ class _Home2AppState extends State<Home2App> with SingleTickerProviderStateMixin
       body: SingleChildScrollView(
         child: Stack(
           children: <Widget>[
-                        // HEADER GRADIENT
+                        // HEADER GRADIENT D SHAPE
             Positioned(
-              top: 40,
-              left: 20,
-              right: 20,
-              child: Container(
-                width: 400,
-                height: 200,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.elliptical(200, 100)),
-                  gradient: LinearGradient(
-                    colors: [
-                      Color(0xFFA259FF),    
-                      Color(0xFFA259FF),   
-                    ],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
+              top: 30,
+              left: -120,
+              right: -10,
+              child: Center(
+                child: Container(
+                  width: 830,
+                  height: 340,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(0),
+                      bottomLeft: Radius.circular(20),
+                      topRight: Radius.elliptical(600, 200), // Menggunakan elliptical untuk lengkungan oval
+                      bottomRight: Radius.circular(0),
+                    ),
+                    gradient: LinearGradient(
+                      colors: [
+                        Color(0xFFA259FF),    
+                        Color(0xFF8B4BCF),   
+                      ],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
                   ),
                 ),
               ),
@@ -235,7 +242,7 @@ class _Home2AppState extends State<Home2App> with SingleTickerProviderStateMixin
 
             // TITLE TEXT - SEEPAYS AND POINT
             Positioned(
-              top: 80, // Sesuaikan dengan header oval elliptical
+              top: 50, // Sesuaikan dengan header oval elliptical
               left: 0,
               child: Padding(
                 padding: EdgeInsets.only(left: 10),
@@ -247,8 +254,8 @@ class _Home2AppState extends State<Home2App> with SingleTickerProviderStateMixin
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 32,
-                        fontWeight: FontWeight.w600,
-                        letterSpacing: 0.5,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: 0.8,
                       ),
                     ),
                     SizedBox(height: 4),
@@ -267,11 +274,11 @@ class _Home2AppState extends State<Home2App> with SingleTickerProviderStateMixin
 
             // APP LOGO - TOP RIGHT
             Positioned(
-              top: 80, // Sesuaikan dengan header oval elliptical
+              top: 30, // Sesuaikan dengan header oval elliptical
               right: 20,
               child: Container(
-                width: 60,
-                height: 60,
+                width: 80,
+                height: 80,
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.2),
                   borderRadius: BorderRadius.circular(12),
@@ -302,8 +309,8 @@ class _Home2AppState extends State<Home2App> with SingleTickerProviderStateMixin
             // SALDO CARD DI HEADER
             Positioned(
               top: saldoCardTop,
-              left: 50,
-              right: 50,
+              left: 40,
+              right: 80,
               child: Container(
                 height: saldoCardHeight,
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -367,7 +374,7 @@ class _Home2AppState extends State<Home2App> with SingleTickerProviderStateMixin
             Positioned(
               top: floatingCardTop,
               left: 26,
-              right: 20,
+              right: 30,
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 22, horizontal: 12),
                 decoration: BoxDecoration(
@@ -436,7 +443,7 @@ class _Home2AppState extends State<Home2App> with SingleTickerProviderStateMixin
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 60),
-          SectionTitle(title: 'Produk'),
+        //  SectionTitle(title: 'Produk'),
            
           MenuDepan(grid: 5, gradient: true),
           // /SizedBox(height: 8),

@@ -42,7 +42,10 @@ class MenuDepan extends StatefulWidget {
 class _MenuDepanState extends State<MenuDepan> {
   bool loading = true;
   bool failed = false;
-  List<MenuModel> _mainMenu = [];
+  List<MenuModel> _prabayarMenu = [];
+  List<MenuModel> _pascabayarMenu = [];
+  List<MenuModel> _prabayarMoreMenu = [];
+  List<MenuModel> _pascabayarMoreMenu = [];
   List<MenuModel> _moreMenu = [];
 
   @override
@@ -51,13 +54,41 @@ class _MenuDepanState extends State<MenuDepan> {
     if (widget.menus == null) {
       getMenu();
     } else {
-      _splitMenus(widget.menus);
+      _splitMenusByCategory(widget.menus);
       loading = false;
     }
   }
 
+  // Cache untuk menyimpan data menu
+  static List<MenuModel> _cachedMenuData = [];
+  static bool _isDataLoaded = false;
+  
+  // Cache untuk menyimpan hasil pemisahan kategori
+  static List<MenuModel> _cachedPrabayarMenu = [];
+  static List<MenuModel> _cachedPascabayarMenu = [];
+  static List<MenuModel> _cachedPrabayarMoreMenu = [];
+  static List<MenuModel> _cachedPascabayarMoreMenu = [];
+  static List<MenuModel> _cachedMoreMenu = [];
+
   Future<void> getMenu() async {
     try {
+      // Gunakan cache jika sudah ada data
+      if (_isDataLoaded && _cachedMenuData.isNotEmpty) {
+        print('📊 Using cached menu data: ${_cachedMenuData.length} items');
+        // Gunakan hasil cache yang sudah dipisahkan
+        _prabayarMenu = List<MenuModel>.from(_cachedPrabayarMenu);
+        _pascabayarMenu = List<MenuModel>.from(_cachedPascabayarMenu);
+        _prabayarMoreMenu = List<MenuModel>.from(_cachedPrabayarMoreMenu);
+        _pascabayarMoreMenu = List<MenuModel>.from(_cachedPascabayarMoreMenu);
+        _moreMenu = List<MenuModel>.from(_cachedMoreMenu);
+        
+        print('📊 Using cached categories - PRABAYAR: ${_prabayarMenu.length}, PASCABAYAR: ${_pascabayarMenu.length}');
+        setState(() {
+          loading = false;
+        });
+        return;
+      }
+
       final prefs = await SharedPreferences.getInstance();
       var token = prefs.getString('token');
       final response = await http.get(
@@ -77,14 +108,28 @@ class _MenuDepanState extends State<MenuDepan> {
         listMenu.sort((a, b) =>
             ((a.orderNumber ?? 9999).compareTo(b.orderNumber ?? 9999)));
 
-        _splitMenus(listMenu);
+        // Cache the data
+        _cachedMenuData = List<MenuModel>.from(listMenu);
+        _isDataLoaded = true;
+        print('📊 Cached menu data: ${_cachedMenuData.length} items');
+
+        _splitMenusByCategory(listMenu);
+        
+        // Cache hasil pemisahan kategori
+        _cachedPrabayarMenu = List<MenuModel>.from(_prabayarMenu);
+        _cachedPascabayarMenu = List<MenuModel>.from(_pascabayarMenu);
+        _cachedPrabayarMoreMenu = List<MenuModel>.from(_prabayarMoreMenu);
+        _cachedPascabayarMoreMenu = List<MenuModel>.from(_pascabayarMoreMenu);
+        _cachedMoreMenu = List<MenuModel>.from(_moreMenu);
       } else {
-        _mainMenu = [];
+        _prabayarMenu = [];
+        _pascabayarMenu = [];
         _moreMenu = [];
         print('Failed to load menu: ${response.statusCode}');
       }
     } catch (e) {
-      _mainMenu = [];
+      _prabayarMenu = [];
+      _pascabayarMenu = [];
       _moreMenu = [];
       print('Error getMenu: $e');
     } finally {
@@ -94,23 +139,141 @@ class _MenuDepanState extends State<MenuDepan> {
     }
   }
 
-  void _splitMenus(List<MenuModel> listMenu) {
-    int maxGrid = 14; // 14 menu utama
-    if (listMenu.length > maxGrid) {
-      _mainMenu = listMenu.sublist(0, maxGrid);
-      _moreMenu = listMenu.sublist(maxGrid);
+  void _splitMenusByCategory(List<MenuModel> listMenu) {
+    // Separate menus by category (prepaid vs postpaid)
+    // You may need to adjust this logic based on your actual data structure
+    _prabayarMenu = [];
+    _pascabayarMenu = [];
+    _prabayarMoreMenu = [];
+    _pascabayarMoreMenu = [];
+    _moreMenu = [];
 
-      // Tambahkan tombol "Menu Lainnya"
-      _mainMenu.add(MenuModel(
+    // First, let's see what data we have
+    print('📊 Total menu items: ${listMenu.length}');
+    for (MenuModel menu in listMenu) {
+      print('📋 Menu: ${menu.name} | type: ${menu.type} | jenis: ${menu.jenis} | category_id: ${menu.category_id}');
+    }
+
+    for (MenuModel menu in listMenu) {
+      // More flexible categorization logic
+      bool isPrabayar = false;
+      bool isPascabayar = false;
+      
+      // Check if it's explicitly categorized
+      if (menu.category_id != null && menu.category_id.isNotEmpty) {
+        if (menu.category_id.toLowerCase().contains('prabayar') || 
+            menu.category_id.toLowerCase().contains('prepaid')) {
+          isPrabayar = true;
+        } else if (menu.category_id.toLowerCase().contains('pascabayar') || 
+                   menu.category_id.toLowerCase().contains('postpaid')) {
+          isPascabayar = true;
+        }
+      }
+      
+      // Check by type and jenis
+      if (menu.type == 1 || menu.jenis == 1) {
+        isPrabayar = true;
+      } else if (menu.type == 2 || menu.jenis == 2) {
+        isPascabayar = true;
+      }
+      
+      // If still not categorized, try to categorize by name
+      if (!isPrabayar && !isPascabayar) {
+        String menuName = menu.name.toLowerCase();
+        if (menuName.contains('pulsa') || menuName.contains('token') || 
+            menuName.contains('data') || menuName.contains('voucher') ||
+            menuName.contains('dompet') || menuName.contains('inject')) {
+          isPrabayar = true;
+        } else if (menuName.contains('tagihan') || menuName.contains('bill') ||
+                   menuName.contains('air') || menuName.contains('pdam')) {
+          isPascabayar = true;
+        }
+      }
+      
+      // Default to prabayar if still not categorized
+      if (!isPrabayar && !isPascabayar) {
+        isPrabayar = true;
+      }
+      
+      // Add to appropriate category
+      if (isPrabayar) {
+        _prabayarMenu.add(menu);
+      } else if (isPascabayar) {
+        _pascabayarMenu.add(menu);
+      } else {
+        _moreMenu.add(menu);
+      }
+    }
+
+    print('📊 PRABAYAR items: ${_prabayarMenu.length}');
+    print('📊 PASCABAYAR items: ${_pascabayarMenu.length}');
+    print('📊 Other items: ${_moreMenu.length}');
+ 
+    int prabayarLimit = 7;
+    int pascabayarLimit = 77;  
+    
+    // Limit items per category and add "Lainnya" buttons
+    if (_prabayarMenu.length > prabayarLimit) {
+      print('📊 PRABAYAR: ${_prabayarMenu.length} items, limit: $prabayarLimit');
+      print('📊 Moving ${_prabayarMenu.length - prabayarLimit} items to PRABAYAR More');
+      
+      // Clear existing items first
+      _prabayarMoreMenu.clear();
+      
+      // Add items that exceed the limit
+      _prabayarMoreMenu.addAll(_prabayarMenu.sublist(prabayarLimit));
+      _prabayarMenu = _prabayarMenu.sublist(0, prabayarLimit);
+      
+      print('📊 PRABAYAR More now has: ${_prabayarMoreMenu.length} items');
+      for (MenuModel item in _prabayarMoreMenu) {
+        print('  📋 PRABAYAR More Item: ${item.name}');
+      }
+    } else {
+      print('📊 PRABAYAR: ${_prabayarMenu.length} items, limit: $prabayarLimit - No items moved to More');
+    }
+    
+    if (_pascabayarMenu.length > pascabayarLimit) {
+      print('📊 PASCABAYAR: ${_pascabayarMenu.length} items, limit: $pascabayarLimit');
+      print('📊 Moving ${_pascabayarMenu.length - pascabayarLimit} items to PASCABAYAR More');
+      
+      // Clear existing items first
+      _pascabayarMoreMenu.clear();
+      
+      // Add items that exceed the limit
+      _pascabayarMoreMenu.addAll(_pascabayarMenu.sublist(pascabayarLimit));
+      _pascabayarMenu = _pascabayarMenu.sublist(0, pascabayarLimit);
+      
+      print('📊 PASCABAYAR More now has: ${_pascabayarMoreMenu.length} items');
+      for (MenuModel item in _pascabayarMoreMenu) {
+        print('  📋 PASCABAYAR More Item: ${item.name}');
+      }
+    } else {
+      print('📊 PASCABAYAR: ${_pascabayarMenu.length} items, limit: $pascabayarLimit - No items moved to More');
+    }
+
+    // Add "Lainnya" buttons to each category separately
+    // Only show "Lainnya" for PRABAYAR if it has more items
+    if (_prabayarMoreMenu.isNotEmpty) {
+      _prabayarMenu.add(MenuModel(
         jenis: 99,
         icon: 'https://dokumen.payuni.co.id/logo/Seepays/seepaysmenulainya.png',
-        name: 'Menu Lainnya',
+        name: 'Lainnya',
         type: 99,
+        category_id: 'prabayar', // Add category identifier
       ));
-    } else {
-      _mainMenu = List<MenuModel>.from(listMenu);
-      _moreMenu = [];
     }
+    
+    // Only show "Lainnya" for PASCABAYAR if it has more items
+    if (_pascabayarMoreMenu.isNotEmpty) {
+      _pascabayarMenu.add(MenuModel(
+        jenis: 99,
+        icon: 'https://dokumen.payuni.co.id/logo/Seepays/seepaysmenulainya.png',
+        name: 'Lainnya',
+        type: 99,
+        category_id: 'pascabayar', // Add category identifier
+      ));
+    }
+
     setState(() {
       loading = false;
       failed = false;
@@ -191,9 +354,59 @@ class _MenuDepanState extends State<MenuDepan> {
       }
     } else if (menu.jenis == 99) {
       print('➡️ Menu menuju ke: MorePage (Menu Lainnya)');
+      
+      // Determine which category's "Lainnya" was clicked
+      List<MenuModel> itemsToShow;
+      String categoryName = '';
+      
+      if (menu.category_id == 'prabayar') {
+        itemsToShow = _prabayarMoreMenu;
+        categoryName = 'PRABAYAR';
+        print('📋 Menampilkan item PRABAYAR lainnya: ${_prabayarMoreMenu.length} items');
+        for (MenuModel item in _prabayarMoreMenu) {
+          print('  📋 PRABAYAR More: ${item.name}');
+        }
+      } else if (menu.category_id == 'pascabayar') {
+        itemsToShow = _pascabayarMoreMenu;
+        categoryName = 'PASCABAYAR';
+        print('📋 Menampilkan item PASCABAYAR lainnya: ${_pascabayarMoreMenu.length} items');
+        for (MenuModel item in _pascabayarMoreMenu) {
+          print('  📋 PASCABAYAR More: ${item.name}');
+        }
+      } else {
+        itemsToShow = _moreMenu;
+        categoryName = 'LAINNYA';
+        print('📋 Menampilkan item lainnya: ${_moreMenu.length} items');
+        for (MenuModel item in _moreMenu) {
+          print('  📋 OTHER More: ${item.name}');
+        }
+      }
+      
+      // Check if there are items to show
+      if (itemsToShow.isEmpty) {
+        // Show validation message when no products are available
+        return showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Informasi'),
+              content: Text('Produk $categoryName belum tersedia'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+      }
+      
       return Navigator.of(context).push(PageTransition(
         child: MorePage(
-          _moreMenu, // Kirim sisa menu ke MorePage
+          itemsToShow, // Kirim menu sesuai kategori
           isKotak: widget.gradient != null ? widget.gradient : false,
         ),
         type: PageTransitionType.slideInUp,
@@ -203,69 +416,115 @@ class _MenuDepanState extends State<MenuDepan> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return loading
-        ? LoadingMenuDepan(widget.grid, baris: widget.baris ?? 3)
-        : Container(
-            margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
-            child: GridView.builder(
-              shrinkWrap: true,
-              primary: false,
-              physics: BouncingScrollPhysics(),
-              itemCount: _mainMenu.length,
-              itemBuilder: (_, int index) {
-                MenuModel menu = _mainMenu[index];
-                return Container(
-                  child: InkWell(
-                    onTap: () => onTapMenu(menu),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          width: 54,
-                          height: 54,
+  Widget _buildMenuCard(String title, List<MenuModel> menus, int crossAxisCount) {
+    if (menus.isEmpty) return SizedBox.shrink();
+    
+    return Container(
+      margin: EdgeInsets.only(bottom: 20.0),
+      padding: EdgeInsets.all(16.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 8,
+            offset: Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 16.0,
+              fontWeight: FontWeight.bold,
+              color: Colors.black87,
+            ),
+          ),
+          SizedBox(height: 16.0),
+          GridView.builder(
+            shrinkWrap: true,
+            primary: false,
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: menus.length,
+            itemBuilder: (_, int index) {
+              MenuModel menu = menus[index];
+              return Container(
+                child: InkWell(
+                  onTap: () => onTapMenu(menu),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                                              Container(
+                          width: 70,
+                          height: 70,
                           decoration: BoxDecoration(
-                            color: Color(0xFFA259FF).withOpacity(0.06),
+                            color: Colors.white,
                             shape: BoxShape.circle,
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black12,
-                                blurRadius: 4,
-                                offset: Offset(0, 2),
+                                color: Color(0xFFA259FF).withOpacity(0.3),
+                                blurRadius: 6,
+                                offset: Offset(0, 9),
                               ),
                             ],
                           ),
                           alignment: Alignment.center,
                           child: CachedNetworkImage(
                             imageUrl: menu.icon,
-                            width: 32,
-                            height: 32,
+                            width: 45,
+                            height: 45,
                             fit: BoxFit.contain,
                           ),
                         ),
-                        SizedBox(height: 10.0),
+                        SizedBox(height: 12.0),
                         Flexible(
                           child: Text(
                             menu.name,
                             style: TextStyle(
-                                fontSize: 10.0,
-                                color: Colors.grey.shade500,
+                                fontSize: 12.0,
+                                color: Color(0xFFA259FF),
                                 fontWeight: FontWeight.bold),
                             softWrap: true,
                             textAlign: TextAlign.center,
                           ),
                         )
-                      ],
-                    ),
+                    ],
                   ),
-                );
-              },
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: widget.grid,
-                  crossAxisSpacing: 2,
-                  childAspectRatio: 0.95,
-                  mainAxisSpacing: 4.0),
+                ),
+              );
+            },
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: crossAxisCount,
+                crossAxisSpacing: 2,
+                childAspectRatio: 0.95,
+                mainAxisSpacing: 4.0),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return loading
+        ? LoadingMenuDepan(widget.grid, baris: widget.baris ?? 3)
+        : Container(
+            margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
+            child: SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
+              child: Column(
+                children: [
+                  // PRABAYAR Section
+                  _buildMenuCard('PRABAYAR', _prabayarMenu, 4),
+                  
+                  // PASCABAYAR Section
+                  _buildMenuCard('PASCABAYAR', _pascabayarMenu, 4),
+                ],
+              ),
             ),
           );
   }
