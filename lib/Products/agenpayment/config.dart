@@ -23,7 +23,7 @@ bool enableMultiChannel = false;
 String apiUrlKasir = 'https://api-pos.payuni.co.id/api/v1';
 
 Map<String, String> assetGambar = {
-  'iconTransfer':
+  'iconTransfer':  
       'https://firebasestorage.googleapis.com/v0/b/wajib-online.appspot.com/o/icons%2Fsmartdigital%2Fapp.png?alt=media&token=4713fa12-4f25-4b40-a8e3-59f4523e4321',
   'iconProfile':
       'https://firebasestorage.googleapis.com/v0/b/wajib-online.appspot.com/o/icons%2Fsmartdigital%2Fshield.png?alt=media&token=24fa363a-0e3d-45ac-910c-509597784c5e'

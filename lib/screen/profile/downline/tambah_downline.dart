@@ -92,6 +92,17 @@ class _TambahDownlineState extends TambahDownlineController {
                               ),
                               SizedBox(height: 15),
                               TextFormField(
+                                controller: email,
+                                keyboardType: TextInputType.emailAddress,
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Email Downline',
+                                  prefixIcon: Icon(Icons.email),
+                                ),
+                                
+                              ),
+                              SizedBox(height: 15),
+                              TextFormField(
                                 controller: namaToko,
                                 keyboardType: TextInputType.text,
                                 decoration: InputDecoration(

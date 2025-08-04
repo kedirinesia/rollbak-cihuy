@@ -12,20 +12,20 @@ import 'package:mobile/models/menu.dart';
 import 'package:mobile/models/favorite_number.dart';
 import 'package:mobile/models/prepaid-denom.dart';
 import 'package:mobile/modules.dart';
-import 'package:mobile/screen/detail-denom/detail-denom-controller.dart';
+import 'package:mobile/Products/seepays/layout/detail-denom-controller.dart';
 import 'package:mobile/screen/transaksi/inquiry_prepaid.dart';
 import 'package:mobile/screen/favorite-number/favorite-number.dart';
 
-class DetailDenom extends StatefulWidget {
+class SeepaysDetailDenom extends StatefulWidget {
   final MenuModel menu;
-
-  DetailDenom(this.menu); 
+  
+    SeepaysDetailDenom(this.menu);
 
   @override
-  _DetailDenomState createState() => _DetailDenomState();
+  _SeepaysDetailDenomState createState() => _SeepaysDetailDenomState();
 }
 
-class _DetailDenomState extends DetailDenomController {
+class _SeepaysDetailDenomState extends SeepaysDetailDenomController {
   bool activateContact = true;
 
   @override
@@ -123,16 +123,9 @@ class _DetailDenomState extends DetailDenomController {
                   width: double.infinity,
                   height: MediaQuery.of(context).size.height * .2,
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        packageName == 'com.lariz.mobile'
-                            ? Theme.of(context).secondaryHeaderColor
-                            : Theme.of(context).primaryColor,
-                        Theme.of(context).canvasColor
-                      ],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                    ),
+                    color: packageName == 'com.lariz.mobile'
+                        ? Theme.of(context).secondaryHeaderColor
+                        : Theme.of(context).primaryColor,
                   ),
                   child: logoAppCover
                       ? Center(

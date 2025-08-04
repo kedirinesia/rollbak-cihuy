@@ -1048,7 +1048,7 @@ android {
         paymobileku {
             dimension "flavor-type"
             applicationId "id.paymobileku.app"
-            versionCode 31
+            versionCode 35
             versionName "2.6.0"
         }
         smartsaldo {
@@ -1060,8 +1060,8 @@ android {
         lokapulsa {
             dimension "flavor-type"
             applicationId "id.lokapulsa.mobile"
-            versionCode 12
-            versionName "2.3.3"
+            versionCode 18
+            versionName "2.4.0"
         }
         mykonterr {
             dimension "flavor-type"
@@ -1093,8 +1093,8 @@ android {
         agenpayment {
             dimension "flavor-type"
             applicationId "id.agenpayment.app"
-            versionCode 17
-            versionName "2.4.4"
+            versionCode 24
+            versionName "2.4.8"
         }
         funfast {
             dimension "flavor-type"

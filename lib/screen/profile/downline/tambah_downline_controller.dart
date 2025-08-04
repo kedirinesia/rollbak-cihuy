@@ -18,6 +18,7 @@ abstract class TambahDownlineController extends State<TambahDownline>
   TextEditingController alamat = TextEditingController();
   TextEditingController nama = TextEditingController();
   TextEditingController nomor = TextEditingController();
+  TextEditingController email = TextEditingController();
   TextEditingController pin = TextEditingController();
   TextEditingController markup = TextEditingController();
   TextEditingController namaToko = TextEditingController();
@@ -78,6 +79,7 @@ abstract class TambahDownlineController extends State<TambahDownline>
       Map<String, dynamic> body = {
         'name': nama.text,
         'phone': nomor.text,
+        'email': email.text,
         'pin': int.parse(pin.text),
         'id_propinsi': provinsi.id,
         'id_kabupaten': kota.id,

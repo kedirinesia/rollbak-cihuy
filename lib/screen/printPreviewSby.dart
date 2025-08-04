@@ -21,7 +21,7 @@ import 'package:mobile/config.dart';
 import 'package:mobile/models/trx.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/provider/analitycs.dart';
-import 'package:mobile/screen/custom_alert_dialog.dart';
+import 'package:mobile/screen/custom_alert_dialog.dart';  
 import 'package:mobile/screen/transaksi/select_printer.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:screenshot/screenshot.dart';

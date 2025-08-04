@@ -43,35 +43,64 @@ class _VoucherBulkPageState extends State<VoucherBulkPage> {
 
   @override
   void dispose() {
+    print('=== DEBUG: Disposing VoucherBulkPage ===');
+    print('DEBUG: Disposing text controllers');
     _voucherCode.dispose();
     _voucherStartCode.dispose();
     _voucherEndCode.dispose();
     super.dispose();
+    print('DEBUG: VoucherBulkPage disposed');
   }
 
   void _calculateTotalHarga() {
+    print('=== DEBUG: Starting _calculateTotalHarga ===');
+    print('DEBUG: Denom harga_jual: ${_denom?.harga_jual ?? "null"}');
+    print('DEBUG: Vouchers length: ${_vouchers.length}');
+    
     totalHarga = _denom.harga_jual * _vouchers.length;
-    print("Total Harga: $totalHarga");
+    print("DEBUG: Total Harga calculated: $totalHarga");
   }
 
   void _generateVoucher() {
-    if (_loading) return;
+    print('=== DEBUG: Starting _generateVoucher ===');
+    print('DEBUG: Loading state: $_loading');
+    
+    if (_loading) {
+      print('DEBUG: Currently loading, returning');
+      return;
+    }
 
     try {
       String startCodeText = _voucherStartCode.text.trim();
       String endCodeText = _voucherEndCode.text.trim();
+      
+      print('DEBUG: Start code text: "$startCodeText"');
+      print('DEBUG: End code text: "$endCodeText"');
 
-      if (startCodeText.isEmpty || endCodeText.isEmpty) return;
+      if (startCodeText.isEmpty || endCodeText.isEmpty) {
+        print('DEBUG: Start or end code is empty, returning');
+        return;
+      }
 
       int startCode = int.parse(startCodeText);
       int endCode = int.parse(endCodeText);
+      
+      print('DEBUG: Start code: $startCode');
+      print('DEBUG: End code: $endCode');
 
-      if (startCode == endCode) return;
+      if (startCode == endCode) {
+        print('DEBUG: Start and end codes are the same, returning');
+        return;
+      }
+      
+      print('DEBUG: Clearing master vouchers');
       _masterVouchers.clear();
 
       int codeLength = startCodeText.length;
+      print('DEBUG: Code length: $codeLength');
 
       if (startCode <= endCode) {
+        print('DEBUG: Generating vouchers in ascending order');
         for (int i = startCode; i <= endCode; i++) {
           String code = i.toString().padLeft(codeLength, '0');
           _masterVouchers.add({
@@ -81,6 +110,7 @@ class _VoucherBulkPageState extends State<VoucherBulkPage> {
           });
         }
       } else {
+        print('DEBUG: Generating vouchers in descending order');
         for (int i = startCode; i >= endCode; i--) {
           String code = i.toString().padLeft(codeLength, '0');
           _masterVouchers.add({
@@ -91,53 +121,104 @@ class _VoucherBulkPageState extends State<VoucherBulkPage> {
         }
       }
 
+      print('DEBUG: Total vouchers generated: ${_masterVouchers.length}');
       _vouchers = _masterVouchers;
       _calculateTotalHarga();
 
+      print('DEBUG: Setting state');
       setState(() {});
     } catch (err) {
-      print(err);
+      print('DEBUG: Error in _generateVoucher: $err');
+      print('DEBUG: Error type: ${err.runtimeType}');
     }
   }
 
   Future<void> _scanBarcode(String type) async {
-    if (_loading) return;
+    print('=== DEBUG: Starting _scanBarcode ===');
+    print('DEBUG: Scan type: $type');
+    print('DEBUG: Loading state: $_loading');
+    
+    if (_loading) {
+      print('DEBUG: Currently loading, returning');
+      return;
+    }
 
+    print('DEBUG: Starting barcode scanner...');
     ScanResult result = await BarcodeScanner.scan();
-    if (result.rawContent.isEmpty) return;
+    print('DEBUG: Scan result received');
+    print('DEBUG: Raw content: "${result.rawContent}"');
+    print('DEBUG: Raw content length: ${result.rawContent.length}');
+    
+    if (result.rawContent.isEmpty) {
+      print('DEBUG: Raw content is empty, returning');
+      return;
+    }
+    
+    print('DEBUG: Setting scanned content to text field');
     setState(() {
       if (type == 'start') {
         _voucherStartCode.text = result.rawContent;
+        print('DEBUG: Set start code to: ${result.rawContent}');
       } else if (type == 'end') {
         _voucherEndCode.text = result.rawContent;
+        print('DEBUG: Set end code to: ${result.rawContent}');
       } else if (type == 'single') {
         _voucherCode.text = result.rawContent;
+        print('DEBUG: Set single code to: ${result.rawContent}');
       }
     });
   }
 
   Future<void> _selectDenom() async {
-    if (_loading) return;
+    print('=== DEBUG: Starting _selectDenom ===');
+    print('DEBUG: Loading state: $_loading');
+    
+    if (_loading) {
+      print('DEBUG: Currently loading, returning');
+      return;
+    }
 
+    print('DEBUG: Navigating to ListVoucherDenomPage');
     PrepaidDenomModel result = await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (_) => ListVoucherDenomPage(widget.menu),
       ),
     );
 
-    if (result == null) return;
+    print('DEBUG: Result from denom selection: ${result != null ? "Selected" : "Cancelled"}');
+    if (result == null) {
+      print('DEBUG: No denom selected, returning');
+      return;
+    }
 
+    print('DEBUG: Setting denom data');
+    print('DEBUG: Denom kode_produk: ${result.kode_produk}');
+    print('DEBUG: Denom nama: ${result.nama}');
+    print('DEBUG: Denom harga_jual: ${result.harga_jual}');
+    print('DEBUG: Denom harga_promo: ${result.harga_promo}');
+    
     setState(() {
       _denom = result;
       _isPromo = result.harga_promo != null &&
           result.harga_promo > 0 &&
           result.harga_jual > result.harga_promo;
     });
+    
+    print('DEBUG: Is promo: $_isPromo');
   }
 
   Future<void> _processVoucher() async {
+    print('=== DEBUG: Starting _processVoucher ===');
+    print('DEBUG: Menu jenis: ${widget.menu.jenis}');
+    print('DEBUG: Denom is null: ${_denom == null}');
+    print('DEBUG: Vouchers length: ${_vouchers.length}');
+    
     if (widget.menu.jenis == 5) {
-      if (_denom == null) return;
+      print('DEBUG: Processing single voucher (jenis 5)');
+      if (_denom == null) {
+        print('DEBUG: Denom is null, returning');
+        return;
+      }
 
       Navigator.of(context).push(
         MaterialPageRoute(
@@ -147,13 +228,21 @@ class _VoucherBulkPageState extends State<VoucherBulkPage> {
       );
       return;
     } else if (widget.menu.jenis == 6) {
-      if (_denom == null || _vouchers.length == 0) return;
-
-      bool isBalanceEnough = await _checkBalance();
-      if (!isBalanceEnough) {
+      print('DEBUG: Processing bulk voucher (jenis 6)');
+      if (_denom == null || _vouchers.length == 0) {
+        print('DEBUG: Denom is null or vouchers empty, returning');
         return;
       }
 
+      print('DEBUG: Checking balance...');
+      bool isBalanceEnough = await _checkBalance();
+      print('DEBUG: Balance check result: $isBalanceEnough');
+      if (!isBalanceEnough) {
+        print('DEBUG: Insufficient balance, returning');
+        return;
+      }
+
+      print('DEBUG: Showing confirmation dialog...');
       bool status = await showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
@@ -183,32 +272,55 @@ class _VoucherBulkPageState extends State<VoucherBulkPage> {
           ],
         ),
       );
+      print('DEBUG: Dialog result: $status');
       if (!status) return;
 
       try {
-        if (_loading) return;
+        if (_loading) {
+          print('DEBUG: Already loading, returning');
+          return;
+        }
 
+        print('DEBUG: Setting loading to true');
         setState(() {
           _loading = true;
         });
 
+        print('DEBUG: Navigating to PIN verification...');
         String pin = await Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => VerifikasiPin(),
           ),
         );
+        print('DEBUG: PIN verification result: ${pin != null ? "PIN received" : "PIN cancelled"}');
         if (pin == null) return;
 
+        print('DEBUG: Sending device token...');
         sendDeviceToken();
 
+        print('DEBUG: Starting voucher processing loop...');
+        print('DEBUG: Total vouchers to process: ${_vouchers.length}');
+        
         for (int i = 0; i < _vouchers.length; i++) {
           Map<String, dynamic> voucher = _vouchers[i];
+          print('DEBUG: Processing voucher $i: ${voucher['code']}');
+          print('DEBUG: Voucher selected: ${voucher['selected']}');
+          print('DEBUG: Voucher status: ${voucher['status']}');
 
-          if (!voucher['selected']) continue;
-          if (voucher['status'] == 2) continue;
+          if (!voucher['selected']) {
+            print('DEBUG: Voucher not selected, skipping');
+            continue;
+          }
+          if (voucher['status'] == 2) {
+            print('DEBUG: Voucher already processed, skipping');
+            continue;
+          }
+          
+          print('DEBUG: Calling _purchaseVoucher for index $i');
           await _purchaseVoucher(i, pin);
         }
 
+        print('DEBUG: All vouchers processed, showing success message');
         ScaffoldMessenger.of(context).showSnackBar(
           Alert(
             'Transaksi sedang diproses, anda dapat memantau status transaksi pada halaman riwayat transaksi',
@@ -219,8 +331,10 @@ class _VoucherBulkPageState extends State<VoucherBulkPage> {
           _loading = false;
         });
       } catch (err) {
-        print(err);
+        print('DEBUG: Error in _processVoucher: $err');
+        print('DEBUG: Error type: ${err.runtimeType}');
       } finally {
+        print('DEBUG: Setting loading to false in finally block');
         setState(() {
           _loading = false;
         });
@@ -229,6 +343,13 @@ class _VoucherBulkPageState extends State<VoucherBulkPage> {
   }
 
   Future<void> _purchaseVoucher(int index, String pin) async {
+    print('=== DEBUG: Starting voucher purchase for index $index ===');
+          print('DEBUG: API URL: $apiUrl/trx/prepaid/purchase');
+    print('DEBUG: Token available: ${bloc.token.valueWrapper.value != null}');
+    print('DEBUG: Token length: ${bloc.token.valueWrapper.value?.length ?? 0}');
+    print('DEBUG: Denom kode_produk: ${_denom.kode_produk}');
+    print('DEBUG: Voucher code: ${_vouchers[index]['code']}');
+    
     try {
       var dataToSend = {
         'kode_produk': _denom.kode_produk,
@@ -236,38 +357,82 @@ class _VoucherBulkPageState extends State<VoucherBulkPage> {
         'counter': 1,
         'pin': pin,
       };
+      
+      print('DEBUG: Request data: ${json.encode(dataToSend)}');
+      print('DEBUG: Headers: ${{
+        'Content-Type': 'application/json',
+        'Authorization': bloc.token.valueWrapper.value,
+      }}');
 
+      print('DEBUG: Making HTTP request...');
       http.Response response = await http
           .post(
-            Uri.parse('$apiUrl/api/v1/trx/prepaid/voucher/purchase'),
+            Uri.parse('$apiUrl/trx/prepaid/purchase'),
             headers: {
               'Content-Type': 'application/json',
               'Authorization': bloc.token.valueWrapper.value,
             },
             body: json.encode(dataToSend),
           )
-          .timeout(Duration(minutes: 5)); // Menambahkan timeout di sini
+          .timeout(Duration(minutes: 5));
+      
+      print('DEBUG: Response received');
+      print('DEBUG: Status code: ${response.statusCode}');
+      print('DEBUG: Response body: ${response.body}');
+      
       if (response.statusCode == 200) {
+        var responseData = json.decode(response.body);
         _vouchers[index]['status'] = 2;
+        _vouchers[index]['trx_id'] = responseData['data']['trx_id'];
+        _vouchers[index]['harga'] = responseData['data']['harga'];
+        print('DEBUG: Voucher purchase successful - TRX ID: ${responseData['data']['trx_id']}');
       } else {
         _vouchers[index]['status'] = 3;
+        print('DEBUG: Voucher purchase failed with status: ${response.statusCode}');
       }
-    } on TimeoutException catch (_) {
-      // Menangani TimeoutException
+    } on TimeoutException catch (e) {
       _vouchers[index]['status'] = 3;
-      print('Request timed out');
+      print('DEBUG: TimeoutException caught: $e');
+      print('DEBUG: Request timed out after 5 minutes');
     } catch (err) {
       _vouchers[index]['status'] = 3;
-      print(err);
+      print('DEBUG: Unexpected error caught: $err');
+      print('DEBUG: Error type: ${err.runtimeType}');
+      print('DEBUG: Error toString: ${err.toString()}');
+      
+      // Check if it's an SSL/Handshake error
+      if (err.toString().contains('HandshakeException') || 
+          err.toString().contains('handshake') ||
+          err.toString().contains('SSL')) {
+        print('DEBUG: This appears to be an SSL/Handshake error');
+        print('DEBUG: Full error details: $err');
+      }
+      
+      // Check if it's a network connectivity issue
+      if (err.toString().contains('SocketException') ||
+          err.toString().contains('Connection') ||
+          err.toString().contains('Network')) {
+        print('DEBUG: This appears to be a network connectivity issue');
+        print('DEBUG: Full error details: $err');
+      }
     } finally {
+      print('DEBUG: Setting state and completing voucher purchase for index $index');
       setState(() {});
     }
   }
 
   Future<bool> _checkBalance() async {
+    print('=== DEBUG: Starting _checkBalance ===');
+    print('DEBUG: Denom harga_jual: ${_denom.harga_jual}');
+    print('DEBUG: Vouchers length: ${_vouchers.length}');
+    
     double totalAmount = _denom.harga_jual.toDouble() * _vouchers.length;
+    print('DEBUG: Total amount needed: $totalAmount');
+    print('DEBUG: User saldo: ${bloc.user.valueWrapper.value.saldo}');
+    print('DEBUG: Is balance sufficient: ${bloc.user.valueWrapper.value.saldo >= totalAmount}');
 
     if (bloc.user.valueWrapper.value.saldo < totalAmount) {
+      print('DEBUG: Insufficient balance, showing dialog');
       showDialog(
           context: context,
           builder: (BuildContext ctx) {
@@ -281,42 +446,66 @@ class _VoucherBulkPageState extends State<VoucherBulkPage> {
           });
       return false;
     } else {
+      print('DEBUG: Balance is sufficient');
       return true;
     }
   }
 
   void _updateFilter(int status) {
+    print('=== DEBUG: Starting _updateFilter ===');
+    print('DEBUG: Filter status: $status');
+    print('DEBUG: Loading state: $_loading');
+    
     if (_loading) {
+      print('DEBUG: Currently loading, showing toast and returning');
       showToast(context,
           'Voucher sedang diproses, harap tunggu hingga voucher selesai diproses');
       return;
     }
 
+    print('DEBUG: Master vouchers count: ${_masterVouchers.length}');
+    
     if (status == 0) {
+      print('DEBUG: Showing all vouchers');
       setState(() {
         _voucherLabel = 'Semua Voucher :';
         _vouchers = _masterVouchers;
       });
     } else if (status == 1) {
+      print('DEBUG: Showing unprocessed vouchers');
+      var filtered = _masterVouchers.where((el) => el['status'] == 1).toList();
+      print('DEBUG: Unprocessed vouchers count: ${filtered.length}');
       setState(() {
         _voucherLabel = 'Voucher Belum Diproses :';
-        _vouchers = _masterVouchers.where((el) => el['status'] == 1).toList();
+        _vouchers = filtered;
       });
     } else if (status == 2) {
+      print('DEBUG: Showing successful vouchers');
+      var filtered = _masterVouchers.where((el) => el['status'] == 2).toList();
+      print('DEBUG: Successful vouchers count: ${filtered.length}');
       setState(() {
         _voucherLabel = 'Voucher Berhasil :';
-        _vouchers = _masterVouchers.where((el) => el['status'] == 2).toList();
+        _vouchers = filtered;
       });
     } else if (status == 3) {
+      print('DEBUG: Showing failed vouchers');
+      var filtered = _masterVouchers.where((el) => el['status'] == 3).toList();
+      print('DEBUG: Failed vouchers count: ${filtered.length}');
       setState(() {
         _voucherLabel = 'Voucher Gagal :';
-        _vouchers = _masterVouchers.where((el) => el['status'] == 3).toList();
+        _vouchers = filtered;
       });
     }
+    
+    print('DEBUG: Filtered vouchers count: ${_vouchers.length}');
   }
 
   Widget _content() {
+    print('=== DEBUG: Building _content ===');
+    print('DEBUG: Menu jenis: ${widget.menu.jenis}');
+    
     if (widget.menu.jenis == 6) {
+      print('DEBUG: Building bulk voucher content');
       // VOUCHER MASSAL
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -774,6 +963,12 @@ class _VoucherBulkPageState extends State<VoucherBulkPage> {
 
   @override
   Widget build(BuildContext context) {
+    print('=== DEBUG: Building VoucherBulkPage ===');
+    print('DEBUG: Loading state: $_loading');
+    print('DEBUG: Denom is null: ${_denom == null}');
+    print('DEBUG: Vouchers count: ${_vouchers.length}');
+    print('DEBUG: Total harga: $totalHarga');
+    
     return Scaffold(
       appBar: AppBar(
         title: Text('Voucher'),

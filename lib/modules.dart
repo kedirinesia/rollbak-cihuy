@@ -133,12 +133,24 @@ String toString(List<int> bytes) {
 }
 
 void sendDeviceToken() async {
-  await http.post(Uri.parse('$apiUrl/user/device_token'),
-      headers: {
-        'Authorization': bloc.token.valueWrapper?.value,
-        'Content-Type': 'application/json'
-      },
-      body: json.encode({'token': bloc.deviceToken.valueWrapper?.value}));
+  print('=== DEBUG: Starting sendDeviceToken ===');
+  print('DEBUG: API URL: $apiUrl/user/device_token');
+  print('DEBUG: Token available: ${bloc.token.valueWrapper?.value != null}');
+  print('DEBUG: Device token available: ${bloc.deviceToken.valueWrapper?.value != null}');
+  
+  try {
+    print('DEBUG: Making device token request...');
+    await http.post(Uri.parse('$apiUrl/user/device_token'),
+        headers: {
+          'Authorization': bloc.token.valueWrapper?.value,
+          'Content-Type': 'application/json'
+        },
+        body: json.encode({'token': bloc.deviceToken.valueWrapper?.value}));
+    print('DEBUG: Device token sent successfully');
+  } catch (err) {
+    print('DEBUG: Error sending device token: $err');
+    print('DEBUG: Error type: ${err.runtimeType}');
+  }
 }
 
 Future<void> launchUrl(String url) async {

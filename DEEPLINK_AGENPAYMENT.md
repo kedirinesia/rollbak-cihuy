@@ -25,7 +25,7 @@ void appLink() {
     print('Deep link received: $uri');
     
     // Handle agenpayment://login deep link
-    if (uri.scheme == 'agenpayment' && uri.host == 'login') {
+    if (uri.scheme == 'agenpayment' && uri.host == 'login')     {
       // Navigate to login page
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (_) => configAppBloc.layoutApp.valueWrapper?.value['login'] ?? LoginPage()),
