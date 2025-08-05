@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobile/Products/mykonterr/layout/components/template.dart';
 import 'package:mobile/models/payment-list.dart';
 import 'package:mobile/screen/topup/bank/bank.dart';
@@ -18,6 +19,7 @@ class TopupPage extends StatefulWidget {
 class _TopupPageState extends State<TopupPage> with TickerProviderStateMixin {
   bool loading = true;
   List<PaymentModel> listPayment = [];
+  List<PaymentModel> groupedPayment = [];
 
   @override
   void initState() {
@@ -29,12 +31,46 @@ class _TopupPageState extends State<TopupPage> with TickerProviderStateMixin {
     try {
       List<dynamic> datas = await api.get('/deposit/methode', cache: true);
       listPayment = datas.map((e) => PaymentModel.fromJson(e)).toList();
+      groupPaymentMethods();
     } catch (e) {
       listPayment = [];
+      groupedPayment = [];
     } finally {
       setState(() {
         loading = false;
       });
+    }
+  }
+
+  void groupPaymentMethods() {
+    groupedPayment = [];
+    
+    // Add non-ewallet methods
+    for (PaymentModel payment in listPayment) {
+      if (payment.type != 7) { // Exclude individual e-wallet items
+        groupedPayment.add(payment);
+      }
+    }
+    
+    // Add grouped e-wallet if there are any e-wallet items
+    List<PaymentModel> ewalletItems = listPayment.where((p) => p.type == 7).toList();
+    if (ewalletItems.isNotEmpty) {
+      // Create a grouped e-wallet item
+      PaymentModel groupedEwallet = PaymentModel(
+        id: 'ewallet_group',
+        type: 7,
+        title: 'E-Wallet',
+        icon: 'assets/img/payuni2/wallet.svg', // Use existing wallet icon
+        description: 'Deposit menggunakan berbagai e-wallet (LinkAja, OVO, ShopeePay, dll)',
+        channel: 'ewallet',
+        admin: null,
+      );
+      groupedPayment.add(groupedEwallet);
+    }
+    
+    // If no items were added, use original list
+    if (groupedPayment.isEmpty) {
+      groupedPayment = List.from(listPayment);
     }
   }
 
@@ -80,9 +116,9 @@ class _TopupPageState extends State<TopupPage> with TickerProviderStateMixin {
             child: ListView.builder(
                 shrinkWrap: true,
                 physics: ScrollPhysics(),
-                itemCount: listPayment.length,
+                itemCount: groupedPayment.length,
                 itemBuilder: (_, int index) {
-                  PaymentModel mm = listPayment[index];
+                  PaymentModel mm = groupedPayment[index];
 
                   return InkWell(
                     onTap: () => onTapMenu(mm),
@@ -104,12 +140,20 @@ class _TopupPageState extends State<TopupPage> with TickerProviderStateMixin {
                           backgroundColor:
                               Theme.of(context).primaryColor.withOpacity(.1),
                           child: mm.icon.isNotEmpty
-                              ? Padding(
-                                  padding: EdgeInsets.all(10.0),
-                                  child: CachedNetworkImage(
-                                    imageUrl: mm.icon,
-                                    width: 40.0,
-                                  ))
+                              ? mm.icon.startsWith('assets/')
+                                  ? Padding(
+                                      padding: EdgeInsets.all(10.0),
+                                      child: SvgPicture.asset(
+                                        mm.icon,
+                                        width: 40.0,
+                                        color: Theme.of(context).primaryColor,
+                                      ))
+                                  : Padding(
+                                      padding: EdgeInsets.all(10.0),
+                                      child: CachedNetworkImage(
+                                        imageUrl: mm.icon,
+                                        width: 40.0,
+                                      ))
                               : Icon(Icons.list),
                         ),
                         title: Row(
