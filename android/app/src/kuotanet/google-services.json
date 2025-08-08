@@ -183,7 +183,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:835305946598:android:8489ad09506d0fbdc1ea27",
         "android_client_info": {
-          "package_name": "com.gopulsa.mobile"
+          "package_name": "application.gopulsa.mobileapps"
         }
       },
       "oauth_client": [

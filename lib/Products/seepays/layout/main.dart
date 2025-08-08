@@ -1,92 +1,180 @@
 // @dart=2.9
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobile/Products/seepays/layout/history.dart';
 import 'package:mobile/Products/seepays/layout/home2.dart';
 import 'package:mobile/Products/seepays/layout/profile.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
-import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/component/webview.dart';
-import 'package:motion_tab_bar_v2/motion-tab-bar.dart';
-import 'package:motion_tab_bar_v2/motion-tab-controller.dart';
-import 'package:flutter_svg/flutter_svg.dart'; // <--- Tambahkan ini
+import 'package:mobile/screen/profile/my_qris.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class MainApp extends StatefulWidget {
   @override
   _MainAppState createState() => _MainAppState();
 }
 
-class _MainAppState extends State<MainApp> with TickerProviderStateMixin {
-  MotionTabBarController _motionTabBarController;
-  final List<Widget> _pages = [
-    Home2App(),
-    HistoryPage(),
-    ProfilePage(),
-  ];
+class _MainAppState extends State<MainApp> {
+  int pageIndex = 0;
 
-  @override
-  void initState() {
-    super.initState();
-    _motionTabBarController = MotionTabBarController(
-      initialIndex: 0,
-      length: _pages.length,
-      vsync: this,
-    );
-  }
-
-  @override
-  void dispose() {
-    _motionTabBarController.dispose();
-    super.dispose();
-  }
-
-  List<Widget> _buildNavIcons(BuildContext context) {
-    return [
-      Icon(Icons.apps, size: 28), // Home tetap Icon Flutter
-      SvgPicture.asset(
-        "assets/staggered-menu.svg",
-        width: 28,
-        height: 28,
-        color: Colors.grey, // warna icon history nonselected
-      ),
-      Image.asset(
-        "assets/profile.png",
-        width: 28,
-        height: 28,
-      ),
-    ];
-  }
+  List<Widget> get halaman => [
+        Home2App(),
+        HistoryPage(),
+        _LivechatTab(),
+        ProfilePage(),
+      ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      
-      body: TabBarView(
-        controller: _motionTabBarController,
-        physics: NeverScrollableScrollPhysics(),
-        children: _pages,
-      ),
-      bottomNavigationBar: MotionTabBar(
-        labels: ["Home", "History", "Profile"],
-        initialSelectedTab: "Home",
-        iconWidgets: _buildNavIcons(context),
-        controller: _motionTabBarController,
-        tabBarColor: Colors.white,
-        tabSelectedColor: Colors.deepPurpleAccent,
-        tabIconColor: Colors.grey,
-        tabIconSelectedColor: Colors.white,
-        textStyle: TextStyle(
-          fontSize: 12,
-          color: Colors.deepPurpleAccent,
-          fontWeight: FontWeight.w500,
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Theme.of(context).primaryColor,
+        child: CachedNetworkImage(
+          imageUrl: 'https://dokumen.payuni.co.id/logo/payku/qris.png',
+          color: Colors.white,
+          width: 40.0,
+          height: 40.0,
         ),
-        onTabItemSelected: (int index) {
-          setState(() {
-            _motionTabBarController.index = index;
-          });
+        elevation: 0.0,
+        onPressed: () {
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (_) => MyQrisPage()));
         },
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      body: halaman[pageIndex],
+      bottomNavigationBar: BottomAppBar(
+        shape: CircularNotchedRectangle(),
+        child: Container(
+          color: Colors.white.withOpacity(0.3),
+          height: 55.0,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              // Home (Logo App)
+              Expanded(
+                child: InkWell(
+                  onTap: () {
+                    setState(() => pageIndex = 0);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.only(top: 8.0),
+                    child: Column(
+                      children: <Widget>[
+                        Image.asset(
+                          "assets/seepaysicon.png",
+                          width: 25.0,
+                          height: 25.0,
+                          errorBuilder: (context, error, stackTrace) => Icon(
+                            Icons.apps,
+                            color: pageIndex == 0
+                                ? Theme.of(context).primaryColor
+                                : Colors.grey,
+                          ),
+                        ),
+                        SizedBox(height: 3.0),
+                        Text('Home', style: TextStyle(fontSize: 10.0))
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              // Riwayat
+              Expanded(
+                child: InkWell(
+                  onTap: () {
+                    setState(() => pageIndex = 1);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.only(top: 8.0),
+                    child: Column(
+                      children: <Widget>[
+                        CachedNetworkImage(
+                          imageUrl: 'https://cdn-icons-png.flaticon.com/512/8118/8118496.png',
+                          color: pageIndex == 1
+                              ? Theme.of(context).primaryColor
+                              : Colors.grey,
+                          width: 25.0,
+                          height: 25.0,
+                        ),
+                        SizedBox(height: 3.0),
+                        Text('Riwayat', style: TextStyle(fontSize: 10.0))
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              // Center gap for FAB (Static QR)
+              SizedBox(width: 60),
+              // Bantuan/Livechat
+              Expanded(
+                child: InkWell(
+                  onTap: () {
+                    setState(() => pageIndex = 2);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.only(top: 8.0),
+                    child: Column(
+                      children: <Widget>[
+                        Icon(
+                          Icons.help_outline_rounded,
+                          color: pageIndex == 2
+                              ? Theme.of(context).primaryColor
+                              : Colors.grey,
+                          size: 25.0,
+                        ),
+                        SizedBox(height: 3.0),
+                        Text('Bantuan', style: TextStyle(fontSize: 10.0))
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              // Akun/Profile
+              Expanded(
+                child: InkWell(
+                  onTap: () {
+                    setState(() => pageIndex = 3);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.only(top: 8.0),
+                    child: Column(
+                      children: <Widget>[
+                        Icon(
+                          Icons.person_rounded,
+                          color: pageIndex == 3
+                              ? Theme.of(context).primaryColor
+                              : Colors.grey,
+                          size: 25.0,
+                        ),
+                        SizedBox(height: 3.0),
+                        Text('Akun', style: TextStyle(fontSize: 10.0))
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
+  }
+}
+
+class _LivechatTab extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final String url = configAppBloc.liveChat.valueWrapper?.value;
+    if (url == null || url.isEmpty) {
+      return Scaffold(
+        appBar: AppBar(title: Text('Bantuan')),
+        body: Center(child: Text('Bantuan tidak tersedia')),
+      );
+    }
+    return Webview('Bantuan', url);
   }
 }

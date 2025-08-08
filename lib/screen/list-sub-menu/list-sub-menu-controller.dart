@@ -81,8 +81,26 @@ abstract class ListSubMenuController extends State<ListSubMenu>
   ];
 
   onTapMenu(MenuModel menu) async {
+    // Debug print for sub-menu access
+    print('=== DEBUG: Sub-Menu Access Attempt ===');
+    print('Menu Name: ${menu.name}');
+    print('Menu Jenis: ${menu.jenis}');
+    print('Menu Type: ${menu.type}');
+    print('Package Name: $packageName');
+    print('Is Akupay: ${packageName == 'com.akupay.androidmobileapps'}');
+    
     if (menu.category_id.isNotEmpty && menu.type == 1) {
       if (menu.jenis == 5 || menu.jenis == 6) {
+        // Prevent akupay from accessing bulk voucher menu
+        if (packageName == 'com.akupay.androidmobileapps') {
+          print('*** BLOCKED: Akupay trying to access bulk voucher menu from sub-menu ***');
+          print('Menu: ${menu.name} (Jenis: ${menu.jenis})');
+          return; // Do nothing for akupay
+        }
+        
+        print('*** ACCESSING BULK VOUCHER MENU FROM SUB-MENU ***');
+        print('Menu: ${menu.name} (Jenis: ${menu.jenis})');
+        
         if (configAppBloc.packagename.valueWrapper?.value ==
             'id.paymobileku.app') {
           return Navigator.of(context).push(
@@ -96,6 +114,23 @@ abstract class ListSubMenuController extends State<ListSubMenu>
         } else {
           return;
         }
+      } else if (menu.name.toLowerCase().contains('inject') || 
+                 (menu.name.toLowerCase().contains('voucher') && menu.jenis == 2)) {
+        // Prevent akupay from accessing inject menus
+        if (packageName == 'com.akupay.androidmobileapps') {
+          print('*** BLOCKED: Akupay trying to access inject menu from sub-menu ***');
+          print('Menu: ${menu.name} (Jenis: ${menu.jenis})');
+          return; // Do nothing for akupay
+        }
+        
+        print('*** ACCESSING INJECT MENU FROM SUB-MENU ***');
+        print('Menu: ${menu.name} (Jenis: ${menu.jenis})');
+        
+        return Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => DetailDenom(menu),
+          ),
+        );
       } else {
         return Navigator.of(context).push(
           MaterialPageRoute(

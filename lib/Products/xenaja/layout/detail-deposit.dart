@@ -5,8 +5,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
-import 'package:installed_apps/installed_apps.dart';
+import 'package:flutter_custom_tabs/flutter_custom_tabs.dart' as custom_tabs;
 import 'package:mobile/Products/xenaja/layout/components/template.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/models/deposit.dart';
@@ -17,6 +16,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share/share.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DetailDeposit extends StatefulWidget {
   final DepositModel dep;
@@ -35,22 +35,22 @@ class _DetailDepositState extends State<DetailDeposit> {
   void initState() {
     super.initState();
     analitycs.pageView(
-        '/deposit/' + widget.dep.type.toString() + '/' + widget.dep.id,
+        '/deposit/${widget.dep.type}/${widget.dep.id}',
         {'userId': bloc.userId.valueWrapper?.value, 'title': 'Detail Deposit'});
     checkingDanaApp();
   }
 
   void checkingDanaApp() async {
-    InstalledApps.getAppInfo('id.dana').then((app) {
-      print(app);
+    try {
+      bool canLaunchDana = await canLaunch('id.dana://');
       setState(() {
-        danaApp = true;
+        danaApp = canLaunchDana;
       });
-    }).catchError((e) {
+    } catch (e) {
       setState(() {
         danaApp = false;
       });
-    });
+    }
   }
 
   Widget fab() {
@@ -85,17 +85,21 @@ class _DetailDepositState extends State<DetailDeposit> {
   }
 
   void bayarDana() async {
-    Directory temp = await getTemporaryDirectory();
-    image = await File('${temp.path}/qr.png').create();
-    Uint8List bytes = await _screenshotController.capture(pixelRatio: 2.5);
-    await image.writeAsBytes(bytes);
-    if (image == null) return;
-    print(image.path);
-    await Share.shareFiles(
-      [image.path],
-      text: 'Bayar Pakai Dana',
-      packageApp: 'id.dana',
-    );
+    try {
+      Directory temp = await getTemporaryDirectory();
+      image = await File('${temp.path}/qr.png').create();
+      Uint8List bytes = await _screenshotController.capture(pixelRatio: 2.5);
+      await image.writeAsBytes(bytes);
+      if (image == null) return;
+      print(image.path);
+      await Share.shareFiles(
+        [image.path],
+        text: 'Bayar Pakai Dana',
+        packageApp: 'id.dana',
+      );
+    } catch (e) {
+      print('Error sharing file: $e');
+    }
   }
 
   @override
@@ -208,7 +212,12 @@ class _DetailDepositState extends State<DetailDeposit> {
                             Text(widget.dep.kodePembayaran,
                                 style: TextStyle(fontSize: 20.0)),
                             TextButton.icon(
-                                onPressed: () {},
+                                onPressed: () async {
+                                  await Clipboard.setData(
+                                      ClipboardData(text: widget.dep.kodePembayaran));
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(content: Text("Kode pembayaran berhasil disalin")));
+                                },
                                 icon: Icon(Icons.content_copy, size: 16.0),
                                 label: Text('Salin Kode',
                                     style: TextStyle(fontSize: 10.0))),
@@ -304,14 +313,7 @@ class _DetailDepositState extends State<DetailDeposit> {
                       onPressed: () async {
                         try {
                           print(widget.dep.url_payment);
-                          await launch(widget.dep.url_payment,
-                              customTabsOption: CustomTabsOption(
-                                  toolbarColor: Theme.of(context).primaryColor,
-                                  enableDefaultShare: false,
-                                  enableUrlBarHiding: true,
-                                  showPageTitle: true,
-                                  animation:
-                                      CustomTabsSystemAnimation.slideIn()));
+                          await launch(widget.dep.url_payment);
                         } catch (e) {
                           debugPrint(e.toString());
                         }

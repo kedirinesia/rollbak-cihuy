@@ -2,6 +2,7 @@
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:app_links/app_links.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -89,7 +90,7 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
     };
     
     if (appVersionCode.isNotEmpty) {
-      headers['App-Version'] = appVersionCode;
+      headers['version_code'] = appVersionCode;
     }
     
     print('=== GET USER/INFO ===');
@@ -109,11 +110,7 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
     return json.decode(response.body);
   }
 
-  checkUser() async {
-    setState(() {
-      loading = true;
-    });
-
+  Future<void> checkUser() async {
     List<String> pkgNameSplashProgress = ['com.talentapay.android'];
 
     pkgNameSplashProgress.forEach((element) {
@@ -124,7 +121,24 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
       }
     });
 
-    await getAppInfo();
+    try {
+      await getAppInfo();
+      print('DEBUG: getAppInfo completed successfully');
+    } catch (e) {
+      print('DEBUG: getAppInfo failed: $e');
+      print('DEBUG: Error type: ${e.runtimeType}');
+      
+      // Handle FormatException (HTML response from server)
+      if (e is FormatException) {
+        print('DEBUG: Server returned HTML instead of JSON. This indicates a server issue.');
+        // You might want to show a user-friendly error message here
+        // For now, we'll continue with default values
+      }
+      
+      // Continue with the app initialization even if getAppInfo fails
+      // This prevents the app from crashing completely
+    }
+    
     // await getLocationPermission();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int printerType = prefs.getInt('printer_type') ?? 1;
@@ -132,6 +146,11 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
     int printFontSize = prefs.getInt('printer_font_size') ?? 1;
     bloc.printerFontSize.add(printFontSize);
     String token = prefs.getString('token') ?? '';
+    
+    // DEBUG: Hardcode token untuk debugging - UNCOMMENT BARIS DI BAWAH UNTUK MENGGUNAKAN TOKEN DEBUG
+     //token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjIxMDg1NTg1NTEyLCJpZCI6IjY1NmE5YTBmODVlYzkyMzM4MWRhYjg2YSIsImlhdCI6MTc1NDU0MDEyNn0.LZXe4dteqPSXK0D4bzo2aOdvnKdm4LM7DRqkluxLD1M"; // Ganti dengan token debug yang valid
+    
+
     await getDynamicLinks();
 
     if (token.isEmpty) {
@@ -142,7 +161,9 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
       });
     }
 
-    if (!configAppBloc.info.valueWrapper.value.aktif) {
+    // Check if app info is available before checking if it's active
+    if (configAppBloc.info.valueWrapper?.value != null && 
+        !configAppBloc.info.valueWrapper.value.aktif) {
       setState(() {
         loading = false;
         homePageWidget = DisablePage(DisableType.merchant);
@@ -150,6 +171,10 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
     }
 
     print('TOKEN: $token');
+    print('DEBUG: Token length: ${token.length}');
+    if (token.isNotEmpty) {
+      print('DEBUG: Token starts with: ${token.substring(0, min(20, token.length))}...');
+    }
 
     if (token.isNotEmpty) {
       Map<String, dynamic> userInfo = await getUser(token);
@@ -481,7 +506,7 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
     };
     
     if (appVersionCode.isNotEmpty) {
-      headers['App-Version'] = appVersionCode;
+      headers['version_code'] = appVersionCode;
     }
     
     Map<String, dynamic> body = {'token': bloc.deviceToken.valueWrapper?.value};
@@ -493,13 +518,15 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
     print('Body: ${json.encode(body)}');
     print('=============================');
     
-    http.Response response = await http.post(Uri.parse('$apiUrl/user/device_token'),
-        headers: headers,
-        body: json.encode(body));
-    
-    print('Response Status: ${response.statusCode}');
-    print('Response Body: ${response.body}');
-    print('=============================');
+    try {
+      http.Response response = await http.post(Uri.parse('$apiUrl/user/device_token'),
+          headers: headers,
+          body: json.encode(body));
+      
+      printApiResponse('USER/DEVICE_TOKEN', response);
+    } catch (e) {
+      printApiError('USER/DEVICE_TOKEN', e);
+    }
   }
 
   // Future<void> _requestNotifPermission() async {
@@ -635,6 +662,30 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
   //   }
   // }
   // END FEATURE CONTACTS
+
+  // Helper function untuk print response dengan format yang konsisten
+  void printApiResponse(String endpoint, http.Response response, {String prefix = ''}) {
+    print('${prefix}=== API RESPONSE: $endpoint ===');
+    print('${prefix}Status Code: ${response.statusCode}');
+    print('${prefix}Response Headers: ${response.headers}');
+    print('${prefix}Response Body: ${response.body}');
+    
+    // Parse response body jika JSON
+    try {
+      Map<String, dynamic> responseData = json.decode(response.body);
+      print('${prefix}Parsed Response: ${json.encode(responseData)}');
+    } catch (e) {
+      print('${prefix}Response is not JSON: ${response.body}');
+    }
+    
+    print('${prefix}==================================');
+  }
+
+  void printApiError(String endpoint, dynamic error, {String prefix = ''}) {
+    print('${prefix}=== API ERROR: $endpoint ===');
+    print('${prefix}Error: $error');
+    print('${prefix}==================================');
+  }
 
   @override
   Widget build(BuildContext context) {

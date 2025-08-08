@@ -6,6 +6,7 @@
 import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
@@ -32,6 +33,23 @@ class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    
+    // Set system UI overlay style untuk Android SDK 35
+    // Menggunakan addPostFrameCallback untuk memastikan context tersedia
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        SystemChrome.setSystemUIOverlayStyle(
+          SystemUiOverlayStyle(
+            statusBarColor: Theme.of(context).primaryColor,
+            statusBarIconBrightness: Brightness.light,
+            systemNavigationBarColor: Colors.transparent,
+            systemNavigationBarDividerColor: Colors.transparent,
+            systemNavigationBarIconBrightness: Brightness.dark,
+          ),
+        );
+      }
+    });
+    
     changePrimaryColor();
   }
 
@@ -50,8 +68,13 @@ class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    // Hitung padding yang diperlukan untuk system navigation
+    final bottomPadding = MediaQuery.of(context).padding.bottom;
+    final systemNavHeight = bottomPadding > 0 ? bottomPadding : 0.0;
+    
     return Scaffold(
         backgroundColor: Colors.white,
+        extendBody: true, // Extend body behind bottom navigation
         floatingActionButton: FloatingActionButton(
           backgroundColor: Theme.of(context).primaryColor,
           child: CachedNetworkImage(
@@ -101,117 +124,123 @@ class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
                 }),
           ],
         ),
-        bottomNavigationBar: BottomAppBar(
-          notchMargin: 5.0,
-          color: Colors.white,
-          shape: CircularNotchedRectangle(),
-          child: Container(
-            height: 50.0,
-            padding: EdgeInsets.only(top: 10.0),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Expanded(
-                  child: InkWell(
-                    onTap: () {
-                      setState(() {
-                        pageIndex = 0;
-                      });
-                    },
-                    child: Column(
-                      children: <Widget>[
-                        CachedNetworkImage(
-                            imageUrl:
-                                'https://firebasestorage.googleapis.com/v0/b/payuni-2019y.appspot.com/o/merchants%2FPakeAja%2Fdashboard.png?alt=media&token=0794cc0a-16ef-48f8-8625-17d450c61680',
-                            color: pageIndex == 0
-                                ? Theme.of(context).primaryColor
-                                : Colors.grey,
-                            width: 20.0),
-                        SizedBox(
-                          height: 5.0,
-                        ),
-                        Text('Home', style: TextStyle(fontSize: 10.0))
-                      ],
+        bottomNavigationBar: Container(
+          // Tambahkan padding yang cukup untuk menghindari system navigation
+          padding: EdgeInsets.only(
+            bottom: systemNavHeight + 8.0, // Extra 8px untuk safety
+          ),
+          child: BottomAppBar(
+            notchMargin: 5.0,
+            color: Colors.white,
+            shape: CircularNotchedRectangle(),
+            child: Container(
+              height: 50.0,
+              padding: EdgeInsets.only(top: 10.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          pageIndex = 0;
+                        });
+                      },
+                      child: Column(
+                        children: <Widget>[
+                          CachedNetworkImage(
+                              imageUrl:
+                                  'https://firebasestorage.googleapis.com/v0/b/payuni-2019y.appspot.com/o/merchants%2FPakeAja%2Fdashboard.png?alt=media&token=0794cc0a-16ef-48f8-8625-17d450c61680',
+                              color: pageIndex == 0
+                                  ? Theme.of(context).primaryColor
+                                  : Colors.grey,
+                              width: 20.0),
+                          SizedBox(
+                            height: 5.0,
+                          ),
+                          Text('Home', style: TextStyle(fontSize: 10.0))
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(width: 20.0),
-                Expanded(
-                  child: InkWell(
-                    onTap: () {
-                      setState(() {
-                        pageIndex = 1;
-                      });
-                    },
-                    child: Column(
-                      children: <Widget>[
-                        CachedNetworkImage(
-                            imageUrl:
-                                'https://firebasestorage.googleapis.com/v0/b/payuni-2019y.appspot.com/o/merchants%2FPakeAja%2Fhistory.png?alt=media&token=6047695d-e0d8-4fdf-b59d-ba7c21c70ab0',
-                            color: pageIndex == 1
-                                ? Theme.of(context).primaryColor
-                                : Colors.grey,
-                            width: 20.0),
-                        SizedBox(
-                          height: 5.0,
-                        ),
-                        Text('History', style: TextStyle(fontSize: 10.0))
-                      ],
+                  SizedBox(width: 20.0),
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          pageIndex = 1;
+                        });
+                      },
+                      child: Column(
+                        children: <Widget>[
+                          CachedNetworkImage(
+                              imageUrl:
+                                  'https://firebasestorage.googleapis.com/v0/b/payuni-2019y.appspot.com/o/merchants%2FPakeAja%2Fhistory.png?alt=media&token=6047695d-e0d8-4fdf-b59d-ba7c21c70ab0',
+                              color: pageIndex == 1
+                                  ? Theme.of(context).primaryColor
+                                  : Colors.grey,
+                              width: 20.0),
+                          SizedBox(
+                            height: 5.0,
+                          ),
+                          Text('History', style: TextStyle(fontSize: 10.0))
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(width: 80.0),
-                Expanded(
-                  child: InkWell(
-                    onTap: () {
-                      setState(() {
-                        pageIndex = 2;
-                      });
-                    },
-                    child: Column(
-                      children: <Widget>[
-                        CachedNetworkImage(
-                            imageUrl:
-                                'https://firebasestorage.googleapis.com/v0/b/payuni-2019y.appspot.com/o/merchants%2FPakeAja%2Ffriendship.png?alt=media&token=f8d24fd1-7e7b-4cbd-8dbf-5b382fc2a825',
-                            color: pageIndex == 2
-                                ? Theme.of(context).primaryColor
-                                : Colors.grey,
-                            width: 20.0),
-                        SizedBox(
-                          height: 5.0,
-                        ),
-                        Text('Keagenan', style: TextStyle(fontSize: 10.0))
-                      ],
+                  SizedBox(width: 80.0),
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          pageIndex = 2;
+                        });
+                      },
+                      child: Column(
+                        children: <Widget>[
+                          CachedNetworkImage(
+                              imageUrl:
+                                  'https://firebasestorage.googleapis.com/v0/b/payuni-2019y.appspot.com/o/merchants%2FPakeAja%2Ffriendship.png?alt=media&token=f8d24fd1-7e7b-4cbd-8dbf-5b382fc2a825',
+                              color: pageIndex == 2
+                                  ? Theme.of(context).primaryColor
+                                  : Colors.grey,
+                              width: 20.0),
+                          SizedBox(
+                            height: 5.0,
+                          ),
+                          Text('Keagenan', style: TextStyle(fontSize: 10.0))
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(width: 20.0),
-                Expanded(
-                  child: InkWell(
-                    onTap: () {
-                      setState(() {
-                        pageIndex = 3;
-                      });
-                    },
-                    child: Column(
-                      children: <Widget>[
-                        CachedNetworkImage(
-                            imageUrl:
-                                'https://firebasestorage.googleapis.com/v0/b/payuni-2019y.appspot.com/o/merchants%2FPakeAja%2Fyoung.png?alt=media&token=1c94548d-8480-4530-add4-58b90522e4a8',
-                            color: pageIndex == 3
-                                ? Theme.of(context).primaryColor
-                                : Colors.grey,
-                            width: 20.0),
-                        SizedBox(
-                          height: 5.0,
-                        ),
-                        Text('Profile', style: TextStyle(fontSize: 10.0))
-                      ],
+                  SizedBox(width: 20.0),
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          pageIndex = 3;
+                        });
+                      },
+                      child: Column(
+                        children: <Widget>[
+                          CachedNetworkImage(
+                              imageUrl:
+                                  'https://firebasestorage.googleapis.com/v0/b/payuni-2019y.appspot.com/o/merchants%2FPakeAja%2Fyoung.png?alt=media&token=1c94548d-8480-4530-add4-58b90522e4a8',
+                              color: pageIndex == 3
+                                  ? Theme.of(context).primaryColor
+                                  : Colors.grey,
+                              width: 20.0),
+                          SizedBox(
+                            height: 5.0,
+                          ),
+                          Text('Profile', style: TextStyle(fontSize: 10.0))
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -226,6 +255,15 @@ class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
         //         pageIndex = position;
         //       });
         //     }),
-        body: halaman[pageIndex]);
+        body: SafeArea(
+          bottom: false, // Tidak perlu SafeArea untuk bottom karena sudah ditangani
+          child: Container(
+            // Tambahkan padding bottom untuk memastikan konten tidak tertutup
+            padding: EdgeInsets.only(
+              bottom: systemNavHeight > 0 ? systemNavHeight + 80.0 : 80.0, // Extra space untuk bottom nav + safety
+            ),
+            child: halaman[pageIndex],
+          ),
+        ));
   }
 }

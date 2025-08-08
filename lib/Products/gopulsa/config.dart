@@ -6,7 +6,7 @@ String sigVendor = '62c7d4bbe634509753fd61ae';
 const namaApp = 'GoPulsa Payment';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
-String packagename = 'com.gopulsa.app';
+String packagename = 'application.gopulsa.mobileapps';
 String brandId;
 String copyRight = '';
 int templateCode = 3;

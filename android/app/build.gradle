@@ -990,7 +990,7 @@ android {
         }
         gopulsa {
             dimension "flavor-type"
-            applicationId "com.gopulsa.app"
+            applicationId "application.gopulsa.mobileapps"
             versionCode 13
             versionName "2.3.4"
             signingConfig signingConfigs.gopulsa
@@ -1048,8 +1048,8 @@ android {
         paymobileku {
             dimension "flavor-type"
             applicationId "id.paymobileku.app"
-            versionCode 36
-            versionName "2.6.0"
+            versionCode 46
+            versionName "2.7.0"
         }
         smartsaldo {
             dimension "flavor-type"
@@ -1060,7 +1060,7 @@ android {
         lokapulsa {
             dimension "flavor-type"
             applicationId "id.lokapulsa.mobile"
-            versionCode 25  
+            versionCode 45  
             versionName "2.4.1"
         }
         mykonterr {

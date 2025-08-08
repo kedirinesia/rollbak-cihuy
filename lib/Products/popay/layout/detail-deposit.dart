@@ -6,7 +6,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
-import 'package:installed_apps/installed_apps.dart';
+// import 'package:installed_apps/installed_apps.dart'; // Remove this import
 import 'package:mobile/Products/popay/layout/components/template.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/models/deposit.dart';
@@ -17,6 +17,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share/share.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:url_launcher/url_launcher.dart' as url_launcher;
 
 class DetailDeposit extends StatefulWidget {
   final DepositModel dep;
@@ -41,16 +42,17 @@ class _DetailDepositState extends State<DetailDeposit> {
   }
 
   void checkingDanaApp() async {
-    InstalledApps.getAppInfo('id.dana').then((app) {
-      print(app);
+    // Replace installed_apps with url_launcher approach
+    try {
+      bool canLaunchDana = await url_launcher.canLaunch('id.dana://');
       setState(() {
-        danaApp = true;
+        danaApp = canLaunchDana;
       });
-    }).catchError((e) {
+    } catch (e) {
       setState(() {
         danaApp = false;
       });
-    });
+    }
   }
 
   Widget fab() {

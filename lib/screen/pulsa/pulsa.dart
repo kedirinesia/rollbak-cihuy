@@ -11,7 +11,7 @@ import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/bloc/TemplateConfig.dart';
 import 'package:mobile/component/contact.dart';
 import 'package:mobile/config.dart';
-import 'package:mobile/models/menu.dart';
+import 'package:mobile/models/menu.dart'; 
 import 'package:mobile/models/pulsa.dart';
 import 'package:mobile/models/favorite_number.dart';
 import 'package:mobile/modules.dart';

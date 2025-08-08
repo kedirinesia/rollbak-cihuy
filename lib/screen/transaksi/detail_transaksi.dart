@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:installed_apps/installed_apps.dart';
+// import 'package:installed_apps/installed_apps.dart'; // Remove this import
 
 import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
@@ -67,16 +67,17 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
   }
 
   void checkingDanaApp() async {
-    InstalledApps.getAppInfo('id.dana').then((app) {
-      print(app);
+    // Replace installed_apps with url_launcher approach
+    try {
+      bool canLaunchDana = await canLaunch('id.dana://');
       setState(() {
-        danaApp = true;
+        danaApp = canLaunchDana;
       });
-    }).catchError((e) {
+    } catch (e) {
       setState(() {
         danaApp = false;
       });
-    });
+    }
   }
 
   Future<String> getPhoneNumberCs() async {

@@ -20,6 +20,7 @@ import 'package:mobile/screen/profile/kyc/not_verified_user.dart';
 import 'package:mobile/screen/transaksi/detail_transaksi.dart';
 import 'package:mobile/screen/transaksi/trx_wait.dart';
 import 'package:mobile/screen/transaksi/verifikasi_pin.dart';
+import 'package:mobile/Products/seepays/layout/verifikasi_pin.dart' as seepays;
 import '../../bloc/Bloc.dart' show bloc;
 import 'dart:convert';
 
@@ -30,7 +31,7 @@ class InquiryPrepaid extends StatefulWidget {
 
   InquiryPrepaid(this.kodeProduk, this.nomorTujuan, {this.nominal});
 
-  @override
+  @override                   
   _InquiryPrepaidState createState() => _InquiryPrepaidState();
 }
 
@@ -203,7 +204,7 @@ class _InquiryPrepaidState extends InquiryPrepaidController {
                                                 Text(data['tujuan'],
                                                     style: TextStyle(
                                                         fontWeight:
-                                                            FontWeight.bold)),
+                                                            FontWeight.bold)), 
                                               ]),
                                           SizedBox(height: 10),
                                           Row(
@@ -1162,7 +1163,7 @@ abstract class InquiryPrepaidController extends State<InquiryPrepaid> {
     try {
       sendDeviceToken();
       String pin = await Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => VerifikasiPin()));
+          .push(MaterialPageRoute(builder: (context) => packageName == 'com.seepaysbiller.app' ? seepays.VerifikasiPin() : VerifikasiPin()));
       if (pin != null) {
         var dataToSend = {
           'kode_produk': data['kode_produk'],
@@ -1230,7 +1231,7 @@ abstract class InquiryPrepaidController extends State<InquiryPrepaid> {
     try {
       sendDeviceToken();
       String pin = await Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => VerifikasiPin()));
+          .push(MaterialPageRoute(builder: (context) => packageName == 'com.seepaysbiller.app' ? seepays.VerifikasiPin() : VerifikasiPin()));
       if (pin != null) {
         if (realtimePrepaid) {
           setState(() {

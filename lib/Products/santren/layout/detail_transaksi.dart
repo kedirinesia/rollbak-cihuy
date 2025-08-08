@@ -3,7 +3,7 @@
 import 'dart:convert';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
-import 'package:installed_apps/installed_apps.dart';
+// // import 'package:installed_apps/installed_apps.dart'; // Remove this import // Remove this import
 import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:http/http.dart' as http;
@@ -16,6 +16,7 @@ import 'package:mobile/models/bank.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/screen/transaksi/print.dart';
 import 'package:screenshot/screenshot.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 /// ------------ WATERMARK LAYER ---------------
 class WatermarkNetworkLogo extends StatelessWidget {
@@ -102,12 +103,13 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
     _checkDanaApp();
   }
 
-  void _checkDanaApp() {
-    InstalledApps.getAppInfo('id.dana').then((_) {
-      setState(() => danaApp = true);
-    }).catchError((_) {
+  void _checkDanaApp() async {
+    try {
+      bool canLaunchDana = await canLaunch('id.dana://');
+      setState(() => danaApp = canLaunchDana);
+    } catch (e) {
       setState(() => danaApp = false);
-    });
+    }
   }
 
   Future<void> _loadData() async {

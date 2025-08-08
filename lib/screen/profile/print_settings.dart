@@ -13,7 +13,7 @@ import 'package:mobile/screen/transaksi/select_printer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PrintSettingsPage extends StatefulWidget {
-  @override
+  @override   
   _PrintSettingsPageState createState() => _PrintSettingsPageState();
 }
 

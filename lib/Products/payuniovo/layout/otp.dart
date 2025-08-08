@@ -17,6 +17,7 @@ import 'package:mobile/modules.dart';
 import 'package:mobile/screen/disable.dart';
 import 'package:nav/nav.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:package_info/package_info.dart';
 
 enum OTP { sms, whatsapp, email }
 
@@ -34,10 +35,22 @@ class _OtpPageState extends State<OtpPage> {
   // TextEditingController kode = TextEditingController();
   OTP otpMethod;
   String validateId;
+  String appVersionCode = '';
   TextEditingController otp1 = TextEditingController();
   TextEditingController otp2 = TextEditingController();
   TextEditingController otp3 = TextEditingController();
   TextEditingController otp4 = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    getAppVersion();
+  }
+
+  Future<void> getAppVersion() async {
+    final info = await PackageInfo.fromPlatform();
+    appVersionCode = info.buildNumber;
+  }
 
   void request(OTP method) async {
     setState(() {
@@ -89,12 +102,45 @@ class _OtpPageState extends State<OtpPage> {
   }
 
   void sendDeviceToken() async {
-    await http.post(Uri.parse('$apiUrl/user/device_token'),
-        headers: {
-          'Authorization': bloc.token.valueWrapper?.value,
-          'Content-Type': 'application/json'
-        },
-        body: json.encode({'token': bloc.deviceToken.valueWrapper?.value}));
+    print('[DEBUG] Payuniovo OTP: Sending device token...');
+    print('[DEBUG] Payuniovo OTP: Device token: ${bloc.deviceToken.valueWrapper?.value}');
+    
+    Map<String, String> headers = {
+      'Authorization': bloc.token.valueWrapper?.value,
+      'Content-Type': 'application/json'
+    };
+    
+    // Add version_code header if available
+    if (appVersionCode.isNotEmpty) {
+      headers['version_code'] = appVersionCode;
+      print('[DEBUG] Payuniovo OTP: Version code dikirim: $appVersionCode');
+    }
+    
+    try {
+      http.Response response = await http.post(Uri.parse('$apiUrl/user/device_token'),
+          headers: headers,
+          body: json.encode({'token': bloc.deviceToken.valueWrapper?.value}));
+      
+      // Print response dengan format yang konsisten
+      print('[DEBUG] Payuniovo OTP: === RESPONSE USER/DEVICE_TOKEN ===');
+      print('[DEBUG] Payuniovo OTP: Status Code: ${response.statusCode}');
+      print('[DEBUG] Payuniovo OTP: Response Headers: ${response.headers}');
+      print('[DEBUG] Payuniovo OTP: Response Body: ${response.body}');
+      
+      // Parse response body jika JSON
+      try {
+        Map<String, dynamic> responseData = json.decode(response.body);
+        print('[DEBUG] Payuniovo OTP: Parsed Response: ${json.encode(responseData)}');
+      } catch (e) {
+        print('[DEBUG] Payuniovo OTP: Response is not JSON: ${response.body}');
+      }
+      
+      print('[DEBUG] Payuniovo OTP: ==================================');
+    } catch (e) {
+      print('[DEBUG] Payuniovo OTP: === ERROR SENDING DEVICE TOKEN ===');
+      print('[DEBUG] Payuniovo OTP: Error: $e');
+      print('[DEBUG] Payuniovo OTP: ==================================');
+    }
   }
 
   void verify() async {

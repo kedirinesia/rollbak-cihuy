@@ -2,6 +2,7 @@
 
 import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/component/webview.dart';
 import 'package:mobile/screen/history/history.dart';
@@ -26,6 +27,22 @@ class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    
+    // Set system UI overlay style untuk Android SDK 35
+    // Menggunakan addPostFrameCallback untuk memastikan context tersedia
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        SystemChrome.setSystemUIOverlayStyle(
+          SystemUiOverlayStyle(
+            statusBarColor: Theme.of(context).primaryColor,
+            statusBarIconBrightness: Brightness.light,
+            systemNavigationBarColor: Colors.transparent,
+            systemNavigationBarDividerColor: Colors.transparent,
+            systemNavigationBarIconBrightness: Brightness.dark,
+          ),
+        );
+      }
+    });
   }
 
   @override
@@ -35,8 +52,13 @@ class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    // Hitung padding yang diperlukan untuk system navigation
+    final bottomPadding = MediaQuery.of(context).padding.bottom;
+    final systemNavHeight = bottomPadding > 0 ? bottomPadding : 0.0;
+    
     return Scaffold(
         backgroundColor: Colors.white,
+        extendBody: true, // Extend body behind bottom navigation
         appBar: AppBar(
           title: Text(configAppBloc.namaApp.valueWrapper?.value,
               style: TextStyle(color: Colors.white)),
@@ -100,47 +122,62 @@ class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
           backgroundColor: Colors.grey.shade100,
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: BubbleBottomBar(
-          currentIndex: pageIndex,
-          iconSize: 24.0,
-          backgroundColor: Theme.of(context).primaryColor,
-          onTap: (index) {
-            setState(() {
-              pageIndex = index;
-            });
-          },
-          borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
-          elevation: 20,
-          fabLocation: BubbleBottomBarFabLocation.center, //new
-          hasNotch: true, //new
-          inkColor: Colors.white,
-          hasInk: true,
-          opacity: 1,
-          items: [
-            BubbleBottomBarItem(
-                backgroundColor: Theme.of(context).secondaryHeaderColor,
-                icon: Icon(Icons.dashboard,
-                    color: Theme.of(context).secondaryHeaderColor),
-                activeIcon: Icon(Icons.dashboard,
-                    color: Theme.of(context).primaryColor),
-                title: Text("Home",
-                    style: TextStyle(color: Theme.of(context).primaryColor))),
-            BubbleBottomBarItem(
-                backgroundColor: Theme.of(context).secondaryHeaderColor,
-                icon: Icon(Icons.list, color: Colors.white),
-                activeIcon:
-                    Icon(Icons.list, color: Theme.of(context).primaryColor),
-                title: Text("History",
-                    style: TextStyle(color: Theme.of(context).primaryColor))),
-            BubbleBottomBarItem(
-                backgroundColor: Theme.of(context).secondaryHeaderColor,
-                icon: Icon(Icons.person_pin_circle, color: Colors.white),
-                activeIcon: Icon(Icons.person_pin_circle,
-                    color: Theme.of(context).primaryColor),
-                title: Text("Profil",
-                    style: TextStyle(color: Theme.of(context).primaryColor))),
-          ],
+        bottomNavigationBar: Container(
+          // Tambahkan padding yang cukup untuk menghindari system navigation
+          padding: EdgeInsets.only(
+            bottom: systemNavHeight + 8.0, // Extra 8px untuk safety
+          ),
+          child: BubbleBottomBar(
+            currentIndex: pageIndex,
+            iconSize: 24.0,
+            backgroundColor: Theme.of(context).primaryColor,
+            onTap: (index) {
+              setState(() {
+                pageIndex = index;
+              });
+            },
+            borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
+            elevation: 20,
+            fabLocation: BubbleBottomBarFabLocation.center, //new
+            hasNotch: true, //new
+            inkColor: Colors.white,
+            hasInk: true,
+            opacity: 1,
+            items: [
+              BubbleBottomBarItem(
+                  backgroundColor: Theme.of(context).secondaryHeaderColor,
+                  icon: Icon(Icons.dashboard,
+                      color: Theme.of(context).secondaryHeaderColor),
+                  activeIcon: Icon(Icons.dashboard,
+                      color: Theme.of(context).primaryColor),
+                  title: Text("Home",
+                      style: TextStyle(color: Theme.of(context).primaryColor))),
+              BubbleBottomBarItem(
+                  backgroundColor: Theme.of(context).secondaryHeaderColor,
+                  icon: Icon(Icons.list, color: Colors.white),
+                  activeIcon:
+                      Icon(Icons.list, color: Theme.of(context).primaryColor),
+                  title: Text("History",
+                      style: TextStyle(color: Theme.of(context).primaryColor))),
+              BubbleBottomBarItem(
+                  backgroundColor: Theme.of(context).secondaryHeaderColor,
+                  icon: Icon(Icons.person_pin_circle, color: Colors.white),
+                  activeIcon: Icon(Icons.person_pin_circle,
+                      color: Theme.of(context).primaryColor),
+                  title: Text("Profil",
+                      style: TextStyle(color: Theme.of(context).primaryColor))),
+            ],
+          ),
         ),
-        body: halaman[pageIndex]);
+        body: SafeArea(
+          bottom: false, // Tidak perlu SafeArea untuk bottom karena sudah ditangani
+          child: Container(
+            // Tambahkan padding bottom untuk memastikan konten tidak tertutup
+            padding: EdgeInsets.only(
+              bottom: systemNavHeight > 0 ? systemNavHeight + 80.0 : 80.0, // Extra space untuk bottom nav + safety
+            ),
+            child: halaman[pageIndex],
+          ),
+        ));
   }
 }

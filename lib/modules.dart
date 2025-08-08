@@ -99,11 +99,84 @@ Future<void> updateUserInfo() async {
   }
 }
 
+Future<void> testApiConnection() async {
+  try {
+    print('DEBUG: Testing API connection...');
+    print('DEBUG: API URL: $apiUrl');
+    
+    // Test basic connectivity
+    bool isConnected = await _checkConnectivity();
+    print('DEBUG: Internet connectivity: $isConnected');
+    
+    if (!isConnected) {
+      print('DEBUG: No internet connection available');
+      return;
+    }
+    
+    // Test the API endpoint directly
+    http.Response response = await http.get(
+      Uri.parse('$apiUrl/app/info?id=$sigVendor'),
+      headers: {
+        'merchantcode': sigVendor,
+      },
+    ).timeout(Duration(seconds: 10));
+    
+    print('DEBUG: Test response status: ${response.statusCode}');
+    print('DEBUG: Test response headers: ${response.headers}');
+    print('DEBUG: Test response body: ${response.body.substring(0, response.body.length > 500 ? 500 : response.body.length)}');
+    
+    if (response.statusCode == 200) {
+      if (response.headers['content-type']?.contains('application/json') == true) {
+        print('DEBUG: API is working correctly');
+      } else {
+        print('DEBUG: API returned non-JSON response');
+      }
+    } else {
+      print('DEBUG: API returned error status: ${response.statusCode}');
+    }
+  } catch (e) {
+    print('DEBUG: API test failed: $e');
+  }
+}
+
+Future<bool> _checkConnectivity() async {
+  try {
+    final result = await InternetAddress.lookup('google.com');
+    return result.isNotEmpty && result[0].rawAddress.isNotEmpty;
+  } on SocketException catch (_) {
+    return false;
+  }
+}
+
 Future<void> getAppInfo() async {
-  Map<String, dynamic> data =
-      await api.get('/app/info?id=$sigVendor', auth: false, cache: true);
-  AppInfo app = AppInfo.fromJson(data);
-  configAppBloc.info.add(app);
+  try {
+    print('DEBUG: Starting getAppInfo...');
+    print('DEBUG: API URL: $apiUrl/app/info?id=$sigVendor');
+    
+    // Test API connection first
+    await testApiConnection();
+    
+    Map<String, dynamic> data =
+        await api.get('/app/info?id=$sigVendor', auth: false, cache: true);
+    AppInfo app = AppInfo.fromJson(data);
+    configAppBloc.info.add(app);
+    print('DEBUG: getAppInfo completed successfully');
+  } catch (e) {
+    print('DEBUG: getAppInfo error: $e');
+    print('DEBUG: Error type: ${e.runtimeType}');
+    
+    // Handle specific FormatException for HTML responses
+    if (e is FormatException) {
+      print('DEBUG: FormatException detected - likely HTML response from server');
+      print('DEBUG: Error message: ${e.message}');
+      
+      // You might want to show a user-friendly error dialog here
+      // or handle the error gracefully by using default values
+    }
+    
+    // Re-throw the error so the calling code can handle it
+    rethrow;
+  }
 }
 
 Future<File> getPhoto() async {

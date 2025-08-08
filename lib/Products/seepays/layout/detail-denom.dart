@@ -268,6 +268,27 @@ class _SeepaysDetailDenomState extends SeepaysDetailDenomController {
                           ),
                         ),
                 ),
+                // Suggest numbers chips below the input
+                suggestNumbers.isNotEmpty
+                    ? Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Wrap(
+                          spacing: 8,
+                          runSpacing: 8,
+                          children: suggestNumbers
+                              .map((e) => ActionChip(
+                                    label: Text(e),
+                                    onPressed: () {
+                                      setState(() {
+                                        tujuan.text = e;
+                                      });
+                                    },
+                                  ))
+                              .toList(),
+                        ),
+                      )
+                    : SizedBox(),
                 loading
                     ? Expanded(
                         child: Container(

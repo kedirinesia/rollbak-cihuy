@@ -20,6 +20,7 @@ class _MyQRState extends State<MyQR> {
   @override
   void initState() {
     super.initState();
+    print('[DEBUG] Payuniovo MyQR: Initializing MyQR component');
     analitycs.pageView('/myqr', {
       'userId': bloc.userId.valueWrapper?.value,
       'title': 'My QRCode',
@@ -29,15 +30,25 @@ class _MyQRState extends State<MyQR> {
       'com.esaldoku.app',
     ];
 
+    print('[DEBUG] Payuniovo MyQR: Package name: $packageName');
+    print('[DEBUG] Payuniovo MyQR: Checking scan capability...');
+    
     pkgNameScanQRList.forEach((element) {
       if (element == packageName) {
         isScan = true;
+        print('[DEBUG] Payuniovo MyQR: Scan capability enabled for package: $element');
       }
     });
+    
+    print('[DEBUG] Payuniovo MyQR: Final isScan value: $isScan');
   }
 
   @override
   Widget build(BuildContext context) {
+    print('[DEBUG] Payuniovo MyQR: Building MyQR component');
+    print('[DEBUG] Payuniovo MyQR: User phone: ${bloc.user.valueWrapper?.value.phone}');
+    print('[DEBUG] Payuniovo MyQR: Username: ${bloc.username.valueWrapper?.value}');
+    
     return Scaffold(
       // appBar: AppBar(title: Text('My QRCode')),
       backgroundColor: Colors.grey[100],

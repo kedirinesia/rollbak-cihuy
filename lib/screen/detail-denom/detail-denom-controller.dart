@@ -19,6 +19,9 @@ abstract class DetailDenomController extends State<DetailDenom>
   PrepaidDenomModel selectedDenom;
   TextEditingController tujuan = TextEditingController();
   TextEditingController nominal = TextEditingController();
+  List<String> suggestNumbers = [];
+  bool loadingSuggest = false;
+  final bool useApiSuggest = true; // set true untuk gunakan API
 
   @override
   void initState() {
@@ -28,6 +31,7 @@ abstract class DetailDenomController extends State<DetailDenom>
       'title': 'Buka Menu ' + widget.menu.name
     });
     getData();
+    getSuggestNumbers();
   }
 
   getData() async {
@@ -70,5 +74,124 @@ abstract class DetailDenomController extends State<DetailDenom>
         selectedDenom = denom;
       });
     }
+  }
+
+  Future<void> getSuggestNumbers() async {
+    if (!useApiSuggest) {
+      setState(() {
+        suggestNumbers = _hardcodedSuggestionsForMenu(widget.menu.name);
+      });
+      return;
+    }
+
+    try {
+      setState(() {
+        loadingSuggest = true;
+      });
+
+      final response = await http.get(
+        Uri.parse('$apiUrl/trx/list?page=0&limit=50'),
+        headers: {
+          'Authorization': bloc.token.valueWrapper?.value,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> jsonBody = json.decode(response.body);
+        final List<dynamic> datas = (jsonBody['data'] ?? []) as List<dynamic>;
+
+        // Sort by created_at desc for recency
+        datas.sort((a, b) {
+          final String ac = (a['created_at'] ?? '');
+          final String bc = (b['created_at'] ?? '');
+          DateTime ad, bd;
+          try { ad = DateTime.parse(ac); } catch (_) { ad = DateTime.fromMillisecondsSinceEpoch(0); }
+          try { bd = DateTime.parse(bc); } catch (_) { bd = DateTime.fromMillisecondsSinceEpoch(0); }
+          return bd.compareTo(ad);
+        });
+
+        // Allowed product codes from current denom list
+        final Set<String> allowedCodes = listDenom
+            .map((e) => (e.kode_produk ?? '').toString())
+            .where((e) => e.isNotEmpty)
+            .toSet();
+
+        final Set<String> uniqueTargets = <String>{};
+
+        for (final dynamic item in datas) {
+          final Map<String, dynamic> prod = (item['produk_id'] ?? {}) as Map<String, dynamic>;
+          final String code = (prod['kode_produk'] ?? '').toString();
+          final String name = (prod['nama'] ?? '').toString();
+          final String tujuanItem = (item['tujuan'] ?? '').toString().trim();
+          if (tujuanItem.isEmpty) continue;
+
+          bool matchesMenu = true;
+          if (allowedCodes.isNotEmpty) {
+            matchesMenu = allowedCodes.contains(code);
+          } else {
+            // Heuristic: match by menu name keywords
+            final String menuName = (widget.menu.name ?? '').toLowerCase();
+            final String n = name.toLowerCase();
+            final String c = code.toLowerCase();
+            if (menuName.contains('dana')) {
+              matchesMenu = n.contains('dana') || c.contains('dana');
+            } else if (menuName.contains('ovo')) {
+              matchesMenu = n.contains('ovo') || c.contains('ovo');
+            } else if (menuName.contains('gopay') || menuName.contains('gojek')) {
+              matchesMenu = n.contains('gopay') || n.contains('gojek') || c.contains('gopay');
+            } else if (menuName.contains('shopee')) {
+              matchesMenu = n.contains('shopee') || c.contains('shopee');
+            } else if (menuName.contains('mobile legends') || menuName.contains('ml') || menuName.contains('mlbb')) {
+              matchesMenu = n.contains('mobile') || n.contains('legends') || c.contains('ml');
+            } else if (menuName.contains('free fire') || menuName.contains('ff')) {
+              matchesMenu = n.contains('free') || n.contains('fire') || c.contains('ff');
+            }
+          }
+
+        
+          if (matchesMenu) {
+            uniqueTargets.add(tujuanItem);
+            if (uniqueTargets.length >= 10) break;
+          }
+        }
+
+        setState(() {
+          suggestNumbers = uniqueTargets.toList();
+        });
+      } else {
+        setState(() {
+          suggestNumbers = [];
+        });
+      }
+    } catch (_) {
+      setState(() {
+        suggestNumbers = [];
+      });
+    } finally {
+      setState(() {
+        loadingSuggest = false;
+      });
+    }
+  }
+
+  List<String> _hardcodedSuggestionsForMenu(String menuName) {
+    final String name = (menuName ?? '').toLowerCase();
+    if (name.contains('dana')) {
+      return ['085852076162', '081234567890', '088123456789', '087812345678'];
+    } else if (name.contains('ovo')) {
+      return ['081234567890', '081298765432', '082111223344'];
+    } else if (name.contains('gopay') || name.contains('gojek')) {
+      return ['085700112233', '085700223344', '085700334455'];
+    } else if (name.contains('shopee')) {
+      return ['081390001122', '081390002233', '081390003344'];
+    } else if (name.contains('mobile legends') || name.contains('ml') || name.contains('mlbb')) {
+      return ['100012345678', '200012345678', '300012345678'];
+    } else if (name.contains('free fire') || name.contains('ff')) {
+      return ['1212', '1213', '2'];
+    } else if (name.contains('pubg')) {
+      return ['555001122', '555002233', '555003344'];
+    }
+    // default fallback
+    return ['081234567890', '082112223333', '089512345678'];
   }
 }

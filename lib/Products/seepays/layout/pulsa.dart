@@ -18,6 +18,7 @@ import 'package:mobile/config.dart';
 import 'package:mobile/models/menu.dart'; 
 import 'package:mobile/models/pulsa.dart';
 import 'package:mobile/models/favorite_number.dart';
+import 'package:mobile/models/transaction_history.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/transaksi/inquiry_prepaid.dart';
@@ -45,6 +46,11 @@ class _PulsaState extends State<Pulsa> with TickerProviderStateMixin {
   String prefixNomor = "";
   PulsaModel selectedDenom;
   TextEditingController nomorHp = TextEditingController();
+  
+  // Transaction history properties
+  List<TransactionHistoryModel> transactionHistory = [];
+  List<TransactionHistoryModel> recentTransactions = [];
+  bool loadingHistory = false;
 
   @override
   void initState() {
@@ -53,6 +59,8 @@ class _PulsaState extends State<Pulsa> with TickerProviderStateMixin {
       'userId': bloc.userId.valueWrapper?.value,
       'title': 'Pulsa',
     });
+    // Load transaction history
+    loadTransactionHistory();
   }
 
   // Methods from PulsaController
@@ -91,6 +99,274 @@ class _PulsaState extends State<Pulsa> with TickerProviderStateMixin {
       setState(() {
         selectedDenom = denom;
       });
+    }
+  }
+
+  // Load transaction history
+  Future<void> loadTransactionHistory() async {
+    setState(() {
+      loadingHistory = true;
+    });
+
+    // Simulate API delay for testing
+    await Future.delayed(Duration(milliseconds: 1000));
+
+    try {
+      // HARDCODED DATA UNTUK TESTING - COMMENT KODE DI BAWAH UNTUK MENGGUNAKAN API ASLI
+      // ================================================================================
+      
+      // // Hardcoded transaction history untuk testing seepays customer history
+      // List<Map<String, dynamic>> hardcodedData = [
+      //   {
+      //     '_id': '1',
+      //     'status': 2, // Success
+      //     'admin': 0,
+      //     'counter': 1,
+      //     'tujuan': '081234567890',
+      //     'produk_id': {
+      //       '_id': 'prod1',
+      //       'name': 'Pulsa Telkomsel',
+      //       'type': 2, // Pulsa/PPOB
+      //       'icon': 'https://ayoba.co.id/dokumen/provider/tsel.png',
+      //       'category': 'pulsa',
+      //     },
+      //     'harga_jual': 10000,
+      //     'sn': 'SN001',
+      //     'payment_by': 'saldo',
+      //     'payment_id': 'PAY001',
+      //     'created_at': '2024-01-15T10:30:00Z',
+      //     'updated_at': '2024-01-15T10:35:00Z',
+      //     'keterangan': 'Pulsa Telkomsel 10K',
+      //     'poin': 10,
+      //     'print': [],
+      //   },
+      //   {
+      //     '_id': '2',
+      //     'status': 2, // Success
+      //     'admin': 0,
+      //     'counter': 1,
+      //     'tujuan': '085678901234',
+      //     'produk_id': {
+      //       '_id': 'prod2',
+      //       'name': 'Pulsa Indosat',
+      //       'type': 2, // Pulsa/PPOB
+      //       'icon': 'https://ayoba.co.id/dokumen/provider/indosat.png',
+      //       'category': 'pulsa',
+      //     },
+      //     'harga_jual': 25000,
+      //     'sn': 'SN002',
+      //     'payment_by': 'saldo',
+      //     'payment_id': 'PAY002',
+      //     'created_at': '2024-01-14T15:20:00Z',
+      //     'updated_at': '2024-01-14T15:25:00Z',
+      //     'keterangan': 'Pulsa Indosat 25K',
+      //     'poin': 25,
+      //     'print': [],
+      //   },
+      //   {
+      //     '_id': '3',
+      //     'status': 2, // Success
+      //     'admin': 0,
+      //     'counter': 1,
+      //     'tujuan': '081112223334',
+      //     'produk_id': {
+      //       '_id': 'prod3',
+      //       'name': 'Pulsa XL',
+      //       'type': 2, // Pulsa/PPOB
+      //       'icon': 'https://ayoba.co.id/dokumen/provider/xl.png',
+      //       'category': 'pulsa',
+      //     },
+      //     'harga_jual': 50000,
+      //     'sn': 'SN003',
+      //     'payment_by': 'saldo',
+      //     'payment_id': 'PAY003',
+      //     'created_at': '2024-01-13T09:15:00Z',
+      //     'updated_at': '2024-01-13T09:20:00Z',
+      //     'keterangan': 'Pulsa XL 50K',
+      //     'poin': 50,
+      //     'print': [],
+      //   },
+      //   {
+      //     '_id': '4',
+      //     'status': 2, // Success
+      //     'admin': 0,
+      //     'counter': 1,
+      //     'tujuan': '089876543210',
+      //     'produk_id': {
+      //       '_id': 'prod4',
+      //       'name': 'Pulsa Three',
+      //       'type': 2, // Pulsa/PPOB
+      //       'icon': 'https://ayoba.co.id/dokumen/provider/three.png',
+      //       'category': 'pulsa',
+      //     },
+      //     'harga_jual': 20000,
+      //     'sn': 'SN004',
+      //     'payment_by': 'saldo',
+      //     'payment_id': 'PAY004',
+      //     'created_at': '2024-01-12T14:45:00Z',
+      //     'updated_at': '2024-01-12T14:50:00Z',
+      //     'keterangan': 'Pulsa Three 20K',
+      //     'poin': 20,
+      //     'print': [],
+      //   },
+      //   {
+      //     '_id': '5',
+      //     'status': 2, // Success
+      //     'admin': 0,
+      //     'counter': 1,
+      //     'tujuan': '088112233445',
+      //     'produk_id': {
+      //       '_id': 'prod5',
+      //       'name': 'Pulsa Smartfren',
+      //       'type': 2, // Pulsa/PPOB
+      //       'icon': 'https://ayoba.co.id/dokumen/provider/smart.png',
+      //       'category': 'pulsa',
+      //     },
+      //     'harga_jual': 15000,
+      //     'sn': 'SN005',
+      //     'payment_by': 'saldo',
+      //     'payment_id': 'PAY005',
+      //     'created_at': '2024-01-11T11:30:00Z',
+      //     'updated_at': '2024-01-11T11:35:00Z',
+      //     'keterangan': 'Pulsa Smartfren 15K',
+      //     'poin': 15,
+      //     'print': [],
+      //   },
+      // ];
+
+      // Convert hardcoded data to TransactionHistoryModel
+      // List<TransactionHistoryModel> hardcodedHistory = hardcodedData
+      //     .map((json) => TransactionHistoryModel.fromJson(json))
+      //     .toList();
+      
+      // setState(() {
+      //   transactionHistory = hardcodedHistory;
+      //   // Get recent successful transactions for pulsa/ppob
+      //   recentTransactions = hardcodedHistory
+      //       .where((trx) => 
+      //           trx.status == 2 && // Successful transactions only
+      //           trx.tujuan.isNotEmpty &&
+      //           trx.tujuan.startsWith('08') && // Indonesian phone numbers
+      //           trx.produkId?.type == 2) // Pulsa/PPOB products
+      //       .take(3) // Show only 3 most recent
+      //       .toList();
+      // });
+      
+      // print('Loaded ${recentTransactions.length} recent transactions for testing');
+      
+      
+      // ================================================================================
+      // KODE API ASLI - UNCOMMENT UNTUK MENGGUNAKAN API
+      // // ================================================================================
+      http.Response response = await http.get(
+        Uri.parse('$apiUrl/trx/list'),
+        headers: {'Authorization': bloc.token.valueWrapper?.value},
+      );
+
+      if (response.statusCode == 200) {
+        List<dynamic> datas = json.decode(response.body)['data'];
+        List<TransactionHistoryModel> apiHistory = datas
+            .map((item) => TransactionHistoryModel.fromJson(item))
+            .toList();
+        
+        setState(() {
+          transactionHistory = apiHistory;
+          // Get recent successful transactions for pulsa/ppob
+          recentTransactions = apiHistory
+              .where((trx) => 
+                  trx.status == 2 && // Successful transactions only
+                  trx.tujuan.isNotEmpty &&
+                  trx.tujuan.startsWith('08') && // Indonesian phone numbers
+                  trx.produkId?.type == 2) // Pulsa/PPOB products
+              .take(3) // Show only 3 most recent
+              .toList();
+        });
+      } else {
+        print('Failed to load transaction history: ${response.statusCode}');
+        print('Response: ${response.body}');
+      }
+      // ================================================================================
+      
+    } catch (e) {
+      print('Error loading transaction history: $e');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          Alert(
+            'Gagal memuat riwayat transaksi',
+            isError: true,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          loadingHistory = false;
+        });
+      }
+    }
+  }
+
+  // Get operator icon based on phone number prefix
+  String getOperatorIcon(String phoneNumber) {
+    if (phoneNumber.startsWith('0814') || phoneNumber.startsWith('0815') || 
+        phoneNumber.startsWith('0816') || phoneNumber.startsWith('0855') || 
+        phoneNumber.startsWith('0856') || phoneNumber.startsWith('0857') || 
+        phoneNumber.startsWith('0858')) {
+      return 'https://ayoba.co.id/dokumen/provider/indosat.png';
+    } else if (phoneNumber.startsWith('0811') || phoneNumber.startsWith('0812') || 
+               phoneNumber.startsWith('0813') || phoneNumber.startsWith('0821') || 
+               phoneNumber.startsWith('0822') || phoneNumber.startsWith('0823') || 
+               phoneNumber.startsWith('0852') || phoneNumber.startsWith('0853') || 
+               phoneNumber.startsWith('0851')) {
+      return 'https://ayoba.co.id/dokumen/provider/tsel.png';
+    } else if (phoneNumber.startsWith('0895') || phoneNumber.startsWith('0896') || 
+               phoneNumber.startsWith('0897') || phoneNumber.startsWith('0898') || 
+               phoneNumber.startsWith('0899')) {
+      return 'https://ayoba.co.id/dokumen/provider/three.png';
+    } else if (phoneNumber.startsWith('0817') || phoneNumber.startsWith('0818') || 
+               phoneNumber.startsWith('0819') || phoneNumber.startsWith('0859') || 
+               phoneNumber.startsWith('0877') || phoneNumber.startsWith('0878')) {
+      return 'https://ayoba.co.id/dokumen/provider/xl.png';
+    } else if (phoneNumber.startsWith('0881') || phoneNumber.startsWith('0882') || 
+               phoneNumber.startsWith('0883') || phoneNumber.startsWith('0884') || 
+               phoneNumber.startsWith('0885') || phoneNumber.startsWith('0886') || 
+               phoneNumber.startsWith('0887') || phoneNumber.startsWith('0888') || 
+               phoneNumber.startsWith('0889')) {
+      return 'https://ayoba.co.id/dokumen/provider/smart.png';
+    } else if (phoneNumber.startsWith('0838') || phoneNumber.startsWith('0831') || 
+               phoneNumber.startsWith('0832') || phoneNumber.startsWith('0833')) {
+      return 'https://ayoba.co.id/dokumen/provider/axis.png';
+    }
+    return '';
+  }
+
+  // Mask phone number for display without using 'X'
+  String maskPhoneNumber(String phoneNumber) {
+    if (phoneNumber == null) return '';
+    if (phoneNumber.length <= 6) return phoneNumber;
+    final String start = phoneNumber.substring(0, 6);
+    final String end = phoneNumber.substring(phoneNumber.length - 2);
+    final int hiddenCount = phoneNumber.length - 6;
+    final String hidden = List.filled(hiddenCount, 'X').join();
+    return '$start$hidden$end';
+  }
+
+  // Select number from recent transactions
+  void selectRecentNumber(String phoneNumber) {
+    setState(() {
+      nomorHp.text = phoneNumber;
+    });
+    
+    // Auto-trigger denom search if it's a valid number
+    if (phoneNumber.length >= 4 && phoneNumber.startsWith('08')) {
+      if (phoneNumber.substring(0, 4) != prefixNomor) {
+        setState(() {
+          listDenom.clear();
+          prefixNomor = phoneNumber.substring(0, 4);
+          loading = true;
+        });
+        getDenom(phoneNumber);
+      }
     }
   }
 
@@ -200,6 +476,16 @@ class _PulsaState extends State<Pulsa> with TickerProviderStateMixin {
           child: CachedNetworkImage(
             imageUrl: operatorIcon,
             height: 10,
+            placeholder: (context, url) => SizedBox(
+              width: 24,
+              height: 24,
+              child: CircularProgressIndicator(strokeWidth: 2),
+            ),
+            errorWidget: (context, url, error) => Icon(
+              Icons.network_check,
+              color: Colors.white,
+              size: 28,
+            ),
           ),
         );
       } else {
@@ -259,6 +545,16 @@ class _PulsaState extends State<Pulsa> with TickerProviderStateMixin {
                             imageUrl: configAppBloc
                                 .iconApp.valueWrapper?.value['logoLogin'],
                             width: MediaQuery.of(context).size.width * .4,
+                            placeholder: (context, url) => SizedBox(
+                              width: 24,
+                              height: 24,
+                              child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                            ),
+                            errorWidget: (context, url, error) => Icon(
+                              Icons.image_not_supported,
+                              color: Colors.white,
+                              size: 32,
+                            ),
                           ),
                         )
                       : logoProductMenuCover
@@ -452,6 +748,215 @@ class _PulsaState extends State<Pulsa> with TickerProviderStateMixin {
                               }
                             },
                           )),
+                
+                // Transaksi Terakhir Section
+                if (loadingHistory)
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20),
+                    padding: EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.red, width: 2),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        Text(
+                          'Memuat riwayat transaksi...',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.red,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                else if (recentTransactions.isNotEmpty)
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20),
+                    padding: EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.red, width: 2),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Transaksi Terakhir',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.red,
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () => loadTransactionHistory(),
+                              icon: Icon(
+                                Icons.refresh,
+                                color: Colors.red,
+                                size: 20,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 10),
+                        ...recentTransactions.map((trx) => Container(
+                          margin: EdgeInsets.only(bottom: 10),
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade50,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Row(
+                            children: [
+                              // Operator icon
+                              if (getOperatorIcon(trx.tujuan).isNotEmpty)
+                                Container(
+                                  width: 30,
+                                  height: 30,
+                                  child: CachedNetworkImage(
+                                    imageUrl: getOperatorIcon(trx.tujuan),
+                                    fit: BoxFit.contain,
+                                    placeholder: (context, url) => SizedBox(
+                                      width: 16,
+                                      height: 16,
+                                      child: CircularProgressIndicator(strokeWidth: 2),
+                                    ),
+                                    errorWidget: (context, url, error) => Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey.shade300,
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      child: Icon(
+                                        Icons.phone,
+                                        size: 16,
+                                        color: Colors.grey.shade600,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              else
+                                Container(
+                                  width: 30,
+                                  height: 30,
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey.shade300,
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: Icon(
+                                    Icons.phone,
+                                    size: 16,
+                                    color: Colors.grey.shade600,
+                                  ),
+                                ),
+                              SizedBox(width: 10),
+                              // Phone number
+                              Expanded(
+                                child: Text(
+                                  maskPhoneNumber(trx.tujuan),
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                              // Select button
+                              ElevatedButton(
+                                onPressed: () => selectRecentNumber(trx.tujuan),
+                                style: ElevatedButton.styleFrom(
+                                  primary: Theme.of(context).primaryColor,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                ),
+                                child: Text(
+                                  'pilih',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )).toList(),
+                      ],
+                    ),
+                  ),
+                
+                // Info text
+                // if (recentTransactions.isNotEmpty)
+                //   // Container(
+                //   //   margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                //   //   padding: EdgeInsets.all(10),
+                //   //   decoration: BoxDecoration(
+                //   //     color: Theme.of(context).primaryColor.withOpacity(0.1),
+                //   //     borderRadius: BorderRadius.circular(8),
+                //   //   ),
+                //   //   // child: Row(
+                //   //   //   children: [
+                //   //   //     Icon(
+                //   //   //       Icons.info_outline,
+                //   //   //       color: Theme.of(context).primaryColor,
+                //   //   //       size: 20,
+                //   //   //     ),
+                //   //   //     SizedBox(width: 8),
+                //   //   //     // Expanded(
+                //   //   //     //   child: Text(
+                //   //   //     //     'Contoh Nomor yang pernah transaksi',
+                //   //   //     //     style: TextStyle(
+                //   //   //     //       fontSize: 12,
+                //   //   //     //       color: Theme.of(context).primaryColor,
+                //   //   //     //       fontStyle: FontStyle.italic,
+                //   //   //     //     ),
+                //   //   //     //   ),
+                //   //   //     // ),
+                //   //   //   ],
+                //   //   // ),
+                //   // )
+                // else if (!loadingHistory)
+                //   Container(
+                //     margin: EdgeInsets.symmetric(horizontal: 20),
+                //     padding: EdgeInsets.all(15),
+                //     decoration: BoxDecoration(
+                //       border: Border.all(color: Colors.grey.shade300, width: 1),
+                //       borderRadius: BorderRadius.circular(10),
+                //     ),
+                //     child: Row(
+                //       children: [
+                //         Icon(
+                //           Icons.info_outline,
+                //           color: Colors.grey.shade600,
+                //           size: 20,
+                //         ),
+                //         SizedBox(width: 10),
+                //         Expanded(
+                //           child: Text(
+                //             'Belum ada transaksi pulsa sebelumnya',
+                //             style: TextStyle(
+                //               fontSize: 14,
+                //               color: Colors.grey.shade600,
+                //               fontStyle: FontStyle.italic,
+                //             ),
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                
                 loading
                     ? Expanded(
                         child: Container(
@@ -545,6 +1050,16 @@ class _PulsaState extends State<Pulsa> with TickerProviderStateMixin {
                                                         null)
                                                 ? denom.category.iconUrl
                                                 : widget.menuModel.icon,
+                                        placeholder: (context, url) => SizedBox(
+                                          width: 16,
+                                          height: 16,
+                                          child: CircularProgressIndicator(strokeWidth: 2),
+                                        ),
+                                        errorWidget: (context, url, error) => Icon(
+                                          Icons.image,
+                                          size: 18,
+                                          color: Theme.of(context).primaryColor,
+                                        ),
                                       ),
                                     ),
                                   ),

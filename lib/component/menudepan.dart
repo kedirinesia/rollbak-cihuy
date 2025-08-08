@@ -72,6 +72,46 @@ class _MenuDepanState extends State<MenuDepan> {
       failed = false;
       int totalBaris = widget.baris ?? 3;
 
+      // Print menu information for debugging
+      print('=== DEBUG: Menu Information ===');
+      print('Total menu received: ${listMenu.length}');
+      for (int i = 0; i < listMenu.length; i++) {
+        MenuModel menu = listMenu[i];
+        print('Menu $i: ${menu.name} - Jenis: ${menu.jenis} - Type: ${menu.type}');
+        if (menu.name.toLowerCase().contains('inject') || 
+            menu.name.toLowerCase().contains('voucher') ||
+            menu.jenis == 5 || menu.jenis == 6) {
+          print('  *** INJECT/VOUCHER MENU DETECTED ***');
+          print('  Name: ${menu.name}');
+          print('  Jenis: ${menu.jenis}');
+          print('  Type: ${menu.type}');
+          print('  Category ID: ${menu.category_id}');
+          print('  Kode Produk: ${menu.kodeProduk}');
+        }
+      }
+      print('=== END DEBUG ===');
+
+      // Filter out bulk voucher menu for akupay
+      if (packageName == 'com.akupay.androidmobileapps') {
+        print('=== AKUPAY DETECTED - Filtering inject menus ===');
+        int beforeCount = listMenu.length;
+        listMenu = listMenu.where((menu) {
+          // Filter out inject voucher and inject perdana menus
+          bool isInjectMenu = menu.name.toLowerCase().contains('inject');
+          bool isVoucherMenu = menu.name.toLowerCase().contains('voucher') && menu.jenis == 2;
+          bool isBulkVoucher = menu.jenis == 5 || menu.jenis == 6;
+          
+          if (isInjectMenu || isVoucherMenu || isBulkVoucher) {
+            print('Filtering out menu: ${menu.name} (Jenis: ${menu.jenis})');
+            return false;
+          }
+          return true;
+        }).toList();
+        int afterCount = listMenu.length;
+        print('Filtered out ${beforeCount - afterCount} inject/voucher menus');
+        print('Remaining menus: $afterCount');
+      }
+
       if (listMenu.length > (widget.grid * totalBaris)) {
         int startMore = (widget.grid) * totalBaris;
         int endMore = listMenu.length;
@@ -113,6 +153,24 @@ class _MenuDepanState extends State<MenuDepan> {
   ];
 
   onTapMenu(MenuModel menu) {
+    // Debug print for menu access
+    print('=== DEBUG: Menu Access Attempt ===');
+    print('Menu Name: ${menu.name}');
+    print('Menu Jenis: ${menu.jenis}');
+    print('Menu Type: ${menu.type}');
+    print('Package Name: $packageName');
+    print('Is Akupay: ${packageName == 'com.akupay.androidmobileapps'}');
+    
+    // Prevent akupay from accessing bulk voucher menu
+    if (packageName == 'com.akupay.androidmobileapps' && 
+        (menu.jenis == 5 || menu.jenis == 6 || 
+         menu.name.toLowerCase().contains('inject') ||
+         (menu.name.toLowerCase().contains('voucher') && menu.jenis == 2))) {
+      print('*** BLOCKED: Akupay trying to access inject/voucher menu ***');
+      print('Menu: ${menu.name} (Jenis: ${menu.jenis})');
+      return; // Do nothing for akupay
+    }
+    
     if (menu.jenis == 1) {
       return Navigator.of(context).push(MaterialPageRoute(builder: (_) {
         return Pulsa(menu);
@@ -148,6 +206,8 @@ class _MenuDepanState extends State<MenuDepan> {
         ),
       );
     } else if (menu.jenis == 5 || menu.jenis == 6) {
+      print('*** ACCESSING BULK VOUCHER MENU ***');
+      print('Menu: ${menu.name} (Jenis: ${menu.jenis})');
       if (menu.category_id.isEmpty) {
         return Navigator.of(context).push(
           MaterialPageRoute(

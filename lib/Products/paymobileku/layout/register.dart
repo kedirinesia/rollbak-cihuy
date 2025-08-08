@@ -28,9 +28,6 @@ class RegisterUser extends StatefulWidget {
 }
 
 class _RegisterUserState extends State<RegisterUser> {
-  int countdown = 0;
-  Timer timer;
-
   final _formKey = GlobalKey<FormState>();
   TextEditingController nama = TextEditingController();
   TextEditingController nomorHp = TextEditingController();
@@ -43,13 +40,8 @@ class _RegisterUserState extends State<RegisterUser> {
   TextEditingController kotaText = TextEditingController();
   TextEditingController kecamatanText = TextEditingController();
   TextEditingController referalCode = TextEditingController();
-  TextEditingController otpController = TextEditingController();
 
   bool loading = false;
-  bool sendingOtp = false;
-  bool otpSent = false;
-  bool verifyingOtp = false;
-  bool otpVerified = false;
 
   Lokasi provinsi;
   Lokasi kota;
@@ -70,7 +62,6 @@ class _RegisterUserState extends State<RegisterUser> {
 
   @override
   void dispose() {
-    timer?.cancel();
     nama.dispose();
     nomorHp.dispose();
     email.dispose();
@@ -82,177 +73,7 @@ class _RegisterUserState extends State<RegisterUser> {
     kotaText.dispose();
     kecamatanText.dispose();
     referalCode.dispose();
-    otpController.dispose();
     super.dispose();
-  }
-
-  void startCountdown() {
-    setState(() {
-      countdown = 60;
-    });
-    timer?.cancel();
-    timer = Timer.periodic(Duration(seconds: 1), (t) {
-      if (countdown > 1) {
-        setState(() {
-          countdown--;
-        });
-      } else {
-        setState(() {
-          countdown = 0;
-        });
-        timer?.cancel();
-      }
-    });
-  }
-
-  Future<void> sendOtp() async {
-    final emailText = email.text.trim();
-    if (emailText.isEmpty || !RegExp(r'\S+@\S+\.\S+').hasMatch(emailText)) {
-      showDialog(
-        context: context,
-        builder: (_) => AlertDialog(
-          title: Text('Kesalahan'),
-          content: Text('Masukkan alamat email yang valid!'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
-              child: Text('TUTUP'),
-            ),
-          ],
-        ),
-      );
-      return;
-    }
-    setState(() {
-      sendingOtp = true;
-    });
-    try {
-      final res = await http.post(
-        Uri.parse('https://fulung.net/api/Auth/send-otp-register'),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          'email': emailText,
-          'storeName': namaToko.text.trim().isEmpty
-              ? "Verifikasi Pendaftaran"
-              : namaToko.text.trim(),
-          'memberName': nama.text.trim().isEmpty ? emailText : nama.text.trim(),
-          'pesan':
-              "Silakan masukkan kode berikut untuk menyelesaikan proses pendaftaran akun Anda."
-        }),
-      );
-
-      final json = jsonDecode(res.body);
-      setState(() {
-        otpSent = res.statusCode == 200;
-      });
-      if (res.statusCode == 200) {
-        startCountdown();
-      }
-      showDialog(
-        context: context,
-        builder: (_) => AlertDialog(
-          title: Text(otpSent ? 'Berhasil' : 'Gagal'),
-          content: Text(json['message'] ?? 'Gagal mengirim kode OTP.'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
-              child: Text('TUTUP'),
-            ),
-          ],
-        ),
-      );
-    } catch (e) {
-      showDialog(
-        context: context,
-        builder: (_) => AlertDialog(
-          title: Text('Gagal'),
-          content: Text('Gagal mengirim kode OTP.'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
-              child: Text('TUTUP'),
-            ),
-          ],
-        ),
-      );
-    } finally {
-      setState(() {
-        sendingOtp = false;
-      });
-    }
-  }
-
-  Future<bool> verifyOtp() async {
-    final emailText = email.text.trim();
-    final otpText = otpController.text.trim();
-    if (emailText.isEmpty || otpText.isEmpty) {
-      showDialog(
-        context: context,
-        builder: (_) => AlertDialog(
-          title: Text('Gagal'),
-          content: Text('Email dan Kode OTP harus diisi!'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
-              child: Text('TUTUP'),
-            ),
-          ],
-        ),
-      );
-      return false;
-    }
-    setState(() {
-      verifyingOtp = true;
-    });
-    try {
-      final res = await http.post(
-        Uri.parse('https://fulung.net/api/Auth/verify-otp-register'),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({'email': emailText, 'otp': otpText}),
-      );
-      final json = jsonDecode(res.body);
-      if (res.statusCode == 200) {
-        setState(() {
-          otpVerified = true;
-        });
-        return true;
-      } else {
-        showDialog(
-          context: context,
-          builder: (_) => AlertDialog(
-            title: Text('Gagal'),
-            content: Text(json['message'] ?? 'Kode OTP salah!'),
-            actions: [
-              TextButton(
-                onPressed: () =>
-                    Navigator.of(context, rootNavigator: true).pop(),
-                child: Text('TUTUP'),
-              ),
-            ],
-          ),
-        );
-        return false;
-      }
-    } catch (e) {
-      showDialog(
-        context: context,
-        builder: (_) => AlertDialog(
-          title: Text('Gagal'),
-          content: Text('OTP Salah Atau Kadaluwarsa.'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
-              child: Text('TUTUP'),
-            ),
-          ],
-        ),
-      );
-      return false;
-    } finally {
-      setState(() {
-        verifyingOtp = false;
-      });
-    }
   }
 
   Future<void> submitRegister() async {
@@ -273,10 +94,6 @@ class _RegisterUserState extends State<RegisterUser> {
     }
 
     if (!_formKey.currentState.validate()) return;
-
-    // Verifikasi OTP dulu sebelum lanjut proses register
-    final otpOk = await verifyOtp();
-    if (!otpOk) return;
 
     setState(() {
       loading = true;
@@ -640,81 +457,25 @@ class _RegisterUserState extends State<RegisterUser> {
                             },
                           ),
                           SizedBox(height: 15),
-                          Row(
-                            children: [
-                              Expanded(
-                                flex: 2,
-                                child: TextFormField(
-                                  controller: email,
-                                  keyboardType: TextInputType.emailAddress,
-                                  cursorColor: Theme.of(context).primaryColor,
-                                  decoration: _inputDecoration.copyWith(
-                                    hintText: 'Masukkan email',
-                                    prefixIcon: Icon(
-                                      Icons.email_rounded,
-                                      color: Theme.of(context).primaryColor,
-                                    ),
-                                  ),
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty)
-                                      return 'Email tidak boleh kosong';
-                                    else if (!RegExp(r'\S+@\S+\.\S+')
-                                        .hasMatch(value))
-                                      return 'Masukkan alamat email yang valid';
-                                    else
-                                      return null;
-                                  },
-                                ),
-                              ),
-                              SizedBox(width: 8),
-                              Expanded(
-                                flex: 1,
-                                child: ElevatedButton(
-                                  onPressed: (sendingOtp || countdown > 0)
-                                      ? null
-                                      : sendOtp,
-                                  style: ElevatedButton.styleFrom(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    padding: EdgeInsets.symmetric(vertical: 16),
-                                  ),
-                                  child: sendingOtp
-                                      ? SizedBox(
-                                          height: 16,
-                                          width: 16,
-                                          child: CircularProgressIndicator(
-                                            strokeWidth: 2,
-                                          ),
-                                        )
-                                      : Text(
-                                          countdown > 0
-                                              ? 'Tunggu $countdown dtk'
-                                              : (otpSent
-                                                  ? 'Terkirim'
-                                                  : 'Kirim Kode'),
-                                        ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 10),
                           TextFormField(
-                            controller: otpController,
-                            keyboardType: TextInputType.number,
+                            controller: email,
+                            keyboardType: TextInputType.emailAddress,
+                            cursorColor: Theme.of(context).primaryColor,
                             decoration: _inputDecoration.copyWith(
-                              hintText: 'Verifikasi Kode',
-                              prefixIcon: Icon(Icons.verified_user_rounded,
-                                  color: Theme.of(context).primaryColor),
+                              hintText: 'Masukkan email',
+                              prefixIcon: Icon(
+                                Icons.email_rounded,
+                                color: Theme.of(context).primaryColor,
+                              ),
                             ),
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly,
-                              LengthLimitingTextInputFormatter(6),
-                            ],
                             validator: (value) {
                               if (value == null || value.isEmpty)
-                                return 'Masukkan kode verifikasi OTP';
-                              return null;
+                                return 'Email tidak boleh kosong';
+                              else if (!RegExp(r'\S+@\S+\.\S+')
+                                  .hasMatch(value))
+                                return 'Masukkan alamat email yang valid';
+                              else
+                                return null;
                             },
                           ),
                           SizedBox(height: 15),
@@ -956,10 +717,10 @@ class _RegisterUserState extends State<RegisterUser> {
                           SizedBox(height: 20),
                           isAgree
                               ? MaterialButton(
-                                  onPressed: loading || verifyingOtp
+                                  onPressed: loading
                                       ? null
                                       : submitRegister,
-                                  child: (loading || verifyingOtp)
+                                  child: loading
                                       ? SizedBox(
                                           height: 20,
                                           width: 20,
