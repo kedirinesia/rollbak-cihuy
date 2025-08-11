@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:mobile/component/card_info.dart';
 import 'package:mobile/component/carousel-depan.dart';

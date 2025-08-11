@@ -2,7 +2,21 @@
 
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_page_transition/flutter_page_transition.dart';
 import 'package:mobile/models/menu.dart';
+
+// Import necessary pages for navigation - using SEEPAY specific ones
+import 'package:mobile/screen/detail-denom/detail-denom.dart';
+import 'package:mobile/screen/detail-denom-postpaid/detail-postpaid.dart';
+import 'package:mobile/screen/dynamic-prepaid/dynamic-denom.dart';
+import 'package:mobile/screen/list-grid-menu/list-grid-menu.dart';
+import 'list-sub-menu.dart';
+import 'pulsa.dart';
+import 'package:mobile/screen/transaksi/voucher_bulk.dart';
+
+// Import SEEPAY specific detail pages
+import 'detail-denom.dart';
+import 'detail-denom-postpaid.dart';
 
 class MorePage extends StatefulWidget {
   final List<MenuModel> menus;
@@ -98,14 +112,60 @@ class _MorePageState extends State<MorePage> {
   }
 
   void _onTapMenu(MenuModel menu) {
-    print('📌 MorePage Menu diklik: ${menu.name}');
-    // Handle menu tap here - you can add navigation logic if needed
-    // For now, just show a snackbar
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Menu ${menu.name} diklik'),
-        duration: Duration(seconds: 2),
-      ),
-    );
+    print('📌 MorePage Menu diklik: ${menu.name} | jenis: ${menu.jenis}, type: ${menu.type}, category_id: ${menu.category_id}, kodeProduk: ${menu.kodeProduk}');
+    
+    if (menu.jenis == 1) {
+      print('➡️ Menu menuju ke: Pulsa');
+      Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+        return Pulsa(menu);
+      }));
+    } else if (menu.jenis == 2) {
+      if (menu.category_id != null &&
+          menu.category_id.isNotEmpty &&
+          menu.type == 1) {
+        print('➡️ Menu menuju ke: SeepaysDetailDenom');
+        Navigator.of(context).push(PageTransition(
+            child: SeepaysDetailDenom(menu), type: PageTransitionType.rippleRightUp));
+      } else if (menu.kodeProduk != null &&
+          menu.kodeProduk.isNotEmpty &&
+          menu.type == 2) {
+        print('➡️ Menu menuju ke: SeepaysDetailDenomPostpaid');
+        Navigator.of(context).push(PageTransition(
+            child: SeepaysDetailDenomPostpaid(menu),
+            type: PageTransitionType.rippleRightUp));
+      } else {
+        if (menu.type == 3) {
+          print('➡️ Menu menuju ke: DynamicPrepaidDenom');
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => DynamicPrepaidDenom(menu)));
+        } else {
+          print('➡️ Menu menuju ke: ListSubMenu (category_id kosong/null)');
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (_) => ListSubMenu(menu)));
+        }
+      }
+    } else if (menu.jenis == 4) {
+      print('➡️ Menu menuju ke: ListGridMenu');
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => ListGridMenu(menu),
+        ),
+      );
+    } else if (menu.jenis == 5) {
+      print('➡️ Menu menuju ke: VoucherBulkPage');
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => VoucherBulkPage(menu),
+        ),
+      );
+    } else {
+      print('❌ Jenis menu tidak dikenali: ${menu.jenis}');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Menu belum tersedia'),
+          backgroundColor: Colors.orange,
+        ),
+      );
+    }
   }
 }

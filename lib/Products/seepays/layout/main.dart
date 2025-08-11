@@ -30,19 +30,31 @@ class _MainAppState extends State<MainApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Theme.of(context).primaryColor,
-        child: CachedNetworkImage(
-          imageUrl: 'https://dokumen.payuni.co.id/logo/payku/qris.png',
-          color: Colors.white,
-          width: 40.0,
-          height: 40.0,
+      floatingActionButton: Container(
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          boxShadow: [
+            BoxShadow(
+              color: Theme.of(context).primaryColor.withOpacity(0.9),
+              blurRadius: 8.0,
+              offset: Offset(0, 4),
+            ),
+          ],
         ),
-        elevation: 0.0,
-        onPressed: () {
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (_) => MyQrisPage()));
-        },
+        child: FloatingActionButton(
+          backgroundColor: Colors.white,
+          child: CachedNetworkImage(
+            imageUrl: 'https://dokumen.payuni.co.id/logo/payku/qris.png',
+            color: Colors.black,
+            width: 40.0,
+            height: 40.0,
+          ),
+          elevation: 0.0,
+          onPressed: () {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (_) => MyQrisPage()));
+          },
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: halaman[pageIndex],

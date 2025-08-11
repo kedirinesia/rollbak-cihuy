@@ -888,14 +888,19 @@ class _InquiryPrepaidState extends InquiryPrepaidController {
             ),
             floatingActionButton: loading
                 ? null
-                : FloatingActionButton.extended(
-                    backgroundColor: packageName == 'com.lariz.mobile'
-                        ? Theme.of(context).secondaryHeaderColor
-                        : Theme.of(context).primaryColor,
-                    label: Text('Bayar'),
-                    icon: Icon(Icons.navigate_next),
-                    onPressed: () =>
-                        _opsiBayar == 0 ? bayar() : purchaseOther(),
+                : Container(
+                    margin: EdgeInsets.only(
+                      bottom: packageName == 'com.flobamora.app' ? 50.0 : 0.0, // Margin khusus Flobamora
+                    ),
+                    child: FloatingActionButton.extended(
+                      backgroundColor: packageName == 'com.lariz.mobile'
+                          ? Theme.of(context).secondaryHeaderColor
+                          : Theme.of(context).primaryColor,
+                      label: Text('Bayar'),
+                      icon: Icon(Icons.navigate_next),
+                      onPressed: () =>
+                          _opsiBayar == 0 ? bayar() : purchaseOther(),
+                    ),
                   ),
           );
   }

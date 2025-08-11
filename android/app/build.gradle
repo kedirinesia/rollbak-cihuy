@@ -704,7 +704,7 @@ android {
         sakupay {
             dimension "flavor-type"
             applicationId "id.sakupay.mobile"
-            versionCode 7
+            versionCode 9
             versionName "2.1.5"
         }
         mypulsa {

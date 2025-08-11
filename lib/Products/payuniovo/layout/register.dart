@@ -73,7 +73,12 @@ class _RegisterUserState extends State<RegisterUser> {
   }
 
   Future<void> submitRegister() async {
+    print('=== PAYUNIOVO SUBMIT REGISTER START ===');
+    print('Current context: $context');
+    print('Current mounted: $mounted');
+    
     if (pin.text.startsWith('0')) {
+      print('PIN validation failed: PIN starts with 0');
       return showDialog<String>(
         context: context,
         builder: (BuildContext context) => AlertDialog(
@@ -89,33 +94,76 @@ class _RegisterUserState extends State<RegisterUser> {
       );
     }
 
+    print('PIN validation passed');
     String kodeUpline = bloc.kodeUpline.valueWrapper?.value;
+    print('Kode upline from bloc: $kodeUpline');
 
+    print('=== PAYUNIOVO LOCATION VALIDATION ===');
+    print('Provinsi: ${provinsi?.toString() ?? "NULL"}');
+    print('Kota: ${kota?.toString() ?? "NULL"}');
+    print('Kecamatan: ${kecamatan?.toString() ?? "NULL"}');
+    print('Provinsi ID: ${provinsi?.id ?? "NULL"}');
+    print('Kota ID: ${kota?.id ?? "NULL"}');
+    print('Kecamatan ID: ${kecamatan?.id ?? "NULL"}');
+    
     Map<String, dynamic> dataToSend = {
       'name': nama.text,
       'phone': nomorHp.text,
       'email': email.text,
       'pin': pin.text,
-      'id_propinsi': provinsi.id,
-      'id_kabupaten': kota.id,
-      'id_kecamatan': kecamatan.id,
+      'id_propinsi': provinsi?.id,
+      'id_kabupaten': kota?.id,
+      'id_kecamatan': kecamatan?.id,
       'alamat': alamat.text,
       'nama_toko': namaToko.text,
       'alamat_toko': alamatToko.text.isEmpty ? alamat.text : alamatToko.text,
     };
+    
+    print('=== PAYUNIOVO DATA PREPARATION ===');
+    print('Name: ${nama.text}');
+    print('Phone: ${nomorHp.text}');
+    print('Email: ${email.text}');
+    print('PIN: ${pin.text}');
+    print('Provinsi ID: ${provinsi.id}');
+    print('Kota ID: ${kota.id}');
+    print('Kecamatan ID: ${kecamatan.id}');
+    print('Alamat: ${alamat.text}');
+    print('Nama Toko: ${namaToko.text}');
+    print('Alamat Toko: ${alamatToko.text.isEmpty ? alamat.text : alamatToko.text}');
     if (referalCode.text.isNotEmpty) {
       dataToSend['kode_upline'] = referalCode.text.toUpperCase();
+      print('Referral code from input: ${referalCode.text.toUpperCase()}');
     }
 
     if (kodeUpline != null) {
       dataToSend['kode_upline'] = kodeUpline;
+      print('Kode upline from bloc: $kodeUpline');
     } else if (kodeUpline == null && brandId != null) {
       dataToSend['kode_upline'] = brandId;
+      print('Brand ID used as kode upline: $brandId');
     }
+    
+    print('Final kode_upline value: ${dataToSend['kode_upline']}');
 
-    print(dataToSend);
+    print('=== PAYUNIOVO REGISTRATION DATA ===');
+    print('Data to send: ${json.encode(dataToSend)}');
+    print('Email value: ${email.text}');
+    print('Email validation: ${email.text.isNotEmpty ? "NotEmpty" : "Empty"}');
+    print('Email format check: ${RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email.text) ? "Valid Format" : "Invalid Format"}');
 
     try {
+      print('=== PAYUNIOVO REGISTRATION DEBUG ===');
+      print('API URL: $apiUrl/user/register');
+      print('API URL full: ${Uri.parse('$apiUrl/user/register')}');
+      print('sigVendor: $sigVendor');
+      print('brandId: $brandId');
+      print('Headers: ${json.encode({
+        'content-type': 'application/json',
+        'merchantCode': sigVendor
+      })}');
+      print('Request Body: ${json.encode(dataToSend)}');
+      print('Request Body length: ${json.encode(dataToSend).length}');
+      
       http.Response response = await http.post(
         Uri.parse('$apiUrl/user/register'),
         headers: {
@@ -124,15 +172,41 @@ class _RegisterUserState extends State<RegisterUser> {
         },
         body: json.encode(dataToSend),
       );
+      
+      print('Response Status Code: ${response.statusCode}');
+      print('Response Headers: ${response.headers}');
+      print('Response Body: ${response.body}');
+      print('Response Content-Type: ${response.headers['content-type']}');
+      print('Response Content-Length: ${response.headers['content-length']}');
+      
       if (response.statusCode == 200) {
+        print('=== REGISTRATION SUCCESS ===');
         var data = jsonDecode(response.body);
+        print('Response data type: ${data.runtimeType}');
+        print('Response data keys: ${data.keys.toList()}');
         String message = data['message'];
+        print('Registration Success - Message: $message');
         Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (_) => LinkVerifPage()),
           (route) => false,
         );
       } else {
-        String message = json.decode(response.body)['message'];
+        print('=== REGISTRATION FAILED ===');
+        print('Trying to parse error response...');
+        var errorData;
+        try {
+          errorData = json.decode(response.body);
+          print('Error response parsed successfully');
+        } catch (parseError) {
+          print('Failed to parse error response: $parseError');
+          print('Raw error response body: ${response.body}');
+          errorData = {'message': 'Failed to parse error response'};
+        }
+        
+        String message = errorData['message'] ?? 'Unknown error';
+        print('Registration Failed - Error Data: ${json.encode(errorData)}');
+        print('Error Message: $message');
+        
         showDialog(
           context: context,
           builder: (_) {
@@ -156,12 +230,17 @@ class _RegisterUserState extends State<RegisterUser> {
         );
       }
     } catch (e) {
+      print('=== PAYUNIOVO REGISTRATION EXCEPTION ===');
+      print('Exception type: ${e.runtimeType}');
+      print('Exception message: $e');
+      print('Exception stack trace: ${StackTrace.current}');
+      
       showDialog(
         context: context,
         builder: (_) {
           return AlertDialog(
             title: Text('Registrasi Gagal'),
-            content: Text(e ?? 'Terjadi kesalahan pada sistem'),
+            content: Text(e.toString()),
             actions: <Widget>[
               TextButton(
                 onPressed: () =>
@@ -178,9 +257,12 @@ class _RegisterUserState extends State<RegisterUser> {
         },
       );
     } finally {
+      print('=== PAYUNIOVO REGISTRATION FINALLY ===');
+      print('Setting loading to false');
       setState(() {
         loading = false;
       });
+      print('Loading state updated');
     }
   }
 
@@ -211,7 +293,17 @@ class _RegisterUserState extends State<RegisterUser> {
               fieldAlamat = alamat.text;
             });
             setState(() {
-              if (!_formKey[currentStep].currentState.validate()) return;
+              print('=== PAYUNIOVO FORM VALIDATION ===');
+              print('Current step: $currentStep');
+              print('Form validation result: ${_formKey[currentStep].currentState.validate()}');
+              print('Email field value: ${email.text}');
+              print('Email field error: ${_formKey[currentStep].currentState.validate() ? "No Error" : "Has Error"}');
+              
+              if (!_formKey[currentStep].currentState.validate()) {
+                print('Form validation failed at step $currentStep');
+                return;
+              }
+              
               setState(() {
                 loading = true;
               });
@@ -219,7 +311,9 @@ class _RegisterUserState extends State<RegisterUser> {
               final isLastStep = currentStep == getSteps().length - 1;
 
               if (isLastStep) {
-                print("Suskes");
+                print("=== REGISTRATION STEP REACHED ===");
+                print("Calling submitRegister() function");
+                submitRegister();
               } else {
                 setState(() => currentStep += 1);
               }
@@ -534,11 +628,20 @@ class _RegisterUserState extends State<RegisterUser> {
                     hintText: 'Email',
                   ),
                   validator: (val) {
+                    print('=== PAYUNIOVO EMAIL VALIDATION ===');
+                    print('Email value to validate: "$val"');
+                    print('Email is null: ${val == null}');
+                    print('Email is empty: ${val.isEmpty}');
+                    print('Email regex test: ${RegExp(r'\S+@\S+\.\S+').hasMatch(val)}');
+                    
                     if (val == null || val.isEmpty) {
+                      print('Email validation failed: Empty or null');
                       return 'Email tidak boleh kosong';
                     } else if (!RegExp(r'\S+@\S+\.\S+').hasMatch(val)) {
+                      print('Email validation failed: Invalid format');
                       return 'Masukkan alamat email yang valid';
                     }
+                    print('Email validation passed');
                     return null;
                   },
                 ),

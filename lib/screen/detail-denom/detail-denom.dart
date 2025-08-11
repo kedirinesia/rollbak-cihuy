@@ -559,6 +559,9 @@ class _DetailDenomState extends DetailDenomController {
               Container(
                 alignment: Alignment.bottomRight,
                 padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                margin: EdgeInsets.only(
+                  bottom: packageName == 'com.flobamora.app' ? 70.0 : 0.0, // Margin khusus Flobamora
+                ),
                 child: selectedDenom == null
                     ? null
                     : FloatingActionButton.extended(
