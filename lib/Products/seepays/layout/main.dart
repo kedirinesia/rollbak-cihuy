@@ -9,6 +9,7 @@ import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/component/webview.dart';
 import 'package:mobile/screen/profile/my_qris.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:mobile/screen/profile/cs/cs.dart';
 
 class MainApp extends StatefulWidget {
   @override
@@ -120,14 +121,14 @@ class _MainAppState extends State<MainApp> {
                     child: Column(
                       children: <Widget>[
                         Icon(
-                          Icons.help_outline_rounded,
+                          Icons.forum_rounded,
                           color: pageIndex == 2
                               ? Theme.of(context).primaryColor
                               : Colors.grey,
                           size: 25.0,
                         ),
                         SizedBox(height: 3.0),
-                        Text('Bantuan', style: TextStyle(fontSize: 10.0))
+                        Text('Livechat', style: TextStyle(fontSize: 10.0))
                       ],
                     ),
                   ),
@@ -168,13 +169,6 @@ class _MainAppState extends State<MainApp> {
 class _LivechatTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final String url = configAppBloc.liveChat.valueWrapper?.value;
-    if (url == null || url.isEmpty) {
-      return Scaffold(
-        appBar: AppBar(title: Text('Bantuan')),
-        body: Center(child: Text('Bantuan tidak tersedia')),
-      );
-    }
-    return Webview('Bantuan', url);
+    return CS();
   }
 }
