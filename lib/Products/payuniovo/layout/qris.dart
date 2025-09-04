@@ -33,6 +33,7 @@ import 'package:mobile/models/mcc_code.dart';
 import 'package:mobile/screen/select_state/mccid.dart';
 import 'package:mobile/config.dart';
 import 'package:mobile/bloc/Api.dart';
+import 'package:image_picker/image_picker.dart';
 
 class MyQrisPage extends StatefulWidget {
   @override
@@ -293,18 +294,173 @@ class _QrisRequestFormPageState extends State<QrisRequestFormPage> {
   
   // Method untuk mengambil foto usaha
   Future<void> _getFotoUsaha() async {
+    // Tampilkan bottom sheet dengan 2 pilihan
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (BuildContext context) {
+        return Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Handle bar untuk drag
+              Container(
+                margin: EdgeInsets.only(top: 8),
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade300,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              SizedBox(height: 20),
+              
+              // Judul
+              Text(
+                'Pilih Sumber Foto',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87,
+                ),
+              ),
+              SizedBox(height: 20),
+              
+              // Tombol Kamera
+              ListTile(
+                leading: Icon(
+                  Icons.camera_alt,
+                  color: Theme.of(context).primaryColor,
+                  size: 28,
+                ),
+                title: Text(
+                  'Buka Kamera',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                subtitle: Text('Ambil foto langsung dari kamera'),
+                onTap: () {
+                  Navigator.pop(context);
+                  _takePhotoFromCamera();
+                },
+              ),
+              
+              // Tombol Galeri
+              ListTile(
+                leading: Icon(
+                  Icons.photo_library,
+                  color: Theme.of(context).primaryColor,
+                  size: 28,
+                ),
+                title: Text(
+                  'Ambil dari Galeri',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                subtitle: Text('Pilih foto yang sudah ada'),
+                onTap: () {
+                  Navigator.pop(context);
+                  _pickPhotoFromGallery();
+                },
+              ),
+              
+              SizedBox(height: 20),
+              
+              // Tombol Batal
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        side: BorderSide(color: Colors.grey.shade300),
+                      ),
+                    ),
+                    child: Text(
+                      'Batal',
+                      style: TextStyle(
+                        color: Colors.grey.shade600,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+            ],
+          ),
+        );
+      },
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
+    );
+  }
+
+  // Method untuk mengambil foto dari kamera
+  Future<void> _takePhotoFromCamera() async {
     try {
-      File image = await getPhoto();
+      final ImagePicker picker = ImagePicker();
+      final XFile? image = await picker.pickImage(
+        source: ImageSource.camera,
+        imageQuality: 80,
+      );
+      
       if (image != null) {
         setState(() {
-          _fotoUsaha = image;
+          _fotoUsaha = File(image.path);
         });
       }
     } catch (e) {
-      print('[DEBUG] Payuniovo: Error taking foto usaha: $e');
+      print('[DEBUG] Payuniovo: Error taking foto from camera: $e');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Gagal mengambil foto. Silakan coba lagi.'),
+          content: Text('Gagal mengambil foto dari kamera. Silakan coba lagi.'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  // Method untuk memilih foto dari galeri
+  Future<void> _pickPhotoFromGallery() async {
+    try {
+      final ImagePicker picker = ImagePicker();
+      final XFile? image = await picker.pickImage(
+        source: ImageSource.gallery,
+        imageQuality: 80,
+      );
+      
+      if (image != null) {
+        setState(() {
+          _fotoUsaha = File(image.path);
+        });
+      }
+    } catch (e) {
+      print('[DEBUG] Payuniovo: Error picking foto from gallery: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Gagal memilih foto dari galeri. Silakan coba lagi.'),
           backgroundColor: Colors.red,
         ),
       );

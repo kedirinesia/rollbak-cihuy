@@ -1,5 +1,6 @@
 // @dart=2.9
 
+import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
@@ -10,6 +11,11 @@ import 'package:mobile/config.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/transaksi/select_printer.dart';
+import 'package:mobile/screen/transaksi/test_bluetooth_simple.dart';
+import 'package:mobile/screen/transaksi/test_bluetooth_advanced.dart';
+import 'package:mobile/screen/test_physical_device.dart';
+import 'package:mobile/screen/test_bluetooth_simple_connection.dart';
+import 'package:mobile/component/bluetooth_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PrintSettingsPage extends StatefulWidget {
@@ -178,38 +184,73 @@ class _PrintSettingsPageState extends State<PrintSettingsPage> {
   }
 
   Future<void> _print() async {
-    BluetoothDevice device = await Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => SelectPrinterPage(),
-      ),
-    );
-    if (device == null) return;
-    if (await _bluetooth.isConnected) await _bluetooth.disconnect();
-    await _bluetooth.connect(device);
-    final profile = await CapabilityProfile.load();
-
     try {
-      if (printerType == 3) {
-        await _printVersionTwo();
-      } else {
-        Uint8List bytes = _printVersionOne(PaperSize.mm58, profile);
-        if (printerType == 2) bytes = _printVersionOne(PaperSize.mm80, profile);
+      BluetoothDevice device = await Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => SelectPrinterPage(),
+        ),
+      );
+      
+      if (device == null) return;
+      
+      // Show connection progress
+      BluetoothHelper.showConnectionProgress(context);
 
-        int totalChunks = (bytes.length - (bytes.length % 100)) ~/ 100;
-        for (int i = 0; i < totalChunks; i++) {
-          if (i == totalChunks - 1) {
-            await _bluetooth.writeBytes(bytes.sublist(i * 100));
-          } else {
-            await _bluetooth.writeBytes(bytes.sublist(i * 100, (i + 1) * 100));
-          }
-          await Future.delayed(Duration(milliseconds: 200));
-        }
+      // Connect using helper with retry logic
+      bool connected = await BluetoothHelper.connectWithRetry(
+        device,
+        maxRetries: 3,
+        timeoutSeconds: 15,
+        retryDelaySeconds: 2,
+      );
+
+      if (!connected) {
+        Navigator.of(context).pop(); // Close progress dialog
+        throw Exception('Failed to establish connection after multiple attempts');
       }
+
+      Navigator.of(context).pop(); // Close progress dialog
+      
+      final profile = await CapabilityProfile.load();
+
+      try {
+        if (printerType == 3) {
+          await _printVersionTwo();
+        } else {
+          Uint8List bytes = _printVersionOne(PaperSize.mm58, profile);
+          if (printerType == 2) bytes = _printVersionOne(PaperSize.mm80, profile);
+
+          int totalChunks = (bytes.length - (bytes.length % 100)) ~/ 100;
+          for (int i = 0; i < totalChunks; i++) {
+            if (i == totalChunks - 1) {
+              await _bluetooth.writeBytes(bytes.sublist(i * 100));
+            } else {
+              await _bluetooth.writeBytes(bytes.sublist(i * 100, (i + 1) * 100));
+            }
+            await Future.delayed(Duration(milliseconds: 200));
+          }
+        }
+        
+        showToast(context, 'Contoh struk berhasil dicetak');
+        
+      } catch (e) {
+        print('Printing error: $e');
+        showToast(context, 'Gagal mencetak contoh struk: ${e.toString()}');
+      } finally {
+        await BluetoothHelper.disconnect();
+      }
+      
     } catch (e) {
-      print(e);
-      showToast(context, 'Gagal mencetak contoh struk');
-    } finally {
-      await _bluetooth.disconnect();
+      print('Print setup error: $e');
+      
+      String errorMessage = BluetoothHelper.getErrorMessage(e);
+      
+      BluetoothHelper.showErrorDialog(
+        context,
+        'Error Koneksi Printer',
+        errorMessage,
+        _print, // Retry function
+      );
     }
   }
 
@@ -227,6 +268,50 @@ class _PrintSettingsPageState extends State<PrintSettingsPage> {
           IconButton(
             icon: Icon(Icons.print_rounded),
             onPressed: _print,
+          ),
+          IconButton(
+            icon: Icon(Icons.bug_report),
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => TestBluetoothSimplePage(),
+                ),
+              );
+            },
+            tooltip: 'Test Bluetooth Connection',
+          ),
+          IconButton(
+            icon: Icon(Icons.analytics),
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => TestBluetoothAdvancedPage(),
+                ),
+              );
+            },
+            tooltip: 'Advanced Bluetooth Diagnostics',
+          ),
+          IconButton(
+            icon: Icon(Icons.phone_android),
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => TestPhysicalDevicePage(),
+                ),
+              );
+            },
+            tooltip: 'Test Physical Device Connection',
+          ),
+          IconButton(
+            icon: Icon(Icons.bluetooth_searching),
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => TestBluetoothSimpleConnection(),
+                ),
+              );
+            },
+            tooltip: 'Test Simple Bluetooth (No 16KB)',
           ),
         ],
       ),

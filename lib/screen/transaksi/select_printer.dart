@@ -6,6 +6,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/config.dart';
 import 'package:mobile/provider/analitycs.dart';
+import 'package:mobile/component/bluetooth_helper.dart';
 
 class SelectPrinterPage extends StatefulWidget {
   @override
@@ -27,16 +28,53 @@ class _SelectPrinterPageState extends State<SelectPrinterPage> {
   Future<List<BluetoothDevice>> _getBondedDevices() async {
     try {
       print("Getting bonded devices...");
-      List<BluetoothDevice> devices = await bluetooth.getBondedDevices();
-      print("Found ${devices.length} bonded devices");
-      for (var device in devices) {
-        print("Device: ${device.name} (${device.address})");
+      
+      // Check if Bluetooth is enabled
+      bool isEnabled = await BluetoothHelper.isBluetoothEnabled();
+      if (isEnabled != true) {
+        throw Exception('Bluetooth tidak aktif. Silakan aktifkan Bluetooth di pengaturan.');
       }
+      
+      List<BluetoothDevice> devices = await BluetoothHelper.getBondedDevices();
+      print("Found ${devices.length} valid bonded devices");
+      
       return devices;
     } catch (e) {
       print("Error getting bonded devices: $e");
-      throw e;
+      
+      if (e.toString().contains('permission')) {
+        throw Exception('Izin Bluetooth diperlukan. Pastikan aplikasi memiliki akses Bluetooth.');
+      } else if (e.toString().contains('Bluetooth tidak aktif')) {
+        throw Exception('Bluetooth tidak aktif. Silakan aktifkan Bluetooth di pengaturan.');
+      } else {
+        throw Exception('Gagal mendapatkan daftar printer: ${e.toString()}');
+      }
     }
+  }
+
+  Future<void> _refreshDevices() async {
+    setState(() {
+      // Trigger rebuild
+    });
+  }
+
+  Future<void> _openBluetoothSettings() async {
+    // Show instructions since openBluetoothSettings is not available
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Buka Pengaturan Bluetooth'),
+          content: Text('Buka Pengaturan > Bluetooth dan pastikan printer sudah dipasangkan (paired) dengan perangkat ini.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -78,11 +116,7 @@ class _SelectPrinterPageState extends State<SelectPrinterPage> {
                     ),
                     SizedBox(height: 16),
                     ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          // Trigger rebuild
-                        });
-                      },
+                      onPressed: _refreshDevices,
                       child: Text('Coba Lagi'),
                     ),
                   ],
@@ -141,12 +175,16 @@ class _SelectPrinterPageState extends State<SelectPrinterPage> {
                     ),
                     SizedBox(height: 16),
                     ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          // Trigger rebuild
-                        });
-                      },
+                      onPressed: _refreshDevices,
                       child: Text('Refresh'),
+                    ),
+                    SizedBox(height: 10),
+                    ElevatedButton(
+                      onPressed: _openBluetoothSettings,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                      ),
+                      child: Text('Buka Pengaturan Bluetooth'),
                     ),
                   ],
                 ),

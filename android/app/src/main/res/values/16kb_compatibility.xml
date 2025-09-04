@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 16KB Page Size Compatibility Configuration -->
+    
+    <!-- Enable 16KB page size support -->
+    <bool name="enable_16kb_page_size_support">true</bool>
+    
+    <!-- Enable legacy packaging for compatibility -->
+    <bool name="enable_legacy_packaging">true</bool>
+    
+    <!-- Enable NDK optimization for 16KB page size -->
+    <bool name="enable_ndk_optimization">true</bool>
+    
+    <!-- Enable ABI filtering for 16KB compatibility -->
+    <bool name="enable_abi_filtering">true</bool>
+    
+    <!-- Enable 16KB page size compatibility -->
+    <bool name="enable_16kb_compatibility">true</bool>
+    
+    <!-- Enable legacy external storage -->
+    <bool name="enable_legacy_external_storage">true</bool>
+    
+    <!-- Enable large heap for 16KB compatibility -->
+    <bool name="enable_large_heap">true</bool>
+    
+    <!-- Enable hardware acceleration -->
+    <bool name="enable_hardware_acceleration">true</bool>
+    
+    <!-- Enable 16KB page size support for plugins -->
+    <bool name="enable_16kb_plugin_support">true</bool>
+    
+    <!-- 16KB page size specific configurations -->
+    <string name="kb16_page_size_support">enabled</string>
+    <string name="kb16_compatibility_mode">native</string>
+    <string name="kb16_optimization_level">high</string>
+    
+    <!-- Memory management for 16KB compatibility -->
+    <integer name="max_memory_heap_size">512</integer>
+    <integer name="min_memory_heap_size">128</integer>
+    
+    <!-- NDK configurations for 16KB support -->
+    <string name="ndk_abi_filters">arm64-v8a,armeabi-v7a,x86_64</string>
+    <string name="ndk_cpp_flags">-DANDROID_16KB_PAGE_SIZE_SUPPORT</string>
+    
+    <!-- Package alignment for 16KB compatibility -->
+    <bool name="enable_package_alignment">true</bool>
+    <integer name="package_alignment_size">16384</integer>
+    
+    <!-- ELF alignment for 16KB compatibility -->
+    <bool name="enable_elf_alignment">true</bool>
+    <integer name="elf_alignment_size">16384</integer>
+</resources> 

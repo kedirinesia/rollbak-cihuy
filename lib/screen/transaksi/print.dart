@@ -21,6 +21,7 @@ import 'package:mobile/modules.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/custom_alert_dialog.dart';
 import 'package:mobile/screen/transaksi/select_printer.dart';
+import 'package:mobile/component/bluetooth_helper.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:path_provider/path_provider.dart';
@@ -568,49 +569,81 @@ class _PrintPreviewState extends PrintPreviewController {
       return;
     }
 
-    if (await _bluetooth.isConnected) await _bluetooth.disconnect();
-    await _bluetooth.connect(device);
-    final _profile = await CapabilityProfile.load();
+    // Show connection progress
+    BluetoothHelper.showConnectionProgress(context);
 
     try {
-      switch (bloc.printerType.valueWrapper.value) {
-        case 1:
-          Uint8List bytes = v1(PaperSize.mm58, _profile);
-          int totalChunks = (bytes.length - (bytes.length % 100)) ~/ 100;
-          for (int i = 0; i < totalChunks; i++) {
-            if (i == totalChunks - 1) {
-              await _bluetooth.writeBytes(bytes.sublist(i * 100));
-            } else {
-              await _bluetooth
-                  .writeBytes(bytes.sublist(i * 100, (i + 1) * 100));
-            }
-            await Future.delayed(Duration(milliseconds: 200));
-          }
-          break;
-        case 2:
-          Uint8List bytes = v1(PaperSize.mm80, _profile);
-          int totalChunks = (bytes.length - (bytes.length % 100)) ~/ 100;
-          for (int i = 0; i < totalChunks; i++) {
-            if (i == totalChunks - 1) {
-              await _bluetooth.writeBytes(bytes.sublist(i * 100));
-            } else {
-              await _bluetooth
-                  .writeBytes(bytes.sublist(i * 100, (i + 1) * 100));
-            }
-            await Future.delayed(Duration(milliseconds: 200));
-          }
-          break;
-        case 3:
-          await v2();
-          break;
-        default:
-          await _bluetooth.writeBytes(v1(PaperSize.mm58, _profile));
+      // Connect using helper with retry logic
+      bool connected = await BluetoothHelper.connectWithRetry(
+        device,
+        maxRetries: 3,
+        timeoutSeconds: 15,
+        retryDelaySeconds: 2,
+      );
+
+      if (!connected) {
+        Navigator.of(context).pop(); // Close progress dialog
+        throw Exception('Failed to establish connection after multiple attempts');
       }
-      showToast(context, 'Berhasil mencetak struk');
-    } catch (_) {
-      showToast(context, 'Gagal mencetak struk');
-    } finally {
-      await _bluetooth.disconnect();
+
+      Navigator.of(context).pop(); // Close progress dialog
+      
+      final _profile = await CapabilityProfile.load();
+
+      try {
+        switch (bloc.printerType.valueWrapper.value) {
+          case 1:
+            Uint8List bytes = v1(PaperSize.mm58, _profile);
+            int totalChunks = (bytes.length - (bytes.length % 100)) ~/ 100;
+            for (int i = 0; i < totalChunks; i++) {
+              if (i == totalChunks - 1) {
+                await _bluetooth.writeBytes(bytes.sublist(i * 100));
+              } else {
+                await _bluetooth
+                    .writeBytes(bytes.sublist(i * 100, (i + 1) * 100));
+              }
+              await Future.delayed(Duration(milliseconds: 200));
+            }
+            break;
+          case 2:
+            Uint8List bytes = v1(PaperSize.mm80, _profile);
+            int totalChunks = (bytes.length - (bytes.length % 100)) ~/ 100;
+            for (int i = 0; i < totalChunks; i++) {
+              if (i == totalChunks - 1) {
+                await _bluetooth.writeBytes(bytes.sublist(i * 100));
+              } else {
+                await _bluetooth
+                    .writeBytes(bytes.sublist(i * 100, (i + 1) * 100));
+              }
+              await Future.delayed(Duration(milliseconds: 200));
+            }
+            break;
+          case 3:
+            await v2();
+            break;
+          default:
+            await _bluetooth.writeBytes(v1(PaperSize.mm58, _profile));
+        }
+        showToast(context, 'Berhasil mencetak struk');
+      } catch (e) {
+        print('Printing error: $e');
+        showToast(context, 'Gagal mencetak struk: ${e.toString()}');
+      } finally {
+        await BluetoothHelper.disconnect();
+      }
+      
+    } catch (e) {
+      Navigator.of(context).pop(); // Close progress dialog if still open
+      print('Connection error: $e');
+      
+      String errorMessage = BluetoothHelper.getErrorMessage(e);
+      
+      BluetoothHelper.showErrorDialog(
+        context,
+        'Error Koneksi Printer',
+        errorMessage,
+        startPrint, // Retry function
+      );
     }
   }
 

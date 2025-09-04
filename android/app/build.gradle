@@ -49,6 +49,34 @@ android {
     lintOptions {
         disable 'InvalidPackage'
     }
+    
+    // 16KB page size support
+    packagingOptions {
+        jniLibs {
+            useLegacyPackaging = true
+        }
+        // Enable 16KB page size alignment
+        doNotStrip '*/arm64-v8a/*.so'
+        doNotStrip '*/armeabi-v7a/*.so'
+        doNotStrip '*/x86_64/*.so'
+    }
+    
+    // Enable 16KB page size compatibility
+    ndkVersion "25.1.8937393"
+    
+    // 16KB page size specific configurations
+    buildTypes {
+        debug {
+            ndk {
+                debugSymbolLevel 'FULL'
+            }
+        }
+        release {
+            ndk {
+                debugSymbolLevel 'FULL'
+            }
+        }
+    }
 
     defaultConfig {
         applicationId "mobile.payuni.id"
@@ -59,7 +87,7 @@ android {
         versionName flutterVersionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         
-        // Support for 16KB page size devices
+        // 16KB page size support - ABI filters for compatibility
         ndk {
             abiFilters 'arm64-v8a', 'armeabi-v7a', 'x86_64'
         }

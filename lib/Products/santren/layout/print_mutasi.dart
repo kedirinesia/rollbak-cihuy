@@ -4,7 +4,8 @@ import 'dart:typed_data';
 import 'dart:io';
 
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
-import 'package:esc_pos_utils_plus/esc_pos_utils.dart';
+import 'package:esc_pos_utils/esc_pos_utils.dart';
+ 
 import 'package:flutter/material.dart';
 import 'package:mobile/screen/transaksi/select_printer.dart';
 import 'package:permission_handler/permission_handler.dart';

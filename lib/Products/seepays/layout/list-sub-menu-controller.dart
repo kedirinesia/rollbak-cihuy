@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:mobile/models/menu.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/detail-denom-postpaid/detail-postpaid.dart';
@@ -73,6 +74,8 @@ abstract class ListSubMenuController extends State<ListSubMenu>
       
       tempMenu = cachedSubmenu;
       listMenu = cachedSubmenu;
+      
+      // Cache loaded successfully
       
       setState(() {
         loading = false; // Langsung set ke false tanpa menampilkan loading
@@ -147,6 +150,8 @@ abstract class ListSubMenuController extends State<ListSubMenu>
             tempMenu = lm;
             listMenu = lm;
           });
+          
+          // Data loaded successfully
         }
       } else {
         print('❌ ListSubMenu Background: Failed to load submenu: ${response.statusCode}');
@@ -210,8 +215,11 @@ abstract class ListSubMenuController extends State<ListSubMenu>
     });
   }
 
+  // Methods removed - logo will be shown in detail page, not here
+
   onTapMenu(MenuModel menu) async {
     print('📌 ListSubMenu Menu diklik: ${menu.name} | type: ${menu.type} | category_id: "${menu.category_id}" | kodeProduk: "${menu.kodeProduk}"');
+    print('🖼️ ListSubMenu: Icon URL yang akan dikirim: ${menu.icon}');
     
     if (menu.category_id.isNotEmpty && menu.type == 1) {
       print('➡️ ListSubMenu menuju ke: SeepaysDetailDenom (Prepaid)');

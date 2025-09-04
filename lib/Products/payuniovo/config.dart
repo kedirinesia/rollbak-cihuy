@@ -17,7 +17,7 @@ const labelPoint = 'Point';
 String packagename = Platform.isAndroid ? 'mobile.payuni.id' : 'co.payuni.id';
 String brandId;
 String copyRight = '';
-int templateCode = 3;
+int templateCode = 1;
 String gaId = '';
 String apiUrl = 'https://payuni-app.findig.id/api/v1';
 String liveChat = 'https://tawk.to/chat/5f3f82bc1e7ade5df442bd63/default';

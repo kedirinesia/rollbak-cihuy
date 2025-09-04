@@ -39,7 +39,7 @@ dependencies:
   firebase_dynamic_links: ^4.3.3
   firebase_messaging: ^12.0.1
   blue_thermal_printer: ^1.2.3
-  esc_pos_utils_plus: ^2.0.1+6
+  esc_pos_utils: ^1.1.0
   esc_pos_bluetooth: ^0.4.1
   contacts_service: ^0.6.3
   permission_handler: ^10.0.0
@@ -94,6 +94,7 @@ dependencies:
   line_awesome_flutter: ^1.0.1
   dotted_line: ^3.0.0
   pin_code_fields: ^8.0.0
+
 
 dev_dependencies:
   flutter_test:

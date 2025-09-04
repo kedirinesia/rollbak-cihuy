@@ -75,18 +75,41 @@ class _SeepaysDetailDenomState extends SeepaysDetailDenomController {
     // });
 
     Widget operatorIcon() {
-      if (operatorLogoCover) {
-        if (coverIcon.isEmpty) {
-          return SizedBox();
-        } else {
-          return Container(
-            padding: EdgeInsets.all(40),
-            child: CachedNetworkImage(
-              imageUrl: coverIcon,
-              height: 10,
+      // Prioritas: 1. Menu icon, 2. Cover icon dari API, 3. Kosong
+      String iconUrl = '';
+      
+      // Cek apakah ada icon dari menu yang diklik
+      if (widget.menu.icon != null && widget.menu.icon.isNotEmpty) {
+        iconUrl = widget.menu.icon;
+        print('🖼️ DetailDenom: Using menu icon: $iconUrl');
+      } else if (coverIcon.isNotEmpty) {
+        iconUrl = coverIcon;
+        print('🖼️ DetailDenom: Using cover icon: $iconUrl');
+      }
+      
+      if (iconUrl.isNotEmpty) {
+        return Container(
+          padding: EdgeInsets.all(20),
+          child: CachedNetworkImage(
+            imageUrl: iconUrl,
+            height: 80,
+            width: 80,
+            placeholder: (context, url) => SizedBox(
+              width: 40,
+              height: 40,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: Colors.white,
+              ),
             ),
-          );
-        }
+            errorWidget: (context, url, error) => Icon(
+              Icons.image_not_supported,
+              color: Colors.white,
+              size: 40,
+            ),
+            fit: BoxFit.contain,
+          ),
+        );
       } else {
         return SizedBox();
       }
@@ -135,7 +158,9 @@ class _SeepaysDetailDenomState extends SeepaysDetailDenomController {
                             width: MediaQuery.of(context).size.width * .4,
                           ),
                         )
-                      : operatorIcon(),
+                      : Center(
+                          child: operatorIcon(),
+                        ),
                 ),
                 Container(
                   padding: EdgeInsets.all(20),
