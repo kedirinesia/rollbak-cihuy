@@ -10,6 +10,7 @@ import 'package:mobile/screen/dynamic-prepaid/dynamic-denom.dart';
 import 'package:mobile/screen/list-sub-menu/list-sub-menu.dart';
 import 'package:mobile/screen/pulsa/pulsa.dart';
 import 'package:mobile/screen/transaksi/voucher_bulk.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class MoreMenuPage extends StatefulWidget {
   List<MenuModel> allMenu;
@@ -35,8 +36,8 @@ class _MoreMenuScreenState extends State<MoreMenuPage>
         .where((menu) => menu.type == 2)
         .toList(); // Anggap type 1 adalah Pascabayar
 
-    print(_prepaidMenus);
-    print(_postpaidMenus);
+    DebugHelper.debugPrint('_prepaidMenus.toString()');
+    DebugHelper.debugPrint('_postpaidMenus.toString()');
   }
 
   onTapMenu(MenuModel menu, BuildContext context) {
@@ -75,7 +76,7 @@ class _MoreMenuScreenState extends State<MoreMenuPage>
         }
       }
     } else if (menu.jenis == 4) {
-      print('REDIRECT KE HALAMAN LIST GRID');
+      DebugHelper.debugPrint('REDIRECT KE HALAMAN LIST GRID');
       return Navigator.of(context).push(
         MaterialPageRoute(
           builder: (_) => ListGridMenu(menu),

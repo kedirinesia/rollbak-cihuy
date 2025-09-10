@@ -5,6 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:package_info/package_info.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class AboutAppPage extends StatefulWidget {
   @override

@@ -19,6 +19,7 @@ import 'package:mobile/provider/analitycs.dart';
 import 'package:http/http.dart' as http;
 import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class InvitePage extends StatefulWidget {
   @override
@@ -123,7 +124,7 @@ class _InvitePageState extends State<InvitePage> with TickerProviderStateMixin {
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
     } catch (e) {
-      print(e);
+      DebugHelper.debugPrint(e.toString()); 
     }
   }
 

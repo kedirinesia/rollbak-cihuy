@@ -13,6 +13,7 @@ import 'package:http/http.dart' as http;
 import 'package:mobile/modules.dart';
 import '../../bloc/Bloc.dart' show bloc;
 import 'notifikasi.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 abstract class NotifikasiController extends State<Notifikasi>
     with TickerProviderStateMixin {
@@ -74,7 +75,7 @@ abstract class NotifikasiController extends State<Notifikasi>
         // ..
       }
     } catch (e) {
-      print('Error: $e');
+      DebugHelper.debugPrint('Error: $e');
     }
   }
 

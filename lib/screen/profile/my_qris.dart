@@ -8,6 +8,7 @@ import 'package:mobile/component/alert.dart';
 import 'package:mobile/provider/api.dart';
 import 'package:http/http.dart' as http;
 import 'package:permission_handler/permission_handler.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class MyQrisPage extends StatefulWidget {
   @override
@@ -24,7 +25,7 @@ class _MyQrisPageState extends State<MyQrisPage> {
         _qrImage = data['image'];
       });
     } catch (err) {
-      print(err);
+      DebugHelper.debugPrint('err.toString()');
       ScaffoldMessenger.of(context).showSnackBar(
         Alert(
           'Merchant belum mendukung static QRIS',

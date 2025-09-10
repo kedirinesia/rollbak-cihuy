@@ -11,6 +11,7 @@ import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/models/trx.dart';
 import 'package:mobile/models/bank.dart';
 import 'package:mobile/provider/analitycs.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class ViewPaymentTrx extends StatefulWidget {
   final TrxModel trx;

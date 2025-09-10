@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../screen/login.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({Key? key}) : super(key: key);

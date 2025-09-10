@@ -16,6 +16,7 @@ import 'package:mobile/modules.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/transaksi/detail_transaksi.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class HistoryTransaksi extends StatefulWidget {
   const HistoryTransaksi({key}) : super(key: key);
@@ -96,15 +97,15 @@ class _HistoryTransaksiState extends State<HistoryTransaksi> {
     });
     String parameters = listOfParams.join('&');
     String url = '$apiUrl/trx/list?$parameters';
-    print(url);
-    print(bloc.token.valueWrapper?.value);
+    DebugHelper.debugPrint('url.toString()');
+    DebugHelper.debugPrint('bloc.token.valueWrapper?.value.toString()');
 
     http.Response response = await http.get(Uri.parse(url), headers: {
       'Authorization': bloc.token.valueWrapper?.value,
     });
 
     if (response.statusCode == 200) {
-      print(response.body);
+      DebugHelper.debugPrint('response.body.toString()');
       List<dynamic> datas = json.decode(response.body)['data'];
       if (datas.length == 0) isEdge = true;
       listTrx.addAll(datas.map((e) => TrxModel.fromJson(e)).toList());

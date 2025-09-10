@@ -23,6 +23,7 @@ import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/kasir/penjualan/checkout.dart';
 
 import 'package:mobile/modules.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class ListProduct extends StatefulWidget {
   @override
@@ -537,17 +538,17 @@ class ListProductState extends State<ListProduct> {
           SizedBox(width: 10.0),
           InkWell(
             onTap: () async {
-              print('scan qr code');
+              DebugHelper.debugPrint('scan qr code');
               var barcode = await BarcodeScanner.scan();
               if (barcode.rawContent.isNotEmpty) {
                 String rawContent = barcode.rawContent;
-                print('rawContent -> $rawContent');
+                DebugHelper.debugPrint('rawContent -> $rawContent');
                 var list = tmpProdcts
                     .where((item) => item.sku
                         .toLowerCase()
                         .contains(rawContent.toLowerCase()))
                     .toList();
-                print(list);
+                DebugHelper.debugPrint('list.toString()');
 
                 if (list.length > 0) {
                   add(0, list[0]);

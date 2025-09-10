@@ -29,6 +29,7 @@ import 'package:mobile/screen/notifikasi/notifikasi.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/screen/profile/invite/invite.dart';
 import 'package:mobile/screen/wd/withdraw.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class MobipayHome extends StatefulWidget {
   @override
@@ -112,7 +113,7 @@ class _MobipayHomeState extends State<MobipayHome>
         return [];
       }
     } catch (e) {
-      print('Error: $e');
+      DebugHelper.debugPrint('Error: $e');
       return [];
     }
   }
@@ -150,7 +151,7 @@ class _MobipayHomeState extends State<MobipayHome>
 
     if (response.statusCode == 200) {
       List<dynamic> datas = json.decode(response.body)['data'];
-      print(datas[0]);
+      DebugHelper.debugPrint(datas[0].toString());
       rewards = datas.map((e) => RewardModel.fromJson(e)).toList();
     }
 

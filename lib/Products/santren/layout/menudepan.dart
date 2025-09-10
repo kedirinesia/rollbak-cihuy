@@ -14,6 +14,7 @@ import 'package:mobile/screen/list-grid-menu/list-grid-menu.dart';
 import 'package:mobile/screen/list-sub-menu/list-sub-menu.dart';
 import 'package:mobile/screen/transaksi/voucher_bulk.dart';
 import 'package:mobile/screen/pulsa/pulsa.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class MenuDepan extends StatefulWidget {
   final int grid;
@@ -42,10 +43,10 @@ class _MenuDepanState extends State<MenuDepan> {
   void initState() {
     super.initState();
     if (widget.menus == null) {
-      print("GET MENU BY API");
+      DebugHelper.debugPrint('"GET MENU BY API"');
       getMenu();
     } else {
-      print("LOAD MENU BY DATA");
+      DebugHelper.debugPrint('"LOAD MENU BY DATA"');
       setState(() {
         loading = false;
         _listMenu = widget.menus;
@@ -117,7 +118,7 @@ class _MenuDepanState extends State<MenuDepan> {
         }
       }
     } else if (menu.jenis == 4) {
-      print('REDIRECT KE HALAMAN LIST GRID');
+      DebugHelper.debugPrint('REDIRECT KE HALAMAN LIST GRID');
       return Navigator.of(context).push(
         MaterialPageRoute(
           builder: (_) => ListGridMenu(menu),

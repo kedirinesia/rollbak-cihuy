@@ -23,6 +23,7 @@ import 'package:mobile/screen/marketplace/voucher/voucher.dart';
 import 'package:mobile/screen/marketplace/opsi_bayar.dart';
 import 'package:mobile/screen/topup/topup.dart';
 import 'package:mobile/screen/transaksi/verifikasi_pin.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class OrderPage extends StatefulWidget {
   final List<ProdukCartMarket> products;
@@ -145,7 +146,7 @@ class _OrderPageState extends State<OrderPage> {
           var responseData = json.decode(response.body);
           var status = responseData['status'];
 
-          print(responseData);
+          DebugHelper.debugPrint('responseData.toString()');
           if (status == 200) {
             setState(() {
               selectedVoucher = VoucherMarket.fromJson(responseData['data']);
@@ -626,7 +627,7 @@ class _OrderPageState extends State<OrderPage> {
                     VoucherMarket voucher = await Navigator.of(context).push(
                         MaterialPageRoute(builder: (_) => VoucherMarketPage()));
 
-                    print(voucher);
+                    DebugHelper.debugPrint('voucher.toString()');
                     if (voucher == null) return;
 
                     setState(() {

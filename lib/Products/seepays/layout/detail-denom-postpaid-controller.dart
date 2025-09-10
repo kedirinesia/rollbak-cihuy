@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:mobile/bloc/Bloc.dart' show bloc;
 import 'package:mobile/bloc/Api.dart' show apiUrl;
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 abstract class SeepaysDetailDenomPostpaidController extends State<SeepaysDetailDenomPostpaid>
     with TickerProviderStateMixin {
@@ -46,20 +47,20 @@ abstract class SeepaysDetailDenomPostpaidController extends State<SeepaysDetailD
   }
 
   Future<void> getSuggestNumbers() async {
-    print('=== Seepays Postpaid getSuggestNumbers() START ===');
-    print('🔍 Package Name: $packageName');
-    print('🔍 Menu Name: ${widget.menu.name}');
-    print('🔍 Menu Kode Produk: ${widget.menu.kodeProduk}');
-    print('🔍 Category ID from widget: ${widget.menu.category_id}');
-    print('🔍 Category ID from API: $categoryId');
-    print('🔍 API URL: $apiUrl');
+    DebugHelper.debugPrint('=== Seepays Postpaid getSuggestNumbers() START ===');
+    DebugHelper.debugPrint('🔍 Package Name: $packageName');
+    DebugHelper.debugPrint('🔍 Menu Name: ${widget.menu.name}');
+    DebugHelper.debugPrint('🔍 Menu Kode Produk: ${widget.menu.kodeProduk}');
+    DebugHelper.debugPrint('🔍 Category ID from widget: ${widget.menu.category_id}');
+    DebugHelper.debugPrint('🔍 Category ID from API: $categoryId');
+    DebugHelper.debugPrint('🔍 API URL: $apiUrl');
     
     if (packageName != 'com.seepaysbiller.app') {
-      print('❌ Not Seepays, skipping suggest numbers');
+      DebugHelper.debugPrint('❌ Not Seepays, skipping suggest numbers');
       return;
     }
 
-    print('✅ Seepays detected, proceeding with suggest numbers');
+    DebugHelper.debugPrint('✅ Seepays detected, proceeding with suggest numbers');
 
     try {
       setState(() {
@@ -70,17 +71,17 @@ abstract class SeepaysDetailDenomPostpaidController extends State<SeepaysDetailD
       String finalCategoryId = categoryId.isNotEmpty ? categoryId : (widget.menu.category_id ?? '');
       String finalKodeProduk = widget.menu.kodeProduk ?? '';
       
-      print('🔍 Final Category ID before check: "$finalCategoryId"');
-      print('🔍 Final Kode Produk before check: "$finalKodeProduk"');
+      DebugHelper.debugPrint('🔍 Final Category ID before check: "$finalCategoryId"');
+      DebugHelper.debugPrint('🔍 Final Kode Produk before check: "$finalKodeProduk"');
       
       // Jika category_id kosong, coba mapping dari kode_produk
       if ((finalCategoryId.isEmpty || finalCategoryId == 'null') && finalKodeProduk.isNotEmpty) {
         finalCategoryId = _getCategoryIdFromKodeProduk(finalKodeProduk);
-        print('🔄 Mapped category_id from kode_produk: "$finalCategoryId"');
+        DebugHelper.debugPrint('🔄 Mapped category_id from kode_produk: "$finalCategoryId"');
       }
       
       if (finalCategoryId.isEmpty || finalCategoryId == 'null') {
-        print('⚠️ Category ID masih kosong setelah mapping, menampilkan pesan "Belum pernah transaksi"');
+        DebugHelper.debugPrint('⚠️ Category ID masih kosong setelah mapping, menampilkan pesan "Belum pernah transaksi"');
         setState(() { 
           suggestNumbers = ['Belum pernah transaksi di produk ini']; 
           loadingSuggest = false;
@@ -90,8 +91,8 @@ abstract class SeepaysDetailDenomPostpaidController extends State<SeepaysDetailD
       
       // Single API call untuk optimasi kecepatan - hilangkan multiple testing
       String apiEndpoint = '$apiUrl/trx/lastTransaction?kategori_id=$finalCategoryId&limit=10&skip=0';
-      print('✅ Using category_id for API call: $finalCategoryId');
-      print('🌐 Seepays Postpaid API Endpoint: $apiEndpoint');
+      DebugHelper.debugPrint('✅ Using category_id for API call: $finalCategoryId');
+      DebugHelper.debugPrint('🌐 Seepays Postpaid API Endpoint: $apiEndpoint');
       
       final response = await http.get(
         Uri.parse(apiEndpoint),
@@ -100,16 +101,16 @@ abstract class SeepaysDetailDenomPostpaidController extends State<SeepaysDetailD
         },
       );
       
-      print('📡 Response Status: ${response.statusCode}');
-      print('📡 Response Body: ${response.body}');
+      DebugHelper.debugPrint('📡 Response Status: ${response.statusCode}');
+      DebugHelper.debugPrint('📡 Response Body: ${response.body}');
 
       if (response.statusCode == 200) {
         // Response lastTransaction langsung berupa array
         final List<dynamic> datas = json.decode(response.body) as List<dynamic>;
-        print('📊 Found ${datas.length} transactions in response');
+        DebugHelper.debugPrint('📊 Found ${datas.length} transactions in response');
 
         if (datas.isEmpty) {
-          print('📭 No transactions found for category: $finalCategoryId');
+          DebugHelper.debugPrint('📭 No transactions found for category: $finalCategoryId');
           setState(() { 
             suggestNumbers = ['Belum pernah transaksi di produk ini']; 
           });
@@ -129,31 +130,31 @@ abstract class SeepaysDetailDenomPostpaidController extends State<SeepaysDetailD
         final Set<String> uniqueTargets = <String>{};
         for (final dynamic item in datas) {
           final String tujuanItem = (item['tujuan'] ?? '').toString().trim();
-          print('🔍 Processing item: $tujuanItem');
+          DebugHelper.debugPrint('🔍 Processing item: $tujuanItem');
           if (tujuanItem.isEmpty) continue;
 
           // Terima semua format yang valid (HP, PLN ID, dll)
           if (tujuanItem.length >= 8 && tujuanItem.length <= 20) {
             uniqueTargets.add(tujuanItem);
-            print('✅ Added to suggestions: $tujuanItem');
+            DebugHelper.debugPrint('✅ Added to suggestions: $tujuanItem');
             if (uniqueTargets.length >= 10) break;
           } else {
-            print('❌ Skipped (invalid length): $tujuanItem');
+            DebugHelper.debugPrint('❌ Skipped (invalid length): $tujuanItem');
           }
         }
 
         setState(() { 
           suggestNumbers = uniqueTargets.toList(); 
         });
-        print('✅ Final suggest numbers: $suggestNumbers');
+        DebugHelper.debugPrint('✅ Final suggest numbers: $suggestNumbers');
       } else {
-        print('❌ API failed with status: ${response.statusCode}');
+        DebugHelper.debugPrint('❌ API failed with status: ${response.statusCode}');
         setState(() { 
           suggestNumbers = ['Belum pernah transaksi di produk ini']; 
         });
       }
     } catch (error) {
-      print('❌ Error dalam getSuggestNumbers: $error');
+      DebugHelper.debugPrint('❌ Error dalam getSuggestNumbers: $error');
       setState(() { 
         suggestNumbers = ['Belum pernah transaksi di produk ini']; 
       });
@@ -163,7 +164,7 @@ abstract class SeepaysDetailDenomPostpaidController extends State<SeepaysDetailD
       });
     }
     
-    print('=== Seepays Postpaid getSuggestNumbers() END ===');
+    DebugHelper.debugPrint('=== Seepays Postpaid getSuggestNumbers() END ===');
   }
 
   String _getCategoryIdFromKodeProduk(String kodeProduk) {
@@ -176,7 +177,7 @@ abstract class SeepaysDetailDenomPostpaidController extends State<SeepaysDetailD
     };
     
     String mappedCategoryId = kodeProdukToCategoryId[kodeProduk] ?? '';
-    print('🗺️ Mapping $kodeProduk -> $mappedCategoryId');
+    DebugHelper.debugPrint('🗺️ Mapping $kodeProduk -> $mappedCategoryId');
     return mappedCategoryId;
   }
 
@@ -184,7 +185,7 @@ abstract class SeepaysDetailDenomPostpaidController extends State<SeepaysDetailD
     setState(() {
       tujuan.text = number;
     });
-    print('✅ Seepays Postpaid: Selected suggest number: $number');
+    DebugHelper.debugPrint('✅ Seepays Postpaid: Selected suggest number: $number');
   }
 
   Future<void> getData() async {
@@ -201,7 +202,7 @@ abstract class SeepaysDetailDenomPostpaidController extends State<SeepaysDetailD
       // SET CATEGORY ID dari response
       if (lm.isNotEmpty) {
         categoryId = lm.first['category_id'] ?? '';
-        print('🔍 Seepays Postpaid: Category ID from API: $categoryId');
+        DebugHelper.debugPrint('🔍 Seepays Postpaid: Category ID from API: $categoryId');
       }
 
       setState(() {

@@ -1,6 +1,7 @@
 // @dart=2.9
 
 import 'package:flutter/material.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 ThemeData colors = ThemeData.light().copyWith(
     primaryColor: Color(0XFF2192FF),

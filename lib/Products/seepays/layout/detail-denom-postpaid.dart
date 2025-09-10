@@ -12,6 +12,7 @@ import 'package:mobile/models/menu.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/Products/seepays/layout/detail-denom-postpaid-controller.dart';
 import 'package:mobile/screen/favorite-number/favorite-number.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class SeepaysDetailDenomPostpaid extends StatefulWidget {
   final MenuModel menu;
@@ -126,8 +127,7 @@ class _SeepaysDetailDenomPostpaidState extends SeepaysDetailDenomPostpaidControl
                                       FavoriteNumber('postpaid')),
                             );
 
-                            print(
-                                'response favorite-number -> $response');
+                            DebugHelper.debugPrint('response favorite-number -> $response'.toString());
                             if (response == null) return;
                             setState(() {
                               tujuan.text = response.tujuan;

@@ -6,6 +6,7 @@ import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_saldo.dart';
 
 import './home.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 abstract class HomeModel extends State<HomeApp> with TickerProviderStateMixin {
   AnimationController _animationController;

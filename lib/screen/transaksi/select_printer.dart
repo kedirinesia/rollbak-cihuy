@@ -7,6 +7,7 @@ import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/config.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/component/bluetooth_helper.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class SelectPrinterPage extends StatefulWidget {
   @override
@@ -27,7 +28,7 @@ class _SelectPrinterPageState extends State<SelectPrinterPage> {
   
   Future<List<BluetoothDevice>> _getBondedDevices() async {
     try {
-      print("Getting bonded devices...");
+      DebugHelper.debugPrint('"Getting bonded devices..."');
       
       // Check if Bluetooth is enabled
       bool isEnabled = await BluetoothHelper.isBluetoothEnabled();
@@ -36,11 +37,11 @@ class _SelectPrinterPageState extends State<SelectPrinterPage> {
       }
       
       List<BluetoothDevice> devices = await BluetoothHelper.getBondedDevices();
-      print("Found ${devices.length} valid bonded devices");
+      DebugHelper.debugPrint('"Found ${devices.length} valid bonded devices"');
       
       return devices;
     } catch (e) {
-      print("Error getting bonded devices: $e");
+      DebugHelper.debugPrint('"Error getting bonded devices: $e"');
       
       if (e.toString().contains('permission')) {
         throw Exception('Izin Bluetooth diperlukan. Pastikan aplikasi memiliki akses Bluetooth.');

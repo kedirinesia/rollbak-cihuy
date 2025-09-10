@@ -2,6 +2,7 @@
 
 import 'package:mobile/bloc/ConfigApp.dart' show configAppBloc;
 import 'package:http/http.dart' as http;
+import 'package:mobile/utils/debug_helper.dart';
 
 String apiAnal = 'https://www.google-analytics.com/collect?v=1';
 
@@ -42,7 +43,7 @@ class Analitycs {
     url += '&dt=' + title;
     url += '&cm=' + configAppBloc.namaApp.valueWrapper?.value;
 
-    print(url);
+    DebugHelper.debugPrint('url.toString()');
     await http.get(Uri.parse(url));
     return "OK";
   }

@@ -17,6 +17,7 @@ import 'package:mobile/screen/transaksi/voucher_bulk.dart';
 // Import SEEPAY specific detail pages
 import 'detail-denom.dart';
 import 'detail-denom-postpaid.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class MorePage extends StatefulWidget {
   final List<MenuModel> menus;
@@ -137,10 +138,10 @@ class _MorePageState extends State<MorePage> {
   }
 
   void _onTapMenu(MenuModel menu) {
-    print('📌 MorePage Menu diklik: ${menu.name} | jenis: ${menu.jenis}, type: ${menu.type}, category_id: ${menu.category_id}, kodeProduk: ${menu.kodeProduk}');
+    DebugHelper.debugPrint('📌 MorePage Menu diklik: ${menu.name} | jenis: ${menu.jenis}, type: ${menu.type}, category_id: ${menu.category_id}, kodeProduk: ${menu.kodeProduk}');
     
     if (menu.jenis == 1) {
-      print('➡️ Menu menuju ke: Pulsa');
+      DebugHelper.debugPrint('➡️ Menu menuju ke: Pulsa');
       Navigator.of(context).push(MaterialPageRoute(builder: (_) {
         return Pulsa(menu);
       }));
@@ -148,50 +149,50 @@ class _MorePageState extends State<MorePage> {
       if (menu.category_id != null &&
           menu.category_id.isNotEmpty &&
           menu.type == 1) {
-        print('➡️ Menu menuju ke: SeepaysDetailDenom');
+        DebugHelper.debugPrint('➡️ Menu menuju ke: SeepaysDetailDenom');
         Navigator.of(context).push(PageTransition(
             child: SeepaysDetailDenom(menu), type: PageTransitionType.rippleRightUp));
       } else if (menu.kodeProduk != null &&
           menu.kodeProduk.isNotEmpty &&
           menu.type == 2) {
-        print('➡️ Menu menuju ke: SeepaysDetailDenomPostpaid');
+        DebugHelper.debugPrint('➡️ Menu menuju ke: SeepaysDetailDenomPostpaid');
         Navigator.of(context).push(PageTransition(
             child: SeepaysDetailDenomPostpaid(menu),
             type: PageTransitionType.rippleRightUp));
       } else {
         if (menu.type == 3) {
-          print('➡️ Menu menuju ke: DynamicPrepaidDenom');
+          DebugHelper.debugPrint('➡️ Menu menuju ke: DynamicPrepaidDenom');
           Navigator.of(context).push(
               MaterialPageRoute(builder: (_) => DynamicPrepaidDenom(menu)));
         } else {
-          print('➡️ Menu menuju ke: ListSubMenu (category_id kosong/null)');
-          print('🔍 MorePage Debug: Mengirim menu ke ListSubMenu:');
-          print('   📋 Menu ID: ${menu.id}');
-          print('   📋 Menu Name: ${menu.name}');
-          print('   📋 Menu Type: ${menu.type}');
-          print('   📋 Menu Jenis: ${menu.jenis}');
-          print('   📋 Menu Category ID: ${menu.category_id}');
-          print('   📋 Menu Kode Produk: ${menu.kodeProduk}');
+          DebugHelper.debugPrint('➡️ Menu menuju ke: ListSubMenu (category_id kosong/null)');
+          DebugHelper.debugPrint('🔍 MorePage Debug: Mengirim menu ke ListSubMenu:');
+          DebugHelper.debugPrint('   📋 Menu ID: ${menu.id}');
+          DebugHelper.debugPrint('   📋 Menu Name: ${menu.name}');
+          DebugHelper.debugPrint('   📋 Menu Type: ${menu.type}');
+          DebugHelper.debugPrint('   📋 Menu Jenis: ${menu.jenis}');
+          DebugHelper.debugPrint('   📋 Menu Category ID: ${menu.category_id}');
+          DebugHelper.debugPrint('   📋 Menu Kode Produk: ${menu.kodeProduk}');
           Navigator.of(context)
               .push(MaterialPageRoute(builder: (_) => ListSubMenu(menu)));
         }
       }
     } else if (menu.jenis == 4) {
-      print('➡️ Menu menuju ke: ListGridMenu');
+      DebugHelper.debugPrint('➡️ Menu menuju ke: ListGridMenu');
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (_) => ListGridMenu(menu),
         ),
       );
     } else if (menu.jenis == 5) {
-      print('➡️ Menu menuju ke: VoucherBulkPage');
+      DebugHelper.debugPrint('➡️ Menu menuju ke: VoucherBulkPage');
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (_) => VoucherBulkPage(menu),
         ),
       );
     } else {
-      print('❌ Jenis menu tidak dikenali: ${menu.jenis}');
+      DebugHelper.debugPrint('❌ Jenis menu tidak dikenali: ${menu.jenis}');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Menu belum tersedia'),

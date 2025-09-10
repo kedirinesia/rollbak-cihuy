@@ -21,6 +21,7 @@ import 'package:mobile/modules.dart';
 
 // page screen
 import 'package:mobile/screen/kasir/penjualan/detailPayment.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class LapDetailJual extends StatefulWidget {
   String idTrx;
@@ -63,7 +64,7 @@ class LapDetailJualState extends State<LapDetailJual> {
           var trx = datas['trx'];
           var kasirPrint = datas['kasirPrint'];
 
-          print(kasirPrint);
+          DebugHelper.debugPrint('kasirPrint.toString()');
           trx.forEach((data) {
             detailTrxs.add(DetailTrxModel.fromJson(data));
           });

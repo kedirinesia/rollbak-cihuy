@@ -1,5 +1,6 @@
 // @dart=2.9
 import 'package:rxdart/rxdart.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class ApiBloc extends Object {
   final sigVendor = BehaviorSubject<String>();

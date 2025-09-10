@@ -15,6 +15,7 @@ import 'package:mobile/modules.dart';
 import 'package:mobile/Products/seepays/layout/detail-denom-controller.dart';
 import 'package:mobile/screen/transaksi/inquiry_prepaid.dart';
 import 'package:mobile/screen/favorite-number/favorite-number.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class SeepaysDetailDenom extends StatefulWidget {
   final MenuModel menu;
@@ -81,10 +82,10 @@ class _SeepaysDetailDenomState extends SeepaysDetailDenomController {
       // Cek apakah ada icon dari menu yang diklik
       if (widget.menu.icon != null && widget.menu.icon.isNotEmpty) {
         iconUrl = widget.menu.icon;
-        print('🖼️ DetailDenom: Using menu icon: $iconUrl');
+        DebugHelper.debugPrint('🖼️ DetailDenom: Using menu icon: $iconUrl');
       } else if (coverIcon.isNotEmpty) {
         iconUrl = coverIcon;
-        print('🖼️ DetailDenom: Using cover icon: $iconUrl');
+        DebugHelper.debugPrint('🖼️ DetailDenom: Using cover icon: $iconUrl');
       }
       
       if (iconUrl.isNotEmpty) {
@@ -209,8 +210,7 @@ class _SeepaysDetailDenomState extends SeepaysDetailDenomController {
                                                 FavoriteNumber('prepaid')),
                                       );
 
-                                      print(
-                                          'response favorite-number -> $response');
+                                      DebugHelper.debugPrint('response favorite-number -> $response'.toString());
                                       if (response == null) return;
                                       setState(() {
                                         tujuan.text = response.tujuan;
@@ -268,8 +268,7 @@ class _SeepaysDetailDenomState extends SeepaysDetailDenomController {
                                                 FavoriteNumber('prepaid')),
                                       );
 
-                                      print(
-                                          'response favorite-number -> $response');
+                                      DebugHelper.debugPrint('response favorite-number -> $response'.toString());
                                       if (response == null) return;
                                       setState(() {
                                         tujuan.text = response.tujuan;

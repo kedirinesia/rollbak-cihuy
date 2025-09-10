@@ -26,6 +26,7 @@ import 'package:mobile/modules.dart';
 import 'package:mobile/screen/select_state/category.dart';
 import 'package:mobile/screen/select_state/satuan.dart';
 import 'package:mobile/screen/select_state/supplier.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class BarangAdd extends StatefulWidget {
   @override
@@ -118,8 +119,7 @@ class BarangAddState extends State<BarangAdd> {
                 ));
       }
 
-      print(
-          'category --> ${category.nama}, satuan --> ${satuan.nama}, supplier --> ${supplier.nama}');
+      DebugHelper.debugPrint('category --> ${category.nama}, satuan --> ${satuan.nama}, supplier --> ${supplier.nama}');
       setState(() {
         loading = true;
       });
@@ -347,9 +347,9 @@ class BarangAddState extends State<BarangAdd> {
                     SizedBox(width: 5.0),
                     InkWell(
                       onTap: () async {
-                        print('scan qr code');
+                        DebugHelper.debugPrint('scan qr code');
                         var barcode = await BarcodeScanner.scan();
-                        print('kode ${barcode.rawContent}');
+                        DebugHelper.debugPrint('kode ${barcode.rawContent}');
                         if (barcode.rawContent.isNotEmpty) {
                           setState(() {
                             _kodeBarangController.text = barcode.rawContent;
@@ -441,7 +441,7 @@ class BarangAddState extends State<BarangAdd> {
                     return null; // Return null to handle error manually.
                   },
                   onTap: () async {
-                    print('klik satuan');
+                    DebugHelper.debugPrint('klik satuan');
                     SatuanModel response = await Navigator.of(context).push(
                       MaterialPageRoute(builder: (_) => SelectSatuan()),
                     );
@@ -467,7 +467,7 @@ class BarangAddState extends State<BarangAdd> {
                     }
                   },
                   onTap: () async {
-                    print('klik kategori');
+                    DebugHelper.debugPrint('klik kategori');
                     CategoryModel response = await Navigator.of(context).push(
                       MaterialPageRoute(builder: (_) => SelectCategory()),
                     );
@@ -493,7 +493,7 @@ class BarangAddState extends State<BarangAdd> {
                     }
                   },
                   onTap: () async {
-                    print('klik supplier');
+                    DebugHelper.debugPrint('klik supplier');
                     SupplierModel response = await Navigator.of(context).push(
                       MaterialPageRoute(builder: (_) => SelectSupplier()),
                     );

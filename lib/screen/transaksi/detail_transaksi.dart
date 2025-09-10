@@ -28,6 +28,7 @@ import 'package:mobile/screen/printPreviewSby.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class DetailTransaksi extends StatefulWidget {
   final TrxModel data;
@@ -50,7 +51,7 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
   @override
   void initState() {
     trx = widget.data;
-    print("SAMPAI SINI $trx");
+    DebugHelper.debugPrint('"SAMPAI SINI $trx"');
     super.initState();
     analitycs.pageView('/history/transaksi/' + trx.id, {
       'userId': bloc.userId.valueWrapper?.value,
@@ -81,9 +82,9 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
   }
 
   Future<String> getPhoneNumberCs() async {
-    print("=== FETCHING CUSTOMER SERVICE DATA ===");
-    print("API URL: $apiUrl/cs/list");
-    print("Token: ${bloc.token.valueWrapper?.value}");
+    DebugHelper.debugPrint('"=== FETCHING CUSTOMER SERVICE DATA ==="');
+    DebugHelper.debugPrint('"API URL: $apiUrl/cs/list"');
+    DebugHelper.debugPrint('"Token: ${bloc.token.valueWrapper?.value}"');
     
     try {
       String link;
@@ -91,31 +92,31 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
       http.Response response = await http.get(Uri.parse('$apiUrl/cs/list'),
           headers: {'Authorization': bloc.token.valueWrapper?.value});
       
-      print("CS Response Status Code: ${response.statusCode}");
-      print("CS Response Body: ${response.body}");
+      DebugHelper.debugPrint('"CS Response Status Code: ${response.statusCode}"');
+      DebugHelper.debugPrint('"CS Response Body: ${response.body}"');
       
       if (response.statusCode == 200) {
         List<dynamic> responseData = json.decode(response.body)['data'];
-        print("=== PARSED CS DATA ===");
-        print("Number of CS entries: ${responseData.length}");
-        print("Raw CS data: $responseData");
+        DebugHelper.debugPrint('"=== PARSED CS DATA ==="');
+        DebugHelper.debugPrint('"Number of CS entries: ${responseData.length}"');
+        DebugHelper.debugPrint('"Raw CS data: $responseData"');
         
         responseData.forEach((e) {
-          print("CS Entry: $e");
-          print("CS Link: ${e['link']}");
+          DebugHelper.debugPrint('"CS Entry: $e"');
+          DebugHelper.debugPrint(''"CS Link: ${e['link']}"'');
           if (e['link'] is String &&
               (e['link'] as String).contains('api.whatsapp.com')) {
             link = e['link'];
-            print("Found WhatsApp link: $link");
+            DebugHelper.debugPrint('"Found WhatsApp link: $link"');
           }
         });
-        print("Final selected link: $link");
+        DebugHelper.debugPrint('"Final selected link: $link"');
       } else {
-        print("CS API call failed with status code: ${response.statusCode}");
+        DebugHelper.debugPrint('"CS API call failed with status code: ${response.statusCode}"');
       }
       return link;
     } catch (err) {
-      print("Error fetching CS data: $err");
+      DebugHelper.debugPrint('"Error fetching CS data: $err"');
       return '';
     }
   }
@@ -125,7 +126,7 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
     String link = await getPhoneNumberCs();
 
     if (link == null) return;
-    print(link);
+    DebugHelper.debugPrint('link.toString()');
 
     // if (phoneNumber == null) return;
 
@@ -162,80 +163,80 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
   }
 
   Future<void> getData() async {
-    print("=== FETCHING TRANSACTION DATA ===");
-    print("API URL: $apiUrl/trx/${widget.data.id}/print");
-    print("Token: ${bloc.token.valueWrapper?.value}");
+    DebugHelper.debugPrint('"=== FETCHING TRANSACTION DATA ==="');
+    DebugHelper.debugPrint('"API URL: $apiUrl/trx/${widget.data.id}/print"');
+    DebugHelper.debugPrint('"Token: ${bloc.token.valueWrapper?.value}"');
     
     http.Response response = await http.get(
         Uri.parse('$apiUrl/trx/${widget.data.id}/print'),
         headers: {'Authorization': bloc.token.valueWrapper?.value});
 
-    print("Response Status Code: ${response.statusCode}");
-    print("Response Body: ${response.body}");
+    DebugHelper.debugPrint('"Response Status Code: ${response.statusCode}"');
+    DebugHelper.debugPrint('"Response Body: ${response.body}"');
     
     if (response.statusCode == 200) {
       var responseData = json.decode(response.body)['data'];
-      print("=== PARSED RESPONSE DATA ===");
-      print("Full Response Data: $responseData");
-      print("Payment By: ${responseData['payment_by']}");
+      DebugHelper.debugPrint('"=== PARSED RESPONSE DATA ==="');
+      DebugHelper.debugPrint('"Full Response Data: $responseData"');
+      DebugHelper.debugPrint(''"Payment By: ${responseData['payment_by']}"'');
       
       if (responseData['payment_by'] == 'transfer') {
-        print("Payment is transfer, fetching bank data...");
+        DebugHelper.debugPrint('"Payment is transfer, fetching bank data..."');
         await getBank();
       }
       setState(() {
         trx = TrxModel.fromJson(responseData);
         customPrint = responseData['custom_print'] ?? false;
-        print("=== TRANSACTION MODEL CREATED ===");
-        print("Transaction ID: ${trx.id}");
-        print("Transaction Status: ${trx.status}");
-        print("Transaction Amount: ${trx.harga_jual}");
-        print("Transaction Target: ${trx.tujuan}");
-        print("Product Info: ${trx.produk}");
-        print("Payment Method: ${trx.paymentBy}");
-        print("Serial Number: ${trx.sn}");
-        print("Created At: ${trx.created_at}");
-        print("Keterangan: ${trx.keterangan}");
-        print("Point: ${trx.point}");
-        print("Print Data: ${trx.print}");
-        print("Payment Detail: ${trx.paymentDetail}");
-        print("Status Model: ${trx.statusModel}");
-        print("Custom Print: $customPrint");
+        DebugHelper.debugPrint('"=== TRANSACTION MODEL CREATED ==="');
+        DebugHelper.debugPrint('"Transaction ID: ${trx.id}"');
+        DebugHelper.debugPrint('"Transaction Status: ${trx.status}"');
+        DebugHelper.debugPrint('"Transaction Amount: ${trx.harga_jual}"');
+        DebugHelper.debugPrint('"Transaction Target: ${trx.tujuan}"');
+        DebugHelper.debugPrint('"Product Info: ${trx.produk}"');
+        DebugHelper.debugPrint('"Payment Method: ${trx.paymentBy}"');
+        DebugHelper.debugPrint('"Serial Number: ${trx.sn}"');
+        DebugHelper.debugPrint('"Created At: ${trx.created_at}"');
+        DebugHelper.debugPrint('"Keterangan: ${trx.keterangan}"');
+        DebugHelper.debugPrint('"Point: ${trx.point}"');
+        DebugHelper.debugPrint('"Print Data: ${trx.print}"');
+        DebugHelper.debugPrint('"Payment Detail: ${trx.paymentDetail}"');
+        DebugHelper.debugPrint('"Status Model: ${trx.statusModel}"');
+        DebugHelper.debugPrint('"Custom Print: $customPrint"');
       });
     } else {
-      print("API call failed with status code: ${response.statusCode}");
+      DebugHelper.debugPrint('"API call failed with status code: ${response.statusCode}"');
     }
   }
 
   Future<void> getBank() async {
-    print("=== FETCHING BANK DATA ===");
-    print("API URL: $apiUrl/bank/list?type=1");
-    print("Token: ${bloc.token.valueWrapper?.value}");
+    DebugHelper.debugPrint('"=== FETCHING BANK DATA ==="');
+    DebugHelper.debugPrint('"API URL: $apiUrl/bank/list?type=1"');
+    DebugHelper.debugPrint('"Token: ${bloc.token.valueWrapper?.value}"');
     
     http.Response response = await http.get(
         Uri.parse('$apiUrl/bank/list?type=1'),
         headers: {'Authorization': bloc.token.valueWrapper?.value});
     
-    print("Bank Response Status Code: ${response.statusCode}");
-    print("Bank Response Body: ${response.body}");
+    DebugHelper.debugPrint('"Bank Response Status Code: ${response.statusCode}"');
+    DebugHelper.debugPrint('"Bank Response Body: ${response.body}"');
     
     if (response.statusCode == 200) {
       List<dynamic> datas = json.decode(response.body)['data'];
-      print("=== PARSED BANK DATA ===");
-      print("Number of banks: ${datas.length}");
-      print("Raw bank data: $datas");
+      DebugHelper.debugPrint('"=== PARSED BANK DATA ==="');
+      DebugHelper.debugPrint('"Number of banks: ${datas.length}"');
+      DebugHelper.debugPrint('"Raw bank data: $datas"');
       
       banks = datas.map((e) => BankModel.fromJson(e)).toList();
-      print("=== BANK MODELS CREATED ===");
+      DebugHelper.debugPrint('"=== BANK MODELS CREATED ==="');
       for (int i = 0; i < banks.length; i++) {
-        print("Bank ${i + 1}:");
-        print("  - Name: ${banks[i].namaBank}");
-        print("  - Account Number: ${banks[i].noRek}");
-        print("  - Account Holder: ${banks[i].namaRekening}");
-        print("  - Is Gangguan: ${banks[i].isGangguan}");
+        DebugHelper.debugPrint('"Bank ${i + 1}:"');
+        DebugHelper.debugPrint('"  - Name: ${banks[i].namaBank}"');
+        DebugHelper.debugPrint('"  - Account Number: ${banks[i].noRek}"');
+        DebugHelper.debugPrint('"  - Account Holder: ${banks[i].namaRekening}"');
+        DebugHelper.debugPrint('"  - Is Gangguan: ${banks[i].isGangguan}"');
       }
     } else {
-      print("Bank API call failed with status code: ${response.statusCode}");
+      DebugHelper.debugPrint('"Bank API call failed with status code: ${response.statusCode}"');
     }
   }
 
@@ -685,14 +686,14 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
                   ? Theme.of(context).secondaryHeaderColor
                   : Theme.of(context).primaryColor,
               onPressed: () {
-                print("Sudah Sampai Sini $trx");
+                DebugHelper.debugPrint('"Sudah Sampai Sini $trx"');
                 if (widget.data.produk != null &&
                     widget.data.produk != null &&
                     widget.data.produk.containsKey('type')) {
                   
                   // Check if product code is WASBY
                   if (trx.produk != null && trx.produk['kode_produk'] == 'WASBY') {
-                    print("Redirecting to printPreviewSby for WASBY product");
+                    DebugHelper.debugPrint('"Redirecting to printPreviewSby for WASBY product"');
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => PrintPreviewSby(trx: trx),
@@ -701,7 +702,7 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
                   }
                   // Check if custom_print is true
                   else if (customPrint) {
-                    print("Redirecting to printPreviewSby for custom print transaction");
+                    DebugHelper.debugPrint('"Redirecting to printPreviewSby for custom print transaction"');
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => PrintPreviewSby(trx: trx),

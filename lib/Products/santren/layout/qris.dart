@@ -14,6 +14,7 @@ import 'dart:convert';
 import 'package:mobile/screen/kyc/waiting.dart';
 
 import 'index.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class MyQrisPage extends StatefulWidget {
   @override
@@ -26,7 +27,7 @@ class _MyQrisPageState extends State<MyQrisPage> {
 
   Future<Map<String, dynamic>> _getQr() async {
     try {
-      print('[DEBUG] Requesting QRIS...');
+      DebugHelper.debugPrint('Requesting QRIS...');
       final token = bloc.token.valueWrapper?.value;
       final url =
           Uri.parse('https://santren-app.findig.id/api/v1/qris/generate');
@@ -38,22 +39,22 @@ class _MyQrisPageState extends State<MyQrisPage> {
         },
       );
 
-      print('[DEBUG] HTTP status: ${response.statusCode}');
-      print('[DEBUG] Raw response body: ${response.body}');
+      DebugHelper.debugPrint('HTTP status: ${response.statusCode}');
+      DebugHelper.debugPrint('Raw response body: ${response.body}');
       final data = json.decode(response.body);
 
-      print('[DEBUG] API JSON: $data');
+      DebugHelper.debugPrint('API JSON: $data');
 
       if (data != null && data['status'] == 500) {
-        print('[DEBUG] Status 500 terdeteksi dari API JSON');
+        DebugHelper.debugPrint('Status 500 terdeteksi dari API JSON');
         return {'status': 500, 'message': data['message'] ?? ''};
       }
 
       if (data != null &&
           data['image'] != null &&
           data['image'].toString().trim().isNotEmpty) {
-        print('[DEBUG] Berhasil dapat image URL: ${data['image']}');
-        return {
+        DebugHelper.debugPrint('[DEBUG] Berhasil dapat image URL: ${data['image']}'.toString());
+        return {  
           'status': 200,
           'image': data['image'],
         };
@@ -61,14 +62,14 @@ class _MyQrisPageState extends State<MyQrisPage> {
           data['status'] == 200 &&
           (data['image'] == null || data['image'].toString().trim().isEmpty)) {
         // status 200 tapi image kosong
-        print('[DEBUG] Status 200 tapi image kosong');
+        DebugHelper.debugPrint('Status 200 tapi image kosong');
         return {'status': 200, 'image': ''};
       } else {
-        print('[DEBUG] Image kosong/tidak ada!');
+        DebugHelper.debugPrint('Image kosong/tidak ada!');
         return {'status': -2};
       }
     } catch (err) {
-      print('[DEBUG] Exception ketika get QR: $err');
+      DebugHelper.debugPrint('Exception ketika get QR: $err');
       return {'status': -1, 'error': err.toString()};
     }
   }
@@ -184,7 +185,7 @@ class _MyQrisPageState extends State<MyQrisPage> {
   }
 
   Widget _getQrisWidget(Map<String, dynamic> result) {
-    print('[DEBUG] Masuk _getQrisWidget dengan result: $result');
+    DebugHelper.debugPrint('Masuk _getQrisWidget dengan result: $result');
     if (result == null) {
       return Center(child: Text('Terjadi kesalahan tak terduga'));
     }

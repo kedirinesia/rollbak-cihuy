@@ -23,6 +23,7 @@ import 'package:mobile/modules.dart';
 // SCREEN PAGE
 import 'package:mobile/screen/kasir/hutang-piutang/mutasiPiutang.dart';
 import 'package:mobile/screen/kasir/hutang-piutang/form/tambahPiutang.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class PiutangPage extends StatefulWidget {
   @override
@@ -113,7 +114,7 @@ class PiutangPageState extends State<PiutangPage> {
                 ));
       }
     } catch (err) {
-      print(err);
+      DebugHelper.debugPrint('err.toString()');
       showDialog(
           context: context,
           builder: (context) => AlertDialog(

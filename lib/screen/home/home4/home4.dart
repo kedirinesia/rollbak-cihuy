@@ -11,6 +11,7 @@ import 'package:mobile/component/rewards.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
 import './home4_model.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class Home4App extends StatefulWidget {
   @override
@@ -185,7 +186,7 @@ class _Home4AppState extends Home4Model {
                       child: InkWell(
                         onTap: () async {
                           var barcode = await BarcodeScanner.scan();
-                          print(barcode);
+                          DebugHelper.debugPrint('barcode.toString()');
                           // if (barcode.isNotEmpty) {
                           return Navigator.of(context).push(MaterialPageRoute(
                               builder: (_) =>
@@ -300,7 +301,7 @@ class PanelSemuaMenu extends StatelessWidget {
             child: InkWell(
               onTap: () async {
                 var barcode = await BarcodeScanner.scan();
-                // print(barcode);
+                // DebugHelper.debugPrint('barcode.toString()');
                 // if (barcode.isNotEmpty) {
                 return Navigator.of(context).push(MaterialPageRoute(
                     builder: (_) => TransferByQR(barcode.rawContent)));

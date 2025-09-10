@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/Products/centralbayar/layout/register.dart';
 import 'package:mobile/Products/centralbayar/layout/terms/policy.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class PrivacyPolicyPageRegister extends StatefulWidget {
   @override

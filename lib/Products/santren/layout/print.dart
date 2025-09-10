@@ -21,6 +21,7 @@ import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
 import 'package:esc_pos_utils/esc_pos_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 // -------- WATERMARK LAYER --------
 class WatermarkNetworkLogo extends StatelessWidget {
@@ -122,7 +123,7 @@ class _PrintPreviewState extends PrintPreviewController {
               ? 'Nominal'
               : 'Harga';
       showSN = trxData.sn != null && trxData.sn.isNotEmpty;
-      print(labelHarga);
+      DebugHelper.debugPrint('labelHarga.toString()');
       setState(() {});
     } else {
       getData();
@@ -837,7 +838,7 @@ abstract class PrintPreviewController extends State<PrintPreview>
       }
       setState(() {});
     } else {
-      print('Error: ${response.body}');
+      DebugHelper.debugPrint('Error: ${response.body}');
     }
   }
 }

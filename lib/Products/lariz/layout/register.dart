@@ -15,6 +15,7 @@ import 'package:mobile/models/lokasi.dart';
 import 'package:mobile/Products/lariz/layout/select_state/kecamatan.dart';
 import 'package:mobile/Products/lariz/layout/select_state/kota.dart';
 import 'package:mobile/Products/lariz/layout/select_state/provinsi.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class RegisterUser extends StatefulWidget {
   @override
@@ -230,7 +231,7 @@ class _RegisterUserState extends State<RegisterUser> {
               final isLastStep = currentStep == getSteps().length - 1;
 
               if (isLastStep) {
-                print("Suskes");
+                DebugHelper.debugPrint('"Suskes"');
               } else {
                 setState(() => currentStep += 1);
               }

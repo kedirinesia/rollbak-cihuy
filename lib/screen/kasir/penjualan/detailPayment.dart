@@ -25,6 +25,7 @@ import 'package:mobile/provider/analitycs.dart';
 // page screen
 import 'package:mobile/screen/kasir/print/selectPrint.dart';
 import 'package:mobile/screen/kasir/print/selectPrintIos.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class DetailPayment extends StatefulWidget {
   // [trx] -> dari halaman transaksi,

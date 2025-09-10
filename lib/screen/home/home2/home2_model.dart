@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import './home2.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 abstract class Home2Model extends State<Home2App>
     with TickerProviderStateMixin {

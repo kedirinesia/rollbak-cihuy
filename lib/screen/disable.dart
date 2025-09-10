@@ -5,6 +5,7 @@ import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/index.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mobile/config.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 enum DisableType { merchant, member }
 

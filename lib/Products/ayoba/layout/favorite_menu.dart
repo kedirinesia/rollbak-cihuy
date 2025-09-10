@@ -7,6 +7,7 @@ import 'package:hive/hive.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/bloc/TemplateConfig.dart';
 import 'package:mobile/models/menu.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class FavoriteMenu extends StatefulWidget {
   final favoriteMenu;
@@ -62,7 +63,7 @@ class _FavoriteMenuState extends State<FavoriteMenu> {
         String message = 'Gagal menambahkan ${menu.name}';
         final snackBar = SnackBar(content: Text(message));
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        print('ADD FAVORITE MENU ERROR: ${err.toString()}');
+        DebugHelper.debugPrint('ADD FAVORITE MENU ERROR: ${err.toString()}');
       });
     }
   }

@@ -8,6 +8,7 @@ import 'package:mobile/models/deposit.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/screen/topup/bank/transfer-deposit.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class DetailDeposit extends StatefulWidget {
   final DepositModel dep;
@@ -61,8 +62,8 @@ class _DetailDepositState extends State<DetailDeposit> {
     } else if (widget.dep.type == 8) {
       methode = 'Qris';
     }
-    print(widget.dep.type);
-    print(methode);
+    DebugHelper.debugPrint('widget.dep.type.toString()');
+    DebugHelper.debugPrint('methode.toString()');
 
     return TemplatePopay(
       title: 'Detail Deposit',

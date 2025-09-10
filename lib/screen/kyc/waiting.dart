@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/bloc/TemplateConfig.dart';
 import 'package:mobile/config.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class WaitingKycPage extends StatelessWidget {
   @override

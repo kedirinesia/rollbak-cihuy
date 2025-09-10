@@ -16,6 +16,7 @@ import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/marketplace/cart.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mobile/screen/marketplace/detail_produk.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class ListProdukMarketplace extends StatefulWidget {
   final String searchQuery;
@@ -77,7 +78,7 @@ class _ListProdukMarketplaceState extends State<ListProdukMarketplace> {
         page++;
       });
     } else {
-      print(response.body);
+      DebugHelper.debugPrint('response.body.toString()');
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Gagal memuat data')));
     }

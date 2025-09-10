@@ -10,6 +10,7 @@ import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/models/reward.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/bloc/Bloc.dart' show bloc;
+import 'package:mobile/utils/debug_helper.dart';
 
 class RewardComponent extends StatefulWidget {
   final double width;
@@ -61,7 +62,7 @@ class _RewardComponentState extends State<RewardComponent> {
         },
         body: json.encode({'id': id}));
 
-    print(response.body);
+    DebugHelper.debugPrint('response.body.toString()');
     String message = json.decode(response.body)['message'];
     if (response.statusCode == 200) {
       showDialog(

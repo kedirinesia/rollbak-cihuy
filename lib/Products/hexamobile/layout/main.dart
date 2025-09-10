@@ -12,6 +12,7 @@ import 'package:mobile/component/webview.dart';
 import 'package:mobile/Products/hexamobile/layout/history.dart';
 import 'package:mobile/screen/kasir/main.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class PakaiAjaHome extends StatefulWidget {
   @override
@@ -33,7 +34,7 @@ class _PakaiAjaHomeState extends State<PakaiAjaHome> {
   @override
   void initState() {
     super.initState();
-    print('SETELAH MASUKKAN OTP MASUK KE HALAMAN MAIN BAGIAN HOME.');
+    DebugHelper.debugPrint('SETELAH MASUKKAN OTP MASUK KE HALAMAN MAIN BAGIAN HOME.');
 
     bloc.mainColor
       ..listen((Color color) {

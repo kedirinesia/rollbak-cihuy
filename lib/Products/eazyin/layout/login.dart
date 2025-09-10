@@ -18,6 +18,7 @@ import 'package:mobile/screen/profile/cs/cs.dart';
 import 'package:mobile/screen/register.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/bloc/Api.dart' show apiUrl, sigVendor;
+import 'package:mobile/utils/debug_helper.dart';
 
 class LoginPage extends StatefulWidget {
   @override

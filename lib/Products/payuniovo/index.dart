@@ -11,6 +11,7 @@ import 'resource.dart';
 import 'layout/wizard/wizard.dart';
 import 'package:mobile/Products/payuniovo/layout/register.dart';
 import '../../index.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 void main() {
   runApp(AppConfig(
@@ -46,7 +47,7 @@ class _DeeplinkWrapperState extends State<DeeplinkWrapper> {
         _handleDeeplink(initialLink);
       }
     } catch (e) {
-      print("Error initialLink: $e");
+      DebugHelper.debugPrint('"Error initialLink: $e"');
     }
 
     _sub = linkStream.listen((String? link) {
@@ -54,7 +55,7 @@ class _DeeplinkWrapperState extends State<DeeplinkWrapper> {
         _handleDeeplink(link);  
       }
     }, onError: (err) {
-      print("Error listening linkStream: $err");
+      DebugHelper.debugPrint('"Error listening linkStream: $err"');
     });
   }
 

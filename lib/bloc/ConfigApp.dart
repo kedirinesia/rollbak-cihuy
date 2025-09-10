@@ -2,6 +2,7 @@
 
 import 'package:mobile/models/app_info.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class ConfigAppBloc extends Object {
   final namaApp = BehaviorSubject<String>();

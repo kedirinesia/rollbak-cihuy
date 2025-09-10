@@ -24,6 +24,7 @@ import 'package:mobile/modules.dart';
 import 'package:mobile/screen/kasir/main.dart';
 import 'package:mobile/screen/marketplace/belanja.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class HomePayuni extends StatefulWidget {
   @override
@@ -94,7 +95,7 @@ class _HomePayuniState extends State<HomePayuni> with TickerProviderStateMixin {
         });
       }
     } catch (e) {
-      print('Error: $e');
+      DebugHelper.debugPrint('Error: $e');
       setState(() {
         loading = false;
       });

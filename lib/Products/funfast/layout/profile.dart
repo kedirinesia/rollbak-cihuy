@@ -25,6 +25,7 @@ import 'package:mobile/Products/funfast/layout/invite/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 typedef ValueSetter<Color> = void Function(Color value);
 
@@ -99,7 +100,7 @@ class _ProfilePageState extends State<ProfilePage> {
       if (response.statusCode == 200) {
         List<dynamic> responseData = json.decode(response.body)['data'];
         responseData.forEach((e) {
-          print(e['title']);
+          DebugHelper.debugPrint(''e['title'].toString()'');
           phoneNumber = e['contact'];
         });
       }

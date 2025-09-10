@@ -7,6 +7,7 @@ import 'package:mobile/Products/payuni2/layout/components/product_of_choice/prod
 import 'package:mobile/models/mp_produk.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/screen/marketplace/detail_produk.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class ProductOfChoice extends StatelessWidget {
   final List<ProdukMarket> products;
@@ -137,7 +138,7 @@ class ProductOfChoice extends StatelessWidget {
                                         color: Colors.amber,
                                       ),
                                       onRatingUpdate: (rating) {
-                                        print(rating);
+                                        DebugHelper.debugPrint('rating.toString()');
                                       },
                                     ),
                                     SizedBox(width: 5),

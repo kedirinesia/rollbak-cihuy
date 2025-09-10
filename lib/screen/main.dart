@@ -7,6 +7,7 @@ import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/screen/history/history.dart';
 import 'package:mobile/screen/home/home2/home2.dart';
 import 'package:mobile/screen/profile/profile.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class MainApp extends StatefulWidget {
   @override

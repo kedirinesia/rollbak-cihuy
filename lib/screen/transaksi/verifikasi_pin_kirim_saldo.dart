@@ -14,6 +14,7 @@ import 'package:pin_input_text_field/pin_input_text_field.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../bloc/Bloc.dart' show bloc;
 import 'package:mobile/bloc/Api.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class VerifikasiPinKirimSaldo extends StatefulWidget {
   @override
@@ -148,7 +149,7 @@ abstract class VerifikasiPinKirimSaldoController
             });
       }
     } catch (err) {
-      print(err);
+      DebugHelper.debugPrint('err.toString()');
       return showDialog(
           context: context,
           builder: (context) {

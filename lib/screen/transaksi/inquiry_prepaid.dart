@@ -23,6 +23,7 @@ import 'package:mobile/screen/transaksi/verifikasi_pin.dart';
 import 'package:mobile/Products/seepays/layout/verifikasi_pin.dart' as seepays;
 import '../../bloc/Bloc.dart' show bloc;
 import 'dart:convert';
+import 'package:mobile/utils/debug_helper.dart';
 
 class InquiryPrepaid extends StatefulWidget {
   final String nomorTujuan;
@@ -927,7 +928,7 @@ abstract class InquiryPrepaidController extends State<InquiryPrepaid> {
       List<dynamic> datas = await api.get('/deposit/methode', cache: true);
       listPayment = datas.map((e) => PaymentModel.fromJson(e)).toList();
       listPayment.forEach((element) {
-        print(element);
+        DebugHelper.debugPrint('element.toString()');
         if (element.type == 8) {
           setState(() {
             adminQris = element.admin_trx != null
@@ -1011,7 +1012,7 @@ abstract class InquiryPrepaidController extends State<InquiryPrepaid> {
         loading = false;
         data = jsonDecode(response.body)['data'];
       });
-      print(data);
+      DebugHelper.debugPrint('data.toString()');
     } else if (response.statusCode == 403 &&
         json.decode(response.body)['need_verification']) {
       Navigator.of(context).pushReplacement(MaterialPageRoute(

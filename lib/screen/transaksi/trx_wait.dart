@@ -12,6 +12,7 @@ import 'package:mobile/models/trx.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/Products/paymobileku/layout/history.dart';
 import 'package:mobile/screen/transaksi/detail_transaksi.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class TransactionWaitPage extends StatefulWidget {
   @override

@@ -12,6 +12,7 @@ import 'package:mobile/bloc/Bloc.dart' show bloc;
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/transaksi/verifikasi_pin.dart';
 import 'package:mobile/Products/centralbayar/layout/transfer_saldo/detail_transfer.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class InquiryTransfer extends StatefulWidget {
   final String tujuan;
@@ -167,7 +168,7 @@ abstract class InquiryTransferController extends State<InquiryTransfer>
             body: json.encode({'phone': tujuan, 'nominal': nominal}));
 
     if (response.statusCode == 200) {
-      print(response.body);
+      DebugHelper.debugPrint('response.body.toString()');
       Map<String, dynamic> data = json.decode(response.body)['data'];
       userId = data['tujuan']['_id'];
       phone = data['tujuan']['phone'];

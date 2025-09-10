@@ -15,6 +15,7 @@ import 'package:mobile/models/kasir/kasirPrint.dart';
 import 'package:mobile/bloc/Bloc.dart';
 
 import 'package:mobile/modules.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class SelectPrint extends StatefulWidget {
   KasirPrintModel printTrx;
@@ -78,7 +79,7 @@ class SelectPrintState extends State<SelectPrint> {
 
       scanSub = bluetooth.onStateChanged().listen((state) {
         if (state == BlueThermalPrinter.STATE_ON) {
-          print('blutut berhasil di hidup kan');
+          DebugHelper.debugPrint('blutut berhasil di hidup kan');
           Navigator.of(context, rootNavigator: true).pop();
           scanSub.cancel();
           this.scanBlutut();
@@ -120,7 +121,7 @@ class SelectPrintState extends State<SelectPrint> {
           });
           break;
         default:
-          print(state);
+          DebugHelper.debugPrint('state.toString()');
           break;
       }
     });
@@ -180,7 +181,7 @@ class SelectPrintState extends State<SelectPrint> {
             ));
     // END LOADING
 
-    print('APAKAH BLUETHOOT SUDAH TERHUBUNG ? $_connected');
+    DebugHelper.debugPrint('APAKAH BLUETHOOT SUDAH TERHUBUNG ? $_connected');
     if (_connected) {
       await bluetooth.disconnect();
     }
@@ -202,14 +203,14 @@ class SelectPrintState extends State<SelectPrint> {
           scanSub.cancel();
           break;
         default:
-          print(state);
+          DebugHelper.debugPrint('state.toString()');
           break;
       }
     });
 
     bluetooth.isConnected.then((isConnected) {
       if (isConnected) {
-        print('blutut sudah terhubung');
+        DebugHelper.debugPrint('blutut sudah terhubung');
         setState(() {
           _device = d;
           _connected = true;
@@ -239,14 +240,14 @@ class SelectPrintState extends State<SelectPrint> {
               blututSelected = -1;
             });
           }).then((v) {
-            print('blutut sudah terhubung ke 2');
+            DebugHelper.debugPrint('blutut sudah terhubung ke 2');
             setState(() {
               _device = d;
               _connected = true;
             });
           });
         } catch (err) {
-          print(err);
+          DebugHelper.debugPrint('err.toString()');
         }
       }
     }).catchError((error) {
@@ -365,7 +366,7 @@ class SelectPrintState extends State<SelectPrint> {
                 ));
       }
     }).catchError((error) {
-      print(error);
+      DebugHelper.debugPrint('error.toString()');
       showDialog(
           context: context,
           builder: (_) => AlertDialog(

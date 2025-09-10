@@ -11,6 +11,7 @@ import 'package:mobile/component/webview.dart';
 import 'package:mobile/screen/profile/downline/downline.dart';
 import 'package:mobile/screen/profile/profile.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class EpulsaHome extends StatefulWidget {
   @override
@@ -71,7 +72,7 @@ class _EpulsaHomeState extends State<EpulsaHome> {
         elevation: 0.0,
         onPressed: () async {
           String barcode = (await BarcodeScanner.scan()).toString();
-          print(barcode);
+          DebugHelper.debugPrint('barcode.toString()');
           if (barcode.isNotEmpty) {
             return Navigator.of(context)
                 .push(MaterialPageRoute(builder: (_) => TransferByQR(barcode)));

@@ -21,6 +21,7 @@ import 'package:mobile/screen/transaksi/inquiry_prepaid.dart';
 import 'package:mobile/screen/transaksi/list_voucher_denom.dart';
 import 'package:mobile/screen/transaksi/verifikasi_pin.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile/utils/debug_helper.dart';
 
 class BulkPage extends StatefulWidget {
   final MenuModel menu;
@@ -53,7 +54,7 @@ class _BulkPageState extends State<BulkPage> {
 
   void _calculateTotalHarga() {
     totalHarga = _denom.harga_jual * _vouchers.length;
-    print("Total Harga: $totalHarga");
+    DebugHelper.debugPrint('"Total Harga: $totalHarga"');
   }
 
   void _generateVoucher() {
@@ -98,7 +99,7 @@ class _BulkPageState extends State<BulkPage> {
 
       setState(() {});
     } catch (err) {
-      print(err);
+      DebugHelper.debugPrint('err.toString()');
     }
   }
 
@@ -222,8 +223,8 @@ class _BulkPageState extends State<BulkPage> {
             )
             .timeout(Duration(minutes: 5));
 
-        print('Response status: ${response.statusCode}');
-        print('Response body: ${response.body}');
+        DebugHelper.debugPrint('Response status: ${response.statusCode}');
+        DebugHelper.debugPrint('Response body: ${response.body}');
 
         if (response.statusCode == 200) {
           for (var voucher in _vouchers) {
@@ -267,9 +268,9 @@ class _BulkPageState extends State<BulkPage> {
         for (var voucher in _vouchers) {
           voucher['status'] = 3;
         }
-        print('Request timed out');
+        DebugHelper.debugPrint('Request timed out');
       } catch (err) {
-        print(err);
+        DebugHelper.debugPrint('err.toString()');
       } finally {
         setState(() {
           _loading = false;
@@ -342,10 +343,10 @@ class _BulkPageState extends State<BulkPage> {
   //   } on TimeoutException catch (_) {
   //     // Menangani TimeoutException
   //     _vouchers[index]['status'] = 3;
-  //     print('Request timed out');
+  //     DebugHelper.debugPrint('Request timed out');
   //   } catch (err) {
   //     _vouchers[index]['status'] = 3;
-  //     print(err);
+  //     DebugHelper.debugPrint('err.toString()');
   //   } finally {
   //     setState(() {});
   //   }

@@ -12,6 +12,7 @@ import 'package:http/http.dart' as http;
 import 'package:mobile/config.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/provider/analitycs.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class EditToko extends StatefulWidget {
   @override
@@ -88,8 +89,8 @@ class _EditTokoState extends State<EditToko> {
         });
       } else {
         try {
-          print('Status Code: ${response.statusCode}');
-          print('Response Body: ${response.body}');
+          DebugHelper.debugPrint('Status Code: ${response.statusCode}');
+          DebugHelper.debugPrint('Response Body: ${response.body}');
 
           Map<String, dynamic> responseData = json.decode(response.body);
           String errorMessage =
@@ -98,7 +99,7 @@ class _EditTokoState extends State<EditToko> {
           ScaffoldMessenger.of(context)
               .showSnackBar(Alert(errorMessage, isError: true));
         } catch (e) {
-          print('Error parsing response: $e');
+          DebugHelper.debugPrint('Error parsing response: $e');
           ScaffoldMessenger.of(context).showSnackBar(Alert(
               'Terjadi kesalahan saat menyimpan perubahan',
               isError: true));

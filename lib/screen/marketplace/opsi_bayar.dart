@@ -15,6 +15,7 @@ import 'package:mobile/models/mp_metode_bayar.dart';
 import 'package:mobile/component/loader.dart';
 // LIBS
 import 'package:mobile/modules.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class OpsiBayarPage extends StatefulWidget {
   @override
@@ -38,7 +39,7 @@ class _OpsiBayarPageState extends State<OpsiBayarPage> {
 
   fetchData() async {
     try {
-      print('GET METHOD PAYMENT');
+      DebugHelper.debugPrint('GET METHOD PAYMENT');
       http.Response response = await http.get(
           Uri.parse('$apiUrl/market/order/methode-payment'),
           headers: {'Authorization': bloc.token.valueWrapper?.value});
@@ -58,7 +59,7 @@ class _OpsiBayarPageState extends State<OpsiBayarPage> {
         showToast(context, 'Gagal mengambil method pembayaran');
       }
     } catch (err) {
-      print('ERROR : ${err.message}');
+      DebugHelper.debugPrint('ERROR : ${err.message}');
       showToast(context, 'Gagal mengambil method pembayaran. ERROR : $err');
     } finally {
       setState(() {

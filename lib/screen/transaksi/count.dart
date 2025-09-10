@@ -9,6 +9,7 @@ import 'dart:convert';
 
 import 'package:mobile/models/count_trx.dart';
 import 'package:mobile/modules.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class Count extends StatefulWidget {
   const Count({key}) : super(key: key);
@@ -75,7 +76,7 @@ class _CountState extends State<Count> {
     });
     CountTrx trxData = CountTrx.fromJson(json.decode(response.body)['data']);
     bloc.todayTrxCount.add(trxData);
-    print(response.body);
+    DebugHelper.debugPrint('response.body.toString()');
 
     if (response.statusCode == 200) {
       setState(() {

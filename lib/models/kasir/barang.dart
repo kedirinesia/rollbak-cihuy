@@ -2,6 +2,7 @@
 
 import 'package:mobile/models/kasir/category.dart';
 import 'package:mobile/models/kasir/satuan.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class BarangModel {
   String id;

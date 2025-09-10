@@ -13,6 +13,7 @@ import 'package:screenshot/screenshot.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/modules.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 // Import untuk KYC pages
 import 'package:mobile/screen/kyc/waiting.dart';
@@ -212,7 +213,7 @@ class _QrisRequestFormPageState extends State<QrisRequestFormPage> {
         }
       }
     } catch (e) {
-      print('[DEBUG] Payuniovo: Error loading existing data: $e');
+      DebugHelper.debugForm('Payuniovo', 'Error loading existing data: $e');
     }
   }
 
@@ -239,7 +240,7 @@ class _QrisRequestFormPageState extends State<QrisRequestFormPage> {
           }
         }
       } catch (e) {
-        print('[DEBUG] Payuniovo: Error loading MCC details: $e');
+        DebugHelper.debugForm('Payuniovo', 'Error loading MCC details: $e');
       
         setState(() {
           _mccIdController.text = mccId;
@@ -249,12 +250,12 @@ class _QrisRequestFormPageState extends State<QrisRequestFormPage> {
 
   Future<void> _loadPendapatanOptions() async {
     try {
-      print('[DEBUG] Payuniovo: Loading pendapatan options from API...');
+      DebugHelper.debugForm('Payuniovo', 'Loading pendapatan options from API...');
               final response = await http.get(Uri.parse('https://payuni-app.findig.id/api/v1/qris/kategori-usaha'));
       
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
-        print('[DEBUG] Payuniovo: Pendapatan API response: $data');
+        DebugHelper.debugForm('Payuniovo', 'Pendapatan API response: $data');
         
         if (data['status'] == 200 && data['data'] != null) {
           List<dynamic> pendapatanList = data['data'];
@@ -267,15 +268,15 @@ class _QrisRequestFormPageState extends State<QrisRequestFormPage> {
               _selectedPendapatan = 'UMI - Penjualan/Tahun < 300 Juta';
             }
           });
-          print('[DEBUG] Payuniovo: Loaded ${_pendapatanOptions.length} pendapatan options');
+          DebugHelper.debugForm('Payuniovo', 'Loaded ${_pendapatanOptions.length} pendapatan options');
         } else {
-          print('[DEBUG] Payuniovo: API returned error status: ${data['status']}');
+          DebugHelper.debugForm('Payuniovo', 'API returned error status: ${data['status']}');
         }
       } else {
-        print('[DEBUG] Payuniovo: HTTP error ${response.statusCode}: ${response.body}');
+        DebugHelper.debugForm('Payuniovo', 'HTTP error ${response.statusCode}: ${response.body}');
       }
     } catch (e) {
-      print('[DEBUG] Payuniovo: Error loading pendapatan options: $e');
+      DebugHelper.debugForm('Payuniovo', 'Error loading pendapatan options: $e');
       // Fallback to default options if API fails
       setState(() {
         _pendapatanOptions = [
@@ -432,7 +433,7 @@ class _QrisRequestFormPageState extends State<QrisRequestFormPage> {
         });
       }
     } catch (e) {
-      print('[DEBUG] Payuniovo: Error taking foto from camera: $e');
+      DebugHelper.debugForm('Payuniovo', 'Error taking foto from camera: $e');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Gagal mengambil foto dari kamera. Silakan coba lagi.'),
@@ -457,7 +458,7 @@ class _QrisRequestFormPageState extends State<QrisRequestFormPage> {
         });
       }
     } catch (e) {
-      print('[DEBUG] Payuniovo: Error picking foto from gallery: $e');
+      DebugHelper.debugForm('Payuniovo', 'Error picking foto from gallery: $e');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Gagal memilih foto dari galeri. Silakan coba lagi.'),
@@ -469,12 +470,12 @@ class _QrisRequestFormPageState extends State<QrisRequestFormPage> {
 
   Future<void> _submitForm() async {
     if (!_formKey.currentState!.validate()) {
-      print('[DEBUG] Payuniovo: Form validation failed');
+      DebugHelper.debugForm('Payuniovo', 'Form validation failed');
       return;
     }
 
-    print('[DEBUG] Payuniovo: ===== SUBMIT FORM START =====');
-    print('[DEBUG] Payuniovo: Form validation passed');
+    DebugHelper.debugForm('Payuniovo', '===== SUBMIT FORM START =====');
+    DebugHelper.debugForm('Payuniovo', 'Form validation passed');
 
     // Additional validation to ensure no empty fields
     final fields = {
@@ -499,46 +500,46 @@ class _QrisRequestFormPageState extends State<QrisRequestFormPage> {
       if (_selectedKelurahan != null) 'kelurahan_id': _selectedKelurahan!.id,
     };
 
-    print('[DEBUG]  : Raw form data:');
-    print('[DEBUG]  : - nama_lengkap: "${_namaLengkapController.text.trim()}"');
-    print('[DEBUG]  : - nama_usaha: "${_namaUsahaController.text.trim()}"');
-    print('[DEBUG]  : - no_npwp: "${_noNpwpController.text.trim()}"');
-    print('[DEBUG]  : - mcc_id: "${_selectedMcc?.id ?? _mccIdController.text.trim()}"');
-    print('[DEBUG]  : - nama_jalan: "${_namaJalanController.text.trim()}"');
-    print('[DEBUG]  : - nomor_jalan: "${_nomorJalanController.text.trim()}"');
-    print('[DEBUG]  : - rt: "${_rtController.text.trim()}"');
-    print('[DEBUG]  : - rw: "${_rwController.text.trim()}"');
-    print('[DEBUG]  : - kelurahan: "${_kelurahanController.text.trim()}"');
-    print('[DEBUG]  : - kecamatan: "${_kecamatanController.text.trim()}"');
-    print('[DEBUG]  : - kabupaten: "${_kabupatenDropdownController.text.trim()}"');
-    print('[DEBUG]  : - kode_pos: "${_kodePosController.text.trim()}"');
-    print('[DEBUG]  : - toko_fisik: "${_selectedTokoFisik ?? _tokoFisikController.text.trim()}"');
-    print('[DEBUG]  : - pendapatan_per_tahun: "${(_selectedPendapatan ?? _pendapatanController.text).trim()}"');
-    print('[DEBUG]  : - keterangan: "submitted"');
+    DebugHelper.debugForm('Payuniovo', 'Raw form data:');
+    DebugHelper.debugForm('Payuniovo', '- nama_lengkap: "${_namaLengkapController.text.trim()}"');
+    DebugHelper.debugForm('Payuniovo', '- nama_usaha: "${_namaUsahaController.text.trim()}"');
+    DebugHelper.debugForm('Payuniovo', '- no_npwp: "${_noNpwpController.text.trim()}"');
+    DebugHelper.debugForm('Payuniovo', '- mcc_id: "${_selectedMcc?.id ?? _mccIdController.text.trim()}"');
+    DebugHelper.debugForm('Payuniovo', '- nama_jalan: "${_namaJalanController.text.trim()}"');
+    DebugHelper.debugForm('Payuniovo', '- nomor_jalan: "${_nomorJalanController.text.trim()}"');
+    DebugHelper.debugForm('Payuniovo', '- rt: "${_rtController.text.trim()}"');
+    DebugHelper.debugForm('Payuniovo', '- rw: "${_rwController.text.trim()}"');
+    DebugHelper.debugForm('Payuniovo', '- kelurahan: "${_kelurahanController.text.trim()}"');
+    DebugHelper.debugForm('Payuniovo', '- kecamatan: "${_kecamatanController.text.trim()}"');
+    DebugHelper.debugForm('Payuniovo', '- kabupaten: "${_kabupatenDropdownController.text.trim()}"');
+    DebugHelper.debugForm('Payuniovo', '- kode_pos: "${_kodePosController.text.trim()}"');
+    DebugHelper.debugForm('Payuniovo', '- toko_fisik: "${_selectedTokoFisik ?? _tokoFisikController.text.trim()}"');
+    DebugHelper.debugForm('Payuniovo', '- pendapatan_per_tahun: "${(_selectedPendapatan ?? _pendapatanController.text).trim()}"');
+    DebugHelper.debugForm('Payuniovo', '- keterangan: "submitted"');
     
     if (_selectedProvinsi != null) {
-      print('[DEBUG]  : - provinsi_id: "${_selectedProvinsi!.id}"');
+      DebugHelper.debugForm('Payuniovo', '- provinsi_id: "${_selectedProvinsi!.id}"');
     }
     if (_selectedKecamatan != null) {
-      print('[DEBUG]  : - kecamatan_id: "${_selectedKecamatan!.id}"');
+      DebugHelper.debugForm('Payuniovo', '- kecamatan_id: "${_selectedKecamatan!.id}"');
     }
     if (_selectedKelurahan != null) {
-      print('[DEBUG]  : - kelurahan_id: "${_selectedKelurahan!.id}"');
+      DebugHelper.debugForm('Payuniovo', '- kelurahan_id: "${_selectedKelurahan!.id}"');
     }
 
-    print('[DEBUG]  : Final fields object: $fields');
+    DebugHelper.debugForm('Payuniovo', 'Final fields object: $fields');
 
     // Check for empty fields (excluding optional fields)
-    print('[DEBUG]  : Checking for empty fields...');
+    DebugHelper.debugForm('Payuniovo', 'Checking for empty fields...');
     for (String fieldName in fields.keys) {
       // Skip validation for optional fields
       if (fieldName == 'no_npwp') {
-        print('[DEBUG] Payuniovo: ✅ Skipping validation for optional field: $fieldName');
+        DebugHelper.debugForm('Payuniovo', '✅ Skipping validation for optional field: $fieldName');
         continue;
       }
       
       if (fields[fieldName]!.isEmpty) {
-        print('[DEBUG]   ❌ Empty field found: $fieldName');
+        DebugHelper.debugPrint('  ❌ Empty field found: $fieldName');
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Field $fieldName tidak boleh kosong'),
@@ -547,14 +548,14 @@ class _QrisRequestFormPageState extends State<QrisRequestFormPage> {
         );
         return;
       } else {
-        print('[DEBUG] Payuniovo: ✅ Field $fieldName is filled: "${fields[fieldName]}"');
+        DebugHelper.debugForm('Payuniovo', '✅ Field $fieldName is filled: "${fields[fieldName]}"');
       }
     }
-    print('[DEBUG] Payuniovo: ✅ All required fields are filled');
+    DebugHelper.debugForm('Payuniovo', '✅ All required fields are filled');
     
     // Validate foto usaha
     if (_fotoUsaha == null) {
-      print('[DEBUG] Payuniovo: ❌ Foto usaha is required');
+      DebugHelper.debugForm('Payuniovo', '❌ Foto usaha is required');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Foto usaha wajib diisi'),
@@ -563,7 +564,7 @@ class _QrisRequestFormPageState extends State<QrisRequestFormPage> {
       );
       return;
     }
-    print('[DEBUG] Payuniovo: ✅ Foto usaha is provided');
+    DebugHelper.debugForm('Payuniovo', '✅ Foto usaha is provided');
 
     setState(() {
       _isLoading = true;
@@ -573,9 +574,9 @@ class _QrisRequestFormPageState extends State<QrisRequestFormPage> {
       final token = bloc.token.valueWrapper?.value;
       final url = Uri.parse('https://payuni-app.findig.id/api/v1/qris/submission/update');
       
-      print('[DEBUG] Payuniovo: ===== SENDING REQUEST =====');
-      print('[DEBUG] Payuniovo: URL: $url');
-      print('[DEBUG] Payuniovo: Token: ${token != null ? "Available" : "Not available"}');
+      DebugHelper.debugForm('Payuniovo', '===== SENDING REQUEST =====');
+      DebugHelper.debugForm('Payuniovo', 'URL: $url');
+      DebugHelper.debugForm('Payuniovo', 'Token: ${token != null ? "Available" : "Not available"}');
       
       // Create MultipartRequest for file upload
       http.MultipartRequest request = http.MultipartRequest('POST', url);
@@ -586,25 +587,25 @@ class _QrisRequestFormPageState extends State<QrisRequestFormPage> {
       
       // Add foto usaha if available
       if (_fotoUsaha != null) {
-        print('[DEBUG] Payuniovo: Adding foto usaha to request');
+        DebugHelper.debugForm('Payuniovo', 'Adding foto usaha to request');
         request.files.add(await http.MultipartFile.fromPath('foto_usaha', _fotoUsaha!.path));
       } else {
-        print('[DEBUG] Payuniovo: No foto usaha provided');
+        DebugHelper.debugForm('Payuniovo', 'No foto usaha provided');
       }
       
-      print('[DEBUG] Payuniovo: Request fields: ${request.fields}');
-      print('[DEBUG] Payuniovo: Request files: ${request.files.map((f) => f.field).toList()}');
+      DebugHelper.debugForm('Payuniovo', 'Request fields: ${request.fields}');
+      DebugHelper.debugForm('Payuniovo', 'Request files: ${request.files.map((f) => f.field).toList()}');
 
       final streamedResponse = await request.send();
       final response = await http.Response.fromStream(streamedResponse);
 
-      print('[DEBUG] Payuniovo: ===== RESPONSE RECEIVED =====');
-      print('[DEBUG] Payuniovo: Response status code: ${response.statusCode}');
-      print('[DEBUG] Payuniovo: Response headers: ${response.headers}');
-      print('[DEBUG] Payuniovo: Response body: ${response.body}');
+      DebugHelper.debugForm('Payuniovo', '===== RESPONSE RECEIVED =====');
+      DebugHelper.debugForm('Payuniovo', 'Response status code: ${response.statusCode}');
+      DebugHelper.debugForm('Payuniovo', 'Response headers: ${response.headers}');
+      DebugHelper.debugForm('Payuniovo', 'Response body: ${response.body}');
 
       if (response.statusCode == 200) {
-        print('[DEBUG] Payuniovo: ✅ Request successful');
+        DebugHelper.debugForm('Payuniovo', '✅ Request successful');
         // Navigate back to QRIS page with success result
         Navigator.pop(context, true);
         // Show success message
@@ -615,11 +616,11 @@ class _QrisRequestFormPageState extends State<QrisRequestFormPage> {
           ),
         );
       } else {
-        print('[DEBUG] Payuniovo: ❌ Request failed with status: ${response.statusCode}');
+        DebugHelper.debugForm('Payuniovo', '❌ Request failed with status: ${response.statusCode}');
         throw Exception('Failed to submit form');
       }
     } catch (e) {
-      print('[DEBUG] Payuniovo: ❌ Exception occurred: $e');
+      DebugHelper.debugForm('Payuniovo', '❌ Exception occurred: $e');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Terjadi kesalahan. Silakan coba lagi.'),
@@ -630,7 +631,7 @@ class _QrisRequestFormPageState extends State<QrisRequestFormPage> {
       setState(() {
         _isLoading = false;
       });
-      print('[DEBUG] Payuniovo: ===== SUBMIT FORM END =====');
+      DebugHelper.debugForm('Payuniovo', '===== SUBMIT FORM END =====');
     }
   }
 
@@ -837,7 +838,7 @@ class _QrisRequestFormPageState extends State<QrisRequestFormPage> {
                         );
 
                         if (kabupaten != null) {
-                          print('[DEBUG] Payuniovo: Selected Kabupaten: ${kabupaten.nama}');
+                          DebugHelper.debugForm('Payuniovo', 'Selected Kabupaten: ${kabupaten.nama}');
                           setState(() {
                             _selectedKabupaten = kabupaten;
                             _selectedKecamatan = null;
@@ -847,7 +848,7 @@ class _QrisRequestFormPageState extends State<QrisRequestFormPage> {
                             _kelurahanDropdownController.clear();
                             _kelurahanController.clear();
                           });
-                          print('[DEBUG] Payuniovo: Kabupaten controller text: ${_kabupatenDropdownController.text}');
+                          DebugHelper.debugForm('Payuniovo', 'Kabupaten controller text: ${_kabupatenDropdownController.text}');
                         }
                       },
                     ),
@@ -1206,35 +1207,35 @@ class _MyQrisPageState extends State<MyQrisPage> {
   int _refreshKey = 0;
 
   bool _checkAllRequiredFields(Map<String, dynamic> submissionData) {
-    print('[DEBUG] Payuniovo: Checking keterangan field...');
-    print('[DEBUG] Payuniovo: Submission data keys: ${submissionData.keys.toList()}');
+    DebugHelper.debugForm('Payuniovo', 'Checking keterangan field...');
+    DebugHelper.debugForm('Payuniovo', 'Submission data keys: ${submissionData.keys.toList()}');
     
     // Check keterangan field
     final keterangan = submissionData['keterangan'];
-    print('[DEBUG] Payuniovo: Raw keterangan value: $keterangan');
-    print('[DEBUG] Payuniovo: Keterangan type: ${keterangan.runtimeType}');
-    print('[DEBUG] Payuniovo: Keterangan toString: ${keterangan.toString()}');
+    DebugHelper.debugForm('Payuniovo', 'Raw keterangan value: $keterangan');
+    DebugHelper.debugForm('Payuniovo', 'Keterangan type: ${keterangan.runtimeType}');
+    DebugHelper.debugForm('Payuniovo', 'Keterangan toString: ${keterangan.toString()}');
     final keteranganEmpty = keterangan == null || keterangan.toString().trim().isEmpty;
-    print('[DEBUG] Payuniovo: Root field keterangan = $keterangan (isEmpty: $keteranganEmpty)');
+    DebugHelper.debugForm('Payuniovo', 'Root field keterangan = $keterangan (isEmpty: $keteranganEmpty)');
     
     if (keteranganEmpty) {
-      print('[DEBUG] Payuniovo: Missing or empty root field: keterangan');
+      DebugHelper.debugForm('Payuniovo', 'Missing or empty root field: keterangan');
       return false;
     }
     
-    print('[DEBUG] Payuniovo: Keterangan field is filled');
-    print('[DEBUG] Payuniovo: Validation completed successfully');
+    DebugHelper.debugForm('Payuniovo', 'Keterangan field is filled');
+    DebugHelper.debugForm('Payuniovo', 'Validation completed successfully');
     return true;
   }
 
   Future<Map<String, dynamic>> _checkQrisStatus() async {
     try {
-      print('=== CHECK QRIS STATUS START ===');
+      DebugHelper.debugPrint('=== CHECK QRIS STATUS START ===');
       final token = bloc.token.valueWrapper?.value;
       final url = Uri.parse('https://payuni-app.findig.id/api/v1/qris/submission');
 
-      print('[DEBUG] Payuniovo: Checking QRIS status with URL: $url');
-      print('[DEBUG] Payuniovo: Token: ${token != null ? "Available" : "Not available"}');
+      DebugHelper.debugForm('Payuniovo', 'Checking QRIS status with URL: $url');
+      DebugHelper.debugForm('Payuniovo', 'Token: ${token != null ? "Available" : "Not available"}');
 
       final response = await http.get(
         url,
@@ -1244,22 +1245,22 @@ class _MyQrisPageState extends State<MyQrisPage> {
         },
       );
 
-      print('[DEBUG] Payuniovo: HTTP status: ${response.statusCode}');
-      print('[DEBUG] Payuniovo: Raw response body: ${response.body}');
+      DebugHelper.debugForm('Payuniovo', 'HTTP status: ${response.statusCode}');
+      DebugHelper.debugForm('Payuniovo', 'Raw response body: ${response.body}');
       
       final data = json.decode(response.body);
-      print('[DEBUG] Payuniovo: API JSON: $data');
+      DebugHelper.debugForm('Payuniovo', 'API JSON: $data');
 
       if (response.statusCode == 200 && data['status'] == 200) {
         final submissionData = data['data'];
         final qrisImage = submissionData['qris_image'];
         
-        print('[DEBUG] Payuniovo: QRIS Image: $qrisImage');
-        print('[DEBUG] Payuniovo: Full submission data: $submissionData');
+        DebugHelper.debugForm('Payuniovo', 'QRIS Image: $qrisImage');
+        DebugHelper.debugForm('Payuniovo', 'Full submission data: $submissionData');
         
         // Condition 1: Belum KYC (tidak ada data submission)
         if (submissionData == null) {
-          print('=== QRIS STATUS: BELUM KYC ===');
+          DebugHelper.debugPrint('=== QRIS STATUS: BELUM KYC ===');
           return {'status': 'not_kyc'};
         }
         
@@ -1267,7 +1268,7 @@ class _MyQrisPageState extends State<MyQrisPage> {
         if (qrisImage != null && 
             qrisImage.toString().trim().isNotEmpty && 
             qrisImage.toString().trim() != "") {
-          print('=== QRIS STATUS: QRIS IMAGE AVAILABLE - SHOW IMMEDIATELY ===');
+          DebugHelper.debugPrint('=== QRIS STATUS: QRIS IMAGE AVAILABLE - SHOW IMMEDIATELY ===');
           return {
             'status': 'qris_available',
             'image': qrisImage,
@@ -1276,25 +1277,25 @@ class _MyQrisPageState extends State<MyQrisPage> {
         
         // Check status_qris status from API (only if no qris_image)
         final statusQris = submissionData['status_qris'];
-        print('[DEBUG] Payuniovo: Status QRIS from API: $statusQris');
+        DebugHelper.debugForm('Payuniovo', 'Status QRIS from API: $statusQris');
         
         if (statusQris == null || statusQris == '' || statusQris == 'not-process') {
-          print('=== QRIS STATUS: NOT PROCESS - BELUM SUBMIT ===');
+          DebugHelper.debugPrint('=== QRIS STATUS: NOT PROCESS - BELUM SUBMIT ===');
           return {'status': 'kyc_completed_no_qris'};
         }
         
         if (statusQris == 'submitted') {
-          print('=== QRIS STATUS: SUBMITTED - SUDAH SUBMIT ===');
+          DebugHelper.debugPrint('=== QRIS STATUS: SUBMITTED - SUDAH SUBMIT ===');
           return {'status': 'submitted_success', 'message': 'Data berhasil disimpan. QRIS sedang diproses.'};
         }
         
         if (statusQris == 'pending') {
-          print('=== QRIS STATUS: PENDING - SEDANG DIPROSES ===');
+          DebugHelper.debugPrint('=== QRIS STATUS: PENDING - SEDANG DIPROSES ===');
           return {'status': 'processing_qris', 'message': 'QRIS Static anda sedang di proses, silahkan tunggu beberapa hari'};
         }
         
         if (statusQris == 'approve') {
-          print('=== QRIS STATUS: APPROVE - QRIS TAMPIL ===');
+          DebugHelper.debugPrint('=== QRIS STATUS: APPROVE - QRIS TAMPIL ===');
           return {
             'status': 'qris_available',
             'image': qrisImage,
@@ -1302,33 +1303,33 @@ class _MyQrisPageState extends State<MyQrisPage> {
         }
         
         if (statusQris == 'reject') {
-          print('=== QRIS STATUS: REJECT ===');
+          DebugHelper.debugPrint('=== QRIS STATUS: REJECT ===');
           final rejectionReason = submissionData['keterangan'] ?? 'Data tidak lengkap atau tidak sesuai dengan persyaratan yang ditentukan. Silakan perbaiki data Anda dan daftar ulang.';
           return {'status': 'qris_rejected', 'reason': rejectionReason};
         }
         
         // Default fallback
-        print('=== QRIS STATUS: UNKNOWN STATUS ===');
+        DebugHelper.debugPrint('=== QRIS STATUS: UNKNOWN STATUS ===');
         return {'status': 'unknown'};
       } else {
-        print('[DEBUG] Payuniovo: API error - Status: ${data['status']}, Message: ${data['message']}');
+        DebugHelper.debugForm('Payuniovo', 'API error - Status: ${data['status']}, Message: ${data['message']}');
         return {'status': 'error', 'message': data['message'] ?? 'Unknown error'};
       }
     } catch (err) {
-      print('[DEBUG] Payuniovo: Exception ketika check QRIS status: $err');
+      DebugHelper.debugForm('Payuniovo', 'Exception ketika check QRIS status: $err');
       return {'status': 'error', 'error': err.toString()};
     }
   }
 
   Future<Map<String, dynamic>> _getQr() async {
     try {
-      print('=== GENERATE QRIS START ===');
-      print('[DEBUG] Payuniovo: Requesting QRIS...');
+      DebugHelper.debugPrint('=== GENERATE QRIS START ===');
+      DebugHelper.debugForm('Payuniovo', 'Requesting QRIS...');
       final token = bloc.token.valueWrapper?.value;
       final url = Uri.parse('https://payuni-app.findig.id/api/v1/qris/generate');
 
-      print('[DEBUG] Payuniovo: Using URL: $url');
-      print('[DEBUG] Payuniovo: Token: ${token != null ? "Available" : "Not available"}');
+      DebugHelper.debugForm('Payuniovo', 'Using URL: $url');
+      DebugHelper.debugForm('Payuniovo', 'Token: ${token != null ? "Available" : "Not available"}');
 
       final response = await http.post(
         url,
@@ -1337,26 +1338,26 @@ class _MyQrisPageState extends State<MyQrisPage> {
         },
       );
 
-      print('[DEBUG] Payuniovo: HTTP status: ${response.statusCode}');
-      print('[DEBUG] Payuniovo: Raw response body: ${response.body}');
-      print('[DEBUG] Payuniovo: Response headers: ${response.headers}');
+      DebugHelper.debugForm('Payuniovo', 'HTTP status: ${response.statusCode}');
+      DebugHelper.debugForm('Payuniovo', 'Raw response body: ${response.body}');
+      DebugHelper.debugForm('Payuniovo', 'Response headers: ${response.headers}');
       
       final data = json.decode(response.body);
-      print('[DEBUG] Payuniovo: API JSON: $data');
-      print('[DEBUG] Payuniovo: Response type: ${data.runtimeType}');
-      print('[DEBUG] Payuniovo: Response keys: ${data.keys.toList()}');
+      DebugHelper.debugForm('Payuniovo', 'API JSON: $data');
+      DebugHelper.debugForm('Payuniovo', 'Response type: ${data.runtimeType}');
+      DebugHelper.debugForm('Payuniovo', 'Response keys: ${data.keys.toList()}');
 
       if (data != null && data['status'] == 500) {
-        print('[DEBUG] Payuniovo: Status 500 terdeteksi dari API JSON');
-        print('=== GENERATE QRIS END - STATUS: 500 ===');
+        DebugHelper.debugForm('Payuniovo', 'Status 500 terdeteksi dari API JSON');
+        DebugHelper.debugPrint('=== GENERATE QRIS END - STATUS: 500 ===');
         return {'status': 500, 'message': data['message'] ?? ''};
       }
 
       if (data != null &&
           data['image'] != null &&
           data['image'].toString().trim().isNotEmpty) {
-        print('[DEBUG] Payuniovo: Berhasil dapat image URL: ${data['image']}');
-        print('=== GENERATE QRIS END - STATUS: 200 WITH IMAGE ===');
+        DebugHelper.debugForm('Payuniovo', 'Berhasil dapat image URL: ${data['image']}');
+        DebugHelper.debugPrint('=== GENERATE QRIS END - STATUS: 200 WITH IMAGE ===');
         return {
           'status': 200,
           'image': data['image'],
@@ -1365,23 +1366,23 @@ class _MyQrisPageState extends State<MyQrisPage> {
           data['status'] == 200 &&
           (data['image'] == null || data['image'].toString().trim().isEmpty)) {
         // status 200 tapi image kosong
-        print('[DEBUG] Payuniovo: Status 200 tapi image kosong');
-        print('=== GENERATE QRIS END - STATUS: 200 NO IMAGE ===');
+        DebugHelper.debugForm('Payuniovo', 'Status 200 tapi image kosong');
+        DebugHelper.debugPrint('=== GENERATE QRIS END - STATUS: 200 NO IMAGE ===');
         return {'status': 200, 'image': ''};
       } else {
-        print('[DEBUG] Payuniovo: Image kosong/tidak ada!');
-        print('=== GENERATE QRIS END - STATUS: -2 ===');
+        DebugHelper.debugForm('Payuniovo', 'Image kosong/tidak ada!');
+        DebugHelper.debugPrint('=== GENERATE QRIS END - STATUS: -2 ===');
         return {'status': -2};
       }
     } catch (err) {
-      print('[DEBUG] Payuniovo: Exception ketika get QR: $err');
-      print('=== GENERATE QRIS END - ERROR ===');
+      DebugHelper.debugForm('Payuniovo', 'Exception ketika get QR: $err');
+      DebugHelper.debugPrint('=== GENERATE QRIS END - ERROR ===');
       return {'status': -1, 'error': err.toString()};
     }
   }
 
   Future<void> _takeScreenshot() async {
-    print('[DEBUG] Payuniovo: Taking screenshot...');
+    DebugHelper.debugForm('Payuniovo', 'Taking screenshot...');
     Directory temp = await getTemporaryDirectory();
     image = await File('${temp.path}/qris.png').create();
     Uint8List? bytes = await _screenshotController.capture(
@@ -1396,11 +1397,11 @@ class _MyQrisPageState extends State<MyQrisPage> {
       image!.readAsBytesSync(),
       'image/png',
     );
-    print('[DEBUG] Payuniovo: Screenshot saved and shared');
+    DebugHelper.debugForm('Payuniovo', 'Screenshot saved and shared');
   }
 
   Widget _notKycPage() {
-    print('[DEBUG] Payuniovo: Showing not KYC page');
+    DebugHelper.debugForm('Payuniovo', 'Showing not KYC page');
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(24.0),
@@ -1453,7 +1454,7 @@ class _MyQrisPageState extends State<MyQrisPage> {
   }
 
   Widget _kycCompletedNoQrisPage() {
-    print('[DEBUG] Payuniovo: Showing KYC completed but no QRIS page');
+    DebugHelper.debugForm('Payuniovo', 'Showing KYC completed but no QRIS page');
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(24.0),
@@ -1512,7 +1513,7 @@ class _MyQrisPageState extends State<MyQrisPage> {
   }
 
   Widget _processingQrisPage([String? customMessage]) {
-    print('[DEBUG] Payuniovo: Showing processing QRIS page');
+    DebugHelper.debugForm('Payuniovo', 'Showing processing QRIS page');
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(24.0),
@@ -1578,7 +1579,7 @@ class _MyQrisPageState extends State<MyQrisPage> {
   }
 
   Widget _waitingBankVerificationPage() {
-    print('[DEBUG] Payuniovo: Showing waiting bank verification page');
+    DebugHelper.debugForm('Payuniovo', 'Showing waiting bank verification page');
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(24.0),
@@ -1641,14 +1642,14 @@ class _MyQrisPageState extends State<MyQrisPage> {
   }
 
   Widget _getQrisWidget(Map<String, dynamic> result) {
-    print('[DEBUG] Payuniovo: Masuk _getQrisWidget dengan result: $result');
+    DebugHelper.debugForm('Payuniovo', 'Masuk _getQrisWidget dengan result: $result');
     if (result == null) {
-      print('[DEBUG] Payuniovo: Result null, showing error');
+      DebugHelper.debugForm('Payuniovo', 'Result null, showing error');
       return Center(child: Text('Terjadi kesalahan tak terduga'));
     }
     
     String status = result['status'];
-    print('[DEBUG] Payuniovo: Status: $status');
+    DebugHelper.debugForm('Payuniovo', 'Status: $status');
 
     switch (status) {
       case 'not_kyc':
@@ -1659,7 +1660,7 @@ class _MyQrisPageState extends State<MyQrisPage> {
         return _processingQrisPage(result['message']);
       case 'qris_available':
         String imageUrl = result['image'];
-        print('[DEBUG] Payuniovo: QRIS available with image: $imageUrl');
+        DebugHelper.debugForm('Payuniovo', 'QRIS available with image: $imageUrl');
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -1694,7 +1695,7 @@ class _MyQrisPageState extends State<MyQrisPage> {
           ],
         );
       case 'submitted_success':
-        print('[DEBUG] Payuniovo: QRIS submitted successfully');
+        DebugHelper.debugForm('Payuniovo', 'QRIS submitted successfully');
         return Center(
           child: Padding(
             padding: const EdgeInsets.all(24.0),
@@ -1745,7 +1746,7 @@ class _MyQrisPageState extends State<MyQrisPage> {
           ),
         );
       case 'qris_rejected':
-        print('[DEBUG] Payuniovo: QRIS rejected');
+        DebugHelper.debugForm('Payuniovo', 'QRIS rejected');
         final rejectionReason = result['reason'] ?? 'Data tidak lengkap atau tidak sesuai dengan persyaratan yang ditentukan. Silakan perbaiki data Anda dan daftar ulang.';
        //  final rejectionReason =  'Data tidak lengkap atau tidak sesuai dengan persyaratan yang ditentukan. Silakan perbaiki data Anda dan daftar ulang.';
      
@@ -1860,10 +1861,10 @@ class _MyQrisPageState extends State<MyQrisPage> {
           ),
         );
       case 'error':
-        print('[DEBUG] Payuniovo: Error detected: ${result['message'] ?? result['error']}');
+        DebugHelper.debugForm('Payuniovo', 'Error detected: ${result['message'] ?? result['error']}');
         return Center(child: Text('Error: ${result['message'] ?? result['error']}'));
       default:
-        print('[DEBUG] Payuniovo: Unknown status: $status');
+        DebugHelper.debugForm('Payuniovo', 'Unknown status: $status');
         return Center(
           child: Text('QRIS tidak tersedia saat ini.'),
         );
@@ -1872,7 +1873,7 @@ class _MyQrisPageState extends State<MyQrisPage> {
 
   @override
   Widget build(BuildContext context) {
-    print('[DEBUG] Payuniovo: Building QRIS page');
+    DebugHelper.debugForm('Payuniovo', 'Building QRIS page');
     return FutureBuilder<Map<String, dynamic>>(
       key: ValueKey(_refreshKey),
       future: _checkQrisStatus(),
@@ -1884,13 +1885,13 @@ class _MyQrisPageState extends State<MyQrisPage> {
               result['image'] != null &&
               result['image'].toString().trim().isNotEmpty) {
             showFab = true;
-            print('[DEBUG] Payuniovo: Showing FAB for download');
+            DebugHelper.debugForm('Payuniovo', 'Showing FAB for download');
           }
         }
         
-        print('[DEBUG] Payuniovo: Connection state: ${snapshot.connectionState}');
-        print('[DEBUG] Payuniovo: Has error: ${snapshot.hasError}');
-        print('[DEBUG] Payuniovo: Has data: ${snapshot.hasData}');
+        DebugHelper.debugForm('Payuniovo', 'Connection state: ${snapshot.connectionState}');
+        DebugHelper.debugForm('Payuniovo', 'Has error: ${snapshot.hasError}');
+        DebugHelper.debugForm('Payuniovo', 'Has data: ${snapshot.hasData}');
         
         return Scaffold(
           floatingActionButton: showFab

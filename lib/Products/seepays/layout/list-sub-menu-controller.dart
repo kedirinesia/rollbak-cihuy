@@ -15,6 +15,7 @@ import 'package:mobile/Products/seepays/layout/list-sub-menu.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/bloc/Bloc.dart' show bloc;
 import 'package:mobile/bloc/Api.dart' show apiUrl;
+import 'package:mobile/utils/debug_helper.dart';
 
 // Global cache untuk submenu
 Map<String, List<MenuModel>> _globalSubmenuCache = {};
@@ -39,12 +40,12 @@ abstract class ListSubMenuController extends State<ListSubMenu>
     currentMenu = widget.menuModel;
     
     // Debug: Trace sumber menu ID
-    print('🔍 ListSubMenu Debug: Menu ID yang digunakan: ${currentMenu.id}');
-    print('🔍 ListSubMenu Debug: Menu Name: ${currentMenu.name}');
-    print('🔍 ListSubMenu Debug: Menu Type: ${currentMenu.type}');
-    print('🔍 ListSubMenu Debug: Menu Jenis: ${currentMenu.jenis}');
-    print('🔍 ListSubMenu Debug: Menu Category ID: ${currentMenu.category_id}');
-    print('🔍 ListSubMenu Debug: Menu Kode Produk: ${currentMenu.kodeProduk}');
+    DebugHelper.debugPrint('🔍 ListSubMenu Debug: Menu ID yang digunakan: ${currentMenu.id}');
+    DebugHelper.debugPrint('🔍 ListSubMenu Debug: Menu Name: ${currentMenu.name}');
+    DebugHelper.debugPrint('🔍 ListSubMenu Debug: Menu Type: ${currentMenu.type}');
+    DebugHelper.debugPrint('🔍 ListSubMenu Debug: Menu Jenis: ${currentMenu.jenis}');
+    DebugHelper.debugPrint('🔍 ListSubMenu Debug: Menu Category ID: ${currentMenu.category_id}');
+    DebugHelper.debugPrint('🔍 ListSubMenu Debug: Menu Kode Produk: ${currentMenu.kodeProduk}');
     
     analitycs.pageView('/menu/' + currentMenu.id, {
       'userId': bloc.userId.valueWrapper?.value,
@@ -56,7 +57,7 @@ abstract class ListSubMenuController extends State<ListSubMenu>
 
   // Method untuk immediate fetch submenu menggunakan cache atau API
   _getDataImmediate() async {
-    print('🚀 ListSubMenu: Starting immediate fetch for submenu');
+    DebugHelper.debugPrint('🚀 ListSubMenu: Starting immediate fetch for submenu');
     // Hilangkan loading state untuk submenu pascabayar
     // setState(() {
     //   loading = true;
@@ -66,10 +67,10 @@ abstract class ListSubMenuController extends State<ListSubMenu>
     List<MenuModel> cachedSubmenu = _globalSubmenuCache[currentMenu.id] ?? [];
     
     if (cachedSubmenu.isNotEmpty) {
-      print('⚡ ListSubMenu: Using cached submenu (${cachedSubmenu.length} items)');
+      DebugHelper.debugPrint('⚡ ListSubMenu: Using cached submenu (${cachedSubmenu.length} items)');
       
       for (MenuModel menu in cachedSubmenu) {
-        print('📋 Sub-menu Cached: ${menu.name} | type: ${menu.type} | category_id: "${menu.category_id}" | kodeProduk: "${menu.kodeProduk}"');
+        DebugHelper.debugPrint('📋 Sub-menu Cached: ${menu.name} | type: ${menu.type} | category_id: "${menu.category_id}" | kodeProduk: "${menu.kodeProduk}"');
       }
       
       tempMenu = cachedSubmenu;
@@ -81,14 +82,14 @@ abstract class ListSubMenuController extends State<ListSubMenu>
         loading = false; // Langsung set ke false tanpa menampilkan loading
       });
       
-      print('✅ ListSubMenu: Immediate fetch from cache completed');
+      DebugHelper.debugPrint('✅ ListSubMenu: Immediate fetch from cache completed');
       return;
     }
     
     // Jika tidak ada cache, fetch dari API secara background tanpa loading
-    print('🌐 ListSubMenu: Cache not found, fetching from API in background');
+    DebugHelper.debugPrint('🌐 ListSubMenu: Cache not found, fetching from API in background');
     String apiEndpoint = '$apiUrl/menu/${currentMenu.id}/child';
-    print('🌐 ListSubMenu Immediate API Endpoint: $apiEndpoint');
+    DebugHelper.debugPrint('🌐 ListSubMenu Immediate API Endpoint: $apiEndpoint');
     
     // Set loading ke false dulu untuk menampilkan UI kosong
     setState(() {
@@ -100,7 +101,7 @@ abstract class ListSubMenuController extends State<ListSubMenu>
     // Timeout 5 detik untuk menampilkan empty state jika tidak ada data
     Future.delayed(Duration(seconds: 10), () {
       if (mounted && listMenu.isEmpty) {
-        print('⏰ ListSubMenu: Timeout 5 detik tercapai, menampilkan empty state');
+        DebugHelper.debugPrint('⏰ ListSubMenu: Timeout 5 detik tercapai, menampilkan empty state');
         setState(() {
           _showEmptyState = true;
         });
@@ -120,17 +121,17 @@ abstract class ListSubMenuController extends State<ListSubMenu>
           Uri.parse(apiEndpoint),
           headers: {'Authorization': bloc.token.valueWrapper?.value});
 
-      print('📡 ListSubMenu Background Response Status: ${response.statusCode}');
-      print('📡 ListSubMenu Background Response Body: ${response.body}');
+      DebugHelper.debugPrint('📡 ListSubMenu Background Response Status: ${response.statusCode}');
+      DebugHelper.debugPrint('📡 ListSubMenu Background Response Body: ${response.body}');
 
       if (response.statusCode == 200) {
         List<MenuModel> lm = (jsonDecode(response.body)['data'] as List)
             .map((m) => MenuModel.fromJson(m))
             .toList();
         
-        print('📊 ListSubMenu Background: ${lm.length} sub-menu items found');
+        DebugHelper.debugPrint('📊 ListSubMenu Background: ${lm.length} sub-menu items found');
         for (MenuModel menu in lm) {
-          print('📋 Sub-menu Background: ${menu.name} | type: ${menu.type} | category_id: "${menu.category_id}" | kodeProduk: "${menu.kodeProduk}"');
+          DebugHelper.debugPrint('📋 Sub-menu Background: ${menu.name} | type: ${menu.type} | category_id: "${menu.category_id}" | kodeProduk: "${menu.kodeProduk}"');
         }
         
         // Cache hasil untuk penggunaan selanjutnya
@@ -138,7 +139,7 @@ abstract class ListSubMenuController extends State<ListSubMenu>
         
         // Check if empty - tapi jangan langsung kasih pesan, tunggu timeout dulu
         if (lm.isEmpty) {
-          print('📭 ListSubMenu: Submenu kosong dari API, tapi tunggu timeout 5 detik dulu');
+          DebugHelper.debugPrint('📭 ListSubMenu: Submenu kosong dari API, tapi tunggu timeout 5 detik dulu');
           setState(() {
             listMenu = [];
             tempMenu = [];
@@ -154,7 +155,7 @@ abstract class ListSubMenuController extends State<ListSubMenu>
           // Data loaded successfully
         }
       } else {
-        print('❌ ListSubMenu Background: Failed to load submenu: ${response.statusCode}');
+        DebugHelper.debugPrint('❌ ListSubMenu Background: Failed to load submenu: ${response.statusCode}');
         setState(() {
           listMenu = [];
         });
@@ -170,13 +171,13 @@ abstract class ListSubMenuController extends State<ListSubMenu>
         }
       }
     } catch (e) {
-      print('❌ ListSubMenu Background: Error loading submenu: $e');
+      DebugHelper.debugPrint('❌ ListSubMenu Background: Error loading submenu: $e');
       setState(() {
         listMenu = [];
       });
     }
     
-    print('✅ ListSubMenu: Background fetch completed');
+    DebugHelper.debugPrint('✅ ListSubMenu: Background fetch completed');
   }
 
   getData() async {
@@ -185,23 +186,23 @@ abstract class ListSubMenuController extends State<ListSubMenu>
     });
 
     String apiEndpoint = '$apiUrl/menu/${currentMenu.id}/child';
-    print('🌐 ListSubMenu API Endpoint: $apiEndpoint');
+    DebugHelper.debugPrint('🌐 ListSubMenu API Endpoint: $apiEndpoint');
     
     http.Response response = await http.get(
         Uri.parse(apiEndpoint),
         headers: {'Authorization': bloc.token.valueWrapper?.value});
 
-    print('📡 ListSubMenu Response Status: ${response.statusCode}');
-    print('📡 ListSubMenu Response Body: ${response.body}');
+    DebugHelper.debugPrint('📡 ListSubMenu Response Status: ${response.statusCode}');
+    DebugHelper.debugPrint('📡 ListSubMenu Response Body: ${response.body}');
 
     if (response.statusCode == 200) {
       List<MenuModel> lm = (jsonDecode(response.body)['data'] as List)
           .map((m) => MenuModel.fromJson(m))
           .toList();
       
-      print('📊 ListSubMenu: ${lm.length} sub-menu items found');
+      DebugHelper.debugPrint('📊 ListSubMenu: ${lm.length} sub-menu items found');
       for (MenuModel menu in lm) {
-        print('📋 Sub-menu: ${menu.name} | type: ${menu.type} | category_id: "${menu.category_id}" | kodeProduk: "${menu.kodeProduk}"');
+        DebugHelper.debugPrint('📋 Sub-menu: ${menu.name} | type: ${menu.type} | category_id: "${menu.category_id}" | kodeProduk: "${menu.kodeProduk}"');
       }
       
       tempMenu = lm;
@@ -218,32 +219,32 @@ abstract class ListSubMenuController extends State<ListSubMenu>
   // Methods removed - logo will be shown in detail page, not here
 
   onTapMenu(MenuModel menu) async {
-    print('📌 ListSubMenu Menu diklik: ${menu.name} | type: ${menu.type} | category_id: "${menu.category_id}" | kodeProduk: "${menu.kodeProduk}"');
-    print('🖼️ ListSubMenu: Icon URL yang akan dikirim: ${menu.icon}');
+    DebugHelper.debugPrint('📌 ListSubMenu Menu diklik: ${menu.name} | type: ${menu.type} | category_id: "${menu.category_id}" | kodeProduk: "${menu.kodeProduk}"');
+    DebugHelper.debugPrint('🖼️ ListSubMenu: Icon URL yang akan dikirim: ${menu.icon}');
     
     if (menu.category_id.isNotEmpty && menu.type == 1) {
-      print('➡️ ListSubMenu menuju ke: SeepaysDetailDenom (Prepaid)');
+      DebugHelper.debugPrint('➡️ ListSubMenu menuju ke: SeepaysDetailDenom (Prepaid)');
       return Navigator.of(context).push(
         MaterialPageRoute(
           builder: (_) => SeepaysDetailDenom(menu),
         ),
       );
     } else if (menu.kodeProduk.isNotEmpty && menu.type == 2) {
-      print('➡️ ListSubMenu menuju ke: SeepaysDetailDenomPostpaid (Postpaid)');
+      DebugHelper.debugPrint('➡️ ListSubMenu menuju ke: SeepaysDetailDenomPostpaid (Postpaid)');
       Navigator.of(context)
           .push(MaterialPageRoute(builder: (_) => SeepaysDetailDenomPostpaid(menu)));
     } else if (menu.category_id.isEmpty) {
       if (menu.type == 3) {
-        print('➡️ ListSubMenu menuju ke: DynamicPrepaidDenom');
+        DebugHelper.debugPrint('➡️ ListSubMenu menuju ke: DynamicPrepaidDenom');
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (_) => DynamicPrepaidDenom(menu)));
       } else {
-        print('➡️ ListSubMenu menuju ke: ListSubMenu (nested)');
+        DebugHelper.debugPrint('➡️ ListSubMenu menuju ke: ListSubMenu (nested)');
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (_) => ListSubMenu(menu)));
       }
     } else {
-      print('❌ ListSubMenu: Menu tidak memenuhi kondisi routing apapun');
+      DebugHelper.debugPrint('❌ ListSubMenu: Menu tidak memenuhi kondisi routing apapun');
     }
   }
 } 

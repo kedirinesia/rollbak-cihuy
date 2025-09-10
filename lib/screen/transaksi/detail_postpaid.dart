@@ -13,6 +13,7 @@ import 'package:mobile/modules.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/transaksi/print.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class DetailPostpaid extends StatefulWidget {
   final PostpaidPurchaseModel data;
@@ -446,9 +447,9 @@ class _DetailPostpaidState extends State<DetailPostpaid> {
                   : Theme.of(context).primaryColor,
               onPressed: () {
                 getData().then((value) {
-                  print("Value in detail_postpaid: $value");
-                  print("IsPostpaid in detail_postpaid: true");
-                  print("SAMPAI SINI!");
+                  DebugHelper.debugPrint('"Value in detail_postpaid: $value"');
+                  DebugHelper.debugPrint('"IsPostpaid in detail_postpaid: true"');
+                  DebugHelper.debugPrint('"SAMPAI SINI!"');
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (_) =>

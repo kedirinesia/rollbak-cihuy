@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
 import 'dart:async';
+import 'package:mobile/utils/debug_helper.dart';
 
 class TestBluetoothSimpleConnection extends StatefulWidget {
   @override

@@ -16,6 +16,7 @@ import 'package:mobile/screen/select_state/kecamatan.dart';
 import 'package:mobile/screen/select_state/kota.dart';
 import 'package:mobile/screen/select_state/provinsi.dart';
 import 'package:mobile/screen/linkverif.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class RegisterUser extends StatefulWidget {
   @override
@@ -73,12 +74,12 @@ class _RegisterUserState extends State<RegisterUser> {
   }
 
   Future<void> submitRegister() async {
-    print('=== PAYUNIOVO SUBMIT REGISTER START ===');
-    print('Current context: $context');
-    print('Current mounted: $mounted');
+    DebugHelper.debugPrint('=== PAYUNIOVO SUBMIT REGISTER START ===');
+    DebugHelper.debugPrint('Current context: $context');
+    DebugHelper.debugPrint('Current mounted: $mounted');
     
     if (pin.text.startsWith('0')) {
-      print('PIN validation failed: PIN starts with 0');
+      DebugHelper.debugPrint('PIN validation failed: PIN starts with 0');
       return showDialog<String>(
         context: context,
         builder: (BuildContext context) => AlertDialog(
@@ -94,17 +95,17 @@ class _RegisterUserState extends State<RegisterUser> {
       );
     }
 
-    print('PIN validation passed');
+    DebugHelper.debugPrint('PIN validation passed');
     String kodeUpline = bloc.kodeUpline.valueWrapper?.value;
-    print('Kode upline from bloc: $kodeUpline');
+    DebugHelper.debugPrint('Kode upline from bloc: $kodeUpline');
 
-    print('=== PAYUNIOVO LOCATION VALIDATION ===');
-    print('Provinsi: ${provinsi?.toString() ?? "NULL"}');
-    print('Kota: ${kota?.toString() ?? "NULL"}');
-    print('Kecamatan: ${kecamatan?.toString() ?? "NULL"}');
-    print('Provinsi ID: ${provinsi?.id ?? "NULL"}');
-    print('Kota ID: ${kota?.id ?? "NULL"}');
-    print('Kecamatan ID: ${kecamatan?.id ?? "NULL"}');
+    DebugHelper.debugPrint('=== PAYUNIOVO LOCATION VALIDATION ===');
+    DebugHelper.debugPrint('Provinsi: ${provinsi?.toString() ?? "NULL"}');
+    DebugHelper.debugPrint('Kota: ${kota?.toString() ?? "NULL"}');
+    DebugHelper.debugPrint('Kecamatan: ${kecamatan?.toString() ?? "NULL"}');
+    DebugHelper.debugPrint('Provinsi ID: ${provinsi?.id ?? "NULL"}');
+    DebugHelper.debugPrint('Kota ID: ${kota?.id ?? "NULL"}');
+    DebugHelper.debugPrint('Kecamatan ID: ${kecamatan?.id ?? "NULL"}');
     
     Map<String, dynamic> dataToSend = {
       'name': nama.text,
@@ -119,50 +120,50 @@ class _RegisterUserState extends State<RegisterUser> {
       'alamat_toko': alamatToko.text.isEmpty ? alamat.text : alamatToko.text,
     };
     
-    print('=== PAYUNIOVO DATA PREPARATION ===');
-    print('Name: ${nama.text}');
-    print('Phone: ${nomorHp.text}');
-    print('Email: ${email.text}');
-    print('PIN: ${pin.text}');
-    print('Provinsi ID: ${provinsi.id}');
-    print('Kota ID: ${kota.id}');
-    print('Kecamatan ID: ${kecamatan.id}');
-    print('Alamat: ${alamat.text}');
-    print('Nama Toko: ${namaToko.text}');
-    print('Alamat Toko: ${alamatToko.text.isEmpty ? alamat.text : alamatToko.text}');
+    DebugHelper.debugPrint('=== PAYUNIOVO DATA PREPARATION ===');
+    DebugHelper.debugPrint('Name: ${nama.text}');
+    DebugHelper.debugPrint('Phone: ${nomorHp.text}');
+    DebugHelper.debugPrint('Email: ${email.text}');
+    DebugHelper.debugPrint('PIN: ${pin.text}');
+    DebugHelper.debugPrint('Provinsi ID: ${provinsi.id}');
+    DebugHelper.debugPrint('Kota ID: ${kota.id}');
+    DebugHelper.debugPrint('Kecamatan ID: ${kecamatan.id}');
+    DebugHelper.debugPrint('Alamat: ${alamat.text}');
+    DebugHelper.debugPrint('Nama Toko: ${namaToko.text}');
+    DebugHelper.debugPrint('Alamat Toko: ${alamatToko.text.isEmpty ? alamat.text : alamatToko.text}');
     if (referalCode.text.isNotEmpty) {
       dataToSend['kode_upline'] = referalCode.text.toUpperCase();
-      print('Referral code from input: ${referalCode.text.toUpperCase()}');
+      DebugHelper.debugPrint('Referral code from input: ${referalCode.text.toUpperCase()}');
     }
 
     if (kodeUpline != null) {
       dataToSend['kode_upline'] = kodeUpline;
-      print('Kode upline from bloc: $kodeUpline');
+      DebugHelper.debugPrint('Kode upline from bloc: $kodeUpline');
     } else if (kodeUpline == null && brandId != null) {
       dataToSend['kode_upline'] = brandId;
-      print('Brand ID used as kode upline: $brandId');
+      DebugHelper.debugPrint('Brand ID used as kode upline: $brandId');
     }
     
-    print('Final kode_upline value: ${dataToSend['kode_upline']}');
+    DebugHelper.debugPrint('Final kode_upline value: ${dataToSend['kode_upline']}'.toString()   );
 
-    print('=== PAYUNIOVO REGISTRATION DATA ===');
-    print('Data to send: ${json.encode(dataToSend)}');
-    print('Email value: ${email.text}');
-    print('Email validation: ${email.text.isNotEmpty ? "NotEmpty" : "Empty"}');
-    print('Email format check: ${RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email.text) ? "Valid Format" : "Invalid Format"}');
+    DebugHelper.debugPrint('=== PAYUNIOVO REGISTRATION DATA ===');
+    DebugHelper.debugPrint('Data to send: ${json.encode(dataToSend)}');
+    DebugHelper.debugPrint('Email value: ${email.text}');
+    DebugHelper.debugPrint('Email validation: ${email.text.isNotEmpty ? "NotEmpty" : "Empty"}');
+    DebugHelper.debugForm('Payuniovo', 'Email format check: ${RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email.text) ? "Valid Format" : "Invalid Format"}');
 
     try {
-      print('=== PAYUNIOVO REGISTRATION DEBUG ===');
-      print('API URL: $apiUrl/user/register');
-      print('API URL full: ${Uri.parse('$apiUrl/user/register')}');
-      print('sigVendor: $sigVendor');
-      print('brandId: $brandId');
-      print('Headers: ${json.encode({
+      DebugHelper.debugPrint('=== PAYUNIOVO REGISTRATION DEBUG ===');
+      DebugHelper.debugPrint('API URL: $apiUrl/user/register');
+      DebugHelper.debugApi('REGISTER', 'API URL full: ${Uri.parse('$apiUrl/user/register')}');
+      DebugHelper.debugPrint('sigVendor: $sigVendor');
+      DebugHelper.debugPrint('brandId: $brandId');
+      DebugHelper.debugApi('REGISTER', 'Headers: ${json.encode({
         'content-type': 'application/json',
         'merchantCode': sigVendor
       })}');
-      print('Request Body: ${json.encode(dataToSend)}');
-      print('Request Body length: ${json.encode(dataToSend).length}');
+      DebugHelper.debugPrint('Request Body: ${json.encode(dataToSend)}');
+      DebugHelper.debugPrint('Request Body length: ${json.encode(dataToSend).length}');
       
       http.Response response = await http.post(
         Uri.parse('$apiUrl/user/register'),
@@ -173,11 +174,11 @@ class _RegisterUserState extends State<RegisterUser> {
         body: json.encode(dataToSend),
       );
       
-      print('Response Status Code: ${response.statusCode}');
-      print('Response Headers: ${response.headers}');
-      print('Response Body: ${response.body}');
-      print('Response Content-Type: ${response.headers['content-type']}');
-      print('Response Content-Length: ${response.headers['content-length']}');
+      DebugHelper.debugPrint('Response Status Code: ${response.statusCode}');
+      DebugHelper.debugPrint('Response Headers: ${response.headers}');
+      DebugHelper.debugPrint('Response Body: ${response.body}');
+      DebugHelper.debugPrint('Response Content-Type: ${response.headers['content-type']}'.toString());
+      DebugHelper.debugPrint('Response Content-Length: ${response.headers['content-length']}'.toString());
       
       // Validasi response body sebelum parsing JSON
       if (response.body.isEmpty) {
@@ -186,9 +187,9 @@ class _RegisterUserState extends State<RegisterUser> {
       
       // Cek apakah response adalah JSON valid
       if (!response.body.trim().startsWith('{') && !response.body.trim().startsWith('[')) {
-        print('=== PAYUNIOVO REGISTRATION INVALID JSON RESPONSE ===');
-        print('Response tidak valid JSON: ${response.body.substring(0, 200)}');
-        print('====================================================');
+        DebugHelper.debugPrint('=== PAYUNIOVO REGISTRATION INVALID JSON RESPONSE ===');
+        DebugHelper.debugPrint('Response tidak valid JSON: ${response.body.substring(0, 200)}');
+        DebugHelper.debugPrint('====================================================');
         
         String errorMessage = 'Response tidak valid dari server';
         if (response.body.contains('<!DOCTYPE html>') || response.body.contains('<html>')) {
@@ -224,15 +225,15 @@ class _RegisterUserState extends State<RegisterUser> {
       }
       
       if (response.statusCode == 200) {
-        print('=== REGISTRATION SUCCESS ===');
+        DebugHelper.debugPrint('=== REGISTRATION SUCCESS ===');
         var data;
         try {
           data = jsonDecode(response.body);
         } catch (jsonError) {
-          print('=== PAYUNIOVO REGISTRATION JSON PARSE ERROR ===');
-          print('JSON Parse Error: $jsonError');
-          print('Response Body: ${response.body}');
-          print('===============================================');
+          DebugHelper.debugPrint('=== PAYUNIOVO REGISTRATION JSON PARSE ERROR ===');
+          DebugHelper.debugPrint('JSON Parse Error: $jsonError');
+          DebugHelper.debugPrint('Response Body: ${response.body}');
+          DebugHelper.debugPrint('===============================================');
           
           showDialog(
             context: context,
@@ -258,24 +259,24 @@ class _RegisterUserState extends State<RegisterUser> {
           return;
         }
         
-        print('Response data type: ${data.runtimeType}');
-        print('Response data keys: ${data.keys.toList()}');
+        DebugHelper.debugPrint('Response data type: ${data.runtimeType}');
+        DebugHelper.debugPrint('Response data keys: ${data.keys.toList()}');
         String message = data['message'];
-        print('Registration Success - Message: $message');
+        DebugHelper.debugPrint('Registration Success - Message: $message');
         Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (_) => LinkVerifPage()),
           (route) => false,
         );
       } else {
-        print('=== REGISTRATION FAILED ===');
-        print('Trying to parse error response...');
+        DebugHelper.debugPrint('=== REGISTRATION FAILED ===');
+        DebugHelper.debugPrint('Trying to parse error response...');
         var errorData;
         try {
           errorData = json.decode(response.body);
-          print('Error response parsed successfully');
+          DebugHelper.debugPrint('Error response parsed successfully');
         } catch (parseError) {
-          print('Failed to parse error response: $parseError');
-          print('Raw error response body: ${response.body}');
+          DebugHelper.debugPrint('Failed to parse error response: $parseError');
+          DebugHelper.debugPrint('Raw error response body: ${response.body}');
           
           // Coba deteksi tipe error dari response body
           String errorMessage = 'Gagal memproses error response dari server';
@@ -291,8 +292,8 @@ class _RegisterUserState extends State<RegisterUser> {
         }
         
         String message = errorData['message'] ?? 'Unknown error';
-        print('Registration Failed - Error Data: ${json.encode(errorData)}');
-        print('Error Message: $message');
+        DebugHelper.debugPrint('Registration Failed - Error Data: ${json.encode(errorData)}');
+        DebugHelper.debugPrint('Error Message: $message');
         
         showDialog(
           context: context,
@@ -317,10 +318,10 @@ class _RegisterUserState extends State<RegisterUser> {
         );
       }
     } catch (e) {
-      print('=== PAYUNIOVO REGISTRATION EXCEPTION ===');
-      print('Exception type: ${e.runtimeType}');
-      print('Exception message: $e');
-      print('Exception stack trace: ${StackTrace.current}');
+      DebugHelper.debugPrint('=== PAYUNIOVO REGISTRATION EXCEPTION ===');
+      DebugHelper.debugPrint('Exception type: ${e.runtimeType}');
+      DebugHelper.debugPrint('Exception message: $e');
+      DebugHelper.debugPrint('Exception stack trace: ${StackTrace.current}');
       
       showDialog(
         context: context,
@@ -344,12 +345,12 @@ class _RegisterUserState extends State<RegisterUser> {
         },
       );
     } finally {
-      print('=== PAYUNIOVO REGISTRATION FINALLY ===');
-      print('Setting loading to false');
+      DebugHelper.debugPrint('=== PAYUNIOVO REGISTRATION FINALLY ===');
+      DebugHelper.debugPrint('Setting loading to false');
       setState(() {
         loading = false;
       });
-      print('Loading state updated');
+      DebugHelper.debugPrint('Loading state updated');
     }
   }
 
@@ -380,14 +381,14 @@ class _RegisterUserState extends State<RegisterUser> {
               fieldAlamat = alamat.text;
             });
             setState(() {
-              print('=== PAYUNIOVO FORM VALIDATION ===');
-              print('Current step: $currentStep');
-              print('Form validation result: ${_formKey[currentStep].currentState.validate()}');
-              print('Email field value: ${email.text}');
-              print('Email field error: ${_formKey[currentStep].currentState.validate() ? "No Error" : "Has Error"}');
+              DebugHelper.debugPrint('=== PAYUNIOVO FORM VALIDATION ===');
+              DebugHelper.debugPrint('Current step: $currentStep');
+              DebugHelper.debugPrint('Form validation result: ${_formKey[currentStep].currentState.validate()}');
+              DebugHelper.debugPrint('Email field value: ${email.text}');
+              DebugHelper.debugPrint('Email field error: ${_formKey[currentStep].currentState.validate() ? "No Error" : "Has Error"}');
               
               if (!_formKey[currentStep].currentState.validate()) {
-                print('Form validation failed at step $currentStep');
+                DebugHelper.debugPrint('Form validation failed at step $currentStep');
                 return;
               }
               
@@ -398,8 +399,8 @@ class _RegisterUserState extends State<RegisterUser> {
               final isLastStep = currentStep == getSteps().length - 1;
 
               if (isLastStep) {
-                print("=== REGISTRATION STEP REACHED ===");
-                print("Calling submitRegister() function");
+                DebugHelper.debugPrint('"=== REGISTRATION STEP REACHED ==="');
+                DebugHelper.debugPrint('"Calling submitRegister() function"');
                 submitRegister();
               } else {
                 setState(() => currentStep += 1);
@@ -715,20 +716,20 @@ class _RegisterUserState extends State<RegisterUser> {
                     hintText: 'Email',
                   ),
                   validator: (val) {
-                    print('=== PAYUNIOVO EMAIL VALIDATION ===');
-                    print('Email value to validate: "$val"');
-                    print('Email is null: ${val == null}');
-                    print('Email is empty: ${val.isEmpty}');
-                    print('Email regex test: ${RegExp(r'\S+@\S+\.\S+').hasMatch(val)}');
+                    DebugHelper.debugPrint('=== PAYUNIOVO EMAIL VALIDATION ===');
+                    DebugHelper.debugPrint('Email value to validate: "$val"');
+                    DebugHelper.debugPrint('Email is null: ${val == null}');
+                    DebugHelper.debugPrint('Email is empty: ${val.isEmpty}');
+                    DebugHelper.debugForm('Payuniovo', 'Email regex test: ${RegExp(r'\S+@\S+\.\S+').hasMatch(val)}');
                     
                     if (val == null || val.isEmpty) {
-                      print('Email validation failed: Empty or null');
+                      DebugHelper.debugPrint('Email validation failed: Empty or null');
                       return 'Email tidak boleh kosong';
                     } else if (!RegExp(r'\S+@\S+\.\S+').hasMatch(val)) {
-                      print('Email validation failed: Invalid format');
+                      DebugHelper.debugPrint('Email validation failed: Invalid format');
                       return 'Masukkan alamat email yang valid';
                     }
-                    print('Email validation passed');
+                    DebugHelper.debugPrint('Email validation passed');
                     return null;
                   },
                 ),

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class TestBluetoothSimplePage extends StatefulWidget {
   @override
@@ -66,16 +67,16 @@ class _TestBluetoothSimplePageState extends State<TestBluetoothSimplePage> {
         status = 'Found ${validDevices.length} devices';
       });
 
-      print('Found ${validDevices.length} valid devices:');
+      DebugHelper.debugPrint('Found ${validDevices.length} valid devices:');
       for (var device in validDevices) {
-        print('- ${device.name} (${device.address})');
+        DebugHelper.debugPrint('- ${device.name} (${device.address})');
       }
 
     } catch (e) {
       setState(() {
         status = 'Error getting devices: $e';
       });
-      print('Error getting bonded devices: $e');
+      DebugHelper.debugPrint('Error getting bonded devices: $e');
     }
   }
 
@@ -111,7 +112,7 @@ class _TestBluetoothSimplePageState extends State<TestBluetoothSimplePage> {
           isConnected = true;
           status = 'Connected to ${device.name}';
         });
-        print('Successfully connected to ${device.name}');
+        DebugHelper.debugPrint('Successfully connected to ${device.name}');
       } else {
         throw Exception('Connection verification failed');
       }
@@ -121,7 +122,7 @@ class _TestBluetoothSimplePageState extends State<TestBluetoothSimplePage> {
         status = 'Connection failed: $e';
         isConnected = false;
       });
-      print('Connection error: $e');
+      DebugHelper.debugPrint('Connection error: $e');
     } finally {
       setState(() {
         isConnecting = false;
@@ -142,13 +143,13 @@ class _TestBluetoothSimplePageState extends State<TestBluetoothSimplePage> {
         isConnected = false;
         status = 'Disconnected';
       });
-      print('Disconnected successfully');
+      DebugHelper.debugPrint('Disconnected successfully');
 
     } catch (e) {
       setState(() {
         status = 'Disconnect error: $e';
       });
-      print('Disconnect error: $e');
+      DebugHelper.debugPrint('Disconnect error: $e');
     }
   }
 

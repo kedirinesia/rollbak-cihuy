@@ -7,6 +7,7 @@ import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/modules.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class Api {
   final String host = apiUrl;
@@ -25,7 +26,7 @@ class Api {
       bool auth = true,
       Duration expired = const Duration(hours: 1)}) async {
     String url = '$host$path';
-    print('DEBUG: Making GET request to: $url');
+    DebugHelper.debugPrint('Making GET request to: $url');
 
     // Check network connectivity first
     bool isConnected = await _checkConnectivity();
@@ -54,9 +55,9 @@ class Api {
         },
       );
 
-      print('DEBUG: Response status code: ${response.statusCode}');
-      print('DEBUG: Response headers: ${response.headers}');
-      print('DEBUG: Response body preview: ${response.body.substring(0, response.body.length > 200 ? 200 : response.body.length)}');
+      DebugHelper.debugPrint('Response status code: ${response.statusCode}');
+      DebugHelper.debugPrint('Response headers: ${response.headers}');
+      DebugHelper.debugPrint('Response body preview: ${response.body.substring(0, response.body.length > 200 ? 200 : response.body.length)}');
 
       if (response.statusCode == 200) {
         // Check if response is JSON
@@ -72,14 +73,14 @@ class Api {
             );
             return data;
           } catch (e) {
-            print('DEBUG: JSON parsing error: $e');
-            print('DEBUG: Response body: ${response.body}');
+            DebugHelper.debugPrint('JSON parsing error: $e');
+            DebugHelper.debugPrint('Response body: ${response.body}');
             throw FormatException('Invalid JSON response from server: ${response.body.substring(0, response.body.length > 500 ? 500 : response.body.length)}');
           }
         } else {
-          print('DEBUG: Server returned non-JSON response');
-          print('DEBUG: Content-Type: ${response.headers['content-type']}');
-          print('DEBUG: Response body: ${response.body}');
+          DebugHelper.debugPrint('Server returned non-JSON response');
+          DebugHelper.debugPrint('DEBUG: Content-Type: ${response.headers['content-type']}');
+          DebugHelper.debugPrint('Response body: ${response.body}');
           throw FormatException('Server returned HTML instead of JSON. This usually indicates a server error or maintenance.');
         }
       } else {
@@ -88,7 +89,7 @@ class Api {
           dynamic errorData = json.decode(response.body);
           throw errorData;
         } catch (e) {
-          print('DEBUG: Error response is not JSON: ${response.body}');
+          DebugHelper.debugPrint('Error response is not JSON: ${response.body}');
           throw FormatException('Server error (${response.statusCode}): ${response.body.substring(0, response.body.length > 500 ? 500 : response.body.length)}');
         }
       }
@@ -96,7 +97,7 @@ class Api {
       if (e is FormatException) {
         rethrow;
       }
-      print('DEBUG: Network error: $e');
+      DebugHelper.debugPrint('Network error: $e');
       throw FormatException('Network error: $e');
     }
   }
@@ -107,7 +108,7 @@ class Api {
     Map<String, dynamic> data = const {},
   }) async {
     String url = '$host$path';
-    print('DEBUG: Making POST request to: $url');
+    DebugHelper.debugPrint('Making POST request to: $url');
 
     // Check network connectivity first
     bool isConnected = await _checkConnectivity();
@@ -131,9 +132,9 @@ class Api {
         },
       );
 
-      print('DEBUG: Response status code: ${response.statusCode}');
-      print('DEBUG: Response headers: ${response.headers}');
-      print('DEBUG: Response body preview: ${response.body.substring(0, response.body.length > 200 ? 200 : response.body.length)}');
+      DebugHelper.debugPrint('Response status code: ${response.statusCode}');
+      DebugHelper.debugPrint('Response headers: ${response.headers}');
+      DebugHelper.debugPrint('Response body preview: ${response.body.substring(0, response.body.length > 200 ? 200 : response.body.length)}');
 
       if (response.statusCode == 200) {
         // Check if response is JSON
@@ -144,14 +145,14 @@ class Api {
             dynamic data = json.decode(response.body);
             return data;
           } catch (e) {
-            print('DEBUG: JSON parsing error: $e');
-            print('DEBUG: Response body: ${response.body}');
+            DebugHelper.debugPrint('JSON parsing error: $e');
+            DebugHelper.debugPrint('Response body: ${response.body}');
             throw FormatException('Invalid JSON response from server: ${response.body.substring(0, response.body.length > 500 ? 500 : response.body.length)}');
           }
         } else {
-          print('DEBUG: Server returned non-JSON response');
-          print('DEBUG: Content-Type: ${response.headers['content-type']}');
-          print('DEBUG: Response body: ${response.body}');
+          DebugHelper.debugPrint('Server returned non-JSON response');
+          DebugHelper.debugPrint('DEBUG: Content-Type: ${response.headers['content-type']}');
+          DebugHelper.debugPrint('Response body: ${response.body}');
           throw FormatException('Server returned HTML instead of JSON. This usually indicates a server error or maintenance.');
         }
       } else {
@@ -160,7 +161,7 @@ class Api {
           dynamic errorData = json.decode(response.body);
           throw errorData;
         } catch (e) {
-          print('DEBUG: Error response is not JSON: ${response.body}');
+          DebugHelper.debugPrint('Error response is not JSON: ${response.body}');
           throw FormatException('Server error (${response.statusCode}): ${response.body.substring(0, response.body.length > 500 ? 500 : response.body.length)}');
         }
       }
@@ -171,7 +172,7 @@ class Api {
       if (e is Map<String, dynamic>) {
         rethrow; // Re-throw JSON error responses
       }
-      print('DEBUG: Network error: $e');
+      DebugHelper.debugPrint('Network error: $e');
       throw FormatException('Network error: $e');
     }
   }

@@ -5,11 +5,12 @@ import 'package:esc_pos_utils/esc_pos_utils.dart';
 import 'package:mobile/bloc/Bloc.dart' show bloc;
 import 'package:mobile/models/trx.dart';
 import 'package:mobile/screen/custom_alert_dialog.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class NetworkPrinter {
   final String ipAddress;
   final int port;
-
+  
   NetworkPrinter({
     required this.ipAddress,
     this.port = 9100, // Default port for most thermal printers

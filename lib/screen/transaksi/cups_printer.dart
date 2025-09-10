@@ -8,6 +8,7 @@ import 'package:mobile/bloc/Bloc.dart' show bloc;
 import 'package:mobile/config.dart';
 import 'package:mobile/models/trx.dart';
 import 'package:mobile/screen/custom_alert_dialog.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class CupsPrinter {
   final String ipAddress;
@@ -37,10 +38,10 @@ class CupsPrinter {
         },
       );
       
-      print('CUPS Connection Test: ${response.statusCode}');
+      DebugHelper.debugPrint('CUPS Connection Test: ${response.statusCode}');
       return response.statusCode == 200;
     } catch (e) {
-      print('CUPS Connection Error: $e');
+      DebugHelper.debugPrint('CUPS Connection Error: $e');
       return false;
     }
   }
@@ -63,10 +64,10 @@ class CupsPrinter {
         body: ippRequest,
       );
 
-      print('IPP Print Response: ${response.statusCode}');
+      DebugHelper.debugPrint('IPP Print Response: ${response.statusCode}');
       return response.statusCode == 200;
     } catch (e) {
-      print('IPP Print Error: $e');
+      DebugHelper.debugPrint('IPP Print Error: $e');
       return false;
     }
   }
@@ -81,10 +82,10 @@ class CupsPrinter {
       await socket.flush();
       await socket.close();
       
-      print('Raw TCP Print: Success');
+      DebugHelper.debugPrint('Raw TCP Print: Success');
       return true;
     } catch (e) {
-      print('Raw TCP Print Error: $e');
+      DebugHelper.debugPrint('Raw TCP Print Error: $e');
       return false;
     }
   }

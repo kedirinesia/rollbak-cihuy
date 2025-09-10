@@ -13,6 +13,7 @@ import 'package:mobile/modules.dart';
 import 'package:mobile/screen/profile/print_settings.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
 import 'package:mobile/Products/eazyin/layout/withdraw.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class Home4App extends StatefulWidget {
   @override
@@ -390,7 +391,7 @@ class PanelSemuaMenu extends StatelessWidget {
             child: InkWell(
               onTap: () async {
                 String barcode = (await BarcodeScanner.scan()).toString();
-                print(barcode);
+                DebugHelper.debugPrint('barcode.toString()');
                 if (barcode.isNotEmpty) {
                   return Navigator.of(context).push(
                       MaterialPageRoute(builder: (_) => TransferByQR(barcode)));

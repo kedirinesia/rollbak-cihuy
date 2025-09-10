@@ -14,6 +14,7 @@ import 'package:mobile/screen/history/order.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import '../../../bloc/Bloc.dart' show bloc;
 import '../../../bloc/Api.dart' show apiUrl;
+import 'package:mobile/utils/debug_helper.dart';
 
 abstract class OrderController extends State<HistoryOrderPage> {
   bool loadingNewPage = false;
@@ -85,15 +86,15 @@ abstract class OrderController extends State<HistoryOrderPage> {
     String parameters = listOfParams.join('&');
     String url = '$apiUrl/market/order/list?$parameters';
 
-    print(url);
-    print(bloc.token.valueWrapper?.value);
+    DebugHelper.debugPrint('url.toString()');
+    DebugHelper.debugPrint('bloc.token.valueWrapper?.value.toString()');
 
     // if (isEdge) return;
     http.Response response = await http.get(Uri.parse(url),
         headers: {'Authorization': bloc.token.valueWrapper?.value});
 
     if (response.statusCode == 200) {
-      print(response.body);
+      DebugHelper.debugPrint('response.body.toString()');
       List<dynamic> datas = json.decode(response.body)['data'];
       if (datas.length == 0) isEdge = true;
       listTransaksi.addAll(datas.map((e) => MPTransaksi.fromJson(e)).toList());

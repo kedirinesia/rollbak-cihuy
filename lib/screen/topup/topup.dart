@@ -8,6 +8,7 @@ import 'package:mobile/component/template-main.dart';
 import 'package:mobile/models/payment-list.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/topup/topup-controller.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class TopupPage extends StatefulWidget {
   @override
@@ -18,23 +19,23 @@ class _TopupPageState extends TopupController with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    print('🔍 [TOPUP PAGE] initState called');
-    print('🔍 [TOPUP PAGE] User ID: ${bloc.userId.valueWrapper?.value}');
+    DebugHelper.debugPrint('🔍 [TOPUP PAGE] initState called');
+    DebugHelper.debugPrint('🔍 [TOPUP PAGE] User ID: ${bloc.userId.valueWrapper?.value}');
     
     var analyticsData = {
       'userId': bloc.userId.valueWrapper?.value,
       'title': 'Topup',
     };
-    print('🔍 [TOPUP PAGE] Analytics payload: ${analyticsData.toString()}');
+    DebugHelper.debugPrint('🔍 [TOPUP PAGE] Analytics payload: ${analyticsData.toString()}');
     analitycs.pageView('/topup/', analyticsData);
-    print('🔍 [TOPUP PAGE] Analytics page view sent');
+    DebugHelper.debugPrint('🔍 [TOPUP PAGE] Analytics page view sent');
   }
 
   @override
   Widget build(BuildContext context) {
-    print('🔍 [TOPUP PAGE] build() called');
-    print('🔍 [TOPUP PAGE] Loading state: $loading');
-    print('🔍 [TOPUP PAGE] Number of payment methods: ${listPayment.length}');
+    DebugHelper.debugPrint('🔍 [TOPUP PAGE] build() called');
+    DebugHelper.debugPrint('🔍 [TOPUP PAGE] Loading state: $loading');
+    DebugHelper.debugPrint('🔍 [TOPUP PAGE] Number of payment methods: ${listPayment.length}');
     
     final spinkit = SpinKitThreeBounce(
       color: Theme.of(context).primaryColor,
@@ -55,13 +56,13 @@ class _TopupPageState extends TopupController with TickerProviderStateMixin {
                     physics: ScrollPhysics(),
                     itemBuilder: (_, int index) {
                       PaymentModel mm = listPayment[index];
-                      print('🔍 [TOPUP PAGE] Building payment method item at index: $index');
-                      print('🔍 [TOPUP PAGE] Payment method: ${mm.title} (Type: ${mm.type})');
+                      DebugHelper.debugPrint('🔍 [TOPUP PAGE] Building payment method item at index: $index');
+                      DebugHelper.debugPrint('🔍 [TOPUP PAGE] Payment method: ${mm.title} (Type: ${mm.type})');
 
                       return InkWell(
                         onTap: () {
-                          print('🔍 [TOPUP PAGE] Payment method tapped at index: $index');
-                          print('🔍 [TOPUP PAGE] Selected: ${mm.title} (Type: ${mm.type})');
+                          DebugHelper.debugPrint('🔍 [TOPUP PAGE] Payment method tapped at index: $index');
+                          DebugHelper.debugPrint('🔍 [TOPUP PAGE] Selected: ${mm.title} (Type: ${mm.type})');
                           onTapMenu(mm);
                         },
                         child: Container(
@@ -89,11 +90,11 @@ class _TopupPageState extends TopupController with TickerProviderStateMixin {
                                         imageUrl: mm.icon,
                                         width: 40.0,
                                         placeholder: (context, url) {
-                                          print('🔍 [TOPUP PAGE] Loading image placeholder for: $url');
+                                          DebugHelper.debugPrint('🔍 [TOPUP PAGE] Loading image placeholder for: $url');
                                           return CircularProgressIndicator();
                                         },
                                         errorWidget: (context, url, error) {
-                                          print('🔍 [TOPUP PAGE] Image error for: $url - $error');
+                                          DebugHelper.debugPrint('🔍 [TOPUP PAGE] Image error for: $url - $error');
                                           return Icon(Icons.error);
                                         },
                                       ))

@@ -26,6 +26,7 @@ import 'package:nav/nav.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile/utils/debug_helper.dart';
 
 class ProfilePayku extends StatefulWidget {
   @override
@@ -56,7 +57,7 @@ class _ProfilePaykuState extends State<ProfilePayku> {
       http.get(Uri.parse('$apiUrl/user/logout'),
           headers: {'Authorization': bloc.token.valueWrapper?.value});
     } catch (e) {
-      print(e);
+      DebugHelper.debugPrint('e.toString()');
     }
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.clear();
@@ -72,7 +73,7 @@ class _ProfilePaykuState extends State<ProfilePayku> {
       if (response.statusCode == 200) {
         List<dynamic> responseData = json.decode(response.body)['data'];
         responseData.forEach((e) {
-          print(e['link']);
+          DebugHelper.debugPrint(''e['link'].toString()'');
           if (e['link'] is String &&
               (e['link'] as String).contains('api.whatsapp.com')) {
             link = e['link'];
@@ -89,7 +90,7 @@ class _ProfilePaykuState extends State<ProfilePayku> {
     String link = await getPhoneNumberCs();
 
     if (link == null) return;
-    print(link);
+    DebugHelper.debugPrint('link.toString()');
 
     String message =
         'Kepada Yth. Customer Service ${configAppBloc.namaApp.valueWrapper?.value},\r\n\nSaya yang bertanda tangan di bawah ini:\r\n\nNama: *${bloc.user.valueWrapper?.value.nama}*\r\nNomor: *${bloc.user.valueWrapper?.value.phone}*\r\n\nDengan ini mengajukan permohonan penutupan akun pada aplikasi ${configAppBloc.namaApp.valueWrapper?.value} yang telah saya daftarkan dengan nomor tersebut di atas. Saya memohon agar pihak customer service dapat membantu saya dalam proses penutupan akun dengan segera.\r\n\nSaya juga memastikan bahwa semua data dan informasi yang terkait dengan akun saya telah saya hapus atau dihapus oleh pihak ${configAppBloc.namaApp.valueWrapper?.value}.\r\n\nTerima kasih atas perhatian dan kerjasamanya.\r\n\nHormat saya,\r\n\n[${bloc.user.valueWrapper?.value.nama}]';
@@ -870,7 +871,7 @@ class _ProfilePaykuState extends State<ProfilePayku> {
                                   } else {
                                     final InAppReview inAppReview =
                                         InAppReview.instance;
-                                    print(await inAppReview.isAvailable());
+                                    DebugHelper.debugPrint('await inAppReview.isAvailable()');
 
                                     if (await inAppReview.isAvailable()) {
                                       inAppReview.requestReview();

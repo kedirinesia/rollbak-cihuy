@@ -17,6 +17,7 @@ import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/transaksi/detail_transaksi.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import 'package:grouped_list/grouped_list.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class HistoryTrx extends StatefulWidget {
   const HistoryTrx({key}) : super(key: key);
@@ -101,8 +102,8 @@ class _HistoryTrxState extends State<HistoryTrx> {
     });
     String parameters = listOfParams.join('&');
     String url = '$apiUrl/trx/list?$parameters';
-    print(url);
-    print(bloc.token.valueWrapper?.value);
+    DebugHelper.debugPrint('url.toString()');
+    DebugHelper.debugPrint('bloc.token.valueWrapper?.value.toString()');
 
     http.Response response = await http.get(Uri.parse(url), headers: {
       'Authorization': bloc.token.valueWrapper?.value,
@@ -120,14 +121,14 @@ class _HistoryTrxState extends State<HistoryTrx> {
           DateTime dateTimeB = DateTime.parse(b.created_at);
           return dateTimeB.compareTo(dateTimeA);
         } catch (e) {
-          print('Error when parsing date: $e');
+          DebugHelper.debugPrint('Error when parsing date: $e');
           return 0;
         }
       });
 
       listTrx.addAll(newTrx);
 
-      print(newTrx.map((trx) => trx.created_at).toList());
+      DebugHelper.debugPrint('newTrx.map((trx) => trx.created_at).toList()');
 
       currentPage++;
     } else {
@@ -138,7 +139,7 @@ class _HistoryTrxState extends State<HistoryTrx> {
         isError: true,
       ));
     }
-    print(response.body);
+    DebugHelper.debugPrint('response.body.toString()');
 
     setState(() {
       loading = false;

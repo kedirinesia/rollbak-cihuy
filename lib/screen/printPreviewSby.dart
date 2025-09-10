@@ -27,13 +27,14 @@ import 'package:mobile/screen/transaksi/network_printer_complete.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class PrintPreviewSby extends StatefulWidget {
   final TrxModel trx;
   final bool isPostpaid;
 
   PrintPreviewSby({Key key, this.trx, this.isPostpaid = false}) : super(key: key) {
-    print("isPostpaid in constructor: $isPostpaid");
+    DebugHelper.debugPrint('"isPostpaid in constructor: $isPostpaid"');
   }
 
   @override
@@ -102,7 +103,7 @@ class _PrintPreviewSbyState extends PrintPreviewSbyController {
 
   Future<void> simpanEditHarga() async {
     String productId = widget.trx.produk['_id'];
-    print(productId);
+    DebugHelper.debugPrint('productId.toString()');
     String hargaJual = widget.isPostpaid ? '0' : txtHarga.text;
     try {
       http.Response response =
@@ -115,7 +116,7 @@ class _PrintPreviewSbyState extends PrintPreviewSbyController {
                 'harga': hargaJual,
                 'admin': txtAdmin.text,
               }));
-      print(response.body);
+      DebugHelper.debugPrint('response.body.toString()');
       String message = json.decode(response.body)['message'];
       if (response.statusCode == 200) {
         showCustomDialog(
@@ -138,7 +139,7 @@ class _PrintPreviewSbyState extends PrintPreviewSbyController {
         );
       }
     } catch (e) {
-      print('Error: $e');
+      DebugHelper.debugPrint('Error: $e');
     }
   }
 
@@ -248,29 +249,29 @@ class _PrintPreviewSbyState extends PrintPreviewSbyController {
     try {
       // Validate data before generating
       if (trxData == null) {
-        print('❌ Error: Transaction data is null');
+        DebugHelper.debugPrint('❌ Error: Transaction data is null');
         throw Exception('Data transaksi tidak tersedia');
       }
       
       if (bloc.user.valueWrapper?.value == null) {
-        print('❌ Error: User data is null');
+        DebugHelper.debugPrint('❌ Error: User data is null');
         throw Exception('Data user tidak tersedia');
       }
       
-      print('✅ Generating receipt data for transaction: ${trxData.id}');
+      DebugHelper.debugPrint('✅ Generating receipt data for transaction: ${trxData.id}');
       final profile = await CapabilityProfile.load();
       final receiptData = v1(PaperSize.mm58, profile);
       
       if (receiptData.isEmpty) {
-        print('❌ Error: Generated receipt data is empty');
+        DebugHelper.debugPrint('❌ Error: Generated receipt data is empty');
         throw Exception('Data struk kosong');
       }
       
-      print('✅ Receipt data generated successfully, size: ${receiptData.length} bytes');
+      DebugHelper.debugPrint('✅ Receipt data generated successfully, size: ${receiptData.length} bytes');
       return receiptData;
     } catch (e) {
-      print('❌ Error generating receipt data: $e');
-      print('❌ Stack trace: ${StackTrace.current}');
+      DebugHelper.debugPrint('❌ Error generating receipt data: $e');
+      DebugHelper.debugPrint('❌ Stack trace: ${StackTrace.current}');
       throw Exception('Error generating receipt data: $e');
     }
   }
@@ -296,11 +297,11 @@ class _PrintPreviewSbyState extends PrintPreviewSbyController {
       
       // Validate user data
       if (bloc.user.valueWrapper?.value == null) {
-        print('❌ Error: User data is null in v1()');
+        DebugHelper.debugPrint('❌ Error: User data is null in v1()');
         throw Exception('Data user tidak valid');
       }
       
-      print('✅ User data validation passed for: ${bloc.user.valueWrapper.value?.nama}');
+      DebugHelper.debugPrint('✅ User data validation passed for: ${bloc.user.valueWrapper.value?.nama}');
       
       // Print store name first
       String storeName = bloc.user.valueWrapper.value?.namaToko?.isEmpty == true
@@ -351,22 +352,22 @@ class _PrintPreviewSbyState extends PrintPreviewSbyController {
       
       // Validate transaction data
       if (trxData == null) {
-        print('❌ Error: Transaction data is null in v1()');
+        DebugHelper.debugPrint('❌ Error: Transaction data is null in v1()');
         throw Exception('Data transaksi tidak valid');
       }
       
       // Additional validation
       if (trxData.id == null || trxData.id.isEmpty) {
-        print('❌ Error: Transaction ID is null or empty');
+        DebugHelper.debugPrint('❌ Error: Transaction ID is null or empty');
         throw Exception('ID transaksi tidak valid');
       }
       
       if (trxData.produk == null) {
-        print('❌ Error: Product data is null');
+        DebugHelper.debugPrint('❌ Error: Product data is null');
         throw Exception('Data produk tidak valid');
       }
       
-      print('✅ Transaction data validation passed for ID: ${trxData.id}');
+      DebugHelper.debugPrint('✅ Transaction data validation passed for ID: ${trxData.id}');
       
       bytes += ticket.text(
         formatDate(trxData.created_at, 'dd MMMM yyyy HH:mm:ss'),
@@ -399,11 +400,11 @@ class _PrintPreviewSbyState extends PrintPreviewSbyController {
       ]);
       
       if (trxData.print != null && trxData.print.isNotEmpty) {
-        print('✅ Processing ${trxData.print.length} print data items');
+        DebugHelper.debugPrint('✅ Processing ${trxData.print.length} print data items');
         trxData.print.forEach((el) {
           if (!['token', 'jumlah', 'nominal', 'tagihan', 'admin']
               .contains(el['label'].toString().toLowerCase())) {
-            print('📝 Adding print line: ${el['label']} = ${el['value']}');
+            DebugHelper.debugPrint('📝 Adding print line: ${el['label']} = ${el['value']}');
             bytes += printLine(ticket, [
               {
                 'label': el['label'] ?? 'Label',
@@ -413,7 +414,7 @@ class _PrintPreviewSbyState extends PrintPreviewSbyController {
           }
         });
       } else {
-        print('⚠️ Warning: No print data available or print data is empty');
+        DebugHelper.debugPrint('⚠️ Warning: No print data available or print data is empty');
         // Add basic transaction info if print data is empty
         bytes += printLine(ticket, [
           {
@@ -526,7 +527,7 @@ class _PrintPreviewSbyState extends PrintPreviewSbyController {
 
       return Uint8List.fromList(bytes);
     } catch (e) {
-      print('Error in v1 function: $e');
+      DebugHelper.debugPrint('Error in v1 function: $e');
       throw Exception('Error membuat data struk: $e');
     }
   }
@@ -536,7 +537,7 @@ class _PrintPreviewSbyState extends PrintPreviewSbyController {
     
     // Validate user data first
     if (bloc.user.valueWrapper?.value == null) {
-      print('❌ Error: User data is null in v2()');
+      DebugHelper.debugPrint('❌ Error: User data is null in v2()');
       throw Exception('Data user tidak valid');
     }
     
@@ -591,7 +592,7 @@ class _PrintPreviewSbyState extends PrintPreviewSbyController {
     } else {
       await _bluetooth.printCustom('------------------', 0, 1);
       trxData.print.forEach((el) async {
-        print('tes');
+        DebugHelper.debugPrint('tes');
         if (el['label'].toString().toLowerCase() == 'token') {
           await _bluetooth.printCustom(el['value'], 1, 1);
         }
@@ -698,7 +699,7 @@ class _PrintPreviewSbyState extends PrintPreviewSbyController {
   //     }
   //     return false;
   //   } on PlatformException catch (e) {
-  //     print("Failed to open Bluetooth settings: '${e.message}'.");
+  //     DebugHelper.debugPrint(''"Failed to open Bluetooth settings: '${e.message}'."'');
   //     return false;
   //   }
   // }
@@ -768,8 +769,8 @@ class _PrintPreviewSbyState extends PrintPreviewSbyController {
       }
       showToast(context, 'Berhasil mencetak struk');
     } catch (e) {
-      print('❌ Print Error: $e');
-      print('❌ Print Error Stack Trace: ${StackTrace.current}');
+      DebugHelper.debugPrint('❌ Print Error: $e');
+      DebugHelper.debugPrint('❌ Print Error Stack Trace: ${StackTrace.current}');
       
       // More specific error handling
       if (e.toString().contains('Bluetooth')) {
@@ -789,14 +790,14 @@ class _PrintPreviewSbyState extends PrintPreviewSbyController {
       try {
         await _bluetooth.disconnect();
       } catch (e) {
-        print('Error disconnecting: $e');
+        DebugHelper.debugPrint('Error disconnecting: $e');
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    print("isPostpaid: ${widget.isPostpaid}");
+    DebugHelper.debugPrint('"isPostpaid: ${widget.isPostpaid}"');
     return Scaffold(
       appBar: AppBar(
         title: Text('Cetak'),
@@ -1393,10 +1394,10 @@ abstract class PrintPreviewSbyController extends State<PrintPreviewSby>
       customFooterText = "PDAM SURABAYA MENYATAKAN STRUK INI SEBAGAI BUKTI PEMBAYARAN YANG SAH, MOHON DISIMPAN. INFO TAGIHAN DIAKSES DI www.pdam-sby.go.id CALL CENTER (031)-292-6666.";
 
 
-      print("=== CUSTOM HEADER TEXT ===");
-      print("Custom Header Text: $customHeaderText");
-      print("=== CUSTOM FOOTER TEXT ===");
-      print("Custom Footer Text: $customFooterText");
+      DebugHelper.debugPrint('"=== CUSTOM HEADER TEXT ==="');
+      DebugHelper.debugPrint('"Custom Header Text: $customHeaderText"');
+      DebugHelper.debugPrint('"=== CUSTOM FOOTER TEXT ==="');
+      DebugHelper.debugPrint('"Custom Footer Text: $customFooterText"');
       
       String kodeProduk = trxData.produk['kode_produk'];
       admin = trxData.admin;
@@ -1427,18 +1428,18 @@ abstract class PrintPreviewSbyController extends State<PrintPreviewSby>
       }
 
       setState(() {});
-      print("Panggil ambilDataTerbaru");
+      DebugHelper.debugPrint('"Panggil ambilDataTerbaru"');
       await ambilDataTerbaru();
     } else {
-      print('Error: ${response.body}');
+      DebugHelper.debugPrint('Error: ${response.body}');
     }
   }
 
   Future<void> ambilDataTerbaru() async {
-    print("Fungsi ambilDataTerbaru dipanggil");
+    DebugHelper.debugPrint('"Fungsi ambilDataTerbaru dipanggil"');
     try {
       String productId = widget.trx.produk['_id'];
-      print("Product ID: $productId");
+      DebugHelper.debugPrint('"Product ID: $productId"');
       
       http.Response response = await http.get(
         Uri.parse('$apiUrl/product/member/$productId'),
@@ -1447,8 +1448,8 @@ abstract class PrintPreviewSbyController extends State<PrintPreviewSby>
         },
       );
 
-      print("Response Status: ${response.statusCode}");
-      print("Full JSON Response: ${response.body}");
+      DebugHelper.debugPrint('"Response Status: ${response.statusCode}"');
+      DebugHelper.debugPrint('"Full JSON Response: ${response.body}"');
 
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
@@ -1473,17 +1474,17 @@ abstract class PrintPreviewSbyController extends State<PrintPreviewSby>
             total = harga + admin + cetak;
           });
 
-          print('✅ Data berhasil diupdate - Harga: $hargaBaru, Admin: $adminBaru');
+          DebugHelper.debugPrint('✅ Data berhasil diupdate - Harga: $hargaBaru, Admin: $adminBaru');
         } else {
-          print('⚠️ Response data structure tidak valid: ${responseData['data']}');
+          DebugHelper.debugPrint('⚠️ Response data structure tidak valid: ${responseData['data']}');
         }
       } else {
-        print('❌ API Error ${response.statusCode}: ${response.body}');
+        DebugHelper.debugPrint('❌ API Error ${response.statusCode}: ${response.body}');
         // Don't update data if API fails, keep existing values
       }
     } catch (e) {
-      print('❌ Exception in ambilDataTerbaru: $e');
-      print('❌ Stack trace: ${StackTrace.current}');
+      DebugHelper.debugPrint('❌ Exception in ambilDataTerbaru: $e');
+      DebugHelper.debugPrint('❌ Stack trace: ${StackTrace.current}');
       // Don't update data if exception occurs, keep existing values
     }
   }

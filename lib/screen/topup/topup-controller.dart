@@ -13,6 +13,7 @@ import 'package:mobile/screen/topup/merchant/merchant.dart';
 import 'package:mobile/screen/topup/qris/qris.dart';
 import 'package:mobile/screen/topup/topup.dart';
 import 'package:mobile/screen/topup/va/va.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 abstract class TopupController extends State<TopupPage> {
   bool loading = true;
@@ -21,47 +22,47 @@ abstract class TopupController extends State<TopupPage> {
   @override
   void initState() {
     super.initState();
-    print('🔍 [TOPUP] initState called');
-    print('🔍 [TOPUP] User ID: ${bloc.userId.valueWrapper?.value}');
+    DebugHelper.debugPrint('🔍 [TOPUP] initState called');
+    DebugHelper.debugPrint('🔍 [TOPUP] User ID: ${bloc.userId.valueWrapper?.value}');
     
     var analyticsData = {
       'userId': bloc.userId.valueWrapper?.value,
       'title': 'Topup Controller',
     };
-    print('🔍 [TOPUP] Analytics payload: ${analyticsData.toString()}');
+    DebugHelper.debugPrint('🔍 [TOPUP] Analytics payload: ${analyticsData.toString()}');
     analitycs.pageView('/topup/controller/', analyticsData);
-    print('🔍 [TOPUP] Analytics page view sent');
+    DebugHelper.debugPrint('🔍 [TOPUP] Analytics page view sent');
     
     fetchData();
   }
 
   fetchData() async {
-    print('🔍 [TOPUP] fetchData() called');
-    print('🔍 [TOPUP] Loading payment methods from API');
+    DebugHelper.debugPrint('🔍 [TOPUP] fetchData() called');
+    DebugHelper.debugPrint('🔍 [TOPUP] Loading payment methods from API');
     
     try {
-      print('🔍 [TOPUP] Making API call to /deposit/methode');
+      DebugHelper.debugPrint('🔍 [TOPUP] Making API call to /deposit/methode');
       List<dynamic> datas = await api.get('/deposit/methode', cache: false);
-      print('🔍 [TOPUP] API response received');
-      print('🔍 [TOPUP] Raw API response data: ${datas.toString()}');
-      print('🔍 [TOPUP] Number of payment methods received: ${datas.length}');
+      DebugHelper.debugPrint('🔍 [TOPUP] API response received');
+      DebugHelper.debugPrint('🔍 [TOPUP] Raw API response data: ${datas.toString()}');
+      DebugHelper.debugPrint('🔍 [TOPUP] Number of payment methods received: ${datas.length}');
       
       listPayment = datas.map((e) {
-        print('🔍 [TOPUP] Processing payment method: ${e.toString()}');
+        DebugHelper.debugPrint('🔍 [TOPUP] Processing payment method: ${e.toString()}');
         return PaymentModel.fromJson(e);
       }).toList();
       
-      print('🔍 [TOPUP] Payment methods processed: ${listPayment.length}');
-      print('🔍 [TOPUP] Payment methods details:');
+      DebugHelper.debugPrint('🔍 [TOPUP] Payment methods processed: ${listPayment.length}');
+      DebugHelper.debugPrint('🔍 [TOPUP] Payment methods details:');
       listPayment.forEach((payment) {
-        print('🔍 [TOPUP] - ID: ${payment.id}, Title: ${payment.title}, Type: ${payment.type}, Channel: ${payment.channel}');
+        DebugHelper.debugPrint('🔍 [TOPUP] - ID: ${payment.id}, Title: ${payment.title}, Type: ${payment.type}, Channel: ${payment.channel}');
       });
 
-      print('🔍 [TOPUP] Checking QRIS static configuration');
-      print('🔍 [TOPUP] QRIS static enabled: ${configAppBloc.qrisStaticOnTopup.valueWrapper?.value ?? false}');
+      DebugHelper.debugPrint('🔍 [TOPUP] Checking QRIS static configuration');
+      DebugHelper.debugPrint('🔍 [TOPUP] QRIS static enabled: ${configAppBloc.qrisStaticOnTopup.valueWrapper?.value ?? false}');
       
       if (configAppBloc.qrisStaticOnTopup.valueWrapper?.value ?? false) {
-        print('🔍 [TOPUP] Adding QRIS static payment method');
+        DebugHelper.debugPrint('🔍 [TOPUP] Adding QRIS static payment method');
         PaymentModel qrisStatic = PaymentModel(
           id: '',
           title: 'QRIS',
@@ -77,52 +78,52 @@ abstract class TopupController extends State<TopupPage> {
         );
 
         listPayment.add(qrisStatic);
-        print('🔍 [TOPUP] QRIS static added, total methods: ${listPayment.length}');
+        DebugHelper.debugPrint('🔍 [TOPUP] QRIS static added, total methods: ${listPayment.length}');
       }
     } catch (e) {
-      print('🔍 [TOPUP] Error fetching payment methods: $e');
+      DebugHelper.debugPrint('🔍 [TOPUP] Error fetching payment methods: $e');
       listPayment = [];
     } finally {
-      print('🔍 [TOPUP] Setting loading to false');
+      DebugHelper.debugPrint('🔍 [TOPUP] Setting loading to false');
       setState(() {
         loading = false;
       });
-      print('🔍 [TOPUP] State updated, loading completed');
+      DebugHelper.debugPrint('🔍 [TOPUP] State updated, loading completed');
     }
   }
 
   onTapMenu(PaymentModel payment) {
-    print('🔍 [TOPUP] onTapMenu called');
-    print('🔍 [TOPUP] Selected payment method:');
-    print('🔍 [TOPUP] - ID: ${payment.id}');
-    print('🔍 [TOPUP] - Title: ${payment.title}');
-    print('🔍 [TOPUP] - Type: ${payment.type}');
-    print('🔍 [TOPUP] - Channel: ${payment.channel}');
-    print('🔍 [TOPUP] - Description: ${payment.description}');
-    print('🔍 [TOPUP] - Admin: ${payment.admin}');
+    DebugHelper.debugPrint('🔍 [TOPUP] onTapMenu called');
+    DebugHelper.debugPrint('🔍 [TOPUP] Selected payment method:');
+    DebugHelper.debugPrint('🔍 [TOPUP] - ID: ${payment.id}');
+    DebugHelper.debugPrint('🔍 [TOPUP] - Title: ${payment.title}');
+    DebugHelper.debugPrint('🔍 [TOPUP] - Type: ${payment.type}');
+    DebugHelper.debugPrint('🔍 [TOPUP] - Channel: ${payment.channel}');
+    DebugHelper.debugPrint('🔍 [TOPUP] - Description: ${payment.description}');
+    DebugHelper.debugPrint('🔍 [TOPUP] - Admin: ${payment.admin}');
     
     if (payment.type == 1 || payment.type == 2) {
-      print('🔍 [TOPUP] Navigating to TopupBank (Bank/E-wallet transfer)');
+      DebugHelper.debugPrint('🔍 [TOPUP] Navigating to TopupBank (Bank/E-wallet transfer)');
       return Navigator.of(context)
           .push(MaterialPageRoute(builder: (_) => TopupBank(payment)));
     } else if (payment.type == 5) {
-      print('🔍 [TOPUP] Navigating to TopupVA (Virtual Account)');
+      DebugHelper.debugPrint('🔍 [TOPUP] Navigating to TopupVA (Virtual Account)');
       return Navigator.of(context)
           .push(MaterialPageRoute(builder: (_) => TopupVA()));
     } else if (payment.type == 4 || payment.type == 6) {
-      print('🔍 [TOPUP] Navigating to TopupMerchant (Merchant/Agen)');
+      DebugHelper.debugPrint('🔍 [TOPUP] Navigating to TopupMerchant (Merchant/Agen)');
       return Navigator.of(context)
           .push(MaterialPageRoute(builder: (_) => TopupMerchant(payment)));
     } else if (payment.type == 7) {
-      print('🔍 [TOPUP] Navigating to TopupChannel (Channel)');
+      DebugHelper.debugPrint('🔍 [TOPUP] Navigating to TopupChannel (Channel)');
       return Navigator.of(context)
           .push(MaterialPageRoute(builder: (_) => TopupChannel(payment)));
     } else if (payment.type == 8) {
-      print('🔍 [TOPUP] Navigating to QrisTopup (QRIS)');
+      DebugHelper.debugPrint('🔍 [TOPUP] Navigating to QrisTopup (QRIS)');
       return Navigator.of(context)
           .push(MaterialPageRoute(builder: (_) => QrisTopup()));
     } else if (payment.type == 9) {
-      print('🔍 [TOPUP] Navigating to QRIS Static page');
+      DebugHelper.debugPrint('🔍 [TOPUP] Navigating to QRIS Static page');
       return Navigator.of(context).push(
         MaterialPageRoute(
           builder: (_) =>
@@ -131,7 +132,7 @@ abstract class TopupController extends State<TopupPage> {
         ),
       );
     } else {
-      print('🔍 [TOPUP] Unknown payment type: ${payment.type}, no navigation');
+      DebugHelper.debugPrint('🔍 [TOPUP] Unknown payment type: ${payment.type}, no navigation');
     }
   }
 }

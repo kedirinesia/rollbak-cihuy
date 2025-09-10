@@ -16,6 +16,7 @@ import 'package:mobile/screen/select_state/kecamatan.dart';
 import 'package:mobile/screen/select_state/kota.dart';
 import 'package:mobile/screen/select_state/provinsi.dart';
 import 'package:quickalert/quickalert.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class RegisterUser extends StatefulWidget {
   @override
@@ -188,7 +189,7 @@ class _RegisterUserState extends State<RegisterUser> {
               final isLastStep = currentStep == getSteps().length - 1;
 
               if (isLastStep) {
-                print("Suskes");
+                DebugHelper.debugPrint('"Suskes"');
               } else {
                 setState(() => currentStep += 1);
               }

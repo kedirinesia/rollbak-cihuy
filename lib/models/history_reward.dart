@@ -1,6 +1,7 @@
 // @dart=2.9
 
 import 'reward.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class HistoryRewardModel {
   String id;

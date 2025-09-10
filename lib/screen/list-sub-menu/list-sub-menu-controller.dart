@@ -11,10 +11,11 @@ import 'package:mobile/screen/detail-denom/detail-denom.dart';
 import 'package:mobile/screen/dynamic-prepaid/dynamic-denom.dart';
 import 'package:mobile/screen/list-sub-menu/list-sub-menu.dart';
 import 'package:http/http.dart' as http;
-import 'package:mobile/screen/transaksi/bulk.dart';
+import 'package:mobile/screen/transaksi/bulk.dart';   
 import 'package:mobile/screen/transaksi/voucher_bulk.dart';
 import '../../bloc/Bloc.dart' show bloc;
 import '../../bloc/Api.dart' show apiUrl;
+import 'package:mobile/utils/debug_helper.dart';
 
 abstract class ListSubMenuController extends State<ListSubMenu>
     with TickerProviderStateMixin {
@@ -82,24 +83,24 @@ abstract class ListSubMenuController extends State<ListSubMenu>
 
   onTapMenu(MenuModel menu) async {
     // Debug print for sub-menu access
-    print('=== DEBUG: Sub-Menu Access Attempt ===');
-    print('Menu Name: ${menu.name}');
-    print('Menu Jenis: ${menu.jenis}');
-    print('Menu Type: ${menu.type}');
-    print('Package Name: $packageName');
-    print('Is Akupay: ${packageName == 'com.akupay.androidmobileapps'}');
+    DebugHelper.debugPrint('=== Sub-Menu Access Attempt ===');
+    DebugHelper.debugPrint('Menu Name: ${menu.name}');
+    DebugHelper.debugPrint('Menu Jenis: ${menu.jenis}');
+    DebugHelper.debugPrint('Menu Type: ${menu.type}');
+    DebugHelper.debugPrint('Package Name: $packageName');
+    DebugHelper.debugPrint('Is Akupay: ${packageName == 'com.akupay.androidmobileapps'}');
     
     if (menu.category_id.isNotEmpty && menu.type == 1) {
       if (menu.jenis == 5 || menu.jenis == 6) {
         // Prevent akupay from accessing bulk voucher menu
         if (packageName == 'com.akupay.androidmobileapps') {
-          print('*** BLOCKED: Akupay trying to access bulk voucher menu from sub-menu ***');
-          print('Menu: ${menu.name} (Jenis: ${menu.jenis})');
+          DebugHelper.debugPrint('*** BLOCKED: Akupay trying to access bulk voucher menu from sub-menu ***');
+          DebugHelper.debugPrint('Menu: ${menu.name} (Jenis: ${menu.jenis})');
           return; // Do nothing for akupay
         }
         
-        print('*** ACCESSING BULK VOUCHER MENU FROM SUB-MENU ***');
-        print('Menu: ${menu.name} (Jenis: ${menu.jenis})');
+        DebugHelper.debugPrint('*** ACCESSING BULK VOUCHER MENU FROM SUB-MENU ***');
+        DebugHelper.debugPrint('Menu: ${menu.name} (Jenis: ${menu.jenis})');
         
         if (configAppBloc.packagename.valueWrapper?.value ==
             'id.paymobileku.app') {
@@ -118,13 +119,13 @@ abstract class ListSubMenuController extends State<ListSubMenu>
                  (menu.name.toLowerCase().contains('voucher') && menu.jenis == 2)) {
         // Prevent akupay from accessing inject menus
         if (packageName == 'com.akupay.androidmobileapps') {
-          print('*** BLOCKED: Akupay trying to access inject menu from sub-menu ***');
-          print('Menu: ${menu.name} (Jenis: ${menu.jenis})');
+          DebugHelper.debugPrint('*** BLOCKED: Akupay trying to access inject menu from sub-menu ***');
+          DebugHelper.debugPrint('Menu: ${menu.name} (Jenis: ${menu.jenis})');
           return; // Do nothing for akupay
         }
         
-        print('*** ACCESSING INJECT MENU FROM SUB-MENU ***');
-        print('Menu: ${menu.name} (Jenis: ${menu.jenis})');
+        DebugHelper.debugPrint('*** ACCESSING INJECT MENU FROM SUB-MENU ***');
+        DebugHelper.debugPrint('Menu: ${menu.name} (Jenis: ${menu.jenis})');
         
         return Navigator.of(context).push(
           MaterialPageRoute(

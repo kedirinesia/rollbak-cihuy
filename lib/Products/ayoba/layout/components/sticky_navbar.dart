@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mobile/screen/marketplace/cart.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class StickyNavBar extends StatelessWidget {
   final bool isTransparent;

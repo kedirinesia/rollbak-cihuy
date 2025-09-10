@@ -13,6 +13,7 @@ import 'package:mobile/screen/transfer_saldo/transfer_saldo.dart';
 import '../../../component/card_info.dart';
 import '../../../component/carousel-depan.dart';
 import '../../../component/menudepan.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class Home2App extends StatefulWidget {
   @override

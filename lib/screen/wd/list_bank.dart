@@ -10,6 +10,7 @@ import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/models/wd_bank.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/config.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class WithdrawBankPage extends StatefulWidget {
   @override

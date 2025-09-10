@@ -13,6 +13,7 @@ import 'package:mobile/modules.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/transaksi/verifikasi_pin.dart';
 import 'package:mobile/Products/eralink/layout/transfer_saldo/detail_transfer.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class TransferByQR extends StatefulWidget {
   final String tujuan;
@@ -52,7 +53,7 @@ class _TransferByQRState extends State<TransferByQR> {
             },
             body: jsonEncode({'phone': tujuan, 'nominal': nominal}));
 
-    print(response.body);
+    DebugHelper.debugPrint('response.body.toString()');
     if (response.statusCode == 200) {
       Map<String, dynamic> data = json.decode(response.body)['data'];
       userId = data['tujuan']['_id'];

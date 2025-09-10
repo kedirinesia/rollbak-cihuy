@@ -26,6 +26,7 @@ import 'package:mobile/modules.dart';
 // SCREEN
 import 'package:mobile/screen/select_state/category.dart';
 import 'package:mobile/screen/select_state/satuan.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class BarangUpdate extends StatefulWidget {
   BarangModel barang;
@@ -109,7 +110,7 @@ class BarangUpdateState extends State<BarangUpdate> {
   void getPicture() async {
     File image = await getPhoto();
     if (image != null) {
-      print(image);
+      DebugHelper.debugPrint('image.toString()');
       setState(() {
         imgLocal = image;
       });
@@ -119,7 +120,7 @@ class BarangUpdateState extends State<BarangUpdate> {
   void updateBarang() async {
     _formKey.currentState.save();
     if (_formKey.currentState.validate()) {
-      print('category --> ${category.nama}, satuan --> ${satuan.nama}');
+      DebugHelper.debugPrint('category --> ${category.nama}, satuan --> ${satuan.nama}');
       if (category == null || satuan == null) {
         showDialog(
             context: context,
@@ -164,7 +165,7 @@ class BarangUpdateState extends State<BarangUpdate> {
           Map<String, dynamic> responseData =
               json.decode(await response.stream.bytesToString());
 
-          print(responseData);
+          DebugHelper.debugPrint('responseData.toString()');
           if (response.statusCode == 200) {
             if (responseData['status'] == 200) {
               await showDialog(
@@ -311,9 +312,9 @@ class BarangUpdateState extends State<BarangUpdate> {
                 SizedBox(width: 10.0),
                 InkWell(
                   onTap: () async {
-                    print('scan qr code');
+                    DebugHelper.debugPrint('scan qr code');
                     var barcode = await BarcodeScanner.scan();
-                    print('kode ${barcode.rawContent}');
+                    DebugHelper.debugPrint('kode ${barcode.rawContent}');
                     if (barcode.rawContent.isNotEmpty) {
                       setState(() {
                         kodeController.text = barcode.rawContent;
@@ -379,7 +380,7 @@ class BarangUpdateState extends State<BarangUpdate> {
                       labelText: 'Satuan',
                     ),
                     onTap: () async {
-                      print('klik satuan');
+                      DebugHelper.debugPrint('klik satuan');
                       SatuanModel response = await Navigator.of(context).push(
                         MaterialPageRoute(builder: (_) => SelectSatuan()),
                       );
@@ -402,7 +403,7 @@ class BarangUpdateState extends State<BarangUpdate> {
                       labelText: 'Kategori',
                     ),
                     onTap: () async {
-                      print('klik kategori');
+                      DebugHelper.debugPrint('klik kategori');
                       CategoryModel response = await Navigator.of(context).push(
                         MaterialPageRoute(builder: (_) => SelectCategory()),
                       );

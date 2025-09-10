@@ -14,6 +14,7 @@ import 'package:mobile/screen/select_state/kecamatan.dart';
 import 'package:mobile/screen/select_state/kota.dart';
 import 'package:mobile/screen/select_state/provinsi.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class RegisterUser extends StatefulWidget {
   @override
@@ -111,7 +112,7 @@ class _RegisterUserState extends State<RegisterUser> {
       dataToSend['kode_upline'] = brandId;
     }
 
-    print(dataToSend);
+    DebugHelper.debugPrint('dataToSend.toString()');
 
     try {
       http.Response response = await http.post(
@@ -235,7 +236,7 @@ class _RegisterUserState extends State<RegisterUser> {
               final isLastStep = currentStep == getSteps().length - 1;
 
               if (isLastStep) {
-                print("Suskes");
+                DebugHelper.debugPrint('"Suskes"');
               } else {
                 setState(() => currentStep += 1);
               }

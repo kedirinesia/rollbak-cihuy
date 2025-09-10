@@ -23,6 +23,7 @@ import 'package:mobile/modules.dart';
 
 // SCREEN
 import 'package:mobile/screen/select_state/trxPiutang.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class FormPiutang extends StatefulWidget {
   PiutangModel piutang;
@@ -94,7 +95,7 @@ class FormPiutangState extends State<FormPiutang> {
           'type_piutang': widget.piutang.type,
           'id_transaksi': printTrx != null ? printTrx.id : null,
         };
-        print(dataToSend);
+        DebugHelper.debugPrint('dataToSend.toString()');
 
         try {
           http.Response response = await http.post(

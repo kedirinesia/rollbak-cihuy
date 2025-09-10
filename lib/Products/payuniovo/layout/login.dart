@@ -13,6 +13,7 @@ import 'package:mobile/Products/payuniovo/layout/forgot-password/step_1.dart';
 import 'package:mobile/Products/payuniovo/layout/otp.dart';
 import 'package:nav/nav.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -40,10 +41,10 @@ class _LoginPageState extends State<LoginPage> {
     String phone = prefs.getString('phone') ?? '';
     String pin = prefs.getString('pin') ?? '';
     
-    print('=== PAYUNIOVO LOAD CREDENTIALS ===');
-    print('Saved phone: $phone');
-    print('Saved PIN: $pin');
-    print('==================================');
+    DebugHelper.debugPrint('=== PAYUNIOVO LOAD CREDENTIALS ===');
+    DebugHelper.debugPrint('Saved phone: $phone');
+    DebugHelper.debugPrint('Saved PIN: $pin');
+    DebugHelper.debugPrint('==================================');
     
     setState(() {
       _phone.text = phone;
@@ -69,14 +70,14 @@ class _LoginPageState extends State<LoginPage> {
 
       String phoneNumber = _phone.text.trim();
       
-      print('=== PAYUNIOVO LOGIN DEBUG ===');
-      print('Phone number: $phoneNumber');
-      print('PIN: ${_password.text.trim()}');
-      print('API URL: ${payuniovoConfig.apiUrl}/user/login');
-      print('Merchant Code: ${payuniovoConfig.sigVendor}');
-      print('Remember Me: $rememberMe');
-      print('Timestamp: ${DateTime.now()}');
-      print('================================');
+      DebugHelper.debugPrint('=== PAYUNIOVO LOGIN DEBUG ===');
+      DebugHelper.debugPrint('Phone number: $phoneNumber');
+      DebugHelper.debugPrint('PIN: ${_password.text.trim()}');
+      DebugHelper.debugPrint('API URL: ${payuniovoConfig.apiUrl}/user/login');
+      DebugHelper.debugPrint('Merchant Code: ${payuniovoConfig.sigVendor}');
+      DebugHelper.debugPrint('Remember Me: $rememberMe');
+      DebugHelper.debugPrint('Timestamp: ${DateTime.now()}');
+      DebugHelper.debugPrint('================================');
 
       // Gunakan config PayUniOvo untuk API call
       Map<String, String> headers = {
@@ -89,10 +90,10 @@ class _LoginPageState extends State<LoginPage> {
         'pin': _password.text.trim(),
       };
       
-      print('=== PAYUNIOVO REQUEST DETAILS ===');
-      print('Headers: $headers');
-      print('Request Body: $requestBody');
-      print('==================================');
+      DebugHelper.debugPrint('=== PAYUNIOVO REQUEST DETAILS ===');
+      DebugHelper.debugPrint('Headers: $headers');
+      DebugHelper.debugPrint('Request Body: $requestBody');
+      DebugHelper.debugPrint('==================================');
       
       http.Response response = await http.post(
         Uri.parse('${payuniovoConfig.apiUrl}/user/login'),
@@ -100,12 +101,12 @@ class _LoginPageState extends State<LoginPage> {
         body: json.encode(requestBody),
       );
 
-      print('=== PAYUNIOVO API RESPONSE ===');
-      print('Status Code: ${response.statusCode}');
-      print('Response Headers: ${response.headers}');
-      print('Response Body Length: ${response.body.length}');
-      print('Response Body (first 500 chars): ${response.body.substring(0, response.body.length > 500 ? 500 : response.body.length)}');
-      print('===============================');
+      DebugHelper.debugPrint('=== PAYUNIOVO API RESPONSE ===');
+      DebugHelper.debugPrint('Status Code: ${response.statusCode}');
+      DebugHelper.debugPrint('Response Headers: ${response.headers}');
+      DebugHelper.debugPrint('Response Body Length: ${response.body.length}');
+      DebugHelper.debugPrint('Response Body (first 500 chars): ${response.body.substring(0, response.body.length > 500 ? 500 : response.body.length)}');
+      DebugHelper.debugPrint('===============================');
       
       // Validasi response body sebelum parsing JSON
       if (response.body.isEmpty) {
@@ -114,9 +115,9 @@ class _LoginPageState extends State<LoginPage> {
       
       // Cek apakah response adalah JSON valid
       if (!response.body.trim().startsWith('{') && !response.body.trim().startsWith('[')) {
-        print('=== PAYUNIOVO INVALID JSON RESPONSE ===');
-        print('Response tidak valid JSON: ${response.body.substring(0, 200)}');
-        print('========================================');
+        DebugHelper.debugPrint('=== PAYUNIOVO INVALID JSON RESPONSE ===');
+        DebugHelper.debugPrint('Response tidak valid JSON: ${response.body.substring(0, 200)}');
+        DebugHelper.debugPrint('========================================');
         
         // Coba decode dengan error handling yang lebih baik
         String errorMessage = 'Response tidak valid dari server';
@@ -151,10 +152,10 @@ class _LoginPageState extends State<LoginPage> {
         try {
           responseData = json.decode(response.body);
         } catch (jsonError) {
-          print('=== PAYUNIOVO JSON PARSE ERROR ===');
-          print('JSON Parse Error: $jsonError');
-          print('Response Body: ${response.body}');
-          print('==================================');
+          DebugHelper.debugPrint('=== PAYUNIOVO JSON PARSE ERROR ===');
+          DebugHelper.debugPrint('JSON Parse Error: $jsonError');
+          DebugHelper.debugPrint('Response Body: ${response.body}');
+          DebugHelper.debugPrint('==================================');
           
           showDialog(
             context: context,
@@ -176,27 +177,27 @@ class _LoginPageState extends State<LoginPage> {
         
         Map<String, dynamic> data = responseData['data'];
         
-        print('=== PAYUNIOVO SUCCESS ===');
-        print('Response Data: $data');
-        print('Phone from API: ${data['phone']}');
-        print('Validate ID: ${data['validate_id']}');
-        print('========================');
+        DebugHelper.debugPrint('=== PAYUNIOVO SUCCESS ===');
+        DebugHelper.debugPrint('Response Data: $data');
+        DebugHelper.debugPrint('Phone from API: ${data['phone']}'.toString());
+        DebugHelper.debugPrint('Validate ID: ${data['validate_id']}'.toString());
+        DebugHelper.debugPrint('========================');
         
         // Save phone and PIN if rememberMe is true, else remove it.
         SharedPreferences prefs = await SharedPreferences.getInstance();
         if (rememberMe) {
           await prefs.setString('phone', phoneNumber);
           await prefs.setString('pin', _password.text.trim());
-          print('=== PAYUNIOVO SAVE CREDENTIALS ===');
-          print('Saved phone: $phoneNumber');
-          print('Saved PIN: ${_password.text.trim()}');
-          print('==================================');
+          DebugHelper.debugPrint('=== PAYUNIOVO SAVE CREDENTIALS ===');
+          DebugHelper.debugPrint('Saved phone: $phoneNumber');
+          DebugHelper.debugPrint('Saved PIN: ${_password.text.trim()}');
+          DebugHelper.debugPrint('==================================');
         } else {
           await prefs.remove('phone');
           await prefs.remove('pin');
-          print('=== PAYUNIOVO REMOVE CREDENTIALS ===');
-          print('Credentials removed');
-          print('====================================');
+          DebugHelper.debugPrint('=== PAYUNIOVO REMOVE CREDENTIALS ===');
+          DebugHelper.debugPrint('Credentials removed');
+          DebugHelper.debugPrint('====================================');
         }
 
         Nav.pushReplacement(OtpPage(data['phone'], data['validate_id']));
@@ -206,10 +207,10 @@ class _LoginPageState extends State<LoginPage> {
         try {
           errorData = json.decode(response.body);
         } catch (jsonError) {
-          print('=== PAYUNIOVO ERROR JSON PARSE FAILED ===');
-          print('JSON Parse Error: $jsonError');
-          print('Error Response Body: ${response.body}');
-          print('==========================================');
+          DebugHelper.debugPrint('=== PAYUNIOVO ERROR JSON PARSE FAILED ===');
+          DebugHelper.debugPrint('JSON Parse Error: $jsonError');
+          DebugHelper.debugPrint('Error Response Body: ${response.body}');
+          DebugHelper.debugPrint('==========================================');
           
           // Fallback error message
           errorData = {
@@ -218,10 +219,10 @@ class _LoginPageState extends State<LoginPage> {
           };
         }
         
-        print('=== PAYUNIOVO ERROR ===');
-        print('Error Status: ${errorData['status']}');
-        print('Error Message: ${errorData['message']}');
-        print('=======================');
+        DebugHelper.debugPrint('=== PAYUNIOVO ERROR ===');
+        DebugHelper.debugPrint('Error Status: ${errorData['status']}'.toString());
+        DebugHelper.debugPrint('Error Message: ${errorData['message']}'.toString());
+        DebugHelper.debugPrint('=======================');
         
         // Tampilkan pesan error yang informatif ke user
         String errorMessage = errorData['message'] ?? 'Terjadi kesalahan';
@@ -296,10 +297,10 @@ class _LoginPageState extends State<LoginPage> {
         throw errorData;
       }
     } catch (e) {
-      print('=== PAYUNIOVO EXCEPTION ===');
-      print('Exception type: ${e.runtimeType}');
-      print('Exception: $e');
-      print('===========================');
+      DebugHelper.debugPrint('=== PAYUNIOVO EXCEPTION ===');
+      DebugHelper.debugPrint('Exception type: ${e.runtimeType}');
+      DebugHelper.debugPrint('Exception: $e');
+      DebugHelper.debugPrint('===========================');
       
       String msg;
       if (e is Map<String, dynamic>) {

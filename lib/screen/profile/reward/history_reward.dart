@@ -14,6 +14,7 @@ import 'package:mobile/provider/analitycs.dart';
 
 import '../../../bloc/Api.dart';
 import '../../../modules.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class HistoryReward extends StatefulWidget {
   @override

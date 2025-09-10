@@ -10,6 +10,7 @@ import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/component/alert.dart';
 import 'package:mobile/models/user.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile/utils/debug_helper.dart';
 
 class GenerateRefCode extends StatefulWidget {
   final Function getUserInfo;
@@ -85,7 +86,7 @@ class _GenerateRefCodeState extends State<GenerateRefCode> {
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
     } catch (e) {
-      print(e);
+      DebugHelper.debugPrint('e.toString()');
     }
   }
 

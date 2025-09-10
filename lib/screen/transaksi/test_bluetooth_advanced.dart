@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/component/bluetooth_helper.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class TestBluetoothAdvancedPage extends StatefulWidget {
   @override
@@ -172,7 +173,7 @@ class _TestBluetoothAdvancedPageState extends State<TestBluetoothAdvancedPage> {
         });
         diagnosticLog.add('✅ Connection successful!');
         diagnosticLog.add('Printer ready for use');
-        print('Successfully connected to ${device.name}');
+        DebugHelper.debugPrint('Successfully connected to ${device.name}');
       } else {
         setState(() {
           status = 'Connection failed after all attempts';
@@ -189,7 +190,7 @@ class _TestBluetoothAdvancedPageState extends State<TestBluetoothAdvancedPage> {
         isConnected = false;
       });
       diagnosticLog.add('❌ Connection error: $e');
-      print('Connection error: $e');
+      DebugHelper.debugPrint('Connection error: $e');
     } finally {
       setState(() {
         isConnecting = false;
@@ -251,14 +252,14 @@ class _TestBluetoothAdvancedPageState extends State<TestBluetoothAdvancedPage> {
         status = 'Disconnected';
       });
       diagnosticLog.add('Disconnected successfully');
-      print('Disconnected successfully');
+      DebugHelper.debugPrint('Disconnected successfully');
 
     } catch (e) {
       setState(() {
         status = 'Disconnect error: $e';
       });
       diagnosticLog.add('Disconnect error: $e');
-      print('Disconnect error: $e');
+      DebugHelper.debugPrint('Disconnect error: $e');
     }
   }
 

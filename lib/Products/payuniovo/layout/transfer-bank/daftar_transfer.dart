@@ -8,6 +8,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mobile/Products/payuni2/layout/transfer-bank/form_daftar_tranfer.dart';
 import 'package:mobile/Products/payuni2/layout/transfer-bank/transfer_bank.dart';
 import 'package:mobile/models/daftar_transfer.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class DaftarTransferPage extends StatefulWidget {
   const DaftarTransferPage({Key key}) : super(key: key);
@@ -30,9 +31,9 @@ class _DaftarTransferPageState extends State<DaftarTransferPage> {
 
   // void setToFavorite(
   //     int index, bool isFavorite, DaftarTransferModel daftarTranferItem) async {
-  //   print('==================================================');
-  //   print(daftarTranferItem.namaRekening);
-  //   print(index);
+  //   DebugHelper.debugPrint('==================================================');
+  //   DebugHelper.debugPrint('daftarTranferItem.namaRekening.toString()');
+  //   DebugHelper.debugPrint('index.toString()');
 
   //   if (!isFavorite)
   //     daftarTranferItem.isFavorite = false;
@@ -125,8 +126,8 @@ class _DaftarTransferPageState extends State<DaftarTransferPage> {
                                 DaftarTransferModel transferItem =
                                     DaftarTransferModel.parse(filtered[i]);
 
-                                // print(transferItem.namaRekening);
-                                // print(i);
+                                // DebugHelper.debugPrint('transferItem.namaRekening.toString()');
+                                // DebugHelper.debugPrint('i.toString()');
 
                                 return Dismissible(
                                   key: ValueKey(transferItem.id),

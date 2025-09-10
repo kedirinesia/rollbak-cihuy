@@ -10,6 +10,7 @@ import 'package:mobile/models/trx.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/transaksi/print.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class DetailTransaksi extends StatefulWidget {
   final TrxModel trx;

@@ -11,6 +11,7 @@ import 'package:mobile/modules.dart';
 import 'package:mobile/screen/history/deposit/deposit-controller.dart';
 import 'package:mobile/screen/transaksi/detail_deposit.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class DepositPage extends StatefulWidget {
   @override
@@ -44,7 +45,7 @@ class _DepositPageState extends DepositController
                 height: 20.0,
                 fit: BoxFit.contain,
                 errorBuilder: (context, error, stackTrace) {
-                  print('🔍 [DEPOSIT] Asset error for: ${m.statusModel.icon} - Exception: $error');
+                  DebugHelper.debugPrint('🔍 [DEPOSIT] Asset error for: ${m.statusModel.icon} - Exception: $error');
                   return Icon(
                     m.statusModel.status == 0 
                         ? Icons.hourglass_empty 

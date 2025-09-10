@@ -4,9 +4,10 @@ import '../../app_config.dart';
 import '../seepays/resource.dart';
 import 'config.dart';
 import 'color.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 void main() {
-  print('SEEPAYS Token: $sigVendor');
+  DebugHelper.debugPrint('SEEPAYS Token: $sigVendor');
   
   var configApp = AppConfig(
     appDisplayName: namaApp,

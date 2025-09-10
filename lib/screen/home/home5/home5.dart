@@ -5,6 +5,7 @@ import 'package:mobile/component/menudepan.dart';
 import 'package:mobile/config.dart';
 
 import './home5_model.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class Home5App extends StatefulWidget {
   @override

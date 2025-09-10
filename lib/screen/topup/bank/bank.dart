@@ -9,6 +9,7 @@ import 'package:mobile/models/payment-list.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/topup/bank/bank-controller.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class TopupBank extends StatefulWidget {
   final PaymentModel payment;
@@ -22,26 +23,26 @@ class _TopupBankState extends BankController with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    print('🔍 [TOPUP BANK] initState called');
-    print('🔍 [TOPUP BANK] Payment method: ${widget.payment.title}');
-    print('🔍 [TOPUP BANK] Payment type: ${widget.payment.type}');
-    print('🔍 [TOPUP BANK] Payment channel: ${widget.payment.channel}');
-    print('🔍 [TOPUP BANK] User ID: ${bloc.userId.valueWrapper?.value}');
+    DebugHelper.debugPrint('🔍 [TOPUP BANK] initState called');
+    DebugHelper.debugPrint('🔍 [TOPUP BANK] Payment method: ${widget.payment.title}');
+    DebugHelper.debugPrint('🔍 [TOPUP BANK] Payment type: ${widget.payment.type}');
+    DebugHelper.debugPrint('🔍 [TOPUP BANK] Payment channel: ${widget.payment.channel}');
+    DebugHelper.debugPrint('🔍 [TOPUP BANK] User ID: ${bloc.userId.valueWrapper?.value}');
     
     var analyticsData = {
       'userId': bloc.userId.valueWrapper?.value,
       'title': 'Bank',
     };
-    print('🔍 [TOPUP BANK] Analytics payload: ${analyticsData.toString()}');
+    DebugHelper.debugPrint('🔍 [TOPUP BANK] Analytics payload: ${analyticsData.toString()}');
     analitycs.pageView('/bank/', analyticsData);
-    print('🔍 [TOPUP BANK] Analytics page view sent');
+    DebugHelper.debugPrint('🔍 [TOPUP BANK] Analytics page view sent');
   }
 
   @override
   Widget build(BuildContext context) {
-    print('🔍 [TOPUP BANK] build() called');
-    print('🔍 [TOPUP BANK] Loading state: $loading');
-    print('🔍 [TOPUP BANK] Payment: ${widget.payment.title} (${widget.payment.type})');
+    DebugHelper.debugPrint('🔍 [TOPUP BANK] build() called');
+    DebugHelper.debugPrint('🔍 [TOPUP BANK] Loading state: $loading');
+    DebugHelper.debugPrint('🔍 [TOPUP BANK] Payment: ${widget.payment.title} (${widget.payment.type})');
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.payment.title),
@@ -75,13 +76,13 @@ class _TopupBankState extends BankController with TickerProviderStateMixin {
                           prefixText: 'Rp ',
                           isDense: true),
                       onChanged: (value) {
-                        print('🔍 [TOPUP BANK] Nominal field changed: $value');
+                        DebugHelper.debugPrint('🔍 [TOPUP BANK] Nominal field changed: $value');
                         int amount = int.tryParse(nominal.text
                                 .replaceAll(RegExp('[^0-9]'), '')) ??
                             0;
-                        print('🔍 [TOPUP BANK] Parsed amount: $amount');
+                        DebugHelper.debugPrint('🔍 [TOPUP BANK] Parsed amount: $amount');
                         nominal.text = FormatRupiah(amount);
-                        print('🔍 [TOPUP BANK] Formatted nominal: ${nominal.text}');
+                        DebugHelper.debugPrint('🔍 [TOPUP BANK] Formatted nominal: ${nominal.text}');
                         nominal.selection = TextSelection.fromPosition(
                             TextPosition(offset: nominal.text.length));
                       },
@@ -96,8 +97,8 @@ class _TopupBankState extends BankController with TickerProviderStateMixin {
                 icon: Icon(Icons.navigate_next),
                 label: Text('Lanjut'),
                 onPressed: () {
-                  print('🔍 [TOPUP BANK] Lanjut button pressed');
-                  print('🔍 [TOPUP BANK] Current nominal: ${nominal.text}');
+                  DebugHelper.debugPrint('🔍 [TOPUP BANK] Lanjut button pressed');
+                  DebugHelper.debugPrint('🔍 [TOPUP BANK] Current nominal: ${nominal.text}');
                   topup();
                 }));
   }

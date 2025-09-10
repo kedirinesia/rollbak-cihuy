@@ -18,6 +18,7 @@ import 'package:mobile/bloc/Bloc.dart';
 
 import 'package:mobile/modules.dart';
 import 'package:mobile/provider/analitycs.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class PersediaanDetail extends StatefulWidget {
   PersediaanModel persediaan;
@@ -157,8 +158,8 @@ class PersediaanDetailState extends State<PersediaanDetail> {
             'id_gudang': persediaan.id,
           };
 
-          print('stockUpdate --> ${stockUpdateController.text}');
-          print(dataToSend);
+          DebugHelper.debugPrint('stockUpdate --> ${stockUpdateController.text}');
+          DebugHelper.debugPrint('dataToSend.toString()');
           http.Response response =
               await http.post(Uri.parse('$apiUrlKasir/persediaan/updateStock'),
                   headers: {
@@ -471,7 +472,7 @@ class PersediaanDetailState extends State<PersediaanDetail> {
                       }
                     },
                     onSaved: (String value) {
-                      print(value);
+                      DebugHelper.debugPrint('value.toString()');
                       setState(() {
                         stockUpdate = value;
                       });

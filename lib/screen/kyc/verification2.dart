@@ -14,6 +14,7 @@ import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/kyc/custom_camera.dart';
 import 'package:mobile/screen/kyc/custom_selfie.dart';
 import 'package:mobile/screen/kyc/waiting.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class SubmitKyc2 extends StatefulWidget {
   final String userName;
@@ -54,7 +55,7 @@ class _SubmitKyc2State extends State<SubmitKyc2> {
       'userId': bloc.userId.valueWrapper?.value,
       'title': 'Verifikasi Identitas',
     });
-    print(bloc.user.valueWrapper?.value.kyc);
+    DebugHelper.debugPrint('bloc.user.valueWrapper?.value.kyc.toString()');
   }
 
   List<String> packageList = [
@@ -146,7 +147,7 @@ class _SubmitKyc2State extends State<SubmitKyc2> {
     request.files.add(await http.MultipartFile.fromPath('ktp', ktp.path));
     request.files
         .add(await http.MultipartFile.fromPath('selfi_ktp', selfie.path));
-    print(request.fields);
+    DebugHelper.debugPrint('request.fields.toString()');
     http.StreamedResponse response = await request.send();
     Map<String, dynamic> responseData =
         json.decode(await response.stream.bytesToString());

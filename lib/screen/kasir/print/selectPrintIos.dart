@@ -17,6 +17,7 @@ import 'package:mobile/models/kasir/kasirPrint.dart';
 import 'package:mobile/bloc/Bloc.dart';
 
 import 'package:mobile/modules.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class SelectPrintIOS extends StatefulWidget {
   final KasirPrintModel printTrx;
@@ -45,7 +46,7 @@ class SelectPrintIOSState extends State<SelectPrintIOS> {
   void initBlutut() async {
     _printerBluetoothManager.startScan(Duration(seconds: 10));
     _printerBluetoothManager.isScanningStream.listen((isScan) async {
-      print('isScan device --> $isScan');
+      DebugHelper.debugPrint('isScan device --> $isScan');
       setState(() {
         _scan = isScan;
       });
@@ -61,7 +62,7 @@ class SelectPrintIOSState extends State<SelectPrintIOS> {
   }
 
   void realPrint() async {
-    print('device ---> $_device');
+    DebugHelper.debugPrint('device ---> $_device');
     if (_device != null) {
       _printerBluetoothManager.stopScan();
       final profile = await CapabilityProfile.load();

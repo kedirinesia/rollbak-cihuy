@@ -26,6 +26,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:esc_pos_utils/esc_pos_utils.dart';
 
 import 'bloc/Api.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 String formatDate(String datetime, String format) {
   String date;
@@ -101,15 +102,15 @@ Future<void> updateUserInfo() async {
 
 Future<void> testApiConnection() async {
   try {
-    print('DEBUG: Testing API connection...');
-    print('DEBUG: API URL: $apiUrl');
+    DebugHelper.debugPrint('Testing API connection...');
+    DebugHelper.debugApi('TEST_CONNECTION', 'API URL: $apiUrl');
     
     // Test basic connectivity
     bool isConnected = await _checkConnectivity();
-    print('DEBUG: Internet connectivity: $isConnected');
+    DebugHelper.debugNetwork('Internet connectivity: $isConnected');
     
     if (!isConnected) {
-      print('DEBUG: No internet connection available');
+      DebugHelper.debugNetwork('No internet connection available');
       return;
     }
     
@@ -121,21 +122,21 @@ Future<void> testApiConnection() async {
       },
     ).timeout(Duration(seconds: 10));
     
-    print('DEBUG: Test response status: ${response.statusCode}');
-    print('DEBUG: Test response headers: ${response.headers}');
-    print('DEBUG: Test response body: ${response.body.substring(0, response.body.length > 500 ? 500 : response.body.length)}');
+    DebugHelper.debugApi('TEST_CONNECTION', 'Test response status: ${response.statusCode}');
+    DebugHelper.debugApi('TEST_CONNECTION', 'Test response headers: ${response.headers}');
+    DebugHelper.debugApi('TEST_CONNECTION', 'Test response body: ${response.body.substring(0, response.body.length > 500 ? 500 : response.body.length)}');
     
     if (response.statusCode == 200) {
       if (response.headers['content-type']?.contains('application/json') == true) {
-        print('DEBUG: API is working correctly');
+        DebugHelper.debugApi('TEST_CONNECTION', 'API is working correctly');
       } else {
-        print('DEBUG: API returned non-JSON response');
+        DebugHelper.debugApi('TEST_CONNECTION', 'API returned non-JSON response');
       }
     } else {
-      print('DEBUG: API returned error status: ${response.statusCode}');
+      DebugHelper.debugError('TEST_CONNECTION', 'API returned error status: ${response.statusCode}');
     }
   } catch (e) {
-    print('DEBUG: API test failed: $e');
+    DebugHelper.debugError('TEST_CONNECTION', 'API test failed: $e');
   }
 }
 
@@ -150,8 +151,8 @@ Future<bool> _checkConnectivity() async {
 
 Future<void> getAppInfo() async {
   try {
-    print('DEBUG: Starting getAppInfo...');
-    print('DEBUG: API URL: $apiUrl/app/info?id=$sigVendor');
+    DebugHelper.debugPrint('Starting getAppInfo...');
+    DebugHelper.debugApi('GET_APP_INFO', 'API URL: $apiUrl/app/info?id=$sigVendor');
     
     // Test API connection first
     await testApiConnection();
@@ -160,15 +161,15 @@ Future<void> getAppInfo() async {
         await api.get('/app/info?id=$sigVendor', auth: false, cache: true);
     AppInfo app = AppInfo.fromJson(data);
     configAppBloc.info.add(app);
-    print('DEBUG: getAppInfo completed successfully');
+    DebugHelper.debugApi('GET_APP_INFO', 'getAppInfo completed successfully');
   } catch (e) {
-    print('DEBUG: getAppInfo error: $e');
-    print('DEBUG: Error type: ${e.runtimeType}');
+    DebugHelper.debugError('GET_APP_INFO', 'getAppInfo error: $e');
+    DebugHelper.debugError('GET_APP_INFO', 'Error type: ${e.runtimeType}');
     
     // Handle specific FormatException for HTML responses
     if (e is FormatException) {
-      print('DEBUG: FormatException detected - likely HTML response from server');
-      print('DEBUG: Error message: ${e.message}');
+      DebugHelper.debugError('GET_APP_INFO', 'FormatException detected - likely HTML response from server');
+      DebugHelper.debugError('GET_APP_INFO', 'Error message: ${e.message}');
       
       // You might want to show a user-friendly error dialog here
       // or handle the error gracefully by using default values
@@ -206,23 +207,23 @@ String toString(List<int> bytes) {
 }
 
 void sendDeviceToken() async {
-  print('=== DEBUG: Starting sendDeviceToken ===');
-  print('DEBUG: API URL: $apiUrl/user/device_token');
-  print('DEBUG: Token available: ${bloc.token.valueWrapper?.value != null}');
-  print('DEBUG: Device token available: ${bloc.deviceToken.valueWrapper?.value != null}');
+  DebugHelper.debugApi('SEND_DEVICE_TOKEN', '=== DEBUG: Starting sendDeviceToken ===');
+  DebugHelper.debugApi('SEND_DEVICE_TOKEN', 'API URL: $apiUrl/user/device_token');
+  DebugHelper.debugApi('SEND_DEVICE_TOKEN', 'Token available: ${bloc.token.valueWrapper?.value != null}');
+  DebugHelper.debugApi('SEND_DEVICE_TOKEN', 'Device token available: ${bloc.deviceToken.valueWrapper?.value != null}');
   
   try {
-    print('DEBUG: Making device token request...');
+    DebugHelper.debugApi('SEND_DEVICE_TOKEN', 'Making device token request...');
     await http.post(Uri.parse('$apiUrl/user/device_token'),
         headers: {
           'Authorization': bloc.token.valueWrapper?.value,
           'Content-Type': 'application/json'
         },
         body: json.encode({'token': bloc.deviceToken.valueWrapper?.value}));
-    print('DEBUG: Device token sent successfully');
+    DebugHelper.debugApi('SEND_DEVICE_TOKEN', 'Device token sent successfully');
   } catch (err) {
-    print('DEBUG: Error sending device token: $err');
-    print('DEBUG: Error type: ${err.runtimeType}');
+    DebugHelper.debugError('SEND_DEVICE_TOKEN', 'Error sending device token: $err');
+    DebugHelper.debugError('SEND_DEVICE_TOKEN', 'Error type: ${err.runtimeType}');
   }
 }
 

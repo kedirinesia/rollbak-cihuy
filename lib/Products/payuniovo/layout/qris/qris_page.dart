@@ -12,6 +12,7 @@ import 'package:mobile/screen/kyc/reject.dart';
 import 'package:mobile/screen/kyc/verification1.dart';
 import 'package:mobile/screen/kyc/waiting.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 // ignore: must_be_immutable
 class QrisPage extends StatefulWidget {
@@ -63,51 +64,51 @@ class _QrisPageState extends State<QrisPage>
   // }
 
   Future<Map<String, dynamic>> getUserInfo() async {
-    print('[DEBUG] Payuniovo QRIS Page: Getting user info...');
+    DebugHelper.debugPrint('Payuniovo QRIS Page: Getting user info...');
     try {
       final response = await http.get(
         Uri.parse('$apiUrl/user/info'),
         headers: {'Authorization': bloc.token.valueWrapper?.value},
       );
 
-      print('[DEBUG] Payuniovo QRIS Page: HTTP status: ${response.statusCode}');
-      print('[DEBUG] Payuniovo QRIS Page: Response body: ${response.body}');
+      DebugHelper.debugPrint('Payuniovo QRIS Page: HTTP status: ${response.statusCode}');
+      DebugHelper.debugPrint('Payuniovo QRIS Page: Response body: ${response.body}');
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        print('[DEBUG] Payuniovo QRIS Page: User info data: $data');
+        DebugHelper.debugPrint('Payuniovo QRIS Page: User info data: $data');
         return data;
       } else {
-        print('[DEBUG] Payuniovo QRIS Page: Failed to load user info, status: ${response.statusCode}');
+        DebugHelper.debugPrint('Payuniovo QRIS Page: Failed to load user info, status: ${response.statusCode}');
         throw Exception('Failed to load user info');
       }
     } catch (e) {
-      print('[DEBUG] Payuniovo QRIS Page: Exception getting user info: $e');
+      DebugHelper.debugPrint('Payuniovo QRIS Page: Exception getting user info: $e');
       throw e;
     }
   }
 
   // membuat Future untuk dipanggil dalam FutureBuilder
   Future<int> _getKycStatus() async {
-    print('[DEBUG] Payuniovo QRIS Page: Getting KYC status...');
+    DebugHelper.debugPrint('Payuniovo QRIS Page: Getting KYC status...');
     try {
       // Tempatkan logika untuk mendapatkan status KYC di sini. Kode berikut hanyalah contoh.
       Map<String, dynamic> userInfo = await getUserInfo();
       Map<String, dynamic> kyc = userInfo['data']['kyc'];
       int status = kyc == null ? null : kyc['status'];
-      print('[DEBUG] Payuniovo QRIS Page: KYC status: $status');
+      DebugHelper.debugPrint('Payuniovo QRIS Page: KYC status: $status');
       return status;
     } catch (e) {
-      print('[DEBUG] Payuniovo QRIS Page: Exception getting KYC status: $e');
+      DebugHelper.debugPrint('Payuniovo QRIS Page: Exception getting KYC status: $e');
       return null;
     }
     // return kyc['status'];
   }
 
   Widget _getKycPage(int status) {
-    print('[DEBUG] Payuniovo QRIS Page: Getting KYC page for status: $status');
+    DebugHelper.debugPrint('Payuniovo QRIS Page: Getting KYC page for status: $status');
     if (status == null) {
-      print('[DEBUG] Payuniovo QRIS Page: Status null, showing text only');
+      DebugHelper.debugPrint('Payuniovo QRIS Page: Status null, showing text only');
       return Center(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
@@ -136,13 +137,13 @@ class _QrisPageState extends State<QrisPage>
     }
     switch (status) {
       case 0:
-        print('[DEBUG] Payuniovo QRIS Page: Status 0, showing WaitingKycPage');
+        DebugHelper.debugPrint('Payuniovo QRIS Page: Status 0, showing WaitingKycPage');
         return WaitingKycPage();
       case 1:
-        print('[DEBUG] Payuniovo QRIS Page: Status 1, showing MyQrisPage');
+        DebugHelper.debugPrint('Payuniovo QRIS Page: Status 1, showing MyQrisPage');
         return MyQrisPage();
       case 2:
-        print('[DEBUG] Payuniovo QRIS Page: Status 2, showing text only');
+        DebugHelper.debugPrint('Payuniovo QRIS Page: Status 2, showing text only');
         return Center(
           child: Padding(
             padding: const EdgeInsets.all(24.0),
@@ -169,7 +170,7 @@ class _QrisPageState extends State<QrisPage>
           ),
         );
       default:
-        print('[DEBUG] Payuniovo QRIS Page: Unknown status $status, showing loading dialog');
+        DebugHelper.debugPrint('Payuniovo QRIS Page: Unknown status $status, showing loading dialog');
         return Dialog(
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -192,26 +193,26 @@ class _QrisPageState extends State<QrisPage>
 
   @override
   Widget build(BuildContext context) {
-    print('[DEBUG] Payuniovo QRIS Page: Building QRIS page with initIndex: ${widget.initIndex}');
+    DebugHelper.debugPrint('Payuniovo QRIS Page: Building QRIS page with initIndex: ${widget.initIndex}');
     return DefaultTabController(
       length: 2,
       initialIndex: widget.initIndex,
       child: FutureBuilder<int>(
           future: _kycStatusFuture,
           builder: (context, snapshot) {
-            print('[DEBUG] Payuniovo QRIS Page: Connection state: ${snapshot.connectionState}');
-            print('[DEBUG] Payuniovo QRIS Page: Has error: ${snapshot.hasError}');
-            print('[DEBUG] Payuniovo QRIS Page: Has data: ${snapshot.hasData}');
+            DebugHelper.debugPrint('Payuniovo QRIS Page: Connection state: ${snapshot.connectionState}');
+            DebugHelper.debugPrint('Payuniovo QRIS Page: Has error: ${snapshot.hasError}');
+            DebugHelper.debugPrint('Payuniovo QRIS Page: Has data: ${snapshot.hasData}');
             if (snapshot.hasData) {
-              print('[DEBUG] Payuniovo QRIS Page: KYC status data: ${snapshot.data}');
+              DebugHelper.debugPrint('Payuniovo QRIS Page: KYC status data: ${snapshot.data}');
             }
             if (snapshot.hasError) {
-              print('[DEBUG] Payuniovo QRIS Page: Error: ${snapshot.error}');
+              DebugHelper.debugPrint('Payuniovo QRIS Page: Error: ${snapshot.error}');
             }
             
             if (snapshot.connectionState == ConnectionState.waiting) {
               // Tampilkan indikator loading ketika data masih dimuat
-              print('[DEBUG] Payuniovo QRIS Page: Showing loading dialog');
+              DebugHelper.debugPrint('Payuniovo QRIS Page: Showing loading dialog');
               return Dialog(
                 backgroundColor: Colors.transparent,
                 elevation: 0,
@@ -231,11 +232,11 @@ class _QrisPageState extends State<QrisPage>
               );
             } else if (snapshot.hasError) {
               // Tampilkan pesan error jika terjadi kesalahan saat memuat data
-              print('[DEBUG] Payuniovo QRIS Page: Showing error message');
+              DebugHelper.debugPrint('Payuniovo QRIS Page: Showing error message');
               return Text('Error: ${snapshot.error}');
             } else {
               // Jika data telah selesai dimuat, tampilkan TabBarView dengan halaman yang sesuai
-              print('[DEBUG] Payuniovo QRIS Page: Showing main QRIS interface');
+              DebugHelper.debugPrint('Payuniovo QRIS Page: Showing main QRIS interface');
               return Scaffold(
                 // appBar: AppBar(
                 //   automaticallyImplyLeading: false,

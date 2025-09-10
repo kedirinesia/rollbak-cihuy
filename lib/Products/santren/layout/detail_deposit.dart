@@ -12,6 +12,7 @@ import 'package:mobile/modules.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/topup/bank/transfer-deposit.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 const String apiUrl = 'https://santren-app.findig.id/api/v1';
 
@@ -102,7 +103,7 @@ class _DetailDepositState extends DetailDepositController {
         Uri.parse('$apiUrl/trx/${widget.dep.id}'),
         headers: {'Authorization': token},
       );
-      print('RAW DETAIL API: ${resp.body}');
+      DebugHelper.debugPrint('RAW DETAIL API: ${resp.body}');
       if (resp.statusCode == 200) {
         final jsonBody = json.decode(resp.body);
         final body = jsonBody['data'] ?? jsonBody;
@@ -111,11 +112,11 @@ class _DetailDepositState extends DetailDepositController {
           _loadingDetail = false;
         });
       } else {
-        print('Detail fetch failed: ${resp.statusCode}');
+        DebugHelper.debugPrint('Detail fetch failed: ${resp.statusCode}');
         setState(() => _loadingDetail = false);
       }
     } catch (e) {
-      print('ERROR _fetchDetail: $e');
+      DebugHelper.debugPrint('ERROR _fetchDetail: $e');
       setState(() => _loadingDetail = false);
     }
   }
@@ -129,7 +130,7 @@ class _DetailDepositState extends DetailDepositController {
         Uri.parse('$apiUrl/user/info'),
         headers: {'Authorization': token},
       );
-      print('RESPONSE BODY user/info: ${response.body}');
+      DebugHelper.debugPrint('RESPONSE BODY user/info: ${response.body}');
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         String hasilNama = '-';
@@ -151,7 +152,7 @@ class _DetailDepositState extends DetailDepositController {
         });
       }
     } catch (e) {
-      print('ERROR getNamaPengguna: $e');
+      DebugHelper.debugPrint('ERROR getNamaPengguna: $e');
       setState(() {
         namaPengguna = '-';
         loadingNama = false;

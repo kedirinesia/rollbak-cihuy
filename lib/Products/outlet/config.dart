@@ -1,6 +1,7 @@
 // @dart=2.9
 
 import 'package:mobile/Products/outlet/layout/index.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 String sigVendor = '63db2cb02200a001b19f2624';
 

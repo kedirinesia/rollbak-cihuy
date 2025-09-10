@@ -9,6 +9,7 @@ import 'package:mobile/Products/ayoba/layout/komisi/tukar_komisi.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/bloc/Bloc.dart' show bloc;
 import 'dart:convert';
+import 'package:mobile/utils/debug_helper.dart';
 
 abstract class TukarKomisiController extends State<TukarKomisi>
     with TickerProviderStateMixin {
@@ -76,7 +77,7 @@ abstract class TukarKomisiController extends State<TukarKomisi>
         Navigator.of(context).pop();
       }
     } catch (err) {
-      print(err.toString());
+      DebugHelper.debugError('TUKAR_KOMISI', err.toString());
     }
     setState(() {
       loading = false;

@@ -18,6 +18,7 @@ import 'package:mobile/modules.dart';
 import 'package:mobile/screen/disable.dart';
 import 'package:nav/nav.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 enum OTP { sms, whatsapp, email }
 
@@ -75,7 +76,7 @@ class _OtpPageState extends State<OtpPage> {
     } else {
       String message = json.decode(response.body)['message'] ??
           'Terjadi kendala saat meminta kode OTP';
-      print(response.body);
+      DebugHelper.debugPrint('response.body.toString()');
       ScaffoldMessenger.of(context).showSnackBar(Alert(
         message,
         isError: true,

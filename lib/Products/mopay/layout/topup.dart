@@ -9,6 +9,7 @@ import 'package:mobile/screen/topup/merchant/merchant.dart';
 import 'package:mobile/screen/topup/qris/qris.dart';
 import 'package:mobile/provider/api.dart';
 import 'package:mobile/screen/topup/va/va.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class TopupPage extends StatefulWidget {
   @override
@@ -28,7 +29,7 @@ class _TopupPageState extends State<TopupPage> with TickerProviderStateMixin {
   fetchData() async {
     try {
       List<dynamic> datas = await api.get('/deposit/methode', cache: true);
-      print(datas);
+      DebugHelper.debugPrint('datas.toString()');
       listPayment = datas.map((e) => PaymentModel.fromJson(e)).toList();
     } catch (e) {
       listPayment = [];
@@ -40,7 +41,7 @@ class _TopupPageState extends State<TopupPage> with TickerProviderStateMixin {
   }
 
   onTapMenu(PaymentModel payment) {
-    print('payment type -> ${payment.type}');
+    DebugHelper.debugPrint('payment type -> ${payment.type}');
     if (payment.type == 1 || payment.type == 2) {
       return Navigator.of(context)
           .push(MaterialPageRoute(builder: (_) => TopupBank(payment)));

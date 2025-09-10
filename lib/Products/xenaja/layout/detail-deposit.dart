@@ -17,6 +17,7 @@ import 'package:screenshot/screenshot.dart';
 import 'package:share/share.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class DetailDeposit extends StatefulWidget {
   final DepositModel dep;
@@ -91,14 +92,14 @@ class _DetailDepositState extends State<DetailDeposit> {
       Uint8List bytes = await _screenshotController.capture(pixelRatio: 2.5);
       await image.writeAsBytes(bytes);
       if (image == null) return;
-      print(image.path);
+      DebugHelper.debugPrint('image.path.toString()');
       await Share.shareFiles(
         [image.path],
         text: 'Bayar Pakai Dana',
         packageApp: 'id.dana',
       );
     } catch (e) {
-      print('Error sharing file: $e');
+      DebugHelper.debugPrint('Error sharing file: $e');
     }
   }
 
@@ -312,7 +313,7 @@ class _DetailDepositState extends State<DetailDeposit> {
                   ? TextButton(
                       onPressed: () async {
                         try {
-                          print(widget.dep.url_payment);
+                          DebugHelper.debugPrint('widget.dep.url_payment.toString()');
                           await launch(widget.dep.url_payment);
                         } catch (e) {
                           debugPrint(e.toString());

@@ -11,9 +11,10 @@ import 'package:mobile/models/dynamic-prepaid.dart';
 import 'package:mobile/models/menu.dart';
 import 'package:mobile/models/favorite_number.dart';
 import 'package:mobile/modules.dart';
-import 'package:mobile/screen/transaksi/inquiry_dynamic_prepaid.dart';
+import 'package:mobile/screen/transaksi/inquiry_dynamic_prepaid.dart';  
 import 'package:mobile/screen/favorite-number/favorite-number.dart';
 import 'package:mobile/screen/dynamic-prepaid/dynamic-denom-controller.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class DynamicPrepaidDenom extends StatefulWidget {
   final MenuModel menu;
@@ -150,8 +151,7 @@ class _DynamicPrepaidDenomState extends DynamicDenomController {
                                                     FavoriteNumber('prepaid')),
                                           );
 
-                                          print(
-                                              'response favorite-number -> $response');
+                                          DebugHelper.debugPrint('response favorite-number -> $response');
                                           if (response == null) return;
                                           setState(() {
                                             tujuan.text = response.tujuan;
@@ -200,8 +200,7 @@ class _DynamicPrepaidDenomState extends DynamicDenomController {
                                                     FavoriteNumber('prepaid')),
                                           );
 
-                                          print(
-                                              'response favorite-number -> $response');
+                                          DebugHelper.debugPrint('response favorite-number -> $response');
                                           if (response == null) return;
                                           setState(() {
                                             tujuan.text = response.tujuan;

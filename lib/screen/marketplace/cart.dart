@@ -13,6 +13,7 @@ import 'package:mobile/modules.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mobile/screen/marketplace/order.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile/utils/debug_helper.dart';
 
 class CartMarketPage extends StatefulWidget {
   @override
@@ -112,7 +113,7 @@ class _CartMarketPageState extends State<CartMarketPage> {
         return false;
       }
     } catch (e) {
-      print('ERROR: $e');
+      DebugHelper.debugPrint('ERROR: $e');
       showToast(context, 'Gagal mengambil data produk');
       return false;
     }
@@ -126,24 +127,24 @@ class _CartMarketPageState extends State<CartMarketPage> {
           'Authorization': bloc.token.valueWrapper?.value,
         },
       );
-      print("Response from fetchHargaBaru: ${response.body}");
+      DebugHelper.debugPrint('"Response from fetchHargaBaru: ${response.body}"');
 
       if (response.statusCode == 200) {
         var data = json.decode(response.body);
-        print("Harga baru diperoleh: ${data['data']['harga_jual']}");
+        DebugHelper.debugPrint(''"Harga baru diperoleh: ${data['data']['harga_jual']}"'');
         return data['data']['harga_jual'];
       } else {
-        print("Error fetching new price: ${response.statusCode}");
+        DebugHelper.debugPrint('"Error fetching new price: ${response.statusCode}"');
         return null;
       }
     } catch (error) {
-      print("Exception in fetchHargaBaru: $error");
+      DebugHelper.debugPrint('"Exception in fetchHargaBaru: $error"');
       return null;
     }
   }
 
   Future<void> updateHarga() async {
-    print('SUDAH SAMPAI SINI!');
+    DebugHelper.debugPrint('SUDAH SAMPAI SINI!');
     var cartBox = Hive.box('cart');
 
     for (int i = 0; i < cartBox.length; i++) {
@@ -169,7 +170,7 @@ class _CartMarketPageState extends State<CartMarketPage> {
           cartBox.putAt(i, updatedProduk.toMap());
         }
       } catch (error) {
-        print("Error updating price for item $i: $error");
+        DebugHelper.debugPrint('"Error updating price for item $i: $error"');
       }
     }
   }
@@ -208,7 +209,7 @@ class _CartMarketPageState extends State<CartMarketPage> {
                   child: ValueListenableBuilder(
                     valueListenable: Hive.box('cart').listenable(),
                     builder: (context, Box<dynamic> box, _) {
-                      print("Current cart items: ${box.values.toList()}");
+                      DebugHelper.debugPrint('"Current cart items: ${box.values.toList()}"');
                       if (box.length == 0) return Container();
 
                       return ListView.separated(
@@ -218,8 +219,7 @@ class _CartMarketPageState extends State<CartMarketPage> {
                         itemBuilder: (ctx, i) {
                           ProdukCartMarket produk =
                               ProdukCartMarket.parse(box.getAt(i));
-                          print(
-                              "Produk di UI - Judul: ${produk.title}, Harga: ${produk.price}");
+                          DebugHelper.debugPrint('"Produk di UI - Judul: ${produk.title}, Harga: ${produk.price}".toString()');
 
                           if (produk.count < 1) {
                             Hive.box('cart').deleteAt(i);

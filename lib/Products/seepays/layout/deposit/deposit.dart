@@ -11,6 +11,7 @@ import 'package:mobile/modules.dart';
 import 'package:mobile/Products/seepays/layout/deposit/deposit-controller.dart';
 import 'package:mobile/screen/transaksi/detail_deposit.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class DepositPage extends StatefulWidget {
   @override
@@ -24,10 +25,10 @@ class _DepositPageState extends DepositController
 
   @override
   Widget build(BuildContext context) {
-    print('🔍 [DEPOSIT] build() called');
-    print('🔍 [DEPOSIT] Loading state: $loading');
-    print('🔍 [DEPOSIT] ListDeposit length: ${listDeposit.length}');
-    print('🔍 [DEPOSIT] Package name: $packageName');
+    DebugHelper.debugPrint('🔍 [DEPOSIT] build() called');
+    DebugHelper.debugPrint('🔍 [DEPOSIT] Loading state: $loading');
+    DebugHelper.debugPrint('🔍 [DEPOSIT] ListDeposit length: ${listDeposit.length}');
+    DebugHelper.debugPrint('🔍 [DEPOSIT] Package name: $packageName');
     
     return loading
         ? Container(
@@ -56,23 +57,23 @@ class _DepositPageState extends DepositController
                 enablePullDown: true,
                 enablePullUp: true,
                 onRefresh: () async {
-                  print('🔍 [DEPOSIT] Pull to refresh triggered');
-                  print('🔍 [DEPOSIT] Resetting currentPage to 0');
+                  DebugHelper.debugPrint('🔍 [DEPOSIT] Pull to refresh triggered');
+                  DebugHelper.debugPrint('🔍 [DEPOSIT] Resetting currentPage to 0');
                   currentPage = 0;
-                  print('🔍 [DEPOSIT] Setting isEdge to false');
+                  DebugHelper.debugPrint('🔍 [DEPOSIT] Setting isEdge to false');
                   isEdge = false;
-                  print('🔍 [DEPOSIT] Clearing listDeposit');
+                  DebugHelper.debugPrint('🔍 [DEPOSIT] Clearing listDeposit');
                   listDeposit.clear();
-                  print('🔍 [DEPOSIT] Calling getData()');
+                  DebugHelper.debugPrint('🔍 [DEPOSIT] Calling getData()');
                   await getData();
-                  print('🔍 [DEPOSIT] Refresh completed, calling refreshCompleted()');
+                  DebugHelper.debugPrint('🔍 [DEPOSIT] Refresh completed, calling refreshCompleted()');
                   _refreshController.refreshCompleted();
                 },
                 onLoading: () async {
-                  print('🔍 [DEPOSIT] Pull to load more triggered');
-                  print('🔍 [DEPOSIT] Calling getData() for more items');
+                  DebugHelper.debugPrint('🔍 [DEPOSIT] Pull to load more triggered');
+                  DebugHelper.debugPrint('🔍 [DEPOSIT] Calling getData() for more items');
                   await getData();
-                  print('🔍 [DEPOSIT] Load complete, calling loadComplete()');
+                  DebugHelper.debugPrint('🔍 [DEPOSIT] Load complete, calling loadComplete()');
                   _refreshController.loadComplete();
                 },
                 child: ListView.separated(
@@ -82,9 +83,9 @@ class _DepositPageState extends DepositController
                   itemCount: listDeposit.length,
                   separatorBuilder: (_, i) => SizedBox(height: 10),
                   itemBuilder: (_, int index) {
-                    print('🔍 [DEPOSIT] Building list item at index: $index');
+                    DebugHelper.debugPrint('🔍 [DEPOSIT] Building list item at index: $index');
                     DepositModel m = listDeposit[index];
-                    print('🔍 [DEPOSIT] Deposit item - Nominal: ${m.nominal}, Status: ${m.statusModel.statusText}, Created: ${m.created_at}');
+                    DebugHelper.debugPrint('🔍 [DEPOSIT] Deposit item - Nominal: ${m.nominal}, Status: ${m.statusModel.statusText}, Created: ${m.created_at}');
                     
                     return Container(
                       margin: EdgeInsets.symmetric(horizontal: 10),
@@ -99,8 +100,8 @@ class _DepositPageState extends DepositController
                           ]),
                       child: ListTile(
                         onTap: () {
-                          print('🔍 [DEPOSIT] Deposit item tapped at index: $index');
-                          print('🔍 [DEPOSIT] Navigating to DetailDeposit with deposit: ${m.nominal} - ${m.statusModel.statusText}');
+                          DebugHelper.debugPrint('🔍 [DEPOSIT] Deposit item tapped at index: $index');
+                          DebugHelper.debugPrint('🔍 [DEPOSIT] Navigating to DetailDeposit with deposit: ${m.nominal} - ${m.statusModel.statusText}');
                           Navigator.of(context).push(
                             PageTransition(
                               child: DetailDeposit(m),
@@ -127,7 +128,7 @@ class _DepositPageState extends DepositController
                                     height: 20.0,
                                     fit: BoxFit.contain,
                                     errorBuilder: (context, error, stackTrace) {
-                                      print('🔍 [DEPOSIT] Asset error for: ${m.statusModel.icon} - Exception: $error');
+                                      DebugHelper.debugPrint('🔍 [DEPOSIT] Asset error for: ${m.statusModel.icon} - Exception: $error');
                                       return Icon(
                                         m.statusModel.status == 0 
                                             ? Icons.hourglass_empty 

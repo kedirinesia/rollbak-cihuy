@@ -10,6 +10,7 @@ import 'package:mobile/screen/pulsa/pulsa.dart';
 import 'package:mobile/Products/ayoba/layout/list_grid_menu.dart';
 import 'package:mobile/screen/transaksi/bulk.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class MenuComponent extends StatefulWidget {
   @override
@@ -45,7 +46,7 @@ class _MenuComponentState extends State<MenuComponent> {
         loading = false;
       });
     } catch (e) {
-      print(e);
+      DebugHelper.debugPrint('e.toString()');
     }
   }
 
@@ -77,7 +78,7 @@ class _MenuComponentState extends State<MenuComponent> {
         }
       }
     } else if (menu.jenis == 4) {
-      print('REDIRECT KE HALAMAN LIST GRID');
+      DebugHelper.debugPrint('REDIRECT KE HALAMAN LIST GRID');
       return Navigator.of(context).push(
         MaterialPageRoute(
           builder: (_) => ListGridMenu(menu),

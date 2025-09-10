@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/provider/analitycs.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class TransferPagePopay extends StatefulWidget {
   @override

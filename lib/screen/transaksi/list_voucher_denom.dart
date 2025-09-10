@@ -14,6 +14,7 @@ import 'package:mobile/models/menu.dart';
 import 'package:mobile/models/prepaid-denom.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/modules.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class ListVoucherDenomPage extends StatefulWidget {
   final MenuModel menu;
@@ -61,9 +62,9 @@ class _ListVoucherDenomPageState extends State<ListVoucherDenomPage> {
   }
 
   onTapdenom(denom) {
-    print("onTapdenom called with note: ${denom.note}");
+    DebugHelper.debugPrint('"onTapdenom called with note: ${denom.note}"');
     if (denom.note == 'gangguan') {
-      print("Note is 'gangguan'. Showing snackbar.");
+      DebugHelper.debugPrint(''"Note is 'gangguan'. Showing snackbar."'');
       ScaffoldMessenger.of(context).showSnackBar(
         Alert(
           'Produk sedang mengalami gangguan',
@@ -72,7 +73,7 @@ class _ListVoucherDenomPageState extends State<ListVoucherDenomPage> {
       );
       return;
     }
-    print("Closing current page with selected denom.");
+    DebugHelper.debugPrint('"Closing current page with selected denom."');
     Navigator.pop(context, denom);
   }
 
@@ -93,7 +94,7 @@ class _ListVoucherDenomPageState extends State<ListVoucherDenomPage> {
   //       _loading = false;
   //     });
   //   } catch (err) {
-  //     print(err);
+  //     DebugHelper.debugPrint('err.toString()');
   //   }
   // }
 

@@ -7,6 +7,7 @@ import 'package:mobile/Products/hexapay2/layout/splash.dart';
 import 'package:mobile/Products/hexapay2/layout/topup.dart';
 import 'package:mobile/Products/hexapay2/layout/wizard/wizard.dart';
 import 'package:mobile/models/deposit.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 String sigVendor = '65ba4519b78f35f24d80dd57';
 

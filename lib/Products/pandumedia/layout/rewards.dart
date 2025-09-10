@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart' show bloc;
 import 'package:mobile/models/reward.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class RewardComponent extends StatefulWidget {
   final double width;

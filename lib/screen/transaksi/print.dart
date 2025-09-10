@@ -28,13 +28,14 @@ import 'package:path_provider/path_provider.dart';
 import 'test_bluetooth_ios.dart';
 import 'network_test.dart';
 import 'network_printer_complete.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class PrintPreview extends StatefulWidget {
   final TrxModel trx;
   final bool isPostpaid;
 
   PrintPreview({Key key, this.trx, this.isPostpaid = false}) : super(key: key) {
-    print("isPostpaid in constructor: $isPostpaid");
+    DebugHelper.debugPrint('"isPostpaid in constructor: $isPostpaid"');
   }
 
   @override
@@ -68,7 +69,7 @@ class _PrintPreviewState extends PrintPreviewController {
 
   Future<void> simpanEditHarga() async {
     String productId = widget.trx.produk['_id'];
-    print(productId);
+    DebugHelper.debugPrint('productId.toString()');
     String hargaJual = widget.isPostpaid ? '0' : txtHarga.text;
     try {
       http.Response response =
@@ -81,7 +82,7 @@ class _PrintPreviewState extends PrintPreviewController {
                 'harga': hargaJual,
                 'admin': txtAdmin.text,
               }));
-      print(response.body);
+      DebugHelper.debugPrint('response.body.toString()');
       String message = json.decode(response.body)['message'];
       if (response.statusCode == 200) {
         showCustomDialog(
@@ -104,7 +105,7 @@ class _PrintPreviewState extends PrintPreviewController {
         );
       }
     } catch (e) {
-      print('Error: $e');
+      DebugHelper.debugPrint('Error: $e');
     }
   }
 
@@ -434,7 +435,7 @@ class _PrintPreviewState extends PrintPreviewController {
     } else {
       await _bluetooth.printCustom('------------------', 0, 1);
       trxData.print.forEach((el) async {
-        print('tes');
+        DebugHelper.debugPrint('tes');
         if (el['label'].toString().toLowerCase() == 'token') {
           await _bluetooth.printCustom(el['value'], 1, 1);
         }
@@ -540,7 +541,7 @@ class _PrintPreviewState extends PrintPreviewController {
   //     }
   //     return false;
   //   } on PlatformException catch (e) {
-  //     print("Failed to open Bluetooth settings: '${e.message}'.");
+  //     DebugHelper.debugPrint(''"Failed to open Bluetooth settings: '${e.message}'."'');
   //     return false;
   //   }
   // }
@@ -550,21 +551,21 @@ class _PrintPreviewState extends PrintPreviewController {
     if (!status) return;
 
     // Add debugging for iOS
-    print("Bluetooth status: $status");
-    print("Platform: ${Platform.operatingSystem}");
+    DebugHelper.debugPrint('"Bluetooth status: $status"');
+    DebugHelper.debugPrint('"Platform: ${Platform.operatingSystem}"');
     
     BluetoothDevice device;
     try {
       device = await Navigator.of(context)
           .push(MaterialPageRoute(builder: (_) => SelectPrinterPage()));
       if (device == null) {
-        print("No device selected");
+        DebugHelper.debugPrint('"No device selected"');
         return;
       }
       
-      print("Selected device: ${device.name} (${device.address})");
+      DebugHelper.debugPrint('"Selected device: ${device.name} (${device.address})"');
     } catch (e) {
-      print("Error selecting printer: $e");
+      DebugHelper.debugPrint('"Error selecting printer: $e"');
       showToast(context, 'Gagal memilih printer: $e');
       return;
     }
@@ -626,7 +627,7 @@ class _PrintPreviewState extends PrintPreviewController {
         }
         showToast(context, 'Berhasil mencetak struk');
       } catch (e) {
-        print('Printing error: $e');
+        DebugHelper.debugPrint('Printing error: $e');
         showToast(context, 'Gagal mencetak struk: ${e.toString()}');
       } finally {
         await BluetoothHelper.disconnect();
@@ -634,7 +635,7 @@ class _PrintPreviewState extends PrintPreviewController {
       
     } catch (e) {
       Navigator.of(context).pop(); // Close progress dialog if still open
-      print('Connection error: $e');
+      DebugHelper.debugPrint('Connection error: $e');
       
       String errorMessage = BluetoothHelper.getErrorMessage(e);
       
@@ -649,7 +650,7 @@ class _PrintPreviewState extends PrintPreviewController {
 
   @override
   Widget build(BuildContext context) {
-    print("isPostpaid: ${widget.isPostpaid}");
+    DebugHelper.debugPrint('"isPostpaid: ${widget.isPostpaid}"');
     return Scaffold(
       appBar: AppBar(
         title: Text('Cetak'),
@@ -1288,18 +1289,18 @@ abstract class PrintPreviewController extends State<PrintPreview>
       }
 
       setState(() {});
-      print("Panggil ambilDataTerbaru");
+      DebugHelper.debugPrint('"Panggil ambilDataTerbaru"');
       await ambilDataTerbaru();
     } else {
-      print('Error: ${response.body}');
+      DebugHelper.debugPrint('Error: ${response.body}');
     }
   }
 
   Future<void> ambilDataTerbaru() async {
-    print("Fungsi ambilDataTerbaru dipanggil");
+    DebugHelper.debugPrint('"Fungsi ambilDataTerbaru dipanggil"');
     try {
       String productId = widget.trx.produk['_id'];
-      print("Product ID: $productId");
+      DebugHelper.debugPrint('"Product ID: $productId"');
       
       http.Response response = await http.get(
         Uri.parse('$apiUrl/product/member/$productId'),
@@ -1308,8 +1309,8 @@ abstract class PrintPreviewController extends State<PrintPreview>
         },
       );
 
-      print("Response Status: ${response.statusCode}");
-      print("Full JSON Response: ${response.body}");
+      DebugHelper.debugPrint('"Response Status: ${response.statusCode}"');
+      DebugHelper.debugPrint('"Full JSON Response: ${response.body}"');
 
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
@@ -1334,17 +1335,17 @@ abstract class PrintPreviewController extends State<PrintPreview>
             total = harga + admin + cetak;
           });
 
-          print('✅ Data berhasil diupdate - Harga: $hargaBaru, Admin: $adminBaru');
+          DebugHelper.debugPrint('✅ Data berhasil diupdate - Harga: $hargaBaru, Admin: $adminBaru');
         } else {
-          print('⚠️ Response data structure tidak valid: ${responseData['data']}');
+          DebugHelper.debugPrint('⚠️ Response data structure tidak valid: ${responseData['data']}');
         }
       } else {
-        print('❌ API Error ${response.statusCode}: ${response.body}');
+        DebugHelper.debugPrint('❌ API Error ${response.statusCode}: ${response.body}');
         // Don't update data if API fails, keep existing values
       }
     } catch (e) {
-      print('❌ Exception in ambilDataTerbaru: $e');
-      print('❌ Stack trace: ${StackTrace.current}');
+      DebugHelper.debugPrint('❌ Exception in ambilDataTerbaru: $e');
+      DebugHelper.debugPrint('❌ Stack trace: ${StackTrace.current}');
       // Don't update data if exception occurs, keep existing values
     }
   }

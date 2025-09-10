@@ -27,6 +27,7 @@ import 'package:mobile/screen/profile/toko/edit_toko.dart';
 // LIBS
 import 'package:mobile/index.dart';
 import 'package:mobile/modules.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class ProfileGreenpay extends StatefulWidget {
   @override
@@ -383,7 +384,7 @@ class _ProfileGreenpayState extends State<ProfileGreenpay> {
                               } else {
                                 final InAppReview inAppReview =
                                     InAppReview.instance;
-                                print(await inAppReview.isAvailable());
+                                DebugHelper.debugPrint('await inAppReview.isAvailable().toString()');
 
                                 if (await inAppReview.isAvailable()) {
                                   inAppReview.requestReview();

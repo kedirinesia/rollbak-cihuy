@@ -16,6 +16,7 @@ import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/transaksi/detail_mutasi.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile/utils/debug_helper.dart';
 
 class MutasiPage extends StatefulWidget {
   const MutasiPage({Key key}) : super(key: key);
@@ -93,7 +94,7 @@ class _MutasiPageState extends State<MutasiPage> {
     String parameters = listOfParams.join('&');
     String url = '$apiUrl/mutasi/list?$parameters';
 
-    print(url);
+    DebugHelper.debugPrint('url.toString()');
 
     if (isEdge) return;
     http.Response response = await http.get(Uri.parse(url),

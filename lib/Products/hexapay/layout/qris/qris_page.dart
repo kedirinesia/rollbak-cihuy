@@ -11,6 +11,7 @@ import 'package:http/http.dart' as http;
 import 'package:mobile/screen/kyc/reject.dart';
 import 'package:mobile/screen/kyc/verification1.dart';
 import 'package:mobile/screen/kyc/waiting.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 // ignore: must_be_immutable
 class QrisPage extends StatefulWidget {

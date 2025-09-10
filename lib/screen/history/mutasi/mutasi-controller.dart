@@ -13,6 +13,7 @@ import 'package:http/http.dart' as http;
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import '../../../bloc/Bloc.dart' show bloc;
 import '../../../bloc/Api.dart' show apiUrl;
+import 'package:mobile/utils/debug_helper.dart';
 
 abstract class MutasiController extends State<MutasiPage> {
   bool loadingNewPage = false;
@@ -83,7 +84,7 @@ abstract class MutasiController extends State<MutasiPage> {
     String parameters = listOfParams.join('&');
     String url = '$apiUrl/mutasi/list?$parameters';
 
-    print(url);
+    DebugHelper.debugPrint('url.toString()');
 
     if (isEdge) return;
     http.Response response = await http.get(Uri.parse(url),

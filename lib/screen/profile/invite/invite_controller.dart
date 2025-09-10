@@ -8,6 +8,7 @@ import 'package:mobile/screen/profile/invite/invite.dart';
 import 'package:mobile/bloc/Bloc.dart' show bloc;
 import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 abstract class InvitePageController extends State<InvitePage>
     with TickerProviderStateMixin {

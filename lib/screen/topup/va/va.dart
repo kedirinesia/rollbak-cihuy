@@ -9,6 +9,7 @@ import 'package:mobile/models/virtual_account.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/topup/va/va-controller.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class TopupVA extends StatefulWidget {
   @override
@@ -19,22 +20,22 @@ class _TopupVAState extends VAController {
   @override
   void initState() {
     super.initState();
-    print('🔍 [TOPUP VA] initState called');
-    print('🔍 [TOPUP VA] User ID: ${bloc.userId.valueWrapper?.value}');
+    DebugHelper.debugPrint('🔍 [TOPUP VA] initState called');
+    DebugHelper.debugPrint('🔍 [TOPUP VA] User ID: ${bloc.userId.valueWrapper?.value}');
     
     var analyticsData = {
       'userId': bloc.userId.valueWrapper?.value,
       'title': 'Virtual Account',
     };
-    print('🔍 [TOPUP VA] Analytics payload: ${analyticsData.toString()}');
+    DebugHelper.debugPrint('🔍 [TOPUP VA] Analytics payload: ${analyticsData.toString()}');
     analitycs.pageView('/va', analyticsData);
-    print('🔍 [TOPUP VA] Analytics page view sent');
+    DebugHelper.debugPrint('🔍 [TOPUP VA] Analytics page view sent');
   }
 
   @override
   Widget build(BuildContext context) {
-    print('🔍 [TOPUP VA] build() called');
-    print('🔍 [TOPUP VA] Loading state: $loading');
+    DebugHelper.debugPrint('🔍 [TOPUP VA] build() called');
+    DebugHelper.debugPrint('🔍 [TOPUP VA] Loading state: $loading');
     return Scaffold(
       appBar: AppBar(
         title: Text("Virtual Account"),
@@ -76,13 +77,13 @@ class _TopupVAState extends VAController {
                         prefixText: "Rp ",
                         isDense: true),
                     onChanged: (value) {
-                      print('🔍 [TOPUP VA] Nominal field changed: $value');
+                      DebugHelper.debugPrint('🔍 [TOPUP VA] Nominal field changed: $value');
                       int amount = int.tryParse(
                               nominal.text.replaceAll(RegExp('[^0-9]'), '')) ??
                           0;
-                      print('🔍 [TOPUP VA] Parsed amount: $amount');
+                      DebugHelper.debugPrint('🔍 [TOPUP VA] Parsed amount: $amount');
                       nominal.text = FormatRupiah(amount);
-                      print('🔍 [TOPUP VA] Formatted nominal: ${nominal.text}');
+                      DebugHelper.debugPrint('🔍 [TOPUP VA] Formatted nominal: ${nominal.text}');
                       nominal.selection = TextSelection.fromPosition(
                           TextPosition(offset: nominal.text.length));
                     },

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile/models/info.dart';
 import 'package:mobile/provider/api.dart';
 import 'package:mobile/screen/info/info.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class CardInfo extends StatefulWidget {
   @override

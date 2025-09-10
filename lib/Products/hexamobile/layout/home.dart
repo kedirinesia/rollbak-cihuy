@@ -27,6 +27,7 @@ import 'package:mobile/screen/marketplace/detail_produk.dart';
 import 'package:mobile/screen/marketplace/list_produk.dart';
 import 'package:mobile/screen/profile/reward/list_reward.dart';
 import 'package:mobile/screen/topup/topup.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class PakeAjaHome extends StatefulWidget {
   @override
@@ -62,7 +63,7 @@ class _PakeAjaHomeState extends State<PakeAjaHome> {
         return [];
       }
     } catch (e) {
-      print('Error: $e');
+      DebugHelper.debugPrint('Error: $e');
       return [];
     }
   }
@@ -158,7 +159,7 @@ class _PakeAjaHomeState extends State<PakeAjaHome> {
           InkWell(
             // onTap: () async {
             //   String barcode = (await BarcodeScanner.scan()).rawContent;
-            //   print(barcode);
+            //   DebugHelper.debugPrint('barcode.toString()');
             //   if (barcode.isNotEmpty) {
             //     return Navigator.of(context).push(
             //          MaterialPageRoute(builder: (_) => TransferByQR(barcode)));
@@ -616,7 +617,7 @@ class _PakeAjaHomeState extends State<PakeAjaHome> {
 
   @override
   Widget build(BuildContext context) {
-    print('DAN INI ADALAH HALAMAN HOME');
+    DebugHelper.debugPrint('DAN INI ADALAH HALAMAN HOME');
     return RefreshIndicator(
       onRefresh: () async {
         http.Response response = await http.get(

@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class PolicyDialog extends StatelessWidget {
   PolicyDialog({

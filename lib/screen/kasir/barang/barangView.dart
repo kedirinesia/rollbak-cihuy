@@ -23,6 +23,7 @@ import 'package:mobile/modules.dart';
 // screen page
 import 'package:mobile/screen/kasir/barang/barangAdd.dart';
 import 'package:mobile/screen/kasir/barang/barangUpdate.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class BarangView extends StatefulWidget {
   @override

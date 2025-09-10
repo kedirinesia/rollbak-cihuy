@@ -21,6 +21,7 @@ import 'package:mobile/screen/marketplace/cart.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:toast/toast.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile/utils/debug_helper.dart';
 
 
 class ProductDetailMarketplace extends StatefulWidget {
@@ -64,7 +65,7 @@ class _ProductDetailMarketplaceState extends State<ProductDetailMarketplace> {
       if (response.statusCode == 200) {
         product =
             ProdukDetailMarket.fromJson(json.decode(response.body)['data']);
-        print(product.images);
+        DebugHelper.debugPrint('product.images.toString()');
 
         setState(() {
           loading = false;
@@ -74,7 +75,7 @@ class _ProductDetailMarketplaceState extends State<ProductDetailMarketplace> {
         Navigator.of(context).pop();
       }
     } catch (e) {
-      print('ERROR: $e');
+      DebugHelper.debugPrint('ERROR: $e');
       showToast(context, 'Gagal mengambil data produk');
       Navigator.of(context).pop();
     }
@@ -93,7 +94,7 @@ class _ProductDetailMarketplaceState extends State<ProductDetailMarketplace> {
         return [];
       }
     } catch (e) {
-      print('Error: $e');
+      DebugHelper.debugPrint('Error: $e');
       return [];
     }
   }
@@ -124,7 +125,7 @@ class _ProductDetailMarketplaceState extends State<ProductDetailMarketplace> {
       }).catchError((err) {
         showToast(context, "Gagal menambahkan produk",
             duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
-        print('ADD TO CART ERROR: ${err.toString()}');
+        DebugHelper.debugPrint('ADD TO CART ERROR: ${err.toString()}');
       });
     }
   }

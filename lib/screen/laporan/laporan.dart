@@ -18,6 +18,7 @@ import 'package:http/http.dart' as http;
 import 'package:mobile/screen/transaksi/detail_transaksi.dart';
 import 'package:nav/nav.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class ReportPage extends StatefulWidget {
   // const ReportPage({super.key});
@@ -96,7 +97,7 @@ class _ReportPageState extends State<ReportPage> {
       params.forEach((key, value) => paramsArr.add('$key=$value'));
       String strParams = paramsArr.join('&');
       String url = '$apiUrl/trx/list?$strParams';
-      print(url);
+      DebugHelper.debugPrint('url.toString()');
 
       http.Response response = await http.get(
         Uri.parse(url),
@@ -115,7 +116,7 @@ class _ReportPageState extends State<ReportPage> {
             DateTime dateTimeB = DateTime.parse(b.created_at);
             return dateTimeB.compareTo(dateTimeA);
           } catch (e) {
-            print('Error while parsing date: $e');
+            DebugHelper.debugPrint('Error while parsing date: $e');
             return 0;
           }
         });
@@ -131,7 +132,7 @@ class _ReportPageState extends State<ReportPage> {
         );
       }
     } catch (e) {
-      print('ERROR GET TRX LIST: $e');
+      DebugHelper.debugPrint('ERROR GET TRX LIST: $e');
     } finally {
       setState(() {
         _isLoading = false;
@@ -178,7 +179,7 @@ class _ReportPageState extends State<ReportPage> {
         );
       }
     } catch (e) {
-      print('ERROR GET TRX COUNT: $e');
+      DebugHelper.debugPrint('ERROR GET TRX COUNT: $e');
     }
   }
 
@@ -542,9 +543,9 @@ class _ReportPageState extends State<ReportPage> {
                                   refreshController.refreshCompleted();
                                 },
                                 onLoading: () async {
-                                  print("Before increment: $_currentPage");
+                                  DebugHelper.debugPrint('"Before increment: $_currentPage"');
                                   _currentPage += 1;
-                                  print("After increment: $_currentPage");
+                                  DebugHelper.debugPrint('"After increment: $_currentPage"');
                                   await _getData(reset: false);
                                   refreshController.loadComplete();
                                 },

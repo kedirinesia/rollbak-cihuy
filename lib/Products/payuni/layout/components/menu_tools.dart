@@ -7,6 +7,7 @@ import 'package:mobile/Products/ayoba/layout/transfer.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/screen/history/history.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class MenuTools extends StatefulWidget {
   @override

@@ -28,6 +28,7 @@ import 'package:mobile/screen/marketplace/list_produk.dart';
 import 'package:mobile/screen/notifikasi/notifikasi.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/screen/wd/withdraw.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class PayuniHome extends StatefulWidget {
   @override
@@ -112,7 +113,7 @@ class _PayuniHomeState extends State<PayuniHome> with TickerProviderStateMixin {
         return [];
       }
     } catch (e) {
-      print('Error: $e');
+      DebugHelper.debugPrint('Error: $e');
       return [];
     }
   }

@@ -6,6 +6,7 @@ import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:permission_handler/permission_handler.dart';
 import './index.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 void mainCommon() {}
 

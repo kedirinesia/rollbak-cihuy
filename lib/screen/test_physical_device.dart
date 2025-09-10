@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
 import 'package:mobile/component/bluetooth_helper.dart';
 import 'package:mobile/component/bluetooth_modern_helper.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class TestPhysicalDevicePage extends StatefulWidget {
   @override

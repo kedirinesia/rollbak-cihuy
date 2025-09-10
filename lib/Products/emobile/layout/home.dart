@@ -10,6 +10,7 @@ import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/component/card_info.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class EmobileHome extends StatefulWidget {
   @override
@@ -273,7 +274,7 @@ class PanelSemuaMenu extends StatelessWidget {
             child: InkWell(
               onTap: () async {
                 var barcode = await BarcodeScanner.scan();
-                // print(barcode);
+                // DebugHelper.debugPrint('barcode.toString()');
                 // if (barcode.isNotEmpty) {
                 return Navigator.of(context).push(MaterialPageRoute(
                     builder: (_) => TransferByQR(barcode.rawContent)));

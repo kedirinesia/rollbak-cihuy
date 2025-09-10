@@ -1,6 +1,7 @@
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class BluetoothTestPage extends StatefulWidget {
   @override
@@ -32,9 +33,9 @@ class _BluetoothTestPageState extends State<BluetoothTestPage> {
         Permission.bluetoothScan,
       ].request();
 
-      print('Permission Status:');
+      DebugHelper.debugPrint('Permission Status:');
       statuses.forEach((permission, status) {
-        print('${permission}: $status');
+        DebugHelper.debugPrint('${permission}: $status');
       });
 
       setState(() {
@@ -81,16 +82,16 @@ class _BluetoothTestPageState extends State<BluetoothTestPage> {
         status = 'Found ${bondedDevices.length} bonded devices';
       });
 
-      print('Found devices:');
+      DebugHelper.debugPrint('Found devices:');
       for (var device in bondedDevices) {
-        print('- ${device.name} (${device.address})');
+        DebugHelper.debugPrint('- ${device.name} (${device.address})');
       }
     } catch (e) {
       setState(() {
         isLoading = false;
         status = 'Error scanning devices: $e';
       });
-      print('Error: $e');
+      DebugHelper.debugPrint('Error: $e');
     }
   }
 
@@ -123,7 +124,7 @@ class _BluetoothTestPageState extends State<BluetoothTestPage> {
       setState(() {
         status = 'Connection test failed: $e';
       });
-      print('Connection error: $e');
+      DebugHelper.debugPrint('Connection error: $e');
     }
   }
 

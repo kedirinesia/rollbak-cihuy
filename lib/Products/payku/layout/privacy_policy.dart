@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:mobile/Products/payku/layout/register.dart';
 import 'package:mobile/Products/payku/layout/terms/policy.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class PrivacyPolicyPage extends StatefulWidget {
   @override

@@ -5,6 +5,7 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile/utils/debug_helper.dart';
 // import 'package:path_provider/path_provider.dart';
 
 class CustomSelfieScreen extends StatefulWidget {
@@ -38,7 +39,7 @@ class _CustomSelfieScreenState extends State<CustomSelfieScreen> {
           setState(() {});
         });
       } else {
-        print("Kamera depan tidak ditemukan!");
+        DebugHelper.debugPrint('"Kamera depan tidak ditemukan!"');
       }
     });
   }

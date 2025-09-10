@@ -27,6 +27,7 @@ import 'package:mobile/screen/profile/reward/list_reward.dart';
 import 'package:mobile/screen/topup/topup.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
 import 'package:mobile/screen/wd/withdraw.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class PakeAjaHome extends StatefulWidget {
   @override
@@ -62,7 +63,7 @@ class _PakeAjaHomeState extends State<PakeAjaHome> {
         return [];
       }
     } catch (e) {
-      print('Error: $e');
+      DebugHelper.debugPrint('Error: $e');
       return [];
     }
   }
@@ -161,7 +162,7 @@ class _PakeAjaHomeState extends State<PakeAjaHome> {
             child: InkWell(
               onTap: () async {
                 String barcode = (await BarcodeScanner.scan()).rawContent;
-                print(barcode);
+                DebugHelper.debugPrint('barcode.toString()');
                 if (barcode.isNotEmpty) {
                   return Navigator.of(context).push(
                       MaterialPageRoute(builder: (_) => TransferByQR(barcode)));

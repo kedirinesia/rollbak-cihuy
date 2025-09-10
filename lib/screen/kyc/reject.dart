@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobile/config.dart';
 import 'package:mobile/screen/kyc/verification1.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class KycRejectPage extends StatelessWidget {
   @override

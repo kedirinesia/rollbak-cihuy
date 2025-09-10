@@ -14,6 +14,7 @@ import 'package:mobile/Products/ayoba/layout/components/list-sub-menu.dart';
 import 'package:mobile/screen/pulsa/pulsa.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mobile/screen/transaksi/voucher_bulk.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class MoreMenuScreen extends StatefulWidget {
   List<MenuModel> _moreMenu;
@@ -93,7 +94,7 @@ class _MoreMenuScreenState extends State<MoreMenuScreen>
         }
       }
     } else if (menu.jenis == 4) {
-      print('REDIRECT KE HALAMAN LIST GRID');
+      DebugHelper.debugPrint('REDIRECT KE HALAMAN LIST GRID');
       return Navigator.of(context).push(
         MaterialPageRoute(
           builder: (_) => ListGridMenu(menu),

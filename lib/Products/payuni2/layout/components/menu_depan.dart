@@ -18,6 +18,7 @@ import 'package:mobile/screen/pulsa/pulsa.dart';
 import 'package:mobile/Products/payuni2/layout/list_grid_menu.dart';
 import 'package:mobile/screen/transaksi/voucher_bulk.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class MenuComponent extends StatefulWidget {
   @override
@@ -101,12 +102,12 @@ class _MenuComponentState extends State<MenuComponent> {
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
     } catch (e) {
-      print(e);
+      DebugHelper.debugPrint('e.toString()');
     }
   }
 
   handleTapMenu(MenuModel menu) {
-    print('Menu clicked has jenis: ${menu.type}');
+    DebugHelper.debugPrint('Menu clicked has jenis: ${menu.type}');
     if (menu.jenis == 1) {
       return Navigator.of(context).push(MaterialPageRoute(builder: (_) {
         return Pulsa(menu);
@@ -134,7 +135,7 @@ class _MenuComponentState extends State<MenuComponent> {
         }
       }
     } else if (menu.jenis == 4) {
-      print('REDIRECT KE HALAMAN LIST GRID');
+      DebugHelper.debugPrint('REDIRECT KE HALAMAN LIST GRID');
       return Navigator.of(context).push(
         MaterialPageRoute(
           builder: (_) => ListGridMenu(menu),

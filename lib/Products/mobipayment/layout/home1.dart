@@ -24,6 +24,7 @@ import 'package:mobile/screen/marketplace/list_produk.dart';
 import 'package:mobile/screen/notifikasi/notifikasi.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/screen/wd/withdraw.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class MobipayHome extends StatefulWidget {
   @override
@@ -107,7 +108,7 @@ class _MobipayHomeState extends State<MobipayHome>
         return [];
       }
     } catch (e) {
-      print('Error: $e');
+      DebugHelper.debugPrint('Error: $e');
       return [];
     }
   }

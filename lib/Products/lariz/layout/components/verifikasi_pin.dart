@@ -13,6 +13,7 @@ import 'package:pin_input_text_field/pin_input_text_field.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mobile/bloc/Bloc.dart' show bloc;
 import 'package:mobile/bloc/Api.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class VerifikasiPin extends StatefulWidget {
   @override
@@ -130,7 +131,7 @@ abstract class VerifikasiPinController extends State<VerifikasiPin>
             });
       }
     } catch (err) {
-      print(err);
+      DebugHelper.debugPrint('err.toString()');
       return showDialog(
           context: context,
           builder: (context) {

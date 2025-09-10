@@ -9,6 +9,7 @@ import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/modules.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/provider/analitycs.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class KycVerification extends StatefulWidget {
   @override
@@ -28,7 +29,7 @@ class _KycVerificationState extends State<KycVerification> {
       'userId': bloc.userId.valueWrapper?.value,
       'title': 'Verifikasi Identitas',
     });
-    print(bloc.user.valueWrapper?.value.kyc);
+    DebugHelper.debugPrint('bloc.user.valueWrapper?.value.kyc.toString()');
   }
 
   void getKtp() async {

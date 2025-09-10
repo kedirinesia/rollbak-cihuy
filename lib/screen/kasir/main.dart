@@ -12,6 +12,7 @@ import 'package:mobile/bloc/Bloc.dart';
 
 import 'package:mobile/modules.dart';
 import 'package:mobile/provider/analitycs.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class MainKasir extends StatefulWidget {
   @override
@@ -79,7 +80,7 @@ class MainKasirState extends State<MainKasir> {
       'userId': bloc.userId.valueWrapper?.value,
       'title': 'Home Kasir',
     });
-    print('Sampai Sini');
+    DebugHelper.debugPrint('Sampai Sini');
     getData();
   }
 
@@ -88,20 +89,20 @@ class MainKasirState extends State<MainKasir> {
       loading = true;
     });
     try {
-      print(bloc.token.valueWrapper?.value);
+      DebugHelper.debugPrint('bloc.token.valueWrapper?.value.toString()');
       http.Response response = await http
           .get(Uri.parse('$apiUrlKasir/dashboard/hutang-piutang'), headers: {
         'authorization': bloc.token.valueWrapper?.value,
       });
 
-      print('Sampai Sini Kedua');
+      DebugHelper.debugPrint('Sampai Sini Kedua');
 
       String message = json.decode(response.body)['message'] ??
           'Terjadi kesalahan saat mengambil data dari server';
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
         int status = responseData['status'];
-        print(response.body);
+        DebugHelper.debugPrint('response.body.toString()');
         if (status == 200) {
           var data = responseData['data'];
           setState(() {

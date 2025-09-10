@@ -7,6 +7,7 @@ import 'package:mobile/modules.dart';
 import 'package:mobile/provider/api.dart';
 import 'package:nav/nav.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class LoginScreen extends StatefulWidget {
   @override

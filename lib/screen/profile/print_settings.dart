@@ -17,6 +17,7 @@ import 'package:mobile/screen/test_physical_device.dart';
 import 'package:mobile/screen/test_bluetooth_simple_connection.dart';
 import 'package:mobile/component/bluetooth_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class PrintSettingsPage extends StatefulWidget {
   @override   
@@ -234,14 +235,14 @@ class _PrintSettingsPageState extends State<PrintSettingsPage> {
         showToast(context, 'Contoh struk berhasil dicetak');
         
       } catch (e) {
-        print('Printing error: $e');
+        DebugHelper.debugPrint('Printing error: $e');
         showToast(context, 'Gagal mencetak contoh struk: ${e.toString()}');
       } finally {
         await BluetoothHelper.disconnect();
       }
       
     } catch (e) {
-      print('Print setup error: $e');
+      DebugHelper.debugPrint('Print setup error: $e');
       
       String errorMessage = BluetoothHelper.getErrorMessage(e);
       

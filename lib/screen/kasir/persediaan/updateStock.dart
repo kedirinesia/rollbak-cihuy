@@ -18,6 +18,7 @@ import 'package:mobile/bloc/Bloc.dart';
 
 import 'package:mobile/modules.dart';
 import 'package:mobile/provider/analitycs.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class UpdateStock extends StatefulWidget {
   PersediaanModel persediaan;
@@ -399,7 +400,7 @@ class UpdateStockState extends State<UpdateStock> {
           SizedBox(height: 10.0),
           InkWell(
             onTap: () {
-              print('detail stok produk');
+              DebugHelper.debugPrint('detail stok produk');
               Navigator.of(context).pop();
             },
             child: Container(

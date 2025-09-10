@@ -8,6 +8,7 @@ import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/config.dart';
 import 'package:mobile/models/lokasi.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile/utils/debug_helper.dart';
 
 class SelectKecamatanPage extends StatefulWidget {
   final Lokasi kota;
@@ -37,14 +38,34 @@ class _SelectKecamatanPageState extends State<SelectKecamatanPage> {
         .get(Uri.parse('$apiUrl/kabupaten/${widget.kota.kode}/kecamatan'));
 
     if (response.statusCode == 200) {
-      List<dynamic> datas = json.decode(response.body)['data'];
-      regions.clear();
-      filtered.clear();
-      datas.forEach((el) => regions.add(Lokasi.fromJson(el)));
-      filtered.addAll(regions);
+      try {
+        Map<String, dynamic> jsonResponse = json.decode(response.body);
+        List<dynamic> datas = jsonResponse['data'];
+        regions.clear();
+        filtered.clear();
+        datas.forEach((el) => regions.add(Lokasi.fromJson(el)));
+        filtered.addAll(regions);
+      } catch (e) {
+        String message = 'Gagal memproses data dari server: ${e.toString()}';
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(message)));
+      }
     } else {
-      String message = json.decode(response.body)['message'] ??
-          'Terjadi kesalahan saat mengambil data dari server';
+      String message = 'Terjadi kesalahan saat mengambil data dari server';
+      
+      // Try to parse JSON response, but handle non-JSON responses gracefully
+      try {
+        Map<String, dynamic> jsonResponse = json.decode(response.body);
+        message = jsonResponse['message'] ?? message;
+      } catch (e) {
+        // If response is not valid JSON, use the raw response body or default message
+        if (response.body.isNotEmpty && !response.body.startsWith('error code:')) {
+          message = response.body;
+        } else {
+          message = 'Server error (${response.statusCode}): ${response.body}';
+        }
+      }
+      
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(message)));
     }

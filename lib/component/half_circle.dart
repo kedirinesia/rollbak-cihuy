@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
+import 'package:mobile/utils/debug_helper.dart';
 
 class HalfCircle extends StatelessWidget {
   final double diameter;

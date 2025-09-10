@@ -1,5 +1,7 @@
 // @dart=2.9
 
+import 'package:mobile/utils/debug_helper.dart';
+
 class EwalletAccount {
   final String name;
   final String code;
@@ -36,8 +38,8 @@ class EwalletAccount {
         fee: adminFee,
       );
     } catch (e) {
-      print('ERROR: Failed to parse EwalletAccount: $e');
-      print('ERROR: JSON data: $json');
+      DebugHelper.debugPrint('ERROR: Failed to parse EwalletAccount: $e');
+      DebugHelper.debugPrint('ERROR: JSON data: $json');
       // Return default values if parsing fails
       return EwalletAccount(
         name: json['ewallet_name'] ?? 'Unknown',

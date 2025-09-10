@@ -7,6 +7,7 @@ import 'package:mobile/modules.dart';
 import 'package:mobile/screen/marketplace/detail_produk.dart';
 import 'package:mobile/screen/marketplace/list_produk.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class ProdukPilihan extends StatelessWidget {
   final List<ProdukMarket> products;
@@ -169,7 +170,7 @@ class ProdukPilihan extends StatelessWidget {
                                     //           color: Colors.amber,
                                     //         ),
                                     //         onRatingUpdate: (rating) {
-                                    //           print(rating);
+                                    //           DebugHelper.debugPrint('rating.toString()');
                                     //         },
                                     //       ),
                                     //       SizedBox(width: 5),

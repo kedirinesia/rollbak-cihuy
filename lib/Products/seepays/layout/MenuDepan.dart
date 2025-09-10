@@ -23,6 +23,7 @@ import 'package:mobile/screen/list-grid-menu/list-grid-menu.dart';
 import 'list-sub-menu.dart';
 import 'pulsa.dart';
 import 'package:mobile/screen/transaksi/voucher_bulk.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class MenuDepan extends StatefulWidget {
   final int grid;
@@ -77,7 +78,7 @@ class _MenuDepanState extends State<MenuDepan> {
     _cachedPascabayarMoreMenu.clear();
     _cachedMoreMenu.clear();
     _cachedSubmenus.clear();
-    print('🧹 MenuDepan: Cache cleared, akan fetch data fresh dari server');
+    DebugHelper.debugPrint('🧹 MenuDepan: Cache cleared, akan fetch data fresh dari server');
   }
   
   // Cache untuk menyimpan hasil pemisahan kategori
@@ -98,7 +99,7 @@ class _MenuDepanState extends State<MenuDepan> {
       
       // Gunakan cache jika sudah ada data
       if (_isDataLoaded && _cachedMenuData.isNotEmpty) {
-        print('📊 Using cached menu data: ${_cachedMenuData.length} items');
+        DebugHelper.debugPrint('📊 Using cached menu data: ${_cachedMenuData.length} items');
         // Gunakan hasil cache yang sudah dipisahkan
         _prabayarMenu = List<MenuModel>.from(_cachedPrabayarMenu);
         _pascabayarMenu = List<MenuModel>.from(_cachedPascabayarMenu);
@@ -106,7 +107,7 @@ class _MenuDepanState extends State<MenuDepan> {
         _pascabayarMoreMenu = List<MenuModel>.from(_cachedPascabayarMoreMenu);
         _moreMenu = List<MenuModel>.from(_cachedMoreMenu);
         
-        print('📊 Using cached categories - PRABAYAR: ${_prabayarMenu.length}, PASCABAYAR: ${_pascabayarMenu.length}');
+        DebugHelper.debugPrint('📊 Using cached categories - PRABAYAR: ${_prabayarMenu.length}, PASCABAYAR: ${_pascabayarMenu.length}');
         setState(() {
           loading = false;
         });
@@ -127,19 +128,19 @@ class _MenuDepanState extends State<MenuDepan> {
         final List data = jsonBody['data'] ?? [];
         
         // Debug: Log response API untuk bandingkan dengan yang Anda berikan
-        print('🌐 MenuDepan API Response Status: ${response.statusCode}');
-        print('🌐 MenuDepan API Response Length: ${data.length} items');
+        DebugHelper.debugPrint('🌐 MenuDepan API Response Status: ${response.statusCode}');
+        DebugHelper.debugPrint('🌐 MenuDepan API Response Length: ${data.length} items');
         
         // Debug: Log beberapa menu pertama untuk komparasi
         for (int i = 0; i < (data.length > 5 ? 5 : data.length); i++) {
           var item = data[i];
-          print('📋 API Menu $i: ${item['name']} | ID: ${item['_id']} | Type: ${item['type']} | Category: ${item['category_id']}');
+          DebugHelper.debugPrint('📋 API Menu $i: ${item['name']} | ID: ${item['_id']} | Type: ${item['type']} | Category: ${item['category_id']}'.toString());
         }
         
         // Cari khusus menu TELKOM
         var telkomMenu = data.firstWhere((item) => item['name']?.toString()?.toLowerCase()?.contains('telkom') == true, orElse: () => null);
         if (telkomMenu != null) {
-          print('🎯 TELKOM Menu dari API: ID=${telkomMenu['_id']}, Name=${telkomMenu['name']}, Type=${telkomMenu['type']}');
+          DebugHelper.debugPrint('🎯 TELKOM Menu dari API: ID=${telkomMenu['_id']}, Name=${telkomMenu['name']}, Type=${telkomMenu['type']}'.toString());
         }
         
         List<MenuModel> listMenu =
@@ -152,7 +153,7 @@ class _MenuDepanState extends State<MenuDepan> {
         // Cache the data
         _cachedMenuData = List<MenuModel>.from(listMenu);
         _isDataLoaded = true;
-        print('📊 Cached menu data: ${_cachedMenuData.length} items');
+        DebugHelper.debugPrint('📊 Cached menu data: ${_cachedMenuData.length} items');
 
         _splitMenusByCategory(listMenu);
         
@@ -169,13 +170,13 @@ class _MenuDepanState extends State<MenuDepan> {
         _prabayarMenu = [];
         _pascabayarMenu = [];
         _moreMenu = [];
-        print('Failed to load menu: ${response.statusCode}');
+        DebugHelper.debugPrint('Failed to load menu: ${response.statusCode}');
       }
     } catch (e) {
       _prabayarMenu = [];
       _pascabayarMenu = [];
       _moreMenu = [];
-      print('Error getMenu: $e');
+      DebugHelper.debugPrint('Error getMenu: $e');
     } finally {
       setState(() {
         loading = false;
@@ -193,9 +194,9 @@ class _MenuDepanState extends State<MenuDepan> {
     _moreMenu = [];
 
     // First, let's see what data we have
-    print('📊 Total menu items: ${listMenu.length}');
+    DebugHelper.debugPrint('📊 Total menu items: ${listMenu.length}');
     for (MenuModel menu in listMenu) {
-      print('📋 Menu: ${menu.name} | type: ${menu.type} | jenis: ${menu.jenis} | category_id: ${menu.category_id}');
+      DebugHelper.debugPrint('📋 Menu: ${menu.name} | type: ${menu.type} | jenis: ${menu.jenis} | category_id: ${menu.category_id}');
     }
 
     for (MenuModel menu in listMenu) {
@@ -249,17 +250,17 @@ class _MenuDepanState extends State<MenuDepan> {
       }
     }
 
-    print('📊 PRABAYAR items: ${_prabayarMenu.length}');
-    print('📊 PASCABAYAR items: ${_pascabayarMenu.length}');
-    print('📊 Other items: ${_moreMenu.length}');
+    DebugHelper.debugPrint('📊 PRABAYAR items: ${_prabayarMenu.length}');
+    DebugHelper.debugPrint('📊 PASCABAYAR items: ${_pascabayarMenu.length}');
+    DebugHelper.debugPrint('📊 Other items: ${_moreMenu.length}');
  
     int prabayarLimit = 7;
     int pascabayarLimit = 77;  
     
     // Limit items per category and add "Lainnya" buttons
     if (_prabayarMenu.length > prabayarLimit) {
-      print('📊 PRABAYAR: ${_prabayarMenu.length} items, limit: $prabayarLimit');
-      print('📊 Moving ${_prabayarMenu.length - prabayarLimit} items to PRABAYAR More');
+      DebugHelper.debugPrint('📊 PRABAYAR: ${_prabayarMenu.length} items, limit: $prabayarLimit');
+      DebugHelper.debugPrint('📊 Moving ${_prabayarMenu.length - prabayarLimit} items to PRABAYAR More');
       
       // Clear existing items first
       _prabayarMoreMenu.clear();
@@ -268,17 +269,17 @@ class _MenuDepanState extends State<MenuDepan> {
       _prabayarMoreMenu.addAll(_prabayarMenu.sublist(prabayarLimit));
       _prabayarMenu = _prabayarMenu.sublist(0, prabayarLimit);
       
-      print('📊 PRABAYAR More now has: ${_prabayarMoreMenu.length} items');
+      DebugHelper.debugPrint('📊 PRABAYAR More now has: ${_prabayarMoreMenu.length} items');
       for (MenuModel item in _prabayarMoreMenu) {
-        print('  📋 PRABAYAR More Item: ${item.name}');
+        DebugHelper.debugPrint('  📋 PRABAYAR More Item: ${item.name}');
       }
     } else {
-      print('📊 PRABAYAR: ${_prabayarMenu.length} items, limit: $prabayarLimit - No items moved to More');
+      DebugHelper.debugPrint('📊 PRABAYAR: ${_prabayarMenu.length} items, limit: $prabayarLimit - No items moved to More');
     }
     
     if (_pascabayarMenu.length > pascabayarLimit) {
-      print('📊 PASCABAYAR: ${_pascabayarMenu.length} items, limit: $pascabayarLimit');
-      print('📊 Moving ${_pascabayarMenu.length - pascabayarLimit} items to PASCABAYAR More');
+      DebugHelper.debugPrint('📊 PASCABAYAR: ${_pascabayarMenu.length} items, limit: $pascabayarLimit');
+      DebugHelper.debugPrint('📊 Moving ${_pascabayarMenu.length - pascabayarLimit} items to PASCABAYAR More');
       
       // Clear existing items first
       _pascabayarMoreMenu.clear();
@@ -287,12 +288,12 @@ class _MenuDepanState extends State<MenuDepan> {
       _pascabayarMoreMenu.addAll(_pascabayarMenu.sublist(pascabayarLimit));
       _pascabayarMenu = _pascabayarMenu.sublist(0, pascabayarLimit);
       
-      print('📊 PASCABAYAR More now has: ${_pascabayarMoreMenu.length} items');
+      DebugHelper.debugPrint('📊 PASCABAYAR More now has: ${_pascabayarMoreMenu.length} items');
       for (MenuModel item in _pascabayarMoreMenu) {
-        print('  📋 PASCABAYAR More Item: ${item.name}');
+        DebugHelper.debugPrint('  📋 PASCABAYAR More Item: ${item.name}');
       }
     } else {
-      print('📊 PASCABAYAR: ${_pascabayarMenu.length} items, limit: $pascabayarLimit - No items moved to More');
+      DebugHelper.debugPrint('📊 PASCABAYAR: ${_pascabayarMenu.length} items, limit: $pascabayarLimit - No items moved to More');
     }
 
     // Add "Lainnya" buttons to each category separately
@@ -338,10 +339,9 @@ class _MenuDepanState extends State<MenuDepan> {
   ];
 
   onTapMenu(MenuModel menu) {
-    print(
-        '📌 Menu diklik: ${menu.name} | jenis: ${menu.jenis}, type: ${menu.type}, category_id: ${menu.category_id}, kodeProduk: ${menu.kodeProduk}');
+    DebugHelper.debugPrint('📌 Menu diklik: ${menu.name} | jenis: ${menu.jenis}, type: ${menu.type}, category_id: ${menu.category_id}, kodeProduk: ${menu.kodeProduk}'.toString());
     if (menu.jenis == 1) {
-      print('➡️ Menu menuju ke: Pulsa');
+      DebugHelper.debugPrint('➡️ Menu menuju ke: Pulsa');
       return Navigator.of(context).push(MaterialPageRoute(builder: (_) {
         return Pulsa(menu);
       }));
@@ -349,36 +349,36 @@ class _MenuDepanState extends State<MenuDepan> {
       if (menu.category_id != null &&
           menu.category_id.isNotEmpty &&
           menu.type == 1) {
-        print('➡️ Menu menuju ke: DetailDenom');
+        DebugHelper.debugPrint('➡️ Menu menuju ke: DetailDenom');
         return Navigator.of(context).push(PageTransition(
             child: DetailDenom(menu), type: PageTransitionType.rippleRightUp));
       } else if (menu.kodeProduk != null &&
           menu.kodeProduk.isNotEmpty &&
           menu.type == 2) {
-        print('➡️ Menu menuju ke: DetailDenomPostpaid');
+        DebugHelper.debugPrint('➡️ Menu menuju ke: DetailDenomPostpaid');
         return Navigator.of(context).push(PageTransition(
             child: DetailDenomPostpaid(menu),
             type: PageTransitionType.rippleRightUp));
       } else {
         if (menu.type == 3) {
-          print('➡️ Menu menuju ke: DynamicPrepaidDenom');
+          DebugHelper.debugPrint('➡️ Menu menuju ke: DynamicPrepaidDenom');
           return Navigator.of(context).push(
               MaterialPageRoute(builder: (_) => DynamicPrepaidDenom(menu)));
         } else {
-          print('➡️ Menu menuju ke: ListSubMenu (category_id kosong/null)');
-          print('🔍 MenuDepan Debug: Mengirim menu ke ListSubMenu:');
-          print('   📋 Menu ID: ${menu.id}');
-          print('   📋 Menu Name: ${menu.name}');
-          print('   📋 Menu Type: ${menu.type}');
-          print('   📋 Menu Jenis: ${menu.jenis}');
-          print('   📋 Menu Category ID: ${menu.category_id}');
-          print('   📋 Menu Kode Produk: ${menu.kodeProduk}');
+          DebugHelper.debugPrint('➡️ Menu menuju ke: ListSubMenu (category_id kosong/null)');
+          DebugHelper.debugPrint('🔍 MenuDepan Debug: Mengirim menu ke ListSubMenu:');
+          DebugHelper.debugPrint('   📋 Menu ID: ${menu.id}');
+          DebugHelper.debugPrint('   📋 Menu Name: ${menu.name}');
+          DebugHelper.debugPrint('   📋 Menu Type: ${menu.type}');
+          DebugHelper.debugPrint('   📋 Menu Jenis: ${menu.jenis}');
+          DebugHelper.debugPrint('   📋 Menu Category ID: ${menu.category_id}');
+          DebugHelper.debugPrint('   📋 Menu Kode Produk: ${menu.kodeProduk}');
           return Navigator.of(context)
               .push(MaterialPageRoute(builder: (_) => ListSubMenu(menu)));
         }
       }
     } else if (menu.jenis == 4) {
-      print('➡️ Menu menuju ke: ListGridMenu');
+      DebugHelper.debugPrint('➡️ Menu menuju ke: ListGridMenu');
       return Navigator.of(context).push(
         MaterialPageRoute(
           builder: (_) => ListGridMenu(menu),
@@ -386,25 +386,25 @@ class _MenuDepanState extends State<MenuDepan> {
       );
     } else if (menu.jenis == 5 || menu.jenis == 6) {
       if (menu.category_id == null || menu.category_id.isEmpty) {
-        print('➡️ Menu menuju ke: ListSubMenu');
+        DebugHelper.debugPrint('➡️ Menu menuju ke: ListSubMenu');
         return Navigator.of(context).push(
           MaterialPageRoute(
             builder: (_) => ListSubMenu(menu),
           ),
         );
       } else if (pkgName.contains(packageName)) {
-        print('➡️ Menu menuju ke: VoucherBulkPage');
+        DebugHelper.debugPrint('➡️ Menu menuju ke: VoucherBulkPage');
         return Navigator.of(context).push(
           MaterialPageRoute(
             builder: (_) => VoucherBulkPage(menu),
           ),
         );
       } else {
-        print('❌ Tidak ada navigasi untuk kondisi jenis ${menu.jenis}');
+        DebugHelper.debugPrint('❌ Tidak ada navigasi untuk kondisi jenis ${menu.jenis}');
         return;
       }
     } else if (menu.jenis == 99) {
-      print('➡️ Menu menuju ke: MorePage (Menu Lainnya)');
+      DebugHelper.debugPrint('➡️ Menu menuju ke: MorePage (Menu Lainnya)');
       
       // Determine which category's "Lainnya" was clicked
       List<MenuModel> itemsToShow;
@@ -413,23 +413,23 @@ class _MenuDepanState extends State<MenuDepan> {
       if (menu.category_id == 'prabayar') {
         itemsToShow = _prabayarMoreMenu;
         categoryName = 'PRABAYAR';
-        print('📋 Menampilkan item PRABAYAR lainnya: ${_prabayarMoreMenu.length} items');
+        DebugHelper.debugPrint('📋 Menampilkan item PRABAYAR lainnya: ${_prabayarMoreMenu.length} items');
         for (MenuModel item in _prabayarMoreMenu) {
-          print('  📋 PRABAYAR More: ${item.name}');
+          DebugHelper.debugPrint('  📋 PRABAYAR More: ${item.name}');
         }
       } else if (menu.category_id == 'pascabayar') {
         itemsToShow = _pascabayarMoreMenu;
         categoryName = 'PASCABAYAR';
-        print('📋 Menampilkan item PASCABAYAR lainnya: ${_pascabayarMoreMenu.length} items');
+        DebugHelper.debugPrint('📋 Menampilkan item PASCABAYAR lainnya: ${_pascabayarMoreMenu.length} items');
         for (MenuModel item in _pascabayarMoreMenu) {
-          print('  📋 PASCABAYAR More: ${item.name}');
+          DebugHelper.debugPrint('  📋 PASCABAYAR More: ${item.name}');
         }
       } else {
         itemsToShow = _moreMenu;
         categoryName = 'LAINNYA';
-        print('📋 Menampilkan item lainnya: ${_moreMenu.length} items');
+        DebugHelper.debugPrint('📋 Menampilkan item lainnya: ${_moreMenu.length} items');
         for (MenuModel item in _moreMenu) {
-          print('  📋 OTHER More: ${item.name}');
+          DebugHelper.debugPrint('  📋 OTHER More: ${item.name}');
         }
       }
       
@@ -463,7 +463,7 @@ class _MenuDepanState extends State<MenuDepan> {
         type: PageTransitionType.slideInUp,
       ));
     } else {
-      print('❌ Tidak ada navigasi untuk jenis ${menu.jenis}');
+      DebugHelper.debugPrint('❌ Tidak ada navigasi untuk jenis ${menu.jenis}');
     }
   }
 
@@ -582,7 +582,7 @@ class _MenuDepanState extends State<MenuDepan> {
   
   // Method untuk preload submenu yang sering diakses
   Future<void> _preloadSubmenus(List<MenuModel> menuList) async {
-    print('🚀 Starting submenu preloading...');
+    DebugHelper.debugPrint('🚀 Starting submenu preloading...');
     
     // Filter menu yang tidak punya category_id atau kodeProduk (biasanya parent menu)
     List<MenuModel> parentMenus = menuList.where((menu) => 
@@ -590,12 +590,12 @@ class _MenuDepanState extends State<MenuDepan> {
       (menu.kodeProduk == null || menu.kodeProduk.isEmpty)
     ).toList();
     
-    print('📋 Found ${parentMenus.length} parent menus to preload');
+    DebugHelper.debugPrint('📋 Found ${parentMenus.length} parent menus to preload');
     
     for (MenuModel parentMenu in parentMenus) {
       // Skip jika sudah di-cache
       if (_cachedSubmenus.containsKey(parentMenu.id)) {
-        print('✅ Submenu for ${parentMenu.name} already cached');
+        DebugHelper.debugPrint('✅ Submenu for ${parentMenu.name} already cached');
         continue;
       }
       
@@ -604,7 +604,7 @@ class _MenuDepanState extends State<MenuDepan> {
         var token = prefs.getString('token');
         
         String apiEndpoint = 'https://app.payuni.co.id/api/v1/menu/${parentMenu.id}/child';
-        print('🌐 Preloading submenu: $apiEndpoint');
+        DebugHelper.debugPrint('🌐 Preloading submenu: $apiEndpoint');
         
         final response = await http.get(
           Uri.parse(apiEndpoint),
@@ -623,21 +623,21 @@ class _MenuDepanState extends State<MenuDepan> {
           _cachedSubmenus[parentMenu.id] = submenuList;
           // Juga simpan di global cache jika ada
           // _globalSubmenuCache[parentMenu.id] = submenuList;
-          print('✅ Preloaded ${submenuList.length} submenus for ${parentMenu.name}');
+          DebugHelper.debugPrint('✅ Preloaded ${submenuList.length} submenus for ${parentMenu.name}');
           
           // Log submenu details
           for (MenuModel submenu in submenuList) {
-            print('   📋 Cached submenu: ${submenu.name} | category_id: "${submenu.category_id}" | kodeProduk: "${submenu.kodeProduk}"');
+            DebugHelper.debugPrint('   📋 Cached submenu: ${submenu.name} | category_id: "${submenu.category_id}" | kodeProduk: "${submenu.kodeProduk}"');
           }
         } else {
-          print('❌ Failed to preload submenu for ${parentMenu.name}: ${response.statusCode}');
+          DebugHelper.debugPrint('❌ Failed to preload submenu for ${parentMenu.name}: ${response.statusCode}');
         }
       } catch (e) {
-        print('❌ Error preloading submenu for ${parentMenu.name}: $e');
+        DebugHelper.debugPrint('❌ Error preloading submenu for ${parentMenu.name}: $e');
       }
     }
     
-    print('🎯 Submenu preloading completed');
+    DebugHelper.debugPrint('🎯 Submenu preloading completed');
   }
   
   // Method untuk mendapatkan cached submenu

@@ -6,6 +6,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/bloc/ConfigApp.dart' show configAppBloc;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -29,9 +30,9 @@ class _SplashTalentapayState extends State<SplashScreen>
       SharedPreferences prefs = await SharedPreferences.getInstance();
       bool splashLoading = prefs.getBool('splash-loading') ?? false;
 
-      print("ooooo $splashLoading");
+      DebugHelper.debugPrint('"ooooo $splashLoading"');
       if (!splashLoading) {
-        print(_linearProgress);
+        DebugHelper.debugPrint('_linearProgress.toString()');
         if (_linearProgress < 0.7) {
           setState(() {
             _linearProgress += 0.2;

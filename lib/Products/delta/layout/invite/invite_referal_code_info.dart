@@ -8,6 +8,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mobile/Products/delta/layout/invite/invite_generate_referal_code.dart';
 import 'package:mobile/Products/delta/layout/invite/invite_referal_code_info.style.dart';
 import 'package:mobile/models/user.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class InviteReferalCodeInfo extends StatelessWidget {
   Function getUserInfo;

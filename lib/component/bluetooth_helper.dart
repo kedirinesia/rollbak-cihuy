@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class BluetoothHelper {
   static final BlueThermalPrinter _bluetooth = BlueThermalPrinter.instance;
@@ -57,12 +58,12 @@ class BluetoothHelper {
     // Check if device is physical Android 11
     bool isAndroid11 = await _isAndroid11Device();
     if (isAndroid11) {
-      print('BluetoothHelper: Detected Android 11 device, using optimized settings');
+      DebugHelper.debugPrint('BluetoothHelper: Detected Android 11 device, using optimized settings');
       timeoutSeconds = 25; // Longer timeout for Android 11
       retryDelaySeconds = 4; // Longer delay for Android 11
     }
     if (_isConnecting) {
-      print('BluetoothHelper: Connection already in progress');
+      DebugHelper.debugPrint('BluetoothHelper: Connection already in progress');
       return false;
     }
     
@@ -71,7 +72,7 @@ class BluetoothHelper {
     _lastConnectionAttempt = DateTime.now();
     
     try {
-      print('BluetoothHelper: Starting advanced connection to ${device.name}');
+      DebugHelper.debugPrint('BluetoothHelper: Starting advanced connection to ${device.name}');
       
       // Strategy 1: Standard connection with extended timeout
       bool connected = await _tryStandardConnection(
@@ -82,29 +83,29 @@ class BluetoothHelper {
       );
       
       if (connected) {
-        print('BluetoothHelper: Standard connection successful');
+        DebugHelper.debugPrint('BluetoothHelper: Standard connection successful');
         return true;
       }
       
       // Strategy 2: Alternative connection method (if enabled)
       if (useAlternativeMethod) {
-        print('BluetoothHelper: Trying alternative connection method');
+        DebugHelper.debugPrint('BluetoothHelper: Trying alternative connection method');
         connected = await _tryAlternativeConnection(device, timeoutSeconds);
         
         if (connected) {
-          print('BluetoothHelper: Alternative connection successful');
+          DebugHelper.debugPrint('BluetoothHelper: Alternative connection successful');
           return true;
         }
       }
       
       // Strategy 3: Force disconnect and reconnect
-      print('BluetoothHelper: Trying force disconnect and reconnect');
+      DebugHelper.debugPrint('BluetoothHelper: Trying force disconnect and reconnect');
       connected = await _tryForceReconnect(device, timeoutSeconds);
       
       return connected;
       
     } catch (e) {
-      print('BluetoothHelper: Advanced connection failed: $e');
+      DebugHelper.debugPrint('BluetoothHelper: Advanced connection failed: $e');
       return false;
     } finally {
       _isConnecting = false;
@@ -123,7 +124,7 @@ class BluetoothHelper {
     while (retryCount < maxRetries) {
       try {
         retryCount++;
-        print('BluetoothHelper: Standard connection attempt $retryCount/$maxRetries');
+        DebugHelper.debugPrint('BluetoothHelper: Standard connection attempt $retryCount/$maxRetries');
         
         // Disconnect if already connected
         await _forceDisconnect();
@@ -144,17 +145,17 @@ class BluetoothHelper {
         // Verify connection
         bool? connectionStatus = await _bluetooth.isConnected;
         if (connectionStatus == true) {
-          print('BluetoothHelper: Standard connection verified');
+          DebugHelper.debugPrint('BluetoothHelper: Standard connection verified');
           return true;
         } else {
           throw Exception('Connection verification failed');
         }
         
       } catch (e) {
-        print('BluetoothHelper: Standard connection attempt $retryCount failed: $e');
+        DebugHelper.debugPrint('BluetoothHelper: Standard connection attempt $retryCount failed: $e');
         
         if (retryCount >= maxRetries) {
-          print('BluetoothHelper: Standard connection failed after $maxRetries attempts');
+          DebugHelper.debugPrint('BluetoothHelper: Standard connection failed after $maxRetries attempts');
           return false;
         }
         
@@ -172,7 +173,7 @@ class BluetoothHelper {
     int timeoutSeconds,
   ) async {
     try {
-      print('BluetoothHelper: Alternative connection method');
+      DebugHelper.debugPrint('BluetoothHelper: Alternative connection method');
       
       // Force disconnect completely
       await _forceDisconnect();
@@ -194,7 +195,7 @@ class BluetoothHelper {
       bool connected = await connectionCompleter.future.timeout(
         Duration(seconds: timeoutSeconds),
         onTimeout: () {
-          print('BluetoothHelper: Alternative connection timeout');
+          DebugHelper.debugPrint('BluetoothHelper: Alternative connection timeout');
           return false;
         },
       );
@@ -208,7 +209,7 @@ class BluetoothHelper {
       return false;
       
     } catch (e) {
-      print('BluetoothHelper: Alternative connection failed: $e');
+      DebugHelper.debugPrint('BluetoothHelper: Alternative connection failed: $e');
       return false;
     }
   }
@@ -219,7 +220,7 @@ class BluetoothHelper {
     int maxRetries = 7,
     int timeoutSeconds = 30,
   }) async {
-    print('BluetoothHelper: Using physical device optimized connection');
+    DebugHelper.debugPrint('BluetoothHelper: Using physical device optimized connection');
     
     try {
       // Force disconnect first
@@ -230,7 +231,7 @@ class BluetoothHelper {
       
       for (int attempt = 1; attempt <= maxRetries; attempt++) {
         try {
-          print('BluetoothHelper: Physical device attempt $attempt/$maxRetries');
+          DebugHelper.debugPrint('BluetoothHelper: Physical device attempt $attempt/$maxRetries');
           
           // Use longer timeout for physical devices
           bool connected = await _tryPhysicalDeviceConnection(
@@ -239,7 +240,7 @@ class BluetoothHelper {
           );
           
           if (connected) {
-            print('BluetoothHelper: Physical device connection successful');
+            DebugHelper.debugPrint('BluetoothHelper: Physical device connection successful');
             return true;
           }
           
@@ -247,7 +248,7 @@ class BluetoothHelper {
           await Future.delayed(Duration(seconds: 5));
           
         } catch (e) {
-          print('BluetoothHelper: Physical device attempt $attempt failed: $e');
+          DebugHelper.debugPrint('BluetoothHelper: Physical device attempt $attempt failed: $e');
           if (attempt == maxRetries) rethrow;
           
           // Force disconnect before retry
@@ -258,7 +259,7 @@ class BluetoothHelper {
       
       return false;
     } catch (e) {
-      print('BluetoothHelper: Physical device connection failed: $e');
+      DebugHelper.debugPrint('BluetoothHelper: Physical device connection failed: $e');
       return false;
     }
   }
@@ -289,7 +290,7 @@ class BluetoothHelper {
       
       return status == true;
     } catch (e) {
-      print('BluetoothHelper: Physical device connection error: $e');
+      DebugHelper.debugPrint('BluetoothHelper: Physical device connection error: $e');
       return false;
     }
   }
@@ -300,14 +301,14 @@ class BluetoothHelper {
     int timeoutSeconds,
   ) async {
     try {
-      print('BluetoothHelper: Force reconnect method');
+      DebugHelper.debugPrint('BluetoothHelper: Force reconnect method');
       
       // Force disconnect multiple times
       for (int i = 0; i < 3; i++) {
         try {
           await _bluetooth.disconnect();
         } catch (e) {
-          print('BluetoothHelper: Disconnect attempt $i failed: $e');
+          DebugHelper.debugPrint('BluetoothHelper: Disconnect attempt $i failed: $e');
         }
         await Future.delayed(Duration(milliseconds: 500));
       }
@@ -328,7 +329,7 @@ class BluetoothHelper {
       return status == true;
       
     } catch (e) {
-      print('BluetoothHelper: Force reconnect failed: $e');
+      DebugHelper.debugPrint('BluetoothHelper: Force reconnect failed: $e');
       return false;
     }
   }
@@ -342,7 +343,7 @@ class BluetoothHelper {
         await Future.delayed(Duration(milliseconds: 500));
       }
     } catch (e) {
-      print('BluetoothHelper: Force disconnect error: $e');
+      DebugHelper.debugPrint('BluetoothHelper: Force disconnect error: $e');
     }
   }
   
@@ -368,9 +369,9 @@ class BluetoothHelper {
     try {
       await _forceDisconnect();
       _currentDevice = null;
-      print('BluetoothHelper: Disconnected successfully');
+      DebugHelper.debugPrint('BluetoothHelper: Disconnected successfully');
     } catch (e) {
-      print('BluetoothHelper: Error during disconnect: $e');
+      DebugHelper.debugPrint('BluetoothHelper: Error during disconnect: $e');
     }
   }
   
@@ -380,7 +381,7 @@ class BluetoothHelper {
       bool? isOn = await _bluetooth.isOn;
       return isOn ?? false;
     } catch (e) {
-      print('BluetoothHelper: Error checking Bluetooth status: $e');
+      DebugHelper.debugPrint('BluetoothHelper: Error checking Bluetooth status: $e');
       return false;
     }
   }
@@ -398,11 +399,11 @@ class BluetoothHelper {
         device.address!.isNotEmpty
       ).toList();
       
-      print('BluetoothHelper: Found ${devices.length} valid bonded devices');
+      DebugHelper.debugPrint('BluetoothHelper: Found ${devices.length} valid bonded devices');
       return devices;
       
     } catch (e) {
-      print('BluetoothHelper: Error getting bonded devices: $e');
+      DebugHelper.debugPrint('BluetoothHelper: Error getting bonded devices: $e');
       throw e;
     }
   }

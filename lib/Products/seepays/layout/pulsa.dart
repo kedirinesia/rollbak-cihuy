@@ -24,6 +24,7 @@ import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/transaksi/inquiry_prepaid.dart';
 import 'package:mobile/screen/favorite-number/favorite-number.dart';
 import '../config.dart' as seepays_config;
+import 'package:mobile/utils/debug_helper.dart';
 
 class Pulsa extends StatefulWidget {
   final MenuModel menuModel;
@@ -61,7 +62,7 @@ class _PulsaState extends State<Pulsa> with TickerProviderStateMixin {
       'title': 'Pulsa',
     });
     // Load transaction history
-    print('🔄 Seepays: Loading transaction history on init...');
+    DebugHelper.debugPrint('🔄 Seepays: Loading transaction history on init...');
     loadTransactionHistory();
     
     // Add listener untuk menangani paste event
@@ -113,14 +114,14 @@ class _PulsaState extends State<Pulsa> with TickerProviderStateMixin {
 
   // Helper function untuk menangani input nomor (termasuk paste)
   void _handleNumberInput(String str) {
-    print('🔢 Seepays: Handling number input: $str');
+    DebugHelper.debugPrint('🔢 Seepays: Handling number input: $str');
     
     if (str.length >= 4 && str.startsWith('08')) {
       String newPrefix = str.substring(0, 4);
-      print('📱 Seepays: Detected prefix: $newPrefix, current prefix: $prefixNomor');
+      DebugHelper.debugPrint('📱 Seepays: Detected prefix: $newPrefix, current prefix: $prefixNomor');
       
       if (newPrefix != prefixNomor) {
-        print('🔄 Seepays: Prefix changed, updating operator logo and fetching denom');
+        DebugHelper.debugPrint('🔄 Seepays: Prefix changed, updating operator logo and fetching denom');
         setState(() {
           listDenom.clear();
           prefixNomor = newPrefix;
@@ -130,10 +131,10 @@ class _PulsaState extends State<Pulsa> with TickerProviderStateMixin {
         });
         getDenom(str);
       } else {
-        print('ℹ️ Seepays: Same prefix, no update needed');
+        DebugHelper.debugPrint('ℹ️ Seepays: Same prefix, no update needed');
       }
     } else {
-      print('❌ Seepays: Invalid number format or too short');
+      DebugHelper.debugPrint('❌ Seepays: Invalid number format or too short');
     }
   }
 
@@ -293,7 +294,7 @@ class _PulsaState extends State<Pulsa> with TickerProviderStateMixin {
       //       .toList();
       // });
       
-      // print('Loaded ${recentTransactions.length} recent transactions for testing');
+      // DebugHelper.debugPrint('Loaded ${recentTransactions.length} recent transactions for testing');
       
       
       // ================================================================================
@@ -437,8 +438,8 @@ class _PulsaState extends State<Pulsa> with TickerProviderStateMixin {
       //         .toList();
       // });
       
-      // print('Loaded ${recentTransactions.length} recent pulsa transactions');
-      // print('Filtered using pulsa description filter');
+      // DebugHelper.debugPrint('Loaded ${recentTransactions.length} recent pulsa transactions');
+      // DebugHelper.debugPrint('Filtered using pulsa description filter');
       
       // ================================================================================
       // KODE API BARU - MENGGUNAKAN API LAST TRANSACTION UNTUK SUGGEST HISTORY
@@ -458,8 +459,8 @@ class _PulsaState extends State<Pulsa> with TickerProviderStateMixin {
       // Hapus duplikat jika ada
       pulsaCategoryIds = pulsaCategoryIds.toSet().toList();
       
-      print('🔍 Pulsa Category IDs to scan: $pulsaCategoryIds');
-      print('🔍 Original Category ID: ${widget.menuModel.category_id}');
+      DebugHelper.debugPrint('🔍 Pulsa Category IDs to scan: $pulsaCategoryIds');
+      DebugHelper.debugPrint('🔍 Original Category ID: ${widget.menuModel.category_id}');
       
       // Gabungkan semua transaksi dari multiple category id
       List<dynamic> allTransactions = [];
@@ -467,7 +468,7 @@ class _PulsaState extends State<Pulsa> with TickerProviderStateMixin {
       // Scan setiap category id
       for (String categoryId in pulsaCategoryIds) {
         String apiEndpoint = '${seepays_config.apiUrl}/trx/lastTransaction?kategori_id=$categoryId&limit=10&skip=0';
-        print('🌐 Scanning category ID: $categoryId');
+        DebugHelper.debugPrint('🌐 Scanning category ID: $categoryId');
         
         try {
           http.Response response = await http.get(
@@ -476,7 +477,7 @@ class _PulsaState extends State<Pulsa> with TickerProviderStateMixin {
           );
           
           if (response.statusCode == 200) {
-            print('✅ Success for category ID: $categoryId');
+            DebugHelper.debugPrint('✅ Success for category ID: $categoryId');
             dynamic responseData = json.decode(response.body);
             List<dynamic> datas = [];
             
@@ -487,19 +488,19 @@ class _PulsaState extends State<Pulsa> with TickerProviderStateMixin {
             }
             
             allTransactions.addAll(datas);
-            print('📊 Found ${datas.length} transactions for category: $categoryId');
+            DebugHelper.debugPrint('📊 Found ${datas.length} transactions for category: $categoryId');
           } else {
-            print('❌ Failed for category ID: $categoryId - Status: ${response.statusCode}');
+            DebugHelper.debugPrint('❌ Failed for category ID: $categoryId - Status: ${response.statusCode}');
           }
         } catch (error) {
-          print('❌ Error for category ID: $categoryId - $error');
+          DebugHelper.debugPrint('❌ Error for category ID: $categoryId - $error');
         }
       }
       
-      print('📊 Total transactions found: ${allTransactions.length}');
+      DebugHelper.debugPrint('📊 Total transactions found: ${allTransactions.length}');
 
       if (allTransactions.isNotEmpty) {
-        print('✅ Seepays: Processing ${allTransactions.length} combined transactions');
+        DebugHelper.debugPrint('✅ Seepays: Processing ${allTransactions.length} combined transactions');
         
         try {
           // Sort berdasarkan tanggal terbaru
@@ -512,8 +513,8 @@ class _PulsaState extends State<Pulsa> with TickerProviderStateMixin {
             return bd.compareTo(ad);
           });
 
-          print('📋 Seepays: Processing ${allTransactions.length} combined items...');
-          print('🔍 Seepays: First item: ${allTransactions.first}');
+          DebugHelper.debugPrint('📋 Seepays: Processing ${allTransactions.length} combined items...');
+          DebugHelper.debugPrint('🔍 Seepays: First item: ${allTransactions.first}');
           
           List<TransactionHistoryModel> apiHistory = [];
           for (int i = 0; i < allTransactions.length; i++) {
@@ -526,10 +527,10 @@ class _PulsaState extends State<Pulsa> with TickerProviderStateMixin {
               
               TransactionHistoryModel trx = TransactionHistoryModel.fromJson(item);
               apiHistory.add(trx);
-              print('✅ Seepays: Successfully parsed item $i: ${trx.tujuan}');
+              DebugHelper.debugPrint('✅ Seepays: Successfully parsed item $i: ${trx.tujuan}');
             } catch (e) {
-              print('❌ Seepays: Error parsing item $i: $e');
-              print('❌ Seepays: Raw item: ${allTransactions[i]}');
+              DebugHelper.debugPrint('❌ Seepays: Error parsing item $i: $e');
+              DebugHelper.debugPrint('❌ Seepays: Raw item: ${allTransactions[i]}');
             }
           }
           
@@ -537,22 +538,22 @@ class _PulsaState extends State<Pulsa> with TickerProviderStateMixin {
             transactionHistory = apiHistory;
             
             // Filter transaksi pulsa - untuk lastTransaction, terima semua karena sudah difilter di API
-            print('🔍 Seepays: Filtering ${apiHistory.length} transactions...');
+            DebugHelper.debugPrint('🔍 Seepays: Filtering ${apiHistory.length} transactions...');
             recentTransactions = apiHistory
                 .where((trx) {
                   bool isValid = trx.tujuan.isNotEmpty && trx.tujuan.startsWith('08');
-                  print('🔍 Seepays: Transaction ${trx.tujuan} - isValid: $isValid');
+                  DebugHelper.debugPrint('🔍 Seepays: Transaction ${trx.tujuan} - isValid: $isValid');
                   return isValid;
                 })
                 .take(10) // Tampilkan sampai 10 transaksi terbaru sesuai limit API
                 .toList();
           });
           
-          print('🎯 Seepays: Filtered to ${recentTransactions.length} recent pulsa transactions');
-          print('📱 Seepays: Recent transactions: ${recentTransactions.map((t) => t.tujuan).toList()}');
+          DebugHelper.debugPrint('🎯 Seepays: Filtered to ${recentTransactions.length} recent pulsa transactions');
+          DebugHelper.debugPrint('📱 Seepays: Recent transactions: ${recentTransactions.map((t) => t.tujuan).toList()}');
           
         } catch (parseError) {
-          print('❌ Seepays: Error parsing combined API response: $parseError');
+          DebugHelper.debugPrint('❌ Seepays: Error parsing combined API response: $parseError');
           
           // Tampilkan pesan error
           setState(() {
@@ -560,7 +561,7 @@ class _PulsaState extends State<Pulsa> with TickerProviderStateMixin {
           });
         }
       } else {
-        print('❌ Seepays: No transactions found from any category ID');
+        DebugHelper.debugPrint('❌ Seepays: No transactions found from any category ID');
         setState(() {
           recentTransactions = [TransactionHistoryModel(tujuan: 'Belum pernah transaksi di produk ini')];
         });
@@ -568,7 +569,7 @@ class _PulsaState extends State<Pulsa> with TickerProviderStateMixin {
       // ================================================================================
       
     } catch (e) {
-      print('Error loading transaction history: $e');
+      DebugHelper.debugPrint('Error loading transaction history: $e');
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           Alert(
@@ -601,12 +602,12 @@ class _PulsaState extends State<Pulsa> with TickerProviderStateMixin {
 
   // Filter produk pulsa yang lebih fleksibel
   bool _isPulsaProduct(TransactionHistoryModel trx) {
-    print('🔍 Debugging filter for transaction: ${trx.produkId?.name}');
+    DebugHelper.debugPrint('🔍 Debugging filter for transaction: ${trx.produkId?.name}');
     
     // Cek nama produk mengandung kata yang berhubungan dengan pulsa (case insensitive)
     if (trx.produkId != null && trx.produkId.name != null) {
       String productName = trx.produkId.name.toLowerCase();
-      print('📱 Product name: $productName');
+      DebugHelper.debugPrint('📱 Product name: $productName');
       
       // Filter yang lebih fleksibel untuk pulsa
       bool isPulsa = productName.contains('pulsa') || 
@@ -622,14 +623,14 @@ class _PulsaState extends State<Pulsa> with TickerProviderStateMixin {
                      productName.contains('matrix') ||
                      productName.contains('mentari');
       
-      print('✅ Is pulsa product: $isPulsa');
+      DebugHelper.debugPrint('✅ Is pulsa product: $isPulsa');
       return isPulsa;
     }
     
     // Fallback: cek keterangan transaksi
     if (trx.keterangan != null && trx.keterangan.isNotEmpty) {
       String keterangan = trx.keterangan.toLowerCase();
-      print('📝 Keterangan: $keterangan');
+      DebugHelper.debugPrint('📝 Keterangan: $keterangan');
       
       bool isPulsaKeterangan = keterangan.contains('pulsa') ||
                                keterangan.contains('telkomsel') ||
@@ -644,13 +645,13 @@ class _PulsaState extends State<Pulsa> with TickerProviderStateMixin {
                                keterangan.contains('matrix') ||
                                keterangan.contains('mentari');
       
-      print('✅ Is pulsa keterangan: $isPulsaKeterangan');
+      DebugHelper.debugPrint('✅ Is pulsa keterangan: $isPulsaKeterangan');
       return isPulsaKeterangan;
     }
     
     // Fallback: cek type produk (type 2 = PPOB/Pulsa)
     bool isTypePulsa = trx.produkId != null && trx.produkId.type == 2;
-    print('🔢 Type check (type 2): $isTypePulsa');
+    DebugHelper.debugPrint('🔢 Type check (type 2): $isTypePulsa');
     
     return isTypePulsa;
   }
@@ -716,7 +717,7 @@ class _PulsaState extends State<Pulsa> with TickerProviderStateMixin {
       recentTransactions = hardcodedHistory;
     });
     
-    print('Loaded ${recentTransactions.length} hardcoded pulsa transactions as fallback');
+    DebugHelper.debugPrint('Loaded ${recentTransactions.length} hardcoded pulsa transactions as fallback');
   }
 
   // Dapatkan statistik filter pulsa
@@ -1054,8 +1055,7 @@ class _PulsaState extends State<Pulsa> with TickerProviderStateMixin {
                                       ),
                                     );
 
-                                    print(
-                                        'response favorite-number -> $response');
+                                    DebugHelper.debugPrint('response favorite-number -> $response'.toString());
                                     if (response == null) return;
                                     setState(() {
                                       nomorHp.text = response.tujuan;
@@ -1129,8 +1129,7 @@ class _PulsaState extends State<Pulsa> with TickerProviderStateMixin {
                                       ),
                                     );
 
-                                    print(
-                                        'response favorite-number -> $response');
+                                    DebugHelper.debugPrint('response favorite-number -> $response'.toString());
                                     if (response == null) return;
                                     setState(() {
                                       nomorHp.text = response.tujuan;

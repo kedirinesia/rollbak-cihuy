@@ -1,5 +1,7 @@
 // @dart=2.9
 
+import 'package:mobile/utils/debug_helper.dart';
+
 class PaymentModel {
   String id;
   int type;
@@ -20,16 +22,16 @@ class PaymentModel {
       this.description,
       this.channel,
       this.admin}) {
-    print('🔍 [PAYMENT MODEL] PaymentModel constructor called');
-    print('🔍 [PAYMENT MODEL] Title: $title, Type: $type, Channel: $channel');
-    print('🔍 [PAYMENT MODEL] ID: $id, Icon: $icon');
-    print('🔍 [PAYMENT MODEL] Description: $description');
-    print('🔍 [PAYMENT MODEL] Admin: $admin');
+    DebugHelper.debugPrint('🔍 [PAYMENT MODEL] PaymentModel constructor called');
+    DebugHelper.debugPrint('🔍 [PAYMENT MODEL] Title: $title, Type: $type, Channel: $channel');
+    DebugHelper.debugPrint('🔍 [PAYMENT MODEL] ID: $id, Icon: $icon');
+    DebugHelper.debugPrint('🔍 [PAYMENT MODEL] Description: $description');
+    DebugHelper.debugPrint('🔍 [PAYMENT MODEL] Admin: $admin');
   }
 
   PaymentModel.fromJson(Map<String, dynamic> json) {
-    print('🔍 [PAYMENT MODEL] fromJson called with FULL JSON PAYLOAD:');
-    print('🔍 [PAYMENT MODEL] ${json.toString()}');
+    DebugHelper.debugPrint('🔍 [PAYMENT MODEL] fromJson called with FULL JSON PAYLOAD:');
+    DebugHelper.debugPrint('🔍 [PAYMENT MODEL] ${json.toString()}');
     
     title = json['title'];
     id = json['_id'];
@@ -41,14 +43,14 @@ class PaymentModel {
     admin = json['admin'];
     admin_trx = json['admin_trx'] ?? null;
     
-    print('🔍 [PAYMENT MODEL] Parsed values:');
-    print('🔍 [PAYMENT MODEL] - Title: $title');
-    print('🔍 [PAYMENT MODEL] - ID: $id');
-    print('🔍 [PAYMENT MODEL] - Type: $type');
-    print('🔍 [PAYMENT MODEL] - Channel: $channel');
-    print('🔍 [PAYMENT MODEL] - Icon: $icon');
-    print('🔍 [PAYMENT MODEL] - Description: $description');
-    print('🔍 [PAYMENT MODEL] - Admin: $admin');
-    print('🔍 [PAYMENT MODEL] - Admin TRX: $admin_trx');
+    DebugHelper.debugPrint('🔍 [PAYMENT MODEL] Parsed values:');
+    DebugHelper.debugPrint('🔍 [PAYMENT MODEL] - Title: $title');
+    DebugHelper.debugPrint('🔍 [PAYMENT MODEL] - ID: $id');
+    DebugHelper.debugPrint('🔍 [PAYMENT MODEL] - Type: $type');
+    DebugHelper.debugPrint('🔍 [PAYMENT MODEL] - Channel: $channel');
+    DebugHelper.debugPrint('🔍 [PAYMENT MODEL] - Icon: $icon');
+    DebugHelper.debugPrint('🔍 [PAYMENT MODEL] - Description: $description');
+    DebugHelper.debugPrint('🔍 [PAYMENT MODEL] - Admin: $admin');
+    DebugHelper.debugPrint('🔍 [PAYMENT MODEL] - Admin TRX: $admin_trx');
   }
 }

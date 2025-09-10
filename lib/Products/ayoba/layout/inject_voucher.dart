@@ -18,6 +18,7 @@ import 'package:mobile/screen/transaksi/inquiry_prepaid.dart';
 import 'package:mobile/screen/transaksi/list_voucher_denom.dart';
 import 'package:mobile/screen/transaksi/verifikasi_pin.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile/utils/debug_helper.dart';
 
 class VoucherBulkPage extends StatefulWidget {
   final MenuModel menu;
@@ -51,7 +52,7 @@ class _VoucherBulkPageState extends State<VoucherBulkPage> {
 
   void _calculateTotalHarga() {
     totalHarga = _denom.harga_jual * _vouchers.length;
-    print("Total Harga: $totalHarga");
+    DebugHelper.debugPrint('"Total Harga: $totalHarga"');
   }
 
   void _generateVoucher() {
@@ -81,7 +82,7 @@ class _VoucherBulkPageState extends State<VoucherBulkPage> {
 
       setState(() {});
     } catch (err) {
-      print(err);
+      DebugHelper.debugPrint('err.toString()');
     }
   }
 
@@ -204,7 +205,7 @@ class _VoucherBulkPageState extends State<VoucherBulkPage> {
           _loading = false;
         });
       } catch (err) {
-        print(err);
+        DebugHelper.debugPrint('err.toString()');
       } finally {
         setState(() {
           _loading = false;
@@ -240,10 +241,10 @@ class _VoucherBulkPageState extends State<VoucherBulkPage> {
     } on TimeoutException catch (_) {
       // Menangani TimeoutException
       _vouchers[index]['status'] = 3;
-      print('Request timed out');
+      DebugHelper.debugPrint('Request timed out');
     } catch (err) {
       _vouchers[index]['status'] = 3;
-      print(err);
+      DebugHelper.debugPrint('err.toString()');
     } finally {
       setState(() {});
     }

@@ -1,6 +1,7 @@
 // @dart=2.9
 
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:mobile/utils/debug_helper.dart';
 
 class SvgRenderer {
   Future<String> getSvg(String fileLocation, String color) async {

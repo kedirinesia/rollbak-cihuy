@@ -12,6 +12,7 @@ import 'package:mobile/bloc/Bloc.dart' show bloc;
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/transaksi/verifikasi_pin.dart';
 import 'package:mobile/screen/transfer_saldo/detail_transfer.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class InquiryTransfer extends StatefulWidget {
   final String tujuan;

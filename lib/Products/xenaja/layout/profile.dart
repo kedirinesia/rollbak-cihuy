@@ -27,6 +27,7 @@ import 'package:nav/nav.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class ProfilePopay extends StatefulWidget {
   @override
@@ -64,7 +65,7 @@ class _ProfilePopayState extends State<ProfilePopay> {
       http.get(Uri.parse('$apiUrl/user/logout'),
           headers: {'Authorization': bloc.token.valueWrapper?.value});
     } catch (e) {
-      print(e);
+      DebugHelper.debugPrint('e.toString()');
     }
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.clear();
@@ -80,7 +81,7 @@ class _ProfilePopayState extends State<ProfilePopay> {
       if (response.statusCode == 200) {
         List<dynamic> responseData = json.decode(response.body)['data'];
         responseData.forEach((e) {
-          print(e['title']);
+          DebugHelper.debugPrint(''e['title'].toString()'');
           if (e['title'].toLowerCase() == "whatsapp") {
             phoneNumber = e['contact'];
           }
@@ -89,7 +90,7 @@ class _ProfilePopayState extends State<ProfilePopay> {
 
       return phoneNumber;
     } catch (err) {
-      print(err);
+      DebugHelper.debugPrint('err.toString()');
     }
   }
 
@@ -447,7 +448,7 @@ class _ProfilePopayState extends State<ProfilePopay> {
                               } else {
                                 final InAppReview inAppReview =
                                     InAppReview.instance;
-                                print(await inAppReview.isAvailable());
+                                DebugHelper.debugPrint('await inAppReview.isAvailable()');
 
                                 if (await inAppReview.isAvailable()) {
                                   inAppReview.requestReview();

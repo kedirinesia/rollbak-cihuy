@@ -11,6 +11,7 @@ import 'package:mobile/screen/detail-denom/detail-denom.dart';
 import 'package:mobile/screen/list-grid-menu/list-grid-menu.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class CarouselHeader extends StatefulWidget {
   final double viewportFraction;

@@ -19,6 +19,7 @@ import 'package:mobile/modules.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../bloc/Bloc.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class WatermarkNetworkLogo extends StatelessWidget {
   final String logoUrl;

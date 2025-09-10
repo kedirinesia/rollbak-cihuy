@@ -19,6 +19,7 @@ import 'package:mobile/models/mp_kategori.dart';
 import 'package:mobile/models/mp_produk.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/screen/marketplace/list_produk.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class HomeAyoba1 extends StatefulWidget {
   @override
@@ -81,7 +82,7 @@ class _HomeAyoba1State extends State<HomeAyoba1> with TickerProviderStateMixin {
         });
       }
     } catch (e) {
-      print('Error: $e');
+      DebugHelper.debugPrint('Error: $e');
       setState(() {
         loading = false;
       });

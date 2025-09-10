@@ -8,6 +8,7 @@ import 'package:mobile/config.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class MyQR extends StatefulWidget {
   @override
@@ -20,7 +21,7 @@ class _MyQRState extends State<MyQR> {
   @override
   void initState() {
     super.initState();
-    print('[DEBUG] Payuniovo MyQR: Initializing MyQR component');
+    DebugHelper.debugPrint('Payuniovo MyQR: Initializing MyQR component');
     analitycs.pageView('/myqr', {
       'userId': bloc.userId.valueWrapper?.value,
       'title': 'My QRCode',
@@ -30,24 +31,24 @@ class _MyQRState extends State<MyQR> {
       'com.esaldoku.app',
     ];
 
-    print('[DEBUG] Payuniovo MyQR: Package name: $packageName');
-    print('[DEBUG] Payuniovo MyQR: Checking scan capability...');
+    DebugHelper.debugPrint('Payuniovo MyQR: Package name: $packageName');
+    DebugHelper.debugPrint('Payuniovo MyQR: Checking scan capability...');
     
     pkgNameScanQRList.forEach((element) {
       if (element == packageName) {
         isScan = true;
-        print('[DEBUG] Payuniovo MyQR: Scan capability enabled for package: $element');
+        DebugHelper.debugPrint('Payuniovo MyQR: Scan capability enabled for package: $element');
       }
     });
     
-    print('[DEBUG] Payuniovo MyQR: Final isScan value: $isScan');
+    DebugHelper.debugPrint('Payuniovo MyQR: Final isScan value: $isScan');
   }
 
   @override
   Widget build(BuildContext context) {
-    print('[DEBUG] Payuniovo MyQR: Building MyQR component');
-    print('[DEBUG] Payuniovo MyQR: User phone: ${bloc.user.valueWrapper?.value.phone}');
-    print('[DEBUG] Payuniovo MyQR: Username: ${bloc.username.valueWrapper?.value}');
+    DebugHelper.debugPrint('Payuniovo MyQR: Building MyQR component');
+    DebugHelper.debugPrint('Payuniovo MyQR: User phone: ${bloc.user.valueWrapper?.value.phone}');
+    DebugHelper.debugPrint('Payuniovo MyQR: Username: ${bloc.username.valueWrapper?.value}');
     
     return Scaffold(
       // appBar: AppBar(title: Text('My QRCode')),

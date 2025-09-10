@@ -10,6 +10,7 @@ import 'package:http/http.dart' as http;
 import '../../bloc/Bloc.dart' show bloc;
 import '../../bloc/Api.dart' show apiUrl;
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 abstract class DetailDenomController extends State<DetailDenom>
     with TickerProviderStateMixin {
@@ -28,13 +29,13 @@ abstract class DetailDenomController extends State<DetailDenom>
   @override
   void initState() {
     super.initState();
-    print('=== DetailDenomController initState() START ===');
-    print('Menu Name: ${widget.menu.name}');
-    print('Menu Category ID: ${widget.menu.category_id}');
+    DebugHelper.debugPrint('=== DetailDenomController initState() START ===');
+    DebugHelper.debugPrint('Menu Name: ${widget.menu.name}');
+    DebugHelper.debugPrint('Menu Category ID: ${widget.menu.category_id}');
     
-    print('Calling _getPackageName()...');
+    DebugHelper.debugPrint('Calling _getPackageName()...');
     _getPackageName().then((_) {
-      print('✅ _getPackageName() completed, now calling getSuggestNumbers()...');
+      DebugHelper.debugPrint('✅ _getPackageName() completed, now calling getSuggestNumbers()...');
       getSuggestNumbers();
     });
     
@@ -43,8 +44,8 @@ abstract class DetailDenomController extends State<DetailDenom>
       'title': 'Buka Menu ' + widget.menu.name
     });
     getData();
-    print('getSuggestNumbers() scheduled (after _getPackageName)');
-    print('=== DetailDenomController initState() END ===');
+    DebugHelper.debugPrint('getSuggestNumbers() scheduled (after _getPackageName)');
+    DebugHelper.debugPrint('=== DetailDenomController initState() END ===');
   }
 
   Future<void> _getPackageName() async {
@@ -97,21 +98,21 @@ abstract class DetailDenomController extends State<DetailDenom>
   }
 
   Future<void> getSuggestNumbers() async {
-    print('=== DetailDenomController getSuggestNumbers() START ===');
-    print('Package Name: $packageName');
-    print('Menu Name: ${widget.menu.name}');
-    print('Menu Category ID: ${widget.menu.category_id}');
+    DebugHelper.debugPrint('=== DetailDenomController getSuggestNumbers() START ===');
+    DebugHelper.debugPrint('Package Name: $packageName');
+    DebugHelper.debugPrint('Menu Name: ${widget.menu.name}');
+    DebugHelper.debugPrint('Menu Category ID: ${widget.menu.category_id}');
     
     // FITUR SUGGEST HISTORY NOMOR PEMBELI - EKSKLUSIF UNTUK APLIKASI SEEPAYS DAN PAYUNIOVO
     if (packageName != 'com.seepaysbiller.app' && packageName != 'mobile.payuni.id' && packageName != 'co.payuni.id') {
-      print('❌ Package name tidak didukung: $packageName');
+      DebugHelper.debugPrint('❌ Package name tidak didukung: $packageName');
       setState(() {
         suggestNumbers = [];
       });
       return;
     }
     
-    print('✅ Package name didukung: $packageName');
+    DebugHelper.debugPrint('✅ Package name didukung: $packageName');
 
     if (!useApiSuggest) {
       setState(() {
@@ -130,18 +131,18 @@ abstract class DetailDenomController extends State<DetailDenom>
       if (packageName == 'mobile.payuni.id' || packageName == 'co.payuni.id') {
         // API khusus Payuniovo
         apiEndpoint = 'https://payuni-app.findig.id/api/v1/trx/lastTransaction?kategori_id=${widget.menu.category_id}&limit=10&skip=0';
-        print('🌐 Menggunakan API Payuniovo: $apiEndpoint');
+        DebugHelper.debugPrint('🌐 Menggunakan API Payuniovo: $apiEndpoint');
       } else if (packageName == 'com.seepaysbiller.app') {
         // API khusus Seepays - menggunakan lastTransaction
         apiEndpoint = 'https://app.payuni.co.id/api/v1/trx/lastTransaction?kategori_id=${widget.menu.category_id}&limit=10&skip=0';
-        print('🌐 Menggunakan API Seepays: $apiEndpoint');
+        DebugHelper.debugPrint('🌐 Menggunakan API Seepays: $apiEndpoint');
       } else {
         // API default untuk produk lain - menggunakan /trx/list
         apiEndpoint = '$apiUrl/trx/list?page=0&limit=50';
-        print('🌐 Menggunakan API Default: $apiEndpoint');
+        DebugHelper.debugPrint('🌐 Menggunakan API Default: $apiEndpoint');
       }
 
-      print('📡 Calling API...');
+      DebugHelper.debugPrint('📡 Calling API...');
       final response = await http.get(
         Uri.parse(apiEndpoint),
         headers: {
@@ -149,8 +150,8 @@ abstract class DetailDenomController extends State<DetailDenom>
         },
       );
       
-      print('📡 Response Status: ${response.statusCode}');
-      print('📡 Response Body: ${response.body}');
+      DebugHelper.debugPrint('📡 Response Status: ${response.statusCode}');
+      DebugHelper.debugPrint('📡 Response Body: ${response.body}');
 
       if (response.statusCode == 200) {
         List<dynamic> datas;
@@ -181,24 +182,24 @@ abstract class DetailDenomController extends State<DetailDenom>
 
         if (packageName == 'mobile.payuni.id' || packageName == 'co.payuni.id' || packageName == 'com.seepaysbiller.app') {
           // Payuniovo dan Seepays: terima semua format (PLN ID, HP, dll)
-          print('🔍 Processing Payuniovo/Seepays data...');
+          DebugHelper.debugPrint('🔍 Processing Payuniovo/Seepays data...');
           for (final dynamic item in datas) {
             final String tujuanItem = (item['tujuan'] ?? '').toString().trim();
-            print('🔍 Item tujuan: "$tujuanItem"');
+            DebugHelper.debugPrint('🔍 Item tujuan: "$tujuanItem"');
             if (tujuanItem.isEmpty) {
-              print('❌ Tujuan kosong, skip');
+              DebugHelper.debugPrint('❌ Tujuan kosong, skip');
               continue;
             }
 
             if (tujuanItem.length >= 8 && tujuanItem.length <= 20) {
-              print('✅ Tujuan valid, tambahkan: $tujuanItem');
+              DebugHelper.debugPrint('✅ Tujuan valid, tambahkan: $tujuanItem');
               uniqueTargets.add(tujuanItem);
               if (uniqueTargets.length >= 5) break;
             } else {
-              print('❌ Tujuan tidak valid (length: ${tujuanItem.length}): $tujuanItem');
+              DebugHelper.debugPrint('❌ Tujuan tidak valid (length: ${tujuanItem.length}): $tujuanItem');
             }
           }
-          print('🔍 Total unique targets Payuniovo/Seepays: ${uniqueTargets.length}');
+          DebugHelper.debugPrint('🔍 Total unique targets Payuniovo/Seepays: ${uniqueTargets.length}');
         } else {
           // Allowed product codes from current denom list
           final Set<String> allowedCodes = listDenom
@@ -243,28 +244,28 @@ abstract class DetailDenomController extends State<DetailDenom>
           }
         }
 
-        print('🎯 Final suggest numbers: ${uniqueTargets.toList()}');
+        DebugHelper.debugPrint('🎯 Final suggest numbers: ${uniqueTargets.toList()}');
         setState(() {
           suggestNumbers = uniqueTargets.toList();
         });
       } else {
-        print('❌ API response tidak berhasil: ${response.statusCode}');
+        DebugHelper.debugPrint('❌ API response tidak berhasil: ${response.statusCode}');
         setState(() {
           suggestNumbers = [];
         });
       }
     } catch (error) {
-      print('❌ Error dalam getSuggestNumbers: $error');
+      DebugHelper.debugPrint('❌ Error dalam getSuggestNumbers: $error');
       setState(() {
         suggestNumbers = [];
       });
     } finally {
-      print('🏁 Setting loadingSuggest = false');
+      DebugHelper.debugPrint('🏁 Setting loadingSuggest = false');
       setState(() {
         loadingSuggest = false;
       });
     }
-    print('=== DetailDenomController getSuggestNumbers() END ===');
+    DebugHelper.debugPrint('=== DetailDenomController getSuggestNumbers() END ===');
   }
 
   List<String> _hardcodedSuggestionsForMenu(String menuName) {

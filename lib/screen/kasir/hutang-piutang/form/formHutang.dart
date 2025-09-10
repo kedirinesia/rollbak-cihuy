@@ -19,6 +19,7 @@ import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
 
 import 'package:mobile/modules.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class FormHutang extends StatefulWidget {
   HutangModel hutang;
@@ -86,7 +87,7 @@ class FormHutangState extends State<FormHutang> {
           'keterangan': keteranganController.text,
           'radioValue': radioValue,
         };
-        print(dataToSend);
+        DebugHelper.debugPrint('dataToSend.toString()');
 
         try {
           http.Response response = await http.post(

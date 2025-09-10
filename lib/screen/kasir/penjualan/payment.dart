@@ -24,6 +24,7 @@ import 'package:mobile/screen/select_state/customer.dart';
 import 'package:mobile/screen/kasir/penjualan/detailPayment.dart';
 
 import 'package:mobile/modules.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class Payment extends StatefulWidget {
   VoidCallback clearOrders;
@@ -112,7 +113,7 @@ class PaymentState extends State<Payment> {
   }
 
   void _chooseCustomer() async {
-    print('pilih pelanggan');
+    DebugHelper.debugPrint('pilih pelanggan');
     CustomerModel response = await Navigator.of(context).push(
       MaterialPageRoute(builder: (_) => SelectCustomer()),
     );
@@ -264,7 +265,7 @@ class PaymentState extends State<Payment> {
   }
 
   void paymentOrder() async {
-    print('kirim orderan ke server utk di proses');
+    DebugHelper.debugPrint('kirim orderan ke server utk di proses');
     if (itemOrders.length > 0) {
       setState(() {
         loading = true;
@@ -310,7 +311,7 @@ class PaymentState extends State<Payment> {
           var responseData = json.decode(response.body);
           int status = responseData['status'];
           if (status == 200) {
-            print(responseData);
+            DebugHelper.debugPrint('responseData.toString()');
             widget.clearOrders(); // clear transaksi sebelum nya
             await showDialog(
               context: context,

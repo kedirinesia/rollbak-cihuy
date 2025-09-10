@@ -18,6 +18,7 @@ import 'package:mobile/screen/disable.dart';
 import 'package:nav/nav.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:package_info/package_info.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 enum OTP { sms, whatsapp, email }
 
@@ -102,8 +103,8 @@ class _OtpPageState extends State<OtpPage> {
   }
 
   void sendDeviceToken() async {
-    print('[DEBUG] Payuniovo OTP: Sending device token...');
-    print('[DEBUG] Payuniovo OTP: Device token: ${bloc.deviceToken.valueWrapper?.value}');
+    DebugHelper.debugPrint('Payuniovo OTP: Sending device token...');
+    DebugHelper.debugPrint('Payuniovo OTP: Device token: ${bloc.deviceToken.valueWrapper?.value}');
     
     Map<String, String> headers = {
       'Authorization': bloc.token.valueWrapper?.value,
@@ -113,7 +114,7 @@ class _OtpPageState extends State<OtpPage> {
     // Add version_code header if available
     if (appVersionCode.isNotEmpty) {
       headers['version_code'] = appVersionCode;
-      print('[DEBUG] Payuniovo OTP: Version code dikirim: $appVersionCode');
+      DebugHelper.debugPrint('Payuniovo OTP: Version code dikirim: $appVersionCode');
     }
     
     try {
@@ -122,24 +123,24 @@ class _OtpPageState extends State<OtpPage> {
           body: json.encode({'token': bloc.deviceToken.valueWrapper?.value}));
       
       // Print response dengan format yang konsisten
-      print('[DEBUG] Payuniovo OTP: === RESPONSE USER/DEVICE_TOKEN ===');
-      print('[DEBUG] Payuniovo OTP: Status Code: ${response.statusCode}');
-      print('[DEBUG] Payuniovo OTP: Response Headers: ${response.headers}');
-      print('[DEBUG] Payuniovo OTP: Response Body: ${response.body}');
+      DebugHelper.debugPrint('Payuniovo OTP: === RESPONSE USER/DEVICE_TOKEN ===');
+      DebugHelper.debugPrint('Payuniovo OTP: Status Code: ${response.statusCode}');
+      DebugHelper.debugPrint('Payuniovo OTP: Response Headers: ${response.headers}');
+      DebugHelper.debugPrint('Payuniovo OTP: Response Body: ${response.body}');
       
       // Parse response body jika JSON
       try {
         Map<String, dynamic> responseData = json.decode(response.body);
-        print('[DEBUG] Payuniovo OTP: Parsed Response: ${json.encode(responseData)}');
+        DebugHelper.debugPrint('Payuniovo OTP: Parsed Response: ${json.encode(responseData)}');
       } catch (e) {
-        print('[DEBUG] Payuniovo OTP: Response is not JSON: ${response.body}');
+        DebugHelper.debugPrint('Payuniovo OTP: Response is not JSON: ${response.body}');
       }
       
-      print('[DEBUG] Payuniovo OTP: ==================================');
+      DebugHelper.debugPrint('Payuniovo OTP: ==================================');
     } catch (e) {
-      print('[DEBUG] Payuniovo OTP: === ERROR SENDING DEVICE TOKEN ===');
-      print('[DEBUG] Payuniovo OTP: Error: $e');
-      print('[DEBUG] Payuniovo OTP: ==================================');
+      DebugHelper.debugPrint('Payuniovo OTP: === ERROR SENDING DEVICE TOKEN ===');
+      DebugHelper.debugPrint('Payuniovo OTP: Error: $e');
+      DebugHelper.debugPrint('Payuniovo OTP: ==================================');
     }
   }
 
@@ -149,13 +150,13 @@ class _OtpPageState extends State<OtpPage> {
     });
 
     try {
-      print('=== PAYUNIOVO OTP VERIFY START ===');
-      print('Phone: ${widget.phone}');
-      print('OTP: ${otp1.text + otp2.text + otp3.text + otp4.text}');
-      print('Validate ID: $validateId');
-      print('API URL: $apiUrl/user/login/validate');
-      print('Merchant Code: $sigVendor');
-      print('==================================');
+      DebugHelper.debugPrint('=== PAYUNIOVO OTP VERIFY START ===');
+      DebugHelper.debugPrint('Phone: ${widget.phone}');
+      DebugHelper.debugPrint('OTP: ${otp1.text + otp2.text + otp3.text + otp4.text}');
+      DebugHelper.debugPrint('Validate ID: $validateId');
+      DebugHelper.debugPrint('API URL: $apiUrl/user/login/validate');
+      DebugHelper.debugPrint('Merchant Code: $sigVendor');
+      DebugHelper.debugPrint('==================================');
 
       http.Response response = await http.post(
         Uri.parse('$apiUrl/user/login/validate'),
@@ -170,12 +171,12 @@ class _OtpPageState extends State<OtpPage> {
         }),
       );
 
-      print('=== PAYUNIOVO OTP RESPONSE ===');
-      print('Status Code: ${response.statusCode}');
-      print('Response Headers: ${response.headers}');
-      print('Response Body Length: ${response.body.length}');
-      print('Response Body (first 500 chars): ${response.body.substring(0, response.body.length > 500 ? 500 : response.body.length)}');
-      print('===============================');
+      DebugHelper.debugPrint('=== PAYUNIOVO OTP RESPONSE ===');
+      DebugHelper.debugPrint('Status Code: ${response.statusCode}');
+      DebugHelper.debugPrint('Response Headers: ${response.headers}');
+      DebugHelper.debugPrint('Response Body Length: ${response.body.length}');
+      DebugHelper.debugPrint('Response Body (first 500 chars): ${response.body.substring(0, response.body.length > 500 ? 500 : response.body.length)}');
+      DebugHelper.debugPrint('===============================');
 
       // Validasi response body sebelum parsing JSON
       if (response.body.isEmpty) {
@@ -184,9 +185,9 @@ class _OtpPageState extends State<OtpPage> {
 
       // Cek apakah response adalah JSON valid
       if (!response.body.trim().startsWith('{') && !response.body.trim().startsWith('[')) {
-        print('=== PAYUNIOVO OTP INVALID JSON RESPONSE ===');
-        print('Response tidak valid JSON: ${response.body.substring(0, 200)}');
-        print('============================================');
+        DebugHelper.debugPrint('=== PAYUNIOVO OTP INVALID JSON RESPONSE ===');
+        DebugHelper.debugPrint('Response tidak valid JSON: ${response.body.substring(0, 200)}');
+        DebugHelper.debugPrint('============================================');
         
         String errorMessage = 'Response tidak valid dari server';
         if (response.body.contains('<!DOCTYPE html>') || response.body.contains('<html>')) {
@@ -210,10 +211,10 @@ class _OtpPageState extends State<OtpPage> {
       try {
         data = json.decode(response.body);
       } catch (jsonError) {
-        print('=== PAYUNIOVO OTP JSON PARSE ERROR ===');
-        print('JSON Parse Error: $jsonError');
-        print('Response Body: ${response.body}');
-        print('=====================================');
+        DebugHelper.debugPrint('=== PAYUNIOVO OTP JSON PARSE ERROR ===');
+        DebugHelper.debugPrint('JSON Parse Error: $jsonError');
+        DebugHelper.debugPrint('Response Body: ${response.body}');
+        DebugHelper.debugPrint('=====================================');
         
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Gagal memproses response dari server. Silakan coba lagi.'))
@@ -225,10 +226,10 @@ class _OtpPageState extends State<OtpPage> {
       }
 
       if (response.statusCode == 200) {
-        print('=== PAYUNIOVO OTP SUCCESS ===');
-        print('Response Data: $data');
-        print('Token: ${data['data']}');
-        print('============================');
+        DebugHelper.debugPrint('=== PAYUNIOVO OTP SUCCESS ===');
+        DebugHelper.debugPrint('Response Data: $data');
+        DebugHelper.debugPrint('Token: ${data['data']}'.toString());    
+        DebugHelper.debugPrint('============================');
         
         SharedPreferences prefs = await SharedPreferences.getInstance();
         String token = data['data'];
@@ -280,10 +281,10 @@ class _OtpPageState extends State<OtpPage> {
           Nav.clearAllAndPush(nextWidget);
         }
       } else {
-        print('=== PAYUNIOVO OTP ERROR ===');
-        print('Error Status: ${response.statusCode}');
-        print('Error Data: $data');
-        print('===========================');
+        DebugHelper.debugPrint('=== PAYUNIOVO OTP ERROR ===');
+        DebugHelper.debugPrint('Error Status: ${response.statusCode}');
+        DebugHelper.debugPrint('Error Data: $data');
+        DebugHelper.debugPrint('===========================');
         
         String errorMessage = 'Verifikasi OTP gagal';
         if (data is Map<String, dynamic> && data['message'] != null) {
@@ -301,10 +302,10 @@ class _OtpPageState extends State<OtpPage> {
         otp4.clear();
       }
     } catch (e) {
-      print('=== PAYUNIOVO OTP EXCEPTION ===');
-      print('Exception type: ${e.runtimeType}');
-      print('Exception: $e');
-      print('==============================');
+      DebugHelper.debugPrint('=== PAYUNIOVO OTP EXCEPTION ===');
+      DebugHelper.debugPrint('Exception type: ${e.runtimeType}');
+      DebugHelper.debugPrint('Exception: $e');
+      DebugHelper.debugPrint('==============================');
       
       String errorMessage = 'Terjadi kesalahan saat verifikasi OTP';
       if (e.toString().contains('unexpected character')) {

@@ -11,6 +11,7 @@ import 'package:mobile/screen/history/deposit/deposit.dart';
 import 'package:http/http.dart' as http;
 import '../../../bloc/Bloc.dart' show bloc;
 import '../../../bloc/Api.dart' show apiUrl;
+import 'package:mobile/utils/debug_helper.dart';
 
 abstract class DepositController extends State<DepositPage> {
   bool loadingNewPage = false;

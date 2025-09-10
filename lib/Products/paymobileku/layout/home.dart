@@ -28,6 +28,7 @@ import 'package:mobile/Products/paymobileku/layout/topup.dart';
 import 'package:mobile/Products/paymobileku/layout/transfer.dart';
 import 'package:mobile/component/rewards.dart';
 import 'package:marquee/marquee.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class PakeAjaHome extends StatefulWidget {
   @override
@@ -63,7 +64,7 @@ class _PakeAjaHomeState extends State<PakeAjaHome> {
         return [];
       }
     } catch (e) {
-      print('Error: $e');
+      DebugHelper.debugPrint('Error: $e');
       return [];
     }
   }

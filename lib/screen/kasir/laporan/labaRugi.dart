@@ -20,6 +20,7 @@ import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
 
 import 'package:mobile/modules.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class LabaRugi extends StatefulWidget {
   @override
@@ -154,7 +155,7 @@ class LabaRugiState extends State<LabaRugi> {
 
     if (picked != null) {
       String value = formatter.format(picked);
-      print('picked -> $picked, value -> $value');
+      DebugHelper.debugPrint('picked -> $picked, value -> $value');
 
       if (key == 'awal') {
         setState(() {

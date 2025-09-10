@@ -7,6 +7,7 @@ import 'package:mobile/screen/home/home3/main.dart' as Home3;
 import 'package:mobile/screen/home/home4/main.dart' as Home4;
 import 'package:mobile/screen/home/home5/main.dart' as Home5;
 import 'package:mobile/screen/home/home6/main.dart' as Home6;
+import 'package:mobile/utils/debug_helper.dart';
 
 List<Widget> templateConfig = [
   Home1.MainApp(),

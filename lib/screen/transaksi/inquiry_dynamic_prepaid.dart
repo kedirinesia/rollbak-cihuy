@@ -19,6 +19,7 @@ import 'package:mobile/screen/transaksi/trx_wait.dart';
 import 'package:mobile/screen/transaksi/verifikasi_pin.dart';
 import '../../bloc/Bloc.dart' show bloc;
 import 'dart:convert';
+import 'package:mobile/utils/debug_helper.dart';
 
 class InquiryDynamicPrepaid extends StatefulWidget {
   final String nomorTujuan;
@@ -573,7 +574,7 @@ abstract class InquiryDynamicPrepaidController
         loading = false;
         data = jsonDecode(response.body)['data'];
       });
-      print(data);
+      DebugHelper.debugPrint('data.toString()');
     } else if (response.statusCode == 403 &&
         json.decode(response.body)['need_verification']) {
       Navigator.of(context).pushReplacement(MaterialPageRoute(

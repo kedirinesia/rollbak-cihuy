@@ -13,6 +13,7 @@ import 'package:http/http.dart' as http;
 import 'package:mobile/models/mp_produk.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/screen/marketplace/detail_produk.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class BelanjaPage extends StatefulWidget {
   @override
@@ -71,7 +72,7 @@ class _BelanjaPageState extends State<BelanjaPage> {
 
     http.Response response = await http.get(Uri.parse(url),
         headers: {'Authorization': bloc.token.valueWrapper?.value});
-    print(url);
+    DebugHelper.debugPrint('url.toString()');
 
     if (response.statusCode == 200) {
       List<dynamic> datas = json.decode(response.body)['data'];

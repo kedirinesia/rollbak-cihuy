@@ -23,6 +23,7 @@ import '../../../component/card_info.dart';
  
  
 import '../../seepays/layout/menudepan.dart';
+import 'package:mobile/utils/debug_helper.dart';
  
 
 class CarouselBannerAPI extends StatefulWidget {
@@ -46,12 +47,12 @@ class _CarouselBannerAPIState extends State<CarouselBannerAPI> {
     try {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('token');  
-      print('DEBUG TOKEN: $token');
+      DebugHelper.debugPrint('DEBUG TOKEN: $token');
       if (token == null || token.isEmpty) {
         setState(() {
           isLoading = false;
         });
-        print('DEBUG: Token null/kosong!');
+        DebugHelper.debugPrint('Token null/kosong!');
         return;
       }
 
@@ -60,8 +61,8 @@ class _CarouselBannerAPIState extends State<CarouselBannerAPI> {
         headers: {'Authorization': token},
       );
 
-      print('DEBUG STATUS: ${response.statusCode}');
-      print('DEBUG BODY: ${response.body}');
+      DebugHelper.debugPrint('DEBUG STATUS: ${response.statusCode}');
+      DebugHelper.debugPrint('DEBUG BODY: ${response.body}');
 
       if (response.statusCode == 200) {
         final jsonResp = json.decode(response.body);
@@ -69,15 +70,15 @@ class _CarouselBannerAPIState extends State<CarouselBannerAPI> {
           banners = jsonResp['data'] ?? [];
           isLoading = false;
         });
-        print('DEBUG BANNERS: $banners');
+        DebugHelper.debugPrint('DEBUG BANNERS: $banners');
       } else {
         setState(() {
           isLoading = false;
         });
-        print('DEBUG: Response status bukan 200');
+        DebugHelper.debugPrint('Response status bukan 200');
       }
     } catch (e) {
-      print('DEBUG ERROR: $e');
+      DebugHelper.debugPrint('DEBUG ERROR: $e');
       setState(() {
         isLoading = false;
       });
@@ -86,8 +87,8 @@ class _CarouselBannerAPIState extends State<CarouselBannerAPI> {
 
   @override
   Widget build(BuildContext context) {
-    print('DEBUG isLoading: $isLoading');
-    print('DEBUG banners: $banners');
+    DebugHelper.debugPrint('DEBUG isLoading: $isLoading');
+    DebugHelper.debugPrint('DEBUG banners: $banners');
     if (isLoading) {
       return Container(
         height: 110,
@@ -212,7 +213,7 @@ class _Home2AppState extends State<Home2App> with SingleTickerProviderStateMixin
       // For example, refresh user data, balance, etc.
       
     } catch (e) {
-      print('Error during refresh: $e');
+      DebugHelper.debugPrint('Error during refresh: $e');
     }
   }
 

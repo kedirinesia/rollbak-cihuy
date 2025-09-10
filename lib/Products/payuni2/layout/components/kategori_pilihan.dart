@@ -12,6 +12,7 @@ import 'package:mobile/component/alert.dart';
 import 'package:mobile/models/mp_kategori.dart';
 import 'package:mobile/screen/marketplace/list_produk.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class KategoriPilihan extends StatefulWidget {
   KategoriPilihan({Key key}) : super(key: key);
@@ -52,7 +53,7 @@ class _KategoriPilihanState extends State<KategoriPilihan> {
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
     } catch (e) {
-      print('Error: $e');
+      DebugHelper.debugPrint('Error: $e');
     }
   }
 

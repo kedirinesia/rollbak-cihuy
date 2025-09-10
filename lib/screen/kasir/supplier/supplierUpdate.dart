@@ -17,6 +17,7 @@ import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
 
 import 'package:mobile/provider/analitycs.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class SupplierUpdate extends StatefulWidget {
   SupplierModel supplier;

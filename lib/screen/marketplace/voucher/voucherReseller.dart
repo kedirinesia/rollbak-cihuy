@@ -18,6 +18,7 @@ import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/models/mp_voucher.dart';
 
 import 'package:mobile/screen/marketplace/voucher/detailVoucher.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class VoucherReseller extends StatefulWidget {
   @override
@@ -91,7 +92,7 @@ class VoucherResellerState extends State<VoucherReseller> {
     ));
 
     getList();
-    print('response -> $response');
+    DebugHelper.debugPrint('response -> $response');
     if (response != null) {
       Navigator.of(context).pop(voucher);
     }

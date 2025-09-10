@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
 import '../component/bezierContainer.dart';
 import 'login.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class LinkVerifPage extends StatelessWidget {
   @override

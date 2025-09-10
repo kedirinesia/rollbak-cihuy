@@ -11,6 +11,7 @@ import 'package:mobile/screen/detail-denom-postpaid/detail-postpaid.dart';
 import 'package:mobile/screen/detail-denom/detail-denom.dart';
 import 'package:mobile/screen/list-sub-menu/list-sub-menu.dart';
 import 'package:mobile/screen/pulsa/pulsa.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class MenuDepan extends StatefulWidget {
   final int grid;
@@ -39,10 +40,10 @@ class _MenuDepanState extends State<MenuDepan> {
   void initState() {
     super.initState();
     if (widget.menus == null) {
-      print("GET MENU BY API");
+      DebugHelper.debugPrint('"GET MENU BY API"');
       getMenu();
     } else {
-      print("LOAD MENU BY DATA");
+      DebugHelper.debugPrint('"LOAD MENU BY DATA"');
       setState(() {
         loading = false;
         _listMenu = widget.menus;

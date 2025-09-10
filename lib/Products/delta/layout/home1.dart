@@ -21,6 +21,7 @@ import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/component/alert.dart';
 import 'package:mobile/models/mp_produk.dart';
 import 'package:mobile/modules.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class HomePayuni1 extends StatefulWidget {
   @override
@@ -83,7 +84,7 @@ class _HomePayuni1State extends State<HomePayuni1>
           await http.get(Uri.parse('$apiUrl/market/products'), headers: {
         'Authorization': bloc.token.valueWrapper?.value,
       });
-      print(url);
+      DebugHelper.debugPrint('url.toString()');
 
       if (response.statusCode == 200) {
         List<dynamic> datas = json.decode(response.body)['data'];
@@ -102,7 +103,7 @@ class _HomePayuni1State extends State<HomePayuni1>
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
     } catch (e) {
-      print('Error: $e');
+      DebugHelper.debugPrint('Error: $e');
     }
   }
 

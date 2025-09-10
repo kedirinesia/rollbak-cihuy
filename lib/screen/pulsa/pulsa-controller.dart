@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import '../../bloc/Bloc.dart' show bloc;
 import '../../bloc/Api.dart' show apiUrl;
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 abstract class PulsaController extends State<Pulsa>
     with TickerProviderStateMixin {
@@ -24,18 +25,18 @@ abstract class PulsaController extends State<Pulsa>
   @override
   void initState() {
     super.initState();
-    print('=== PulsaController initState() START ===');
-    print('Menu Name: ${widget.menuModel.name}');
-    print('Menu Category ID: ${widget.menuModel.category_id}');
+    DebugHelper.debugPrint('=== PulsaController initState() START ===');
+    DebugHelper.debugPrint('Menu Name: ${widget.menuModel.name}');
+    DebugHelper.debugPrint('Menu Category ID: ${widget.menuModel.category_id}');
     
-    print('Calling _getPackageName()...');
+    DebugHelper.debugPrint('Calling _getPackageName()...');
     _getPackageName().then((_) {
-      print('✅ _getPackageName() completed, now calling getSuggestNumbers()...');
+      DebugHelper.debugPrint('✅ _getPackageName() completed, now calling getSuggestNumbers()...');
       getSuggestNumbers();
     });
     
-    print('getSuggestNumbers() scheduled (after _getPackageName)');
-    print('=== PulsaController initState() END ===');
+    DebugHelper.debugPrint('getSuggestNumbers() scheduled (after _getPackageName)');
+    DebugHelper.debugPrint('=== PulsaController initState() END ===');
   }
 
   Future<void> _getPackageName() async {
@@ -46,21 +47,21 @@ abstract class PulsaController extends State<Pulsa>
   }
 
   Future<void> getSuggestNumbers() async {
-    print('=== PulsaController getSuggestNumbers() START ===');
-    print('Package Name: $packageName');
-    print('Menu Name: ${widget.menuModel.name}');
-    print('Menu Category ID: ${widget.menuModel.category_id}');
+    DebugHelper.debugPrint('=== PulsaController getSuggestNumbers() START ===');
+    DebugHelper.debugPrint('Package Name: $packageName');
+    DebugHelper.debugPrint('Menu Name: ${widget.menuModel.name}');
+    DebugHelper.debugPrint('Menu Category ID: ${widget.menuModel.category_id}');
     
     // FITUR SUGGEST HISTORY NOMOR PEMBELI - EKSKLUSIF UNTUK APLIKASI SEEPAYS DAN PAYUNIOVO
     if (packageName != 'com.seepaysbiller.app' && packageName != 'mobile.payuni.id' && packageName != 'co.payuni.id') {
-      print('❌ Package name tidak didukung: $packageName');
+      DebugHelper.debugPrint('❌ Package name tidak didukung: $packageName');
       setState(() {
         suggestNumbers = [];
       });
       return;
     }
     
-    print('✅ Package name didukung: $packageName');
+    DebugHelper.debugPrint('✅ Package name didukung: $packageName');
 
     try {
       setState(() {
@@ -79,30 +80,30 @@ abstract class PulsaController extends State<Pulsa>
         } else {
           kategoriId = '685b71969a3036284f0d8fec'; // Kategori default untuk Seepays
         }
-        print('⚠️ Category ID kosong, menggunakan fallback: $kategoriId');
+        DebugHelper.debugPrint('⚠️ Category ID kosong, menggunakan fallback: $kategoriId');
       }
       
       if (packageName == 'mobile.payuni.id' || packageName == 'co.payuni.id') {
         // API khusus Payuniovo
         // Gunakan kategori ID yang sudah di-fallback
         apiEndpoint = 'https://payuni-app.findig.id/api/v1/trx/lastTransaction?kategori_id=$kategoriId&limit=5&skip=0';
-        print('🌐 Menggunakan API Payuniovo dengan kategori: $apiEndpoint');
+        DebugHelper.debugPrint('🌐 Menggunakan API Payuniovo dengan kategori: $apiEndpoint');
       } else if (packageName == 'com.seepaysbiller.app') {
         // API khusus Seepays - menggunakan lastTransaction
         apiEndpoint = 'https://app.payuni.co.id/api/v1/trx/lastTransaction?kategori_id=$kategoriId&limit=5&skip=0';
-        print('🌐 Menggunakan API Seepays dengan kategori: $apiEndpoint');
+        DebugHelper.debugPrint('🌐 Menggunakan API Seepays dengan kategori: $apiEndpoint');
       } else {
         // API default untuk produk lain
         if (kategoriId.isNotEmpty) {
           apiEndpoint = '$apiUrl/trx/list?page=0&limit=50&kategori_id=$kategoriId';
-          print('🌐 Menggunakan API Default dengan kategori: $apiEndpoint');
+          DebugHelper.debugPrint('🌐 Menggunakan API Default dengan kategori: $apiEndpoint');
         } else {
           apiEndpoint = '$apiUrl/trx/list?page=0&limit=50';
-          print('🌐 Menggunakan API Default tanpa kategori: $apiEndpoint');
+          DebugHelper.debugPrint('🌐 Menggunakan API Default tanpa kategori: $apiEndpoint');
         }
       }
 
-      print('📡 Calling API...');
+      DebugHelper.debugPrint('📡 Calling API...');
       final response = await http.get(
         Uri.parse(apiEndpoint),
         headers: {
@@ -110,8 +111,8 @@ abstract class PulsaController extends State<Pulsa>
         },
       );
       
-      print('📡 Response Status: ${response.statusCode}');
-      print('📡 Response Body: ${response.body}');
+      DebugHelper.debugPrint('📡 Response Status: ${response.statusCode}');
+      DebugHelper.debugPrint('📡 Response Body: ${response.body}');
 
       if (response.statusCode == 200) {
         List<dynamic> datas;
@@ -142,24 +143,24 @@ abstract class PulsaController extends State<Pulsa>
 
         if (packageName == 'mobile.payuni.id' || packageName == 'co.payuni.id' || packageName == 'com.seepaysbiller.app') {
           // Payuniovo dan Seepays: terima semua format (PLN ID, HP, dll)
-          print('🔍 Processing Payuniovo/Seepays data...');
+          DebugHelper.debugPrint('🔍 Processing Payuniovo/Seepays data...');
           for (final dynamic item in datas) {
             final String tujuanItem = (item['tujuan'] ?? '').toString().trim();
-            print('🔍 Item tujuan: "$tujuanItem"');
+            DebugHelper.debugPrint('🔍 Item tujuan: "$tujuanItem"');
             if (tujuanItem.isEmpty) {
-              print('❌ Tujuan kosong, skip');
+              DebugHelper.debugPrint('❌ Tujuan kosong, skip');
               continue;
             }
 
             if (tujuanItem.length >= 8 && tujuanItem.length <= 20) {
-              print('✅ Tujuan valid, tambahkan: $tujuanItem');
+              DebugHelper.debugPrint('✅ Tujuan valid, tambahkan: $tujuanItem');
               uniqueTargets.add(tujuanItem);
               if (uniqueTargets.length >= 5) break;
             } else {
-              print('❌ Tujuan tidak valid (length: ${tujuanItem.length}): $tujuanItem');
+              DebugHelper.debugPrint('❌ Tujuan tidak valid (length: ${tujuanItem.length}): $tujuanItem');
             }
           }
-          print('🔍 Total unique targets Payuniovo/Seepays: ${uniqueTargets.length}');
+          DebugHelper.debugPrint('🔍 Total unique targets Payuniovo/Seepays: ${uniqueTargets.length}');
         } else {
           // Allowed product codes from current denom list
           final Set<String> allowedCodes = listDenom
@@ -204,39 +205,39 @@ abstract class PulsaController extends State<Pulsa>
           }
         }
 
-        print('🎯 Final suggest numbers: ${uniqueTargets.toList()}');
+        DebugHelper.debugPrint('🎯 Final suggest numbers: ${uniqueTargets.toList()}');
         setState(() {
           suggestNumbers = uniqueTargets.toList();
         });
       } else {
-        print('❌ API response tidak berhasil: ${response.statusCode}');
+        DebugHelper.debugPrint('❌ API response tidak berhasil: ${response.statusCode}');
         setState(() {
           suggestNumbers = [];
         });
       }
     } catch (error) {
-      print('❌ Error dalam getSuggestNumbers: $error');
+      DebugHelper.debugPrint('❌ Error dalam getSuggestNumbers: $error');
       setState(() {
         suggestNumbers = [];
       });
     } finally {
-      print('🏁 Setting loadingSuggest = false');
+      DebugHelper.debugPrint('🏁 Setting loadingSuggest = false');
       setState(() {
         loadingSuggest = false;
       });
     }
-    print('=== PulsaController getSuggestNumbers() END ===');
+    DebugHelper.debugPrint('=== PulsaController getSuggestNumbers() END ===');
   }
 
   void selectSuggestNumber(String number) {
-    print('🎯 Suggest number diklik: $number');
+    DebugHelper.debugPrint('🎯 Suggest number diklik: $number');
     setState(() {
       nomorHp.text = number;
     });
     
     // Auto-load denom setelah nomor diisi
     if (number.length >= 4 && number.startsWith('08')) {
-      print('🚀 Auto-loading denom untuk nomor: $number');
+      DebugHelper.debugPrint('🚀 Auto-loading denom untuk nomor: $number');
       
       // Reset state
       setState(() {
@@ -248,7 +249,7 @@ abstract class PulsaController extends State<Pulsa>
       // Load denom
       getDenom(number);
     } else {
-      print('⚠️ Nomor tidak valid untuk auto-load denom: $number');
+      DebugHelper.debugPrint('⚠️ Nomor tidak valid untuk auto-load denom: $number');
     }
   }
 

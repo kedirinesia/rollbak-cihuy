@@ -25,6 +25,7 @@ import 'package:mobile/modules.dart';
 
 // PAGE SCREEN
 import 'package:mobile/screen/kasir/laporan/stock/lapDetailStock.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class LapStock extends StatefulWidget {
   @override
@@ -184,7 +185,7 @@ class LapStockState extends State<LapStock> {
 
     if (picked != null) {
       String value = formatter.format(picked);
-      print('picked -> $picked, value -> $value');
+      DebugHelper.debugPrint('picked -> $picked, value -> $value');
 
       if (key == 'awal') {
         setState(() {

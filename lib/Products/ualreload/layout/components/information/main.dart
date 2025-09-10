@@ -14,6 +14,7 @@ import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/component/alert.dart';
 import 'package:mobile/models/info.dart';
 import 'package:mobile/screen/info/info.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class Information extends StatefulWidget {
   @override
@@ -63,7 +64,7 @@ class _InformationState extends State<Information> {
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
     } catch (e) {
-      print(e);
+      DebugHelper.debugPrint('e.toString()');
     }
   }
 

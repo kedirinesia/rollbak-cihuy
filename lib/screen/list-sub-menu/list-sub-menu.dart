@@ -11,6 +11,7 @@ import 'package:mobile/provider/analitycs.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import 'list-sub-menu-controller.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class ListSubMenu extends StatefulWidget {
   final MenuModel menuModel;
@@ -39,7 +40,7 @@ class _ListSubMenuState extends ListSubMenuController {
     setState(() {
       packageName = info.packageName;
     });
-    print("DEBUG: packageName -> $packageName"); // 👈 debug print
+    DebugHelper.debugPrint('"packageName -> $packageName"'); // 👈 debug print
   }
 
   @override

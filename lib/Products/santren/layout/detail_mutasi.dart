@@ -10,6 +10,7 @@ import 'package:mobile/models/mutasi.dart';
 import 'package:mobile/models/trx.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/provider/analitycs.dart';
+import 'package:mobile/utils/debug_helper.dart';
 // <-- Pastikan path benar
 
 class WatermarkNetworkLogo extends StatelessWidget {
@@ -291,29 +292,27 @@ class _DetailMutasiState extends State<DetailMutasi> {
       floatingActionButton: Builder(
         builder: (context) {
           final mutasiType = widget.mutasi.type?.toUpperCase() ?? '';
-          print('[DEBUG] Mutasi Type: $mutasiType');
-          print('[DEBUG] Mutasi ID: ${widget.mutasi.id}');
-          print('[DEBUG] Keterangan: ${widget.mutasi.keterangan}');
+          DebugHelper.debugPrint('Mutasi Type: $mutasiType');
+          DebugHelper.debugPrint('Mutasi ID: ${widget.mutasi.id}');
+          DebugHelper.debugPrint('Keterangan: ${widget.mutasi.keterangan}');
 
           if (mutasiType == 'KS') {
-            print(
-                '[DEBUG] Menampilkan tombol cetak karena ini transfer saldo (KS)');
+            DebugHelper.debugPrint('[DEBUG] Menampilkan tombol cetak karena ini transfer saldo (KS)');
             return FloatingActionButton.extended(
               backgroundColor: Colors.green,
               icon: Icon(Icons.print),
               label: Text('Print'),
               onPressed: () {
-                print('[DEBUG] Tombol print ditekan');
+                DebugHelper.debugPrint('Tombol print ditekan');
                 TrxModel trx = mutasiToTrx(widget.mutasi);
-                print('[DEBUG] TrxModel: ${trx.toString()}');
+                DebugHelper.debugPrint('TrxModel: ${trx.toString()}');
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (_) => CetakMutasiPage(mutasi: widget.mutasi),
                 ));
               },
             );
           } else {
-            print(
-                '[DEBUG] Tombol cetak disembunyikan, karena bukan transfer (bukan KS)');
+            DebugHelper.debugPrint('[DEBUG] Tombol cetak disembunyikan, karena bukan transfer (bukan KS)');
             return SizedBox.shrink();
           }
         },

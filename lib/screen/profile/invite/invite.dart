@@ -8,6 +8,7 @@ import 'package:mobile/config.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/profile/invite/invite_controller.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class InvitePage extends StatefulWidget {
   @override

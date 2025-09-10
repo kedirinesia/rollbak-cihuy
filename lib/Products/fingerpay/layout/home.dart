@@ -25,6 +25,7 @@ import 'package:mobile/screen/profile/print_settings.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/screen/wd/withdraw.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class Home4App extends StatefulWidget {
   @override
@@ -60,7 +61,7 @@ class _Home4AppState extends Home4Model {
         return [];
       }
     } catch (e) {
-      print('Error: $e');
+      DebugHelper.debugPrint('Error: $e');
       return [];
     }
   }
@@ -789,7 +790,7 @@ class PanelSemuaMenu extends StatelessWidget {
             child: InkWell(
               onTap: () async {
                 String barcode = (await BarcodeScanner.scan()).toString();
-                print(barcode);
+                DebugHelper.debugPrint('barcode.toString()');
                 if (barcode.isNotEmpty) {
                   return Navigator.of(context).push(
                       MaterialPageRoute(builder: (_) => TransferByQR(barcode)));

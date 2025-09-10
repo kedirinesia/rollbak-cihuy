@@ -18,6 +18,7 @@ import 'package:mobile/screen/marketplace/cart.dart';
 import 'package:mobile/screen/marketplace/detail_produk.dart';
 import 'package:mobile/screen/marketplace/history.dart';
 import 'package:mobile/screen/marketplace/list_produk.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -70,7 +71,7 @@ class _HomePageState extends State<HomePage> {
         return [];
       }
     } catch (e) {
-      print('Error: $e');
+      DebugHelper.debugPrint('Error: $e');
       return [];
     }
   }

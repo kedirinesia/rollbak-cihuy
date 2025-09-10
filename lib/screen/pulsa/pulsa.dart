@@ -19,6 +19,7 @@ import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/pulsa/pulsa-controller.dart';
 import 'package:mobile/screen/transaksi/inquiry_prepaid.dart';
 import 'package:mobile/screen/favorite-number/favorite-number.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class Pulsa extends StatefulWidget {
   final MenuModel menuModel;
@@ -258,8 +259,7 @@ class _PulsaState extends PulsaController {
                                       ),
                                     );
 
-                                    print(
-                                        'response favorite-number -> $response');
+                                    DebugHelper.debugPrint('response favorite-number -> $response');
                                     if (response == null) return;
                                     setState(() {
                                       nomorHp.text = response.tujuan;
@@ -345,8 +345,7 @@ class _PulsaState extends PulsaController {
                                       ),
                                     );
 
-                                    print(
-                                        'response favorite-number -> $response');
+                                    DebugHelper.debugPrint('response favorite-number -> $response');
                                     if (response == null) return;
                                     setState(() {
                                       nomorHp.text = response.tujuan;

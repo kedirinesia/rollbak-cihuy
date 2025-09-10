@@ -21,6 +21,7 @@ import 'package:mobile/screen/marketplace/cart.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:toast/toast.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile/utils/debug_helper.dart';
 
 // import 'package:mobile/modules.dart';
 
@@ -80,13 +81,13 @@ class _ProductDetailMarketplaceState extends State<ProductDetailMarketplace> {
         });
         getRelatedProducts(product.categoryId);
 
-        print(product.images);
+        DebugHelper.debugPrint('product.images.toString()');
       } else {
         showToast(context, 'Gagal mengambil data produk');
         Navigator.of(context).pop();
       }
     } catch (e) {
-      print('ERROR: $e');
+      DebugHelper.debugPrint('ERROR: $e');
       showToast(context, 'Gagal mengambil data produk');
       Navigator.of(context).pop();
     }
@@ -106,11 +107,11 @@ class _ProductDetailMarketplaceState extends State<ProductDetailMarketplace> {
               productData.map((data) => ProdukMarket.fromJson(data)).toList();
         });
       } else {
-        print('Error fetching related products: ${response.statusCode}');
+        DebugHelper.debugPrint('Error fetching related products: ${response.statusCode}');
         return [];
       }
     } catch (e) {
-      print('Exception caught: $e');
+      DebugHelper.debugPrint('Exception caught: $e');
       return [];
     }
   }
@@ -128,7 +129,7 @@ class _ProductDetailMarketplaceState extends State<ProductDetailMarketplace> {
         return [];
       }
     } catch (e) {
-      print('Error: $e');
+      DebugHelper.debugPrint('Error: $e');
       return [];
     }
   }
@@ -159,7 +160,7 @@ class _ProductDetailMarketplaceState extends State<ProductDetailMarketplace> {
       }).catchError((err) {
         showToast(context, "Gagal menambahkan produk",
             duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
-        print('ADD TO CART ERROR: ${err.toString()}');
+        DebugHelper.debugPrint('ADD TO CART ERROR: ${err.toString()}');
       });
     }
   }

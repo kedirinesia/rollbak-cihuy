@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'trx.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class TransactionHistoryModel extends TrxModel {
   ProdukId produkId;

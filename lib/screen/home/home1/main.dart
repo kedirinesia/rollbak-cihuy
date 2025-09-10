@@ -16,6 +16,7 @@ import 'package:mobile/screen/home/home1/home1.dart';
 import 'package:mobile/screen/profile/downline/downline.dart';
 import 'package:mobile/screen/profile/profile.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 
 class MainApp extends StatefulWidget {
@@ -85,7 +86,7 @@ class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
           elevation: 0.0,
           onPressed: () async {
             var barcode = await BarcodeScanner.scan();
-            print(barcode);
+            DebugHelper.debugPrint('barcode.toString()');
             // if (barcode.isNotEmpty) {
             return Navigator.of(context).push(MaterialPageRoute(
                 builder: (_) => TransferByQR(barcode.rawContent)));

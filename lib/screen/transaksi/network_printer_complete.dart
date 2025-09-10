@@ -9,6 +9,7 @@ import 'package:mobile/models/trx.dart';
 import 'package:mobile/screen/custom_alert_dialog.dart';
 import 'package:mobile/modules.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile/utils/debug_helper.dart';
 
 class NetworkPrinterComplete {
   final String ipAddress;

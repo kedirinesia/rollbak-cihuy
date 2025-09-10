@@ -8,6 +8,7 @@ import 'package:mobile/bloc/TemplateConfig.dart';
 import 'package:mobile/config.dart';
 import 'package:mobile/models/menu.dart';
 import 'package:mobile/Products/seepays/layout/list-sub-menu-controller.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 // ignore: must_be_immutable
 class ListSubMenu extends StatefulWidget {
@@ -171,7 +172,7 @@ class _ListSubMenuState extends ListSubMenuController {
                                 await Future.delayed(Duration(milliseconds: 500));
                                 
                               } catch (e) {
-                                print('Error during refresh: $e');
+                                DebugHelper.debugPrint('Error during refresh: $e');
                               }
                             },
                             color: packageName == 'com.lariz.mobile'
@@ -213,7 +214,7 @@ class _ListSubMenuState extends ListSubMenuController {
                                             try {
                                               await getData();
                                             } catch (e) {
-                                              print('Error during refresh: $e');
+                                              DebugHelper.debugPrint('Error during refresh: $e');
                                             }
                                           },
                                           icon: Icon(Icons.refresh),

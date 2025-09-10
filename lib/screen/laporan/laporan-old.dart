@@ -19,6 +19,7 @@ import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/transaksi/detail_transaksi.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import 'package:grouped_list/grouped_list.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class MyNewPage extends StatefulWidget {
   const MyNewPage({key}) : super(key: key);
@@ -89,8 +90,8 @@ class _MyNewPageState extends State<MyNewPage> {
     });
     CountTrx trxData = CountTrx.fromJson(json.decode(response.body)['data']);
     bloc.allTrxCount.add(trxData);
-    print("DISINI!");
-    print(response.body);
+    DebugHelper.debugPrint('"DISINI!"');
+    DebugHelper.debugPrint('response.body.toString()');
 
     if (response.statusCode == 200) {
       setState(() {
@@ -130,7 +131,7 @@ class _MyNewPageState extends State<MyNewPage> {
     });
     String parameters = listOfParams.join('&');
     String url = '$apiUrl/trx/list?$parameters';
-    print(url);
+    DebugHelper.debugPrint('url.toString()');
 
     http.Response response = await http.get(Uri.parse(url), headers: {
       'Authorization': bloc.token.valueWrapper?.value,
@@ -138,8 +139,8 @@ class _MyNewPageState extends State<MyNewPage> {
 
     if (response.statusCode == 200) {
       List<dynamic> datas = json.decode(response.body)['data'];
-      // print("DATA TRX");
-      // print(datas);
+      // DebugHelper.debugPrint('"DATA TRX"');
+      // DebugHelper.debugPrint('datas.toString()');
       if (datas.length == 0) isEdge = true;
 
       List<TrxModel> newTrx = datas.map((e) => TrxModel.fromJson(e)).toList();
@@ -150,17 +151,17 @@ class _MyNewPageState extends State<MyNewPage> {
           DateTime dateTimeB = DateTime.parse(b.created_at);
           return dateTimeB.compareTo(dateTimeA);
         } catch (e) {
-          print('Error when parsing date: $e');
+          DebugHelper.debugPrint('Error when parsing date: $e');
           return 0;
         }
       });
 
-      print('sampai sini' + datas.toString());
+      DebugHelper.debugPrint('sampai sini' + datas.toString());
 
       listTrx.addAll(newTrx);
       searchResult.addAll(newTrx);
 
-      // print(newTrx.map((trx) => trx.created_at).toList());
+      // DebugHelper.debugPrint('newTrx.map((trx) => trx.created_at).toList()');
 
       currentPage++;
     } else {
@@ -171,7 +172,7 @@ class _MyNewPageState extends State<MyNewPage> {
         isError: true,
       ));
     }
-    // print(response.body);
+    // DebugHelper.debugPrint('response.body.toString()');
 
     setState(() {
       loading = false;
@@ -448,7 +449,7 @@ class _MyNewPageState extends State<MyNewPage> {
                         getData(tujuanSearch: value);
                       },
                       // onChanged: (value) {
-                      //   print("Search field value: $value");
+                      //   DebugHelper.debugPrint('"Search field value: $value"');
                       //   if (value.isNotEmpty) {
                       //     isInSearchMode = true;
                       //     searchResult = listTrx
@@ -457,8 +458,8 @@ class _MyNewPageState extends State<MyNewPage> {
                       //   } else {
                       //     isInSearchMode = false;
                       //   }
-                      //   print("Is in search mode: $isInSearchMode");
-                      //   print("Search results count: ${searchResult.length}");
+                      //   DebugHelper.debugPrint('"Is in search mode: $isInSearchMode"');
+                      //   DebugHelper.debugPrint('"Search results count: ${searchResult.length}"');
                       //   setState(() {});
                       // },
                       decoration: InputDecoration(
@@ -549,7 +550,7 @@ class _MyNewPageState extends State<MyNewPage> {
                                           dropdownValue = 'Pending';
                                           selectedStatus = 'Pending';
                                         });
-                                        print('Anjog Mene');
+                                        DebugHelper.debugPrint('Anjog Mene');
                                         Navigator.pop(context);
                                       },
                                     ),

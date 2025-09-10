@@ -10,6 +10,7 @@ import 'package:mobile/modules.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/topup/bank/transfer-deposit.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class DetailDeposit extends StatefulWidget {
   final DepositModel dep;
@@ -20,21 +21,21 @@ class DetailDeposit extends StatefulWidget {
 
 class _DetailDepositState extends DetailDepositController {
   Widget fab() {
-    print('🔍 [DETAIL DEPOSIT] fab() called');
-    print('🔍 [DETAIL DEPOSIT] Deposit status: ${widget.dep.statusModel.status}');
-    print('🔍 [DETAIL DEPOSIT] Deposit type: ${widget.dep.type}');
-    print('🔍 [DETAIL DEPOSIT] VA name: ${widget.dep.vaname}');
+    DebugHelper.debugPrint('🔍 [DETAIL DEPOSIT] fab() called');
+    DebugHelper.debugPrint('🔍 [DETAIL DEPOSIT] Deposit status: ${widget.dep.statusModel.status}');
+    DebugHelper.debugPrint('🔍 [DETAIL DEPOSIT] Deposit type: ${widget.dep.type}');
+    DebugHelper.debugPrint('🔍 [DETAIL DEPOSIT] VA name: ${widget.dep.vaname}');
     
     if (widget.dep.statusModel.status == 0 &&
         (widget.dep.type == 1 || widget.dep.type == 2)) {
-      print('🔍 [DETAIL DEPOSIT] Showing "Bayar Sekarang" FAB');
+      DebugHelper.debugPrint('🔍 [DETAIL DEPOSIT] Showing "Bayar Sekarang" FAB');
       return FloatingActionButton.extended(
         backgroundColor: Theme.of(context).primaryColor,
         icon: Icon(Icons.navigate_next),
         label: Text('Bayar Sekarang'),
         onPressed: () {
-          print('🔍 [DETAIL DEPOSIT] "Bayar Sekarang" button pressed');
-          print('🔍 [DETAIL DEPOSIT] Navigating to TransferDepositPage with nominal: ${widget.dep.nominal}, type: ${widget.dep.type}');
+          DebugHelper.debugPrint('🔍 [DETAIL DEPOSIT] "Bayar Sekarang" button pressed');
+          DebugHelper.debugPrint('🔍 [DETAIL DEPOSIT] Navigating to TransferDepositPage with nominal: ${widget.dep.nominal}, type: ${widget.dep.type}');
           Navigator.of(context).push(MaterialPageRoute(
               builder: (_) =>
                   TransferDepositPage(widget.dep.nominal, widget.dep.type)));
@@ -44,23 +45,23 @@ class _DetailDepositState extends DetailDepositController {
         (widget.dep.type == 5 ||
             widget.dep.vaname == 'alfamart' ||
             widget.dep.vaname == 'indomaret')) {
-      print('🔍 [DETAIL DEPOSIT] Showing "Salin Kode Pembayaran" FAB');
+      DebugHelper.debugPrint('🔍 [DETAIL DEPOSIT] Showing "Salin Kode Pembayaran" FAB');
       return FloatingActionButton.extended(
         backgroundColor: Theme.of(context).primaryColor,
         label: Text('Salin Kode Pembayaran'),
         icon: Icon(Icons.content_copy),
         onPressed: () async {
-          print('🔍 [DETAIL DEPOSIT] "Salin Kode Pembayaran" button pressed');
-          print('🔍 [DETAIL DEPOSIT] Payment code: ${widget.dep.kodePembayaran}');
+          DebugHelper.debugPrint('🔍 [DETAIL DEPOSIT] "Salin Kode Pembayaran" button pressed');
+          DebugHelper.debugPrint('🔍 [DETAIL DEPOSIT] Payment code: ${widget.dep.kodePembayaran}');
           await Clipboard.setData(
               ClipboardData(text: widget.dep.kodePembayaran));
-          print('🔍 [DETAIL DEPOSIT] Payment code copied to clipboard');
+          DebugHelper.debugPrint('🔍 [DETAIL DEPOSIT] Payment code copied to clipboard');
           ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text("Kode pembayaran berhasil disalin")));
         },
       );
     } else {
-      print('🔍 [DETAIL DEPOSIT] No FAB needed for this deposit state');
+      DebugHelper.debugPrint('🔍 [DETAIL DEPOSIT] No FAB needed for this deposit state');
       return null;
     }
   }
@@ -68,24 +69,24 @@ class _DetailDepositState extends DetailDepositController {
   @override
   void initState() {
     super.initState();
-    print('🔍 [DETAIL DEPOSIT] initState called');
-    print('🔍 [DETAIL DEPOSIT] Deposit ID: ${widget.dep.id}');
-    print('🔍 [DETAIL DEPOSIT] Deposit nominal: ${widget.dep.nominal}');
-    print('🔍 [DETAIL DEPOSIT] Deposit status: ${widget.dep.statusModel.statusText}');
-    print('🔍 [DETAIL DEPOSIT] User ID: ${bloc.userId.valueWrapper?.value}');
+    DebugHelper.debugPrint('🔍 [DETAIL DEPOSIT] initState called');
+    DebugHelper.debugPrint('🔍 [DETAIL DEPOSIT] Deposit ID: ${widget.dep.id}');
+    DebugHelper.debugPrint('🔍 [DETAIL DEPOSIT] Deposit nominal: ${widget.dep.nominal}');
+    DebugHelper.debugPrint('🔍 [DETAIL DEPOSIT] Deposit status: ${widget.dep.statusModel.statusText}');
+    DebugHelper.debugPrint('🔍 [DETAIL DEPOSIT] User ID: ${bloc.userId.valueWrapper?.value}');
     
     var analyticsData = {
       'userId': bloc.userId.valueWrapper?.value,
       'title': 'Detail Deposit',
     };
-    print('🔍 [DETAIL DEPOSIT] Analytics payload: ${analyticsData.toString()}');
+    DebugHelper.debugPrint('🔍 [DETAIL DEPOSIT] Analytics payload: ${analyticsData.toString()}');
     analitycs.pageView('/deposit/detail/' + widget.dep.id, analyticsData);
-    print('🔍 [DETAIL DEPOSIT] Analytics page view sent');
+    DebugHelper.debugPrint('🔍 [DETAIL DEPOSIT] Analytics page view sent');
   }
 
   Widget build(BuildContext context) {
-    print('🔍 [DETAIL DEPOSIT] build() called');
-    print('🔍 [DETAIL DEPOSIT] Building detail deposit UI for deposit: ${widget.dep.id}');
+    DebugHelper.debugPrint('🔍 [DETAIL DEPOSIT] build() called');
+    DebugHelper.debugPrint('🔍 [DETAIL DEPOSIT] Building detail deposit UI for deposit: ${widget.dep.id}');
     
     return Scaffold(
         appBar: AppBar(
@@ -96,8 +97,8 @@ class _DetailDepositState extends DetailDepositController {
             IconButton(
               icon: Icon(Icons.home_rounded),
               onPressed: () {
-                print('🔍 [DETAIL DEPOSIT] Home button pressed');
-                print('🔍 [DETAIL DEPOSIT] Navigating to home page');
+                DebugHelper.debugPrint('🔍 [DETAIL DEPOSIT] Home button pressed');
+                DebugHelper.debugPrint('🔍 [DETAIL DEPOSIT] Navigating to home page');
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
                       builder: (_) =>

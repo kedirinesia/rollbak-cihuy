@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class BantuanScreen extends StatefulWidget {
   const BantuanScreen({super.key});
@@ -29,7 +30,7 @@ class _BantuanScreenState extends State<BantuanScreen> {
       },
     );
 
-    print('Response: ${response.body}');
+    DebugHelper.debugPrint('Response: ${response.body}');
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);

@@ -8,6 +8,7 @@ import 'package:mobile/config.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class MyQR extends StatefulWidget {
   @override

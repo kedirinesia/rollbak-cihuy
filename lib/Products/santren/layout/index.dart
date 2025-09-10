@@ -14,6 +14,7 @@ import 'package:mobile/screen/kasir/main.dart';
 import 'package:mobile/Products/santren/layout/profile.dart';
 import 'package:mobile/screen/profile/reward/list_reward.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class EpulsaHome extends StatefulWidget {
   @override
@@ -77,7 +78,7 @@ class _EpulsaHomeState extends State<EpulsaHome> {
           borderRadius: BorderRadius.circular(8), // Radius untuk efek klik
           onTap: () async {
             var barcode = await BarcodeScanner.scan();
-            print(barcode);
+            DebugHelper.debugPrint('barcode.toString()');
             if (barcode.rawContent.isNotEmpty) {
               Navigator.of(context)
                   .push(MaterialPageRoute(builder: (_) => TransferByQR(barcode.rawContent)));
@@ -148,7 +149,7 @@ class _EpulsaHomeState extends State<EpulsaHome> {
                         icon: Icon(Icons.chat, color: Colors.white),
                         onPressed: () { 
                           final url = configAppBloc.liveChat.valueWrapper?.value;
-                          print("DEBUG | Webview akan menuju ke: $url");
+                          DebugHelper.debugPrint('"DEBUG | Webview akan menuju ke: $url"');
                           if (url != '') {
                             return Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => Webview(

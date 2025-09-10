@@ -10,6 +10,7 @@ import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/models/info.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/screen/info/info.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class CardInfo extends StatefulWidget {
   @override
@@ -18,7 +19,7 @@ class CardInfo extends StatefulWidget {
 
 class _CardInfoState extends State<CardInfo> {
   Future<List<InfoModel>> getInfo() async {
-    print('GET INFORMATION');
+    DebugHelper.debugPrint('GET INFORMATION');
     List<InfoModel> infos = [];
     http.Response response = await http.get(Uri.parse('$apiUrl/info/list'),
         headers: {'Authorization': bloc.token.valueWrapper?.value});

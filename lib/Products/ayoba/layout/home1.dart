@@ -21,6 +21,7 @@ import 'package:mobile/screen/kyc/reject.dart';
 import 'package:mobile/screen/kyc/verification1.dart';
 import 'package:mobile/screen/kyc/waiting.dart';
 import 'package:mobile/screen/marketplace/list_produk.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class HomeAyoba1 extends StatefulWidget {
   @override
@@ -122,7 +123,7 @@ class _HomeAyoba1State extends State<HomeAyoba1> {
         });
       }
     } catch (e) {
-      print('Error: $e');
+      DebugHelper.debugPrint('Error: $e');
       setState(() {
         loading = false;
       });

@@ -5,6 +5,7 @@ import '../../main.dart';
 import 'color.dart';
 import 'config.dart';
 import 'resource.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 void main() {
   var configApp = AppConfig(

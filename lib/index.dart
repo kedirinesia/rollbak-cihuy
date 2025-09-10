@@ -25,6 +25,7 @@ import 'package:mobile/component/custom_scroll_behavior.dart';
 import 'package:mobile/config.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/provider/user.dart';
+import 'package:mobile/utils/debug_helper.dart';
 import 'package:mobile/screen/cs.dart';
 import 'package:mobile/screen/disable.dart';
 import 'package:mobile/screen/kasir/barang/barangView.dart'; // halaman view barang
@@ -54,7 +55,7 @@ import 'package:package_info/package_info.dart';
 import 'models/user.dart';
 
 Future<void> onMessageHandler(Map<String, dynamic> message) async {
-  print("On msg background: $message");
+  DebugHelper.debugPrint('"On msg background: $message"');
 }
 
 class PayuniApp extends StatefulWidget {
@@ -76,7 +77,7 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
 
   initialState() {
     super.initState();
-    print(configAppBloc.layoutApp.valueWrapper?.value.toString());
+    DebugHelper.debugPrint('configAppBloc.layoutApp.valueWrapper?.value.toString()');
     updateUserInfo();
   }
 
@@ -93,19 +94,19 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
       headers['version_code'] = appVersionCode;
     }
     
-    print('=== GET USER/INFO ===');
-    print('URL: $apiUrl/user/info');
-    print('Headers: ${json.encode(headers)}');
-    print('Method: GET');
-    print('Body: null (GET request)');
-    print('====================');
+    DebugHelper.debugApi('GET_USER_INFO', '=== GET USER/INFO ===');
+    DebugHelper.debugApi('GET_USER_INFO', 'URL: $apiUrl/user/info');
+    DebugHelper.debugApi('GET_USER_INFO', 'Headers: ${json.encode(headers)}');
+    DebugHelper.debugApi('GET_USER_INFO', 'Method: GET');
+    DebugHelper.debugApi('GET_USER_INFO', 'Body: null (GET request)');
+    DebugHelper.debugApi('GET_USER_INFO', '====================');
     
     http.Response response = await http
         .get(Uri.parse('$apiUrl/user/info'), headers: headers);
     
-    print('Response Status: ${response.statusCode}');
-    print('Response Body: ${response.body}');
-    print('====================');
+    DebugHelper.debugApi('GET_USER_INFO', 'Response Status: ${response.statusCode}');
+    DebugHelper.debugApi('GET_USER_INFO', 'Response Body: ${response.body}');
+    DebugHelper.debugApi('GET_USER_INFO', '====================');
     
     return json.decode(response.body);
   }
@@ -123,14 +124,14 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
 
     try {
       await getAppInfo();
-      print('DEBUG: getAppInfo completed successfully');
+      DebugHelper.debugPrint('getAppInfo completed successfully');
     } catch (e) {
-      print('DEBUG: getAppInfo failed: $e');
-      print('DEBUG: Error type: ${e.runtimeType}');
+      DebugHelper.debugError('getAppInfo', 'getAppInfo failed: $e');
+      DebugHelper.debugError('getAppInfo', 'Error type: ${e.runtimeType}');
       
       // Handle FormatException (HTML response from server)
       if (e is FormatException) {
-        print('DEBUG: Server returned HTML instead of JSON. This indicates a server issue.');
+        DebugHelper.debugError('getAppInfo', 'Server returned HTML instead of JSON. This indicates a server issue.');
         // You might want to show a user-friendly error message here
         // For now, we'll continue with default values
       }
@@ -170,10 +171,10 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
       });
     }
 
-    print('TOKEN: $token');
-    print('DEBUG: Token length: ${token.length}');
+    DebugHelper.debugPrint('TOKEN: $token');
+    DebugHelper.debugPrint('Token length: ${token.length}');
     if (token.isNotEmpty) {
-      print('DEBUG: Token starts with: ${token.substring(0, min(20, token.length))}...');
+      DebugHelper.debugPrint('Token starts with: ${token.substring(0, min(20, token.length))}...');
     }
 
     if (token.isNotEmpty) {
@@ -253,7 +254,7 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
     // return FutureBuilder(
     //   future: check(),
     //   builder: (_, AsyncSnapshot snapshot) {
-    //     print(snapshot.error);
+    //     DebugHelper.debugPrint('snapshot.error.toString()');
     //     if (snapshot.hasError) {
     //       Widget pageError = Scaffold(
     //         body: Container(
@@ -271,7 +272,7 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
     //       // return Material(
     //       //   child: snapshot.data,
     //       // );
-    //       print('HELLO WORLD');
+    //       DebugHelper.debugPrint('HELLO WORLD');
     //       setState(() {
     //         loading = false;
     //         homePageWidget = snapshot.data;
@@ -303,7 +304,7 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
       SharedPreferences.getInstance().then((instance) {
         String token = instance.getString('token');
         if (token != null) {
-          print('TOKEN: $token');
+          DebugHelper.debugPrint('TOKEN: $token');
 
           Timer.periodic(new Duration(seconds: 100), (timer) async {
             UserModel user = await UserProvider().getProfile();
@@ -322,14 +323,14 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
   Future<void> printVersionInfo() async {
     final info = await PackageInfo.fromPlatform();
     appVersionCode = info.buildNumber;
-    print('Version Name: ${info.version}');
-    print('Version Code: ${info.buildNumber}');
-    print('Package Name: ${info.packageName}');
+    DebugHelper.debugPrint('Version Name: ${info.version}');
+    DebugHelper.debugPrint('Version Code: ${info.buildNumber}');
+    DebugHelper.debugPrint('Package Name: ${info.packageName}');
   }
 
   void appLink() {
     _appLinks = AppLinks(onAppLink: (uri, str) {
-      print('Deep link received: $uri');
+      DebugHelper.debugPrint('Deep link received: $uri');
       
       // Handle agenpayment://login deep link
       if (uri.scheme == 'agenpayment' && uri.host == 'login') {
@@ -426,7 +427,7 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
     }
     Map<String, dynamic> notificationData =
         bloc.notificationData.valueWrapper?.value;
-    print(notificationData);
+    DebugHelper.debugPrint('notificationData');
     Map<dynamic, dynamic> data = notificationData['data'];
     if (data['type'] == 'transaksi') {
       /*
@@ -444,7 +445,7 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
       /*
         PUSH PESAN SEBAGAI MODAL DIALOG
         */
-      print('Action Nothing');
+      DebugHelper.debugPrint('Action Nothing');
       return showDialog(
           context: context,
           barrierDismissible: true,
@@ -493,7 +494,7 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
     //       const IosNotificationSettings(sound: true, badge: true, alert: true));
     //   _firebaseMessaging.onIosSettingsRegistered
     //       .listen((IosNotificationSettings settings) {
-    //     print("Settings registered: $settings");
+    //     DebugHelper.debugPrint('"Settings registered: $settings"');
     //   });
     // }
     bloc.deviceToken.add(deviceToken);
@@ -511,12 +512,12 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
     
     Map<String, dynamic> body = {'token': bloc.deviceToken.valueWrapper?.value};
     
-    print('=== POST USER/DEVICE_TOKEN ===');
-    print('URL: $apiUrl/user/device_token');
-    print('Headers: ${json.encode(headers)}');
-    print('Method: POST');
-    print('Body: ${json.encode(body)}');
-    print('=============================');
+    DebugHelper.debugApi('POST_DEVICE_TOKEN', '=== POST USER/DEVICE_TOKEN ===');
+    DebugHelper.debugApi('POST_DEVICE_TOKEN', 'URL: $apiUrl/user/device_token');
+    DebugHelper.debugApi('POST_DEVICE_TOKEN', 'Headers: ${json.encode(headers)}');
+    DebugHelper.debugApi('POST_DEVICE_TOKEN', 'Method: POST');
+    DebugHelper.debugApi('POST_DEVICE_TOKEN', 'Body: ${json.encode(body)}');
+    DebugHelper.debugApi('POST_DEVICE_TOKEN', '=============================');
     
     try {
       http.Response response = await http.post(Uri.parse('$apiUrl/user/device_token'),
@@ -531,7 +532,7 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
 
   // Future<void> _requestNotifPermission() async {
   //   PermissionStatus status = await Permission.notification.request();
-  //   print(status);
+  //   DebugHelper.debugPrint('status.toString()');
   //   while (status != PermissionStatus.granted) {
   //     status = await Permission.notification.request();
   //   }
@@ -586,10 +587,10 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
         List<String> arr = url.split('/');
         String kodeUpline = arr[arr.length - 1];
         bloc.kodeUpline.add(kodeUpline);
-        print('KODE UPLINE: $kodeUpline');
+        DebugHelper.debugPrint('KODE UPLINE: $kodeUpline');
       }
     } catch (e) {
-      print("ERROR DYNAMIC LINK");
+      DebugHelper.debugError("DYNAMIC_LINK", "ERROR DYNAMIC LINK");
     }
   }
 
@@ -602,7 +603,7 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
   // }
 
   // void checkContact() async {
-  //   print('CEK CONTACT MERCHANT BOT. VENDOR : $sigVendor');
+  //   DebugHelper.debugPrint('CEK CONTACT MERCHANT BOT. VENDOR : $sigVendor');
   //   // Get all contacts on device
   //   await _askPermissions();
   //   // Get all contacts on device
@@ -616,10 +617,10 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
   //       var data = res['data'];
   //       Iterable<Contact> updatedContact =
   //           await ContactsService.getContacts(query: namaMerchant);
-  //       print('TOT CONTACT : ${updatedContact.length}');
+  //       DebugHelper.debugPrint('TOT CONTACT : ${updatedContact.length}');
 
   //       if (updatedContact.length > 0) {
-  //         print('UPDATE CONTACT');
+  //         DebugHelper.debugPrint('UPDATE CONTACT');
   //         // GENERATE MAP
   //         List<Item> items = [];
   //         for (var v in data) {
@@ -635,10 +636,10 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
   //         updatedContact1.givenName = namaMerchant;
 
   //         updatedContact1.phones = items;
-  //         print('contact phones -> ${updatedContact1.phones}');
+  //         DebugHelper.debugPrint('contact phones -> ${updatedContact1.phones}');
   //         await ContactsService.updateContact(updatedContact1);
   //       } else {
-  //         print('ADDED CONTACT');
+  //         DebugHelper.debugPrint('ADDED CONTACT');
   //         // GENERATE MAP
   //         List<Item> items = [];
   //         for (var v in data) {
@@ -653,11 +654,11 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
   //         newContact.phones = items;
 
   //         await ContactsService.addContact(newContact);
-  //         print('Contact : $newContact');
-  //         print('Contact Phone : ${newContact.phones}');
+  //         DebugHelper.debugPrint('Contact : $newContact');
+  //         DebugHelper.debugPrint('Contact Phone : ${newContact.phones}');
   //       }
   //     } catch (err) {
-  //       print('ERROR : ${err.toString()}');
+  //       DebugHelper.debugPrint('ERROR : ${err.toString()}');
   //     }
   //   }
   // }
@@ -665,26 +666,26 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
 
   // Helper function untuk print response dengan format yang konsisten
   void printApiResponse(String endpoint, http.Response response, {String prefix = ''}) {
-    print('${prefix}=== API RESPONSE: $endpoint ===');
-    print('${prefix}Status Code: ${response.statusCode}');
-    print('${prefix}Response Headers: ${response.headers}');
-    print('${prefix}Response Body: ${response.body}');
+    DebugHelper.debugApi(endpoint, '${prefix}=== API RESPONSE: $endpoint ===');
+    DebugHelper.debugApi(endpoint, '${prefix}Status Code: ${response.statusCode}');
+    DebugHelper.debugApi(endpoint, '${prefix}Response Headers: ${response.headers}');
+    DebugHelper.debugApi(endpoint, '${prefix}Response Body: ${response.body}');
     
     // Parse response body jika JSON
     try {
       Map<String, dynamic> responseData = json.decode(response.body);
-      print('${prefix}Parsed Response: ${json.encode(responseData)}');
+      DebugHelper.debugApi(endpoint, '${prefix}Parsed Response: ${json.encode(responseData)}');
     } catch (e) {
-      print('${prefix}Response is not JSON: ${response.body}');
+      DebugHelper.debugApi(endpoint, '${prefix}Response is not JSON: ${response.body}');
     }
     
-    print('${prefix}==================================');
+    DebugHelper.debugApi(endpoint, '${prefix}==================================');
   }
 
   void printApiError(String endpoint, dynamic error, {String prefix = ''}) {
-    print('${prefix}=== API ERROR: $endpoint ===');
-    print('${prefix}Error: $error');
-    print('${prefix}==================================');
+    DebugHelper.debugError(endpoint, '${prefix}=== API ERROR: $endpoint ===');
+    DebugHelper.debugError(endpoint, '${prefix}Error: $error');
+    DebugHelper.debugApi(endpoint, '${prefix}==================================');
   }
 
   @override

@@ -17,6 +17,7 @@ import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/kyc/verification1.dart';
 import 'package:mobile/screen/transaksi/verifikasi_pin.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile/utils/debug_helper.dart';
 
 class TransferBankPage extends StatefulWidget {
   final DaftarTransferModel transferData;
@@ -124,7 +125,7 @@ class _TransferBankPageState extends State<TransferBankPage> {
     Map<String, dynamic> dataToSend = {};
 
     if (nominal.text.isNotEmpty && noTujuan.text.isNotEmpty) {
-      print('jalan ke 1');
+      DebugHelper.debugPrint('jalan ke 1');
 
       if (parsedNominal < 10000) {
         String message =
@@ -166,7 +167,7 @@ class _TransferBankPageState extends State<TransferBankPage> {
     } else if (nominal.text.isNotEmpty &&
         noTujuan.text.isNotEmpty &&
         widget.transferData != null) {
-      // print('jalan ke 2');
+      // DebugHelper.debugPrint('jalan ke 2');
       // if (bloc.user.valueWrapper?.value.saldo <
       //     (selectedBank.admin + int.parse(nominal.text))) {
       //   String message = 'Saldo tidak mencukupi untuk melakukan withdraw';
@@ -204,8 +205,8 @@ class _TransferBankPageState extends State<TransferBankPage> {
               'Authorization': bloc.token.valueWrapper?.value
             },
             body: json.encode(dataToSend));
-    // print("RESPONSE");
-    // print(response.body);
+    // DebugHelper.debugPrint('"RESPONSE"');
+    // DebugHelper.debugPrint('response.body.toString()');
 
     if (response.statusCode == 200) {
       await checkNumberFavorite(noTujuan.text);
@@ -307,7 +308,7 @@ class _TransferBankPageState extends State<TransferBankPage> {
 
     if (response.statusCode == 200) {
       // if (realtimePrepaid) {
-      //   print("REALTIME LOADING");
+      //   DebugHelper.debugPrint('"REALTIME LOADING"');
       //       Navigator.of(context).push(
       //         MaterialPageRoute(
       //           builder: (_) => TransactionWaitPage(),

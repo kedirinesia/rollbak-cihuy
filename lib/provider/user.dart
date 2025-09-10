@@ -7,6 +7,7 @@ import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../bloc/Api.dart' show apiUrl;
+import 'package:mobile/utils/debug_helper.dart';
 
 class UserProvider {
   Future<UserModel> getProfile() async {

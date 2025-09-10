@@ -18,6 +18,7 @@ import 'package:mobile/screen/pulsa/pulsa.dart';
 import 'package:mobile/Products/outlet/layout/list_grid_menu.dart';
 import 'package:mobile/screen/transaksi/voucher_bulk.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class MenuComponent extends StatefulWidget {
   @override
@@ -55,7 +56,7 @@ class _MenuComponentState extends State<MenuComponent> {
         List<dynamic> datas = json.decode(response.body)['data'];
         List<MenuModel> datasC =
             datas.map((e) => MenuModel.fromJson(e)).toList();
-        print(datasC.length);
+        DebugHelper.debugPrint('datasC.length.toString()');
         _prepaidDenomMenu.addAll(datasC.where((element) {
           if (element.type == 1) return true;
           if (element.type == 3) return true;
@@ -65,7 +66,7 @@ class _MenuComponentState extends State<MenuComponent> {
         }));
 
         _prepaidDenomMenuDepan = _prepaidDenomMenu.sublist(0, 19);
-        print(_prepaidDenomMenu.length);
+        DebugHelper.debugPrint('_prepaidDenomMenu.length.toString()');
         // _postpaidDenomMenu.addAll(datasC.where((element) {
 
         //   return false;
@@ -101,7 +102,7 @@ class _MenuComponentState extends State<MenuComponent> {
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
     } catch (e) {
-      print(e);
+      DebugHelper.debugPrint('e.toString()');
     }
   }
 
@@ -133,7 +134,7 @@ class _MenuComponentState extends State<MenuComponent> {
         }
       }
     } else if (menu.jenis == 4) {
-      print('REDIRECT KE HALAMAN LIST GRID');
+      DebugHelper.debugPrint('REDIRECT KE HALAMAN LIST GRID');
       return Navigator.of(context).push(
         MaterialPageRoute(
           builder: (_) => ListGridMenu(menu),

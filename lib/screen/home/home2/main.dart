@@ -11,6 +11,7 @@ import 'package:mobile/screen/profile/profile.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
 import '../../../component/fonts/funmo/my_flutter_app_icons.dart';
 import '../../../overrides/bubble_bottom_bar/lib/bubble_bottom_bar.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class MainApp extends StatefulWidget {
   @override
@@ -105,7 +106,7 @@ class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
             var barcode = await BarcodeScanner.scan();
-            print(barcode);
+            DebugHelper.debugPrint('barcode.toString()');
             // if (barcode.isNotEmpty) {
             return Navigator.of(context).push(MaterialPageRoute(
                 builder: (_) => TransferByQR(barcode.rawContent)));

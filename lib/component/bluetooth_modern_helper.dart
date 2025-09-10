@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class BluetoothModernHelper {
   static final BlueThermalPrinter _bluetooth = BlueThermalPrinter.instance;
@@ -11,7 +12,7 @@ class BluetoothModernHelper {
     int maxRetries = 3,
     int timeoutSeconds = 45,
   }) async {
-    print('BluetoothModernHelper: Using modern approach for Android 11+');
+    DebugHelper.debugPrint('BluetoothModernHelper: Using modern approach for Android 11+');
     
     try {
       // Step 1: Complete cleanup
@@ -23,7 +24,7 @@ class BluetoothModernHelper {
       // Step 3: Try modern connection method
       for (int attempt = 1; attempt <= maxRetries; attempt++) {
         try {
-          print('BluetoothModernHelper: Modern attempt $attempt/$maxRetries');
+          DebugHelper.debugPrint('BluetoothModernHelper: Modern attempt $attempt/$maxRetries');
           
           bool connected = await _modernConnectionMethod(
             device, 
@@ -31,7 +32,7 @@ class BluetoothModernHelper {
           );
           
           if (connected) {
-            print('BluetoothModernHelper: Modern connection successful');
+            DebugHelper.debugPrint('BluetoothModernHelper: Modern connection successful');
             return true;
           }
           
@@ -42,14 +43,14 @@ class BluetoothModernHelper {
           }
           
         } catch (e) {
-          print('BluetoothModernHelper: Modern attempt $attempt failed: $e');
+          DebugHelper.debugPrint('BluetoothModernHelper: Modern attempt $attempt failed: $e');
           if (attempt == maxRetries) rethrow;
         }
       }
       
       return false;
     } catch (e) {
-      print('BluetoothModernHelper: Modern connection failed: $e');
+      DebugHelper.debugPrint('BluetoothModernHelper: Modern connection failed: $e');
       return false;
     }
   }
@@ -78,7 +79,7 @@ class BluetoothModernHelper {
       bool connected = await connectionCompleter.future.timeout(
         Duration(seconds: timeoutSeconds),
         onTimeout: () {
-          print('BluetoothModernHelper: Connection timeout');
+          DebugHelper.debugPrint('BluetoothModernHelper: Connection timeout');
           return false;
         },
       );
@@ -97,7 +98,7 @@ class BluetoothModernHelper {
       
       return false;
     } catch (e) {
-      print('BluetoothModernHelper: Modern connection error: $e');
+      DebugHelper.debugPrint('BluetoothModernHelper: Modern connection error: $e');
       return false;
     }
   }
@@ -109,7 +110,7 @@ class BluetoothModernHelper {
       bool? isConnected = await _bluetooth.isConnected;
       
       if (isConnected == true) {
-        print('BluetoothModernHelper: Disconnecting existing connection');
+        DebugHelper.debugPrint('BluetoothModernHelper: Disconnecting existing connection');
         await _bluetooth.disconnect();
         await Future.delayed(Duration(milliseconds: 2000));
       }
@@ -118,7 +119,7 @@ class BluetoothModernHelper {
       await Future.delayed(Duration(milliseconds: 1000));
       
     } catch (e) {
-      print('BluetoothModernHelper: Cleanup error: $e');
+      DebugHelper.debugPrint('BluetoothModernHelper: Cleanup error: $e');
     }
   }
   

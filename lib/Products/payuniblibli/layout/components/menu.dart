@@ -12,6 +12,7 @@ import 'package:mobile/screen/list-grid-menu/list-grid-menu.dart';
 import 'package:mobile/Products/payuniblibli/layout/list_sub_menu.dart';
 import 'package:mobile/Products/payuniblibli/layout/transaksi/pulsa.dart';
 import 'package:slide_popup_dialog/slide_popup_dialog.dart' as SlideDialog;
+import 'package:mobile/utils/debug_helper.dart';
 
 class MenuComponent extends StatefulWidget {
   @override
@@ -86,7 +87,7 @@ class _MenuComponentState extends State<MenuComponent> {
             .push(MaterialPageRoute(builder: (_) => ListSubMenu(menu)));
       }
     } else if (menu.jenis == 4) {
-      print('REDIRECT KE HALAMAN LIST GRID');
+      DebugHelper.debugPrint('REDIRECT KE HALAMAN LIST GRID');
       return Navigator.of(context).push(
         MaterialPageRoute(
           builder: (_) => ListGridMenu(menu),

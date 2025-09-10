@@ -9,6 +9,7 @@ import 'package:mobile/bloc/Bloc.dart' show bloc;
 import 'dart:convert';
 
 import 'package:mobile/screen/info/info.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class CardInfo extends StatefulWidget {
   @override

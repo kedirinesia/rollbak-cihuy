@@ -10,6 +10,7 @@ import 'package:mobile/models/mp_alamat.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/screen/marketplace/alamat/tambah_alamat.dart';
 import 'package:mobile/screen/marketplace/alamat/ubah_alamat.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class ListAlamatPage extends StatefulWidget {
   @override
@@ -25,7 +26,7 @@ class _ListAlamatPageState extends State<ListAlamatPage> {
         headers: {'Authorization': bloc.token.valueWrapper?.value});
 
     if (response.statusCode == 200) {
-      print(response.body);
+      DebugHelper.debugPrint('response.body.toString()');
       List<dynamic> addresses = json.decode(response.body)['data'];
       addresses.forEach((el) => items.add(AlamatModel.fromJson(el)));
     }

@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+  import 'package:flutter/material.dart';
 import 'dart:io';
+import 'package:mobile/utils/debug_helper.dart';
  
 
 class Test16KBCompatibilityPage extends StatefulWidget {
@@ -38,7 +39,7 @@ class _Test16KBCompatibilityPageState extends State<Test16KBCompatibilityPage> {
         });
       }
     } catch (e) {
-      print('Error getting device info: $e');
+      DebugHelper.debugPrint('Error getting device info: $e');
     } finally {
       setState(() {
         isLoading = false;
@@ -95,7 +96,7 @@ class _Test16KBCompatibilityPageState extends State<Test16KBCompatibilityPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(    
       appBar: AppBar(
         title: Text('16KB Page Size Test'),
         backgroundColor: Colors.blue,

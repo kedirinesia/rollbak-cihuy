@@ -11,6 +11,7 @@ import 'package:mobile/models/deposit_link.dart';
 import 'package:mobile/models/ewallet-account.dart';
 import 'package:mobile/screen/topup/ewallet/ewallet.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile/utils/debug_helper.dart';
 
 abstract class EwalletController extends State<TopupEwallet> {
   bool loading = false;
@@ -39,13 +40,13 @@ abstract class EwalletController extends State<TopupEwallet> {
   Future<List<EwalletAccount>> getEwallet() async {
     // Return cached data if available and valid
     if (_hasCachedData && _isCacheValid && _cachedEwalletList != null) {
-      print('DEBUG: Returning cached ewallet data (${_cachedEwalletList.length} accounts)');
+      DebugHelper.debugPrint('Returning cached ewallet data (${_cachedEwalletList.length} accounts)');
       return _cachedEwalletList;
     }
 
     // Check if token is available
     if (bloc.token.valueWrapper?.value == null || bloc.token.valueWrapper?.value.isEmpty) {
-      print('ERROR: Token is null or empty');
+      DebugHelper.debugPrint('ERROR: Token is null or empty');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Token tidak tersedia, silakan login ulang'))
       );
@@ -54,7 +55,7 @@ abstract class EwalletController extends State<TopupEwallet> {
 
     // Check retry count to prevent infinite loops
     if (retryCount >= maxRetries) {
-      print('ERROR: Max retries reached, stopping ewallet fetch');
+      DebugHelper.debugPrint('ERROR: Max retries reached, stopping ewallet fetch');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Gagal memuat data setelah ${maxRetries} percobaan. Silakan coba lagi nanti.'))
       );
@@ -67,17 +68,17 @@ abstract class EwalletController extends State<TopupEwallet> {
     });
 
     try {
-      print('DEBUG: Fetching ewallet list... (Attempt ${retryCount + 1})');
-      print('DEBUG: API URL: $apiUrl/deposit/ewallet/list');
-      print('DEBUG: Token: ${bloc.token.valueWrapper?.value.substring(0, 20)}...');
+      DebugHelper.debugPrint('Fetching ewallet list... (Attempt ${retryCount + 1})');
+      DebugHelper.debugPrint('API URL: $apiUrl/deposit/ewallet/list');
+      DebugHelper.debugPrint('Token: ${bloc.token.valueWrapper?.value.substring(0, 20)}...');
 
       http.Response response = await http.get(
         Uri.parse('$apiUrl/deposit/ewallet/list'),
         headers: {'Authorization': bloc.token.valueWrapper?.value}
       ).timeout(Duration(seconds: 30));
 
-      print('DEBUG: Response status: ${response.statusCode}');
-      print('DEBUG: Response body length: ${response.body.length}');
+      DebugHelper.debugPrint('Response status: ${response.statusCode}');
+      DebugHelper.debugPrint('Response body length: ${response.body.length}');
 
       if (response.statusCode == 200) {
         try {
@@ -92,14 +93,14 @@ abstract class EwalletController extends State<TopupEwallet> {
                 EwalletAccount account = EwalletAccount.fromJson(datas[i]);
                 ewalletList.add(account);
               } catch (parseError) {
-                print('ERROR: Failed to parse ewallet account at index $i: $parseError');
-                print('ERROR: Data: ${datas[i]}');
+                DebugHelper.debugPrint('ERROR: Failed to parse ewallet account at index $i: $parseError');
+                DebugHelper.debugPrint('ERROR: Data: ${datas[i]}');
                 // Continue with other accounts instead of failing completely
               }
             }
             
             if (ewalletList.isNotEmpty) {
-              print('DEBUG: Successfully parsed ${ewalletList.length}/${datas.length} ewallet accounts');
+              DebugHelper.debugPrint('Successfully parsed ${ewalletList.length}/${datas.length} ewallet accounts');
               
               // Cache the successful result
               _cachedEwalletList = ewalletList;
@@ -107,27 +108,27 @@ abstract class EwalletController extends State<TopupEwallet> {
               _lastFetchTime = DateTime.now();
               retryCount = 0; // Reset retry count on success
               
-              print('DEBUG: Data cached successfully');
+              DebugHelper.debugPrint('Data cached successfully');
               return ewalletList;
             } else {
-              print('ERROR: No ewallet accounts could be parsed');
+              DebugHelper.debugPrint('ERROR: No ewallet accounts could be parsed');
               retryCount++;
               return [];
             }
           } else {
-            print('ERROR: No data field in response');
+            DebugHelper.debugPrint('ERROR: No data field in response');
             retryCount++;
             return [];
           }
         } catch (parseError) {
-          print('ERROR: Failed to parse response: $parseError');
-          print('ERROR: Response body preview: ${response.body.substring(0, response.body.length > 500 ? 500 : response.body.length)}');
+          DebugHelper.debugPrint('ERROR: Failed to parse response: $parseError');
+          DebugHelper.debugPrint('ERROR: Response body preview: ${response.body.substring(0, response.body.length > 500 ? 500 : response.body.length)}');
           retryCount++;
           return [];
         }
       } else {
-        print('ERROR: API returned status ${response.statusCode}');
-        print('ERROR: Response body: ${response.body}');
+        DebugHelper.debugPrint('ERROR: API returned status ${response.statusCode}');
+        DebugHelper.debugPrint('ERROR: Response body: ${response.body}');
         
         // Try to parse error message
         try {
@@ -145,11 +146,11 @@ abstract class EwalletController extends State<TopupEwallet> {
         return [];
       }
     } catch (e) {
-      print('ERROR: Exception during API call: $e');
+      DebugHelper.debugPrint('ERROR: Exception during API call: $e');
       retryCount++;
       
       if (retryCount < maxRetries) {
-        print('DEBUG: Retrying in 2 seconds... (${retryCount}/${maxRetries})');
+        DebugHelper.debugPrint('Retrying in 2 seconds... (${retryCount}/${maxRetries})');
         await Future.delayed(Duration(seconds: 2));
         return getEwallet(); // Retry
       } else {
@@ -200,10 +201,10 @@ abstract class EwalletController extends State<TopupEwallet> {
     });
 
     try {
-      print('DEBUG: Making ewallet deposit request...');
-      print('DEBUG: API URL: $apiUrl/deposit/ewallet');
-      print('DEBUG: Nominal: $parsedNominal');
-      print('DEBUG: Ewallet Code: $ewalletCode');
+      DebugHelper.debugPrint('Making ewallet deposit request...');
+      DebugHelper.debugPrint('API URL: $apiUrl/deposit/ewallet');
+      DebugHelper.debugPrint('Nominal: $parsedNominal');
+      DebugHelper.debugPrint('Ewallet Code: $ewalletCode');
 
       http.Response response = await http.post(
         Uri.parse('$apiUrl/deposit/ewallet'),
@@ -214,8 +215,8 @@ abstract class EwalletController extends State<TopupEwallet> {
         body: json.encode({'nominal': parsedNominal, 'ewallet_code': ewalletCode})
       ).timeout(Duration(seconds: 30));
 
-      print('DEBUG: Deposit response status: ${response.statusCode}');
-      print('DEBUG: Deposit response body: ${response.body}');
+      DebugHelper.debugPrint('Deposit response status: ${response.statusCode}');
+      DebugHelper.debugPrint('Deposit response body: ${response.body}');
 
       if (response.statusCode == 200) {
         try {
@@ -233,13 +234,13 @@ abstract class EwalletController extends State<TopupEwallet> {
                     showPageTitle: true,
                     animation: CustomTabsSystemAnimation.slideIn()));
           } catch (e) {
-            print('ERROR: Failed to launch URL: $e');
+            DebugHelper.debugPrint('ERROR: Failed to launch URL: $e');
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text('Gagal membuka halaman pembayaran'))
             );
           }
         } catch (parseError) {
-          print('ERROR: Failed to parse deposit response: $parseError');
+          DebugHelper.debugPrint('ERROR: Failed to parse deposit response: $parseError');
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Gagal memproses response dari server'))
           );
@@ -258,7 +259,7 @@ abstract class EwalletController extends State<TopupEwallet> {
         );
       }
     } catch (e) {
-      print('ERROR: Exception during deposit: $e');
+      DebugHelper.debugPrint('ERROR: Exception during deposit: $e');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Gagal melakukan deposit: ${e.toString()}'))
       );
@@ -282,6 +283,6 @@ abstract class EwalletController extends State<TopupEwallet> {
     _hasCachedData = false;
     _cachedEwalletList = null;
     _lastFetchTime = null;
-    print('DEBUG: Ewallet cache cleared');
+    DebugHelper.debugPrint('Ewallet cache cleared');
   }
 }

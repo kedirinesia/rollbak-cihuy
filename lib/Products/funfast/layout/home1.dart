@@ -13,6 +13,7 @@ import '../../../component/card_info.dart';
 import '../../../component/carousel-depan.dart';
 // import '../../../component/menudepan.dart';
 import 'package:mobile/Products/funfast/layout/components/menudepan.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class Home1App extends StatefulWidget {
   @override

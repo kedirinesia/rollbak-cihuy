@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/Products/payuniovo/config.dart' as payuniovoConfig;
+import 'package:mobile/utils/debug_helper.dart';
 
 class EwalletDebugHelper {
   static Future<void> debugEwalletConnection(BuildContext context) async {
@@ -13,11 +14,11 @@ class EwalletDebugHelper {
       String token = bloc.token.valueWrapper?.value ?? 'NULL';
       bool hasToken = token != 'NULL' && token.isEmpty == false;
       
-      print('=== EWALLET DEBUG INFO ===');
-      print('Token available: $hasToken');
-      print('Token length: ${token.length}');
-      print('Token preview: ${token.length > 20 ? token.substring(0, 20) + '...' : token}');
-      print('API URL: ${payuniovoConfig.apiUrl}');
+      DebugHelper.debugPrint('=== EWALLET DEBUG INFO ===');
+      DebugHelper.debugPrint('Token available: $hasToken');
+      DebugHelper.debugPrint('Token length: ${token.length}');
+      DebugHelper.debugPrint('Token preview: ${token.length > 20 ? token.substring(0, 20) + '...' : token}');
+      DebugHelper.debugApi('EWALLET', 'API URL: ${payuniovoConfig.apiUrl}');
       
       if (!hasToken) {
         _showDebugDialog(context, 'Token Error', 'Token tidak tersedia atau kosong. Silakan login ulang.');
@@ -25,30 +26,30 @@ class EwalletDebugHelper {
       }
 
       // Test API connection
-      print('Testing API connection...');
+      DebugHelper.debugApi('EWALLET', 'Testing API connection...');
       http.Response response = await http.get(
         Uri.parse('${payuniovoConfig.apiUrl}/deposit/ewallet/list'),
         headers: {'Authorization': token}
       ).timeout(Duration(seconds: 30));
 
-      print('Response Status: ${response.statusCode}');
-      print('Response Headers: ${response.headers}');
-      print('Response Body Length: ${response.body.length}');
-      print('Response Body Preview: ${response.body.length > 500 ? response.body.substring(0, 500) + '...' : response.body}');
+      DebugHelper.debugPrint('Response Status: ${response.statusCode}');
+      DebugHelper.debugPrint('Response Headers: ${response.headers}');
+      DebugHelper.debugPrint('Response Body Length: ${response.body.length}');
+      DebugHelper.debugPrint('Response Body Preview: ${response.body.length > 500 ? response.body.substring(0, 500) + '...' : response.body}');
 
       if (response.statusCode == 200) {
         try {
           Map<String, dynamic> responseData = json.decode(response.body);
           if (responseData['data'] != null) {
             List<dynamic> datas = responseData['data'];
-            print('Successfully parsed ${datas.length} ewallet accounts');
+            DebugHelper.debugPrint('Successfully parsed ${datas.length} ewallet accounts');
             _showDebugDialog(context, 'Success', 'API berhasil diakses. Ditemukan ${datas.length} ewallet accounts.');
           } else {
-            print('No data field in response');
+            DebugHelper.debugPrint('No data field in response');
             _showDebugDialog(context, 'Warning', 'API berhasil diakses tetapi tidak ada data ewallet.');
           }
         } catch (parseError) {
-          print('Failed to parse response: $parseError');
+          DebugHelper.debugPrint('Failed to parse response: $parseError');
           _showDebugDialog(context, 'Parse Error', 'Gagal memparse response dari server: $parseError');
         }
       } else {
@@ -63,7 +64,7 @@ class EwalletDebugHelper {
         _showDebugDialog(context, 'API Error', 'API error: $errorMessage');
       }
     } catch (e) {
-      print('Exception during debug: $e');
+      DebugHelper.debugPrint('Exception during debug: $e');
       _showDebugDialog(context, 'Exception', 'Terjadi exception: $e');
     }
   }
@@ -96,10 +97,10 @@ class EwalletDebugHelper {
         return;
       }
 
-      print('=== TESTING DEPOSIT ENDPOINT ===');
-      print('Ewallet Code: $ewalletCode');
-      print('Nominal: $nominal');
-      print('API URL: ${payuniovoConfig.apiUrl}/deposit/ewallet');
+      DebugHelper.debugPrint('=== TESTING DEPOSIT ENDPOINT ===');
+      DebugHelper.debugPrint('Ewallet Code: $ewalletCode');
+      DebugHelper.debugPrint('Nominal: $nominal');
+      DebugHelper.debugPrint('API URL: ${payuniovoConfig.apiUrl}/deposit/ewallet');
 
       http.Response response = await http.post(
         Uri.parse('${payuniovoConfig.apiUrl}/deposit/ewallet'),
@@ -110,8 +111,8 @@ class EwalletDebugHelper {
         body: json.encode({'nominal': nominal, 'ewallet_code': ewalletCode})
       ).timeout(Duration(seconds: 30));
 
-      print('Deposit Response Status: ${response.statusCode}');
-      print('Deposit Response Body: ${response.body}');
+      DebugHelper.debugPrint('Deposit Response Status: ${response.statusCode}');
+      DebugHelper.debugPrint('Deposit Response Body: ${response.body}');
 
       if (response.statusCode == 200) {
         try {
@@ -132,7 +133,7 @@ class EwalletDebugHelper {
         _showDebugDialog(context, 'Deposit Error', 'Deposit endpoint error: $errorMessage');
       }
     } catch (e) {
-      print('Exception during deposit test: $e');
+      DebugHelper.debugPrint('Exception during deposit test: $e');
       _showDebugDialog(context, 'Exception', 'Terjadi exception saat testing deposit: $e');
     }
   }

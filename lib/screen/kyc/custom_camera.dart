@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:image/image.dart' as img;
+import 'package:mobile/utils/debug_helper.dart';
 
 class CustomCameraScreen extends StatefulWidget {
   @override
@@ -26,7 +27,7 @@ class _CustomCameraScreenState extends State<CustomCameraScreen> {
           if (!mounted) return;
           setState(() {});
         }).catchError((error) {
-          print('Error initializing camera: $error');
+          DebugHelper.debugPrint('Error initializing camera: $error');
         });
       }
     });
@@ -117,7 +118,7 @@ class Clip extends CustomClipper<Path> {
     final double offsetY =
         (size.height - height) / 2.0; // Posisi Y agar berada di tengah
 
-    print(size);
+    DebugHelper.debugPrint('size.toString()');
     Path path = Path()
       ..addRRect(RRect.fromRectAndRadius(
           Rect.fromLTWH(offsetX, offsetY, width, height),

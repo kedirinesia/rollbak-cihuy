@@ -9,6 +9,7 @@ import 'package:mobile/bloc/TemplateConfig.dart';
 import 'package:mobile/models/menu.dart';
 import 'package:mobile/modules.dart';
 import 'package:toast/toast.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class FavoriteMenu extends StatefulWidget {
   final favoriteMenu;
@@ -42,7 +43,7 @@ class _FavoriteMenuState extends State<FavoriteMenu> {
       }).catchError((err) {
         showToast(context, "Gagal menambahkan ${menu.name}",
             duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
-        print('ADD FAVORITE MENU ERROR: ${err.toString()}');
+        DebugHelper.debugPrint('ADD FAVORITE MENU ERROR: ${err.toString()}');
       });
     }
   }

@@ -15,6 +15,7 @@ import 'package:shared_preferences_web/shared_preferences_web.dart';
 import 'package:url_launcher_web/url_launcher_web.dart';
 
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 // ignore: public_member_api_docs
 void registerPlugins(Registrar registrar) {

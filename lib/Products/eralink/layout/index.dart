@@ -12,6 +12,7 @@ import 'package:mobile/Products/eralink/layout/profile.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
 
 import 'home.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class CentralBayarHome extends StatefulWidget {
   @override
@@ -78,7 +79,7 @@ class _CentralBayarHomeState extends State<CentralBayarHome>
           elevation: 0.0,
           onPressed: () async {
             var barcode = await BarcodeScanner.scan();
-            print(barcode);
+            DebugHelper.debugPrint('barcode.toString()');
             // if (barcode.isNotEmpty) {
             return Navigator.of(context).push(MaterialPageRoute(
                 builder: (_) => TransferByQR(barcode.rawContent)));

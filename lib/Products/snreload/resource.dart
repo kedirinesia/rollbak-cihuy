@@ -1,5 +1,6 @@
 import './config.dart' as config;
 import '../../app_config.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class StringResource implements Resource {
   String sig = config.sigVendor;

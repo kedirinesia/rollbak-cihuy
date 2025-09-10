@@ -13,6 +13,7 @@ import 'package:mobile/models/cs.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/provider/api.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class CS1 extends StatefulWidget {
   @override
@@ -52,7 +53,7 @@ class _CSState extends State<CS1> {
   }
 //   void getData() async {
 //   try {
-//     print('Merchant Code: $sigVendor'); // Pastikan nilai sigVendor benar
+//     DebugHelper.debugPrint('Merchant Code: $sigVendor'); // Pastikan nilai sigVendor benar
 
 //     http.Response response = await http.get(
 //       Uri.parse('$apiUrl/cs/list/public'),
@@ -61,37 +62,37 @@ class _CSState extends State<CS1> {
 //         'merchantCode': sigVendor,
 //       },
 //     );
-//     print("SAMPAI SINI");
+//     DebugHelper.debugPrint('"SAMPAI SINI"');
 
 //     if (response.statusCode == 200) {
-//       print("Response Status: ${response.statusCode}");
-//       print("Response Body: ${response.body}");
+//       DebugHelper.debugPrint('"Response Status: ${response.statusCode}"');
+//       DebugHelper.debugPrint('"Response Body: ${response.body}"');
 
 //       try {
 //         Map<String, dynamic> jsonResponse = json.decode(response.body);
 //         List<dynamic> datas = jsonResponse['data'];
 
-//         print("Decoded JSON: $datas");
+//         DebugHelper.debugPrint('"Decoded JSON: $datas"');
 
 //         listCs.add(CustomerService());
 //         listCs.addAll(datas.map((e) => CustomerService.fromJson(e)).toList());
-//         print("Data berhasil ditambahkan ke listCs");
+//         DebugHelper.debugPrint('"Data berhasil ditambahkan ke listCs"');
 //       } catch (jsonError) {
-//         print("JSON Decoding Error: $jsonError");
+//         DebugHelper.debugPrint('"JSON Decoding Error: $jsonError"');
 //         listCs.add(CustomerService());
 //       }
 //     } else {
-//       print("HTTP Error: ${response.statusCode}");
-//       print("Response Body: ${response.body}");
+//       DebugHelper.debugPrint('"HTTP Error: ${response.statusCode}"');
+//       DebugHelper.debugPrint('"Response Body: ${response.body}"');
 //       listCs.add(CustomerService());
 //     }
 //   } catch (error) {
-//     print("HTTP Request Error: $error");
+//     DebugHelper.debugPrint('"HTTP Request Error: $error"');
 //     listCs.add(CustomerService());
 //   } finally {
 //     setState(() {
 //       loading = false;
-//       print("SetState loading false");
+//       DebugHelper.debugPrint('"SetState loading false"');
 //     });
 //   }
 // }

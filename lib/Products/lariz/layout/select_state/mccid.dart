@@ -7,6 +7,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/models/mcc_code.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile/utils/debug_helper.dart';
 
 class SelectMccCodePage extends StatefulWidget {
   @override
@@ -30,7 +31,7 @@ class _SelectMccCodePageState extends State<SelectMccCodePage> {
     });
 
     http.Response response = await http.get(Uri.parse('$apiUrl/mcc/list'));
-    print(response.body);
+    DebugHelper.debugPrint('response.body.toString()');
 
     if (response.statusCode == 200) {
       List<dynamic> datas = json.decode(response.body)['data'];

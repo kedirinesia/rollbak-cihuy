@@ -7,6 +7,7 @@ import 'package:mobile/config.dart';
 import 'package:mobile/models/info.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/info/info_controller.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class InfoPage extends StatefulWidget {
   final InfoModel info;

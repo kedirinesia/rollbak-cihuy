@@ -15,6 +15,7 @@ import 'package:mobile/bloc/Bloc.dart' show bloc;
 import 'package:mobile/screen/transaksi/detail_postpaid.dart';
 import 'package:mobile/screen/transaksi/verifikasi_pin.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 abstract class DetailDenomPostpaidController extends State<DetailDenomPostpaid>
     with TickerProviderStateMixin {
@@ -36,63 +37,63 @@ abstract class DetailDenomPostpaidController extends State<DetailDenomPostpaid>
   @override
   void initState() {
     super.initState();
-    print('=== DetailDenomPostpaidController initState() START ===');
-    print('Menu Name: ${widget.menu.name}');
-    print('Menu Category ID: ${widget.menu.category_id}');
+    DebugHelper.debugPrint('=== DetailDenomPostpaidController initState() START ===');
+    DebugHelper.debugPrint('Menu Name: ${widget.menu.name}');
+    DebugHelper.debugPrint('Menu Category ID: ${widget.menu.category_id}');
     
-    print('Calling _getPackageName()...');
+    DebugHelper.debugPrint('Calling _getPackageName()...');
     _getPackageName().then((_) {
-      print('✅ _getPackageName() completed, now calling getSuggestNumbers()...');
+      DebugHelper.debugPrint('✅ _getPackageName() completed, now calling getSuggestNumbers()...');
       getSuggestNumbers();
     });
     
-    print('Calling _getMenuLogo()...');
+    DebugHelper.debugPrint('Calling _getMenuLogo()...');
     _getMenuLogo();
-    print('getSuggestNumbers() scheduled (after _getPackageName)');
-    print('=== DetailDenomPostpaidController initState() END ===');
+    DebugHelper.debugPrint('getSuggestNumbers() scheduled (after _getPackageName)');
+    DebugHelper.debugPrint('=== DetailDenomPostpaidController initState() END ===');
   }
 
   Future<void> _getPackageName() async {
-    print('=== _getPackageName() CALLED (POSTPAID) ===');
+    DebugHelper.debugPrint('=== _getPackageName() CALLED (POSTPAID) ===');
     final info = await PackageInfo.fromPlatform();
-    print('Package Info (POSTPAID): ${info.packageName}');
+    DebugHelper.debugPrint('Package Info (POSTPAID): ${info.packageName}');
     setState(() {
       packageName = info.packageName;
     });
-    print('Package Name Set (POSTPAID): $packageName');
-    print('=== END _getPackageName() (POSTPAID) ===');
+    DebugHelper.debugPrint('Package Name Set (POSTPAID): $packageName');
+    DebugHelper.debugPrint('=== END _getPackageName() (POSTPAID) ===');
   }
 
   Future<void> getSuggestNumbers() async {
-    print('=== getSuggestNumbers() CALLED (POSTPAID) ===');
-    print('Package Name (POSTPAID): $packageName');
-    print('Menu Name (POSTPAID): ${widget.menu.name}');
-    print('Menu Category ID (POSTPAID): ${widget.menu.category_id}');
+    DebugHelper.debugPrint('=== getSuggestNumbers() CALLED (POSTPAID) ===');
+    DebugHelper.debugPrint('Package Name (POSTPAID): $packageName');
+    DebugHelper.debugPrint('Menu Name (POSTPAID): ${widget.menu.name}');
+    DebugHelper.debugPrint('Menu Category ID (POSTPAID): ${widget.menu.category_id}');
     
     // FITUR SUGGEST HISTORY NOMOR PEMBELI - EKSKLUSIF UNTUK APLIKASI PAYUNIOVO
     if (packageName != 'mobile.payuni.id' && packageName != 'co.payuni.id') {
-      print('❌ Package name tidak didukung (POSTPAID): $packageName');
-      print('❌ Supported packages: mobile.payuni.id, co.payuni.id');
+      DebugHelper.debugPrint('❌ Package name tidak didukung (POSTPAID): $packageName');
+      DebugHelper.debugPrint('❌ Supported packages: mobile.payuni.id, co.payuni.id');
       setState(() {
         suggestNumbers = [];
       });
       return;
     }
     
-    print('✅ Package name didukung (POSTPAID): $packageName');
-    print('✅ Akan melanjutkan ke API call (POSTPAID)');
+    DebugHelper.debugPrint('✅ Package name didukung (POSTPAID): $packageName');
+    DebugHelper.debugPrint('✅ Akan melanjutkan ke API call (POSTPAID)');
     
     try {
-      print('🔄 Setting loadingSuggest to true');
+      DebugHelper.debugPrint('🔄 Setting loadingSuggest to true');
       setState(() {
         loadingSuggest = true;
       });
-      print('✅ loadingSuggest set to: $loadingSuggest');
+      DebugHelper.debugPrint('✅ loadingSuggest set to: $loadingSuggest');
       
       // API khusus Payuniovo untuk suggest numbers
       final String apiUrl = 'https://payuni-app.findig.id/api/v1/trx/lastTransaction?kategori_id=${widget.menu.category_id}&limit=10&skip=0';
-      print('🌐 API URL: $apiUrl');
-      print('🔑 Authorization Header: ${bloc.token.valueWrapper?.value}');
+      DebugHelper.debugPrint('🌐 API URL: $apiUrl');
+      DebugHelper.debugPrint('🔑 Authorization Header: ${bloc.token.valueWrapper?.value}');
       
       final response = await http.get(
         Uri.parse(apiUrl),
@@ -101,27 +102,27 @@ abstract class DetailDenomPostpaidController extends State<DetailDenomPostpaid>
         },
       );
       
-      print('=== DEBUG SUGGEST NUMBERS (POSTPAID) ===');
-      print('📡 HTTP Request completed');
-      print('🌐 API Endpoint: $apiUrl');
-      print('📊 Response Status: ${response.statusCode}');
-      print('📄 Response Headers: ${response.headers}');
-      print('📝 Response Body: ${response.body}');
-      print('📏 Response Body Length: ${response.body.length}');
+      DebugHelper.debugPrint('=== DEBUG SUGGEST NUMBERS (POSTPAID) ===');
+      DebugHelper.debugPrint('📡 HTTP Request completed');
+      DebugHelper.debugPrint('🌐 API Endpoint: $apiUrl');
+      DebugHelper.debugPrint('📊 Response Status: ${response.statusCode}');
+      DebugHelper.debugPrint('📄 Response Headers: ${response.headers}');
+      DebugHelper.debugPrint('📝 Response Body: ${response.body}');
+      DebugHelper.debugPrint('📏 Response Body Length: ${response.body.length}');
       
       if (response.statusCode == 200) {
-        print('✅ HTTP 200 OK - Processing response data');
+        DebugHelper.debugPrint('✅ HTTP 200 OK - Processing response data');
         
         // Response langsung berupa array
         try {
           final List<dynamic> datas = json.decode(response.body) as List<dynamic>;
-          print('✅ JSON parsing successful');
-          print('📊 Parsed Data (POSTPAID): $datas');
-          print('📊 Data Count (POSTPAID): ${datas.length}');
-          print('📊 Data Type: ${datas.runtimeType}');
+          DebugHelper.debugPrint('✅ JSON parsing successful');
+          DebugHelper.debugPrint('📊 Parsed Data (POSTPAID): $datas');
+          DebugHelper.debugPrint('📊 Data Count (POSTPAID): ${datas.length}');
+          DebugHelper.debugPrint('📊 Data Type: ${datas.runtimeType}');
           
           if (datas.isEmpty) {
-            print('⚠️ Response data kosong - tidak ada transaksi');
+            DebugHelper.debugPrint('⚠️ Response data kosong - tidak ada transaksi');
             setState(() {
               suggestNumbers = [];
             });
@@ -129,51 +130,51 @@ abstract class DetailDenomPostpaidController extends State<DetailDenomPostpaid>
           }
           
           // Sort by tanggal desc for recency
-          print('🔄 Sorting data by tanggal (descending)');
+          DebugHelper.debugPrint('🔄 Sorting data by tanggal (descending)');
           datas.sort((a, b) {
             final String ac = (a['tanggal'] ?? '');
             final String bc = (b['tanggal'] ?? '');
-            print('📅 Item A tanggal: "$ac"');
-            print('📅 Item B tanggal: "$bc"');
+            DebugHelper.debugPrint('📅 Item A tanggal: "$ac"');
+            DebugHelper.debugPrint('📅 Item B tanggal: "$bc"');
             
             DateTime ad, bd;
             try { 
               ad = DateTime.parse(ac); 
-              print('✅ Item A parsed: $ad');
+              DebugHelper.debugPrint('✅ Item A parsed: $ad');
             } catch (e) { 
               ad = DateTime.fromMillisecondsSinceEpoch(0); 
-              print('❌ Item A parse error: $e, using default: $ad');
+              DebugHelper.debugPrint('❌ Item A parse error: $e, using default: $ad');
             }
             try { 
               bd = DateTime.parse(bc); 
-              print('✅ Item B parsed: $bd');
+              DebugHelper.debugPrint('✅ Item B parsed: $bd');
             } catch (e) { 
               bd = DateTime.fromMillisecondsSinceEpoch(0); 
-              print('❌ Item B parse error: $e, using default: $bd');
+              DebugHelper.debugPrint('❌ Item B parse error: $e, using default: $bd');
             }
             
             final result = bd.compareTo(ad);
-            print('🔄 Sort result: $result (${bd.compareTo(ad)})');
+            DebugHelper.debugPrint('🔄 Sort result: $result (${bd.compareTo(ad)})');
             return result;
           });
           
-          print('✅ Data sorting completed');
-          print('📊 Sorted Data (first 3 items): ${datas.take(3).toList()}');
+          DebugHelper.debugPrint('✅ Data sorting completed');
+          DebugHelper.debugPrint('📊 Sorted Data (first 3 items): ${datas.take(3).toList()}');
           
           final Set<String> uniqueTargets = <String>{};
-          print('🔄 Starting data filtering...');
+          DebugHelper.debugPrint('🔄 Starting data filtering...');
           
           for (int i = 0; i < datas.length; i++) {
             final dynamic item = datas[i];
-            print('--- Processing Item $i ---');
-            print('📄 Raw Item: $item');
+            DebugHelper.debugPrint('--- Processing Item $i ---');
+            DebugHelper.debugPrint('📄 Raw Item: $item');
             
             final String tujuanItem = (item['tujuan'] ?? '').toString().trim();
-            print('📱 Tujuan Item: "$tujuanItem"');
-            print('📏 Tujuan Length: ${tujuanItem.length}');
+            DebugHelper.debugPrint('📱 Tujuan Item: "$tujuanItem"');
+            DebugHelper.debugPrint('📏 Tujuan Length: ${tujuanItem.length}');
             
             if (tujuanItem.isEmpty) {
-              print('❌ Tujuan kosong, skip item');
+              DebugHelper.debugPrint('❌ Tujuan kosong, skip item');
               continue;
             }
             
@@ -182,60 +183,60 @@ abstract class DetailDenomPostpaidController extends State<DetailDenomPostpaid>
             // HP: Nomor HP (bisa dimulai dengan 08, 62, dll)
             // Lainnya: ID pelanggan untuk layanan lain
             if (tujuanItem.length >= 8 && tujuanItem.length <= 20) {
-              print('✅ Nomor valid (${tujuanItem.length} digit), adding to targets');
+              DebugHelper.debugPrint('✅ Nomor valid (${tujuanItem.length} digit), adding to targets');
               uniqueTargets.add(tujuanItem);
-              print('📊 Current unique targets: $uniqueTargets');
-              print('📊 Current count: ${uniqueTargets.length}');
+              DebugHelper.debugPrint('📊 Current unique targets: $uniqueTargets');
+              DebugHelper.debugPrint('📊 Current count: ${uniqueTargets.length}');
               
               if (uniqueTargets.length >= 5) {
-                print('🛑 Reached limit of 5, stopping');
+                DebugHelper.debugPrint('🛑 Reached limit of 5, stopping');
                 break;
               }
             } else {
-              print('❌ Nomor tidak valid: length=${tujuanItem.length}');
+              DebugHelper.debugPrint('❌ Nomor tidak valid: length=${tujuanItem.length}');
             }
-            print('--- End Processing Item $i ---');
+            DebugHelper.debugPrint('--- End Processing Item $i ---');
           }
           
-          print('✅ Data filtering completed');
-          print('📊 Final Unique Targets: $uniqueTargets');
-          print('📊 Final Count: ${uniqueTargets.length}');
+          DebugHelper.debugPrint('✅ Data filtering completed');
+          DebugHelper.debugPrint('📊 Final Unique Targets: $uniqueTargets');
+          DebugHelper.debugPrint('📊 Final Count: ${uniqueTargets.length}');
           
           setState(() {
             suggestNumbers = uniqueTargets.toList();
           });
-          print('✅ suggestNumbers updated in state: $suggestNumbers');
+          DebugHelper.debugPrint('✅ suggestNumbers updated in state: $suggestNumbers');
           
         } catch (e) {
-          print('❌ JSON parsing error: $e');
-          print('❌ Stack trace: ${StackTrace.current}');
+          DebugHelper.debugPrint('❌ JSON parsing error: $e');
+          DebugHelper.debugPrint('❌ Stack trace: ${StackTrace.current}');
           setState(() {
             suggestNumbers = [];
           });
         }
       } else {
-        print('❌ API Response Error (POSTPAID): ${response.statusCode}');
-        print('❌ Response Body: ${response.body}');
+        DebugHelper.debugPrint('❌ API Response Error (POSTPAID): ${response.statusCode}');
+        DebugHelper.debugPrint('❌ Response Body: ${response.body}');
         setState(() {
           suggestNumbers = [];
         });
       }
     } catch (e) {
-      print('❌ Exception in getSuggestNumbers (POSTPAID): $e');
-      print('❌ Exception type: ${e.runtimeType}');
-      print('❌ Stack trace: ${StackTrace.current}');
+      DebugHelper.debugPrint('❌ Exception in getSuggestNumbers (POSTPAID): $e');
+      DebugHelper.debugPrint('❌ Exception type: ${e.runtimeType}');
+      DebugHelper.debugPrint('❌ Stack trace: ${StackTrace.current}');
       setState(() {
         suggestNumbers = [];
       });
-      print('✅ suggestNumbers set to empty array due to exception');
+      DebugHelper.debugPrint('✅ suggestNumbers set to empty array due to exception');
     } finally {
-      print('🔄 Finally block - setting loadingSuggest to false');
+      DebugHelper.debugPrint('🔄 Finally block - setting loadingSuggest to false');
       setState(() {
         loadingSuggest = false;
       });
-      print('✅ loadingSuggest set to: $loadingSuggest');
-      print('✅ Final suggestNumbers state: $suggestNumbers');
-      print('=== END getSuggestNumbers (POSTPAID) ===');
+      DebugHelper.debugPrint('✅ loadingSuggest set to: $loadingSuggest');
+      DebugHelper.debugPrint('✅ Final suggestNumbers state: $suggestNumbers');
+      DebugHelper.debugPrint('=== END getSuggestNumbers (POSTPAID) ===');
     }
   }
 
@@ -243,7 +244,7 @@ abstract class DetailDenomPostpaidController extends State<DetailDenomPostpaid>
     setState(() {
       idpel.text = number;
     });
-    print('✅ Selected suggest number: $number');
+    DebugHelper.debugPrint('✅ Selected suggest number: $number');
   }
 
   Future<void> _getMenuLogo() async {
@@ -261,7 +262,7 @@ abstract class DetailDenomPostpaidController extends State<DetailDenomPostpaid>
         });
       }
     } catch (err) {
-      print('ERROR: $err');
+      DebugHelper.debugPrint('ERROR: $err');
     }
   }
 
@@ -366,7 +367,7 @@ abstract class DetailDenomPostpaidController extends State<DetailDenomPostpaid>
                 'Content-Type': 'application/json'
               },
               body: json.encode({'tracking_id': inq.trackingId, 'pin': pin}));
-      print(response.body);
+      DebugHelper.debugPrint('response.body.toString()');
       if (response.statusCode == 200) {
         PostpaidPurchaseModel data =
             PostpaidPurchaseModel.fromJson(json.decode(response.body)['data']);

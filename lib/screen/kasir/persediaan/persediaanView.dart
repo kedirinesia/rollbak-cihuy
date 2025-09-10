@@ -24,6 +24,7 @@ import 'package:mobile/modules.dart';
 // screen page
 import 'package:mobile/screen/kasir/persediaan/persediaanDetail.dart';
 import 'package:mobile/screen/kasir/persediaan/persediaanAdd.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class PersediaanView extends StatefulWidget {
   @override

@@ -13,6 +13,7 @@ import '../../../bloc/Api.dart';
 import '../../../models/reward.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/bloc/Bloc.dart' show bloc;
+import 'package:mobile/utils/debug_helper.dart';
 
 class ListReward extends StatefulWidget {
   @override

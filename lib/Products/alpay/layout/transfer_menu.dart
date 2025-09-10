@@ -6,6 +6,7 @@ import 'package:mobile/Products/alpay/layout/transfer-bank/transfer_bank.dart';
 // import 'package:mobile/Products/alpay/layout/withdraw.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class TransferManuPage extends StatefulWidget {
   @override

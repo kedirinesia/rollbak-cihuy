@@ -5,6 +5,7 @@ import 'package:mobile/models/menu.dart';
 
 import '../../../component/menudepan.dart';
 import 'more_model.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class MorePage extends StatefulWidget {
   final List<MenuModel> menus;

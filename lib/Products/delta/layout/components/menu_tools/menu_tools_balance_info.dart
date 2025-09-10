@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:mobile/Products/delta/layout/components/menu_tools/menu_tools_balance_info.style.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/modules.dart';
+import 'package:mobile/utils/debug_helper.dart';
 
 class MenuToolsBalanceInfo extends StatelessWidget {
   const MenuToolsBalanceInfo({
