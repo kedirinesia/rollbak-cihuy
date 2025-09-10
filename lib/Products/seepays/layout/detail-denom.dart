@@ -298,12 +298,16 @@ class _SeepaysDetailDenomState extends SeepaysDetailDenomController {
                     ? Container(
                         width: double.infinity,
                         padding: EdgeInsets.symmetric(horizontal: 20),
-                        child: Wrap(
-                          spacing: 8,
-                          runSpacing: 8,
-                          children: suggestNumbers
-                              .map((e) => 
-                                e == 'Belum pernah transaksi di produk ini'
+                        child: Container(
+                          height: 40,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: suggestNumbers.length,
+                            itemBuilder: (context, index) {
+                              String e = suggestNumbers[index];
+                              return Container(
+                                margin: EdgeInsets.only(right: 8),
+                                child: e == 'Belum pernah transaksi di produk ini'
                                   ? Container(
                                       padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                                       decoration: BoxDecoration(
@@ -326,9 +330,10 @@ class _SeepaysDetailDenomState extends SeepaysDetailDenomController {
                                           tujuan.text = e;
                                         });
                                       },
-                                    )
-                              )
-                              .toList(),
+                                    ),
+                              );
+                            },
+                          ),
                         ),
                       )
                     : SizedBox(),

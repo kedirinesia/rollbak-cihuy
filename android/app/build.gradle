@@ -1084,6 +1084,12 @@ android {
             versionCode 11
             versionName "2.3.0"
         }
+        outlet2 {
+            dimension "flavor-type"
+            applicationId "id.outletpay.mobile"
+            versionCode 12
+            versionName "2.3.1"
+        }
         staypay {
             dimension "flavor-type"
             applicationId "com.staypay.mobileapk"
@@ -1112,7 +1118,7 @@ android {
         lokapulsa {
             dimension "flavor-type"
             applicationId "id.lokapulsa.mobile"
-            versionCode 45  
+            versionCode 46
             versionName "2.4.1"
         }
         mykonterr {
@@ -1356,8 +1362,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics:21.1.0'
     implementation "androidx.window:window:1.0.0"
     implementation "androidx.window:window-java:1.0.0"
-    implementation 'com.google.android.play:review-ktx:2.0.0'
-    implementation 'com.google.android.play:app-update-ktx:2.0.1'
+    // Commented out to avoid potential errors - not actively used in the app
+    // implementation 'com.google.android.play:review-ktx:2.0.1'
+    // implementation 'com.google.android.play:app-update-ktx:2.1.0'
     
     // 16KB page size optimization dependencies
     implementation 'androidx.startup:startup-runtime:1.1.1'

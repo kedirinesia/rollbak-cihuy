@@ -4,7 +4,7 @@ publish_to: none
 version: 1.1.0+1
 
 environment:
-  sdk: ">=2.19.0 <3.0.0"  # tetap Dart 2 karena Flutter 3.7.11
+  sdk: ">=2.19.0 <3.0.0"  
 
 dependencies:
   flutter:
@@ -66,14 +66,14 @@ dependencies:
       url: https://github.com/cihadturhan/esys-flutter-share.git
       ref: nullsafety+embedding-2
 
-  badges: ^2.0.2  # jangan upgrade ke 3.x jika tetap pakai Flutter 3.7.11
+  badges: ^2.0.2   
 
   lazy_load_refresh_indicator: ^2.0.0
   numeric_keyboard: ^1.0.0
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   timeline_tile: ^2.0.0
-  in_app_review: ^2.0.9
+  # in_app_review: ^2.0.9  # Commented out - not actively used
   app_links: ^2.1.0
   flutter_custom_tabs:
   package_info_plus: ^2.0.0

@@ -443,116 +443,124 @@ class _PulsaState extends State<Pulsa> with TickerProviderStateMixin {
       // ================================================================================
       // KODE API BARU - MENGGUNAKAN API LAST TRANSACTION UNTUK SUGGEST HISTORY
       // ================================================================================
-      // Gunakan kategori ID untuk pulsa jika tersedia
-      String apiEndpoint = '${seepays_config.apiUrl}/trx/lastTransaction?kategori_id=${widget.menuModel.category_id}&limit=10&skip=0';
-      if (widget.menuModel.category_id == null || widget.menuModel.category_id.isEmpty) {
-        // Fallback untuk pulsa jika category_id kosong
-        apiEndpoint = '${seepays_config.apiUrl}/trx/lastTransaction?kategori_id=685b71969a3036284f0d8fec&limit=10&skip=0';
+      // Daftar category id untuk pulsa - scan semua untuk mendapatkan data maksimal
+      List<String> pulsaCategoryIds = [];
+      
+      // Tambahkan category_id dari menu jika ada
+      if (widget.menuModel.category_id != null && widget.menuModel.category_id.isNotEmpty) {
+        pulsaCategoryIds.add(widget.menuModel.category_id);
       }
       
-      print('🌐 Seepays API Endpoint: $apiEndpoint');
-      print('🔍 Category ID: ${widget.menuModel.category_id}');
+      // Tambahkan hardcoded category id untuk pulsa
+      pulsaCategoryIds.add('685b71969a3036284f0d8fec'); // Category id utama pulsa
+      pulsaCategoryIds.add('685b71969a3036284f0d8feb'); // Category id tambahan pulsa
       
-      http.Response response = await http.get(
-        Uri.parse(apiEndpoint),
-        headers: {'Authorization': bloc.token.valueWrapper?.value},
-      );
-
-      if (response.statusCode == 200) {
-        print('✅ Seepays: API Response received successfully');
-        print('API Response: ${response.body}');
+      // Hapus duplikat jika ada
+      pulsaCategoryIds = pulsaCategoryIds.toSet().toList();
+      
+      print('🔍 Pulsa Category IDs to scan: $pulsaCategoryIds');
+      print('🔍 Original Category ID: ${widget.menuModel.category_id}');
+      
+      // Gabungkan semua transaksi dari multiple category id
+      List<dynamic> allTransactions = [];
+      
+      // Scan setiap category id
+      for (String categoryId in pulsaCategoryIds) {
+        String apiEndpoint = '${seepays_config.apiUrl}/trx/lastTransaction?kategori_id=$categoryId&limit=10&skip=0';
+        print('🌐 Scanning category ID: $categoryId');
         
         try {
-          // Parse response dari API lastTransaction dengan error handling
-          dynamic responseData = json.decode(response.body);
-          List<dynamic> datas = [];
+          http.Response response = await http.get(
+            Uri.parse(apiEndpoint),
+            headers: {'Authorization': bloc.token.valueWrapper?.value},
+          );
           
-          // Handle response format sesuai dengan API lastTransaction
-          if (responseData is List) {
-            // Format: [...] (langsung array) - untuk lastTransaction
-            datas = responseData;
-            print('📋 Seepays: Response format: Direct array (lastTransaction)');
-          } else if (responseData is Map<String, dynamic>) {
-            // Format: {"status": 200, "data": [...]} - fallback untuk list
-            datas = responseData['data'] ?? [];
-            print('📋 Seepays: Response format: Map with data array (fallback)');
-          } else {
-            print('⚠️ Seepays: Unexpected response format: ${responseData.runtimeType}');
-            datas = [];
-          }
-          
-          print('📊 Seepays: Found ${datas.length} transactions in response');
-
-          if (datas.isEmpty) {
-            print('📭 Seepays: No transactions found for category: ${widget.menuModel.category_id}');
-            setState(() {
-              recentTransactions = [TransactionHistoryModel(tujuan: 'Belum pernah transaksi di produk ini')];
-            });
-            return;
-          }
-          print('📋 Seepays: Response data type: ${responseData.runtimeType}');
-          
-          if (datas.isNotEmpty) {
-            print('🔍 Seepays: Parsing ${datas.length} items...');
-            print('🔍 Seepays: First item: ${datas.first}');
+          if (response.statusCode == 200) {
+            print('✅ Success for category ID: $categoryId');
+            dynamic responseData = json.decode(response.body);
+            List<dynamic> datas = [];
             
-            List<TransactionHistoryModel> apiHistory = [];
-            for (int i = 0; i < datas.length; i++) {
-              try {
-                // Konversi field 'tanggal' ke 'created_at' untuk kompatibilitas
-                Map<String, dynamic> item = Map<String, dynamic>.from(datas[i]);
-                if (item.containsKey('tanggal') && !item.containsKey('created_at')) {
-                  item['created_at'] = item['tanggal'];
-                }
-                
-                TransactionHistoryModel trx = TransactionHistoryModel.fromJson(item);
-                apiHistory.add(trx);
-                print('✅ Seepays: Successfully parsed item $i: ${trx.tujuan}');
-              } catch (e) {
-                print('❌ Seepays: Error parsing item $i: $e');
-                print('❌ Seepays: Raw item: ${datas[i]}');
-              }
+            if (responseData is List) {
+              datas = responseData;
+            } else if (responseData is Map<String, dynamic>) {
+              datas = responseData['data'] ?? [];
             }
             
-            setState(() {
-              transactionHistory = apiHistory;
-              
-              // Filter transaksi pulsa - untuk lastTransaction, terima semua karena sudah difilter di API
-              print('🔍 Seepays: Filtering ${apiHistory.length} transactions...');
-              recentTransactions = apiHistory
-                  .where((trx) {
-                    bool isValid = trx.tujuan.isNotEmpty && trx.tujuan.startsWith('08');
-                    print('🔍 Seepays: Transaction ${trx.tujuan} - isValid: $isValid');
-                    return isValid;
-                  })
-                  .take(10) // Tampilkan sampai 10 transaksi terbaru sesuai limit API
-                  .toList();
-            });
-            
-            print('🎯 Seepays: Filtered to ${recentTransactions.length} recent pulsa transactions');
-            print('📱 Seepays: Recent transactions: ${recentTransactions.map((t) => t.tujuan).toList()}');
+            allTransactions.addAll(datas);
+            print('📊 Found ${datas.length} transactions for category: $categoryId');
           } else {
-            print('📭 Seepays: No transactions found in response');
-            setState(() {
-              recentTransactions = [TransactionHistoryModel(tujuan: 'Belum pernah transaksi di produk ini')];
-            });
+            print('❌ Failed for category ID: $categoryId - Status: ${response.statusCode}');
+          }
+        } catch (error) {
+          print('❌ Error for category ID: $categoryId - $error');
+        }
+      }
+      
+      print('📊 Total transactions found: ${allTransactions.length}');
+
+      if (allTransactions.isNotEmpty) {
+        print('✅ Seepays: Processing ${allTransactions.length} combined transactions');
+        
+        try {
+          // Sort berdasarkan tanggal terbaru
+          allTransactions.sort((a, b) {
+            final String ac = (a['tanggal'] ?? '');
+            final String bc = (b['tanggal'] ?? '');
+            DateTime ad, bd;
+            try { ad = DateTime.parse(ac); } catch (_) { ad = DateTime.fromMillisecondsSinceEpoch(0); }
+            try { bd = DateTime.parse(bc); } catch (_) { bd = DateTime.fromMillisecondsSinceEpoch(0); }
+            return bd.compareTo(ad);
+          });
+
+          print('📋 Seepays: Processing ${allTransactions.length} combined items...');
+          print('🔍 Seepays: First item: ${allTransactions.first}');
+          
+          List<TransactionHistoryModel> apiHistory = [];
+          for (int i = 0; i < allTransactions.length; i++) {
+            try {
+              // Konversi field 'tanggal' ke 'created_at' untuk kompatibilitas
+              Map<String, dynamic> item = Map<String, dynamic>.from(allTransactions[i]);
+              if (item.containsKey('tanggal') && !item.containsKey('created_at')) {
+                item['created_at'] = item['tanggal'];
+              }
+              
+              TransactionHistoryModel trx = TransactionHistoryModel.fromJson(item);
+              apiHistory.add(trx);
+              print('✅ Seepays: Successfully parsed item $i: ${trx.tujuan}');
+            } catch (e) {
+              print('❌ Seepays: Error parsing item $i: $e');
+              print('❌ Seepays: Raw item: ${allTransactions[i]}');
+            }
           }
           
+          setState(() {
+            transactionHistory = apiHistory;
+            
+            // Filter transaksi pulsa - untuk lastTransaction, terima semua karena sudah difilter di API
+            print('🔍 Seepays: Filtering ${apiHistory.length} transactions...');
+            recentTransactions = apiHistory
+                .where((trx) {
+                  bool isValid = trx.tujuan.isNotEmpty && trx.tujuan.startsWith('08');
+                  print('🔍 Seepays: Transaction ${trx.tujuan} - isValid: $isValid');
+                  return isValid;
+                })
+                .take(10) // Tampilkan sampai 10 transaksi terbaru sesuai limit API
+                .toList();
+          });
+          
+          print('🎯 Seepays: Filtered to ${recentTransactions.length} recent pulsa transactions');
+          print('📱 Seepays: Recent transactions: ${recentTransactions.map((t) => t.tujuan).toList()}');
+          
         } catch (parseError) {
-          print('❌ Seepays: Error parsing API response: $parseError');
-          print('🔍 Seepays: Raw response: ${response.body}');
+          print('❌ Seepays: Error parsing combined API response: $parseError');
           
           // Tampilkan pesan error
           setState(() {
             recentTransactions = [TransactionHistoryModel(tujuan: 'Belum pernah transaksi di produk ini')];
           });
         }
-        
       } else {
-        print('❌ Seepays: Failed to load transaction history: ${response.statusCode}');
-        print('Response: ${response.body}');
-        
-        // Tampilkan pesan error
+        print('❌ Seepays: No transactions found from any category ID');
         setState(() {
           recentTransactions = [TransactionHistoryModel(tujuan: 'Belum pernah transaksi di produk ini')];
         });

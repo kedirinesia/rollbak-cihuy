@@ -159,19 +159,23 @@ class _HistoryTransaksiState extends State<HistoryTransaksi> {
   }
 
   Widget _buildProductLogo(TrxModel trx) {
-    // Cek apakah ada logo produk dari kategori
-    String productLogoUrl;
+    // Cek apakah aplikasi adalah Payuniovo atau Seepays
+    bool isPayuniovoOrSeepays = packageName == 'mobile.payuni.id' || 
+                                packageName == 'co.payuni.id' || 
+                                packageName == 'com.seepaysbiller.app';
     
-    if (trx.produk != null && 
+    String productLogoUrl = '';
+    
+    // Hanya ambil url_image dari API jika aplikasi adalah Payuniovo atau Seepays
+    if (isPayuniovoOrSeepays && 
+        trx.produk != null && 
         trx.produk['kategori_id'] != null && 
         trx.produk['kategori_id']['url_image'] != null &&
         trx.produk['kategori_id']['url_image'].toString().isNotEmpty) {
       productLogoUrl = trx.produk['kategori_id']['url_image'];
-    } else {
-      productLogoUrl = '';
     }
     
-    // Jika ada logo produk, gunakan itu, jika tidak gunakan gambar "no image"
+    // Jika ada logo produk dari API (hanya untuk Payuniovo/Seepays), gunakan itu
     if (productLogoUrl.isNotEmpty) {
       return CachedNetworkImage(
         imageUrl: productLogoUrl,
@@ -197,21 +201,15 @@ class _HistoryTransaksiState extends State<HistoryTransaksi> {
         ),
       );
     } else {
-      // Gunakan gambar "no image" jika tidak ada logo produk
-      return CachedNetworkImage(
-        imageUrl: 'https://png.pngtree.com/png-vector/20190820/ourmid/pngtree-no-image-vector-illustration-isolated-png-image_1694547.jpg',
-        width: 20,
-        height: 20,
-        fit: BoxFit.contain,
-        placeholder: (context, url) => Icon(
-          Icons.image,
-          size: 20,
-          color: Colors.grey,
-        ),
-        errorWidget: (context, url, error) => Icon(
-          Icons.image,
-          size: 20,
-          color: Colors.grey,
+      // Untuk produk selain Payuniovo/Seepays, gunakan CircleAvatar dengan status icon
+      return CircleAvatar(
+        foregroundColor: packageName == 'com.lariz.mobile'
+            ? Theme.of(context).secondaryHeaderColor
+            : Theme.of(context).primaryColor,
+        backgroundColor: trx.statusModel.color.withOpacity(.1),
+        child: CachedNetworkImage(
+          imageUrl: trx.statusModel.icon,
+          width: 20,
         ),
       );
     }

@@ -166,12 +166,16 @@ class _SeepaysDetailDenomPostpaidState extends SeepaysDetailDenomPostpaidControl
                          ),
                        ),
                        SizedBox(height: 8),
-                       Wrap(
-                         spacing: 8,
-                         runSpacing: 8,
-                         children: suggestNumbers
-                             .map((number) => 
-                               number == 'Belum pernah transaksi di produk ini'
+                       Container(
+                         height: 40,
+                         child: ListView.builder(
+                           scrollDirection: Axis.horizontal,
+                           itemCount: suggestNumbers.length,
+                           itemBuilder: (context, index) {
+                             String number = suggestNumbers[index];
+                             return Container(
+                               margin: EdgeInsets.only(right: 8),
+                               child: number == 'Belum pernah transaksi di produk ini'
                                  ? Container(
                                      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                                      decoration: BoxDecoration(
@@ -193,9 +197,10 @@ class _SeepaysDetailDenomPostpaidState extends SeepaysDetailDenomPostpaidControl
                                        style: TextStyle(fontSize: 12),
                                      ),
                                      onPressed: () => selectSuggestNumber(number),
-                                   )
-                             )
-                             .toList(),
+                                   ),
+                             );
+                           },
+                         ),
                        ),
                      ],
                    ),

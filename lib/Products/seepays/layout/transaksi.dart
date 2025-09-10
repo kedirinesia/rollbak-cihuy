@@ -159,7 +159,7 @@ class _HistoryTransaksiState extends State<HistoryTransaksi> {
   }
 
   Widget _buildProductLogo(TrxModel trx) {
-    // Cek apakah ada logo produk dari kategori
+    // File ini khusus untuk Seepays, jadi tetap menggunakan url_image dari API
     String productLogoUrl;
     
     if (trx.produk != null && 

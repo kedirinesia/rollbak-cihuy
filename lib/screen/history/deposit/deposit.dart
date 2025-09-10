@@ -22,6 +22,89 @@ class _DepositPageState extends DepositController
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
+  Widget _buildDepositLogo(DepositModel m) {
+    // Cek apakah aplikasi adalah Payuniovo atau Seepays
+    bool isPayuniovoOrSeepays = packageName == 'mobile.payuni.id' || 
+                                packageName == 'co.payuni.id' || 
+                                packageName == 'com.seepaysbiller.app';
+    
+    // Untuk Payuniovo dan Seepays, gunakan Image.asset dengan status icon
+    if (isPayuniovoOrSeepays) {
+      return CircleAvatar(
+        foregroundColor: packageName == 'com.lariz.mobile'
+            ? Theme.of(context).secondaryHeaderColor
+            : Theme.of(context).primaryColor,
+        backgroundColor: packageName == 'com.lariz.mobile'
+            ? Theme.of(context).secondaryHeaderColor.withOpacity(.1)
+            : Theme.of(context).primaryColor.withOpacity(.1),
+        child: m.statusModel?.icon != null && m.statusModel.icon.isNotEmpty
+            ? Image.asset(
+                m.statusModel.icon,
+                width: 20.0,
+                height: 20.0,
+                fit: BoxFit.contain,
+                errorBuilder: (context, error, stackTrace) {
+                  print('🔍 [DEPOSIT] Asset error for: ${m.statusModel.icon} - Exception: $error');
+                  return Icon(
+                    m.statusModel.status == 0 
+                        ? Icons.hourglass_empty 
+                        : m.statusModel.status == 1 
+                            ? Icons.check_circle 
+                            : Icons.error,
+                    size: 20.0,
+                    color: m.statusModel.color,
+                  );
+                })
+            : Icon(
+                m.statusModel?.status == 0 
+                    ? Icons.hourglass_empty 
+                    : m.statusModel?.status == 1 
+                        ? Icons.check_circle 
+                        : Icons.error,
+                size: 20.0,
+                color: m.statusModel?.color ?? Colors.grey,
+              ),
+      );
+    } else {
+      // Untuk produk selain Payuniovo/Seepays, gunakan CachedNetworkImage dengan URL status icon
+      String statusIconUrl = _getStatusIconUrl(m.statusModel.status);
+      
+      return CircleAvatar(
+        foregroundColor: packageName == 'com.lariz.mobile'
+            ? Theme.of(context).secondaryHeaderColor
+            : Theme.of(context).primaryColor,
+        backgroundColor: packageName == 'com.lariz.mobile'
+            ? Theme.of(context).secondaryHeaderColor.withOpacity(.1)
+            : Theme.of(context).primaryColor.withOpacity(.1),
+        child: CachedNetworkImage(
+          imageUrl: statusIconUrl,
+          width: 20.0,
+          errorWidget: (context, url, error) => Icon(
+            m.statusModel.status == 0 
+                ? Icons.hourglass_empty 
+                : m.statusModel.status == 1 
+                    ? Icons.check_circle 
+                    : Icons.error,
+            size: 20.0,
+            color: m.statusModel.color,
+          ),
+        ),
+      );
+    }
+  }
+
+  String _getStatusIconUrl(int status) {
+    // Konversi status deposit ke URL icon untuk CachedNetworkImage
+    switch (status) {
+      case 0:
+        return 'https://firebasestorage.googleapis.com/v0/b/wajib-online.appspot.com/o/icons%2Fcoffee-cup.png?alt=media&token=fd0d0a4d-9689-4ab9-8473-72516ccd3c5f'; // Pending
+      case 1:
+        return 'https://firebasestorage.googleapis.com/v0/b/wajib-online.appspot.com/o/icons%2Ftrophy.png?alt=media&token=271f57f4-bc76-4f19-8f69-b3543376adff'; // Sukses
+      default:
+        return 'https://firebasestorage.googleapis.com/v0/b/wajib-online.appspot.com/o/icons%2Ferror.png?alt=media&token=f5148d8a-a90d-494f-8368-0daf85eb4803'; // Gagal
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return loading
@@ -90,44 +173,7 @@ class _DepositPageState extends DepositController
                             ),
                           );
                         },
-                        leading: CircleAvatar(
-                            foregroundColor: packageName == 'com.lariz.mobile'
-                                ? Theme.of(context).secondaryHeaderColor
-                                : Theme.of(context).primaryColor,
-                            backgroundColor: packageName == 'com.lariz.mobile'
-                                ? Theme.of(context)
-                                    .secondaryHeaderColor
-                                    .withOpacity(.1)
-                                : Theme.of(context)
-                                    .primaryColor
-                                    .withOpacity(.1),
-                            child: m.statusModel?.icon != null && m.statusModel.icon.isNotEmpty
-                                ? Image.asset(
-                                    m.statusModel.icon,
-                                    width: 20.0,
-                                    height: 20.0,
-                                    fit: BoxFit.contain,
-                                    errorBuilder: (context, error, stackTrace) {
-                                      print('🔍 [DEPOSIT] Asset error for: ${m.statusModel.icon} - Exception: $error');
-                                      return Icon(
-                                        m.statusModel.status == 0 
-                                            ? Icons.hourglass_empty 
-                                            : m.statusModel.status == 1 
-                                                ? Icons.check_circle 
-                                                : Icons.error,
-                                        size: 20.0,
-                                        color: m.statusModel.color,
-                                      );
-                                    })
-                                : Icon(
-                                    m.statusModel?.status == 0 
-                                        ? Icons.hourglass_empty 
-                                        : m.statusModel?.status == 1 
-                                            ? Icons.check_circle 
-                                            : Icons.error,
-                                    size: 20.0,
-                                    color: m.statusModel?.color ?? Colors.grey,
-                                  )),
+                        leading: _buildDepositLogo(m),
                         title: Text(formatRupiah(m.nominal),
                             style: TextStyle(
                               fontSize: 12.0,

@@ -39,14 +39,25 @@
         android:requestLegacyExternalStorage="true"
         android:icon="@mipmap/ic_launcher">
 
+        <!-- Package alignment for 16KB compatibility -->
+        <meta-data
+            android:name="android.package.alignment"
+            android:value="16384" />
+            
+        <!-- ELF alignment for 16KB compatibility -->
+        <meta-data
+            android:name="android.elf.alignment"
+            android:value="16384" />
+
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"
-            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize"
-            android:exported="true">
+            android:exported="true"
+            tools:replace="android:configChanges">
 
             <!-- Metadata -->
             <meta-data
@@ -65,6 +76,16 @@
             <meta-data
                 android:name="flutterEmbedding"
                 android:value="2" />
+
+            <!-- Flutter 16KB page size support -->
+            <meta-data
+                android:name="flutter.16kb.page.size.support"
+                android:value="true" />
+            
+            <!-- Flutter package alignment for 16KB -->
+            <meta-data
+                android:name="flutter.package.alignment"
+                android:value="16384" />
 
             <!-- Launcher intent filter -->
             <intent-filter>
