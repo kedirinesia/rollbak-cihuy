@@ -140,7 +140,7 @@ class _ProfilePageState extends State<ProfilePage> {
       if (response.statusCode == 200) {
         List<dynamic> responseData = json.decode(response.body)['data'];
         responseData.forEach((e) {
-          DebugHelper.debugPrint(''e['link'].toString()'');
+          DebugHelper.debugPrint(e['link'].toString());
           if (e['link'] is String &&
               (e['link'] as String).contains('api.whatsapp.com')) {
             link = e['link'];

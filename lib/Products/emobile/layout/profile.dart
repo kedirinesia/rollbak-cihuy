@@ -23,7 +23,7 @@ import 'package:mobile/screen/profile/reward/list_reward.dart';
 import 'package:mobile/screen/profile/toko/edit_toko.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import 'package:in_app_review/in_app_review.dart';
+//import 'package:in_app_review/in_app_review.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:mobile/utils/debug_helper.dart';
 

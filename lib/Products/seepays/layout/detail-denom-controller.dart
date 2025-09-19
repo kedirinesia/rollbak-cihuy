@@ -181,7 +181,7 @@ abstract class SeepaysDetailDenomController extends State<SeepaysDetailDenom>
           if (tujuanItem.length >= 8 && tujuanItem.length <= 20) {
             uniqueTargets.add(tujuanItem);
             DebugHelper.debugPrint('✅ Added to suggestions: $tujuanItem');
-            if (uniqueTargets.length >= 10) break;
+            // Hapus batasan 10, ambil semua nomor yang valid
           } else {
             DebugHelper.debugPrint('❌ Skipped (invalid length): $tujuanItem');
           }

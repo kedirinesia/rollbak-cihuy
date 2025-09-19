@@ -194,7 +194,7 @@ abstract class DetailDenomController extends State<DetailDenom>
             if (tujuanItem.length >= 8 && tujuanItem.length <= 20) {
               DebugHelper.debugPrint('✅ Tujuan valid, tambahkan: $tujuanItem');
               uniqueTargets.add(tujuanItem);
-              if (uniqueTargets.length >= 5) break;
+              // Hapus batasan 5, ambil semua nomor yang valid
             } else {
               DebugHelper.debugPrint('❌ Tujuan tidak valid (length: ${tujuanItem.length}): $tujuanItem');
             }
@@ -239,7 +239,7 @@ abstract class DetailDenomController extends State<DetailDenom>
 
             if (matchesMenu) {
               uniqueTargets.add(tujuanItem);
-              if (uniqueTargets.length >= 10) break;
+              // Hapus batasan 10, ambil semua nomor yang valid
             }
           }
         }

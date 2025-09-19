@@ -68,29 +68,130 @@ abstract class PulsaController extends State<Pulsa>
         loadingSuggest = true;
       });
 
-      // API berbeda untuk Seepays vs Payuniovo
+      
       String apiEndpoint;
       
-      // Untuk menu PULSA, gunakan kategori_id default jika kosong
+   
       String kategoriId = widget.menuModel.category_id;
       if (kategoriId == null || kategoriId.isEmpty) {
-        // Fallback untuk menu PULSA - gunakan kategori default sesuai package
+        
         if (packageName == 'mobile.payuni.id' || packageName == 'co.payuni.id') {
-          kategoriId = '5eb704e8c78b5393e4ab3fe6'; // Kategori default untuk Payuniovo
+          
+          List<String> payuniovoPulsaCategoryIds = [
+            '5eb704e9c78b532302ab4118',  
+            '5eb704e8c78b53b66cab40d9',  
+            '5eb704e8c78b534178ab3f52',  
+            '5eb704e8c78b536e52ab4029',  
+            '607aef122e7b75785eeaa909',  
+            '5eb704e8c78b5348f8ab3f86',  
+            '5eb704e9c78b535885ab413e',  
+          ];
+          kategoriId = payuniovoPulsaCategoryIds.join(',');  
         } else {
-          kategoriId = '685b71969a3036284f0d8fec'; // Kategori default untuk Seepays
+          
+          List<String> seepaysPulsaCategoryIds = [
+            '685b71969a3036284f0d8fec',  
+            '685b71969a3036284f0d8feb',  
+            '685b71969a3036284f0d8fef',  
+            '685b71969a3036284f0d8ff1',   
+            '685b71969a3036284f0d8ff0', 
+            '685b71969a3036284f0d8fee', 
+            '685b71969a3036284f0d8fed',  
+          ];
+          kategoriId = seepaysPulsaCategoryIds.join(','); // Gabungkan semua category ID
         }
         DebugHelper.debugPrint('⚠️ Category ID kosong, menggunakan fallback: $kategoriId');
       }
       
       if (packageName == 'mobile.payuni.id' || packageName == 'co.payuni.id') {
-        // API khusus Payuniovo
-        // Gunakan kategori ID yang sudah di-fallback
-        apiEndpoint = 'https://payuni-app.findig.id/api/v1/trx/lastTransaction?kategori_id=$kategoriId&limit=5&skip=0';
-        DebugHelper.debugPrint('🌐 Menggunakan API Payuniovo dengan kategori: $apiEndpoint');
+        
+        List<String> payuniovoCategoryIds = [
+          '5eb704e9c78b532302ab4118',  
+          '5eb704e8c78b53b66cab40d9',  
+          '5eb704e8c78b534178ab3f52',  
+          '5eb704e8c78b536e52ab4029',  
+          '607aef122e7b75785eeaa909',  
+          '5eb704e8c78b5348f8ab3f86',  
+          '5eb704e9c78b535885ab413e',  
+        ];
+        
+        
+        List<dynamic> allTransactions = [];
+        
+        // Scan setiap category id
+        for (String categoryId in payuniovoCategoryIds) {
+          String singleApiEndpoint = 'https://payuni-app.findig.id/api/v1/trx/lastTransaction?kategori_id=$categoryId&limit=1000&skip=0';
+          DebugHelper.debugPrint('🌐 Scanning Payuniovo category ID: $categoryId');
+          
+          try {
+            http.Response response = await http.get(
+              Uri.parse(singleApiEndpoint),
+              headers: {'Authorization': bloc.token.valueWrapper?.value},
+            );
+            
+            if (response.statusCode == 200) {
+              DebugHelper.debugPrint('✅ Success for Payuniovo category ID: $categoryId');
+              dynamic responseData = json.decode(response.body);
+              List<dynamic> datas = [];
+              
+              if (responseData is List) {
+                datas = responseData;
+              } else if (responseData is Map<String, dynamic>) {
+                datas = responseData['data'] ?? [];
+              }
+              
+              allTransactions.addAll(datas);
+              DebugHelper.debugPrint('📊 Found ${datas.length} transactions for Payuniovo category: $categoryId');
+            } else {
+              DebugHelper.debugPrint('❌ Failed for Payuniovo category ID: $categoryId - Status: ${response.statusCode}');
+            }
+          } catch (error) {
+            DebugHelper.debugPrint('❌ Error for Payuniovo category ID: $categoryId - $error');
+          }
+        }
+        
+        DebugHelper.debugPrint('📊 Total Payuniovo transactions found: ${allTransactions.length}');
+        
+        if (allTransactions.isNotEmpty) {
+          DebugHelper.debugPrint('✅ Payuniovo: Processing ${allTransactions.length} combined transactions');
+          
+          // Sort berdasarkan tanggal terbaru
+          allTransactions.sort((a, b) {
+            final String ac = (a['tanggal'] ?? '');
+            final String bc = (b['tanggal'] ?? '');
+            DateTime ad, bd;
+            try { ad = DateTime.parse(ac); } catch (_) { ad = DateTime.fromMillisecondsSinceEpoch(0); }
+            try { bd = DateTime.parse(bc); } catch (_) { bd = DateTime.fromMillisecondsSinceEpoch(0); }
+            return bd.compareTo(ad);
+          });
+          
+          // Filter dan ambil nomor tujuan yang unik
+          final Set<String> uniqueTargets = <String>{};
+          for (final dynamic item in allTransactions) {
+            final String tujuanItem = (item['tujuan'] ?? '').toString().trim();
+            if (tujuanItem.isNotEmpty && tujuanItem.length >= 8 && tujuanItem.length <= 20) {
+              uniqueTargets.add(tujuanItem);
+              // Hapus batasan 10, ambil semua nomor yang valid
+            }
+          }
+          
+          setState(() { 
+            suggestNumbers = uniqueTargets.toList(); 
+          });
+          DebugHelper.debugPrint('🎯 Final Payuniovo suggest numbers: $suggestNumbers');
+        } else {
+          setState(() { 
+            suggestNumbers = ['Belum pernah transaksi di produk ini']; 
+          });
+        }
+        
+        setState(() { loadingSuggest = false; });
+        DebugHelper.debugPrint('=== PulsaController getSuggestNumbers() END ===');
+        return;
+        
       } else if (packageName == 'com.seepaysbiller.app') {
         // API khusus Seepays - menggunakan lastTransaction
-        apiEndpoint = 'https://app.payuni.co.id/api/v1/trx/lastTransaction?kategori_id=$kategoriId&limit=5&skip=0';
+        apiEndpoint = 'https://app.payuni.co.id/api/v1/trx/lastTransaction?kategori_id=$kategoriId&limit=1000&skip=0';
         DebugHelper.debugPrint('🌐 Menggunakan API Seepays dengan kategori: $apiEndpoint');
       } else {
         // API default untuk produk lain
@@ -155,7 +256,7 @@ abstract class PulsaController extends State<Pulsa>
             if (tujuanItem.length >= 8 && tujuanItem.length <= 20) {
               DebugHelper.debugPrint('✅ Tujuan valid, tambahkan: $tujuanItem');
               uniqueTargets.add(tujuanItem);
-              if (uniqueTargets.length >= 5) break;
+              // Hapus batasan 5, ambil semua nomor yang valid
             } else {
               DebugHelper.debugPrint('❌ Tujuan tidak valid (length: ${tujuanItem.length}): $tujuanItem');
             }
@@ -200,7 +301,7 @@ abstract class PulsaController extends State<Pulsa>
 
             if (matchesMenu) {
               uniqueTargets.add(tujuanItem);
-              if (uniqueTargets.length >= 10) break;
+              // Hapus batasan 10, ambil semua nomor yang valid
             }
           }
         }

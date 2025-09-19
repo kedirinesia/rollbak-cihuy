@@ -442,19 +442,24 @@ class _PulsaState extends State<Pulsa> with TickerProviderStateMixin {
       // DebugHelper.debugPrint('Filtered using pulsa description filter');
       
       // ================================================================================
-      // KODE API BARU - MENGGUNAKAN API LAST TRANSACTION UNTUK SUGGEST HISTORY
+      // KODE API  - MENGGUNAKAN API LAST TRANSACTION UNTUK SUGGEST HISTORY
       // ================================================================================
       // Daftar category id untuk pulsa - scan semua untuk mendapatkan data maksimal
       List<String> pulsaCategoryIds = [];
       
-      // Tambahkan category_id dari menu jika ada
+      
       if (widget.menuModel.category_id != null && widget.menuModel.category_id.isNotEmpty) {
         pulsaCategoryIds.add(widget.menuModel.category_id);
       }
       
-      // Tambahkan hardcoded category id untuk pulsa
-      pulsaCategoryIds.add('685b71969a3036284f0d8fec'); // Category id utama pulsa
-      pulsaCategoryIds.add('685b71969a3036284f0d8feb'); // Category id tambahan pulsa
+      //  hardcoded category id untuk pulsa
+      pulsaCategoryIds.add('685b71969a3036284f0d8fec'); 
+      pulsaCategoryIds.add('685b71969a3036284f0d8feb');  
+      pulsaCategoryIds.add('685b71969a3036284f0d8fef');  
+      pulsaCategoryIds.add('685b71969a3036284f0d8ff1');  
+      pulsaCategoryIds.add('685b71969a3036284f0d8ff0');  
+      pulsaCategoryIds.add('685b71969a3036284f0d8fee');  
+      pulsaCategoryIds.add('685b71969a3036284f0d8fed');  
       
       // Hapus duplikat jika ada
       pulsaCategoryIds = pulsaCategoryIds.toSet().toList();
@@ -519,7 +524,7 @@ class _PulsaState extends State<Pulsa> with TickerProviderStateMixin {
           List<TransactionHistoryModel> apiHistory = [];
           for (int i = 0; i < allTransactions.length; i++) {
             try {
-              // Konversi field 'tanggal' ke 'created_at' untuk kompatibilitas
+              // Konversi field 'tanggal' ke 'created_at' 
               Map<String, dynamic> item = Map<String, dynamic>.from(allTransactions[i]);
               if (item.containsKey('tanggal') && !item.containsKey('created_at')) {
                 item['created_at'] = item['tanggal'];
@@ -545,7 +550,7 @@ class _PulsaState extends State<Pulsa> with TickerProviderStateMixin {
                   DebugHelper.debugPrint('🔍 Seepays: Transaction ${trx.tujuan} - isValid: $isValid');
                   return isValid;
                 })
-                .take(10) // Tampilkan sampai 10 transaksi terbaru sesuai limit API
+                .take(1000)  
                 .toList();
           });
           
@@ -555,7 +560,7 @@ class _PulsaState extends State<Pulsa> with TickerProviderStateMixin {
         } catch (parseError) {
           DebugHelper.debugPrint('❌ Seepays: Error parsing combined API response: $parseError');
           
-          // Tampilkan pesan error
+           
           setState(() {
             recentTransactions = [TransactionHistoryModel(tujuan: 'Belum pernah transaksi di produk ini')];
           });
@@ -587,7 +592,7 @@ class _PulsaState extends State<Pulsa> with TickerProviderStateMixin {
     }
   }
 
-  // Get product logo from API response
+  
   String _getProductLogo(TransactionHistoryModel trx) {
     // Cek apakah ada logo produk dari kategori sesuai struktur API response
     if (trx.produkId != null && 
@@ -989,7 +994,7 @@ class _PulsaState extends State<Pulsa> with TickerProviderStateMixin {
               children: <Widget>[
                 Container(
                   width: double.infinity,
-                  height: MediaQuery.of(context).size.height * .2,
+                  height: MediaQuery.of(context).size.height * .1,
                   decoration: BoxDecoration(
                     color: packageName == 'com.lariz.mobile'
                         ? Theme.of(context).secondaryHeaderColor
@@ -1018,7 +1023,7 @@ class _PulsaState extends State<Pulsa> with TickerProviderStateMixin {
                           : null,
                 ),
                 Container(
-                    padding: EdgeInsets.all(20),
+                    padding: EdgeInsets.all(10),
                     child: packageName == 'com.eralink.mobileapk'
                         ? TextFormField(
                             // TextFormField untuk Eralink
@@ -1235,7 +1240,7 @@ class _PulsaState extends State<Pulsa> with TickerProviderStateMixin {
                                         valueColor: AlwaysStoppedAnimation<Color>(Colors.blue[400]),
                                       ),
                                     ),
-                                    SizedBox(width: 12),
+                                    SizedBox(width: 1),
                                     Text(
                                       'Loading History . . . ...',
                                       style: TextStyle(

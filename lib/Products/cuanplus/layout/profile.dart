@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:in_app_review/in_app_review.dart';
+////import 'package:in_app_review/in_app_review.dart';
 import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/bloc/ConfigApp.dart';

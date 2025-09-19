@@ -41,6 +41,8 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
         coreLibraryDesugaringEnabled true
     }
+    
+
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -50,21 +52,38 @@ android {
         disable 'InvalidPackage'
     }
     
-    // 16KB page size support
+    // D8 dexing configuration
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+    
+    // 16KB page size support configuration
     packagingOptions {
         jniLibs {
-            useLegacyPackaging = true
+            useLegacyPackaging = false
         }
-        // Enable 16KB page size alignment
+        
         doNotStrip '*/arm64-v8a/*.so'
         doNotStrip '*/armeabi-v7a/*.so'
         doNotStrip '*/x86_64/*.so'
     }
     
-    // Enable 16KB page size compatibility
+    
     ndkVersion "25.1.8937393"
     
-    // 16KB page size specific configurations
+    // 16KB page size support - Modern configuration
+    bundle {
+        language {
+            enableSplit = false
+        }
+        density {
+            enableSplit = false
+        }
+        abi {
+            enableSplit = false
+        }
+    }
+     
     buildTypes {
         debug {
             ndk {
@@ -87,10 +106,15 @@ android {
         versionName flutterVersionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         
-        // 16KB page size support - ABI filters for compatibility
+     
         ndk {
             abiFilters 'arm64-v8a', 'armeabi-v7a', 'x86_64'
         }
+        
+       
+        manifestPlaceholders = [
+            'pageSize': '16384'
+        ]
     }
 
     signingConfigs {
@@ -311,6 +335,11 @@ android {
                     excludes += ['/META-INF/{AL2.0,LGPL2.1}']
                 }
             }
+            
+            // 16KB page size specific configuration
+            ndk {
+                debugSymbolLevel 'FULL'
+            }
         }
         debug {
             minifyEnabled false
@@ -319,6 +348,11 @@ android {
                 jniLibs {
                     useLegacyPackaging = false
                 }
+            }
+            
+            // 16KB page size specific configuration
+            ndk {
+                debugSymbolLevel 'FULL'
             }
         }
     }
@@ -1092,9 +1126,9 @@ android {
         }
         staypay {
             dimension "flavor-type"
-            applicationId "com.staypay.mobileapk"
-            versionCode 18
-            versionName "2.3.7"
+            applicationId "com.staypay.androidapp"
+            versionCode 10
+            versionName "1.0.0"
             signingConfig signingConfigs.staypay
         }
         ualreload {
@@ -1369,6 +1403,9 @@ dependencies {
     // 16KB page size optimization dependencies
     implementation 'androidx.startup:startup-runtime:1.1.1'
     implementation 'androidx.profileinstaller:profileinstaller:1.2.2'
+    
+    // Fix D8 dexing issues
+    implementation 'androidx.annotation:annotation:1.7.0'
     
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

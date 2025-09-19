@@ -6,7 +6,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:in_app_review/in_app_review.dart';
+//import 'package:in_app_review/in_app_review.dart';
 import 'package:mobile/Products/lariz/layout/agreement/privacy_page.dart';
 import 'package:mobile/Products/lariz/layout/agreement/service_page.dart';
 import 'package:mobile/bloc/Api.dart';
@@ -77,7 +77,7 @@ class _ProfilePopayState extends State<ProfilePopay> {
       if (response.statusCode == 200) {
         List<dynamic> responseData = json.decode(response.body)['data'];
         responseData.forEach((e) {
-          DebugHelper.debugPrint(''e['title'].toString()'');
+          DebugHelper.debugPrint(e['title'].toString());
           if (e['title'].toLowerCase() == "whatsapp") {
             phoneNumber = e['contact'];
           }

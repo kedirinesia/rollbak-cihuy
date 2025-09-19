@@ -5,7 +5,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:in_app_review/in_app_review.dart';
+//import 'package:in_app_review/in_app_review.dart';
 import 'package:mobile/Products/payku/layout/cs.dart';
 import 'package:mobile/Products/payku/layout/login.dart';
 import 'package:mobile/bloc/Api.dart';
@@ -73,7 +73,7 @@ class _ProfilePaykuState extends State<ProfilePayku> {
       if (response.statusCode == 200) {
         List<dynamic> responseData = json.decode(response.body)['data'];
         responseData.forEach((e) {
-          DebugHelper.debugPrint(''e['link'].toString()'');
+          DebugHelper.debugPrint(e['link'].toString());           
           if (e['link'] is String &&
               (e['link'] as String).contains('api.whatsapp.com')) {
             link = e['link'];

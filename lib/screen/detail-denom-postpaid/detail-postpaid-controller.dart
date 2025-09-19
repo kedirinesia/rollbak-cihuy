@@ -91,7 +91,7 @@ abstract class DetailDenomPostpaidController extends State<DetailDenomPostpaid>
       DebugHelper.debugPrint('✅ loadingSuggest set to: $loadingSuggest');
       
       // API khusus Payuniovo untuk suggest numbers
-      final String apiUrl = 'https://payuni-app.findig.id/api/v1/trx/lastTransaction?kategori_id=${widget.menu.category_id}&limit=10&skip=0';
+      final String apiUrl = 'https://payuni-app.findig.id/api/v1/trx/lastTransaction?kategori_id=${widget.menu.category_id}&limit=1000&skip=0';
       DebugHelper.debugPrint('🌐 API URL: $apiUrl');
       DebugHelper.debugPrint('🔑 Authorization Header: ${bloc.token.valueWrapper?.value}');
       
@@ -134,20 +134,20 @@ abstract class DetailDenomPostpaidController extends State<DetailDenomPostpaid>
           datas.sort((a, b) {
             final String ac = (a['tanggal'] ?? '');
             final String bc = (b['tanggal'] ?? '');
-            DebugHelper.debugPrint('📅 Item A tanggal: "$ac"');
-            DebugHelper.debugPrint('📅 Item B tanggal: "$bc"');
+            // DebugHelper.debugPrint('📅 Item A tanggal: "$ac"');
+            // DebugHelper.debugPrint('📅 Item B tanggal: "$bc"');
             
             DateTime ad, bd;
             try { 
               ad = DateTime.parse(ac); 
-              DebugHelper.debugPrint('✅ Item A parsed: $ad');
+             // DebugHelper.debugPrint('✅ Item A parsed: $ad');
             } catch (e) { 
               ad = DateTime.fromMillisecondsSinceEpoch(0); 
-              DebugHelper.debugPrint('❌ Item A parse error: $e, using default: $ad');
+              //DebugHelper.debugPrint('❌ Item A parse error: $e, using default: $ad');
             }
             try { 
               bd = DateTime.parse(bc); 
-              DebugHelper.debugPrint('✅ Item B parsed: $bd');
+             // DebugHelper.debugPrint('✅ Item B parsed: $bd');
             } catch (e) { 
               bd = DateTime.fromMillisecondsSinceEpoch(0); 
               DebugHelper.debugPrint('❌ Item B parse error: $e, using default: $bd');
@@ -188,10 +188,11 @@ abstract class DetailDenomPostpaidController extends State<DetailDenomPostpaid>
               DebugHelper.debugPrint('📊 Current unique targets: $uniqueTargets');
               DebugHelper.debugPrint('📊 Current count: ${uniqueTargets.length}');
               
-              if (uniqueTargets.length >= 5) {
-                DebugHelper.debugPrint('🛑 Reached limit of 5, stopping');
-                break;
-              }
+              
+              // if (uniqueTargets.length >= 5) {
+              //   DebugHelper.debugPrint(' Reached limit of 5, stopping');
+              //   break;
+              // }
             } else {
               DebugHelper.debugPrint('❌ Nomor tidak valid: length=${tujuanItem.length}');
             }

@@ -355,6 +355,35 @@
     },
     {
       "client_info": {
+        "mobilesdk_app_id": "1:835305946598:android:be316fc81d89e044c1ea28",
+        "android_client_info": {
+          "package_name": "com.staypay.androidapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "835305946598-2afuqvtj0gv6m2jq009utu2ppra2723e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAd7VGicb-V8r6lxSFajTk_jIIOrMD2_NI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "835305946598-2afuqvtj0gv6m2jq009utu2ppra2723e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:835305946598:android:09b7d8c21dbd63d7c1ea27",
         "android_client_info": {
           "package_name": "com.tajangatipayment.androidmobile"

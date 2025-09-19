@@ -22,15 +22,15 @@ abstract class SeepaysDetailDenomPostpaidController extends State<SeepaysDetailD
   String packageName = '';
   List<String> suggestNumbers = [];
   bool loadingSuggest = false;
-  String categoryId = ''; // Tambahkan variabel untuk menyimpan category_id
+  String categoryId = '';  
   
   @override
   void initState() {
     super.initState();
     _getPackageName().then((_) {
-      // Jalankan getData dan getSuggestNumbers secara parallel untuk optimasi loading
+      
       getData();
-      // Background suggest numbers tanpa memblokir loading halaman
+    
       getSuggestNumbers();
     });
     analitycs.pageView('/menu/transaksi/' + widget.menu.kodeProduk, {
@@ -137,7 +137,7 @@ abstract class SeepaysDetailDenomPostpaidController extends State<SeepaysDetailD
           if (tujuanItem.length >= 8 && tujuanItem.length <= 20) {
             uniqueTargets.add(tujuanItem);
             DebugHelper.debugPrint('✅ Added to suggestions: $tujuanItem');
-            if (uniqueTargets.length >= 10) break;
+           
           } else {
             DebugHelper.debugPrint('❌ Skipped (invalid length): $tujuanItem');
           }

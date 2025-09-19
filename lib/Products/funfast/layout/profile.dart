@@ -100,7 +100,7 @@ class _ProfilePageState extends State<ProfilePage> {
       if (response.statusCode == 200) {
         List<dynamic> responseData = json.decode(response.body)['data'];
         responseData.forEach((e) {
-          DebugHelper.debugPrint(''e['title'].toString()'');
+          DebugHelper.debugPrint(e['title'].toString());
           phoneNumber = e['contact'];
         });
       }
