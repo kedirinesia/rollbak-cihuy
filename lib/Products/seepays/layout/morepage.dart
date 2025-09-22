@@ -32,20 +32,34 @@ class MorePage extends StatefulWidget {
 class _MorePageState extends State<MorePage> {
   @override
   Widget build(BuildContext context) {
+    // Get screen dimensions for responsive design
+    final Size screenSize = MediaQuery.of(context).size;
+    final double screenWidth = screenSize.width;
+    final bool isSmallScreen = screenWidth < 360;
+    final bool isMediumScreen = screenWidth >= 360 && screenWidth < 414;
+    
     return Scaffold(
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
             flexibleSpace: FlexibleSpaceBar(
-              title: Text('Product Lainnya'),
+              title: Text(
+                'Product Lainnya',
+                style: TextStyle(
+                  fontSize: isSmallScreen ? 16 : (isMediumScreen ? 17 : 18),
+                ),
+              ),
               centerTitle: true,
             ),
-            expandedHeight: 200.0,
+            expandedHeight: isSmallScreen ? 160.0 : (isMediumScreen ? 180.0 : 200.0),
           ),
           SliverList(
             delegate: SliverChildListDelegate([
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
+                margin: EdgeInsets.symmetric(
+                  horizontal: isSmallScreen ? 8.0 : (isMediumScreen ? 9.0 : 10.0), 
+                  vertical: isSmallScreen ? 15.0 : (isMediumScreen ? 17.0 : 20.0)
+                ),
                 child: GridView.builder(
                   shrinkWrap: true,
                   primary: false,
@@ -60,62 +74,64 @@ class _MorePageState extends State<MorePage> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Container(
-                              width: 55,
-                              height: 55,
+                              width: isSmallScreen ? 45 : (isMediumScreen ? 50 : 55),
+                              height: isSmallScreen ? 45 : (isMediumScreen ? 50 : 55),
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 shape: BoxShape.circle,
                                 boxShadow: [
                                   BoxShadow(
                                     color: Color(0xFFA259FF).withOpacity(0.3),
-                                    blurRadius: 6,
-                                    offset: Offset(0, 9),
+                                    blurRadius: isSmallScreen ? 4 : 6,
+                                    offset: Offset(0, isSmallScreen ? 6 : 9),
                                   ),
                                 ],
                               ),
                               alignment: Alignment.center,
                               child: CachedNetworkImage(
                                 imageUrl: menu.icon,
-                                width: 35,
-                                height: 35,
+                                width: isSmallScreen ? 28 : (isMediumScreen ? 32 : 35),
+                                height: isSmallScreen ? 28 : (isMediumScreen ? 32 : 35),
                                 fit: BoxFit.contain,
                                 errorWidget: (context, url, error) => Container(
-                                  width: 35,
-                                  height: 35,
+                                  width: isSmallScreen ? 28 : (isMediumScreen ? 32 : 35),
+                                  height: isSmallScreen ? 28 : (isMediumScreen ? 32 : 35),
                                   decoration: BoxDecoration(
                                     color: Color(0xFFA259FF).withOpacity(0.1),
                                     shape: BoxShape.circle,
                                   ),
                                   child: Icon(
                                     Icons.image_not_supported,
-                                    size: 20,
+                                    size: isSmallScreen ? 16 : (isMediumScreen ? 18 : 20),
                                     color: Color(0xFFA259FF),
                                   ),
                                 ),
                                 placeholder: (context, url) => Container(
-                                  width: 35,
-                                  height: 35,
+                                  width: isSmallScreen ? 28 : (isMediumScreen ? 32 : 35),
+                                  height: isSmallScreen ? 28 : (isMediumScreen ? 32 : 35),
                                   decoration: BoxDecoration(
                                     color: Color(0xFFA259FF).withOpacity(0.1),
                                     shape: BoxShape.circle,
                                   ),
                                   child: CircularProgressIndicator(
-                                    strokeWidth: 2,
+                                    strokeWidth: isSmallScreen ? 1.5 : 2,
                                     valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFA259FF)),
                                   ),
                                 ),
                               ),
                             ),
-                            SizedBox(height: 12.0),
+                            SizedBox(height: isSmallScreen ? 8.0 : (isMediumScreen ? 10.0 : 12.0)),
                             Flexible(
                               child: Text(
                                 menu.name,
                                 style: TextStyle(
-                                    fontSize: 12.0,
+                                    fontSize: isSmallScreen ? 10.0 : (isMediumScreen ? 11.0 : 12.0),
                                     color: Color(0xFFA259FF),
                                     fontWeight: FontWeight.bold),
                                 softWrap: true,
                                 textAlign: TextAlign.center,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
                               ),
                             )
                           ],
@@ -124,10 +140,10 @@ class _MorePageState extends State<MorePage> {
                     );
                   },
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 4,
-                      crossAxisSpacing: 2,
-                      childAspectRatio: 0.95,
-                      mainAxisSpacing: 4.0),
+                      crossAxisCount: isSmallScreen ? 3 : (isMediumScreen ? 3 : 4),
+                      crossAxisSpacing: isSmallScreen ? 1 : 2,
+                      childAspectRatio: isSmallScreen ? 0.9 : (isMediumScreen ? 0.92 : 0.95),
+                      mainAxisSpacing: isSmallScreen ? 3.0 : 4.0),
                 ),
               ),
             ]),

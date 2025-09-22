@@ -63,6 +63,13 @@ android {
             useLegacyPackaging = false
         }
         
+        // 16KB page size optimizations
+        resources {
+            excludes += ['META-INF/DEPENDENCIES', 'META-INF/LICENSE', 'META-INF/LICENSE.txt', 'META-INF/license.txt', 'META-INF/NOTICE', 'META-INF/NOTICE.txt', 'META-INF/notice.txt', 'META-INF/ASL2.0']
+        }
+        pickFirsts += ['**/libc++_shared.so', '**/libjsc.so']
+        
+        // Native library optimization for 16KB
         doNotStrip '*/arm64-v8a/*.so'
         doNotStrip '*/armeabi-v7a/*.so'
         doNotStrip '*/x86_64/*.so'
@@ -89,10 +96,31 @@ android {
             ndk {
                 debugSymbolLevel 'FULL'
             }
+            
+            // 16KB page size support for debug
+            externalNativeBuild {
+                cmake {
+                    arguments '-DANDROID_PLATFORM=android-21',
+                             '-DCMAKE_BUILD_TYPE=Debug',
+                             '-DANDROID_TOOLCHAIN=clang',
+                             '-DANDROID_PAGE_SIZE_AGNOSTIC=ON'
+                }
+            }
         }
+        
         release {
             ndk {
-                debugSymbolLevel 'FULL'
+                debugSymbolLevel 'SYMBOL_TABLE'
+            }
+            
+            // 16KB page size support for release
+            externalNativeBuild {
+                cmake {
+                    arguments '-DANDROID_PLATFORM=android-21',
+                             '-DCMAKE_BUILD_TYPE=Release',
+                             '-DANDROID_TOOLCHAIN=clang',
+                             '-DANDROID_PAGE_SIZE_AGNOSTIC=ON'
+                }
             }
         }
     }
@@ -100,18 +128,26 @@ android {
     defaultConfig {
         applicationId "mobile.payuni.id"
         minSdkVersion 21
-        targetSdkVersion 35
+        targetSdkVersion 36
         multiDexEnabled true
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         
-     
         ndk {
             abiFilters 'arm64-v8a', 'armeabi-v7a', 'x86_64'
         }
         
-       
+        // 16KB page size support configuration
+        externalNativeBuild {
+            cmake {
+                arguments '-DANDROID_PLATFORM=android-21',
+                         '-DCMAKE_BUILD_TYPE=Release',
+                         '-DANDROID_TOOLCHAIN=clang',
+                         '-DANDROID_PAGE_SIZE_AGNOSTIC=ON'
+            }
+        }
+        
         manifestPlaceholders = [
             'pageSize': '16384'
         ]

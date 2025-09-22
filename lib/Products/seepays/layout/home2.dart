@@ -87,28 +87,39 @@ class _CarouselBannerAPIState extends State<CarouselBannerAPI> {
 
   @override
   Widget build(BuildContext context) {
+    // Get screen dimensions for responsive design
+    final Size screenSize = MediaQuery.of(context).size;
+    final double screenWidth = screenSize.width;
+    final bool isSmallScreen = screenWidth < 360;
+    final bool isMediumScreen = screenWidth >= 360 && screenWidth < 414;
+    
+    // Responsive carousel dimensions
+    final double carouselHeight = isSmallScreen ? 90 : (isMediumScreen ? 100 : 110);
+    final double viewportFraction = isSmallScreen ? 0.88 : (isMediumScreen ? 0.90 : 0.92);
+    final double aspectRatio = isSmallScreen ? 3.2 : (isMediumScreen ? 3.1 : 3.0);
+    
     DebugHelper.debugPrint('DEBUG isLoading: $isLoading');
     DebugHelper.debugPrint('DEBUG banners: $banners');
     if (isLoading) {
       return Container(
-        height: 110,
+        height: carouselHeight,
         child: Center(child: CircularProgressIndicator()),
       );
     }
     if (banners.isEmpty) {
       return Container(
-        height: 110,
+        height: carouselHeight,
         child: Center(child: Text('Banner Not Found ', style: TextStyle(color: Colors.grey))),
       );
     }
 
     return CarouselSlider(
       options: CarouselOptions(
-        height: 110,
+        height: carouselHeight,
         autoPlay: true,
         enlargeCenterPage: true,
-        viewportFraction: 0.92,
-        aspectRatio: 16 / 5,
+        viewportFraction: viewportFraction,
+        aspectRatio: aspectRatio,
       ),
       items: banners.map((banner) {
         return Builder(
@@ -118,18 +129,20 @@ class _CarouselBannerAPIState extends State<CarouselBannerAPI> {
            
               },
               child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 3),
+                margin: EdgeInsets.symmetric(horizontal: isSmallScreen ? 2 : 3),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(14),
+                  borderRadius: BorderRadius.circular(isSmallScreen ? 12 : 14),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black12, blurRadius: 8, offset: Offset(0, 3),
+                      color: Colors.black12, 
+                      blurRadius: isSmallScreen ? 6 : 8, 
+                      offset: Offset(0, isSmallScreen ? 2 : 3),
                     ),
                   ],
                   color: Colors.white,
                 ),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(14),
+                  borderRadius: BorderRadius.circular(isSmallScreen ? 12 : 14),
                   child: Stack(
                     fit: StackFit.expand,
                     children: [
@@ -150,12 +163,15 @@ class _CarouselBannerAPIState extends State<CarouselBannerAPI> {
                         child: Container(
                           width: double.infinity,
                           color: Colors.black.withOpacity(0.24),
-                          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: isSmallScreen ? 8 : 10, 
+                            vertical: isSmallScreen ? 3 : 4
+                          ),
                           child: Text(
                             banner['title'] ?? '',
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 13,
+                              fontSize: isSmallScreen ? 11 : (isMediumScreen ? 12 : 13),
                               fontWeight: FontWeight.w500,
                             ),
                             maxLines: 1,
@@ -219,11 +235,22 @@ class _Home2AppState extends State<Home2App> with SingleTickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
+    // Get screen dimensions for responsive design
+    final Size screenSize = MediaQuery.of(context).size;
+    final double screenWidth = screenSize.width;
+    final double screenHeight = screenSize.height;
+    final double screenAspectRatio = screenWidth / screenHeight;
     
-    final double headerHeight = 240;
-    final double saldoCardTop = 140;  
-    final double saldoCardHeight =120;
-    final double floatingGap = 20;
+    // Responsive calculations based on screen size
+    final bool isSmallScreen = screenWidth < 360;
+    final bool isMediumScreen = screenWidth >= 360 && screenWidth < 414;
+    final bool isLargeScreen = screenWidth >= 414;
+    
+    // Responsive dimensions
+    final double headerHeight = isSmallScreen ? 200 : (isMediumScreen ? 220 : 240);
+    final double saldoCardTop = isSmallScreen ? 120 : (isMediumScreen ? 130 : 140);
+    final double saldoCardHeight = isSmallScreen ? 100 : (isMediumScreen ? 110 : 120);
+    final double floatingGap = isSmallScreen ? 15 : 20;
     final double floatingCardTop = saldoCardTop + saldoCardHeight + floatingGap;
 
     return Scaffold(
@@ -238,20 +265,23 @@ class _Home2AppState extends State<Home2App> with SingleTickerProviderStateMixin
           physics: AlwaysScrollableScrollPhysics(),
           child: Stack(
             children: <Widget>[
-                          // HEADER GRADIENT D SHAPE
+                          // HEADER GRADIENT D SHAPE - RESPONSIVE
               Positioned(
-                top: 30,
-                left: -120,
-                right: -10,
+                top: isSmallScreen ? 20 : 30,
+                left: isSmallScreen ? -100 : -120,
+                right: isSmallScreen ? -5 : -10,
                 child: Center(
                   child: Container(
-                    width: 830,
-                    height: 340,
+                    width: isSmallScreen ? screenWidth * 2.2 : (isMediumScreen ? screenWidth * 2.0 : 830),
+                    height: isSmallScreen ? 280 : (isMediumScreen ? 310 : 340),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(0),
-                        bottomLeft: Radius.circular(20),
-                        topRight: Radius.elliptical(600, 200), // Menggunakan elliptical untuk lengkungan oval
+                        bottomLeft: Radius.circular(isSmallScreen ? 15 : 20),
+                        topRight: Radius.elliptical(
+                          isSmallScreen ? 400 : (isMediumScreen ? 500 : 600), 
+                          isSmallScreen ? 150 : (isMediumScreen ? 175 : 200)
+                        ),
                         bottomRight: Radius.circular(0),
                       ),
                       gradient: LinearGradient(
@@ -268,12 +298,12 @@ class _Home2AppState extends State<Home2App> with SingleTickerProviderStateMixin
               ),
    
 
-              // TITLE TEXT - SEEPAYS AND POINT
+              // TITLE TEXT - SEEPAYS AND POINT - RESPONSIVE
               Positioned(
-                top: 50, // Sesuaikan dengan header oval elliptical
+                top: isSmallScreen ? 40 : (isMediumScreen ? 45 : 50),
                 left: 0,
                 child: Padding(
-                  padding: EdgeInsets.only(left: 10),
+                  padding: EdgeInsets.only(left: isSmallScreen ? 8 : 10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -281,17 +311,17 @@ class _Home2AppState extends State<Home2App> with SingleTickerProviderStateMixin
                         "SEEPAY",
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 32,
+                          fontSize: isSmallScreen ? 26 : (isMediumScreen ? 29 : 32),
                           fontWeight: FontWeight.w700,
                           letterSpacing: 0.8,
                         ),
                       ),
-                      SizedBox(height: 4),
+                      SizedBox(height: isSmallScreen ? 2 : 4),
                       Text(
                         "Point: ${bloc.poin.valueWrapper?.value ?? 0}",
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 16,
+                          fontSize: isSmallScreen ? 14 : (isMediumScreen ? 15 : 16),
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -300,19 +330,19 @@ class _Home2AppState extends State<Home2App> with SingleTickerProviderStateMixin
                 ),
               ),
 
-              // APP LOGO - TOP RIGHT
+              // APP LOGO - TOP RIGHT - RESPONSIVE
               Positioned(
-                top: 30, // Sesuaikan dengan header oval elliptical
-                right: 20,
+                top: isSmallScreen ? 25 : (isMediumScreen ? 27 : 30),
+                right: isSmallScreen ? 15 : 20,
                 child: Container(
-                  width: 80,
-                  height: 80,
+                  width: isSmallScreen ? 65 : (isMediumScreen ? 72 : 80),
+                  height: isSmallScreen ? 65 : (isMediumScreen ? 72 : 80),
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(isSmallScreen ? 10 : 12),
                   ),
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(isSmallScreen ? 10 : 12),
                     child: Image.asset(
                       'assets/seepaysicon.png',
                       fit: BoxFit.contain,
@@ -320,12 +350,12 @@ class _Home2AppState extends State<Home2App> with SingleTickerProviderStateMixin
                         return Container(
                           decoration: BoxDecoration(
                             color: Colors.white.withOpacity(0.3),
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(isSmallScreen ? 10 : 12),
                           ),
                           child: Icon(
                             Icons.apps,
                             color: Colors.white,
-                            size: 30,
+                            size: isSmallScreen ? 24 : (isMediumScreen ? 27 : 30),
                           ),
                         );
                       },
@@ -334,46 +364,52 @@ class _Home2AppState extends State<Home2App> with SingleTickerProviderStateMixin
                 ),
               ),
 
-              // SALDO CARD DI HEADER
+              // SALDO CARD DI HEADER - RESPONSIVE
               Positioned(
                 top: saldoCardTop,
-                left: 40,
-                right: 80,
+                left: isSmallScreen ? 30 : (isMediumScreen ? 35 : 40),
+                right: isSmallScreen ? 60 : (isMediumScreen ? 70 : 80),
                 child: Container(
                   height: saldoCardHeight,
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: isSmallScreen ? 15 : (isMediumScreen ? 18 : 20), 
+                    vertical: isSmallScreen ? 8 : 10
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.black.withOpacity(0.11),
-                    borderRadius: BorderRadius.circular(18),
+                    borderRadius: BorderRadius.circular(isSmallScreen ? 15 : 18),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Saldo",
-                            style: TextStyle(
-                               color: Colors.white,
-                              fontSize: 15  
-                              
-                            
+                      Expanded(
+                        flex: isSmallScreen ? 2 : 3,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Saldo",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: isSmallScreen ? 13 : (isMediumScreen ? 14 : 15)
+                              ),
                             ),
-                          ),
-                          SizedBox(height: 3),
-                          Text(
-                            "Rp ${NumberFormat.decimalPattern('id').format(bloc.saldo.valueWrapper?.value ?? 0)}",
-                            style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                              letterSpacing: 0.2,
+                            SizedBox(height: isSmallScreen ? 2 : 3),
+                            Text(
+                              "Rp ${NumberFormat.decimalPattern('id').format(bloc.saldo.valueWrapper?.value ?? 0)}",
+                              style: TextStyle(
+                                fontSize: isSmallScreen ? 18 : (isMediumScreen ? 20 : 22),
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                                letterSpacing: 0.2,
+                              ),
+                              overflow: TextOverflow.ellipsis,
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
+                      SizedBox(width: isSmallScreen ? 8 : 12),
                       ElevatedButton(
                         onPressed: () {
                           Navigator.of(context).pushNamed('/topup');
@@ -382,13 +418,19 @@ class _Home2AppState extends State<Home2App> with SingleTickerProviderStateMixin
                           backgroundColor: Colors.orange[700],
                           elevation: 0,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(isSmallScreen ? 6 : 8),
                           ),
-                          padding: EdgeInsets.symmetric(horizontal: 26, vertical: 10),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: isSmallScreen ? 20 : (isMediumScreen ? 23 : 26), 
+                            vertical: isSmallScreen ? 8 : 10
+                          ),
                         ),
                         child: Text(
                           "Topup",
-                          style: TextStyle(fontSize: 14, color: Colors.white),
+                          style: TextStyle(
+                            fontSize: isSmallScreen ? 12 : (isMediumScreen ? 13 : 14), 
+                            color: Colors.white
+                          ),
                         ),
                       )
                     ],
@@ -398,21 +440,24 @@ class _Home2AppState extends State<Home2App> with SingleTickerProviderStateMixin
 
             //  SizedBox(height: 20),
 
-              // FLOATING MENU CARD, RAPAT DENGAN SALDO
+              // FLOATING MENU CARD, RAPAT DENGAN SALDO - RESPONSIVE
               Positioned(
                 top: floatingCardTop,
-                left: 26,
-                right: 30,
+                left: isSmallScreen ? 20 : (isMediumScreen ? 23 : 26),
+                right: isSmallScreen ? 25 : (isMediumScreen ? 27 : 30),
                 child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 22, horizontal: 12),
+                  padding: EdgeInsets.symmetric(
+                    vertical: isSmallScreen ? 18 : (isMediumScreen ? 20 : 22), 
+                    horizontal: isSmallScreen ? 8 : 12
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(isSmallScreen ? 14 : 16),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black12,
-                        blurRadius: 16,
-                        offset: Offset(0, 6),
+                        blurRadius: isSmallScreen ? 12 : 16,
+                        offset: Offset(0, isSmallScreen ? 4 : 6),
                       ),
                     ],
                   ),
@@ -423,18 +468,24 @@ class _Home2AppState extends State<Home2App> with SingleTickerProviderStateMixin
                         image: 'assets/img/money.png',
                         label: 'Hadiah',
                         color: Colors.purple,
+                        isSmallScreen: isSmallScreen,
+                        isMediumScreen: isMediumScreen,
                         onTap: () => Navigator.of(context).pushNamed('/rewards'),
                       ),
                       _MenuImageItem(
                         image: 'assets/commist.png',
                         label: 'Komisi',
                         color: Colors.purple,
+                        isSmallScreen: isSmallScreen,
+                        isMediumScreen: isMediumScreen,
                         onTap: () => Navigator.of(context).pushNamed('/komisi'),
                       ),
                       _MenuImageItem(
                         image: 'assets/img/next.png',
                         label: 'Transfer',
                         color: Colors.purple,
+                        isSmallScreen: isSmallScreen,
+                        isMediumScreen: isMediumScreen,
                         onTap: () {
                           Navigator.of(context).push(PageTransition(
                             child: TransferSaldo(''),
@@ -447,6 +498,8 @@ class _Home2AppState extends State<Home2App> with SingleTickerProviderStateMixin
                         image: 'assets/img/people.png',
                         label: 'Bantuan',
                         color: Colors.purple,
+                        isSmallScreen: isSmallScreen,
+                        isMediumScreen: isMediumScreen,
                         onTap: () {
                           Navigator.of(context).push(PageTransition(
                             child: CS(),
@@ -460,20 +513,26 @@ class _Home2AppState extends State<Home2App> with SingleTickerProviderStateMixin
                 ),
               ),
 
-              // MAIN CONTENT
+              // MAIN CONTENT - RESPONSIVE
             Column(
       children: [
         // Bagian Atas dengan Padding
         Container(
-          margin: EdgeInsets.only(top: floatingCardTop + 90),
-          padding: EdgeInsets.symmetric(horizontal: 18, vertical: 2),
+          margin: EdgeInsets.only(top: floatingCardTop + (isSmallScreen ? 80 : (isMediumScreen ? 85 : 90))),
+          padding: EdgeInsets.symmetric(
+            horizontal: isSmallScreen ? 15 : (isMediumScreen ? 16 : 18), 
+            vertical: 2
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 60),
+              SizedBox(height: isSmallScreen ? 50 : (isMediumScreen ? 55 : 60)),
             //  SectionTitle(title: 'Produk'),
                
-              MenuDepan(grid: 5, gradient: true),
+              MenuDepan(
+                grid: isSmallScreen ? 4 : (isMediumScreen ? 4 : 5), 
+                gradient: true
+              ),
               // /SizedBox(height: 8),
           CarouselDepan(), 
             ],
@@ -482,32 +541,48 @@ class _Home2AppState extends State<Home2App> with SingleTickerProviderStateMixin
 
         
 
-        SizedBox(height: 40),
+        SizedBox(height: isSmallScreen ? 30 : (isMediumScreen ? 35 : 40)),
 
          
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 18),
+          padding: EdgeInsets.symmetric(horizontal: isSmallScreen ? 15 : (isMediumScreen ? 16 : 18)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SectionTitle(title: 'Info '),
+              SectionTitle(
+                title: 'Info ',
+                isSmallScreen: isSmallScreen,
+                isMediumScreen: isMediumScreen,
+              ),
               Text(
                 'Mengenal Lebih Jauh Aplikasi ${configAppBloc.namaApp.valueWrapper?.value}',
-                style: TextStyle(fontSize: 14, color: Colors.black54),
+                style: TextStyle(
+                  fontSize: isSmallScreen ? 12 : (isMediumScreen ? 13 : 14), 
+                  color: Colors.black54
+                ),
+                textAlign: TextAlign.center,
               ),
-              SizedBox(height: 10),
+              SizedBox(height: isSmallScreen ? 8 : 10),
               
               CardInfo(),
-              SizedBox(height: 20),
-              SectionTitle(title: 'Hadiah Unggulan'),
-              SizedBox(height: 4),
+              SizedBox(height: isSmallScreen ? 15 : 20),
+              SectionTitle(
+                title: 'Hadiah Unggulan',
+                isSmallScreen: isSmallScreen,
+                isMediumScreen: isMediumScreen,
+              ),
+              SizedBox(height: isSmallScreen ? 2 : 4),
               Text(
                 'Reward Akan Di Berikan Ke Member ${configAppBloc.namaApp.valueWrapper?.value}',
-                style: TextStyle(fontSize: 14, color: Colors.black54),
+                style: TextStyle(
+                  fontSize: isSmallScreen ? 12 : (isMediumScreen ? 13 : 14), 
+                  color: Colors.black54
+                ),
+                textAlign: TextAlign.center,
               ),
-              SizedBox(height: 14),
+              SizedBox(height: isSmallScreen ? 10 : 14),
               RewardComponent(),
-              SizedBox(height: 38),
+              SizedBox(height: isSmallScreen ? 30 : 38),
             ],
           ),
         ),
@@ -527,6 +602,8 @@ class _MenuImageItem extends StatelessWidget {
   final String label;
   final Color color;
   final VoidCallback onTap;
+  final bool isSmallScreen;
+  final bool isMediumScreen;
 
   const _MenuImageItem({
     Key key,
@@ -534,38 +611,48 @@ class _MenuImageItem extends StatelessWidget {
     @required this.label,
     this.color = Colors.green,
     @required this.onTap,
+    this.isSmallScreen = false,
+    this.isMediumScreen = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final double containerSize = isSmallScreen ? 45 : (isMediumScreen ? 49 : 54);
+    final double padding = isSmallScreen ? 10.0 : (isMediumScreen ? 11.0 : 12.0);
+    final double spacing = isSmallScreen ? 5 : 7;
+    final double fontSize = isSmallScreen ? 10 : (isMediumScreen ? 11 : 12);
+    
     return GestureDetector(
       onTap: onTap,
       child: Column(
         children: [
           Container(
-            width: 54,
-            height: 54,
+            width: containerSize,
+            height: containerSize,
             decoration: BoxDecoration(
               color: color.withOpacity(0.13),
               shape: BoxShape.circle,
             ),
             child: Padding(
-              padding: EdgeInsets.all(12.0),
+              padding: EdgeInsets.all(padding),
               child: Image.asset(
                 image,
                 fit: BoxFit.contain,
               ),
             ),
           ),
-          SizedBox(height: 7),
+          SizedBox(height: spacing),
           Text(
             label,
             style: TextStyle(
-              fontSize: 12,
+              fontSize: fontSize,
               color: color,
               fontWeight: FontWeight.w600,
               letterSpacing: 0.2,
             ),
+            textAlign: TextAlign.center,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),
@@ -575,16 +662,27 @@ class _MenuImageItem extends StatelessWidget {
 
 class SectionTitle extends StatelessWidget {
   final String title;
-  const SectionTitle({Key key, @required this.title}) : super(key: key);
+  final bool isSmallScreen;
+  final bool isMediumScreen;
+  
+  const SectionTitle({
+    Key key, 
+    @required this.title,
+    this.isSmallScreen = false,
+    this.isMediumScreen = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final double fontSize = isSmallScreen ? 20 : (isMediumScreen ? 22 : 25);
+    final double leftPadding = isSmallScreen ? 20 : (isMediumScreen ? 22 : 25);
+    
     return Padding(
-      padding: EdgeInsets.only(left: 25, bottom: 3),
+      padding: EdgeInsets.only(left: leftPadding, bottom: 3),
       child: Text(
         title,
         style: TextStyle(
-          fontSize: 25,
+          fontSize: fontSize,
           fontWeight: FontWeight.w300,
           color: Colors.black87,
           letterSpacing: 0.3,

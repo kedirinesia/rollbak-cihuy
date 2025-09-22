@@ -68,6 +68,12 @@ class _PakeAjaHomeState extends State<PakeAjaHome> {
   }
 
   Widget topPanel() {
+    // Get screen dimensions for responsive design
+    final Size screenSize = MediaQuery.of(context).size;
+    final double screenWidth = screenSize.width;
+    final bool isSmallScreen = screenWidth < 360;
+    final bool isMediumScreen = screenWidth >= 360 && screenWidth < 414;
+    
     return Container(
       color: Colors.white,
       child: Row(
@@ -77,16 +83,16 @@ class _PakeAjaHomeState extends State<PakeAjaHome> {
             onTap: () => Navigator.of(context)
                 .push(MaterialPageRoute(builder: (_) => TopupPage())),
             child: Container(
-              padding: EdgeInsets.all(12.5),
-              margin: EdgeInsetsDirectional.only(end: 5.0),
+              padding: EdgeInsets.all(isSmallScreen ? 10.0 : (isMediumScreen ? 11.0 : 12.5)),
+              margin: EdgeInsetsDirectional.only(end: isSmallScreen ? 3.0 : 5.0),
               decoration: BoxDecoration(
                   color: Theme.of(context).primaryColor,
                   borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(30.0),
-                      bottomRight: Radius.circular(30.0))),
+                      topRight: Radius.circular(isSmallScreen ? 25.0 : 30.0),
+                      bottomRight: Radius.circular(isSmallScreen ? 25.0 : 30.0))),
               child: Text('Topup',
                   style: TextStyle(
-                      fontSize: 11.0,
+                      fontSize: isSmallScreen ? 9.0 : (isMediumScreen ? 10.0 : 11.0),
                       fontWeight: FontWeight.bold,
                       color: Colors.white)),
             ),
@@ -94,53 +100,53 @@ class _PakeAjaHomeState extends State<PakeAjaHome> {
           Expanded(
             child: ListTile(
               contentPadding: EdgeInsets.zero,
-              visualDensity: VisualDensity(vertical: -2.5),
+              visualDensity: VisualDensity(vertical: isSmallScreen ? -3.0 : -2.5),
               leading: Container(
-                width: 35,
-                height: 35,
-                padding: EdgeInsets.all(5),
-                margin: EdgeInsets.only(left: 5),
+                width: isSmallScreen ? 30 : (isMediumScreen ? 32 : 35),
+                height: isSmallScreen ? 30 : (isMediumScreen ? 32 : 35),
+                padding: EdgeInsets.all(isSmallScreen ? 4 : 5),
+                margin: EdgeInsets.only(left: isSmallScreen ? 3 : 5),
                 decoration: BoxDecoration(
                   color: Theme.of(context).primaryColor,
-                  borderRadius: BorderRadius.circular(17.5),
+                  borderRadius: BorderRadius.circular(isSmallScreen ? 15.0 : 17.5),
                 ),
                 child: Icon(
                   Icons.account_balance_wallet,
-                  size: 20,
+                  size: isSmallScreen ? 16 : (isMediumScreen ? 18 : 20),
                   color: Colors.white.withOpacity(.75),
                 ),
               ),
               title: Text(formatRupiah(bloc.user.valueWrapper?.value.saldo),
                   style:
-                      TextStyle(fontWeight: FontWeight.bold, fontSize: 13.0)),
+                      TextStyle(fontWeight: FontWeight.bold, fontSize: isSmallScreen ? 11.0 : (isMediumScreen ? 12.0 : 13.0))),
               subtitle:
-                  Text('Saldo Pandumedia', style: TextStyle(fontSize: 10.0)),
+                  Text('Saldo Pandumedia', style: TextStyle(fontSize: isSmallScreen ? 8.0 : (isMediumScreen ? 9.0 : 10.0))),
             ),
           ),
           Expanded(
             child: ListTile(
               contentPadding: EdgeInsets.zero,
-              visualDensity: VisualDensity(vertical: -2.5),
+              visualDensity: VisualDensity(vertical: isSmallScreen ? -3.0 : -2.5),
               leading: Container(
-                width: 35,
-                height: 35,
-                padding: EdgeInsets.all(5),
-                margin: EdgeInsets.only(left: 5),
+                width: isSmallScreen ? 30 : (isMediumScreen ? 32 : 35),
+                height: isSmallScreen ? 30 : (isMediumScreen ? 32 : 35),
+                padding: EdgeInsets.all(isSmallScreen ? 4 : 5),
+                margin: EdgeInsets.only(left: isSmallScreen ? 3 : 5),
                 decoration: BoxDecoration(
                   color: Theme.of(context).primaryColor,
-                  borderRadius: BorderRadius.circular(17.5),
+                  borderRadius: BorderRadius.circular(isSmallScreen ? 15.0 : 17.5),
                 ),
                 child: Icon(
                   Icons.account_balance_wallet,
-                  size: 20,
+                  size: isSmallScreen ? 16 : (isMediumScreen ? 18 : 20),
                   color: Colors.white.withOpacity(.75),
                 ),
               ),
               title: Text(formatRupiah(bloc.user.valueWrapper?.value.komisi),
                   style:
-                      TextStyle(fontWeight: FontWeight.bold, fontSize: 13.0)),
+                      TextStyle(fontWeight: FontWeight.bold, fontSize: isSmallScreen ? 11.0 : (isMediumScreen ? 12.0 : 13.0))),
               subtitle:
-                  Text('Komisi Tersedia', style: TextStyle(fontSize: 10.0)),
+                  Text('Komisi Tersedia', style: TextStyle(fontSize: isSmallScreen ? 8.0 : (isMediumScreen ? 9.0 : 10.0))),
             ),
           ),
         ],
@@ -584,30 +590,40 @@ class _PakeAjaHomeState extends State<PakeAjaHome> {
 
   @override
   Widget build(BuildContext context) {
+    // Get screen dimensions for responsive design
+    final Size screenSize = MediaQuery.of(context).size;
+    final double screenWidth = screenSize.width;
+    final bool isSmallScreen = screenWidth < 360;
+    final bool isMediumScreen = screenWidth >= 360 && screenWidth < 414;
+    
     return ListView(
       children: [
         topPanel(),
         header(),
-        SizedBox(height: 13),
+        SizedBox(height: isSmallScreen ? 10 : (isMediumScreen ? 11 : 13)),
         BannerDepan(),
-        SizedBox(height: 15),
-        MenuDepan(grid: 5, baris: 2, gradient: true),
+        SizedBox(height: isSmallScreen ? 12 : (isMediumScreen ? 13 : 15)),
+        MenuDepan(
+          grid: isSmallScreen ? 4 : (isMediumScreen ? 4 : 5), 
+          baris: 2, 
+          gradient: true
+        ),
         marquee(),
-        SizedBox(height: 10),
+        SizedBox(height: isSmallScreen ? 8 : 10),
         configAppBloc.isMarketplace.valueWrapper?.value
             ? listProducts()
             : SizedBox(height: 0.0),
-        SizedBox(height: 10),
+        SizedBox(height: isSmallScreen ? 8 : 10),
         configAppBloc.isMarketplace.valueWrapper?.value
             ? InkWell(
                 onTap: () => Navigator.of(context)
                     .push(MaterialPageRoute(builder: (_) => BelanjaPage())),
                 child: Container(
                   width: double.infinity,
-                  padding: EdgeInsets.all(10),
-                  margin: EdgeInsets.symmetric(horizontal: 15),
+                  padding: EdgeInsets.all(isSmallScreen ? 8 : (isMediumScreen ? 9 : 10)),
+                  margin: EdgeInsets.symmetric(horizontal: isSmallScreen ? 12 : (isMediumScreen ? 13 : 15)),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
+                    borderRadius: BorderRadius.circular(isSmallScreen ? 4 : 5),
                     color: Theme.of(context).primaryColorLight.withOpacity(.5),
                   ),
                   child: Center(
@@ -615,6 +631,7 @@ class _PakeAjaHomeState extends State<PakeAjaHome> {
                       'Belanja Sekarang',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
+                        fontSize: isSmallScreen ? 12 : (isMediumScreen ? 13 : 14),
                         color: Theme.of(context).primaryColor,
                       ),
                     ),

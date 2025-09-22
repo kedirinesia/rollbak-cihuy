@@ -104,6 +104,13 @@ class _HomePayuniState extends State<HomePayuni> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    // Get screen dimensions for responsive design
+    final Size screenSize = MediaQuery.of(context).size;
+    final double screenWidth = screenSize.width;
+    final double screenHeight = screenSize.height;
+    final bool isSmallScreen = screenWidth < 360;
+    final bool isMediumScreen = screenWidth >= 360 && screenWidth < 414;
+    
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -121,8 +128,8 @@ class _HomePayuniState extends State<HomePayuni> with TickerProviderStateMixin {
         child: SvgPicture.asset(
           "assets/img/payuni2/scan.svg",
           color: Colors.white,
-          height: 30.0,
-          width: 30.0,
+          height: isSmallScreen ? 25.0 : (isMediumScreen ? 27.0 : 30.0),
+          width: isSmallScreen ? 25.0 : (isMediumScreen ? 27.0 : 30.0),
         ),
         elevation: 0.0,
         onPressed: () async {
@@ -158,13 +165,13 @@ class _HomePayuniState extends State<HomePayuni> with TickerProviderStateMixin {
                         children: [
                           Container(
                             padding: EdgeInsets.only(
-                                top: MediaQuery.of(context).size.height / 4.4),
+                                top: isSmallScreen ? screenHeight / 4.8 : (isMediumScreen ? screenHeight / 4.6 : screenHeight / 4.4)),
                             child: ListView(
                               shrinkWrap: true,
                               physics: ScrollPhysics(),
                               children: <Widget>[
                                 MenuComponent(),
-                                SizedBox(height: 10.0),
+                                SizedBox(height: isSmallScreen ? 8.0 : 10.0),
                                 /** 
                                  * Produk Pilihan
                                  */
@@ -252,22 +259,22 @@ class _HomePayuniState extends State<HomePayuni> with TickerProviderStateMixin {
                           ),
 
                           /**
-                           * Carousel Header
+                           * Carousel Header - RESPONSIVE
                            */
                           Container(
                             width: double.infinity,
-                            height: MediaQuery.of(context).size.height * 0.3013,
+                            height: isSmallScreen ? screenHeight * 0.28 : (isMediumScreen ? screenHeight * 0.29 : screenHeight * 0.3013),
                             child: CarouselHeader(),
                           ),
 
                           /**
-                           * Menu Tools
+                           * Menu Tools - RESPONSIVE
                            */
                           Container(
                             padding: EdgeInsets.only(
-                              top: MediaQuery.of(context).size.height * 0.265,
-                              left: 15.0,
-                              right: 15.0,
+                              top: isSmallScreen ? screenHeight * 0.25 : (isMediumScreen ? screenHeight * 0.26 : screenHeight * 0.265),
+                              left: isSmallScreen ? 12.0 : (isMediumScreen ? 13.0 : 15.0),
+                              right: isSmallScreen ? 12.0 : (isMediumScreen ? 13.0 : 15.0),
                             ),
                             child: MenuTools(),
                           ),
@@ -288,7 +295,7 @@ class _HomePayuniState extends State<HomePayuni> with TickerProviderStateMixin {
         color: Colors.white,
         shape: CircularNotchedRectangle(),
         child: Container(
-          height: 55.0,
+          height: isSmallScreen ? 50.0 : (isMediumScreen ? 52.0 : 55.0),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -301,26 +308,26 @@ class _HomePayuniState extends State<HomePayuni> with TickerProviderStateMixin {
                     });
                   },
                   child: Container(
-                    padding: EdgeInsets.only(top: 8.0),
+                    padding: EdgeInsets.only(top: isSmallScreen ? 6.0 : 8.0),
                     child: Column(
                       children: <Widget>[
                         pageIndex == 0
                             ? SvgPicture.asset(
                                 "assets/img/payuni2/home.svg",
                                 color: Theme.of(context).primaryColor,
-                                height: 25.0,
-                                width: 25.0,
+                                height: isSmallScreen ? 22.0 : (isMediumScreen ? 23.0 : 25.0),
+                                width: isSmallScreen ? 22.0 : (isMediumScreen ? 23.0 : 25.0),
                               )
                             : SvgPicture.asset(
                                 "assets/img/payuni2/home.svg",
                                 color: Colors.grey,
-                                height: 25.0,
-                                width: 25.0,
+                                height: isSmallScreen ? 22.0 : (isMediumScreen ? 23.0 : 25.0),
+                                width: isSmallScreen ? 22.0 : (isMediumScreen ? 23.0 : 25.0),
                               ),
                         SizedBox(
-                          height: 3.0,
+                          height: isSmallScreen ? 2.0 : 3.0,
                         ),
-                        Text('Home', style: TextStyle(fontSize: 10.0))
+                        Text('Home', style: TextStyle(fontSize: isSmallScreen ? 9.0 : (isMediumScreen ? 9.5 : 10.0)))
                       ],
                     ),
                   ),
@@ -334,32 +341,32 @@ class _HomePayuniState extends State<HomePayuni> with TickerProviderStateMixin {
                     });
                   },
                   child: Container(
-                    padding: EdgeInsets.only(top: 8.0),
+                    padding: EdgeInsets.only(top: isSmallScreen ? 6.0 : 8.0),
                     child: Column(
                       children: <Widget>[
                         pageIndex == 1
                             ? SvgPicture.asset(
                                 "assets/img/payuni2/shopping-bag.svg",
                                 color: Theme.of(context).primaryColor,
-                                height: 25.0,
-                                width: 25.0,
+                                height: isSmallScreen ? 22.0 : (isMediumScreen ? 23.0 : 25.0),
+                                width: isSmallScreen ? 22.0 : (isMediumScreen ? 23.0 : 25.0),
                               )
                             : SvgPicture.asset(
                                 "assets/img/payuni2/shopping-bag.svg",
                                 color: Colors.grey,
-                                height: 25.0,
-                                width: 25.0,
+                                height: isSmallScreen ? 22.0 : (isMediumScreen ? 23.0 : 25.0),
+                                width: isSmallScreen ? 22.0 : (isMediumScreen ? 23.0 : 25.0),
                               ),
                         SizedBox(
-                          height: 3.0,
+                          height: isSmallScreen ? 2.0 : 3.0,
                         ),
-                        Text('Belanja', style: TextStyle(fontSize: 10.0))
+                        Text('Belanja', style: TextStyle(fontSize: isSmallScreen ? 9.0 : (isMediumScreen ? 9.5 : 10.0)))
                       ],
                     ),
                   ),
                 ),
               ),
-              SizedBox(width: 60),
+              SizedBox(width: isSmallScreen ? 50 : (isMediumScreen ? 55 : 60)),
               Expanded(
                 child: InkWell(
                   onTap: () {
@@ -368,26 +375,26 @@ class _HomePayuniState extends State<HomePayuni> with TickerProviderStateMixin {
                     });
                   },
                   child: Container(
-                    padding: EdgeInsets.only(top: 8.0),
+                    padding: EdgeInsets.only(top: isSmallScreen ? 6.0 : 8.0),
                     child: Column(
                       children: <Widget>[
                         pageIndex == 2
                             ? SvgPicture.asset(
                                 "assets/img/payuni2/message.svg",
                                 color: Theme.of(context).primaryColor,
-                                height: 25.0,
-                                width: 25.0,
+                                height: isSmallScreen ? 22.0 : (isMediumScreen ? 23.0 : 25.0),
+                                width: isSmallScreen ? 22.0 : (isMediumScreen ? 23.0 : 25.0),
                               )
                             : SvgPicture.asset(
                                 "assets/img/payuni2/message.svg",
                                 color: Colors.grey,
-                                height: 25.0,
-                                width: 25.0,
+                                height: isSmallScreen ? 22.0 : (isMediumScreen ? 23.0 : 25.0),
+                                width: isSmallScreen ? 22.0 : (isMediumScreen ? 23.0 : 25.0),
                               ),
                         SizedBox(
-                          height: 3.0,
+                          height: isSmallScreen ? 2.0 : 3.0,
                         ),
-                        Text('Live Chat', style: TextStyle(fontSize: 10.0))
+                        Text('Live Chat', style: TextStyle(fontSize: isSmallScreen ? 9.0 : (isMediumScreen ? 9.5 : 10.0)))
                       ],
                     ),
                   ),
@@ -401,26 +408,26 @@ class _HomePayuniState extends State<HomePayuni> with TickerProviderStateMixin {
                     });
                   },
                   child: Container(
-                    padding: EdgeInsets.only(top: 8.0),
+                    padding: EdgeInsets.only(top: isSmallScreen ? 6.0 : 8.0),
                     child: Column(
                       children: <Widget>[
                         pageIndex == 3
                             ? SvgPicture.asset(
                                 "assets/img/payuni2/user.svg",
                                 color: Theme.of(context).primaryColor,
-                                height: 25.0,
-                                width: 25.0,
+                                height: isSmallScreen ? 22.0 : (isMediumScreen ? 23.0 : 25.0),
+                                width: isSmallScreen ? 22.0 : (isMediumScreen ? 23.0 : 25.0),
                               )
                             : SvgPicture.asset(
                                 "assets/img/payuni2/user.svg",
                                 color: Colors.grey,
-                                height: 25.0,
-                                width: 25.0,
+                                height: isSmallScreen ? 22.0 : (isMediumScreen ? 23.0 : 25.0),
+                                width: isSmallScreen ? 22.0 : (isMediumScreen ? 23.0 : 25.0),
                               ),
                         SizedBox(
-                          height: 3.0,
+                          height: isSmallScreen ? 2.0 : 3.0,
                         ),
-                        Text('Profile', style: TextStyle(fontSize: 10.0))
+                        Text('Profile', style: TextStyle(fontSize: isSmallScreen ? 9.0 : (isMediumScreen ? 9.5 : 10.0)))
                       ],
                     ),
                   ),

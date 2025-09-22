@@ -132,6 +132,13 @@ class _HomePaykuState extends State<HomePayku> {
 
   @override
   Widget build(BuildContext context) {
+    // Get screen dimensions for responsive design
+    final Size screenSize = MediaQuery.of(context).size;
+    final double screenWidth = screenSize.width;
+    final double screenHeight = screenSize.height;
+    final bool isSmallScreen = screenWidth < 360;
+    final bool isMediumScreen = screenWidth >= 360 && screenWidth < 414;
+    
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -158,7 +165,7 @@ class _HomePaykuState extends State<HomePayku> {
             Container(
               color: Colors.white,
               child: Container(
-                padding: EdgeInsets.all(15),
+                padding: EdgeInsets.all(isSmallScreen ? 12 : (isMediumScreen ? 13 : 15)),
                 color: Theme.of(context).primaryColor.withOpacity(.15),
                 child: DashboardPanel(),
               ),
@@ -188,55 +195,57 @@ class _HomePaykuState extends State<HomePayku> {
                         ? SizedBox()
                         : Container(
                             margin: EdgeInsets.only(
-                                right: 15.0,
-                                left: 15.0,
-                                bottom: 15.0,
-                                top: 5.0),
-                            height: 100,
+                                right: isSmallScreen ? 12.0 : (isMediumScreen ? 13.0 : 15.0),
+                                left: isSmallScreen ? 12.0 : (isMediumScreen ? 13.0 : 15.0),
+                                bottom: isSmallScreen ? 12.0 : 15.0,
+                                top: isSmallScreen ? 3.0 : 5.0),
+                            height: isSmallScreen ? 90 : (isMediumScreen ? 95 : 100),
                             decoration: BoxDecoration(
                               color: Colors.white,
-                              borderRadius: BorderRadius.circular(5),
+                              borderRadius: BorderRadius.circular(isSmallScreen ? 4 : 5),
                               boxShadow: [
                                 BoxShadow(
                                     color: Color(0x3f000000).withOpacity(0.2),
                                     offset: Offset(0, 0),
-                                    blurRadius: 5)
+                                    blurRadius: isSmallScreen ? 4 : 5)
                               ],
                             ),
                             child: Padding(
                               padding: EdgeInsets.only(
-                                  top: 10.0, left: 20.0, right: 20.0),
+                                  top: isSmallScreen ? 8.0 : 10.0, 
+                                  left: isSmallScreen ? 15.0 : (isMediumScreen ? 17.0 : 20.0), 
+                                  right: isSmallScreen ? 15.0 : (isMediumScreen ? 17.0 : 20.0)),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     "Upgrade ke Akun Premium! Nikmatin Layanan QRIS Toko",
                                     style: TextStyle(
-                                      fontSize: 12,
+                                      fontSize: isSmallScreen ? 10 : (isMediumScreen ? 11 : 12),
                                       fontWeight: FontWeight.w700,
                                       color: Color(0xff000000),
                                     ),
                                   ),
-                                  SizedBox(height: 5),
+                                  SizedBox(height: isSmallScreen ? 3 : 5),
                                   Row(
                                     children: [
                                       Icon(Icons.check_box,
-                                          color: Color(0xff79B4CD), size: 12),
-                                      SizedBox(width: 3),
+                                          color: Color(0xff79B4CD), size: isSmallScreen ? 10 : (isMediumScreen ? 11 : 12)),
+                                      SizedBox(width: isSmallScreen ? 2 : 3),
                                       Text(
                                         "Realtime Coy",
-                                        style: TextStyle(fontSize: 11),
+                                        style: TextStyle(fontSize: isSmallScreen ? 9 : (isMediumScreen ? 10 : 11)),
                                       ),
                                     ],
                                   ),
                                   Row(
                                     children: [
                                       Icon(Icons.check_box,
-                                          color: Color(0xff79B4CD), size: 12),
-                                      SizedBox(width: 3),
+                                          color: Color(0xff79B4CD), size: isSmallScreen ? 10 : (isMediumScreen ? 11 : 12)),
+                                      SizedBox(width: isSmallScreen ? 2 : 3),
                                       Text(
                                         "Biaya Admin 0,8%",
-                                        style: TextStyle(fontSize: 11),
+                                        style: TextStyle(fontSize: isSmallScreen ? 9 : (isMediumScreen ? 10 : 11)),
                                       ),
                                     ],
                                   ),
@@ -263,7 +272,7 @@ class _HomePaykuState extends State<HomePayku> {
                                       child: Text(
                                         "Upgrade",
                                         style: TextStyle(
-                                            fontSize: 12,
+                                            fontSize: isSmallScreen ? 10 : (isMediumScreen ? 11 : 12),
                                             fontWeight: FontWeight.bold),
                                       ),
                                     ),
@@ -285,17 +294,17 @@ class _HomePaykuState extends State<HomePayku> {
                       child: ListTile(
                         title: Text('Selalu Ada di Payku',
                             style: TextStyle(
-                                fontSize: 13.0, fontWeight: FontWeight.bold)),
+                                fontSize: isSmallScreen ? 11.0 : (isMediumScreen ? 12.0 : 13.0), fontWeight: FontWeight.bold)),
                         subtitle: Text(
                             'Mudah Dapatkan Akses Info Promo Terbaru',
                             style: TextStyle(
-                                fontSize: 11.0, color: Colors.grey[500])),
+                                fontSize: isSmallScreen ? 9.0 : (isMediumScreen ? 10.0 : 11.0), color: Colors.grey[500])),
                       ),
                     ),
                     Container(
-                      height: 150,
+                      height: isSmallScreen ? 130 : (isMediumScreen ? 140 : 150),
                       margin: EdgeInsets.symmetric(
-                        vertical: 15,
+                        vertical: isSmallScreen ? 12 : (isMediumScreen ? 13 : 15),
                       ),
                       child: CarouselHeader(),
                     ),
@@ -311,19 +320,23 @@ class _HomePaykuState extends State<HomePayku> {
                       child: ListTile(
                         title: Text('Info Menarik dari Payku',
                             style: TextStyle(
-                                fontSize: 13.0, fontWeight: FontWeight.bold)),
+                                fontSize: isSmallScreen ? 11.0 : (isMediumScreen ? 12.0 : 13.0), fontWeight: FontWeight.bold)),
                         subtitle: Text(
                             'Baca Info Supaya Tidak Ketinggalan Kebahagiaan',
                             style: TextStyle(
-                                fontSize: 11.0, color: Colors.grey[500])),
+                                fontSize: isSmallScreen ? 9.0 : (isMediumScreen ? 10.0 : 11.0), color: Colors.grey[500])),
                       ),
                     ),
                     CardInfo(),
                     Container(
                       width: double.infinity,
-                      margin: EdgeInsets.only(left: 10.0, right: 10.0),
+                      margin: EdgeInsets.only(
+                        left: isSmallScreen ? 8.0 : (isMediumScreen ? 9.0 : 10.0), 
+                        right: isSmallScreen ? 8.0 : (isMediumScreen ? 9.0 : 10.0)
+                      ),
                       padding: EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 20.0),
+                          horizontal: isSmallScreen ? 15.0 : (isMediumScreen ? 17.0 : 20.0), 
+                          vertical: isSmallScreen ? 15.0 : (isMediumScreen ? 17.0 : 20.0)),
                       decoration: BoxDecoration(
                           gradient: LinearGradient(
                             begin: Alignment.topLeft,
@@ -335,7 +348,7 @@ class _HomePaykuState extends State<HomePayku> {
                               Theme.of(context).primaryColor.withOpacity(.5),
                             ],
                           ),
-                          borderRadius: BorderRadius.circular(15.0)),
+                          borderRadius: BorderRadius.circular(isSmallScreen ? 12.0 : 15.0)),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
@@ -343,13 +356,13 @@ class _HomePaykuState extends State<HomePayku> {
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 15.0)),
-                          SizedBox(height: 10.0),
+                                  fontSize: isSmallScreen ? 13.0 : (isMediumScreen ? 14.0 : 15.0))),
+                          SizedBox(height: isSmallScreen ? 8.0 : 10.0),
                           Text(
                               'Mengajak Teman Kamu Untuk Menggunakan Payku adalah Salah Satu Cara Untuk Mendapatkan Penghasilan Tambahan Buat Kamu',
                               style: TextStyle(
-                                  fontSize: 12.0, color: Colors.grey[200])),
-                          SizedBox(height: 10.0),
+                                  fontSize: isSmallScreen ? 10.0 : (isMediumScreen ? 11.0 : 12.0), color: Colors.grey[200])),
+                          SizedBox(height: isSmallScreen ? 8.0 : 10.0),
                           InkWell(
                               onTap: () {
                                 return Navigator.of(context).push(
@@ -359,14 +372,15 @@ class _HomePaykuState extends State<HomePayku> {
                               highlightColor: Colors.black.withOpacity(.4),
                               child: Container(
                                 padding: EdgeInsets.symmetric(
-                                    horizontal: 20.0, vertical: 10.0),
+                                    horizontal: isSmallScreen ? 15.0 : (isMediumScreen ? 17.0 : 20.0), 
+                                    vertical: isSmallScreen ? 8.0 : 10.0),
                                 decoration: BoxDecoration(
                                     border: Border.all(
                                         color: Colors.white, width: 1.0),
-                                    borderRadius: BorderRadius.circular(15.0)),
+                                    borderRadius: BorderRadius.circular(isSmallScreen ? 12.0 : 15.0)),
                                 child: Text('Undang Teman',
                                     style: TextStyle(
-                                        fontSize: 12.0, color: Colors.white)),
+                                        fontSize: isSmallScreen ? 10.0 : (isMediumScreen ? 11.0 : 12.0), color: Colors.white)),
                               ))
                         ],
                       ),
@@ -384,11 +398,11 @@ class _HomePaykuState extends State<HomePayku> {
                       child: ListTile(
                         title: Text('Dapat Hadiah dari Payku',
                             style: TextStyle(
-                                fontSize: 13.0, fontWeight: FontWeight.bold)),
+                                fontSize: isSmallScreen ? 11.0 : (isMediumScreen ? 12.0 : 13.0), fontWeight: FontWeight.bold)),
                         subtitle: Text(
                             'Kumpulkan Poin Kamu dan Tukarkan dengan Reward yang Tersedia Dari Payku',
                             style: TextStyle(
-                                fontSize: 11.0, color: Colors.grey[500])),
+                                fontSize: isSmallScreen ? 9.0 : (isMediumScreen ? 10.0 : 11.0), color: Colors.grey[500])),
                       ),
                     ),
                     RewardComponent(),
