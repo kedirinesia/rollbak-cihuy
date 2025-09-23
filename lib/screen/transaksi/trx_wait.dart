@@ -48,7 +48,9 @@ class _TransactionWaitPageState extends State<TransactionWaitPage> {
             MaterialPageRoute(
                 builder: (_) => packageName == 'id.paymobileku.app'
                     ? HistoryPage(initIndex: 1)
-                    : DetailTransaksi(trx)),
+                    : packageName == 'com.seepaysbiller.app'
+                        ? DetailTransaksi(trx)
+                        : DetailTransaksi(trx)),
           );
         } else {
           if (_count >= 6) {
@@ -57,7 +59,9 @@ class _TransactionWaitPageState extends State<TransactionWaitPage> {
               MaterialPageRoute(
                   builder: (_) => packageName == 'id.paymobileku.app'
                       ? HistoryPage(initIndex: 1)
-                      : DetailTransaksi(trx)),
+                      : packageName == 'com.seepaysbiller.app'
+                          ? DetailTransaksi(trx)
+                          : DetailTransaksi(trx)),
             );
           }
         }

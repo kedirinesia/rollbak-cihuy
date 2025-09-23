@@ -1381,7 +1381,7 @@ class _PulsaState extends State<Pulsa> with TickerProviderStateMixin {
                     : Expanded(
                         child: ListView.builder(
                           padding: EdgeInsets.all(20),
-                          itemCount: max(0, listDenom?.length * 2 - 1 ?? 0),
+                          itemCount: max(0, (listDenom?.length ?? 0) * 2 - 1),
                           itemBuilder: (ctx, i) {
                             if (i.isOdd) {
                               return SizedBox(height: 10);

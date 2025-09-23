@@ -48,9 +48,11 @@ class _RewardComponentState extends State<RewardComponent> {
       datas.forEach((item) {
         rewards.add(RewardModel.fromJson(item));
       });
-      setState(() {
-        loading = false;
-      });
+      if (mounted) {
+        setState(() {
+          loading = false;
+        });
+      }
     }
   }
 

@@ -20,6 +20,8 @@ import 'package:mobile/modules.dart';
 import 'package:mobile/screen/transaksi/inquiry_prepaid.dart';
 import 'package:mobile/screen/transaksi/list_voucher_denom.dart';
 import 'package:mobile/screen/transaksi/verifikasi_pin.dart';
+import 'package:mobile/screen/transaksi/detail_transaksi.dart';
+import 'package:mobile/config.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/utils/debug_helper.dart';
 
@@ -240,7 +242,9 @@ class _BulkPageState extends State<BulkPage> {
                     if (trx != null) {
                       Navigator.of(context).pushReplacement(
                         MaterialPageRoute(
-                          builder: (_) => HistoryPage(initIndex: 1),
+                          builder: (_) => packageName == 'com.seepaysbiller.app'
+                              ? DetailTransaksi(trx)
+                              : HistoryPage(initIndex: 1),
                         ),
                       );
                     }

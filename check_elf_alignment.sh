@@ -90,7 +90,7 @@ echo "=== ELF alignment ==="
 matches="$(find "${dir}" -type f)"
 IFS=$'\n'
 for match in $matches; do
-  # We could recursively call this script or rewrite it to though.
+ 
   [[ "${match}" == *".apk" ]] && echo "WARNING: doesn't recursively inspect .apk file: ${match}"
   [[ "${match}" == *".apex" ]] && echo "WARNING: doesn't recursively inspect .apex file: ${match}"
 

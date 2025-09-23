@@ -1197,11 +1197,13 @@ abstract class InquiryPrepaidController extends State<InquiryPrepaid> {
               ),
             );
           } else {
-            await getLatestTrx();
+            TrxModel trx = await getLatestTrx();
             Navigator.of(context).popUntil(ModalRoute.withName('/'));
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (_) => HistoryPage(initIndex: 1),
+                builder: (_) => packageName == 'com.seepaysbiller.app'
+                    ? DetailTransaksi(trx)
+                    : HistoryPage(initIndex: 1),
               ),
             );
           }
@@ -1276,7 +1278,9 @@ abstract class InquiryPrepaidController extends State<InquiryPrepaid> {
                     MaterialPageRoute(
                         builder: (_) => packageName == 'com.eralink.mobileapk'
                             ? DetailTransaksi(trx)
-                            : HistoryPage(initIndex: 1)),
+                            : packageName == 'com.seepaysbiller.app'
+                                ? DetailTransaksi(trx)
+                                : HistoryPage(initIndex: 1)),
                   );
           }
         } else {

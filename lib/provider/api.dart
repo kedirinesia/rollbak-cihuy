@@ -24,9 +24,10 @@ class Api {
   Future<dynamic> get(String path,
       {bool cache = false,
       bool auth = true,
-      Duration expired = const Duration(hours: 1)}) async {
+      Duration expired = const Duration(hours: 1),
+      bool forceRefresh = false}) async {
     String url = '$host$path';
-    DebugHelper.debugPrint('Making GET request to: $url');
+    DebugHelper.debugPrint('Making GET request to: $url (forceRefresh: $forceRefresh)');
 
     // Check network connectivity first
     bool isConnected = await _checkConnectivity();
@@ -34,10 +35,21 @@ class Api {
       throw FormatException('No internet connection available');
     }
 
-    if (cache) {
+    if (cache && !forceRefresh) {
       FileInfo fileInfo = await DefaultCacheManager().getFileFromCache(url);
-      if (fileInfo != null && fileInfo.validTill.isBefore(DateTime.now())) {
+      if (fileInfo != null && fileInfo.validTill.isAfter(DateTime.now())) {
+        DebugHelper.debugPrint('Using cached data for: $url');
         return json.decode(fileInfo.file.readAsStringSync());
+      }
+    }
+    
+    // If force refresh, clear cache for this URL
+    if (forceRefresh) {
+      try {
+        await DefaultCacheManager().removeFile(url);
+        DebugHelper.debugPrint('Cache cleared for: $url');
+      } catch (e) {
+        DebugHelper.debugPrint('Error clearing cache: $e');
       }
     }
 

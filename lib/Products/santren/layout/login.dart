@@ -120,17 +120,17 @@ class _LoginPageState extends State<LoginPage> {
                             Icon(
                               Icons.support_agent,
                               size: 25,
-                              color: Color(0xFF4CAF00),
+                              color: Color(0xFF0652DD),
                             ),
                             SizedBox(height: 6),
-                            Text(
-                              "Bantuan",
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFF4CAF00),
-                                fontWeight: FontWeight.bold,
+                              Text(
+                                "Bantuan",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF0652DD),
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
                           ],
                         ),
                       ),
@@ -153,7 +153,7 @@ class _LoginPageState extends State<LoginPage> {
                           style: TextStyle(
                             fontSize: screenWidth * 0.09,
                             fontWeight: FontWeight.bold,
-                            color: Color(0xFF4CAF00),
+                            color: Color(0xFF0652DD),
                           ),
                         ),
                 ),
@@ -190,7 +190,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: Color(0xFF4CAF00),
+                      color: Color(0xFF0652DD),
                       borderRadius:
                           BorderRadius.vertical(top: Radius.circular(30)),
                     ),
@@ -304,14 +304,14 @@ class _LoginPageState extends State<LoginPage> {
                                           child: CircularProgressIndicator(
                                             valueColor:
                                                 AlwaysStoppedAnimation<Color>(
-                                                    Color(0xFF4CAF00)),
+                                                    Color(0xFF0652DD)),
                                             strokeWidth: 3,
                                           ),
                                         )
                                       : Text(
                                           "Masuk",
                                           style: TextStyle(
-                                            color: Color(0xFF4CAF00),
+                                            color: Color(0xFF0652DD),
                                             fontWeight: FontWeight.bold,
                                             fontSize: screenWidth * 0.045,
                                           ),

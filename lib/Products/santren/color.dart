@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:mobile/utils/debug_helper.dart';
 
 ThemeData colors = ThemeData.light().copyWith(
-    primaryColor: Color(0XFF6ab04c),
-    secondaryHeaderColor: Color(0XFFf39c12),
-    hintColor: Color(0XFF6ab04c),
+    primaryColor: Color(0xFF0652DD),
+    secondaryHeaderColor: Color(0xFF0652DD),
+    hintColor: Color(0xFF0652DD),
     canvasColor: Colors.white,
     scaffoldBackgroundColor: Colors.white,
     appBarTheme: AppBarTheme(

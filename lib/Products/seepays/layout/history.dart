@@ -24,7 +24,7 @@ class _HistoryPageState extends State<HistoryPage>
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: configAppBloc.isMarketplace.valueWrapper?.value ? 4 : 3,
+      length: (configAppBloc.isMarketplace.valueWrapper?.value ?? false) ? 4 : 3,
       initialIndex: widget.initIndex,
       child: Scaffold(
         appBar: AppBar(
@@ -36,7 +36,7 @@ class _HistoryPageState extends State<HistoryPage>
               labelColor: Theme.of(context).appBarTheme.iconTheme.color,
               unselectedLabelColor:
                   Theme.of(context).appBarTheme.iconTheme.color.withOpacity(.7),
-              tabs: configAppBloc.isMarketplace.valueWrapper?.value
+              tabs: (configAppBloc.isMarketplace.valueWrapper?.value ?? false)
                   ? [
                       Tab(
                         child: Text('Deposit'),
@@ -75,7 +75,7 @@ class _HistoryPageState extends State<HistoryPage>
         ),
         body: TabBarView(
             physics: ScrollPhysics(),
-            children: configAppBloc.isMarketplace.valueWrapper?.value
+            children: (configAppBloc.isMarketplace.valueWrapper?.value ?? false)
                 ? [
                     DepositPage(),
                     HistoryTransaksi(),

@@ -160,7 +160,7 @@ class _ProfilePageState extends State<ProfilePage> {
     DebugHelper.debugPrint('link.toString()');
 
     String message =
-        'Kepada Yth. Customer Service ${configAppBloc.namaApp.valueWrapper?.value},\r\n\nSaya yang bertanda tangan di bawah ini:\r\n\nNama: *${bloc.user.valueWrapper?.value.nama}*\r\nNomor: *${bloc.user.valueWrapper?.value.phone}*\r\n\nDengan ini mengajukan permohonan penutupan akun pada aplikasi ${configAppBloc.namaApp.valueWrapper?.value} yang telah saya daftarkan dengan nomor tersebut di atas. Saya memohon agar pihak customer service dapat membantu saya dalam proses penutupan akun dengan segera.\r\n\nSaya juga memastikan bahwa semua data dan informasi yang terkait dengan akun saya telah saya hapus atau dihapus oleh pihak ${configAppBloc.namaApp.valueWrapper?.value}.\r\n\nTerima kasih atas perhatian dan kerjasamanya.\r\n\nHormat saya,\r\n\n[${bloc.user.valueWrapper?.value.nama}]';
+        'Kepada Yth. Customer Service ${configAppBloc.namaApp.valueWrapper?.value ?? ''},\r\n\nSaya yang bertanda tangan di bawah ini:\r\n\nNama: *${bloc.user.valueWrapper?.value?.nama ?? ''}*\r\nNomor: *${bloc.user.valueWrapper?.value?.phone ?? ''}*\r\n\nDengan ini mengajukan permohonan penutupan akun pada aplikasi ${configAppBloc.namaApp.valueWrapper?.value ?? ''} yang telah saya daftarkan dengan nomor tersebut di atas. Saya memohon agar pihak customer service dapat membantu saya dalam proses penutupan akun dengan segera.\r\n\nSaya juga memastikan bahwa semua data dan informasi yang terkait dengan akun saya telah saya hapus atau dihapus oleh pihak ${configAppBloc.namaApp.valueWrapper?.value ?? ''}.\r\n\nTerima kasih atas perhatian dan kerjasamanya.\r\n\nHormat saya,\r\n\n[${bloc.user.valueWrapper?.value?.nama ?? ''}]';
 
     String url = '$link&text=${Uri.encodeFull(message)}';
 
@@ -200,7 +200,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             color: Colors.white,
                             fontWeight: FontWeight.bold)),
                     SizedBox(height: 5),
-                    Text(bloc.user.valueWrapper?.value.phone.toUpperCase(),
+                    Text((bloc.user.valueWrapper?.value?.phone ?? '').toUpperCase(),
                         style: TextStyle(fontSize: 11.0, color: Colors.white)),
                     SizedBox(height: 20.0),
                     MenuGrid(),
@@ -568,7 +568,7 @@ class MenuGrid extends StatelessWidget {
                 ),
           InkWell(
             onTap: () {
-              if (configAppBloc.info.valueWrapper?.value.inviteLink) {
+              if (configAppBloc.info.valueWrapper?.value?.inviteLink ?? false) {
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (_) => InvitePage()));
               } else {

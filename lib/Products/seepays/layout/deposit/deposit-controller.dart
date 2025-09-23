@@ -36,7 +36,7 @@ abstract class DepositController extends State<DepositPage> {
     analitycs.pageView('/history/deposit', analyticsData);
     DebugHelper.debugPrint('🔍 [DEPOSIT] Analytics page view sent');
 
-    if (configAppBloc.autoReload.valueWrapper?.value) {
+    if (configAppBloc.autoReload.valueWrapper?.value ?? false) {
       DebugHelper.debugPrint('🔍 [DEPOSIT] Setting up periodic timer for auto reload');
       Timer.periodic(new Duration(seconds: 1), (timer) {
         DebugHelper.debugPrint('🔍 [DEPOSIT] Auto reload timer triggered');

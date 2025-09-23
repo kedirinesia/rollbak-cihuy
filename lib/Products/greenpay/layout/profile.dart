@@ -382,12 +382,12 @@ class _ProfileGreenpayState extends State<ProfileGreenpay> {
                                     'http://play.google.com/store/apps/details?id=$packageName';
                                 if (await canLaunch(url)) launch(url);
                               } else {
-                                final InAppReview inAppReview =
-                                    InAppReview.instance;
-                                DebugHelper.debugPrint('await inAppReview.isAvailable().toString()');
-
-                                if (await inAppReview.isAvailable()) {
-                                  inAppReview.requestReview();
+                                // Fallback for non-Android platforms: open the app's store listing in the browser
+                                String url =
+                                    'https://apps.apple.com/app/id$packageName'; // Adjust this URL as needed for your iOS app
+                                if (await canLaunch(url)) {
+                                  await launch(url);
+                                }
                                 } else {
                                   inAppReview.openStoreListing();
                                 }

@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
  
 import 'package:http/http.dart' as http;
@@ -217,19 +218,45 @@ class _Home2AppState extends State<Home2App> with SingleTickerProviderStateMixin
   // Function to handle refresh
   Future<void> _onRefresh() async {
     try {
-      // Refresh banner data
+      DebugHelper.debugPrint('🔄 Starting refresh process...');
+      
+      // Clear all caches first
+      await _clearAllCaches();
+      
+      // Refresh banner data by triggering rebuild
       setState(() {
-        // Trigger rebuild to refresh banner
+        // This will trigger rebuild of all components
+        // The components will automatically fetch fresh data due to cache clearing
       });
       
       // Add a small delay to show refresh animation
       await Future.delayed(Duration(milliseconds: 800));
       
-      // You can add more refresh logic here if needed
-      // For example, refresh user data, balance, etc.
+      DebugHelper.debugPrint('✅ Refresh process completed');
       
     } catch (e) {
-      DebugHelper.debugPrint('Error during refresh: $e');
+      DebugHelper.debugPrint('❌ Error during refresh: $e');
+    }
+  }
+
+  // Method to clear all caches
+  Future<void> _clearAllCaches() async {
+    try {
+      DebugHelper.debugPrint('🧹 Clearing all caches...');
+      
+      // Clear MenuDepan cache
+      // MenuDepan.clearCache(); // This will be called through the widget rebuild
+      
+      // Clear HTTP cache
+      await DefaultCacheManager().emptyCache();
+      
+      // Clear SharedPreferences cache if needed
+      // final prefs = await SharedPreferences.getInstance();
+      // prefs.remove('cached_data_key');
+      
+      DebugHelper.debugPrint('✅ All caches cleared successfully');
+    } catch (e) {
+      DebugHelper.debugPrint('❌ Error clearing caches: $e');
     }
   }
 

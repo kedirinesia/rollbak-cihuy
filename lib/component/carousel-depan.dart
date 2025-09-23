@@ -37,13 +37,21 @@ class _CarouselDepanState extends State<CarouselDepan> {
     super.initState();
     fetchBanner();
   }
+  
+  // Method untuk refresh banner dari external
+  void refreshBanner() {
+    setState(() {
+      loading = true;
+    });
+    fetchBanner(forceRefresh: true);
+  }
 
   @override
   void dispose() {
     super.dispose();
   }
 
-  fetchBanner() async {
+  fetchBanner({bool forceRefresh = false}) async {
     String path = '/banner/list?limit=3';
 
     if (packageName == 'com.onetronic.mobile' ||
@@ -52,7 +60,7 @@ class _CarouselDepanState extends State<CarouselDepan> {
     }
 
     try {
-      List<dynamic> datas = await api.get(path, cache: true);
+      List<dynamic> datas = await api.get(path, cache: true, forceRefresh: forceRefresh);
       banner = datas.map((e) => BannerModel.fromJson(e)).toList();
       setState(() {
         loading = false;
@@ -80,7 +88,7 @@ class _CarouselDepanState extends State<CarouselDepan> {
       );
     } else if (urls[0] == 'prepaid') {
       MenuModel menu = MenuModel(
-        id: banner.id,
+        id: banner.id,    
         name: banner.title,
         category_id: urls[1],
         icon: '',

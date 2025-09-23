@@ -5,7 +5,7 @@
 
 set -e
 
-# Colors for output
+ 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -24,7 +24,7 @@ echo -e "${BLUE}🧪 AAB 16KB Page Size Testing${NC}"
 echo "=================================="
 echo ""
 
-# Function to print colored output
+ 
 print_status() {
     local status=$1
     local message=$2
@@ -37,12 +37,12 @@ print_status() {
     esac
 }
 
-# Function to check if command exists
+ 
 command_exists() {
     command -v "$1" >/dev/null 2>&1
 }
 
-# Function to download bundletool if not exists
+ 
 download_bundletool() {
     if [ ! -f "$BUNDLETOOL_JAR" ]; then
         print_status "INFO" "Downloading bundletool..."

@@ -55,10 +55,10 @@ class _StartWizardPageState extends State<StartWizardPage>
                   (e) => Center(
                     child: FractionallySizedBox(
                       widthFactor: 1.0,
-                      heightFactor: 0.95,
+                      heightFactor: 1.0,
                       child: Image.asset(
                         e,
-                        fit: BoxFit.contain,
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),

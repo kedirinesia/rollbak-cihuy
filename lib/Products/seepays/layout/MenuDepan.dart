@@ -81,6 +81,13 @@ class _MenuDepanState extends State<MenuDepan> {
     DebugHelper.debugPrint('🧹 MenuDepan: Cache cleared, akan fetch data fresh dari server');
   }
   
+  // Method untuk refresh data dari external (dipanggil saat pull-to-refresh)
+  static Future<void> refreshData() async {
+    DebugHelper.debugPrint('🔄 MenuDepan: External refresh requested');
+    clearCache();
+    // Note: Actual refresh will be handled by the widget's getMenu(forceRefresh: true)
+  }
+  
   // Cache untuk menyimpan hasil pemisahan kategori
   static List<MenuModel> _cachedPrabayarMenu = [];
   static List<MenuModel> _cachedPascabayarMenu = [];
@@ -91,14 +98,16 @@ class _MenuDepanState extends State<MenuDepan> {
   // Cache untuk submenu yang sudah di-preload
   static Map<String, List<MenuModel>> _cachedSubmenus = {};
 
-  Future<void> getMenu() async {
+  Future<void> getMenu({bool forceRefresh = false}) async {
     try {
-      // TEMPORARY: Force refresh untuk debug data mismatch issue
-      // Comment baris ini setelah masalah resolved
-      // clearCache();
+      // Clear cache if force refresh is requested
+      if (forceRefresh) {
+        clearCache();
+        DebugHelper.debugPrint('🔄 Force refresh requested - cache cleared');
+      }
       
-      // Gunakan cache jika sudah ada data
-      if (_isDataLoaded && _cachedMenuData.isNotEmpty) {
+      // Gunakan cache jika sudah ada data dan tidak force refresh
+      if (!forceRefresh && _isDataLoaded && _cachedMenuData.isNotEmpty) {
         DebugHelper.debugPrint('📊 Using cached menu data: ${_cachedMenuData.length} items');
         // Gunakan hasil cache yang sudah dipisahkan
         _prabayarMenu = List<MenuModel>.from(_cachedPrabayarMenu);
@@ -470,17 +479,23 @@ class _MenuDepanState extends State<MenuDepan> {
   Widget _buildMenuCard(String title, List<MenuModel> menus, int crossAxisCount) {
     if (menus.isEmpty) return SizedBox.shrink();
     
+    // Get screen dimensions for responsive design
+    final Size screenSize = MediaQuery.of(context).size;
+    final double screenWidth = screenSize.width;
+    final bool isSmallScreen = screenWidth < 360;
+    final bool isMediumScreen = screenWidth >= 360 && screenWidth < 414;
+    
     return Container(
-      margin: EdgeInsets.only(bottom: 20.0),
-      padding: EdgeInsets.all(16.0),
+      margin: EdgeInsets.only(bottom: isSmallScreen ? 15.0 : 20.0),
+      padding: EdgeInsets.all(isSmallScreen ? 12.0 : 16.0),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12.0),
+        borderRadius: BorderRadius.circular(isSmallScreen ? 10.0 : 12.0),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
-            blurRadius: 8,
-            offset: Offset(0, 2),
+            blurRadius: isSmallScreen ? 6 : 8,
+            offset: Offset(0, isSmallScreen ? 1 : 2),
           ),
         ],
       ),
@@ -490,12 +505,12 @@ class _MenuDepanState extends State<MenuDepan> {
           Text(
             title,
             style: TextStyle(
-              fontSize: 16.0,
+              fontSize: isSmallScreen ? 14.0 : (isMediumScreen ? 15.0 : 16.0),
               fontWeight: FontWeight.bold,
               color: Colors.black87,
             ),
           ),
-          //SizedBox(height: 13.0),
+          SizedBox(height: isSmallScreen ? 8.0 : 10.0),
           GridView.builder(
             shrinkWrap: true,
             primary: false,
@@ -509,40 +524,43 @@ class _MenuDepanState extends State<MenuDepan> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                                              Container(
-                          width: 55,
-                          height: 55,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.circle,
-                            boxShadow: [
-                              BoxShadow(
-                                color: Color(0xFFA259FF).withOpacity(0.3),
-                                blurRadius: 6,
-                                offset: Offset(0, 9),
-                              ),
-                            ],
-                          ),
-                          alignment: Alignment.center,
-                          child: CachedNetworkImage(
-                            imageUrl: menu.icon,
-                            width: 35,
-                            height: 35,
-                            fit: BoxFit.contain,
-                          ),
+                      Container(
+                        width: isSmallScreen ? 45 : (isMediumScreen ? 50 : 55),
+                        height: isSmallScreen ? 45 : (isMediumScreen ? 50 : 55),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Color(0xFFA259FF).withOpacity(0.3),
+                              blurRadius: isSmallScreen ? 4 : 6,
+                              offset: Offset(0, isSmallScreen ? 6 : 9),
+                            ),
+                          ],
                         ),
-                        SizedBox(height: 8.0),
-                        Flexible(
-                          child: Text(
-                            menu.name,
-                            style: TextStyle(
-                                fontSize: 12.0,
-                                color: Color(0xFFA259FF),
-                                fontWeight: FontWeight.bold),
-                            softWrap: true,
-                            textAlign: TextAlign.center,
+                        alignment: Alignment.center,
+                        child: CachedNetworkImage(
+                          imageUrl: menu.icon,
+                          width: isSmallScreen ? 28 : (isMediumScreen ? 32 : 35),
+                          height: isSmallScreen ? 28 : (isMediumScreen ? 32 : 35),
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                      SizedBox(height: isSmallScreen ? 6.0 : 8.0),
+                      Flexible(
+                        child: Text(
+                          menu.name,
+                          style: TextStyle(
+                            fontSize: isSmallScreen ? 10.0 : (isMediumScreen ? 11.0 : 12.0),
+                            color: Color(0xFFA259FF),
+                            fontWeight: FontWeight.bold
                           ),
-                        )
+                          softWrap: true,
+                          textAlign: TextAlign.center,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -550,9 +568,9 @@ class _MenuDepanState extends State<MenuDepan> {
             },
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: crossAxisCount,
-                crossAxisSpacing: 2,
-                childAspectRatio: 0.85,
-                mainAxisSpacing: 4.0),
+                crossAxisSpacing: isSmallScreen ? 1 : 2,
+                childAspectRatio: isSmallScreen ? 0.9 : 0.85,
+                mainAxisSpacing: isSmallScreen ? 3.0 : 4.0),
           ),
         ],
       ),
@@ -561,19 +579,28 @@ class _MenuDepanState extends State<MenuDepan> {
 
   @override
   Widget build(BuildContext context) {
+    // Get screen dimensions for responsive design
+    final Size screenSize = MediaQuery.of(context).size;
+    final double screenWidth = screenSize.width;
+    final bool isSmallScreen = screenWidth < 360;
+    final bool isMediumScreen = screenWidth >= 360 && screenWidth < 414;
+    
     return loading
         ? LoadingMenuDepan(widget.grid, baris: widget.baris ?? 3)
         : Container(
-            margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
+            margin: EdgeInsets.symmetric(
+              horizontal: isSmallScreen ? 8.0 : (isMediumScreen ? 9.0 : 10.0), 
+              vertical: isSmallScreen ? 15.0 : 20.0
+            ),
             child: SingleChildScrollView(
               physics: BouncingScrollPhysics(),
               child: Column(
                 children: [
                   // PRABAYAR Section
-                  _buildMenuCard('PRABAYAR', _prabayarMenu, 4),
+                  _buildMenuCard('PRABAYAR', _prabayarMenu, widget.grid),
                   
                   // PASCABAYAR Section
-                  _buildMenuCard('PASCABAYAR', _pascabayarMenu, 4),
+                  _buildMenuCard('PASCABAYAR', _pascabayarMenu, widget.grid),
                 ],
               ),
             ),

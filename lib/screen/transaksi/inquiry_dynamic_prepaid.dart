@@ -17,6 +17,8 @@ import 'package:mobile/screen/history/history.dart';
 import 'package:mobile/screen/profile/kyc/not_verified_user.dart';
 import 'package:mobile/screen/transaksi/trx_wait.dart';
 import 'package:mobile/screen/transaksi/verifikasi_pin.dart';
+import 'package:mobile/screen/transaksi/detail_transaksi.dart';
+import 'package:mobile/config.dart';
 import '../../bloc/Bloc.dart' show bloc;
 import 'dart:convert';
 import 'package:mobile/utils/debug_helper.dart';
@@ -762,7 +764,7 @@ abstract class InquiryDynamicPrepaidController
               ),
             );
           } else {
-            await getLatestTrx();
+            TrxModel trx = await getLatestTrx();
             Navigator.of(context).popUntil(ModalRoute.withName('/'));
             packageName == 'com.talentapay.android'
                 ? Navigator.of(context).push(
@@ -772,7 +774,9 @@ abstract class InquiryDynamicPrepaidController
                   )
                 : Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (_) => HistoryPage(initIndex: 1),
+                      builder: (_) => packageName == 'com.seepaysbiller.app'
+                          ? DetailTransaksi(trx)
+                          : HistoryPage(initIndex: 1),
                     ),
                   );
           }

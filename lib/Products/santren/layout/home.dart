@@ -30,12 +30,14 @@ class Home4App extends StatefulWidget {
 
 class _Home4AppState extends Home4Model {
   AnimationController _animationController;
+  int _points = 0;
 
   @override
   void initState() {
     _animationController =
         AnimationController(duration: Duration(seconds: 3), vsync: this);
     super.initState();
+    refreshSaldo(); // Load data poin saat pertama kali
   }
 
   @override
@@ -54,8 +56,19 @@ class _Home4AppState extends Home4Model {
       );
 
       if (response.statusCode == 200) {
-        UserModel user = UserModel.fromJson(json.decode(response.body)['data']);
+        var data = json.decode(response.body)['data'];
+        UserModel user = UserModel.fromJson(data);
         bloc.user.add(user);
+        
+        // Ambil data poin dari response API
+        if (data['points'] != null) {
+          _points = data['points'];
+        } else if (data['poin'] != null) {
+          _points = data['poin'];
+        } else if (data['reward_points'] != null) {
+          _points = data['reward_points'];
+        }
+        
         setState(() {});
       }
     } catch (e) {
@@ -108,130 +121,178 @@ class _Home4AppState extends Home4Model {
       onRefresh: refreshSaldo,
       child: ListView(
         children: [
-          Stack(
-            alignment: Alignment.bottomCenter,
-            children: <Widget>[
-              Container(
-                width: double.infinity,
-                height: 100,
-                transform: Matrix4.translationValues(0, 12, 0),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(30.0),
-                    bottomRight: Radius.circular(30.0),
-                  ),
-                ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(30.0),
-                    bottomRight: Radius.circular(30.0),
-                  ),
-                  color: Colors.white,
-                ),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+        
+          SafeArea(
+            child: Container(
+              width: double.infinity,
+              padding: EdgeInsets.only(top: 0, left: 20, right: 20, bottom: 20),
+              child: Column(
+                children: [
+            
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(height: 10.0),
-                      CarouselDepan(
-                        marginBottom: 0.0,
-                        viewportFraction: .75,
-                        aspectRatio: 2.8,
+                      Row(
+                        children: [
+                          Image.asset(
+                            'assets/logoHomeSantren.png',
+                            width: 100,
+                            height: 80,
+                            fit: BoxFit.contain,
+                          ),
+                        //  / SizedBox(width: 10),
+                          // Text(
+                          //   'Santren PAY',
+                          //   style: TextStyle(
+                          //     color: Colors.white,
+                          //     fontSize: 18,
+                          //     fontWeight: FontWeight.bold,
+                          //   ),
+                          // ),
+                        ],
                       ),
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 50,
-                          vertical: 15,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Container(
-                                  width: 1,
-                                  height: 40,
-                                  color: Colors.grey,
-                                  margin: EdgeInsets.only(right: 10),
-                                ),
-                                CachedNetworkImage(
-                                  imageUrl:
-                                      'https://firebasestorage.googleapis.com/v0/b/payuni-2019y.appspot.com/o/assets%2Ficons%2Fmoney.png?alt=media&token=fea2189f-04f8-43d9-bc0f-1f1d386c7de4',
-                                  width: 25,
-                                  fit: BoxFit.cover,
-                                ),
-                                SizedBox(width: 10),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Saldo Anda',
-                                      style: TextStyle(
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      formatRupiah(bloc.user.valueWrapper?.value
-                                              ?.saldo ??
-                                          0),
-                                      style: TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                      Stack(
+                        children: [
+                          Icon(
+                            Icons.notifications_outlined,
+                           color: Color(0xFF0652DD),
+                            size: 24,
+                          ),
+                          Positioned(
+                            right: 0,
+                            top: 0,
+                            child: Container(
+                              width: 8,
+                              height: 8,
+                              decoration: BoxDecoration(
+                                color: Colors.red,
+                                borderRadius: BorderRadius.circular(4),
+                              ),
                             ),
-                            Row(
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Komisi',
-                                      style: TextStyle(
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      formatRupiah(bloc.user.valueWrapper?.value
-                                              ?.komisi ??
-                                          0),
-                                      style: TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(width: 10),
-                                CachedNetworkImage(
-                                  imageUrl:
-                                      'https://firebasestorage.googleapis.com/v0/b/payuni-2019y.appspot.com/o/assets%2Ficons%2Fmoney.png?alt=media&token=fea2189f-04f8-43d9-bc0f-1f1d386c7de4',
-                                  width: 25,
-                                  fit: BoxFit.cover,
-                                ),
-                                Container(
-                                  width: 1,
-                                  height: 40,
-                                  color: Colors.grey,
-                                  margin: EdgeInsets.only(left: 10),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    ]),
+                    ],
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-          SizedBox(height: 30),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 25),
+          
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 18, vertical: 5),
+            padding: EdgeInsets.symmetric(horizontal: 0, vertical: 40),
+            decoration: BoxDecoration(
+              color: Color(0xFF0652DD),
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  spreadRadius: 1,
+                  blurRadius: 5,
+                  offset: Offset(0, 2),
+                ),
+              ],
+            ),
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+              
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                      Row(
+                        children: [
+                          Text(
+                            'Saldo SPcash',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          SizedBox(width: 8),
+                          Icon(
+                            Icons.visibility_off,
+                            color: Colors.white,
+                            size: 16,
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 6),
+                      Text(
+                        // formatRupiah(bloc.user.valueWrapper?.value?.saldo ?? 0),
+                         formatRupiah(9000000),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 25,
+                          fontWeight: FontWeight.w500,
+                          // fontStyle: FontStyle.italic,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                    ),
+                  ),
+                ),
+                
+            // /    SizedBox(width: 50),
+             
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(12),
+                      bottomLeft: Radius.circular(12),
+                      topRight: Radius.circular(0),
+                      bottomRight: Radius.circular(0),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.monetization_on,
+                        color: Colors.amber[700],
+                        size: 18,
+                      ),
+                      SizedBox(width: 6),
+                      Text(
+                        '$_points Poin',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 7),
+          // Action Buttons Section
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 20),
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+            decoration: BoxDecoration(
+              color: Color(0xFF0652DD),
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.1),
+                  spreadRadius: 1,
+                  blurRadius: 5,
+                  offset: Offset(0, 2),
+                ),
+              ],
+            ),
+            child: Row(
               children: [
                 Expanded(
                   child: InkWell(
@@ -241,21 +302,29 @@ class _Home4AppState extends Home4Model {
                     },
                     child: Column(
                       children: [
-                        // CachedNetworkImage(
-                        //   imageUrl:
-                        //       'https://dokumen.payuni.co.id/logo/santren/icon/QRIS.png',
-                        //   width: 30,
-                        //   fit: BoxFit.cover,
-                        // ),
-                        Icon(Icons.qr_code_2_rounded,
-                            size: 30, color: Theme.of(context).primaryColor),
-                        SizedBox(height: 5),
+                        Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: Color(0xFF0652DD),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.all(0.5),
+                            child: Image.asset(
+                              'assets/img/santren/iconatas1.PNG',
+                              fit: BoxFit.contain,
+                            ),
+                          ),
+                        ),
+                   
                         Text(
                           'QRIS',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 12,
-                            color: Colors.black,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
                           ),
                         )
                       ],
@@ -267,19 +336,29 @@ class _Home4AppState extends Home4Model {
                     onTap: () => Navigator.of(context).pushNamed('/topup'),
                     child: Column(
                       children: [
-                        CachedNetworkImage(
-                          imageUrl:
-                              'https://dokumen.payuni.co.id/logo/santren/icon/topup.png',
-                          width: 30,
-                          fit: BoxFit.cover,
+                        Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: Color(0xFF0652DD),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.all(6),
+                            child: Image.asset(
+                              'assets/img/santren/iconatas2.PNG',
+                              fit: BoxFit.contain,
+                            ),
+                          ),
                         ),
-                        SizedBox(height: 5),
+                        
                         Text(
                           'Top Up',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 12,
-                            color: Colors.black,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
                           ),
                         )
                       ],
@@ -294,19 +373,29 @@ class _Home4AppState extends Home4Model {
                     },
                     child: Column(
                       children: [
-                        CachedNetworkImage(
-                          imageUrl:
-                              'https://dokumen.payuni.co.id/logo/santren/icon/transferbank.png',
-                          width: 30,
-                          fit: BoxFit.cover,
+                        Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: Color(0xFF0652DD),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.all(6),
+                            child: Image.asset(
+                              'assets/img/santren/iconatas3.PNG',
+                              fit: BoxFit.contain,
+                            ),
+                          ),
                         ),
-                        SizedBox(height: 5),
+                   //     SizedBox(height: 6),
                         Text(
                           'Transfer',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 12,
-                            color: Colors.black,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
                           ),
                         )
                       ],
@@ -318,19 +407,29 @@ class _Home4AppState extends Home4Model {
                     onTap: () => Navigator.of(context).pushNamed('/withdraw'),
                     child: Column(
                       children: [
-                        CachedNetworkImage(
-                          imageUrl:
-                              'https://dokumen.payuni.co.id/logo/santren/icon/tarik.png',
-                          width: 30,
-                          fit: BoxFit.cover,
+                        Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: Color(0xFF0652DD),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.all(6),
+                            child: Image.asset(
+                              'assets/img/santren/iconatas4.PNG',
+                              fit: BoxFit.contain,
+                            ),
+                          ),
                         ),
-                        SizedBox(height: 5),
+                     //   SizedBox(height: 6),
                         Text(
                           'Tarik',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 12,
-                            color: Colors.black,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
                           ),
                         )
                       ],
@@ -377,6 +476,7 @@ class _Home4AppState extends Home4Model {
     );
   }
 
+
   Widget InviteFriendBox({BuildContext context}) {
     final w = MediaQuery.of(context).size.width;
     final h = MediaQuery.of(context).size.height;
@@ -387,7 +487,7 @@ class _Home4AppState extends Home4Model {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
         gradient: LinearGradient(
-          colors: [Color(0xFFC0FF6B), Color(0xFF96E072)],
+          colors: [Color(0xFF0652DD), Color(0xFF0652DD)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -406,13 +506,13 @@ class _Home4AppState extends Home4Model {
             Row(
               children: [
                 Icon(Icons.group_add,
-                    color: Colors.black87, size: w * 0.058), // lebih kecil
+                    color: Colors.white, size: w * 0.058), // lebih kecil
                 SizedBox(width: w * 0.018),
                 Expanded(
                   child: Text(
                     "Dapatkan Komisi dari Ajak Teman Kamu",
                     style: TextStyle(
-                      color: Colors.black87,
+                      color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontSize: w * 0.041, // lebih kecil
                     ),
@@ -427,7 +527,7 @@ class _Home4AppState extends Home4Model {
             Text(
               "Mengajak Teman Kamu Untuk Menggunakan Payuni adalah Salah Satu Cara Untuk Mendapatkan Penghasilan Tambahan Buat Kamu.",
               style: TextStyle(
-                color: Colors.black54,
+                color: Colors.white70,
                 fontSize: w * 0.029, // lebih kecil
                 height: 1.5,
               ),
@@ -439,20 +539,20 @@ class _Home4AppState extends Home4Model {
             SizedBox(
               width: double.infinity,
               child: OutlinedButton.icon(
-                icon: Icon(Icons.share, color: Colors.black87, size: w * 0.045),
+                icon: Icon(Icons.share, color: Colors.white, size: w * 0.045),
                 label: Padding(
                   padding: EdgeInsets.symmetric(vertical: h * 0.009),
                   child: Text(
                     "Undang Teman",
                     style: TextStyle(
-                      color: Colors.black87,
+                      color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontSize: w * 0.037,
                     ),
                   ),
                 ),
                 style: OutlinedButton.styleFrom(
-                  side: BorderSide(color: Colors.black87, width: 1.2),
+                  side: BorderSide(color: Colors.white, width: 1.2),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),

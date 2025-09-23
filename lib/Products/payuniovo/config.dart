@@ -32,7 +32,7 @@ bool realtimePrepaid = false;
 bool enableMultiChannel = true;
 bool gangguanDisplay = true;
 bool dynamicFooterStruk = true;
-String apiUrlKasir = 'https://api-pos.payuni.co.id/api/v1';
+String apiUrlKasir = 'https://kasir.payuni.co.id/api/v1';
 
 Map<String, String> assetGambar = {
   // 'texture': 'https://sarinupay.com/images/texture/soft-texture.png',

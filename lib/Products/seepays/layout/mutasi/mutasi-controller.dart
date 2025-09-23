@@ -50,7 +50,7 @@ abstract class MutasiController extends State<MutasiPage> {
     super.initState();
     analitycs.pageView('/history/mutasi',
         {'userId': bloc.userId.valueWrapper?.value, 'title': 'History Mutasi'});
-    if (configAppBloc.autoReload.valueWrapper?.value) {
+    if (configAppBloc.autoReload.valueWrapper?.value ?? false) {
       Timer.periodic(new Duration(seconds: 1), (timer) => getData());
     } else {
       getData();
