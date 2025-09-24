@@ -35,20 +35,28 @@ class _CardInfoState extends CardInfoController {
                             TextStyle(color: Theme.of(context).primaryColor))),
               )
             : Container(
-                padding: EdgeInsets.only(top: 10.0),
-                margin: EdgeInsets.only(bottom: 20),
-                child: Container(
+                height: 200,
+                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: listWidget.length,
+                  separatorBuilder: (context, index) => SizedBox(width: 8),
+                  itemBuilder: (context, index) => Container(
+                    width: MediaQuery.of(context).size.width * 0.6,
                     decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10.0),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.black.withOpacity(.1),
-                              offset: Offset(5, 10),
-                              blurRadius: 20)
-                        ]),
-                    child: Column(
-                        mainAxisSize: MainAxisSize.min, children: listWidget)),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 8,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: listWidget[index],
+                  ),
+                ),
               );
   }
 }
@@ -71,23 +79,58 @@ abstract class CardInfoController extends State<CardInfo>
     if (response.statusCode == 200) {
       (json.decode(response.body)['data'] as List).forEach((item) {
         InfoModel info = InfoModel.fromJson(item);
-        Widget widget = ListTile(
-          dense: true,
+        Widget widget = InkWell(
           onTap: () {
             Navigator.of(context)
                 .push(MaterialPageRoute(builder: (_) => InfoPage(info)));
           },
-          leading: Hero(
-              tag: 'info-${info.id}',
-              child: CachedNetworkImage(imageUrl: info.icon, width: 50)),
-          title: Text(info.title,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontWeight: FontWeight.bold)),
-          subtitle: Text(info.description,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontSize: 11, color: Colors.grey)),
-          trailing:
-              Icon(Icons.navigate_next, color: Theme.of(context).primaryColor),
+          child: Container(
+            padding: EdgeInsets.all(12),
+            child: Row(
+              children: [
+                Hero(
+                  tag: 'info-${info.id}',
+                  child: CachedNetworkImage(
+                    imageUrl: info.icon, 
+                    width: 50,
+                    height: 50,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        info.title,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                      ),
+                      SizedBox(height: 4),
+                      Text(
+                        info.description,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 11, 
+                          color: Colors.grey,
+                        ),
+                        maxLines: 2,
+                      ),
+                    ],
+                  ),
+                ),
+                Icon(
+                  Icons.navigate_next, 
+                  color: Theme.of(context).primaryColor,
+                  size: 20,
+                ),
+              ],
+            ),
+          ),
         );
         if (listWidget.length != 0) {
           listWidget.add(Divider());

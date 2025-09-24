@@ -55,7 +55,17 @@ class _DepositPageState extends DepositController
                     size: 20.0,
                     color: m.statusModel.color,
                   );
-                })
+                },
+                frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                  if (wasSynchronouslyLoaded) return child;
+                  return AnimatedOpacity(
+                    opacity: frame == null ? 0 : 1,
+                    duration: const Duration(milliseconds: 100),
+                    curve: Curves.easeOut,
+                    child: child,
+                  );
+                },
+              )
             : Icon(
                 m.statusModel?.status == 0 
                     ? Icons.hourglass_empty 

@@ -151,7 +151,7 @@ class _MenuDepanState extends State<MenuDepan> {
     return loading
         ? LoadingMenuDepan(widget.grid, baris: widget.baris ?? 3)
         : Container(
-            margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+            margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 0.0),
             child: GridView.builder(
               shrinkWrap: true,
               primary: false,
@@ -207,7 +207,12 @@ class _MenuDepanState extends State<MenuDepan> {
                           child: CachedNetworkImage(
                               imageUrl: menu.icon,
                               width: 40.0,
-                              fit: BoxFit.cover),
+                              height: 40.0,
+                              fit: BoxFit.cover,
+                              httpHeaders: {
+                                'User-Agent': 'Mozilla/5.0 (compatible; Flutter)',
+                              },
+                            ),
                         ),
                         SizedBox(height: 8),
                         Flexible(

@@ -328,12 +328,19 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
     DebugHelper.debugPrint('Package Name: ${info.packageName}');
   }
 
+  // Helper function to validate product schemes
+  bool _isValidProductScheme(String scheme) {
+    // Allow any alphanumeric scheme for product deep links
+    // This supports all current and future products without hardcoding
+    return RegExp(r'^[a-zA-Z0-9]+$').hasMatch(scheme) && scheme.length > 0;
+  }
+
   void appLink() {
     _appLinks = AppLinks(onAppLink: (uri, str) {
       DebugHelper.debugPrint('Deep link received: $uri');
       
-      // Handle agenpayment://login deep link
-      if (uri.scheme == 'agenpayment' && uri.host == 'login') {
+      // Handle deep links for all products - pattern: {product}://login
+      if (uri.host == 'login' && _isValidProductScheme(uri.scheme)) {
         // Navigate to login page
         Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (_) => configAppBloc.layoutApp.valueWrapper?.value['login'] ?? LoginPage()),

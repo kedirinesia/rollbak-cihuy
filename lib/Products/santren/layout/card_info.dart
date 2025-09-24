@@ -40,72 +40,80 @@ class _CardInfoState extends State<CardInfo> {
           if (!snapshot.hasData) return Container();
           return SizedBox(
             height: 170.0,
-            child: CarouselSlider(
-              items: snapshot.data.map((d) {
-                InfoModel info = d;
+            child: CarouselSlider.builder(
+              itemCount: snapshot.data.length,
+              options: CarouselOptions(
+                autoPlay: true,
+                aspectRatio: 2.5,
+                enlargeCenterPage: false,
+                viewportFraction: 0.8,
+                autoPlayInterval: Duration(milliseconds: 5000),
+              ),
+              itemBuilder: (_, i, __) {
+                InfoModel info = snapshot.data[i];
 
                 return InkWell(
                   onTap: () => Navigator.of(context)
                       .push(MaterialPageRoute(builder: (_) => InfoPage(info))),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: AspectRatio(
-                      aspectRatio: 1.1,
-                      child: Stack(
-                        children: [
-                          CachedNetworkImage(
-                            imageUrl: info.icon,
-                            fit: BoxFit.cover,
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child: Container(
-                                  // padding: EdgeInsets.all(5),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white.withOpacity(.9),
-                                  ),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        info.title,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      Text(
-                                        info.description,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          fontSize: 10,
-                                        ),
-                                      ),
-                                    ],
+                  child: Container(
+                    width: double.infinity,
+                    margin: EdgeInsets.symmetric(horizontal: 8.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      image: DecorationImage(
+                        image: CachedNetworkImageProvider(info.icon),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    child: Stack(
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(.9),
+                                  borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(8),
+                                    bottomRight: Radius.circular(8),
                                   ),
                                 ),
+                                padding: EdgeInsets.all(8),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      info.title,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(
+                                      info.description,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontSize: 10,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ],
-                          )
-                        ],
-                      ),
+                            ),
+                          ],
+                        )
+                      ],
                     ),
                   ),
                 );
-              }).toList(),
-              options: CarouselOptions(
-                  viewportFraction: .55,
-                  autoPlay: true,
-                  autoPlayInterval: Duration(milliseconds: 5000),
-                  padEnds: false),
+              },
             ),
           );
         });

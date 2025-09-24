@@ -69,11 +69,12 @@ class _EpulsaHomeState extends State<EpulsaHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.white
+      ,
       floatingActionButton: Material(
         elevation: 2.0,
-        borderRadius: BorderRadius.circular(8), // Radius untuk sudut membulat
-        color: Theme.of(context).primaryColor, // Warna background
+        borderRadius: BorderRadius.circular(8), 
+        color: Theme.of(context).primaryColor, 
         child: InkWell(
           borderRadius: BorderRadius.circular(8), // Radius untuk efek klik
           onTap: () async {

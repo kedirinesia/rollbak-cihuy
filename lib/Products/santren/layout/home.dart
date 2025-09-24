@@ -1,6 +1,7 @@
 // @dart=2.9
 
 import 'dart:convert';
+import 'dart:async';
 
 import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -22,6 +23,8 @@ import 'package:mobile/screen/profile/invite/invite.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/utils/debug_helper.dart';
+import 'package:badges/badges.dart' as BadgeModule;
+import 'package:hive/hive.dart';
 
 class Home4App extends StatefulWidget {
   @override
@@ -31,6 +34,8 @@ class Home4App extends StatefulWidget {
 class _Home4AppState extends Home4Model {
   AnimationController _animationController;
   int _points = 0;
+  bool _isBalanceVisible = false;
+  StreamController<int> _streamController = StreamController<int>.broadcast();
 
   @override
   void initState() {
@@ -38,12 +43,44 @@ class _Home4AppState extends Home4Model {
         AnimationController(duration: Duration(seconds: 3), vsync: this);
     super.initState();
     refreshSaldo(); // Load data poin saat pertama kali
+    getUnreadNotification(); // Load unread notification count
   }
 
   @override
   void dispose() {
     _animationController.dispose();
+    _streamController.close();
     super.dispose();
+  }
+
+  Future<void> getUnreadNotification() async {
+    try {
+      http.Response response = await http.get(
+          Uri.parse('$apiUrl/outbox/unread/count'),
+          headers: {'Authorization': bloc.token.valueWrapper?.value});
+
+      var boxUnreadNotification = Hive.box('unread-notification');
+
+      if (response.statusCode == 200) {
+        int unreadNotification = json.decode(response.body)['data'];
+
+        if (boxUnreadNotification.isEmpty) {
+          Hive.box('unread-notification').add(unreadNotification);
+        } else {
+          Hive.box('unread-notification').putAt(0, unreadNotification);
+        }
+
+        if (!_streamController.isClosed) {
+          _streamController.sink.add(unreadNotification);
+        }
+      } else {
+        if (boxUnreadNotification.isNotEmpty) {
+          Hive.box('unread-notification').putAt(0, 0);
+        }
+      }
+    } catch (e) {
+      DebugHelper.debugPrint('Error: $e');
+    }
   }
 
   Future<void> refreshSaldo() async {
@@ -60,7 +97,7 @@ class _Home4AppState extends Home4Model {
         UserModel user = UserModel.fromJson(data);
         bloc.user.add(user);
         
-        // Ambil data poin dari response API
+     
         if (data['points'] != null) {
           _points = data['points'];
         } else if (data['poin'] != null) {
@@ -74,6 +111,9 @@ class _Home4AppState extends Home4Model {
     } catch (e) {
       DebugHelper.debugPrint('"Error saat memngambil saldo: $e"');
     }
+    
+    // Also refresh notification count
+    getUnreadNotification();
   }
 
   Future<List<ProdukMarket>> getProducts() async {
@@ -117,19 +157,22 @@ class _Home4AppState extends Home4Model {
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      onRefresh: refreshSaldo,
-      child: ListView(
+    return Container(
+      color: Color(0xFFe4ebfd),
+      child: Column(
         children: [
-        
           SafeArea(
             child: Container(
               width: double.infinity,
               padding: EdgeInsets.only(top: 0, left: 20, right: 20, bottom: 20),
+              decoration: BoxDecoration(
+                color: Color(0xFFe4ebfd),
+              ),
               child: Column(
                 children: [
             
                   Row(
+                    
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(
@@ -137,7 +180,7 @@ class _Home4AppState extends Home4Model {
                           Image.asset(
                             'assets/logoHomeSantren.png',
                             width: 100,
-                            height: 80,
+                            height: 100,
                             fit: BoxFit.contain,
                           ),
                         //  / SizedBox(width: 10),
@@ -151,26 +194,40 @@ class _Home4AppState extends Home4Model {
                           // ),
                         ],
                       ),
-                      Stack(
-                        children: [
-                          Icon(
-                            Icons.notifications_outlined,
-                           color: Color(0xFF0652DD),
-                            size: 24,
-                          ),
-                          Positioned(
-                            right: 0,
-                            top: 0,
-                            child: Container(
-                              width: 8,
-                              height: 8,
-                              decoration: BoxDecoration(
-                                color: Colors.red,
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                            ),
-                          ),
-                        ],
+                      StreamBuilder(
+                        stream: _streamController.stream,
+                        builder: (context, snapshot) {
+                          var unreadNotification = Hive.box('unread-notification').values;
+
+                          return unreadNotification.isEmpty || unreadNotification.first == 0
+                              ? InkWell(
+                                  onTap: () => Navigator.of(context).pushNamed('/notifikasi'),
+                                  child: Icon(
+                                    Icons.notifications_outlined,
+                                    color: Color(0xFF0652DD),
+                                    size: 24,
+                                  ),
+                                )
+                              : InkWell(
+                                  onTap: () => Navigator.of(context).pushNamed('/notifikasi'),
+                                  child: BadgeModule.Badge(
+                                    badgeContent: Text(
+                                      '${unreadNotification.first}',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 11,
+                                      ),
+                                    ),
+                                    badgeColor: Colors.red,
+                                    toAnimate: false,
+                                    child: Icon(
+                                      Icons.notifications_outlined,
+                                      color: Color(0xFF0652DD),
+                                      size: 24,
+                                    ),
+                                  ),
+                                );
+                        },
                       ),
                     ],
                   ),
@@ -180,7 +237,7 @@ class _Home4AppState extends Home4Model {
           ),
           
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 18, vertical: 5),
+            margin: EdgeInsets.symmetric(horizontal: 12, vertical: 0),
             padding: EdgeInsets.symmetric(horizontal: 0, vertical: 40),
             decoration: BoxDecoration(
               color: Color(0xFF0652DD),
@@ -215,17 +272,25 @@ class _Home4AppState extends Home4Model {
                             ),
                           ),
                           SizedBox(width: 8),
-                          Icon(
-                            Icons.visibility_off,
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _isBalanceVisible = !_isBalanceVisible;
+                              });
+                            },
+                            child: Icon(
+                              _isBalanceVisible ? Icons.visibility : Icons.visibility_off,
                             color: Colors.white,
                             size: 16,
+                            ),
                           ),
                         ],
                       ),
                       SizedBox(height: 6),
                       Text(
-                        // formatRupiah(bloc.user.valueWrapper?.value?.saldo ?? 0),
-                         formatRupiah(9000000),
+                        _isBalanceVisible 
+                          ? formatRupiah(100000000)
+                          : 'Rp ********',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 25,
@@ -255,14 +320,15 @@ class _Home4AppState extends Home4Model {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(
-                        Icons.monetization_on,
-                        color: Colors.amber[700],
-                        size: 18,
+                      Image.asset(
+                        'assets/img/santren/iconPoint.png',
+                        width: 25,
+                        height: 25,
+                      //  color: Colors.white,
                       ),
                       SizedBox(width: 6),
                       Text(
-                        '$_points Poin',
+                        '100 Poin',
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 13,
@@ -278,7 +344,7 @@ class _Home4AppState extends Home4Model {
           SizedBox(height: 7),
           // Action Buttons Section
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 20),
+            margin: EdgeInsets.symmetric(horizontal: 12),
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
             decoration: BoxDecoration(
               color: Color(0xFF0652DD),
@@ -439,38 +505,251 @@ class _Home4AppState extends Home4Model {
               ],
             ),
           ),
-          SizedBox(height: 15),
-          GradientLine(),
-          SizedBox(height: 15),
-          MenuDepan(grid: 5, baris: 3, gradient: true),
-          InviteFriendBox(context: context),
-          SizedBox(height: 30),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            child: Text(
-              'Info Terbaru',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 15,
+          SizedBox(height: 10),
+          //   GradientLine(),
+        //  SizedBox(height: 10),
+          // Scrollable content inside white card
+          Expanded(
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.2),
+                    spreadRadius: 2,
+                    blurRadius: 8,
+                    offset: Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: RefreshIndicator(
+                onRefresh: refreshSaldo,
+                child: SingleChildScrollView(
+                  physics: AlwaysScrollableScrollPhysics(),
+                  child: Column(
+                    children: [
+                     // SizedBox(height: 16),
+                      Transform.translate(
+                        offset: Offset(0, -6),
+                        child: MenuDepan(grid: 5, baris: 3, gradient: true),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        child: InviteFriendBox(context: context),
+                      ),
+                      SizedBox(height: 16),
+                      // 3 Separate Buttons Below Card
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                height: 80,
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).canvasColor,
+                                  borderRadius: BorderRadius.circular(12),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.1),
+                                      spreadRadius: 1,
+                                      blurRadius: 4,
+                                      offset: Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                child: Material(
+                                  color: Colors.transparent,
+                                  child: InkWell(
+                                    borderRadius: BorderRadius.circular(12),
+                                    onTap: () {
+                                      Navigator.of(context).pushNamed('/invite');
+                                    },
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          width: 40,
+                                          height: 40,
+                                          decoration: BoxDecoration(
+                                            color: Theme.of(context).primaryColor,
+                                            borderRadius: BorderRadius.circular(8),
+                                          ),
+                                          child: Icon(
+                                            Icons.favorite,
+                                            color: Colors.white,
+                                            size: 24,
+                                          ),
+                                        ),
+                                        SizedBox(height: 8),
+                                        Text(
+                                          'Baznas',
+                                          style: TextStyle(
+                                            color: Theme.of(context).primaryColor,
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 12,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 12),
+                            Expanded(
+                              child: Container(
+                                height: 80,
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).canvasColor,
+                                  borderRadius: BorderRadius.circular(12),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.1),
+                                      spreadRadius: 1,
+                                      blurRadius: 4,
+                                      offset: Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                child: Material(
+                                  color: Colors.transparent,
+                                  child: InkWell(
+                                    borderRadius: BorderRadius.circular(12),
+                                    onTap: () {
+                                      Navigator.of(context).pushNamed('/referral');
+                                    },
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          width: 40,
+                                          height: 40,
+                                          decoration: BoxDecoration(
+                                            color: Theme.of(context).primaryColor,
+                                            borderRadius: BorderRadius.circular(8),
+                                          ),
+                                          child: Icon(
+                                            Icons.account_balance_wallet,
+                                            color: Colors.white,
+                                            size: 24,
+                                          ),
+                                        ),
+                                        SizedBox(height: 8),
+                                        Text(
+                                          'Dompet Dhuafa',
+                                          style: TextStyle(
+                                            color: Theme.of(context).primaryColor,
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 12,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 12),
+                            Expanded(
+                              child: Container(
+                                height: 80,
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).canvasColor,
+                                  borderRadius: BorderRadius.circular(12),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.1),
+                                      spreadRadius: 1,
+                                      blurRadius: 4,
+                                      offset: Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                child: Material(
+                                  color: Colors.transparent,
+                                  child: InkWell(
+                                    borderRadius: BorderRadius.circular(12),
+                                    onTap: () {
+                                      Navigator.of(context).pushNamed('/commission');
+                                    },
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          width: 40,
+                                          height: 40,
+                                          decoration: BoxDecoration(
+                                            color: Theme.of(context).primaryColor,
+                                            borderRadius: BorderRadius.circular(8),
+                                          ),
+                                          child: Icon(
+                                            Icons.menu_book,
+                                            color: Colors.white,
+                                            size: 24,
+                                          ),
+                                        ),
+                                        SizedBox(height: 8),
+                                        Text(
+                                          'Al-Quran Digital',
+                                          style: TextStyle(
+                                            color: Theme.of(context).primaryColor,
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 12,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 16),
+                      Padding(
+                        padding: EdgeInsets.only(left: 12, right: 12, top: 6),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Info Terbaru',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      CardInfo(),
+                      SizedBox(height: 22),
+                      Padding(
+                        padding: EdgeInsets.only(left: 12, right: 12, top: 6),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Hadiah Menarik',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 8.0),
+                      RewardComponent(),
+                      SizedBox(height: 20.0),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
-          SizedBox(height: 20),
-          CardInfo(),
-          SizedBox(height: 30),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            child: Text(
-              'Hadiah Menarik',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 15,
-              ),
-            ),
-          ),
-          SizedBox(height: 10.0),
-          RewardComponent(),
-          SizedBox(height: 40.0),
         ],
       ),
     );
@@ -483,89 +762,53 @@ class _Home4AppState extends Home4Model {
 
     return Container(
       width: double.infinity,
-      margin: EdgeInsets.symmetric(horizontal: w * 0.04, vertical: h * 0.04),
+      margin: EdgeInsets.symmetric(horizontal: w * 0.04, vertical: h * 0.02),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24),
-        gradient: LinearGradient(
-          colors: [Color(0xFF0652DD), Color(0xFF0652DD)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
+        borderRadius: BorderRadius.circular(16),
+        color: Color(0xFF0652DD),
         boxShadow: [
           BoxShadow(
-              color: Colors.black12, blurRadius: 10, offset: Offset(0, 4)),
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 8,
+            offset: Offset(0, 4),
+          ),
         ],
       ),
       child: Padding(
-        padding: EdgeInsets.symmetric(
-            horizontal: w * 0.05, vertical: h * 0.032), // PAD KECIL
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        padding: EdgeInsets.all(20),
+        child: Row(
           children: [
-            // Icon + Judul
-            Row(
-              children: [
-                Icon(Icons.group_add,
-                    color: Colors.white, size: w * 0.058), // lebih kecil
-                SizedBox(width: w * 0.018),
-                Expanded(
-                  child: Text(
-                    "Dapatkan Komisi dari Ajak Teman Kamu",
+            // Text Content
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 5),
+                  Text(
+                    "Undang Teman anda sebanyak banyaknya Dapat Bonus referal 10.000 dan komisi transaksi downline anda",
                     style: TextStyle(
                       color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: w * 0.041, // lebih kecil
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: h * 0.02), // jarak kecil
-            // Deskripsi
-            Text(
-              "Mengajak Teman Kamu Untuk Menggunakan Payuni adalah Salah Satu Cara Untuk Mendapatkan Penghasilan Tambahan Buat Kamu.",
-              style: TextStyle(
-                color: Colors.white70,
-                fontSize: w * 0.029, // lebih kecil
-                height: 1.5,
-              ),
-              maxLines: 4,
-              overflow: TextOverflow.ellipsis,
-            ),
-            SizedBox(height: h * 0.020), // jarak kecil
-            // Button
-            SizedBox(
-              width: double.infinity,
-              child: OutlinedButton.icon(
-                icon: Icon(Icons.share, color: Colors.white, size: w * 0.045),
-                label: Padding(
-                  padding: EdgeInsets.symmetric(vertical: h * 0.009),
-                  child: Text(
-                    "Undang Teman",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: w * 0.037,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 11,
                     ),
                   ),
-                ),
-                style: OutlinedButton.styleFrom(
-                  side: BorderSide(color: Colors.white, width: 1.2),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  backgroundColor: Colors.transparent,
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  minimumSize: Size(0, 0),
-                ),
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => InvitePage()),
-                  );
-                },
+                  SizedBox(height: 8),
+                  // Text(
+                  //   "referal 10.000 dan komisi transaksi downline anda",
+                  //   style: TextStyle(
+                  //     color: Colors.white,
+                  //     fontSize: 14,
+                  //   ),
+                  // budiono ssiregar)
+                ],
               ),
+            ),
+            SizedBox(width: 16),
+            // Icon
+            Icon(
+              Icons.person_add_alt_1_outlined,
+              color: Colors.white,
+              size: 32,
             ),
           ],
         ),
@@ -578,16 +821,16 @@ class GradientLine extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 4, // Ketebalan garis
-      width: double.infinity, // Lebar garis sesuai layar
+      height: 1,  
+      //width: double.infinity,  
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            Colors.grey, // Warna awal gradasi (atas)
-            Colors.white, // Warna akhir gradasi (bawah)
+            Color(0xFFe4ebfd), 
+            Color(0xFFe4ebfd),  
           ],
-          begin: Alignment.topCenter, // Mulai dari atas
-          end: Alignment.bottomCenter, // Berakhir di bawah
+          begin: Alignment.topCenter,  
+          end: Alignment.bottomCenter,  
         ),
       ),
     );
@@ -801,3 +1044,4 @@ class PanelSemuaMenu extends StatelessWidget {
     );
   }
 }
+
