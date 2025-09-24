@@ -93,6 +93,24 @@ class _TambahDownlineState extends TambahDownlineController {
                               ),
                               SizedBox(height: 15),
                               TextFormField(
+                                controller: email,
+                                keyboardType: TextInputType.emailAddress,
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Email Downline',
+                                  prefixIcon: Icon(Icons.email),
+                                ),
+                                validator: (val) {
+                                  if (val == null || val.isEmpty)
+                                    return 'Email tidak boleh kosong';
+                                  else if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(val))
+                                    return 'Format email tidak valid';
+                                  else
+                                    return null;
+                                },
+                              ),
+                              SizedBox(height: 15),
+                              TextFormField(
                                 controller: namaToko,
                                 keyboardType: TextInputType.text,
                                 decoration: InputDecoration(

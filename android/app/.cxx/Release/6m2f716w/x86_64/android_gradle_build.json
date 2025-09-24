@@ -1,0 +1,28 @@
+{
+  "buildFiles": [
+    "/Users/findigiosdev/Desktop/test ios/ios-flavorin/android/app/src/main/cpp/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/Users/findigiosdev/Library/Android/sdk/cmake/3.18.1/bin/ninja",
+      "-C",
+      "/Users/findigiosdev/Desktop/test ios/ios-flavorin/android/app/.cxx/Release/6m2f716w/x86_64",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/Users/findigiosdev/Library/Android/sdk/cmake/3.18.1/bin/ninja",
+    "-C",
+    "/Users/findigiosdev/Desktop/test ios/ios-flavorin/android/app/.cxx/Release/6m2f716w/x86_64",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {},
+  "toolchains": {
+    "toolchain": {
+      "cCompilerExecutable": "/Users/findigiosdev/Library/Android/sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang.lld",
+      "cppCompilerExecutable": "/Users/findigiosdev/Library/Android/sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++.lld"
+    }
+  },
+  "cFileExtensions": [],
+  "cppFileExtensions": []
+}

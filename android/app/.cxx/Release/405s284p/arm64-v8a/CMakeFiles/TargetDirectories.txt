@@ -1,0 +1,2 @@
+/Users/findigiosdev/Desktop/test ios/ios-flavorin/android/app/.cxx/Release/405s284p/arm64-v8a/CMakeFiles/rebuild_cache.dir
+/Users/findigiosdev/Desktop/test ios/ios-flavorin/android/app/.cxx/Release/405s284p/arm64-v8a/CMakeFiles/edit_cache.dir

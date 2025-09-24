@@ -4,7 +4,7 @@
     android:versionName="1.0">
     
     <!-- 16KB page size compatibility -->
-    <uses-sdk android:minSdkVersion="21" android:targetSdkVersion="35" />
+    <uses-sdk android:minSdkVersion="21" android:targetSdkVersion="36" />
     
     <!-- 16KB page size specific permissions -->
     <uses-permission android:name="android.permission.USE_BIOMETRIC" />
@@ -23,22 +23,22 @@
         
         <!-- 16KB page size compatibility -->
         <meta-data
-            android:name="android.16kb.page.size.support"
-            android:value="true" />
+            android:name="android.app.lib_name"
+            android:value="flutter" />
             
-        <!-- Legacy packaging for 16KB compatibility -->
+        <!-- Enable 16KB page size support -->
         <meta-data
-            android:name="android.legacy.packaging"
+            android:name="android.app.page_size_agnostic"
             android:value="true" />
             
         <!-- Package alignment for 16KB compatibility -->
         <meta-data
-            android:name="android.package.alignment"
+            android:name="android.app.package_alignment"
             android:value="16384" />
             
         <!-- ELF alignment for 16KB compatibility -->
         <meta-data
-            android:name="android.elf.alignment"
+            android:name="android.app.elf_alignment"
             android:value="16384" />
         
         <activity
@@ -69,16 +69,23 @@
             
         <!-- Flutter 16KB page size support -->
         <meta-data
-            android:name="flutter.16kb.page.size.support"
+            android:name="flutter.embedding.android.PageSizeAgnostic"
             android:value="true" />
             
         <!-- Flutter package alignment for 16KB -->
         <meta-data
-            android:name="flutter.package.alignment"
+            android:name="flutter.embedding.android.PackageAlignment"
             android:value="16384" />
             
-
+        <!-- 16KB page size agnostic support -->
+        <meta-data
+            android:name="android.app.supports_16kb_pages"
+            android:value="true" />
             
+        <!-- Memory alignment for 16KB pages -->
+        <meta-data
+            android:name="android.app.memory_alignment"
+            android:value="16384" />
 
     </application>
     

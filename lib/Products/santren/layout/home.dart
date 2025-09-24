@@ -25,6 +25,7 @@ import 'package:http/http.dart' as http;
 import 'package:mobile/utils/debug_helper.dart';
 import 'package:badges/badges.dart' as BadgeModule;
 import 'package:hive/hive.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Home4App extends StatefulWidget {
   @override
@@ -563,8 +564,11 @@ class _Home4AppState extends Home4Model {
                                   color: Colors.transparent,
                                   child: InkWell(
                                     borderRadius: BorderRadius.circular(12),
-                                    onTap: () {
-                                      Navigator.of(context).pushNamed('/invite');
+                                    onTap: () async {
+                                      const url = 'https://baznas.go.id';
+                                      if (await canLaunch(url)) {
+                                        await launch(url);
+                                      }
                                     },
                                     child: Column(
                                       mainAxisAlignment: MainAxisAlignment.center,
@@ -618,8 +622,11 @@ class _Home4AppState extends Home4Model {
                                   color: Colors.transparent,
                                   child: InkWell(
                                     borderRadius: BorderRadius.circular(12),
-                                    onTap: () {
-                                      Navigator.of(context).pushNamed('/referral');
+                                    onTap: () async {
+                                      const url = 'https://digital.dompetdhuafa.org/zakat/maal';
+                                      if (await canLaunch(url)) {
+                                        await launch(url);
+                                      }
                                     },
                                     child: Column(
                                       mainAxisAlignment: MainAxisAlignment.center,
@@ -673,8 +680,11 @@ class _Home4AppState extends Home4Model {
                                   color: Colors.transparent,
                                   child: InkWell(
                                     borderRadius: BorderRadius.circular(12),
-                                    onTap: () {
-                                      Navigator.of(context).pushNamed('/commission');
+                                    onTap: () async {
+                                      const url = 'https://quran.nu.or.id';
+                                      if (await canLaunch(url)) {
+                                        await launch(url);
+                                      }
                                     },
                                     child: Column(
                                       mainAxisAlignment: MainAxisAlignment.center,
