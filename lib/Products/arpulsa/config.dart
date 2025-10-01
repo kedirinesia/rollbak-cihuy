@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '622f2df8a170d9319a21c858';
 
@@ -6,7 +5,7 @@ const namaApp = 'AR Pulsa';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.arpulsa.mobile';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

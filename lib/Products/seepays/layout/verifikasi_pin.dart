@@ -1,10 +1,8 @@
-// @dart=2.9
 
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/config.dart';
@@ -67,7 +65,7 @@ class _VerifikasiPinState extends VerifikasiPinController {
                   SizedBox(height: 10),
                   PinInputTextField(
                       controller: pin,
-                      pinLength: configAppBloc.pinCount.valueWrapper?.value,
+                      pinLength: configAppBloc.pinCount.valueWrapper?.value ?? 6,
                       decoration: BoxLooseDecoration(
                           obscureStyle: ObscureStyle(
                               isTextObscure: true, obscureText: '*'),
@@ -115,7 +113,7 @@ abstract class VerifikasiPinController extends State<VerifikasiPin>
           await http.post(Uri.parse('$apiUrl/user/pin/validate'),
               headers: {
                 'Content-Type': 'application/json',
-                'Authorization': bloc.token.valueWrapper?.value
+                'Authorization': bloc.token.valueWrapper?.value ?? ''
               },
               body: json.encode({'pin': pin.text}));
 
@@ -177,7 +175,7 @@ abstract class VerifikasiPinController extends State<VerifikasiPin>
 
   Future<void> getUserInfo() async {
     http.Response response = await http.get(Uri.parse('$apiUrl/user/info'),
-        headers: {'Authorization': bloc.token.valueWrapper?.value});
+        headers: {'Authorization': bloc.token.valueWrapper?.value ?? ''});
     if (response.statusCode == 200) {
       UserModel profile =
           UserModel.fromJson(json.decode(response.body)['data']);

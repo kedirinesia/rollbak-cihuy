@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '627cc49f8769aeb58a6dc482';
 
@@ -6,7 +5,7 @@ const namaApp = 'BiPay';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.bipay.android';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

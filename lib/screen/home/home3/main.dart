@@ -1,6 +1,4 @@
-// @dart=2.9
 
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/Products/violeta/layout/profile.dart';
 import 'package:mobile/bloc/Bloc.dart';
@@ -10,7 +8,6 @@ import 'package:mobile/screen/history/history.dart';
 import 'package:mobile/screen/profile/profile.dart';
 
 import './home3.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class MainApp extends StatefulWidget {
   @override
@@ -22,7 +19,7 @@ class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
   Color mainTextColor = Colors.blue;
 
   List<Widget> halaman =
-      configAppBloc.packagename.valueWrapper.value == 'id.violetapedia.mobile'
+      configAppBloc.packagename.valueWrapper?.value == 'id.violetapedia.mobile'    
           ? [Home3App(), HistoryPage(), ProfilePageVioleta()]
           : [Home3App(), HistoryPage(), ProfilePage()];
   int pageIndex = 0;
@@ -65,7 +62,7 @@ class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          title: Text(configAppBloc.namaApp.valueWrapper?.value,
+          title: Text(configAppBloc.namaApp.valueWrapper?.value ?? '',
               style: TextStyle(color: Colors.white)),
           backgroundColor: Theme.of(context).primaryColor,
           elevation: 0.0,
@@ -75,9 +72,9 @@ class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
                     icon: Icon(Icons.chat, color: Colors.white),
                     onPressed: () {
                       if (configAppBloc.liveChat.valueWrapper?.value != '') {
-                        return Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => Webview('Live Chat Support',
-                                configAppBloc.liveChat.valueWrapper?.value)));
+                         Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => Webview('Live Chat Support',  
+                                configAppBloc.liveChat.valueWrapper!.value)));
                       } else {
                         return null;
                       }
@@ -96,22 +93,27 @@ class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
           mainAxisSize: MainAxisSize.min,
           children: [
             // CurvedNavigationBar yang asli (tidak diubah)
-            CurvedNavigationBar(
-              color: Theme.of(context).primaryColor,
-              backgroundColor: Colors.white.withOpacity(.1),
-              animationCurve: Curves.fastOutSlowIn,
-              buttonBackgroundColor: Theme.of(context).primaryColor,
-              items: <Widget>[
-                Icon(Icons.apps, size: configAppBloc.packagename.valueWrapper?.value == 'com.flobamora.app' ? 35 : 30, color: Colors.white),
-                Icon(Icons.list, size: configAppBloc.packagename.valueWrapper?.value == 'com.flobamora.app' ? 35 : 30, color: Colors.white),
-                Icon(Icons.person, size: configAppBloc.packagename.valueWrapper?.value == 'com.flobamora.app' ? 35 : 30, color: Colors.white),
-              ],
+            BottomNavigationBar(
+              currentIndex: pageIndex,
               onTap: (index) {
-                //Handle button tap
                 setState(() {
                   pageIndex = index;
                 });
               },
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.apps),
+                  label: 'Home',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.list),
+                  label: 'History',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.person),
+                  label: 'Profile',
+                ),
+              ],
             ),
                          // Shape tambahan di bawah bottom navigation bar (hanya untuk Flobamora)
              if (configAppBloc.packagename.valueWrapper?.value == 'com.flobamora.app')

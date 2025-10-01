@@ -1,4 +1,3 @@
-// @dart=2.9
 
 class DaftarTransferModel {
   String id;
@@ -10,12 +9,12 @@ class DaftarTransferModel {
   bool isFavorite;
 
   DaftarTransferModel({
-    this.id,
-    this.kodeProduk,
-    this.namaBank,
-    this.namaRekening,
-    this.noTujuan,
-    this.isFavorite,
+    required this.id,
+    required this.kodeProduk,
+    required this.namaBank,
+    required this.namaRekening,
+    required this.noTujuan,
+    required this.isFavorite,
   });
 
   factory DaftarTransferModel.create(DaftarTransferModel transfer) {

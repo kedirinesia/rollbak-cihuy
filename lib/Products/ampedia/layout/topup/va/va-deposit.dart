@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,7 +8,6 @@ import 'package:mobile/models/virtual_account.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/Products/ampedia/layout/components/payment_tutorial.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class DepositVa extends StatefulWidget {
   final VirtualAccountResponse va;
@@ -42,7 +40,7 @@ class _DepositVaState extends State<DepositVa> {
             onPressed: () => Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                   builder: (_) =>
-                      configAppBloc.layoutApp?.valueWrapper?.value['home'] ??
+                      configAppBloc.layoutApp.valueWrapper?.value['home'] ??
                       templateConfig[
                           configAppBloc.templateCode.valueWrapper?.value],
                 ),

@@ -1,8 +1,6 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'dart:io';
-import 'dart:io' show Platform;
 
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -34,7 +32,7 @@ class PrintPreview extends StatefulWidget {
   final TrxModel trx;
   final bool isPostpaid;
 
-  PrintPreview({Key key, this.trx, this.isPostpaid = false}) : super(key: key) {
+  PrintPreview({Key? key, required this.trx, this.isPostpaid = false}) : super(key: key) {
     DebugHelper.debugPrint('"isPostpaid in constructor: $isPostpaid"');
   }
 
@@ -45,7 +43,7 @@ class PrintPreview extends StatefulWidget {
 class _PrintPreviewState extends PrintPreviewController {
   BlueThermalPrinter _bluetooth = BlueThermalPrinter.instance;
   ScreenshotController _screenshotController = ScreenshotController();
-  File image;
+  File? image;
   bool isLogoPrinter = false;
   String footerStruk =
       'TERSEDIA PULSA, KUOTA ALL OPERATOR, TOKEN PLN, BAYAR TAGIHAN LISTRIK, PDAM, TELKOM, ITEM GAME, DAN MULTI PEMBAYARAN LAINNYA';
@@ -53,16 +51,18 @@ class _PrintPreviewState extends PrintPreviewController {
   Future<void> share() async {
     Directory temp = await getTemporaryDirectory();
     image = await File('${temp.path}/trx_${widget.trx.id}.png').create();
-    Uint8List bytes = await _screenshotController.capture(
+    Uint8List? bytes = await _screenshotController.capture(
       pixelRatio: 2.5,
       delay: Duration(milliseconds: 100),
     );
-    await image.writeAsBytes(bytes);
+    if (bytes != null) {
+      await image?.writeAsBytes(bytes);
+    }
     if (image == null) return;
     await Share.file(
       'Transaksi ${widget.trx.produk['nama']}',
       'trx_${widget.trx.id}.png',
-      image.readAsBytesSync(),
+        image!.readAsBytesSync(),
       'image/png',
     );
   }
@@ -75,7 +75,7 @@ class _PrintPreviewState extends PrintPreviewController {
       http.Response response =
           await http.post(Uri.parse('$apiUrl/product/member/$productId'),
               headers: {
-                'Authorization': bloc.token.valueWrapper?.value,
+                'Authorization': bloc.token.valueWrapper?.value ?? '',
                 'Content-Type': 'application/json'
               },
               body: json.encode({
@@ -83,7 +83,6 @@ class _PrintPreviewState extends PrintPreviewController {
                 'admin': txtAdmin.text,
               }));
       DebugHelper.debugPrint('response.body.toString()');
-      String message = json.decode(response.body)['message'];
       if (response.statusCode == 200) {
         showCustomDialog(
             context: context,
@@ -116,7 +115,7 @@ class _PrintPreviewState extends PrintPreviewController {
     });
     getData();
     analitycs.pageView('/transaksi/' + widget.trx.id + '/print',
-        {'userId': bloc.userId.valueWrapper.value, 'title': 'Print Transaksi'});
+        {'userId': bloc.userId.valueWrapper?.value, 'title': 'Print Transaksi'});
     harga = trxData.harga_jual;
     total = harga + admin;
     txtHarga.text = harga.toString();
@@ -135,9 +134,9 @@ class _PrintPreviewState extends PrintPreviewController {
     });
 
     if (dynamicFooterStruk) {
-      if (configAppBloc.info.valueWrapper?.value?.footerStruk?.isNotEmpty == true) {
+      if (configAppBloc.info.valueWrapper?.value.footerStruk.isNotEmpty == true) {
         setState(() {
-          footerStruk = configAppBloc.info.valueWrapper.value.footerStruk;
+          footerStruk = configAppBloc.info.valueWrapper!.value.footerStruk;
         });
       }
     }
@@ -207,7 +206,7 @@ class _PrintPreviewState extends PrintPreviewController {
     Generator ticket = Generator(paperSize, profile);
     List<int> bytes = [];
     ticket.setGlobalFont(PosFontType.fontA);
-    int i = bloc.printerFontSize.valueWrapper.value - 1;
+    int i = (bloc.printerFontSize.valueWrapper?.value ?? 1) - 1;
     List<PosTextSize> sizes = [
       PosTextSize.size1,
       PosTextSize.size2,
@@ -225,9 +224,9 @@ class _PrintPreviewState extends PrintPreviewController {
       throw Exception('Data user tidak valid');
     }
     
-    String printStoreName = bloc.user.valueWrapper.value.namaToko?.isEmpty == true
-        ? bloc.user.valueWrapper.value.nama ?? ''
-        : bloc.user.valueWrapper.value.namaToko ?? '';
+    String printStoreName = bloc.user.valueWrapper!.value.namaToko.isEmpty == true
+        ? bloc.user.valueWrapper!.value.nama
+        : bloc.user.valueWrapper!.value.namaToko;
         
     if (printStoreName.isEmpty) {
       printStoreName = 'Toko';
@@ -243,9 +242,9 @@ class _PrintPreviewState extends PrintPreviewController {
       ),
     );
     
-    String printStoreAddress = bloc.user.valueWrapper.value.alamatToko?.isEmpty == true
-        ? bloc.user.valueWrapper.value.alamat ?? ''
-        : bloc.user.valueWrapper.value.alamatToko ?? '';
+    String printStoreAddress = bloc.user.valueWrapper!.value.alamatToko.isEmpty == true
+        ? bloc.user.valueWrapper!.value.alamat
+        : bloc.user.valueWrapper!.value.alamatToko;
         
     bytes += ticket.text(
       printStoreAddress,
@@ -382,9 +381,9 @@ class _PrintPreviewState extends PrintPreviewController {
       throw Exception('Data user tidak valid');
     }
     
-    String v2PrintStoreName = bloc.user.valueWrapper.value.namaToko?.isEmpty == true
-        ? bloc.user.valueWrapper.value.nama ?? ''
-        : bloc.user.valueWrapper.value.namaToko ?? '';
+    String v2PrintStoreName = bloc.user.valueWrapper!.value.namaToko.isEmpty == true
+        ? bloc.user.valueWrapper!.value.nama
+        : bloc.user.valueWrapper!.value.namaToko;
         
     if (v2PrintStoreName.isEmpty) {
       v2PrintStoreName = 'Toko';
@@ -396,9 +395,9 @@ class _PrintPreviewState extends PrintPreviewController {
       1,
     );
     
-    String v2PrintStoreAddress = bloc.user.valueWrapper.value.alamatToko?.isEmpty == true
-        ? bloc.user.valueWrapper.value.alamat ?? ''
-        : bloc.user.valueWrapper.value.alamatToko ?? '';
+    String v2PrintStoreAddress = bloc.user.valueWrapper!.value.alamatToko.isEmpty == true
+        ? bloc.user.valueWrapper!.value.alamat
+        : bloc.user.valueWrapper!.value.alamatToko;
         
     await _bluetooth.printCustom(
       v2PrintStoreAddress,
@@ -467,7 +466,7 @@ class _PrintPreviewState extends PrintPreviewController {
       Permission.bluetoothScan,
     ].request();
     
-    bool isOn = await _bluetooth.isOn;
+    bool isOn = await _bluetooth.isOn ?? false;
     
     // Check if any of the required permissions are granted
     bool hasLocationPermission = statuses[Permission.locationWhenInUse] == PermissionStatus.granted;
@@ -554,7 +553,7 @@ class _PrintPreviewState extends PrintPreviewController {
     DebugHelper.debugPrint('"Bluetooth status: $status"');
     DebugHelper.debugPrint('"Platform: ${Platform.operatingSystem}"');
     
-    BluetoothDevice device;
+    BluetoothDevice? device;
     try {
       device = await Navigator.of(context)
           .push(MaterialPageRoute(builder: (_) => SelectPrinterPage()));
@@ -592,7 +591,7 @@ class _PrintPreviewState extends PrintPreviewController {
       final _profile = await CapabilityProfile.load();
 
       try {
-        switch (bloc.printerType.valueWrapper.value) {
+        switch (bloc.printerType.valueWrapper?.value ?? 1) {
           case 1:
             Uint8List bytes = v1(PaperSize.mm58, _profile);
             int totalChunks = (bytes.length - (bytes.length % 100)) ~/ 100;
@@ -664,9 +663,9 @@ class _PrintPreviewState extends PrintPreviewController {
             onPressed: () => Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                   builder: (_) =>
-                      configAppBloc.layoutApp?.valueWrapper.value['home'] ??
+                                      configAppBloc.layoutApp.valueWrapper?.value['home'] ??
                       templateConfig[
-                          configAppBloc.templateCode.valueWrapper.value],
+                          configAppBloc.templateCode.valueWrapper?.value ?? 0],
                 ),
                 (route) => false),
           ),
@@ -749,7 +748,7 @@ class _PrintPreviewState extends PrintPreviewController {
                                         color: Theme.of(context)
                                             .secondaryHeaderColor)),
                                 onChanged: (value) => setState(() {
-                                      if (value == null) {
+                                      if (value.isEmpty) {
                                         harga = 0;
                                         total = 0 + admin + cetak;
                                       } else {
@@ -765,7 +764,7 @@ class _PrintPreviewState extends PrintPreviewController {
                                     labelText: labelHarga,
                                     prefixText: 'Rp '),
                                 onChanged: (value) => setState(() {
-                                      if (value == null) {
+                                      if (value.isEmpty) {
                                         harga = 0;
                                         total = 0 + admin + cetak;
                                       } else {
@@ -805,7 +804,7 @@ class _PrintPreviewState extends PrintPreviewController {
                                         color: Theme.of(context)
                                             .secondaryHeaderColor)),
                                 onChanged: (value) => setState(() {
-                                      if (value == null) {
+                                      if (value.isEmpty) {
                                         admin = 0;
                                         total = harga + 0 + cetak;
                                       } else {
@@ -821,7 +820,7 @@ class _PrintPreviewState extends PrintPreviewController {
                                     labelText: 'Admin',
                                     prefixText: 'Rp '),
                                 onChanged: (value) => setState(() {
-                                      if (value == null) {
+                                      if (value.isEmpty) {
                                         admin = 0;
                                         total = harga + 0 + cetak;
                                       } else {
@@ -840,7 +839,7 @@ class _PrintPreviewState extends PrintPreviewController {
                                     labelText: 'Biaya Cetak',
                                     prefixText: 'Rp '),
                                 onChanged: (value) => setState(() {
-                                      if (value == null) {
+                                      if (value.isEmpty) {
                                         cetak = 0;
                                         total = harga + admin + 0;
                                       } else {
@@ -885,14 +884,14 @@ class _PrintPreviewState extends PrintPreviewController {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.0),
                         image: configAppBloc.iconApp.valueWrapper
-                                    .value['backgroundStruk'] ==
+                                    ?.value['backgroundStruk'] ==
                                 null
                             ? null
                             : DecorationImage(
                                 image: CachedNetworkImageProvider(configAppBloc
                                     .iconApp
-                                    .valueWrapper
-                                    .value['backgroundStruk']),
+                                    .valueWrapper!
+                                    .value['backgroundStruk'] as String),
                                 repeat: ImageRepeat.repeat,
                                 fit: BoxFit.scaleDown,
                               ),
@@ -919,15 +918,15 @@ class _PrintPreviewState extends PrintPreviewController {
                                 ? Stack(
                                     children: [
                                       configAppBloc.iconApp.valueWrapper
-                                                  .value['logoPrinter'] ==
+                                                  ?.value['logoPrinter'] ==
                                               null
                                           ? SizedBox()
                                           : Container(
                                               child: CachedNetworkImage(
                                                 imageUrl: configAppBloc
                                                     .iconApp
-                                                    .valueWrapper
-                                                    .value['logoPrinter'],
+                                                    .valueWrapper!
+                                                    .value['logoPrinter'] as String,
                                                 height: 30,
                                               ),
                                             ),
@@ -939,13 +938,13 @@ class _PrintPreviewState extends PrintPreviewController {
                                                 CrossAxisAlignment.center,
                                             children: [
                                               Text(
-                                                  bloc.user.valueWrapper.value
+                                                  bloc.user.valueWrapper!.value
                                                               .namaToko ==
                                                           ''
                                                       ? bloc.username
-                                                          .valueWrapper.value
-                                                      : bloc.user.valueWrapper
-                                                          .value?.namaToko,
+                                                          .valueWrapper!.value
+                                                      : bloc.user.valueWrapper!
+                                                          .value.namaToko,
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 16,
@@ -953,12 +952,12 @@ class _PrintPreviewState extends PrintPreviewController {
                                                   )),
                                               SizedBox(height: 5),
                                               Text(
-                                                  bloc.user.valueWrapper.value
+                                                  bloc.user.valueWrapper!.value
                                                               .alamatToko ==
                                                           ''
-                                                      ? bloc.user.valueWrapper
+                                                      ? bloc.user.valueWrapper!
                                                           .value.alamat
-                                                      : bloc.user.valueWrapper
+                                                      : bloc.user.valueWrapper!
                                                           .value.alamatToko,
                                                   style: TextStyle(
                                                     fontSize: 12,
@@ -974,12 +973,12 @@ class _PrintPreviewState extends PrintPreviewController {
                                     child: Column(
                                       children: [
                                         Text(
-                                            bloc.user.valueWrapper.value
+                                            bloc.user.valueWrapper!.value
                                                         .namaToko ==
                                                     ''
-                                                ? bloc.username.valueWrapper
-                                                    ?.value
-                                                : bloc.user.valueWrapper.value
+                                                ? (bloc.username.valueWrapper
+                                                    ?.value ?? '')
+                                                : bloc.user.valueWrapper!.value
                                                     .namaToko,
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
@@ -988,12 +987,12 @@ class _PrintPreviewState extends PrintPreviewController {
                                             )),
                                         SizedBox(height: 5),
                                         Text(
-                                            bloc.user.valueWrapper.value
+                                            bloc.user.valueWrapper!.value
                                                         .alamatToko ==
                                                     ''
-                                                ? bloc.user.valueWrapper.value
+                                                ? bloc.user.valueWrapper!.value
                                                     .alamat
-                                                : bloc.user.valueWrapper.value
+                                                : bloc.user.valueWrapper!.value
                                                     .alamatToko,
                                             style: TextStyle(
                                               fontSize: 12,
@@ -1040,9 +1039,7 @@ class _PrintPreviewState extends PrintPreviewController {
                                   Expanded(
                                     flex: 1,
                                     child: Text(
-                                      trxData.produk == null
-                                          ? '-'
-                                          : trxData.produk['nama'] ?? '-',
+                                      trxData.produk['nama'] ?? '-',
                                       style: TextStyle(
                                         fontFamily: 'Poppins',
                                       ),
@@ -1237,7 +1234,7 @@ class _PrintPreviewState extends PrintPreviewController {
 
 abstract class PrintPreviewController extends State<PrintPreview>
     with TickerProviderStateMixin {
-  TrxModel trxData;
+  late TrxModel trxData;
   List<Map<String, dynamic>> additionalData = [];
   bool showEditor = false;
   bool showSN = false;
@@ -1256,7 +1253,7 @@ abstract class PrintPreviewController extends State<PrintPreview>
   void getData() async {
     http.Response response = await http.get(
         Uri.parse('$apiUrl/trx/${widget.trx.id}/print'),
-        headers: {'Authorization': bloc.token.valueWrapper.value});
+        headers: {'Authorization': bloc.token.valueWrapper?.value ?? ''});
 
     if (response.statusCode == 200) {
       trxData = TrxModel.fromJson(json.decode(response.body)['data']);
@@ -1305,7 +1302,7 @@ abstract class PrintPreviewController extends State<PrintPreview>
       http.Response response = await http.get(
         Uri.parse('$apiUrl/product/member/$productId'),
         headers: {
-          'Authorization': bloc.token.valueWrapper?.value,
+          'Authorization': bloc.token.valueWrapper?.value ?? '',
         },
       );
 

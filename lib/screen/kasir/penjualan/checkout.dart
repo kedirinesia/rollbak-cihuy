@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 
@@ -20,7 +19,6 @@ import 'package:mobile/screen/kasir/penjualan/payment.dart';
 // import 'package:mobile/screen/kasir/penjualan/detailPayment.dart';
 
 import 'package:mobile/modules.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class Checkout extends StatefulWidget {
   final getData;

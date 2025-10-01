@@ -1,4 +1,3 @@
-// @dart=2.9
 
 class CategoryModel {
   String id;
@@ -6,7 +5,7 @@ class CategoryModel {
   bool aktif;
   String created_at;
 
-  CategoryModel({this.id, this.nama, this.aktif, this.created_at});
+  CategoryModel({required this.id, required this.nama, required this.aktif, required this.created_at});
 
   factory CategoryModel.fromJson(Map<String, dynamic> json) {
     return CategoryModel(

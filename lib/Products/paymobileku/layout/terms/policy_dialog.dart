@@ -1,15 +1,13 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class PolicyDialog extends StatelessWidget {
   PolicyDialog({
-    Key key,
+    Key? key,
     this.radius = 8,
-    @required this.mdFileName,
+    required this.mdFileName,
   })  : assert(mdFileName.contains('.md'),
             'The file must contain the .md extension'),
         super(key: key);
@@ -32,7 +30,7 @@ class PolicyDialog extends StatelessWidget {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return Markdown(
-                    data: snapshot.data,
+                    data: snapshot.data ?? '',
                   );
                 }
                 return Center(
@@ -44,7 +42,7 @@ class PolicyDialog extends StatelessWidget {
           TextButton(
             style: TextButton.styleFrom(
               padding: EdgeInsets.all(0),
-              backgroundColor: Theme.of(context).buttonColor,
+              backgroundColor: Theme.of(context).colorScheme.primary,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(radius),
@@ -68,7 +66,7 @@ class PolicyDialog extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Theme.of(context).textTheme.labelLarge.color,
+                  color: Theme.of(context).textTheme.labelLarge?.color,
                 ),
               ),
             ),

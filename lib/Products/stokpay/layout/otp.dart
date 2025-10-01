@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -17,7 +16,6 @@ import 'package:mobile/screen/disable.dart';
 import 'package:nav/nav.dart';
 import 'package:pin_input_text_field/pin_input_text_field.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 enum OTP { sms, whatsapp }
 

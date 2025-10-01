@@ -1,4 +1,3 @@
-// @dart=2.9
 
 class ProdukDetailMarket {
   final String id;
@@ -12,15 +11,15 @@ class ProdukDetailMarket {
   final List<String> images;
 
   ProdukDetailMarket({
-    this.id,
-    this.title,
-    this.description,
-    this.thumbnail,
-    this.categoryId,
-    this.weight,
-    this.price,
-    this.stock,
-    this.images,
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.thumbnail,
+    required this.categoryId,
+    required this.weight,
+    required  this.price,
+    required  this.stock,
+    required this.images,
   });
 
   factory ProdukDetailMarket.fromJson(dynamic json) {
@@ -31,11 +30,11 @@ class ProdukDetailMarket {
     });
 
     return ProdukDetailMarket(
-      id: json['_id'],
-      title: json['judul'],
-      description: json['description'],
-      thumbnail: json['thumbnail'],
-      categoryId: json['category_id'],
+      id: json['_id'] ?? '',
+      title: json['judul'] ?? '',
+      description: json['description'] ?? '',
+      thumbnail: json['thumbnail'] ?? '',
+      categoryId: json['category_id'] ?? '',
       weight: json['berat'] ?? 1000,
       price: json['harga_jual'] ?? 0,
       stock: json['stock'] ?? 0,

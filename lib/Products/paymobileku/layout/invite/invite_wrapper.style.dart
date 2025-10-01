@@ -1,11 +1,11 @@
-import 'package:division/division.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 abstract class InviteWrapperStyle {
-  static ParentStyle wrapper = ParentStyle()
-    ..margin(horizontal: 10, vertical: 20)
-    ..padding(all: 10)
-    ..background.color(Colors.white.withOpacity(.7))
-    ..borderRadius(all: 25);
+  static BoxDecoration wrapperDecoration = BoxDecoration(
+    color: Colors.white.withOpacity(.7),
+    borderRadius: BorderRadius.circular(25),
+  );
+
+  static EdgeInsets wrapperPadding = const EdgeInsets.all(10);
+  static EdgeInsets wrapperMargin = const EdgeInsets.symmetric(horizontal: 10, vertical: 20);
 }

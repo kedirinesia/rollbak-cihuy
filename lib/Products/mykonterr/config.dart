@@ -1,9 +1,7 @@
-// @dart=2.9
 
 import 'package:mobile/Products/mykonterr/layout/home.dart';
 import 'package:mobile/Products/mykonterr/layout/splash.dart';
 import 'package:mobile/Products/mykonterr/layout/onboarding.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 String sigVendor = '63a54d23c04ce7c61d034e23';
 
@@ -11,7 +9,7 @@ const namaApp = 'MyKonter';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'id.mykonter.app';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

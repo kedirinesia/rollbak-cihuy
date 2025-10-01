@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -30,7 +29,7 @@ class InquiryPrepaid extends StatefulWidget {
   final String kodeProduk;
   final int nominal;
 
-  InquiryPrepaid(this.kodeProduk, this.nomorTujuan, {this.nominal});
+   InquiryPrepaid(this.kodeProduk, this.nomorTujuan, {this.nominal = 0});
 
   @override                   
   _InquiryPrepaidState createState() => _InquiryPrepaidState();
@@ -64,7 +63,7 @@ class _InquiryPrepaidState extends InquiryPrepaidController {
                 SliverAppBar(
                   iconTheme: IconThemeData(color: Colors.white),
                   expandedHeight:
-                      configAppBloc.enableMultiChannel.valueWrapper?.value
+                      configAppBloc.enableMultiChannel.valueWrapper?.value ?? false
                           ? null
                           : 200.0,
                   backgroundColor: packageName == 'com.lariz.mobile'
@@ -82,9 +81,9 @@ class _InquiryPrepaidState extends InquiryPrepaidController {
                           MaterialPageRoute(
                             builder: (_) =>
                                 configAppBloc
-                                    .layoutApp?.valueWrapper?.value['home'] ??
+                                    .layoutApp.valueWrapper?.value['home'] ??
                                 templateConfig[configAppBloc
-                                    .templateCode.valueWrapper?.value],
+                                    .templateCode.valueWrapper?.value ?? 0],
                           ),
                           (route) => false),
                     ),
@@ -160,7 +159,7 @@ class _InquiryPrepaidState extends InquiryPrepaidController {
                                                 SizedBox(width: 5),
                                                 Flexible(
                                                   flex: 1,
-                                                  child: Text(data['nama'],
+                                                  child: Text(data['nama'] ?? '',
                                                       style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.bold),
@@ -338,11 +337,15 @@ class _InquiryPrepaidState extends InquiryPrepaidController {
                                                         color: Colors.grey,
                                                         fontSize: 10)),
                                                 Text(
-                                                    formatRupiah(
-                                                        data['harga_jual']),
+                                                    (data['harga_jual'] ?? 0) > 0
+                                                        ? formatRupiah(data['harga_jual'] ?? 0)
+                                                        : 'Data tidak tersedia',
                                                     style: TextStyle(
                                                         fontWeight:
-                                                            FontWeight.bold)),
+                                                            FontWeight.bold,
+                                                        color: (data['harga_jual'] ?? 0) > 0
+                                                            ? null
+                                                            : Colors.red)),
                                               ]),
                                           SizedBox(height: 10),
                                           Row(
@@ -356,7 +359,7 @@ class _InquiryPrepaidState extends InquiryPrepaidController {
                                                         fontSize: 10)),
                                                 Text(
                                                     formatRupiah(
-                                                        data['discount']),
+                                                        data['discount'] ?? 0),
                                                     style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold)),
@@ -373,7 +376,7 @@ class _InquiryPrepaidState extends InquiryPrepaidController {
                                                         fontSize: 10)),
                                                 Text(
                                                     formatRupiah(
-                                                        data['cashback']),
+                                                        data['cashback'] ?? 0),
                                                     style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold)),
@@ -392,13 +395,13 @@ class _InquiryPrepaidState extends InquiryPrepaidController {
                                                     formatRupiah(_opsiBayar == 0
                                                         ? 0
                                                         : _opsiBayar == 1
-                                                            ? data['unik']
+                                                            ? (data['unik'] ?? 0)
                                                             : _opsiBayar == 2
                                                                 ? (_jumlahBayar +
-                                                                        data[
-                                                                            'discount'] -
-                                                                        data[
-                                                                            'harga_jual'])
+                                                                        (data[
+                                                                            'discount'] ?? 0) -
+                                                                        (data[
+                                                                            'harga_jual'] ?? 0))
                                                                     .toInt()
                                                                 : 0),
                                                     style: TextStyle(
@@ -426,32 +429,34 @@ class _InquiryPrepaidState extends InquiryPrepaidController {
                                                         fontSize: 20)),
                                                 Text(
                                                     _opsiBayar == 0
-                                                        ? formatRupiah(data[
-                                                                'harga_jual'] -
-                                                            data['discount'])
-                                                        : formatRupiah(
-                                                            _jumlahBayar),
+                                                        ? ((data['harga_jual'] ?? 0) - (data['discount'] ?? 0)) > 0
+                                                            ? formatRupiah((data['harga_jual'] ?? 0) - (data['discount'] ?? 0))
+                                                            : 'Data tidak tersedia'
+                                                        : _jumlahBayar > 0
+                                                            ? formatRupiah(_jumlahBayar)
+                                                            : 'Data tidak tersedia',
                                                     style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       fontSize: 20,
-                                                      color: packageName ==
-                                                              'com.lariz.mobile'
-                                                          ? Theme.of(context)
-                                                              .secondaryHeaderColor
-                                                          : Theme.of(context)
-                                                              .primaryColor,
+                                                      color: (_opsiBayar == 0
+                                                          ? ((data['harga_jual'] ?? 0) - (data['discount'] ?? 0)) > 0
+                                                          : _jumlahBayar > 0)
+                                                          ? (packageName == 'com.lariz.mobile'
+                                                              ? Theme.of(context).secondaryHeaderColor
+                                                              : Theme.of(context).primaryColor)
+                                                          : Colors.red,
                                                     )),
                                               ]),
                                         ]),
                                   ),
                                   SizedBox(
                                       height: configAppBloc.enableMultiChannel
-                                              .valueWrapper?.value
+                                              .valueWrapper?.value ?? false
                                           ? 15.0
                                           : 0.0),
                                   configAppBloc.enableMultiChannel.valueWrapper
-                                          ?.value
+                                          ?.value ?? false
                                       ? Container(
                                           width: double.infinity,
                                           padding: EdgeInsets.all(20),
@@ -586,7 +591,7 @@ class _InquiryPrepaidState extends InquiryPrepaidController {
                                                                 formatRupiah(bloc
                                                                     .user
                                                                     .valueWrapper
-                                                                    .value
+                                                                    !.value
                                                                     .saldo),
                                                                 style: TextStyle(
                                                                     color: _opsiBayar ==
@@ -681,7 +686,7 @@ class _InquiryPrepaidState extends InquiryPrepaidController {
                                                         height: configAppBloc
                                                                     .packagename
                                                                     .valueWrapper
-                                                                    .value !=
+                                                                    !.value !=
                                                                 'com.xenaja.app'
                                                             ? 10.0
                                                             : 0.0),
@@ -913,8 +918,8 @@ abstract class InquiryPrepaidController extends State<InquiryPrepaid> {
 
   bool loading = true;
   bool boxFavorite = false;
-  Map<String, dynamic> data;
-  List<dynamic> listPayment;
+  late Map<String, dynamic> data;
+  late List<dynamic> listPayment;
   bool afterTrx = false;
 
   List<VirtualAccount> vaList = [];
@@ -948,9 +953,8 @@ abstract class InquiryPrepaidController extends State<InquiryPrepaid> {
       jumlah = data['harga_unik'];
     } else if (value == 2) {
       jumlah = (data['harga_unik'] +
-              ((data['harga_unik'] - data['discount']) * (adminQris / 100)))
-          .toInt();
-      jumlah -= data['discount'];
+              ((data['harga_unik'] - data['discount']) * (adminQris / 100)).toInt());
+      jumlah = data['harga_unik'] + jumlah - data['discount'];
     }
 
     if (jumlah >= data['min_dep']) {
@@ -975,7 +979,7 @@ abstract class InquiryPrepaidController extends State<InquiryPrepaid> {
     http.Response response = await http.get(
       Uri.parse('$apiUrl/deposit/virtual-account/list'),
       headers: {
-        'Authorization': bloc.token.valueWrapper?.value,
+        'Authorization': bloc.token.valueWrapper?.value ?? '',
       },
     );
     if (response.statusCode == 200) {
@@ -1002,7 +1006,7 @@ abstract class InquiryPrepaidController extends State<InquiryPrepaid> {
     http.Response response =
         await http.post(Uri.parse('$apiUrl/trx/prepaid/inquiry'),
             headers: {
-              'Authorization': bloc.token.valueWrapper?.value,
+              'Authorization': bloc.token.valueWrapper?.value ?? '',
               'Content-Type': 'application/json'
             },
             body: json.encode(dataToSend));
@@ -1012,13 +1016,13 @@ abstract class InquiryPrepaidController extends State<InquiryPrepaid> {
         loading = false;
         data = jsonDecode(response.body)['data'];
       });
-      DebugHelper.debugPrint('data.toString()');
+      DebugHelper.debugPrint('API Response Data: ${data.toString()}');
     } else if (response.statusCode == 403 &&
         json.decode(response.body)['need_verification']) {
       Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (_) =>
               configAppBloc
-                  .layoutApp.valueWrapper?.value['not_verified_user'] ??
+                    .layoutApp.valueWrapper?.value['not_verified_user'] ??
               NotVerifiedPage()));
       setState(() {
         loading = false;
@@ -1058,7 +1062,7 @@ abstract class InquiryPrepaidController extends State<InquiryPrepaid> {
     http.Response response =
         await http.post(Uri.parse('$apiUrl/favorite/checkNumber'),
             headers: {
-              'Authorization': bloc.token.valueWrapper?.value,
+              'Authorization': bloc.token.valueWrapper?.value ?? '',
               'Content-Type': 'application/json',
             },
             body: json.encode(dataToSend));
@@ -1128,7 +1132,7 @@ abstract class InquiryPrepaidController extends State<InquiryPrepaid> {
       http.Response response =
           await http.post(Uri.parse('$apiUrl/favorite/saveNumber'),
               headers: {
-                'Authorization': bloc.token.valueWrapper?.value,
+                'Authorization': bloc.token.valueWrapper?.value ?? '',
                 'Content-Type': 'application/json',
               },
               body: json.encode(dataToSend));
@@ -1162,57 +1166,58 @@ abstract class InquiryPrepaidController extends State<InquiryPrepaid> {
 
   // BAYAR OPSI LAIN
   purchaseOther() async {
-    setState(() {
-      loading = true;
-    });
-
     try {
-      sendDeviceToken();
-      String pin = await Navigator.of(context)
+      final pinResult = await Navigator.of(context)
           .push(MaterialPageRoute(builder: (context) => packageName == 'com.seepaysbiller.app' ? seepays.VerifikasiPin() : VerifikasiPin()));
-      if (pin != null) {
-        var dataToSend = {
-          'kode_produk': data['kode_produk'],
-          'tujuan': data['tujuan'],
-          'counter': data['counter'],
-          'opsi_bayar': _opsiBayar,
-          'unik': data['unik'],
-          'pin': pin
-        };
 
-        http.Response response =
-            await http.post(Uri.parse('$apiUrl/trx/prepaid/purchaseOrder'),
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': bloc.token.valueWrapper?.value
-                },
-                body: json.encode(dataToSend));
+      // Jika user batal/back di layar PIN: hentikan tanpa pesan dan tanpa request API
+      if (pinResult == null || (pinResult is String && pinResult.isEmpty)) return;
 
-        if (response.statusCode == 200) {
-          if (realtimePrepaid) {
-            Navigator.of(context).popUntil(ModalRoute.withName('/'));
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (_) => TransactionWaitPage(),
-              ),
-            );
-          } else {
-            TrxModel trx = await getLatestTrx();
-            Navigator.of(context).popUntil(ModalRoute.withName('/'));
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (_) => packageName == 'com.seepaysbiller.app'
-                    ? DetailTransaksi(trx)
-                    : HistoryPage(initIndex: 1),
-              ),
-            );
-          }
+      setState(() { loading = true; });
+
+      sendDeviceToken();
+
+      var dataToSend = {
+        'kode_produk': data['kode_produk'],
+        'tujuan': data['tujuan'],
+        'counter': data['counter'],
+        'opsi_bayar': _opsiBayar,
+        'unik': data['unik'],
+        'pin': pinResult is String ? pinResult : ''
+      };
+
+      http.Response response =
+          await http.post(Uri.parse('$apiUrl/trx/prepaid/purchaseOrder'),
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': bloc.token.valueWrapper?.value ?? '' 
+              },
+              body: json.encode(dataToSend));
+
+      if (response.statusCode == 200) {
+        if (realtimePrepaid) {
+          Navigator.of(context).popUntil(ModalRoute.withName('/'));
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) => TransactionWaitPage(),
+            ),
+          );
         } else {
-          String message = json.decode(response.body)['message'] ??
-              'Terjadi kesalahan pada server';
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(message)));
+          TrxModel trx = await getLatestTrx();
+          Navigator.of(context).popUntil(ModalRoute.withName('/'));
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) => packageName == 'com.seepaysbiller.app'
+                  ? DetailTransaksi(trx)
+                  : HistoryPage(initIndex: 1),
+            ),
+          );
         }
+      } else {
+        String message = json.decode(response.body)['message'] ??
+            'Terjadi kesalahan pada server';
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(message)));
       }
     } catch (err) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -1232,70 +1237,69 @@ abstract class InquiryPrepaidController extends State<InquiryPrepaid> {
     //     loading = true;
     //   });
     // }
-    setState(() {
-      loading = true;
-    });
-
     try {
-      sendDeviceToken();
-      String pin = await Navigator.of(context)
+      final pinResult = await Navigator.of(context)
           .push(MaterialPageRoute(builder: (context) => packageName == 'com.seepaysbiller.app' ? seepays.VerifikasiPin() : VerifikasiPin()));
-      if (pin != null) {
-        if (realtimePrepaid) {
-          setState(() {
-            afterTrx = true;
-          });
-        }
-        var dataToSend = {
-          'kode_produk': data['kode_produk'],
-          'tujuan': data['tujuan'],
-          'counter': data['counter'],
-          'pin': pin
-        };
 
-        if (widget.nominal != null) {
-          dataToSend['nominal'] = widget.nominal;
-        }
+      // Jika user batal/back: hentikan tanpa pesan dan tanpa request API
+      if (pinResult == null || (pinResult is String && pinResult.isEmpty)) return;
 
-        http.Response response =
-            await http.post(Uri.parse('$apiUrl/trx/prepaid/purchase'),
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': bloc.token.valueWrapper?.value
-                },
-                body: json.encode(dataToSend));
-        if (response.statusCode == 200) {
-          if (!realtimePrepaid) {
-            TrxModel trx = await getLatestTrx();
-            Navigator.of(context).popUntil(ModalRoute.withName('/'));
-            packageName == 'com.talentapay.android'
-                ? Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => HistoryPageTalenta(initIndex: 1),
-                    ),
-                  )
-                : Navigator.of(context).push(
-                    MaterialPageRoute(
-                        builder: (_) => packageName == 'com.eralink.mobileapk'
-                            ? DetailTransaksi(trx)
-                            : packageName == 'com.seepaysbiller.app'
-                                ? DetailTransaksi(trx)
-                                : HistoryPage(initIndex: 1)),
-                  );
-          }
-        } else {
-          setState(() {
-            afterTrx = false;
-          });
-          String message = json.decode(response.body)['message'] ??
-              'Terjadi kesalahan pada server';
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(message)));
-        }
+      setState(() { loading = true; });
+
+      sendDeviceToken();
+
+      if (realtimePrepaid) {
+        setState(() {
+          afterTrx = true;
+        });
       }
-      setState(() {
-        loading = false;
-      });
+      var dataToSend = {
+        'kode_produk': data['kode_produk'],
+        'tujuan': data['tujuan'],
+        'counter': data['counter'],
+        'pin': pinResult is String ? pinResult : ''
+      };
+
+      dataToSend['nominal'] = widget.nominal;
+
+      http.Response response =
+          await http.post(Uri.parse('$apiUrl/trx/prepaid/purchase'),
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': bloc.token.valueWrapper?.value ?? ''
+              },
+              body: json.encode(dataToSend));
+      if (response.statusCode == 200) {
+        if (!realtimePrepaid) {
+          TrxModel trx = await getLatestTrx();
+          Navigator.of(context).popUntil(ModalRoute.withName('/'));
+          packageName == 'com.talentapay.android'
+              ? Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => HistoryPageTalenta(initIndex: 1),
+                  ),
+                )
+              : Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                      builder: (_) => packageName == 'com.eralink.mobileapk'
+                          ? DetailTransaksi(trx)
+                          : packageName == 'com.seepaysbiller.app'
+                              ? DetailTransaksi(trx)
+                              : HistoryPage(initIndex: 1)),
+               
+                  ModalRoute.withName('/'),
+                );
+        }
+      } else {
+        setState(() {
+          afterTrx = false;
+        });
+        String message = json.decode(response.body)['message'] ??
+            'Terjadi kesalahan pada server';
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(message)));
+      }
+      setState(() { loading = false; });
     } catch (err) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content:
@@ -1309,13 +1313,13 @@ abstract class InquiryPrepaidController extends State<InquiryPrepaid> {
   Future<TrxModel> getLatestTrx() async {
     http.Response response = await http.get(
         Uri.parse('$apiUrl/trx/list?page=0&limit=1'),
-        headers: {'Authorization': bloc.token.valueWrapper?.value});
+        headers: {'Authorization': bloc.token.valueWrapper?.value ?? ''});
 
     if (response.statusCode == 200) {
       List<dynamic> datas = json.decode(response.body)['data'];
       return TrxModel.fromJson(datas[0]);
     } else {
-      return null;
+      return TrxModel(id: '', harga_jual: 0, admin: 0, status: 0, created_at: '', updated_at: '', statusModel: TrxStatus.parsing(0), produk: {}, sn: '', counter: 0, tujuan: '', keterangan: '', point: 0, paymentBy: '', paymentID: '', print: []);
     }
   }
 

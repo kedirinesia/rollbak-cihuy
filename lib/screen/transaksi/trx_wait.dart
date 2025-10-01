@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:async';
 import 'dart:convert';
@@ -12,7 +11,6 @@ import 'package:mobile/models/trx.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/Products/paymobileku/layout/history.dart';
 import 'package:mobile/screen/transaksi/detail_transaksi.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class TransactionWaitPage extends StatefulWidget {
   @override
@@ -21,13 +19,13 @@ class TransactionWaitPage extends StatefulWidget {
 
 class _TransactionWaitPageState extends State<TransactionWaitPage> {
   int _count = 1;
-  Timer timer;
+  late Timer timer;
 
   @override
   void initState() {
     super.initState();
     analitycs.pageView('/trx/wait/', {
-      'userId': bloc.userId.valueWrapper.value,
+      'userId': bloc.userId.valueWrapper?.value ?? '',
       'title': 'Transaksi Menunggu',
     });
     timer = new Timer.periodic(Duration(seconds: 1), (timer) => checkStatus());
@@ -41,8 +39,18 @@ class _TransactionWaitPageState extends State<TransactionWaitPage> {
 
   void checkStatus() {
     getLatestTrx().then((trx) {
-      if (trx != null) {
-        if (trx.status == 2) {
+      if (trx.status == 2) {
+        timer.cancel();
+        return Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+              builder: (_) => packageName == 'id.paymobileku.app' 
+                  ? HistoryPage(initIndex: 1)
+                  : packageName == 'com.seepaysbiller.app'
+                      ? DetailTransaksi(trx)
+                      : DetailTransaksi(trx)),
+        );
+      } else {
+        if (_count >= 6) {
           timer.cancel();
           return Navigator.of(context).pushReplacement(
             MaterialPageRoute(
@@ -52,18 +60,6 @@ class _TransactionWaitPageState extends State<TransactionWaitPage> {
                         ? DetailTransaksi(trx)
                         : DetailTransaksi(trx)),
           );
-        } else {
-          if (_count >= 6) {
-            timer.cancel();
-            return Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                  builder: (_) => packageName == 'id.paymobileku.app'
-                      ? HistoryPage(initIndex: 1)
-                      : packageName == 'com.seepaysbiller.app'
-                          ? DetailTransaksi(trx)
-                          : DetailTransaksi(trx)),
-            );
-          }
         }
       }
 
@@ -82,7 +78,7 @@ class _TransactionWaitPageState extends State<TransactionWaitPage> {
     http.Response response = await http.get(
       Uri.parse('$apiUrl/trx/list?page=0&limit=1'),
       headers: {
-        'Authorization': bloc.token.valueWrapper.value,
+        'Authorization': bloc.token.valueWrapper?.value ?? '',
       },
     );
 
@@ -90,7 +86,7 @@ class _TransactionWaitPageState extends State<TransactionWaitPage> {
       List<dynamic> datas = json.decode(response.body)['data'];
       return TrxModel.fromJson(datas[0]);
     } else {
-      return null;
+      throw Exception('Failed to get latest trx');
     }
   }
 

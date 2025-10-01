@@ -1,11 +1,9 @@
-// @dart=2.9
 
 import 'package:division/division.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/Products/alpay/layout/components/information/information_label.dart';
 import 'package:mobile/Products/alpay/layout/components/information/information_loading.style.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class InformationLoading extends StatelessWidget {
   const InformationLoading({Key key}) : super(key: key);

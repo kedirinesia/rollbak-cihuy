@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -17,12 +16,11 @@ import 'package:mobile/models/menu.dart';
 import 'package:mobile/screen/list-grid-menu/list-grid-menu.dart';
 import 'package:mobile/screen/detail-denom/detail-denom-grid.dart';
 import 'package:mobile/screen/detail-denom-postpaid/detail-postpaid.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 abstract class ListGridMenuController extends State<ListGridMenu>
     with TickerProviderStateMixin {
   bool loading = true;
-  MenuModel currentMenu;
+  late MenuModel currentMenu;
   List<MenuModel> listMenu = [];
   List<MenuModel> tempMenu = [];
   TextEditingController query = TextEditingController();
@@ -45,7 +43,7 @@ abstract class ListGridMenuController extends State<ListGridMenu>
 
     http.Response response = await http.get(
         Uri.parse('$apiUrl/menu/${currentMenu.id}/child'),
-        headers: {'Authorization': bloc.token.valueWrapper?.value});
+        headers: {'Authorization': bloc.token.valueWrapper?.value ?? ''});
 
     if (response.statusCode == 200) {
       List<MenuModel> lm = (jsonDecode(response.body)['data'] as List)

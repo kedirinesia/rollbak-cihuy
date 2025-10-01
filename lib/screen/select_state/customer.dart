@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -13,7 +12,6 @@ import 'package:mobile/bloc/Bloc.dart';
 
 // model
 import 'package:mobile/models/kasir/customer.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class SelectCustomer extends StatefulWidget {
   @override
@@ -35,7 +33,7 @@ class SelectCustomerState extends State<SelectCustomer> {
     try {
       http.Response response = await http
           .get(Uri.parse('$apiUrlKasir/master/customer/all'), headers: {
-        'authorization': bloc.token.valueWrapper?.value,
+        'authorization': bloc.token.valueWrapper?.value ?? '',
       });
 
       if (response.statusCode == 200) {

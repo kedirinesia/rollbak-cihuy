@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -24,7 +23,6 @@ import 'package:mobile/modules.dart';
 // SCREEN PAGE
 import 'package:mobile/screen/kasir/hutang-piutang/form/formPiutang.dart';
 import 'package:share/share.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class MutasiPiutang extends StatefulWidget {
   PiutangModel piutang;
@@ -62,7 +60,7 @@ class DetailPiutangState extends State<MutasiPiutang> {
           Uri.parse('$apiUrlKasir/transaksi/piutang/detail?page=$page'),
           headers: {
             'Content-Type': 'application/json',
-            'authorization': bloc.token.valueWrapper?.value,
+            'authorization': bloc.token.valueWrapper?.value ?? '',
           },
           body: json.encode(dataToSend));
 
@@ -170,11 +168,11 @@ class DetailPiutangState extends State<MutasiPiutang> {
 
     detailPiutangs.forEach((e) {
       detailPiutang.add(
-          'Nominal: ${formatRupiah(e.debet)} \nTanggal: ${formatDate(e.created_at, 'd MMMM yyyy HH:mm:ss')} \n\n');
+          'Nominal: ${formatRupiah(e.debet ?? 0)} \nTanggal: ${formatDate(e.created_at ?? '', 'd MMMM yyyy HH:mm:ss')} \n\n');
     });
 
-    String title = configAppBloc.namaApp.valueWrapper?.value;
-    String separator =
+    String title = configAppBloc.namaApp.valueWrapper?.value ?? '';
+      String separator =
         '------------------------------------------------------------';
     String desc =
         '''Hai Kak...! \n\n|Jadilah pelanggan yang bijak dengan cara melakukan pembayaran hutang tepat pada waktunya. \n|$separator \n\n|Detail piutang: \n\n||Total: ${formatRupiah(saldoHutang)} \n\n|Untuk mekanisme pembayaran bisa hubungi nomor kami kak: ${bloc.user.valueWrapper?.value.phone} \n\n|*Salam ${bloc.user.valueWrapper?.value.namaToko}*''';
@@ -194,7 +192,7 @@ class DetailPiutangState extends State<MutasiPiutang> {
       appBar: AppBar(
         elevation: 0.0,
         title: Text(
-          '${widget.piutang.customerModel.nama}',
+          '${widget.piutang.customerModel?.nama}',
         ),
         actions: [
           IconButton(
@@ -283,7 +281,7 @@ class DetailPiutangState extends State<MutasiPiutang> {
                   ),
                   SizedBox(height: 5.0),
                   Text(
-                    formatDate(detailPiutang.created_at, 'd MMMM yyyy'),
+                    formatDate(detailPiutang.created_at ?? '', 'd MMMM yyyy'),
                     textScaleFactor: 0.8,
                     textAlign: TextAlign.right,
                     style: TextStyle(color: Colors.grey),
@@ -293,7 +291,7 @@ class DetailPiutangState extends State<MutasiPiutang> {
             ),
             Expanded(
               child: Text(
-                '${formatNominal(detailPiutang.debet)}',
+                '${formatNominal(detailPiutang.debet ?? 0)}',
                 textScaleFactor: 1.2,
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -304,7 +302,7 @@ class DetailPiutangState extends State<MutasiPiutang> {
             ),
             Expanded(
               child: Text(
-                '${formatNominal(detailPiutang.kredit)}',
+                '${formatNominal(detailPiutang.kredit ?? 0  )}',
                 textScaleFactor: 1.2,
                 textAlign: TextAlign.right,
                 style: TextStyle(
@@ -402,7 +400,7 @@ class DetailPiutangState extends State<MutasiPiutang> {
           SizedBox(height: widget.piutang.jatuhTempo != '' ? 5.0 : 0.0),
           widget.piutang.jatuhTempo != ''
               ? Text(
-                  formatDate(widget.piutang.jatuhTempo, 'd MMMM yyyy'),
+                  formatDate(widget.piutang.jatuhTempo ?? '', 'd MMMM yyyy'),
                   style: TextStyle(fontSize: 15.0, color: Colors.grey.shade700),
                 )
               : Text(

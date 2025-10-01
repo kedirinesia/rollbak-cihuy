@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -9,7 +8,6 @@ import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/models/mp_provinsi.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/modules.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class SelectProvinsiPage extends StatefulWidget {
   @override
@@ -25,7 +23,7 @@ class _SelectProvinsiPageState extends State<SelectProvinsiPage> {
   void getItems() async {
     http.Response response = await http.get(
         Uri.parse('$apiUrl/market/shipping/state'),
-        headers: {'Authorization': bloc.token.valueWrapper?.value});
+        headers: {'Authorization': bloc.token.valueWrapper?.value ?? ''});
 
     if (response.statusCode == 200) {
       List<dynamic> datas = json.decode(response.body)['data'];

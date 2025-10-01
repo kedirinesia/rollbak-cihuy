@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -9,7 +8,6 @@ import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/models/info.dart';
 import 'package:mobile/screen/info/info.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class CardInfo extends StatefulWidget {
   @override
@@ -22,7 +20,7 @@ class _CardInfoState extends State<CardInfo> {
 
     http.Response response = await http.get(
       Uri.parse('$apiUrl/info/list'),
-      headers: {'Authorization': bloc.token.valueWrapper?.value},
+      headers: {'Authorization': bloc.token.valueWrapper!.value},
     );
 
     if (response.statusCode == 200) {
@@ -66,10 +64,10 @@ class _CardInfoState extends State<CardInfo> {
           child: ListView.separated(
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
-            itemCount: snapshot.data.length,
+            itemCount: snapshot.data?.length ?? 0,
             separatorBuilder: (_, i) => Divider(),
             itemBuilder: (ctx, i) {
-              InfoModel info = snapshot.data[i];
+              InfoModel info = snapshot.data! [i];
 
               return ListTile(
                 onTap: () => Navigator.of(context).push(

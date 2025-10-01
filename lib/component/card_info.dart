@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +8,6 @@ import 'package:mobile/bloc/Bloc.dart' show bloc;
 import 'dart:convert';
 
 import 'package:mobile/screen/info/info.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class CardInfo extends StatefulWidget {
   @override
@@ -74,7 +72,7 @@ abstract class CardInfoController extends State<CardInfo>
 
   void getData() async {
     http.Response response = await http.get(Uri.parse('$apiUrl/info/list'),
-        headers: {'Authorization': bloc.token.valueWrapper?.value});
+        headers: {'Authorization': bloc.token.valueWrapper!.value});
 
     if (response.statusCode == 200) {
       (json.decode(response.body)['data'] as List).forEach((item) {

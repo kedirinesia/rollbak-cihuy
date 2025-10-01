@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -25,6 +24,10 @@ class OpsiBayarPage extends StatefulWidget {
 class _OpsiBayarPageState extends State<OpsiBayarPage> {
   List<MetodeBayarModel> purchaseMethods = [
     MetodeBayarModel(
+        id: '',
+        type: 0,
+        icon: '',
+        admin: {},
         title: 'Saldo',
         code: 'saldo',
         description: 'Pembayaran menggunakan saldo saya')
@@ -42,7 +45,7 @@ class _OpsiBayarPageState extends State<OpsiBayarPage> {
       DebugHelper.debugPrint('GET METHOD PAYMENT');
       http.Response response = await http.get(
           Uri.parse('$apiUrl/market/order/methode-payment'),
-          headers: {'Authorization': bloc.token.valueWrapper?.value});
+          headers: {'Authorization': bloc.token.valueWrapper?.value ?? ''});
 
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
@@ -59,7 +62,7 @@ class _OpsiBayarPageState extends State<OpsiBayarPage> {
         showToast(context, 'Gagal mengambil method pembayaran');
       }
     } catch (err) {
-      DebugHelper.debugPrint('ERROR : ${err.message}');
+      DebugHelper.debugPrint('ERROR : ${err.toString()}');
       showToast(context, 'Gagal mengambil method pembayaran. ERROR : $err');
     } finally {
       setState(() {
@@ -131,7 +134,7 @@ class _OpsiBayarPageState extends State<OpsiBayarPage> {
                     fontWeight: FontWeight.bold,
                     color: Colors.grey.shade700),
               ),
-              item.admin != null
+              item.admin.isNotEmpty && item.admin['nominal'] != null && item.admin['nominal'].toString() != 'null'
                   ? Text(
                       '+${item.admin['satuan'] == 'persen' ? '' : 'Rp '}${item.admin['nominal']}${item.admin['satuan'] == 'persen' ? '%' : ''} (admin)',
                       style: TextStyle(fontSize: 11, color: Colors.grey[800]),
@@ -139,7 +142,7 @@ class _OpsiBayarPageState extends State<OpsiBayarPage> {
                   : SizedBox()
             ],
           ),
-          subtitle: Text(item.description ?? ' ',
+          subtitle: Text(item.description,
               style: TextStyle(fontSize: 10.0, color: Colors.grey.shade700)),
           trailing: Icon(Icons.navigate_next),
         ),
@@ -170,7 +173,7 @@ class _OpsiBayarPageState extends State<OpsiBayarPage> {
                   fontSize: 12.0,
                   fontWeight: FontWeight.bold,
                   color: Colors.grey.shade700)),
-          subtitle: Text(item.description ?? ' ',
+          subtitle: Text(item.description,
               style: TextStyle(fontSize: 10.0, color: Colors.grey.shade700)),
           trailing: Icon(Icons.navigate_next),
         ),

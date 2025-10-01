@@ -1,8 +1,8 @@
-// @dart=2.9
 
 import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:mobile/Products/paymobileku/layout/home.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
@@ -12,7 +12,6 @@ import 'package:mobile/Products/paymobileku/layout/downline/downline.dart';
 import 'package:mobile/Products/paymobileku/layout/profile.dart';
 import 'package:mobile/screen/marketplace/belanja.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class PakaiAjaHome extends StatefulWidget {
   @override
@@ -70,7 +69,7 @@ class _PakaiAjaHomeState extends State<PakaiAjaHome> {
         backgroundColor: Colors.white,
         floatingActionButton: FloatingActionButton(
           backgroundColor: Theme.of(context).primaryColor,
-          child: configAppBloc.isMarketplace.valueWrapper?.value
+          child: configAppBloc.isMarketplace.valueWrapper!.value
               // ? SvgPicture.asset(
               //     'assets/img/payuni2/shopping-cart.svg',
               //     height: 35,
@@ -84,9 +83,9 @@ class _PakaiAjaHomeState extends State<PakaiAjaHome> {
               : CachedNetworkImage(
                   imageUrl:
                       'https://dokumen.payuni.co.id/logo/paymobileku/SCAN.png'),
-          elevation: 0.0,
+          elevation: 6.0,
           onPressed: () async {
-            if (configAppBloc.isMarketplace.valueWrapper?.value) {
+            if (configAppBloc.isMarketplace.valueWrapper!.value) {
               Navigator.of(context)
                   .push(MaterialPageRoute(builder: (_) => BelanjaPage()));
             } else {
@@ -112,11 +111,11 @@ class _PakaiAjaHomeState extends State<PakaiAjaHome> {
                 color: Colors.amber.shade800,
                 onPressed: () {
                   if (configAppBloc.liveChat.valueWrapper?.value != '') {
-                    return Navigator.of(context).push(
+                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => Webview(
                           'Live Chat Support',
-                          configAppBloc.liveChat.valueWrapper?.value,
+                          configAppBloc.liveChat.valueWrapper!.value,
                         ),
                       ),
                     );
@@ -133,119 +132,45 @@ class _PakaiAjaHomeState extends State<PakaiAjaHome> {
             ),
           ],
         ),
-        bottomNavigationBar: BottomAppBar(
-          notchMargin: 5.0,
-          color: Colors.white,
-          shape: CircularNotchedRectangle(),
-          child: Container(
-            height: 50.0,
-            padding: EdgeInsets.only(top: 10.0),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Expanded(
-                  child: InkWell(
-                    onTap: () {
-                      setState(() {
-                        pageIndex = 0;
-                      });
-                    },
-                    child: Column(
-                      children: <Widget>[
-                        CachedNetworkImage(
-                            imageUrl:
-                                'https://dokumen.payuni.co.id/logo/paymobileku/home.png',
-                            color: pageIndex == 0
-                                ? Theme.of(context).primaryColor
-                                : Colors.grey,
-                            width: 20.0),
-                        SizedBox(
-                          height: 5.0,
-                        ),
-                        Text('Home', style: TextStyle(fontSize: 10.0))
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(width: 20.0),
-                Expanded(
-                  child: InkWell(
-                    onTap: () {
-                      setState(() {
-                        pageIndex = 1;
-                      });
-                    },
-                    child: Column(
-                      children: <Widget>[
-                        CachedNetworkImage(
-                            imageUrl:
-                                'https://dokumen.payuni.co.id/logo/paymobileku/histori.png',
-                            color: pageIndex == 1
-                                ? Theme.of(context).primaryColor
-                                : Colors.grey,
-                            width: 20.0),
-                        SizedBox(
-                          height: 5.0,
-                        ),
-                        Text('History', style: TextStyle(fontSize: 10.0))
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(width: 80.0),
-                Expanded(
-                  child: InkWell(
-                    onTap: () {
-                      setState(() {
-                        pageIndex = 2;
-                      });
-                    },
-                    child: Column(
-                      children: <Widget>[
-                        CachedNetworkImage(
-                            imageUrl:
-                                'https://dokumen.payuni.co.id/logo/paymobileku/keagenan.png',
-                            color: pageIndex == 2
-                                ? Theme.of(context).primaryColor
-                                : Colors.grey,
-                            width: 20.0),
-                        SizedBox(
-                          height: 5.0,
-                        ),
-                        Text('Keagenan', style: TextStyle(fontSize: 10.0))
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(width: 20.0),
-                Expanded(
-                  child: InkWell(
-                    onTap: () {
-                      setState(() {
-                        pageIndex = 3;
-                      });
-                    },
-                    child: Column(
-                      children: <Widget>[
-                        CachedNetworkImage(
-                            imageUrl:
-                                'https://dokumen.payuni.co.id/logo/paymobileku/profile.png',
-                            color: pageIndex == 3
-                                ? Theme.of(context).primaryColor
-                                : Colors.grey,
-                            width: 20.0),
-                        SizedBox(
-                          height: 5.0,
-                        ),
-                        Text('Profile', style: TextStyle(fontSize: 10.0))
-                      ],
-                    ),
-                  ),
-                ),
+        bottomNavigationBar: AnimatedBottomNavigationBar.builder(
+          activeIndex: pageIndex,
+          gapLocation: GapLocation.center,
+          notchSmoothness: NotchSmoothness.verySmoothEdge,
+          backgroundColor: Colors.white,
+          itemCount: 4,
+          tabBuilder: (i, isActive) {
+            Color color = isActive ? Theme.of(context).primaryColor : Colors.grey;
+            IconData icon;
+            String label;
+
+            if (i == 0) {
+              icon = Icons.home_rounded;
+              label = 'Home';
+            } else if (i == 1) {
+              icon = Icons.history_rounded;
+              label = 'History';
+            } else if (i == 2) {
+              icon = Icons.group_rounded;
+              label = 'Keagenan';
+            } else {
+              icon = Icons.person_rounded;
+              label = 'Profile';
+            }
+
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(icon, color: color, size: 22),
+                SizedBox(height: 2),
+                Text(label, style: TextStyle(fontSize: 10, color: color)),
               ],
-            ),
-          ),
+            );
+          },
+          onTap: (index) {
+            setState(() {
+              pageIndex = index;
+            });
+          },
         ),
         // bottomNavigationBar: CurvedNavigationBar(
         //   color: Theme.of(context).primaryColor,

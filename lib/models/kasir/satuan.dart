@@ -1,4 +1,3 @@
-// @dart=2.9
 
 class SatuanModel {
   String id;
@@ -7,10 +6,10 @@ class SatuanModel {
   String created_at;
 
   SatuanModel({
-    this.id,
-    this.nama,
-    this.aktif,
-    this.created_at,
+    required this.id,
+    required this.nama,
+    required this.aktif,
+    required this.created_at,
   });
 
   factory SatuanModel.fromJson(Map<String, dynamic> json) {

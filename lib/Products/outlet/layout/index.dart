@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +8,6 @@ import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/Products/outlet/layout/notifikasi/notifikasi.dart';
 import 'package:mobile/Products/outlet/layout/profile.dart';
 import 'package:mobile/screen/cs.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class EpulsaHome extends StatefulWidget {
   @override

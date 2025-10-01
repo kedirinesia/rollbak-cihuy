@@ -1,11 +1,9 @@
-// @dart=2.9
 
 import 'package:mobile/Products/topuptronic/layout/detail-deposit.dart';
 import 'package:mobile/Products/topuptronic/layout/home.dart';
 import 'package:mobile/Products/topuptronic/layout/kirim-saldo.dart';
 import 'package:mobile/Products/topuptronic/layout/topup.dart';
 import 'package:mobile/models/deposit.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 String sigVendor = '5fb7e80ab753a627e2648cad';
 
@@ -13,7 +11,7 @@ const namaApp = 'Topuptronic Digital Payment';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.topdipay.apk';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 6;
 String gaId = '';

@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -13,7 +12,6 @@ import 'package:mobile/bloc/Bloc.dart';
 
 // model
 import 'package:mobile/models/kasir/barang.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class SelectBarang extends StatefulWidget {
   @override
@@ -36,7 +34,7 @@ class SelectBarangState extends State<SelectBarang> {
     try {
       http.Response response =
           await http.get(Uri.parse('$apiUrlKasir/master/barang/all'), headers: {
-        'authorization': bloc.token.valueWrapper?.value,
+        'authorization': bloc.token.valueWrapper?.value ?? '',
       });
 
       if (response.statusCode == 200) {

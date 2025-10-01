@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:async';
 import 'dart:convert';
@@ -24,10 +23,9 @@ import 'package:mobile/modules.dart';
 
 // page screen
 import 'package:mobile/screen/kasir/laporan/beli/lapDetailBeli.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class LapBeli extends StatefulWidget {
-  @override
+  @override   
   createState() => LapBeliState();
 }
 
@@ -69,7 +67,7 @@ class LapBeliState extends State<LapBeli> {
           Uri.parse(
               '$apiUrlKasir/laporan/pembelian?page=$page&tgl_awal=${tglAwalController.text}&tgl_akhir=${tglAkhirController.text}'),
           headers: {
-            'authorization': bloc.token.valueWrapper?.value,
+            'authorization': bloc.token.valueWrapper?.value ?? '',
           });
 
       var responseData = json.decode(response.body);
@@ -176,27 +174,25 @@ class LapBeliState extends State<LapBeli> {
 
   // SELECT DATE
   Future _selectDate(String key) async {
-    DateTime picked = await showDatePicker(
+    DateTime? picked = await showDatePicker(
       context: context,
       initialDate: key == 'awal' ? selectedAwal : selectedAkhir,
       firstDate: new DateTime(1900),
       lastDate: new DateTime(2500),
     );
 
-    if (picked != null) {
-      String value = formatter.format(picked);
+    String value = formatter.format(picked ?? DateTime.now());
 
-      if (key == 'awal') {
-        setState(() {
-          selectedAwal = picked;
-          tglAwalController.text = value;
-        });
-      } else {
-        setState(() {
-          selectedAkhir = picked;
-          tglAkhirController.text = value;
-        });
-      }
+    if (key == 'awal') {
+      setState(() {
+        selectedAwal = picked ?? DateTime.now();
+        tglAwalController.text = value;
+      });
+    } else {
+      setState(() {
+        selectedAkhir = picked ?? DateTime.now();
+        tglAkhirController.text = value;
+      });
     }
   }
 
@@ -264,7 +260,7 @@ class LapBeliState extends State<LapBeli> {
     return InkWell(
       onTap: () async {
         dynamic response = await Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => LapDetailBeli(trx.id),
+          builder: (context) => LapDetailBeli(trx.id ?? ''),
         ));
 
         refreshData();
@@ -279,7 +275,7 @@ class LapBeliState extends State<LapBeli> {
         ]),
         child: ListTile(
           title: Text(
-            'Harga Beli : ${formatNominal(trx.totalBeli)}',
+            'Harga Beli : ${formatNominal(trx.totalBeli ?? 0)}',
             style: TextStyle(fontSize: 13.0, color: Colors.grey.shade700),
           ),
           subtitle: Column(
@@ -287,11 +283,11 @@ class LapBeliState extends State<LapBeli> {
             children: [
               SizedBox(height: 5.0),
               Text(
-                  'Supplier : ${trx.supplierModel != null ? trx.supplierModel.nama : '-'}',
+                  'Supplier : ${trx.supplierModel != null ? trx.supplierModel?.nama : '-'}',
                   style:
                       TextStyle(fontSize: 13.0, color: Colors.grey.shade700)),
               SizedBox(height: 5.0),
-              Text('${formatDate(trx.created_at, 'd MMMM yyyy HH:mm:ss')}',
+              Text('${formatDate(trx.created_at ?? '', 'd MMMM yyyy HH:mm:ss')}',
                   style:
                       TextStyle(fontSize: 13.0, color: Colors.grey.shade700)),
             ],

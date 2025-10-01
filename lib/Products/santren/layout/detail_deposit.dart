@@ -1,4 +1,3 @@
-// @dart=2.9
 import 'dart:convert';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
@@ -33,7 +32,7 @@ class WatermarkNetworkLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (logoUrl == null || logoUrl.isEmpty) return SizedBox();
+    if (logoUrl.isEmpty) return SizedBox();
     return LayoutBuilder(
       builder: (ctx, constraints) {
         final rows = (constraints.maxHeight / (size * 0.9)).ceil();
@@ -160,7 +159,7 @@ class _DetailDepositState extends DetailDepositController {
     }
   }
 
-  String safe(String s) => s != null && s.trim().isNotEmpty ? s : '-';
+  String safe(String s) => s.trim().isNotEmpty ? s : '-';
 
   Widget fab() {
     if (_dep.statusModel.status == 0 && (_dep.type == 1 || _dep.type == 2)) {
@@ -247,7 +246,7 @@ class _DetailDepositState extends DetailDepositController {
 
   // Widget Kode Pembayaran agar tidak memakan tempat
   Widget buildKodePembayaran(String kode) {
-    if (kode == null || kode.isEmpty) return Text('-');
+    if (kode.isEmpty) return Text('-');
     final tampil = kode.length > 24 ? kode.substring(0, 24) + '...' : kode;
     return Tooltip(
       message: kode,
@@ -311,7 +310,7 @@ class _DetailDepositState extends DetailDepositController {
 
   @override
   Widget build(BuildContext context) {
-    final status = _dep?.statusModel?.status ?? 0;
+    final status = _dep.statusModel.status ?? 0;
     final headerColor = Color(0xFF43B368);
     final statusIcon = getStatusIcon(status);
     final statusColor = getStatusColor(status);
@@ -334,7 +333,7 @@ class _DetailDepositState extends DetailDepositController {
             onPressed: () => Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                   builder: (_) =>
-                      configAppBloc.layoutApp?.valueWrapper?.value['home'] ??
+                      configAppBloc.layoutApp.valueWrapper?.value['home'] ??
                       templateConfig[
                           configAppBloc.templateCode.valueWrapper?.value],
                 ),
@@ -378,7 +377,7 @@ class _DetailDepositState extends DetailDepositController {
                     ),
                     child: Stack(
                       children: [
-                        if (logoUrl != null && logoUrl.isNotEmpty)
+                        if (logoUrl.isNotEmpty)
                           Positioned.fill(
                             child: WatermarkNetworkLogo(
                               logoUrl: logoUrl,
@@ -419,7 +418,7 @@ class _DetailDepositState extends DetailDepositController {
                             ),
                             SizedBox(height: 14),
                             if (_dep.type == 8 &&
-                                _dep.kodePembayaran?.isNotEmpty == true)
+                                _dep.kodePembayaran.isNotEmpty == true)
                               Column(
                                 children: [
                                   QrImageView(
@@ -507,7 +506,7 @@ class _DetailDepositState extends DetailDepositController {
                                 loadingNama ? "Memuat..." : namaPengguna),
                             SizedBox(height: 10),
                             buildRowText("Nama Akun Virtual",
-                                safe(_dep.vaname?.toUpperCase())),
+                                safe(_dep.vaname.toUpperCase())),
                             SizedBox(height: 18),
                             Center(
                               child: Icon(

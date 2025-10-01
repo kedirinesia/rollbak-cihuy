@@ -1,4 +1,3 @@
-// @dart=2.9
 
 class NotifikasiModel {
   String id;
@@ -8,7 +7,7 @@ class NotifikasiModel {
   String createdAt;
 
   NotifikasiModel(
-      {this.id, this.status, this.pesan, this.opened, this.createdAt});
+      {required this.id, required this.status, required this.pesan, required this.opened, required this.createdAt});
 
   factory NotifikasiModel.fromJson(dynamic json) {
     return NotifikasiModel(

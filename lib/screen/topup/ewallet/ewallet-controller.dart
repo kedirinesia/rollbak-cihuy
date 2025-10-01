@@ -1,18 +1,15 @@
-// @dart=2.9
 
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
 import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
-import 'package:mobile/config.dart';
 import 'package:mobile/models/deposit_link.dart';
 import 'package:mobile/models/ewallet-account.dart';
 import 'package:mobile/screen/topup/ewallet/ewallet.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/utils/debug_helper.dart';
-
+import 'package:url_launcher/url_launcher.dart';  
 abstract class EwalletController extends State<TopupEwallet> {
   bool loading = false;
   bool listLoading = false;
@@ -21,9 +18,9 @@ abstract class EwalletController extends State<TopupEwallet> {
   TextEditingController nominal = TextEditingController();
   
   // Cache untuk mencegah infinite loop
-  List<EwalletAccount> _cachedEwalletList;
+  List<EwalletAccount>? _cachedEwalletList;
   bool _hasCachedData = false;
-  DateTime _lastFetchTime;
+  DateTime?  _lastFetchTime;
   static const Duration _cacheValidDuration = Duration(minutes: 5);
 
   @override
@@ -33,19 +30,19 @@ abstract class EwalletController extends State<TopupEwallet> {
 
   // Check if cache is still valid
   bool get _isCacheValid {
-    if (_lastFetchTime == null || _cachedEwalletList == null) return false;
-    return DateTime.now().difference(_lastFetchTime) < _cacheValidDuration;
+    if (_cachedEwalletList == null) return false;
+    return DateTime.now().difference(_lastFetchTime ?? DateTime.now()) < _cacheValidDuration;
   }
 
   Future<List<EwalletAccount>> getEwallet() async {
     // Return cached data if available and valid
-    if (_hasCachedData && _isCacheValid && _cachedEwalletList != null) {
-      DebugHelper.debugPrint('Returning cached ewallet data (${_cachedEwalletList.length} accounts)');
-      return _cachedEwalletList;
+    if (_hasCachedData && _isCacheValid) {
+      DebugHelper.debugPrint('Returning cached ewallet data (${_cachedEwalletList?.length ?? 0} accounts)');
+      return _cachedEwalletList ?? [];
     }
 
     // Check if token is available
-    if (bloc.token.valueWrapper?.value == null || bloc.token.valueWrapper?.value.isEmpty) {
+    if (bloc.token.valueWrapper?.value == null || bloc.token.valueWrapper!.value.isEmpty  ?? false) {
       DebugHelper.debugPrint('ERROR: Token is null or empty');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Token tidak tersedia, silakan login ulang'))
@@ -70,11 +67,11 @@ abstract class EwalletController extends State<TopupEwallet> {
     try {
       DebugHelper.debugPrint('Fetching ewallet list... (Attempt ${retryCount + 1})');
       DebugHelper.debugPrint('API URL: $apiUrl/deposit/ewallet/list');
-      DebugHelper.debugPrint('Token: ${bloc.token.valueWrapper?.value.substring(0, 20)}...');
+      DebugHelper.debugPrint('Token: ${bloc.token.valueWrapper?.value?.substring(0, 20)}...');
 
       http.Response response = await http.get(
         Uri.parse('$apiUrl/deposit/ewallet/list'),
-        headers: {'Authorization': bloc.token.valueWrapper?.value}
+        headers: {'Authorization': bloc.token.valueWrapper?.value ?? ''}
       ).timeout(Duration(seconds: 30));
 
       DebugHelper.debugPrint('Response status: ${response.statusCode}');
@@ -168,7 +165,7 @@ abstract class EwalletController extends State<TopupEwallet> {
 
   void topup(String ewalletCode) async {
     // Check if token is available
-    if (bloc.token.valueWrapper?.value == null || bloc.token.valueWrapper?.value.isEmpty) {
+    if (bloc.token.valueWrapper?.value == null || bloc.token.valueWrapper!.value.isEmpty ?? false) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Token tidak tersedia, silakan login ulang'))
       );
@@ -209,7 +206,7 @@ abstract class EwalletController extends State<TopupEwallet> {
       http.Response response = await http.post(
         Uri.parse('$apiUrl/deposit/ewallet'),
         headers: {
-          'Authorization': bloc.token.valueWrapper?.value,
+          'Authorization': bloc.token.valueWrapper?.value ?? '',
           'Content-Type': 'application/json'
         },
         body: json.encode({'nominal': parsedNominal, 'ewallet_code': ewalletCode})
@@ -224,15 +221,11 @@ abstract class EwalletController extends State<TopupEwallet> {
           Navigator.of(context).pop();
 
           try {
-            await launch(link.url,
-                customTabsOption: CustomTabsOption(
-                    toolbarColor: packageName == 'com.lariz.mobile'
-                        ? Theme.of(context).secondaryHeaderColor
-                        : Theme.of(context).primaryColor,
-                    enableDefaultShare: false,
-                    enableUrlBarHiding: true,
-                    showPageTitle: true,
-                    animation: CustomTabsSystemAnimation.slideIn()));
+            final Uri uri = Uri.parse(link.url);
+            await launchUrl(
+              uri,
+              mode: LaunchMode.externalApplication,
+            );
           } catch (e) {
             DebugHelper.debugPrint('ERROR: Failed to launch URL: $e');
             ScaffoldMessenger.of(context).showSnackBar(

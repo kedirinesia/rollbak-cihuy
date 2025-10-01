@@ -1,4 +1,3 @@
-// @dart=2.9
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -7,7 +6,6 @@ import 'package:mobile/config.dart';
 import 'package:mobile/models/info.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/info/info_controller.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class InfoPage extends StatefulWidget {
   final InfoModel info;

@@ -1,13 +1,9 @@
-// @dart=2.9
 
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:mobile/models/menu.dart';
 import 'package:mobile/provider/analitycs.dart';
-import 'package:mobile/screen/detail-denom-postpaid/detail-postpaid.dart';
-import 'package:mobile/screen/detail-denom/detail-denom.dart';
 import 'package:mobile/Products/seepays/layout/detail-denom.dart';
 import 'package:mobile/Products/seepays/layout/detail-denom-postpaid.dart';
 import 'package:mobile/screen/dynamic-prepaid/dynamic-denom.dart';

@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +9,6 @@ import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/models/menu.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:mobile/utils/debug_helper.dart';
 
 class ListSubMenu extends StatefulWidget {
   final MenuModel menuModel;

@@ -1,4 +1,3 @@
-// @dart=2.9
 class MarketplaceKota {
   final String id;
   final String code;
@@ -9,13 +8,13 @@ class MarketplaceKota {
   final String provinceName;
 
   MarketplaceKota(
-      {this.id,
-      this.code,
-      this.type,
-      this.name,
-      this.postalCode,
-      this.provinceCode,
-      this.provinceName});
+      {required   this.id,
+      required this.code,
+      required this.type,
+      required this.name,
+      required this.postalCode,
+      required this.provinceCode,
+      required this.provinceName});
 
   factory MarketplaceKota.fromJson(dynamic json) {
     return MarketplaceKota(

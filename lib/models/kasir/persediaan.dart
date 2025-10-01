@@ -1,30 +1,29 @@
-// @dart=2.9
 
 import 'package:mobile/models/kasir/supplier.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 // MODEL ASSET PERSEIDAAN
 class PersediaanModel {
-  String id;
-  int hargaBeli;
-  int qty;
-  int stock;
-  String id_kategori;
-  String id_satuan;
-  ProdukModel barangModel;
-  SupplierModel supplierModel;
-  String created_at;
+  final String? id;
+  final int? hargaBeli;
+  final int? qty;
+  final int? stock;
+  final String? id_kategori;
+  final String? id_satuan;
+  final ProdukModel? barangModel;
+  final SupplierModel? supplierModel;
+  final String? created_at;
 
-  PersediaanModel(
-      {this.id,
-      this.hargaBeli,
-      this.qty,
-      this.stock,
-      this.id_kategori,
-      this.id_satuan,
-      this.barangModel,
-      this.supplierModel,
-      this.created_at});
+  const PersediaanModel({
+    this.id = '',
+    this.hargaBeli = 0,
+    this.qty = 0,
+    this.stock = 0,
+    this.id_kategori = '',
+    this.id_satuan = '',
+    this.barangModel = null,
+    this.supplierModel = null,
+    this.created_at = '',
+  });
 
   factory PersediaanModel.fromJson(Map<String, dynamic> json) {
     return PersediaanModel(
@@ -47,18 +46,19 @@ class PersediaanModel {
 
 // MODEL LAPORAN ASSET PERSEIDAAN
 class LapPersediaanModel {
-  int stock;
-  int hargaJual;
-  int total;
-  String id_barang;
-  ProdukModel barangModel;
+  final int? stock;
+  final int? hargaJual;
+  final int? total;
+  final String? id_barang;
+  final ProdukModel? barangModel;
 
-  LapPersediaanModel(
-      {this.stock,
-      this.hargaJual,
-      this.total,
-      this.id_barang,
-      this.barangModel});
+  const LapPersediaanModel({
+    this.stock = 0,
+    this.hargaJual = 0,
+    this.total = 0,
+    this.id_barang = '',
+    this.barangModel = null,
+  });
 
   factory LapPersediaanModel.fromJson(Map<String, dynamic> json) {
     return LapPersediaanModel(
@@ -75,20 +75,20 @@ class LapPersediaanModel {
 
 // LAPORAN ARUS STOCK PERSEIDAAN & DETAIL STOCK PER BARANG
 class LapStockModel {
-  String id_barang;
-  int debet;
-  int kredit;
-  String keterangan;
-  String created_at;
-  ProdukModel barangModel;
+  final String? id_barang;
+  final int? debet;
+  final int? kredit;
+  final String? keterangan;
+  final String? created_at;
+  final ProdukModel? barangModel;
 
-  LapStockModel({
-    this.id_barang,
-    this.debet,
-    this.kredit,
-    this.keterangan,
-    this.created_at,
-    this.barangModel,
+  const LapStockModel({
+    this.id_barang = '',
+    this.debet = 0,
+    this.kredit = 0,
+    this.keterangan = '',
+    this.created_at = '',
+    this.barangModel = null,
   });
 
   factory LapStockModel.fromJson(Map<String, dynamic> json) {
@@ -96,8 +96,8 @@ class LapStockModel {
       id_barang: json['_id'],
       debet: json['debet'],
       kredit: json['kredit'],
-      keterangan: json['keterangan'] != null ? json['keterangan'] : '-',
-      created_at: json['created_at'] != null ? json['created_at'] : '-',
+      keterangan: json['keterangan'] ?? '-',
+      created_at: json['created_at'] ?? '-',
       barangModel: json['masterBarang'] != null
           ? ProdukModel.fromJson(json['masterBarang'])
           : null,
@@ -107,26 +107,26 @@ class LapStockModel {
 
 // MODEL BARANG UNTUK PERSEIDAAN
 class ProdukModel {
-  String id;
-  String sku;
-  String namaBarang;
-  String imgUrl;
-  int hargaJual;
-  String id_kategori;
-  String id_satuan;
-  bool aktif;
-  String created_at;
+  final String? id;
+  final String? sku;
+  final String? namaBarang;
+  final String? imgUrl;
+  final int? hargaJual;
+  final String? id_kategori;
+  final String? id_satuan;
+  final bool? aktif;
+  final String? created_at;
 
-  ProdukModel({
-    this.id,
-    this.sku,
-    this.namaBarang,
-    this.imgUrl,
-    this.hargaJual,
-    this.id_kategori,
-    this.id_satuan,
-    this.aktif,
-    this.created_at,
+  const ProdukModel({
+    this.id = '',
+    this.sku = '',
+    this.namaBarang = '',
+    this.imgUrl = '',
+    this.hargaJual = 0,
+    this.id_kategori = '',
+    this.id_satuan = '',
+    this.aktif = false,
+    this.created_at = '',
   });
 
   factory ProdukModel.fromJson(Map<String, dynamic> json) {

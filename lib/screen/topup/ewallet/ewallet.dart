@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -9,17 +8,16 @@ import 'package:mobile/models/payment-list.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/screen/topup/ewallet/ewallet-controller.dart';
 import 'package:mobile/screen/topup/ewallet/ewallet-debug.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class TopupEwallet extends StatefulWidget {
   final PaymentModel payment;
-  TopupEwallet({this.payment});
+  TopupEwallet({required this.payment});
   @override
   _TopupEwalletState createState() => _TopupEwalletState();
 }
 
 class _TopupEwalletState extends EwalletController {
-  Future<List<EwalletAccount>> _ewalletFuture;
+  late Future<List<EwalletAccount>> _ewalletFuture;
 
   @override
   void initState() {
@@ -191,7 +189,7 @@ class _TopupEwalletState extends EwalletController {
                         );
                       }
 
-                      if (!snapshot.hasData || snapshot.data.isEmpty) {
+                      if (!snapshot.hasData || snapshot.data!.isEmpty ?? false  ) {
                         return Container(
                           width: double.infinity,
                           height: double.infinity,
@@ -252,10 +250,10 @@ class _TopupEwalletState extends EwalletController {
                           // Ewallet list
                           Expanded(
                             child: ListView.separated(
-                              itemCount: snapshot.data.length,
+                              itemCount: snapshot.data!.length,
                               separatorBuilder: (_, i) => SizedBox(height: 10),
                               itemBuilder: (ctx, i) {
-                                EwalletAccount channel = snapshot.data[i];
+                                EwalletAccount channel = snapshot.data![i];
 
                                 return Container(
                                   decoration: BoxDecoration(
@@ -268,7 +266,7 @@ class _TopupEwalletState extends EwalletController {
                                             blurRadius: 10.0)
                                       ]),
                                   child: ListTile(
-                                      onTap: loading ? null : () => topup(channel.code),
+                                      onTap: loading ? null : () => topup(channel.code ?? ''),
                                       dense: true,
                                       leading: CircleAvatar(
                                         backgroundColor:

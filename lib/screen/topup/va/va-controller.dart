@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -26,7 +25,7 @@ abstract class VAController extends State<TopupVA> {
     DebugHelper.debugPrint('🔍 [TOPUP VA CTRL] getVa() called');
     
     var requestUrl = '$apiUrl/deposit/virtual-account/list';
-    var requestHeaders = {'Authorization': bloc.token.valueWrapper?.value};
+    var requestHeaders = {'Authorization': bloc.token.valueWrapper?.value ?? ''};
     
     DebugHelper.debugPrint('🔍 [TOPUP VA CTRL] FULL API REQUEST DETAILS:');
     DebugHelper.debugPrint('🔍 [TOPUP VA CTRL] URL: $requestUrl');
@@ -92,7 +91,7 @@ abstract class VAController extends State<TopupVA> {
     try {
       var requestUrl = '$apiUrl/deposit/payment-va';
       var requestHeaders = {
-        'Authorization': bloc.token.valueWrapper?.value,
+        'Authorization': bloc.token.valueWrapper?.value ?? '',
         'Content-Type': 'application/json'
       };
       var requestBody = {'nominal': parsedNominal, 'vacode': va.code};

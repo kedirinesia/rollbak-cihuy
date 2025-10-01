@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '5f8e1a7c49381337809a8e2e';
 
@@ -6,7 +5,7 @@ const namaApp = 'Mitra AAW';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.mitraaaw.app';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:async';
 import 'dart:convert';
@@ -20,7 +19,7 @@ import 'package:mobile/bloc/Bloc.dart';
 
 import 'package:mobile/modules.dart';
 import 'package:mobile/utils/debug_helper.dart';
-
+  
 class FormHutang extends StatefulWidget {
   HutangModel hutang;
   int saldoHutang;
@@ -54,7 +53,7 @@ class FormHutangState extends State<FormHutang> {
 
   // SELECT DATE
   Future _selectDate() async {
-    DateTime picked = await showDatePicker(
+    DateTime? picked = await showDatePicker(
       context: context,
       initialDate: selectedDate,
       firstDate: DateTime.utc(1965, 1, 1),
@@ -62,19 +61,17 @@ class FormHutangState extends State<FormHutang> {
       locale: Locale('id', 'ID'),
     );
 
-    if (picked != null) {
-      String value = formatter.format(picked);
+    String value = formatter.format(picked ?? DateTime.now());
 
-      setState(() {
-        selectedDate = picked;
-        tglController.text = value;
-      });
-    }
+    setState(() {
+      selectedDate = picked ?? DateTime.now();
+      tglController.text = value;
+    });
   }
 
   void prosesForm() async {
-    _formKey.currentState.save();
-    if (_formKey.currentState.validate()) {
+    _formKey.currentState?.save();
+    if (_formKey.currentState?.validate() ?? false) {
       if (int.parse(nominal) >= 0) {
         setState(() {
           loading = true;
@@ -94,7 +91,7 @@ class FormHutangState extends State<FormHutang> {
               Uri.parse('$apiUrlKasir/transaksi/hutang/addMutasi'),
               headers: {
                 'Content-Type': 'application/json',
-                'authorization': bloc.token.valueWrapper?.value,
+                'authorization': bloc.token.valueWrapper?.value ?? '',
               },
               body: json.encode(dataToSend));
 
@@ -279,14 +276,15 @@ class FormHutangState extends State<FormHutang> {
                                 ),
                               ),
                               keyboardType: TextInputType.number,
-                              validator: (String value) {
+                              validator: (String? value) {
                                 if (value == "") {
                                   return "nominal tidak boleh kosong";
                                 }
+                                return null;
                               },
-                              onSaved: (String value) {
+                              onSaved: (String? value) {
                                 setState(() {
-                                  nominal = value;
+                                  nominal = value ?? '';
                                 });
                               }),
                           SizedBox(height: 15.0),

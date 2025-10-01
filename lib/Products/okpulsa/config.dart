@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '5f11aae0d994223263dde0ad';
 
@@ -6,7 +5,7 @@ const namaApp = 'OK Pulsa';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.okpulsa.app';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

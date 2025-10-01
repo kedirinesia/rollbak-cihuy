@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -21,7 +20,6 @@ import 'package:mobile/bloc/Bloc.dart';
 // screen page
 import 'package:mobile/screen/kasir/customer/customerAdd.dart';
 import 'package:mobile/screen/kasir/customer/customerUpdate.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class CustomerView extends StatefulWidget {
   @override
@@ -54,7 +52,7 @@ class CustomerViewState extends State<CustomerView> {
       http.Response response = await http.get(
           Uri.parse('$apiUrlKasir/master/customer/get?page=$page'),
           headers: {
-            'authorization': bloc.token.valueWrapper?.value,
+            'authorization': bloc.token.valueWrapper?.value ?? '',
           });
 
       String message = json.decode(response.body)['message'] ??
@@ -189,7 +187,7 @@ class CustomerViewState extends State<CustomerView> {
                             Uri.parse('$apiUrlKasir/master/customer/delete'),
                             headers: {
                               'Content-Type': 'application/json',
-                              'authorization': bloc.token.valueWrapper?.value,
+                              'authorization': bloc.token.valueWrapper?.value ?? '',
                             },
                             body: json.encode(dataToSend));
 

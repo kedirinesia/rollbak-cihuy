@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -39,11 +38,11 @@ class _HistoryTransaksiState extends State<HistoryTransaksi> {
     DropdownMenuItem(child: Text('Gagal'), value: 3),
     DropdownMenuItem(child: Text('Semua Status'), value: 4),
   ];
-  DateTime startDate;
-  DateTime endDate;
-  int status;
+  late DateTime startDate;
+  late DateTime endDate;
+  int? status;
   int currentPage = 0;
-  String tujuan;
+  String? tujuan;
   bool isEdge = false;
   bool loading = true;
   bool isExpanded = false;
@@ -96,8 +95,8 @@ class _HistoryTransaksiState extends State<HistoryTransaksi> {
       if (filtered) {
         params['tgl_akhir'] = formatDate(endDate.toIso8601String(), 'd-M-y');
         params['tgl_awal'] = formatDate(startDate.toIso8601String(), 'd-M-y');
-        if (status != null && status != 4) params['status'] = status.toString();
-        if (tujuan != null && tujuan.isNotEmpty) params['tujuan'] = tujuan;
+        if (status != 4) params['status'] = status.toString();
+        if (tujuan?.isNotEmpty ?? false) params['tujuan'] = tujuan;
       }
       params['page'] = currentPage;
 
@@ -111,7 +110,7 @@ class _HistoryTransaksiState extends State<HistoryTransaksi> {
       DebugHelper.debugPrint('bloc.token.valueWrapper?.value.toString()');
 
       http.Response response = await http.get(Uri.parse(url), headers: {
-        'Authorization': bloc.token.valueWrapper?.value,
+        'Authorization': bloc.token.valueWrapper?.value ?? '',
       });
 
       if (response.statusCode == 200) {
@@ -183,7 +182,7 @@ class _HistoryTransaksiState extends State<HistoryTransaksi> {
   }
 
   Future<void> setStartDate() async {
-    DateTime newDate = await showDatePicker(
+    DateTime? newDate = await showDatePicker(
       context: context,
       initialDate: startDate,
       firstDate: DateTime(1970, 1, 1),
@@ -203,7 +202,7 @@ class _HistoryTransaksiState extends State<HistoryTransaksi> {
   }
 
   Future<void> setEndDate() async {
-    DateTime newDate = await showDatePicker(
+    DateTime? newDate = await showDatePicker(
       context: context,
       initialDate: endDate,
       firstDate: startDate,
@@ -501,7 +500,7 @@ class _HistoryTransaksiState extends State<HistoryTransaksi> {
                                         Theme.of(context).primaryColor,
                                     backgroundColor:
                                         trx.statusModel.color.withOpacity(.1),
-                                    child: Image.network(trx.statusModel.icon,
+                                    child: Image.network(trx.statusModel.icon ?? '',
                                         width: 20),
                                   ),
                                   title: Text(

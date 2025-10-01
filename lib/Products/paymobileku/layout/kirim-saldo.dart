@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 import 'package:mobile/Products/paymobileku/layout/components/template.dart';
@@ -6,7 +5,6 @@ import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/component/contact.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class KirimSaldo extends StatefulWidget {
   @override
@@ -94,7 +92,7 @@ class _KirimSaldoState extends State<KirimSaldo> {
                   child: TextButton(
                     onPressed: cek,
                     style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
+                        backgroundColor: WidgetStateProperty.all<Color>(
                             Theme.of(context).primaryColor)),
                     child: Text(
                       'Selanjutnya',
@@ -107,6 +105,14 @@ class _KirimSaldoState extends State<KirimSaldo> {
           )
         ],
       ),
+      children: [],
+      backgroundColor: Colors.white,
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.transparent,
+        onPressed: null,
+        child: SizedBox.shrink(),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }

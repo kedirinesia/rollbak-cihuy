@@ -1,11 +1,9 @@
-// @dart=2.9
 
 import 'package:mobile/Products/mobipayment/layout/detail-deposit.dart';
 import 'package:mobile/Products/mobipayment/layout/home.dart';
 import 'package:mobile/Products/mobipayment/layout/kirim-saldo.dart';
 import 'package:mobile/Products/mobipayment/layout/topup.dart';
 import 'package:mobile/models/deposit.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 String sigVendor = '5ebdb9eda5af48034954daf3';
 
@@ -13,7 +11,7 @@ const namaApp = 'Mobi Pay';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'mobipayment.co.id';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

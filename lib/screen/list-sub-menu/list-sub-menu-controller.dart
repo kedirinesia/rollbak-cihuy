@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -20,7 +19,7 @@ import 'package:mobile/utils/debug_helper.dart';
 abstract class ListSubMenuController extends State<ListSubMenu>
     with TickerProviderStateMixin {
   bool loading = true;
-  MenuModel currentMenu;
+  late MenuModel currentMenu;
   List<MenuModel> listMenu = [];
   List<MenuModel> tempMenu = [];
   TextEditingController query = TextEditingController();
@@ -45,7 +44,7 @@ abstract class ListSubMenuController extends State<ListSubMenu>
 
     http.Response response = await http.get(
         Uri.parse('$apiUrl/menu/${currentMenu.id}/child'),
-        headers: {'Authorization': bloc.token.valueWrapper?.value});
+        headers: {'Authorization': bloc.token.valueWrapper?.value ?? ''});
 
     if (response.statusCode == 200) {
       List<MenuModel> lm = (jsonDecode(response.body)['data'] as List)

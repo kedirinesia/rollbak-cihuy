@@ -1,5 +1,3 @@
-// @dart=2.9
-
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -17,7 +15,6 @@ import 'package:mobile/screen/disable.dart';
 import 'package:nav/nav.dart';
 import 'package:pin_input_text_field/pin_input_text_field.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 enum OTP { sms, whatsapp, email }
 
@@ -31,52 +28,67 @@ class OtpPage extends StatefulWidget {
 }
 
 class _OtpPageState extends State<OtpPage> {
-  bool loading = false;
-  TextEditingController kode = TextEditingController();
-  OTP otpMethod;
-  String validateId;
+  bool _isLoading = false;
+  TextEditingController _otpCodeController = TextEditingController();
+  OTP? _selectedOtpMethod;
+  String? _validateId;
 
   void request(OTP method) async {
     setState(() {
-      loading = true;
+      _isLoading = true;
     });
 
-    http.Response response = await http.post(
+    try {
+      // Determine OTP type
+      String otpType;
+      switch (method) {
+        case OTP.sms:
+          otpType = 'sms';
+          break;
+        case OTP.email:
+          otpType = 'email';
+          break;
+        case OTP.whatsapp:
+          otpType = 'whatsapp';
+          break;
+      }
+
+      // Prepare request body
+      Map<String, dynamic> requestBody = {
+        'codeLength': configAppBloc.otpCount.valueWrapper?.value,
+        'validate_id': widget.validateId,
+        'type': otpType,
+      };
+
+      // Add brand ID if available
+      if (configAppBloc.brandId.valueWrapper?.value != null) {
+        requestBody['wl_id'] = configAppBloc.brandId.valueWrapper?.value;
+      }
+
+      http.Response response = await http.post(
         Uri.parse('$apiUrl/user/login/send-otp'),
         headers: {
           'Content-Type': 'application/json',
           'merchantCode': sigVendor
         },
-        body: json.encode(configAppBloc.brandId.valueWrapper?.value == null
-            ? {
-                'codeLength': configAppBloc.otpCount.valueWrapper?.value,
-                'validate_id': widget.validateId,
-                // 'type': method == OTP.sms ? 'sms' : 'whatsapp'
-                'type': method == OTP.sms
-                    ? 'sms'
-                    : (method == OTP.email ? 'email' : 'whatsapp'),
-              }
-            : {
-                'codeLength': configAppBloc.otpCount.valueWrapper?.value,
-                'validate_id': widget.validateId,
-                // 'type': method == OTP.sms ? 'sms' : 'whatsapp',
-                'type': method == OTP.sms
-                    ? 'sms'
-                    : (method == OTP.email ? 'email' : 'whatsapp'),
-                'wl_id': configAppBloc.brandId.valueWrapper?.value
-              }));
+        body: json.encode(requestBody),
+      );
 
-    if (response.statusCode == 200) {
-      this.validateId = json.decode(response.body)['validate_id'];
-      this.otpMethod = method;
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
+      if (response.statusCode == 200) {
+        _validateId = json.decode(response.body)['validate_id'];
+        _selectedOtpMethod = method;
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Terjadi kendala saat meminta kode OTP')));
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Terjadi kesalahan. Silakan coba lagi.')));
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
     }
-
-    setState(() {
-      loading = false;
-    });
   }
 
   Future<Map<String, dynamic>> getUser(String token) async {
@@ -88,33 +100,34 @@ class _OtpPageState extends State<OtpPage> {
   void sendDeviceToken() async {
     await http.post(Uri.parse('$apiUrl/user/device_token'),
         headers: {
-          'Authorization': bloc.token.valueWrapper?.value,
+          'Authorization': bloc.token.valueWrapper?.value ?? '',
           'Content-Type': 'application/json'
         },
-        body: json.encode({'token': bloc.deviceToken.valueWrapper?.value}));
+        body: json.encode({'token': bloc.deviceToken.valueWrapper?.value ?? ''}));
   }
 
   void verify() async {
     setState(() {
-      loading = true;
+      _isLoading = true;
     });
 
-    http.Response response = await http.post(
-      Uri.parse('$apiUrl/user/login/validate'),
-      headers: {
-        'Content-Type': 'application/json',
-        'merchantCode': sigVendor,
-      },
-      body: json.encode({
-        'phone': widget.phone,
-        'otp': int.parse(kode.text),
-        'validate_id': this.validateId,
-      }),
-    );
+    try {
+      http.Response response = await http.post(
+        Uri.parse('$apiUrl/user/login/validate'),
+        headers: {
+          'Content-Type': 'application/json',
+          'merchantCode': sigVendor,
+        },
+        body: json.encode({
+          'phone': widget.phone,
+          'otp': int.parse(_otpCodeController.text),
+          'validate_id': _validateId,
+        }),
+      );
 
-    dynamic data = json.decode(response.body);
+      dynamic data = json.decode(response.body);
 
-    if (response.statusCode == 200) {
+      if (response.statusCode == 200) {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String token = data['data'];
       prefs.setString('token', token);
@@ -124,9 +137,9 @@ class _OtpPageState extends State<OtpPage> {
         UserModel profile = UserModel.fromJson(userInfo['data']);
         if (!profile.aktif) {
           setState(() {
-            loading = false;
-            Nav.clearAllAndPush(DisablePage(DisableType.member));
+            _isLoading = false;
           });
+          Nav.clearAllAndPush(DisablePage(DisableType.member));
         } else {
           prefs.setString('id', profile.id);
           prefs.setString('nama', profile.nama);
@@ -139,18 +152,18 @@ class _OtpPageState extends State<OtpPage> {
           */
           bloc.user..add(profile);
           bloc.token..add(token);
-          bloc.userId..add(prefs.getString('id'));
-          bloc.username..add(prefs.getString('nama'));
-          bloc.poin..add(prefs.getInt('poin'));
-          bloc.saldo..add(prefs.getInt('saldo'));
-          bloc.komisi..add(prefs.getInt('komisi'));
+          bloc.userId..add(prefs.getString('id') ?? '');
+          bloc.username..add(prefs.getString('nama') ?? '');
+          bloc.poin..add(prefs.getInt('poin')!);
+          bloc.saldo..add(prefs.getInt('saldo')!);
+          bloc.komisi..add(prefs.getInt('komisi')!);
 
           sendDeviceToken();
           await getFlashBanner(context);
 
           Widget nextWidget = configAppBloc
                   .layoutApp.valueWrapper?.value['home'] ??
-              templateConfig[configAppBloc.templateCode.valueWrapper?.value];
+              templateConfig[configAppBloc.templateCode.valueWrapper?.value ?? 0];
           Nav.clearAllAndPush(nextWidget);
         }
       } else {
@@ -159,18 +172,22 @@ class _OtpPageState extends State<OtpPage> {
                     .layoutApp.valueWrapper?.value['home'] !=
                 null
             ? configAppBloc.layoutApp.valueWrapper?.value['home']
-            : templateConfig[configAppBloc.templateCode.valueWrapper?.value];
+            : templateConfig[configAppBloc.templateCode.valueWrapper?.value ?? 0];
         Nav.clearAllAndPush(nextWidget);
       }
-    } else {
+      } else {
+        ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(data['message'] ?? 'Terjadi kesalahan')));
+        _otpCodeController.clear();
+      }
+    } catch (e) {
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(data['message'])));
-      kode.clear();
+        .showSnackBar(SnackBar(content: Text('Terjadi kesalahan. Silakan coba lagi.')));
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
     }
-
-    setState(() {
-      loading = false;
-    });
   }
 
   List<String> packageNames = [
@@ -265,6 +282,17 @@ class _OtpPageState extends State<OtpPage> {
     );
   }
 
+  String _getOtpMethodDisplayName(OTP method) {
+    switch (method) {
+      case OTP.sms:
+        return 'SMS';
+      case OTP.email:
+        return 'Email';
+      case OTP.whatsapp:
+        return 'WhatsApp';
+    }
+  }
+
   Widget loadingWidget() {
     return Container(
         width: double.infinity,
@@ -280,13 +308,13 @@ class _OtpPageState extends State<OtpPage> {
       appBar: AppBar(
           backgroundColor: Colors.transparent,
           iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
-          title: Text(otpMethod != null ? 'Verifikasi OTP' : 'Pilih Metode',
+          title: Text(_selectedOtpMethod != null ? 'Verifikasi OTP' : 'Pilih Metode',
               style: TextStyle(color: Theme.of(context).primaryColor)),
           centerTitle: true,
           elevation: 0),
-      body: loading
+      body: _isLoading
           ? loadingWidget()
-          : otpMethod == null
+          : _selectedOtpMethod == null
               ? selectMethod()
               : Container(
                   width: double.infinity,
@@ -298,13 +326,13 @@ class _OtpPageState extends State<OtpPage> {
                         width: MediaQuery.of(context).size.width * .35),
                     SizedBox(height: 25),
                     Text(
-                      'Kami telah mengirimkan anda pesan ${otpMethod == OTP.sms ? 'SMS' : otpMethod == OTP.email ? 'Email' : 'WhatsApp'} berupa kode OTP, silahkan masukkan ${configAppBloc.otpCount.valueWrapper?.value} digit kode OTP untuk melanjutkan proses masuk',
+                      'Kami telah mengirimkan anda pesan ${_getOtpMethodDisplayName(_selectedOtpMethod!)} berupa kode OTP, silahkan masukkan ${configAppBloc.otpCount.valueWrapper?.value} digit kode OTP untuk melanjutkan proses masuk',
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(height: 40),
                     PinInputTextField(
-                      controller: kode,
-                      pinLength: configAppBloc.otpCount.valueWrapper?.value,
+                      controller: _otpCodeController,
+                      pinLength: configAppBloc.otpCount.valueWrapper?.value ?? 4,
                       autoFocus: true,
                       decoration: UnderlineDecoration(
                           colorBuilder: PinListenColorBuilder(

@@ -1,6 +1,4 @@
-// @dart=2.9
 
-import 'package:division/division.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -8,16 +6,17 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mobile/Products/paymobileku/layout/invite/invite_generate_referal_code.dart';
 import 'package:mobile/Products/paymobileku/layout/invite/invite_referal_code_info.style.dart';
 import 'package:mobile/models/user.dart';
-import 'package:mobile/utils/debug_helper.dart';
+import 'package:mobile/utils/style_helper.dart';
 
 class InviteReferalCodeInfo extends StatelessWidget {
   Function getUserInfo;
-  InviteReferalCodeInfo(this.getUserInfo, {Key key}) : super(key: key);
+  InviteReferalCodeInfo(this.getUserInfo, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Parent(
-      style: InviteReferalCodeInfoStyle.wrapper,
+    return StyleHelper.styledContainer(
+      padding: InviteReferalCodeInfoStyle.wrapperPadding,
+      decoration: InviteReferalCodeInfoStyle.wrapperDecoration,
       child: ValueListenableBuilder(
         valueListenable: Hive.box('ref-code').listenable(),
         builder: (context, value, child) {

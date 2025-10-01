@@ -2,7 +2,6 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:esc_pos_utils/esc_pos_utils.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class NetworkPrinterTestPage extends StatefulWidget {
   @override

@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -7,7 +6,6 @@ import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/config.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/profile/ganti_pin/ganti_pin_controller.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class GantiPin extends StatefulWidget {
   @override

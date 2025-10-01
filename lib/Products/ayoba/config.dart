@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:mobile/Products/ayoba/layout/detail-deposit.dart';
 import 'package:mobile/Products/ayoba/layout/home.dart';
@@ -6,7 +5,6 @@ import 'package:mobile/Products/ayoba/layout/kirim-saldo.dart';
 import 'package:mobile/Products/ayoba/layout/login_wizard.dart';
 import 'package:mobile/Products/ayoba/layout/topup.dart';
 import 'package:mobile/models/deposit.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 String sigVendor = '60b7436033d9ef1b58ee1f3b';
 
@@ -14,7 +12,7 @@ const namaApp = 'Ayoba';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'ayoba.co.id';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

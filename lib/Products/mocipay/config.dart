@@ -1,11 +1,9 @@
-// @dart=2.9
 
 import 'package:mobile/Products/mocipay/layout/detail-deposit.dart';
 import 'package:mobile/Products/mocipay/layout/home.dart';
 import 'package:mobile/Products/mocipay/layout/kirim-saldo.dart';
 import 'package:mobile/Products/mocipay/layout/topup.dart';
 import 'package:mobile/models/deposit.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 String sigVendor = '5f50981d865d8b6844a36491';
 
@@ -13,7 +11,7 @@ const namaApp = 'Mocipay';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.mocipay.app';
-String brandId;
+String brandId = '';
 String copyRight = 'Mocipay Reload';
 int templateCode = 3;
 String gaId = '';

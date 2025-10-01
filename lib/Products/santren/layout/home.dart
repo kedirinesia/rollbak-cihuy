@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'dart:async';
@@ -12,14 +11,12 @@ import 'package:mobile/Products/santren/layout/transfer.dart';
 import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/Products/santren/layout/card_info.dart';
-import 'package:mobile/component/carousel-depan.dart';
 import 'package:mobile/Products/santren/layout/menudepan.dart';
 import 'package:mobile/component/rewards.dart';
 import 'package:mobile/models/mp_kategori.dart';
 import 'package:mobile/models/mp_produk.dart';
 import 'package:mobile/models/user.dart';
 import 'package:mobile/modules.dart';
-import 'package:mobile/screen/profile/invite/invite.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/utils/debug_helper.dart';

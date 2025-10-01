@@ -1,17 +1,14 @@
-// @dart=2.9
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_page_transition/flutter_page_transition.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mobile/Products/paymobileku/layout/transfer-bank/form_daftar_tranfer.dart';
 import 'package:mobile/Products/paymobileku/layout/transfer-bank/transfer_bank.dart';
 import 'package:mobile/models/daftar_transfer.dart';
-import 'package:mobile/utils/debug_helper.dart';
+import 'package:page_transition/page_transition.dart';
 
 class DaftarTransferPage extends StatefulWidget {
-  const DaftarTransferPage({Key key}) : super(key: key);
+  const DaftarTransferPage({Key? key}) : super(key: key);
 
   @override
   State<DaftarTransferPage> createState() => _DaftarTransferPageState();
@@ -23,9 +20,9 @@ class _DaftarTransferPageState extends State<DaftarTransferPage> {
   String searchString = '';
   bool isSort = false;
 
-  void searchDaftarTransfer({String search}) {
+  void searchDaftarTransfer({String? search}) {
     setState(() {
-      searchString = search;
+      searchString = search ?? '';
     });
   }
 
@@ -91,7 +88,7 @@ class _DaftarTransferPageState extends State<DaftarTransferPage> {
                     ValueListenableBuilder(
                       valueListenable: Hive.box('daftar-transfer').listenable(),
                       builder: (BuildContext context, Box<dynamic> transferItem,
-                          Widget child) {
+                          Widget? child) {
                         final daftarTransferBox =
                             Hive.box<dynamic>('daftar-transfer');
                         List values = daftarTransferBox.values.toList();
@@ -177,7 +174,7 @@ class _DaftarTransferPageState extends State<DaftarTransferPage> {
                                                           Navigator.of(ctx)
                                                               .pop(true)),
                                                 ]));
-                                    return status ?? false;
+                                    return status == true;
                                   },
                                   onDismissed: (direction) async {
                                     await Hive.box('daftar-transfer')
@@ -189,7 +186,7 @@ class _DaftarTransferPageState extends State<DaftarTransferPage> {
                                             child: TransferBankPage(
                                                 transferData: transferItem),
                                             type: PageTransitionType
-                                                .rippleRightUp)),
+                                                .rightToLeft)),
                                     child: Container(
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 9),
@@ -381,8 +378,6 @@ class _DaftarTransferPageState extends State<DaftarTransferPage> {
                                                                                 ],
                                                                               ),
                                                                             );
-                                                                            return status ??
-                                                                                false;
                                                                           },
                                                                           child:
                                                                               Container(
@@ -412,7 +407,7 @@ class _DaftarTransferPageState extends State<DaftarTransferPage> {
                                                                                   indexItem: i,
                                                                                   transferBS: context,
                                                                                 ),
-                                                                                type: PageTransitionType.rippleRightUp));
+                                                                                type: PageTransitionType.rightToLeft));
                                                                           },
                                                                           child:
                                                                               Container(
@@ -536,7 +531,7 @@ class _DaftarTransferPageState extends State<DaftarTransferPage> {
             child: ValueListenableBuilder(
                 valueListenable: Hive.box('transfer-terakhir').listenable(),
                 builder: (BuildContext context, Box<dynamic> lastTransfer,
-                    Widget child) {
+                    Widget? child) {
                   return lastTransfer.isNotEmpty
                       ? ListView.separated(
                           scrollDirection: Axis.horizontal,
@@ -639,12 +634,23 @@ class _DaftarTransferPageState extends State<DaftarTransferPage> {
     return ElevatedButton(
       onPressed: () {
         Navigator.of(context).push(PageTransition(
-            child: FormDaftarTransfer(),
-            type: PageTransitionType.rippleRightUp));
+            child: FormDaftarTransfer(
+              transferData: DaftarTransferModel(
+                id: '',
+                kodeProduk: '',
+                namaBank: '',
+                namaRekening: '',
+                noTujuan: '',
+                isFavorite: false,
+              ),
+              indexItem: -1,
+              transferBS: context,
+            ),
+            type: PageTransitionType.rightToLeft));
       },
       style: ButtonStyle(
         backgroundColor:
-            MaterialStateProperty.all(Theme.of(context).primaryColor),
+            WidgetStateProperty.all(Theme.of(context).primaryColor),
       ),
       child: Padding(
         padding: const EdgeInsets.all(15.0),

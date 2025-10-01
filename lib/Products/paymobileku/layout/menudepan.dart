@@ -1,8 +1,6 @@
-// @dart=2.9
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_page_transition/flutter_page_transition.dart';
+ 
 import 'package:mobile/component/menudepan-loading.dart';
 import 'package:mobile/models/menu.dart';
 import 'package:mobile/provider/api.dart';
@@ -15,20 +13,22 @@ import 'package:mobile/screen/list-sub-menu/list-sub-menu.dart';
 import 'package:mobile/screen/transaksi/bulk.dart';
 import 'package:mobile/screen/pulsa/pulsa.dart';
 import 'package:mobile/utils/debug_helper.dart';
+import 'package:page_transition/page_transition.dart';
 
 class MenuDepan extends StatefulWidget {
   final int grid;
-  final List<MenuModel> menus;
-  final int baris;
-  final gradient;
-  final double radius;
+  final List<MenuModel>? menus;
+  final int? baris;
+  final dynamic gradient;
+  final double? radius;
 
-  MenuDepan(
-      {@required this.grid,
+  const MenuDepan(
+      {Key? key,
+      required this.grid,
       this.menus,
       this.gradient,
       this.baris,
-      this.radius});
+      this.radius}) : super(key: key);
   @override
   _MenuDepanState createState() => _MenuDepanState();
 }
@@ -49,7 +49,7 @@ class _MenuDepanState extends State<MenuDepan> {
       DebugHelper.debugPrint('"LOAD MENU BY DATA"');
       setState(() {
         loading = false;
-        _listMenu = widget.menus;
+        _listMenu = widget.menus ?? [];
       });
     }
   }
@@ -69,7 +69,14 @@ class _MenuDepanState extends State<MenuDepan> {
             jenis: 99,
             icon: 'https://img.paymobileku.com/img/iconapk/Lain-lain.png',
             name: 'Lainnya',
-            type: 99);
+            type: 99,
+            description: '',
+            id: '',
+            category_id: '',
+            kodeProduk: '',
+            isString: false,
+            bebasNominal: false,
+            orderNumber: 0);
 
         List<MenuModel> moreMenu =
             listMenu.sublist(startMore - 1, endMore).toList();
@@ -95,20 +102,20 @@ class _MenuDepanState extends State<MenuDepan> {
         return Pulsa(menu);
       }));
     } else if (menu.jenis == 2) {
-      if (menu.category_id.isNotEmpty && menu.type == 1) {
+      if (menu.category_id.isNotEmpty == true && menu.type == 1) {
         return Navigator.of(context).push(PageTransition(
-            child: DetailDenom(menu), type: PageTransitionType.rippleRightUp));
+            child: DetailDenom(menu), type: PageTransitionType.rightToLeft));
         /*
         LANGSUNG KE DETAIL DENOM
         */
-      } else if (menu.kodeProduk.isNotEmpty && menu.type == 2) {
+      } else if (menu.kodeProduk.isNotEmpty == true && menu.type == 2) {
         return Navigator.of(context).push(PageTransition(
             child: DetailDenomPostpaid(menu),
-            type: PageTransitionType.rippleRightUp));
+            type: PageTransitionType.rightToLeft));
         /*
         LANGSUNG KE DETAIL DENOM POSTPAID
         */
-      } else if (menu.category_id.isEmpty) {
+      } else if (menu.category_id.isEmpty != false) {
         if (menu.type == 3) {
           return Navigator.of(context).push(
               MaterialPageRoute(builder: (_) => DynamicPrepaidDenom(menu)));
@@ -125,7 +132,7 @@ class _MenuDepanState extends State<MenuDepan> {
         ),
       );
     } else if (menu.jenis == 5 || menu.jenis == 6) {
-      if (menu.category_id.isEmpty) {
+      if (menu.category_id.isEmpty != false) {
         return Navigator.of(context).push(
           MaterialPageRoute(
             builder: (_) => ListSubMenu(menu),
@@ -142,7 +149,7 @@ class _MenuDepanState extends State<MenuDepan> {
       Navigator.of(context).push(PageTransition(
           child: MorePage(_menuMore,
               isKotak: widget.gradient != null ? widget.gradient : false),
-          type: PageTransitionType.slideInUp));
+          type: PageTransitionType.rightToLeft));
     }
   }
 
@@ -171,7 +178,7 @@ class _MenuDepanState extends State<MenuDepan> {
                           height: 35,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(
-                                widget.radius != null ? widget.radius : 100),
+                                widget.radius != null ? widget.radius! : 100),
                             gradient: LinearGradient(
                                 begin: AlignmentDirectional.topCenter,
                                 end: AlignmentDirectional.bottomEnd,

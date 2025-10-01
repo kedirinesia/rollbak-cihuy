@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
@@ -6,7 +5,6 @@ import 'package:mobile/bloc/TemplateConfig.dart';
 import 'package:mobile/screen/history/deposit/deposit.dart';
 import 'package:mobile/screen/history/mutasi/mutasi.dart';
 import 'package:mobile/screen/history/transaksi.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class HistoryPage extends StatefulWidget {
   @override
@@ -19,7 +17,7 @@ class _HistoryPageState extends State<HistoryPage>
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (_) =>
-            configAppBloc.layoutApp?.valueWrapper?.value['home'] ??
+            configAppBloc.layoutApp.valueWrapper?.value['home'] ??
             templateConfig[configAppBloc.templateCode.valueWrapper?.value],
       ),
     );

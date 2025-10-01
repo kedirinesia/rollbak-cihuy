@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:esc_pos_utils/esc_pos_utils.dart';
 import 'package:mobile/bloc/Bloc.dart' show bloc;
-import 'package:mobile/config.dart';
 import 'package:mobile/models/trx.dart';
 import 'package:mobile/screen/custom_alert_dialog.dart';
 import 'package:mobile/utils/debug_helper.dart';
@@ -222,7 +221,7 @@ class _CupsPrinterPageState extends State<CupsPrinterPage> {
       
       List<int> bytes = [];
       
-      String storeName = bloc.user.valueWrapper?.value?.namaToko?.isEmpty == true
+      String storeName = bloc.user.valueWrapper?.value?.namaToko.isEmpty == true
           ? bloc.user.valueWrapper?.value?.nama ?? ''
           : bloc.user.valueWrapper?.value?.namaToko ?? '';
           
@@ -238,7 +237,7 @@ class _CupsPrinterPageState extends State<CupsPrinterPage> {
         ),
       );
       bytes += generator.text(
-        bloc.user.valueWrapper?.value?.alamatToko?.isEmpty == true
+        bloc.user.valueWrapper?.value?.alamatToko.isEmpty == true
             ? bloc.user.valueWrapper?.value?.alamat ?? ''
             : bloc.user.valueWrapper?.value?.alamatToko ?? '',
         styles: PosStyles(align: PosAlign.center),

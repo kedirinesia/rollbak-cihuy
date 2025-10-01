@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -15,7 +14,6 @@ import 'package:mobile/modules.dart';
 import 'package:mobile/screen/marketplace/alamat/select_kecamatan.dart';
 import 'package:mobile/screen/marketplace/alamat/select_kota.dart';
 import 'package:mobile/screen/marketplace/alamat/select_provinsi.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class TambahAlamatPage extends StatefulWidget {
   @override
@@ -32,18 +30,15 @@ class _TambahAlamatPageState extends State<TambahAlamatPage> {
   TextEditingController provinsi = TextEditingController();
   TextEditingController kota = TextEditingController();
   TextEditingController kecamatan = TextEditingController();
-  MarketplaceProvinsi _provinsi;
-  MarketplaceKota _kota;
-  MarketplaceKecamatan _kecamatan;
+  MarketplaceProvinsi? _provinsi;
+  MarketplaceKota? _kota;
+  MarketplaceKecamatan? _kecamatan;
 
   Future<void> insertAddress() async {
     if (nama.text.isEmpty ||
         telepon.text.isEmpty ||
         alamat1.text.isEmpty ||
-        kodePos.text.isEmpty ||
-        _provinsi == null ||
-        _kota == null ||
-        _kecamatan == null) {
+        kodePos.text.isEmpty) {
       showToast(context, "Ada field yang masih kosong");
 
       return;
@@ -57,16 +52,16 @@ class _TambahAlamatPageState extends State<TambahAlamatPage> {
         await http.post(Uri.parse('$apiUrl/market/shipping'),
             headers: {
               'Content-Type': 'application/json',
-              'Authorization': bloc.token.valueWrapper?.value
+              'Authorization': bloc.token.valueWrapper?.value ?? ''
             },
             body: json.encode({
               "name": nama.text,
               "nomor_hp": telepon.text,
               "address1": alamat1.text,
               "address2": alamat2.text,
-              "state": _provinsi.id,
-              "city": _kota.id,
-              "subdistrict": _kecamatan.id,
+              "state": _provinsi?.id ?? '',
+              "city": _kota?.id ?? '',
+              "subdistrict": _kecamatan?.id ?? '',
               "zipcode": kodePos.text
             }));
 
@@ -194,7 +189,7 @@ class _TambahAlamatPageState extends State<TambahAlamatPage> {
                       if (_provinsi == null) return;
                       MarketplaceKota item = await Navigator.of(context).push(
                           MaterialPageRoute(
-                              builder: (_) => SelectKotaPage(_provinsi.code)));
+                              builder: (_) => SelectKotaPage(_provinsi?.code ?? '')));
 
                       if (item == null) return;
 
@@ -219,7 +214,7 @@ class _TambahAlamatPageState extends State<TambahAlamatPage> {
                       if (_kota == null) return;
                       MarketplaceKecamatan item = await Navigator.of(context)
                           .push(MaterialPageRoute(
-                              builder: (_) => SelectKecamatanPage(_kota.code)));
+                              builder: (_) => SelectKecamatanPage(_kota?.code ?? '')));
 
                       if (item == null) return;
 

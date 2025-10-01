@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '6311b806209ee50044a3d2a9';
 
@@ -6,7 +5,7 @@ const namaApp = 'OUTLET PAYMENT';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'id.outletpay.mobile';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

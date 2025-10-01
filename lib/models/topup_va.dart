@@ -1,4 +1,3 @@
-// @dart=2.9
 
 class VaTopup {
   String kode;
@@ -10,22 +9,22 @@ class VaTopup {
   String keterangan;
 
   VaTopup(
-      {this.kode,
-      this.nama,
-      this.nominal,
-      this.fee,
-      this.total,
-      this.expiredDate,
-      this.keterangan});
+      {required this.kode,
+      required this.nama,
+      required this.nominal,
+      required this.fee,
+      required this.total,
+      required this.expiredDate,
+      required this.keterangan});
 
   factory VaTopup.fromJson(Map<String, dynamic> json) {
     return VaTopup(
-        kode: json['kode_pembayaran'],
-        nama: json['displayName'],
-        nominal: json['nominal'],
-        fee: json['fee'],
-        total: json['totalBayar'],
-        expiredDate: json['expired_at'],
+        kode: json['kode_pembayaran'] ?? '',
+        nama: json['displayName'] ?? '',
+        nominal: json['nominal'] ?? 0,
+        fee: json['fee'] ?? 0,
+        total: json['totalBayar'] ?? 0,
+        expiredDate: json['expired_at'] ?? '',
         keterangan: json['keterangan'] ?? '');
   }
 }

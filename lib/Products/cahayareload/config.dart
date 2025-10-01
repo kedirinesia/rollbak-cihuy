@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '6551871d142a533c0d300a38';
 
@@ -6,7 +5,7 @@ const namaApp = 'Cahaya Reload';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.cahayareload.mobile';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

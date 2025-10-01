@@ -1,11 +1,9 @@
-// @dart=2.9
 
 import 'package:division/division.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/Products/delta/layout/components/information/information_label.style.dart';
 import 'package:mobile/Products/delta/layout/components/information/other_information.dart';
 import 'package:mobile/models/info.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class InformationLabel extends StatelessWidget {
   final List<InfoModel> informations;

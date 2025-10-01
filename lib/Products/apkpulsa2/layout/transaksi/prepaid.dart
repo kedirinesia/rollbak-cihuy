@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -13,7 +12,6 @@ import 'package:http/http.dart' as http;
 import 'package:mobile/models/prepaid-denom.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/screen/transaksi/inquiry_prepaid.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class PrepaidPage extends StatefulWidget {
   final MenuModel menu;

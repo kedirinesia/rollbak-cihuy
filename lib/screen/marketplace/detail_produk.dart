@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -13,12 +12,13 @@ import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/models/mp_produk_detail.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/marketplace/order.dart';
-import 'package:slide_popup_dialog/slide_popup_dialog.dart' as SlideDialog;
+//import 'package:slide_popup_dialog/slide_popup_dialog.dart' as SlideDialog;
 import 'package:mobile/models/mp_produk.dart';
 import 'package:mobile/models/mp_produk_cart.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/screen/marketplace/cart.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+// import 'package:slide_popup_dialog_null_safety/slide_dialog.dart';
 import 'package:toast/toast.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/utils/debug_helper.dart';
@@ -38,7 +38,7 @@ class _ProductDetailMarketplaceState extends State<ProductDetailMarketplace> {
   int currentImage = 0;
   TextEditingController productAmount = TextEditingController();
   bool loading = true;
-  ProdukDetailMarket product;
+  late ProdukDetailMarket product;
 
   @override
   void initState() {
@@ -60,11 +60,12 @@ class _ProductDetailMarketplaceState extends State<ProductDetailMarketplace> {
     try {
       http.Response response = await http.get(
           Uri.parse('$apiUrl/market/product/${widget.id}'),
-          headers: {'Authorization': bloc.token.valueWrapper?.value});
+          headers: {'Authorization': bloc.token.valueWrapper?.value ?? ''});
 
       if (response.statusCode == 200) {
-        product =
-            ProdukDetailMarket.fromJson(json.decode(response.body)['data']);
+        final dynamic root = json.decode(response.body);
+        final dynamic payload = root is Map ? (root['data'] ?? root) : root;
+        product = ProdukDetailMarket.fromJson(payload as Map<String, dynamic>);
         DebugHelper.debugPrint('product.images.toString()');
 
         setState(() {
@@ -85,7 +86,7 @@ class _ProductDetailMarketplaceState extends State<ProductDetailMarketplace> {
     try {
       http.Response response = await http.get(
           Uri.parse('$apiUrl/market/products?limit=10'),
-          headers: {'Authorization': bloc.token.valueWrapper?.value});
+          headers: {'Authorization': bloc.token.valueWrapper?.value ?? ''});
 
       if (response.statusCode == 200) {
         List<dynamic> datas = json.decode(response.body)['data'];
@@ -121,10 +122,10 @@ class _ProductDetailMarketplaceState extends State<ProductDetailMarketplace> {
           .add(ProdukCartMarket.create(produk: product, count: 1).toMap())
           .then((value) {
         showToast(context, "Berhasil menambahkan produk",
-            duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+            duration: Toast.lengthLong, gravity: Toast.center);
       }).catchError((err) {
         showToast(context, "Gagal menambahkan produk",
-            duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+            duration: Toast.lengthLong, gravity: Toast.center);
         DebugHelper.debugPrint('ADD TO CART ERROR: ${err.toString()}');
       });
     }
@@ -169,12 +170,12 @@ class _ProductDetailMarketplaceState extends State<ProductDetailMarketplace> {
       },
     );
 
-    if (!(status ?? false)) return;
+    if (status != true) return;
     if (int.parse(productAmount.text) < 1) {
       showToast(context, 'Produk tidak boleh kurang dari 1 item');
       return;
     }
-    int amount = int.parse(productAmount.text) ?? 1;
+    int amount = int.parse(productAmount.text);
     ProdukCartMarket produk =
         ProdukCartMarket.create(produk: product, count: amount);
 
@@ -198,7 +199,9 @@ class _ProductDetailMarketplaceState extends State<ProductDetailMarketplace> {
                       child: Icon(Icons.shopping_cart),
                       badgeContent: Text(itemCount.toString(),
                           style: TextStyle(color: Colors.white, fontSize: 11)),
-                      badgeColor: Colors.red);
+                      badgeStyle: BadgeModule.BadgeStyle(
+                        badgeColor: Colors.red,
+                      ));
                 }),
             onPressed: () => Navigator.of(context)
                 .push(MaterialPageRoute(builder: (_) => CartMarketPage())))
@@ -341,14 +344,19 @@ class _ProductDetailMarketplaceState extends State<ProductDetailMarketplace> {
                                 // textColor: Theme.of(context).primaryColor,
                                 // borderSide: BorderSide.none,
                                 onPressed: () {
-                                  SlideDialog.showSlideDialog(
+                                  showDialog (
                                     context: context,
-                                    child: Expanded(
-                                      child: ListView(
-                                        padding: EdgeInsets.all(15),
+                                    builder: (context) => Dialog(
+                                      child: Container(
+                                        constraints: BoxConstraints(
+                                          maxHeight: MediaQuery.of(context).size.height * 0.7,
+                                        ),
+                                        child: ListView(
+                                          padding: EdgeInsets.all(15),
                                         children: [Text(product.description)],
                                       ),
                                     ),
+                                  ),
                                   );
                                 },
                               ),
@@ -394,11 +402,11 @@ class _ProductDetailMarketplaceState extends State<ProductDetailMarketplace> {
                                       1.5,
                                   child: ListView.separated(
                                     scrollDirection: Axis.horizontal,
-                                    itemCount: snapshot.data.length,
+                                    itemCount: snapshot.data?.length ?? 0,
                                     separatorBuilder: (_, i) =>
                                         SizedBox(width: 10),
                                     itemBuilder: (ctx, i) {
-                                      ProdukMarket produk = snapshot.data[i];
+                                      ProdukMarket produk = snapshot.data?[i] ?? ProdukMarket(id: '', title: '', thumbnail: '', price: 0, categoryId: '') ;
 
                                       return AspectRatio(
                                         aspectRatio: 1 / 1.5,

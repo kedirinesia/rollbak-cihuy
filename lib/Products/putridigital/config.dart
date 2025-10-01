@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '5f5ada552147164bbf293f65';
 
@@ -6,7 +5,7 @@ const namaApp = 'Putri Digital';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.putridigital.app';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

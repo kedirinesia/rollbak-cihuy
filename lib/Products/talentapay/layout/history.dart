@@ -1,11 +1,9 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 import 'package:mobile/screen/history/order.dart';
 import 'package:mobile/screen/history/deposit/deposit.dart';
 import 'package:mobile/screen/history/mutasi/mutasi.dart';
 import 'package:mobile/Products/talentapay/layout/history_transaksi.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 // ignore: must_be_immutable
 class HistoryPageTalenta extends StatefulWidget {
@@ -27,10 +25,10 @@ class _HistoryPageState extends State<HistoryPageTalenta>
         appBar: AppBar(
           backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
           bottom: TabBar(
-              indicatorColor: Theme.of(context).appBarTheme.iconTheme.color,
-              labelColor: Theme.of(context).appBarTheme.iconTheme.color,
+              indicatorColor: Theme.of(context).appBarTheme.iconTheme?.color ?? Colors.blue,
+              labelColor: Theme.of(context).appBarTheme.iconTheme?.color ?? Colors.blue,
               unselectedLabelColor:
-                  Theme.of(context).appBarTheme.iconTheme.color.withOpacity(.7),
+                  (Theme.of(context).appBarTheme.iconTheme?.color ?? Colors.blue).withOpacity(.7),
               tabs: [
                 Tab(
                   child: Text(

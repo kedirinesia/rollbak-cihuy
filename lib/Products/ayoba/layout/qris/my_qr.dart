@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:barcode_scan2/platform_wrapper.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +7,6 @@ import 'package:mobile/config.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/Products/ayoba/layout/components/transfer_by_qr.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class MyQR extends StatefulWidget {
   @override

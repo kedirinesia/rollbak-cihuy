@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:mobile/Products/payku/layout/detail-deposit.dart';
 import 'package:mobile/Products/payku/layout/kirim-saldo.dart';
@@ -7,7 +6,6 @@ import 'package:mobile/Products/payku/layout/splash.dart';
 import 'package:mobile/Products/payku/layout/topup.dart';
 import 'package:mobile/Products/payku/layout/wizard/wizard.dart';
 import 'package:mobile/models/deposit.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 // String sigVendor = '5e523bf7ae1e375162506db7';
 String sigVendor = '5e577a000efa1b22beabf8dd';
@@ -16,7 +14,7 @@ const namaApp = 'Payku';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'id.payku.app';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -63,7 +62,7 @@ class ListProductState extends State<ListProduct> {
       http.Response response = await http.get(
           Uri.parse('$apiUrlKasir/transaksi/penjualan/listProduct'),
           headers: {
-            'authorization': bloc.token.valueWrapper?.value,
+            'authorization': bloc.token.valueWrapper?.value ?? '',
           });
 
       String message = json.decode(response.body)['message'] ??
@@ -309,15 +308,15 @@ class ListProductState extends State<ListProduct> {
                             ),
                           ),
                           keyboardType: TextInputType.number,
-                          validator: (String value) {
+                          validator: (String? value) {
                             if (value == "") {
                               return "harga jual tidak boleh kosong";
                             }
                             return value;
                           },
-                          onSaved: (String value) {
+                          onSaved: (String? value) {
                             setState(() {
-                              hargaJual = value;
+                              hargaJual = value ?? '';
                             });
                           }),
                     ],

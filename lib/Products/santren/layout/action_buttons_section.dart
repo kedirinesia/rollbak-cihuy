@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 import 'package:mobile/Products/santren/layout/qris/qris_page.dart';

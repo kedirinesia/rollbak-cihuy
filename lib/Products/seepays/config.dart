@@ -1,8 +1,6 @@
-// @dart=2.9
 //685a32de5fb4c98ea80e8734
 
 import 'layout/main.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 String sigVendor = '685a32de5fb4c98ea80e8734';  
 
@@ -10,7 +8,7 @@ const namaApp = 'SEEPAYS BILLER';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.seepaysbiller.app';
-String brandId;
+String brandId = '';
 String copyRight = '';  
 int templateCode = 2;
 String gaId = '';

@@ -1,4 +1,3 @@
-// @dart=2.9
 
 class ListBankModel {
   String nama;
@@ -8,11 +7,11 @@ class ListBankModel {
   int hargaJual;
 
   ListBankModel(
-      {this.nama,
-      this.description,
-      this.kodeProduk,
-      this.admin,
-      this.hargaJual});
+      {required this.nama,
+      required this.description,
+      required this.kodeProduk,
+      required this.admin,
+      required this.hargaJual});
 
   factory ListBankModel.fromJson(dynamic json) {
     return ListBankModel(

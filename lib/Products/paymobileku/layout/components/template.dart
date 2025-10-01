@@ -1,9 +1,7 @@
-// @dart=2.9
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class TemplatePopay extends StatefulWidget {
   final Widget body;
@@ -15,13 +13,13 @@ class TemplatePopay extends StatefulWidget {
   final FloatingActionButtonLocation floatingActionButtonLocation;
 
   TemplatePopay(
-      {this.title,
-      this.body,
-      this.height,
-      this.children,
-      this.backgroundColor,
-      this.floatingActionButton,
-      this.floatingActionButtonLocation});
+      { required this.title,
+      required this.body,
+      required this.height,
+      required this.children,
+      required this.backgroundColor,
+      required  this.floatingActionButton,
+      required this.floatingActionButtonLocation});
 
   @override
   _TemplatePopayState createState() => _TemplatePopayState();
@@ -46,7 +44,7 @@ class _TemplatePopayState extends State<TemplatePopay> {
                       null
                   ? DecorationImage(
                       image: CachedNetworkImageProvider(configAppBloc
-                          .iconApp.valueWrapper?.value['imageAppbar']),
+                          .iconApp.valueWrapper?.value['imageAppbar'] ?? ''),
                       fit: BoxFit.cover)
                   : null,
             ),

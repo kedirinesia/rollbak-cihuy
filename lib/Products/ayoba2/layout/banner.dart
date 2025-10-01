@@ -8,7 +8,6 @@ import 'package:mobile/provider/api.dart';
 import 'package:mobile/screen/detail-denom/detail-denom.dart';
 import 'package:mobile/screen/list-grid-menu/list-grid-menu.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class BannerDepan extends StatefulWidget {
   @override

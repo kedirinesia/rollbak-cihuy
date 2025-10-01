@@ -1,4 +1,3 @@
-// @dart=2.9
 
 class ProdukMarket {
   final String id;
@@ -8,7 +7,7 @@ class ProdukMarket {
   final String categoryId;
 
   ProdukMarket(
-      {this.id, this.title, this.thumbnail, this.price, this.categoryId});
+      {required this.id, required this.title, required this.thumbnail, required this.price, required this.categoryId});
 
   factory ProdukMarket.fromJson(dynamic data) {
     return ProdukMarket(

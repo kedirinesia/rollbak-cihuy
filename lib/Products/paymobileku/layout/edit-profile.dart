@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -33,7 +32,7 @@ class _EditTokoState extends State<EditToko> {
     loadData();
     super.initState();
     analitycs.pageView('/edit/toko', {
-      'userId': bloc.userId.valueWrapper?.value,
+      'userId': bloc.userId.valueWrapper!.value,
       'title': 'Edit Toko',
     });
   }
@@ -50,20 +49,20 @@ class _EditTokoState extends State<EditToko> {
   }
 
   void loadData() {
-    nama.text = bloc.user.valueWrapper?.value.nama;
-    email.text = bloc.user.valueWrapper?.value.email;
+            nama.text = bloc.user.valueWrapper!.value.nama;
+    email.text = bloc.user.valueWrapper!.value.email;
     // nomor.text = store.user.value.telepon;
-    alamat.text = bloc.user.valueWrapper?.value.alamat;
-    namaToko.text = bloc.user.valueWrapper?.value.namaToko;
-    alamatToko.text = bloc.user.valueWrapper?.value.alamatToko;
+    alamat.text = bloc.user.valueWrapper!.value.alamat;
+    namaToko.text = bloc.user.valueWrapper!.value.namaToko;
+    alamatToko.text = bloc.user.valueWrapper!.value.alamatToko;
   }
 
   void updateProfile() async {
-    if (namaToko.text != bloc.user.valueWrapper?.value.namaToko ||
-        alamatToko.text != bloc.user.valueWrapper?.value.alamatToko ||
-        nama.text != bloc.user.valueWrapper?.value.nama ||
-        email.text != bloc.user.valueWrapper?.value.email ||
-        alamat.text != bloc.user.valueWrapper?.value.alamat) {
+    if (namaToko.text != bloc.user.valueWrapper!.value.namaToko ||
+        alamatToko.text != bloc.user.valueWrapper!.value.alamatToko ||
+        nama.text != bloc.user.valueWrapper!.value.nama ||
+        email.text != bloc.user.valueWrapper!.value.email ||
+        alamat.text != bloc.user.valueWrapper!.value.alamat) {
       setState(() {
         loading = true;
       });
@@ -71,7 +70,7 @@ class _EditTokoState extends State<EditToko> {
       http.Response response = await http.post(Uri.parse('$apiUrl/user/update'),
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': bloc.token.valueWrapper?.value
+            'Authorization': bloc.token.valueWrapper!.value
           },
           body: json.encode({
             'nama': nama.text,
@@ -123,7 +122,7 @@ class _EditTokoState extends State<EditToko> {
     http.Response response = await http.post(
         Uri.parse('$apiUrl/user/toko/update'),
         headers: {
-          'Authorization': bloc.token.valueWrapper?.value,
+          'Authorization': bloc.token.valueWrapper!.value,
           'Content-Type': 'application/json'
         },
         body:
@@ -186,6 +185,7 @@ class _EditTokoState extends State<EditToko> {
   Widget build(BuildContext context) {
     return TemplateMain(
         title: 'Ubah Profil',
+        backgroundColor: Colors.white,
         children: <Widget>[
           loading
               ? Container(
@@ -300,7 +300,7 @@ class _EditTokoState extends State<EditToko> {
           icon: Icon(Icons.save),
           label: Text('Simpan'),
           onPressed: () {
-            if (_formKey.currentState.validate()) {
+            if (_formKey.currentState!.validate()) {
               updateProfile();
             }
           },

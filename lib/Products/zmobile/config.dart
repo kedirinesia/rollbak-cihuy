@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '5fa8bee6509abf23c732ba1f';
 
@@ -6,7 +5,7 @@ const namaApp = 'Z Mobile';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.zmobile.app';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

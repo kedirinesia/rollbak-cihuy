@@ -1,4 +1,3 @@
-// @dart=2.9
 
 class ListProductModel {
   String id;
@@ -14,17 +13,17 @@ class ListProductModel {
   String created_at;
 
   ListProductModel({
-    this.id,
-    this.id_barang,
-    this.sku,
-    this.namaBarang,
-    this.stock,
-    this.qty,
-    this.hargaBeli,
-    this.hargaJual,
-    this.id_kategori,
-    this.id_satuan,
-    this.created_at,
+    required  this.id,
+    required this.id_barang,
+    required this.sku,
+    required this.namaBarang,
+    required this.stock,
+    required this.qty,
+    required this.hargaBeli,
+    required this.hargaJual,
+    required this.id_kategori,
+    required this.id_satuan,
+    required this.created_at,
   });
 
   factory ListProductModel.fromJson(Map<String, dynamic> json) {

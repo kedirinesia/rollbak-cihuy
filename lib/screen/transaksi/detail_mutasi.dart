@@ -1,4 +1,3 @@
-// @dart=2.9
 import 'dart:typed_data';
 
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
@@ -14,7 +13,6 @@ import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/transaksi/print_mutasi.dart';
 import 'package:mobile/screen/transaksi/select_printer.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class DetailMutasi extends StatefulWidget {
   final MutasiModel mutasi;
@@ -97,7 +95,7 @@ class _DetailMutasiState extends State<DetailMutasi> {
       ),
       PosColumn(
         width: 8,
-        text: bloc.user.valueWrapper?.value.nama,
+        text: bloc.user.valueWrapper?.value.nama ?? '',
         styles: PosStyles(
           align: PosAlign.right,
           bold: true,
@@ -208,7 +206,7 @@ class _DetailMutasiState extends State<DetailMutasi> {
     await _bluetooth.printCustom('RINCIAN TRANSFER', 1, 1);
     await _bluetooth.printCustom('------------------', 0, 1);
     await _bluetooth.printLeftRight(
-        'Pengirim', bloc.user.valueWrapper?.value.nama, 0);
+        'Pengirim', bloc.user.valueWrapper?.value.nama ?? '', 0);
     await _bluetooth.printLeftRight(
         'Nominal', formatRupiah(widget.mutasi.jumlah * -1), 0);
     await _bluetooth.printLeftRight('Sumber Dana', 'Saldo', 0);
@@ -224,7 +222,7 @@ class _DetailMutasiState extends State<DetailMutasi> {
   }
 
   Future<bool> checkBluetooth() async {
-    bool isOn = await _bluetooth.isOn;
+    bool isOn = await _bluetooth.isOn ?? false;
     if (!isOn) {
       showToast(context, 'Bluetooth belum aktif');
       return false;
@@ -248,7 +246,7 @@ class _DetailMutasiState extends State<DetailMutasi> {
         .push(MaterialPageRoute(builder: (_) => SelectPrinterPage()));
     if (device == null) return;
 
-    if (await _bluetooth.isConnected) await _bluetooth.disconnect();
+    if (await _bluetooth.isConnected ?? false ) await _bluetooth.disconnect();
     await _bluetooth.connect(device);
     final profile = await CapabilityProfile.load();
 
@@ -290,9 +288,9 @@ class _DetailMutasiState extends State<DetailMutasi> {
             onPressed: () => Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                   builder: (_) =>
-                      configAppBloc.layoutApp?.valueWrapper?.value['home'] ??
+                      configAppBloc.layoutApp.valueWrapper?.value['home'] ??
                       templateConfig[
-                          configAppBloc.templateCode.valueWrapper?.value],
+                          configAppBloc.templateCode.valueWrapper?.value ?? 0],
                 ),
                 (route) => false),
           ),

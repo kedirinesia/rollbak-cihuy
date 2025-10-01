@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -73,9 +72,9 @@ class _DynamicPrepaidDenomState extends DynamicDenomController {
               onPressed: () => Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
                     builder: (_) =>
-                        configAppBloc.layoutApp?.valueWrapper?.value['home'] ??
+                        configAppBloc.layoutApp.valueWrapper?.value['home'] ??
                         templateConfig[
-                            configAppBloc.templateCode.valueWrapper?.value],
+                            configAppBloc.templateCode.valueWrapper?.value ?? 0],
                   ),
                   (route) => false),
             ),
@@ -236,16 +235,16 @@ class _DynamicPrepaidDenomState extends DynamicDenomController {
                                   },
                                   style: ButtonStyle(
                                       backgroundColor:
-                                          MaterialStateProperty.all<Color>(
+                                          WidgetStateProperty.all<Color>(
                                         packageName == 'com.lariz.mobile'
                                             ? Theme.of(context)
                                                 .secondaryHeaderColor
                                             : Theme.of(context).primaryColor,
                                       ),
                                       foregroundColor:
-                                          MaterialStateProperty.all<Color>(
+                                          WidgetStateProperty.all<Color>(
                                               Colors.white),
-                                      padding: MaterialStateProperty.all<
+                                      padding: WidgetStateProperty.all<
                                               EdgeInsetsGeometry>(
                                           EdgeInsets.symmetric(
                                               horizontal: 20.0,
@@ -308,12 +307,12 @@ class _DynamicPrepaidDenomState extends DynamicDenomController {
                               child: TabBarView(
                                 children: layoutDenom.map((d) {
                                   return ListView.builder(
-                                      itemCount: d.produk.length,
+                                      itemCount: d.produk?.length ?? 0,
                                       itemBuilder: (context, index) {
                                         DynamicPrepaidDenomModel denom =
-                                            d.produk[index];
+                                            d.produk?[index] ?? DynamicPrepaidDenomModel();
                                         Color boxColor = selectedDenom != null
-                                            ? selectedDenom.code == denom.code
+                                            ? selectedDenom?.code == denom.code
                                                 ? packageName ==
                                                         'com.lariz.mobile'
                                                     ? Theme.of(context)
@@ -325,12 +324,12 @@ class _DynamicPrepaidDenomState extends DynamicDenomController {
                                                 : Colors.white
                                             : Colors.white;
                                         Color textColor = selectedDenom != null
-                                            ? selectedDenom.code == denom.code
+                                            ? selectedDenom?.code == denom.code
                                                 ? Colors.white
                                                 : Colors.grey.shade700
                                             : Colors.grey.shade700;
                                         Color priceColor = selectedDenom != null
-                                            ? selectedDenom.code == denom.code
+                                            ? selectedDenom?.code == denom.code
                                                 ? Colors.white
                                                 : Colors.green
                                             : Colors.green;
@@ -361,7 +360,7 @@ class _DynamicPrepaidDenomState extends DynamicDenomController {
                                                           .primaryColor,
                                                   backgroundColor: selectedDenom !=
                                                           null
-                                                      ? selectedDenom.code ==
+                                                      ? selectedDenom?.code ==
                                                               denom.code
                                                           ? Colors.white
                                                           : packageName ==
@@ -386,14 +385,14 @@ class _DynamicPrepaidDenomState extends DynamicDenomController {
                                                       padding:
                                                           const EdgeInsets.all(5.0),
                                                       child: CachedNetworkImage(imageUrl: (widget.menu.icon)))),
-                                              title: Text(denom.name,
+                                              title: Text(denom.name ?? '',
                                                   style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       color: textColor,
                                                       fontSize: 12)),
                                               subtitle: Text(
-                                                  denom.description ?? '',
+                                                    denom.description ?? '',
                                                   style: TextStyle(
                                                       fontSize: 10,
                                                       color: textColor)),
@@ -405,7 +404,7 @@ class _DynamicPrepaidDenomState extends DynamicDenomController {
                                                   children: <Widget>[
                                                     Text(
                                                         formatRupiah(
-                                                            denom.price),
+                                                            denom.price ?? 0),
                                                         style: TextStyle(
                                                             fontWeight:
                                                                 FontWeight.bold,
@@ -438,9 +437,9 @@ class _DynamicPrepaidDenomState extends DynamicDenomController {
 
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (_) => InquiryDynamicPrepaid(
-                                  selectedDenom.category,
+                                  selectedDenom?.category ?? '',
                                   widget.menu.kodeProduk,
-                                  selectedDenom.code,
+                                  selectedDenom?.code ?? '',
                                   tujuan.text)));
                         },
                       ),

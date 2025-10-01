@@ -1,4 +1,3 @@
-// @dart=2.9
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -27,14 +26,14 @@ class _DetailPostpaidState extends State<DetailPostpaid> {
     http.Response response = await http.get(
       Uri.parse('$apiUrl/trx/${widget.data.id}/print'),
       headers: {
-        'Authorization': bloc.token.valueWrapper?.value,
+        'Authorization': bloc.token.valueWrapper?.value ?? '',
       },
     );
 
     if (response.statusCode == 200) {
       return TrxModel.fromJson(json.decode(response.body)['data']);
     } else {
-      return null;
+      return TrxModel(id: '', harga_jual: 0, admin: 0, status: 0, created_at: '', updated_at: '', statusModel: TrxStatus.parsing(0), produk: {}, sn: '', counter: 0, tujuan: '', keterangan: '', point: 0, paymentBy: '', paymentID: '', print: []);
     }
   }
 
@@ -62,9 +61,9 @@ class _DetailPostpaidState extends State<DetailPostpaid> {
             onPressed: () => Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                   builder: (_) =>
-                      configAppBloc.layoutApp?.valueWrapper?.value['home'] ??
+                      configAppBloc.layoutApp.valueWrapper?.value['home'] ??
                       templateConfig[
-                          configAppBloc.templateCode.valueWrapper?.value],
+                          configAppBloc.templateCode.valueWrapper?.value ?? 0],
                 ),
                 (route) => false),
           ),

@@ -1,9 +1,7 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:mobile/Products/hexamobile/layout/privacy_policy.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/provider/api.dart';
@@ -11,7 +9,6 @@ import 'package:mobile/Products/hexamobile/layout/forgot-password/step_1.dart';
 import 'package:mobile/Products/hexamobile/layout/otp.dart';
 import 'package:nav/nav.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key key}) : super(key: key);
@@ -463,7 +460,7 @@ class _LoginPageState extends State<LoginPage> {
                             InkWell(
                               onTap: () {
                                 Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (_) => PrivacyPolicyPage()));
+                                    builder: (_) => RegisterUser()));
                               },
                               child: Text(
                                 'Daftar Sekarang',

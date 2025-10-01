@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/config.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class PaymentTutorialPage extends StatefulWidget {
   @override
@@ -188,6 +187,7 @@ class _PaymentTutorialPageState extends State<PaymentTutorialPage> {
             }),
             children: _tutorials.map((e) {
               return ExpansionPanel(
+                canTapOnHeader: true,
                 isExpanded: e['expanded'],
                 backgroundColor: e['expanded']
                     ? packageName == 'com.lariz.mobile'

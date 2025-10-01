@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '5ea5b8d67ab56e2719bdd3c8';
 
@@ -6,7 +5,7 @@ const namaApp = 'Ratu Pulsa';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'id.ratupulsa.mobile';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

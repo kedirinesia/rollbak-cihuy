@@ -9,7 +9,6 @@ import 'package:mobile/screen/detail-denom/detail-denom.dart';
 import 'package:mobile/screen/list-grid-menu/list-grid-menu.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class CarouselDepan extends StatefulWidget {
   final double viewportFraction;
@@ -66,6 +65,14 @@ class _CarouselDepanState extends State<CarouselDepan> {
       MenuModel menu = MenuModel(
         id: urls[1],
         name: banner.title,
+        jenis: 0,
+        description: '',
+        category_id: '',
+        type: 0,
+        kodeProduk: '',
+        isString: false,
+        bebasNominal: false,
+        orderNumber: 0,
         icon: '',
       );
 
@@ -78,7 +85,14 @@ class _CarouselDepanState extends State<CarouselDepan> {
       MenuModel menu = MenuModel(
         id: banner.id,
         name: banner.title,
+        jenis: 0,
+        description: '',
         category_id: urls[1],
+        type: 0,
+        kodeProduk: '',
+        isString: false,
+        bebasNominal: false,
+        orderNumber: 0,
         icon: '',
       );
 

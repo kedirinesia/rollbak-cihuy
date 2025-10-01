@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '5ed71c5202c3a351af14eda4';
 
@@ -6,7 +5,7 @@ const namaApp = 'TokuPay';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.tokupay.android';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 
@@ -32,7 +31,7 @@ class SelectPrintIOSState extends State<SelectPrintIOS> {
   PrinterBluetoothManager _printerBluetoothManager = PrinterBluetoothManager();
   List<PrinterBluetooth> _devices = [];
 
-  PrinterBluetooth _device;
+  PrinterBluetooth? _device;
   bool _connected = false;
   bool _scan = true;
   int blututSelected = -1;
@@ -71,34 +70,38 @@ class SelectPrintIOSState extends State<SelectPrintIOS> {
 
       // DRAW HEADER
       bytes += ticket.emptyLines(2);
+      String? namaToko = bloc.user.valueWrapper?.value.namaToko;
+      String? username = bloc.username.valueWrapper?.value;
       bytes += ticket.text(
-          bloc.user.valueWrapper?.value.namaToko == ''
-              ? bloc.username.valueWrapper?.value
-              : bloc.user.valueWrapper?.value.namaToko,
+          (namaToko == null || namaToko.isEmpty)
+              ? (username ?? '')
+              : namaToko,
           styles: PosStyles(
               align: PosAlign.center,
               fontType: PosFontType.fontA,
               height: PosTextSize.size2,
               width: PosTextSize.size2,
               bold: true));
+      String? alamatToko = bloc.user.valueWrapper?.value.alamatToko;
+      String? alamat = bloc.user.valueWrapper?.value.alamat;
       bytes += ticket.text(
-          bloc.user.valueWrapper?.value.alamatToko == ''
-              ? bloc.user.valueWrapper?.value.alamat
-              : bloc.user.valueWrapper?.value.alamatToko,
+          (alamatToko == null || alamatToko.isEmpty)
+              ? (alamat ?? '')
+              : alamatToko,
           styles: PosStyles(align: PosAlign.center, bold: true));
       bytes += ticket.emptyLines(1);
       bytes += ticket.text(
-          'TGL : ${formatDate(widget.printTrx.created_at, 'd MMMM yyyy HH:mm:ss')}',
+          'TGL : ${formatDate(widget.printTrx.created_at ?? '', 'd MMMM yyyy HH:mm:ss')}',
           styles: PosStyles(align: PosAlign.left));
-      bytes += ticket.text('NO : ${widget.printTrx.id.toUpperCase()}',
+      bytes += ticket.text('NO : ${widget.printTrx.id?.toUpperCase() ?? ''}',
           styles: PosStyles(align: PosAlign.left));
-      bytes += ticket.text('KASIR : ${widget.printTrx.userID['nama']}',
+      bytes += ticket.text('KASIR : ${widget.printTrx.userID?['nama'] ?? ''}',
           styles: PosStyles(align: PosAlign.left));
       bytes += ticket.emptyLines(1);
       // END HEADER
 
       // BODY STRUK
-      widget.printTrx.detailTrx.forEach((d) {
+      widget.printTrx.detailTrx?.forEach((d) {
         bytes += ticket.text('${d['nama_barang'].toUpperCase()}',
             styles: PosStyles(align: PosAlign.left));
         bytes += ticket.row([
@@ -123,7 +126,7 @@ class SelectPrintIOSState extends State<SelectPrintIOS> {
             width: 1, text: ':', styles: PosStyles(align: PosAlign.center)),
         PosColumn(
             width: 7,
-            text: '${widget.printTrx.termin.toUpperCase()}',
+            text: '${widget.printTrx.termin?.toUpperCase() ?? ''}',
             styles: PosStyles(align: PosAlign.right)),
       ]);
       bytes += ticket.row([
@@ -135,7 +138,7 @@ class SelectPrintIOSState extends State<SelectPrintIOS> {
             width: 1, text: ':', styles: PosStyles(align: PosAlign.center)),
         PosColumn(
             width: 7,
-            text: '${formatNominal(widget.printTrx.totalJual)}',
+            text: '${formatNominal(widget.printTrx.totalJual ?? 0)}',
             styles: PosStyles(align: PosAlign.right)),
       ]);
       bytes += ticket.row([
@@ -147,11 +150,11 @@ class SelectPrintIOSState extends State<SelectPrintIOS> {
             width: 1, text: ':', styles: PosStyles(align: PosAlign.center)),
         PosColumn(
             width: 7,
-            text: '${formatNominal(widget.printTrx.terbayar)}',
+            text: '${formatNominal(widget.printTrx.terbayar ?? 0)}',
             styles: PosStyles(align: PosAlign.right)),
       ]);
 
-      if (widget.printTrx.termin.toUpperCase() == 'CASH') {
+      if (widget.printTrx.termin?.toUpperCase() == 'CASH') {
         bytes += ticket.row([
           PosColumn(
             width: 4,
@@ -162,7 +165,7 @@ class SelectPrintIOSState extends State<SelectPrintIOS> {
           PosColumn(
               width: 7,
               text:
-                  '${formatNominal(widget.printTrx.terbayar - widget.printTrx.totalJual)}',
+                  '${formatNominal(widget.printTrx.terbayar! - widget.printTrx.totalJual!)}',
               styles: PosStyles(align: PosAlign.right)),
         ]);
       } else {
@@ -176,7 +179,7 @@ class SelectPrintIOSState extends State<SelectPrintIOS> {
           PosColumn(
               width: 7,
               text:
-                  '${formatNominal(widget.printTrx.totalJual - widget.printTrx.terbayar)}',
+                  '${formatNominal(widget.printTrx.totalJual! - widget.printTrx.terbayar!)}',
               styles: PosStyles(align: PosAlign.right)),
         ]);
       }
@@ -199,7 +202,7 @@ class SelectPrintIOSState extends State<SelectPrintIOS> {
       // END LOADING
 
       // CETAK STRUK
-      _printerBluetoothManager.selectPrinter(_device);
+      _printerBluetoothManager.selectPrinter(_device!);
       final PosPrintResult res =
           await _printerBluetoothManager.printTicket(bytes);
       _printerBluetoothManager.stopScan();
@@ -233,6 +236,7 @@ class SelectPrintIOSState extends State<SelectPrintIOS> {
   @override
   Widget build(BuildContext context) {
     return TemplateMain(
+      backgroundColor: Colors.white,
       title: 'Pilih Printer',
       floatingActionButton: FloatingActionButton.extended(
         icon: Icon(Icons.print),
@@ -274,15 +278,14 @@ class SelectPrintIOSState extends State<SelectPrintIOS> {
             stream: _printerBluetoothManager.scanResults,
             builder: (ctx, snapshot) {
               if (!snapshot.hasData) return Container();
-              if (snapshot.hasData) {
-                return ListView.separated(
-                    shrinkWrap: true,
+              return ListView.separated(
+                  shrinkWrap: true,
                     physics: ScrollPhysics(),
                     padding: EdgeInsets.all(10.0),
-                    itemCount: snapshot.data.length,
+                    itemCount: snapshot.data?.length ?? 0,
                     separatorBuilder: (_, i) => Divider(),
                     itemBuilder: (_, i) {
-                      PrinterBluetooth device = snapshot.data[i];
+                        PrinterBluetooth? device = snapshot.data?[i];
                       return Container(
                         decoration: BoxDecoration(
                           color: i == blututSelected
@@ -302,15 +305,15 @@ class SelectPrintIOSState extends State<SelectPrintIOS> {
                           leading: CircleAvatar(
                               backgroundColor: Colors.blue.withOpacity(.2),
                               child: Icon(Icons.print, color: Colors.blue)),
-                          title: Text(device.name),
-                          subtitle: Text(device.address),
+                          title: Text(device?.name ?? ''),
+                          subtitle: Text(device?.address ?? '' ),
                           trailing: Text((i == blututSelected) && (_connected)
                               ? 'Terhubung'
                               : ''),
                         ),
                       );
                     });
-              }
+              
             })
       ],
     );

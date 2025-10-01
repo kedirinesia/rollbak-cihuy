@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class NetworkTestPage extends StatefulWidget {
   const NetworkTestPage({Key? key}) : super(key: key);

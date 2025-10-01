@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:mobile/Products/apkpulsa2/layout/detail-deposit.dart';
 import 'package:mobile/Products/apkpulsa2/layout/home.dart';
@@ -6,7 +5,6 @@ import 'package:mobile/Products/apkpulsa2/layout/kirim-saldo.dart';
 import 'package:mobile/Products/apkpulsa2/layout/login.dart';
 import 'package:mobile/Products/apkpulsa2/layout/topup.dart';
 import 'package:mobile/models/deposit.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 String sigVendor = '608ee35e8abfba47fcbfa23c';
 
@@ -14,7 +12,7 @@ const namaApp = 'APK PULSA';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'mobile.apkpulsa';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

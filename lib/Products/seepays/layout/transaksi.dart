@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -86,8 +85,8 @@ class _HistoryTransaksiState extends State<HistoryTransaksi> {
     if (filtered) {
       params['tgl_akhir'] = formatDate(endDate.toIso8601String(), 'd-M-y');
       params['tgl_awal'] = formatDate(startDate.toIso8601String(), 'd-M-y');
-      if (status != null && status != 4) params['status'] = status.toString();
-      if (tujuan != null && tujuan.isNotEmpty) params['tujuan'] = tujuan;
+      if (status != 4) params['status'] = status.toString();
+      if (tujuan.isNotEmpty) params['tujuan'] = tujuan;
     }
     params['page'] = currentPage;
 
@@ -163,8 +162,7 @@ class _HistoryTransaksiState extends State<HistoryTransaksi> {
     // File ini khusus untuk Seepays, jadi tetap menggunakan url_image dari API
     String productLogoUrl;
     
-    if (trx.produk != null && 
-        trx.produk['kategori_id'] != null && 
+    if (trx.produk['kategori_id'] != null && 
         trx.produk['kategori_id']['url_image'] != null &&
         trx.produk['kategori_id']['url_image'].toString().isNotEmpty) {
       productLogoUrl = trx.produk['kategori_id']['url_image'];

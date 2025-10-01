@@ -1,7 +1,6 @@
 // ignore_for_file: deprecated_member_use
 // ignore_for_file: undefined_getter
 
-// @dart=2.9
 
 import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -88,19 +87,19 @@ class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
             var barcode = await BarcodeScanner.scan();
             DebugHelper.debugPrint('barcode.toString()');
             // if (barcode.isNotEmpty) {
-            return Navigator.of(context).push(MaterialPageRoute(
+            Navigator.of(context).push(MaterialPageRoute(
                 builder: (_) => TransferByQR(barcode.rawContent)));
             // }
           },
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         appBar: AppBar(
-          backgroundColor: Theme.of(context).appBarTheme.color,
+          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(configAppBloc.namaApp.valueWrapper?.value),
-              Text(configAppBloc.labelPoint.valueWrapper?.value +
+              Text(configAppBloc.namaApp.valueWrapper?.value ?? ''),
+              Text(configAppBloc.labelPoint.valueWrapper?.value ?? '' +
                   ' ' +
                   NumberFormat.decimalPattern('id')
                       .format(bloc.poin.valueWrapper?.value))
@@ -111,11 +110,11 @@ class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
                 icon: Icon(Icons.chat, color: Colors.white),
                 onPressed: () {
                   if (configAppBloc.liveChat.valueWrapper?.value != '') {
-                    return Navigator.of(context).push(MaterialPageRoute(
+                    Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => Webview('Live Chat Support',
-                            configAppBloc.liveChat.valueWrapper?.value)));
+                            configAppBloc.liveChat.valueWrapper?.value ?? '')));
                   } else {
-                    return null;
+                    null;
                   }
                 }),
             IconButton(

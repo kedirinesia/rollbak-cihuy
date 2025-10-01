@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -227,8 +226,7 @@ class _PakeAjaHomeState extends State<PakeAjaHome> {
         ),
       ),
       child: Marquee(
-        text: configAppBloc.info.valueWrapper.value.marquee != null &&
-                configAppBloc.info.valueWrapper.value.marquee.message != null
+        text: configAppBloc.info.valueWrapper.value.marquee.message != null
             ? configAppBloc.info.valueWrapper.value.marquee.message
             : 'SEPUTAR INFO : Selalu waspada terhadap segala bentuk PENIPUAN, pihak kami tidak pernah telp / meminta kode OTP apapun. Biasakan SAVE kontak kami 08980000073 atau bisa ke LIVECHAT',
         style: TextStyle(color: Colors.white),

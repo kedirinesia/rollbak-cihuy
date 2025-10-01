@@ -5,7 +5,6 @@ import 'package:mobile/component/menudepan.dart';
 import 'package:mobile/config.dart';
 
 import './home5_model.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class Home5App extends StatefulWidget {
   @override
@@ -45,7 +44,7 @@ class _Home5AppState extends Home5Model {
                 child: ListView(
                   physics: ScrollPhysics(),
                   children: <Widget>[
-                    MenuDepan(grid: 5),
+                    MenuDepan(grid: 5, menus: [], gradient: [], baris: 0, radius: 0),
                     CarouselDepan(),
                     CardInfo(),
                   ],

@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -9,7 +8,6 @@ import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/models/mp_kota.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/modules.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class SelectKotaPage extends StatefulWidget {
   final String code;
@@ -28,7 +26,7 @@ class _SelectKotaPageState extends State<SelectKotaPage> {
   void getItems() async {
     http.Response response = await http.get(
         Uri.parse('$apiUrl/market/shipping/${widget.code}/city'),
-        headers: {'Authorization': bloc.token.valueWrapper?.value});
+        headers: {'Authorization': bloc.token.valueWrapper?.value ?? ''});
 
     if (response.statusCode == 200) {
       List<dynamic> datas = json.decode(response.body)['message'];

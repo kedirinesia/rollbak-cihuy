@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/config.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class CustomerServicePage extends StatefulWidget {
   @override
@@ -26,12 +25,10 @@ class _CustomerServicePageState extends State<CustomerServicePage> {
         elevation: 0,
         iconTheme: IconThemeData(color: Colors.white),
       ),
-      body: WebView(
-        initialUrl: liveChat,
-        javascriptMode: JavascriptMode.unrestricted,
-        onWebViewCreated: (controller) {
-          _controller.complete(controller);
-        },
+      body: WebViewWidget(
+        controller: WebViewController()
+          ..setJavaScriptMode(JavaScriptMode.unrestricted)
+          ..loadRequest(Uri.parse(liveChat)),
       ),
     );
   }

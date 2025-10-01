@@ -1,7 +1,5 @@
-// @dart=2.9
 
 import 'reward.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class HistoryRewardModel {
   String id;
@@ -11,7 +9,7 @@ class HistoryRewardModel {
   int status;
 
   HistoryRewardModel(
-      {this.id, this.createdAt, this.updatedAt, this.reward, this.status});
+      {required this.id, required this.createdAt, required this.updatedAt, required this.reward, required this.status});
 
   factory HistoryRewardModel.fromJson(dynamic json) {
     return HistoryRewardModel(

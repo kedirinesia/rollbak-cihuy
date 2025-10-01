@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:io';
 import 'dart:convert';
@@ -25,7 +24,6 @@ import 'package:mobile/provider/analitycs.dart';
 // page screen
 import 'package:mobile/screen/kasir/print/selectPrint.dart';
 import 'package:mobile/screen/kasir/print/selectPrintIos.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class DetailPayment extends StatefulWidget {
   // [trx] -> dari halaman transaksi,
@@ -42,7 +40,7 @@ class DetailPayment extends StatefulWidget {
 }
 
 class DetailPaymentState extends State<DetailPayment> {
-  KasirPrintModel printTrx;
+  late KasirPrintModel printTrx;
 
   bool loading = true;
   @override
@@ -63,7 +61,7 @@ class DetailPaymentState extends State<DetailPayment> {
           await http.post(Uri.parse('$apiUrlKasir/transaksi/penjualan/print'),
               headers: {
                 'Content-Type': 'application/json',
-                'authorization': bloc.token.valueWrapper?.value,
+                'authorization': bloc.token.valueWrapper?.value ?? '',
               },
               body: json.encode(dataToSend));
 
@@ -194,8 +192,8 @@ class DetailPaymentState extends State<DetailPayment> {
                                 alignment: Alignment.topCenter,
                                 child: Text(
                                   bloc.user.valueWrapper?.value.namaToko == ''
-                                      ? bloc.username.valueWrapper?.value
-                                      : bloc.user.valueWrapper?.value.namaToko,
+                                      ? bloc.username.valueWrapper?.value ?? ''
+                                      : bloc.user.valueWrapper?.value.namaToko ?? '',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16),
@@ -207,36 +205,36 @@ class DetailPaymentState extends State<DetailPayment> {
                                   child: Text(
                                     bloc.user.valueWrapper?.value.alamatToko ==
                                             ''
-                                        ? bloc.user.valueWrapper?.value.alamat
+                                        ? bloc.user.valueWrapper?.value.alamat ?? ''
                                         : bloc.user.valueWrapper?.value
-                                            .alamatToko,
+                                            .alamatToko ?? '',
                                     style: TextStyle(fontSize: 12),
                                   )),
                               SizedBox(height: 20.0),
                               Text(
-                                  'TGL : ${formatDate(printTrx.created_at, 'd MMMM yyyy HH:mm:ss')}',
+                                  'TGL : ${formatDate(printTrx.created_at ?? '', 'd MMMM yyyy HH:mm:ss')}',
                                   style: TextStyle(fontSize: 12)),
                               SizedBox(height: 5),
-                              Text('NO : ${printTrx.id.toUpperCase()}',
+                              Text('NO : ${printTrx.id?.toUpperCase() ?? ''}',
                                   style: TextStyle(fontSize: 12)),
                               SizedBox(height: 5),
-                              Text('KASIR : ${printTrx.userID['nama']}',
+                              Text('KASIR : ${printTrx.userID?['nama'] ?? ''}',
                                   style: TextStyle(fontSize: 12)),
                               SizedBox(height: 20),
                               ListView.separated(
                                   shrinkWrap: true,
                                   physics: NeverScrollableScrollPhysics(),
-                                  itemCount: printTrx.detailTrx.length,
+                                  itemCount: printTrx.detailTrx?.length ?? 0,
                                   separatorBuilder: (ctx, i) =>
                                       SizedBox(height: 10),
                                   itemBuilder: (ctx, i) {
-                                    var detail = printTrx.detailTrx[i];
+                                    var detail = printTrx.detailTrx?[i];
                                     return Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          detail['nama_barang'].toUpperCase(),
+                                          detail?['nama_barang']?.toUpperCase() ?? '',
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                           ),
@@ -247,11 +245,11 @@ class DetailPaymentState extends State<DetailPayment> {
                                               MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text(
-                                              '${detail['qty']} x ${formatNominal(detail['harga_jual'])}',
+                                              '${detail?['qty']} x ${formatNominal(detail?['harga_jual'] ?? 0)}',
                                             ),
                                             Text(
                                               formatNominal(
-                                                  detail['total_harga']),
+                                                  detail?['total_harga'] ?? 0),
                                               style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                               ),
@@ -273,7 +271,7 @@ class DetailPaymentState extends State<DetailPayment> {
                                     ),
                                   ),
                                   Text(
-                                    '${printTrx.termin.toUpperCase()}',
+                                    '${printTrx.termin?.toUpperCase() ?? ''}',
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -292,7 +290,7 @@ class DetailPaymentState extends State<DetailPayment> {
                                     ),
                                   ),
                                   Text(
-                                    formatNominal(printTrx.totalJual),
+                                    formatNominal(printTrx.totalJual ?? 0),
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -311,7 +309,7 @@ class DetailPaymentState extends State<DetailPayment> {
                                     ),
                                   ),
                                   Text(
-                                    formatNominal(printTrx.terbayar),
+                                    formatNominal(printTrx.terbayar ?? 0),
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -319,7 +317,7 @@ class DetailPaymentState extends State<DetailPayment> {
                                 ],
                               ),
                               SizedBox(height: 10.0),
-                              printTrx.termin.toUpperCase() == 'CASH'
+                              printTrx.termin?.toUpperCase() == 'CASH'
                                   ? Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
@@ -331,7 +329,7 @@ class DetailPaymentState extends State<DetailPayment> {
                                           ),
                                         ),
                                         Text(
-                                          '${formatNominal(printTrx.terbayar - printTrx.totalJual)}',
+                                          '${formatNominal(printTrx.terbayar! - printTrx.totalJual!)}',
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                           ),
@@ -349,7 +347,7 @@ class DetailPaymentState extends State<DetailPayment> {
                                           ),
                                         ),
                                         Text(
-                                          '${formatNominal(printTrx.totalJual - printTrx.terbayar)}',
+                                          '${formatNominal(printTrx.totalJual! - printTrx.terbayar!)}',
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                           ),

@@ -1,11 +1,9 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/index.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mobile/config.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 enum DisableType { merchant, member }
 
@@ -17,7 +15,7 @@ class DisablePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(configAppBloc.namaApp.valueWrapper?.value),
+          title: Text(configAppBloc.namaApp.valueWrapper?.value ?? ''),
           centerTitle: true,
           elevation: 0,
           backgroundColor: packageName == 'com.lariz.mobile'

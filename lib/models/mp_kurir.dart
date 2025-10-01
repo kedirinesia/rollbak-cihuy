@@ -1,4 +1,3 @@
-// @dart=2.9
 
 class MPKurir {
   final String id;
@@ -9,12 +8,12 @@ class MPKurir {
   final bool active;
 
   MPKurir(
-      {this.id,
-      this.name,
-      this.description,
-      this.thumbnail,
-      this.code,
-      this.active});
+      { required this.id,
+     required this.name,
+      required this.description,
+      required this.thumbnail,
+      required this.code,
+      required this.active});
 
   factory MPKurir.fromJson(dynamic json) => MPKurir(
       id: json['_id'],
@@ -31,7 +30,7 @@ class MPKurirService {
   final int cost;
   final String estimate;
 
-  MPKurirService({this.service, this.description, this.cost, this.estimate});
+  MPKurirService({required this.service, required this.description, required this.cost, required this.estimate});
 
   factory MPKurirService.fromJson(dynamic json) => MPKurirService(
       service: json['service'],

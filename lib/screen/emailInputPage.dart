@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mobile/screen/verifyEmailPage.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class EmailInputPage extends StatefulWidget {
   @override

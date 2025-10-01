@@ -1,11 +1,9 @@
-// @dart=2.9
 
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_custom_tabs/flutter_custom_tabs.dart' as custom_tabs;
 import 'package:mobile/Products/xenaja/layout/components/template.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/models/deposit.dart';

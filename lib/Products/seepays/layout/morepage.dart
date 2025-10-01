@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -6,8 +5,6 @@ import 'package:flutter_page_transition/flutter_page_transition.dart';
 import 'package:mobile/models/menu.dart';
 
 // Import necessary pages for navigation - using SEEPAY specific ones
-import 'package:mobile/screen/detail-denom/detail-denom.dart';
-import 'package:mobile/screen/detail-denom-postpaid/detail-postpaid.dart';
 import 'package:mobile/screen/dynamic-prepaid/dynamic-denom.dart';
 import 'package:mobile/screen/list-grid-menu/list-grid-menu.dart';
 import 'list-sub-menu.dart';
@@ -162,14 +159,12 @@ class _MorePageState extends State<MorePage> {
         return Pulsa(menu);
       }));
     } else if (menu.jenis == 2) {
-      if (menu.category_id != null &&
-          menu.category_id.isNotEmpty &&
+      if (menu.category_id.isNotEmpty &&
           menu.type == 1) {
         DebugHelper.debugPrint('➡️ Menu menuju ke: SeepaysDetailDenom');
         Navigator.of(context).push(PageTransition(
             child: SeepaysDetailDenom(menu), type: PageTransitionType.rippleRightUp));
-      } else if (menu.kodeProduk != null &&
-          menu.kodeProduk.isNotEmpty &&
+      } else if (menu.kodeProduk.isNotEmpty &&
           menu.type == 2) {
         DebugHelper.debugPrint('➡️ Menu menuju ke: SeepaysDetailDenomPostpaid');
         Navigator.of(context).push(PageTransition(

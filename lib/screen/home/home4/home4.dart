@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -19,7 +18,7 @@ class Home4App extends StatefulWidget {
 }
 
 class _Home4AppState extends Home4Model {
-  AnimationController _animationController;
+  late AnimationController _animationController  ;
 
   @override
   void initState() {
@@ -63,8 +62,8 @@ class _Home4AppState extends Home4Model {
                         )),
                     height: 120,
                   )),
-              MenuDepan(grid: 5, baris: 2),
-              RewardComponent(),
+              MenuDepan(grid: 5, baris: 2, menus: [], gradient: [], radius: 0),
+              RewardComponent(height: 0),
               CardInfo(),
               SizedBox(height: 10.0),
               // CarouselDepan(),
@@ -146,14 +145,14 @@ class _Home4AppState extends Home4Model {
                                 SizedBox(height: 5.0),
                                 Text(
                                     formatNominal(
-                                        bloc.saldo.valueWrapper?.value),
+                                        bloc.saldo.valueWrapper?.value ?? 0),
                                     style: TextStyle(
                                         fontSize: 12.0,
                                         fontWeight: FontWeight.bold)),
                                 Text(
                                     'Points ' +
                                         formatNominal(
-                                            bloc.poin.valueWrapper?.value),
+                                            bloc.poin.valueWrapper?.value ?? 0),
                                     style: TextStyle(fontSize: 10.0))
                               ],
                             ),
@@ -188,7 +187,7 @@ class _Home4AppState extends Home4Model {
                           var barcode = await BarcodeScanner.scan();
                           DebugHelper.debugPrint('barcode.toString()');
                           // if (barcode.isNotEmpty) {
-                          return Navigator.of(context).push(MaterialPageRoute(
+                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (_) =>
                                   TransferByQR(barcode.rawContent)));
                           // }
@@ -303,7 +302,7 @@ class PanelSemuaMenu extends StatelessWidget {
                 var barcode = await BarcodeScanner.scan();
                 // DebugHelper.debugPrint('barcode.toString()');
                 // if (barcode.isNotEmpty) {
-                return Navigator.of(context).push(MaterialPageRoute(
+                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (_) => TransferByQR(barcode.rawContent)));
                 // }
               },

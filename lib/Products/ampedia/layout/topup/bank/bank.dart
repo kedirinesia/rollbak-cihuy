@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -7,7 +6,6 @@ import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/models/payment-list.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/Products/ampedia/layout/topup/bank/bank-controller.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class TopupBank extends StatefulWidget {
   final PaymentModel payment;

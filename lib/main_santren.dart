@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'main.dart';
 import 'package:mobile/utils/debug_helper.dart';
 import 'package:mobile/Products/santren/layout/onboarding.dart';
 import 'package:mobile/Products/santren/layout/index.dart';

@@ -5,7 +5,6 @@ import 'package:mobile/component/carousel-depan.dart';
 import 'package:mobile/component/menudepan.dart';
 import 'package:mobile/component/rewards.dart';
 import './home3_model.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class Home3App extends StatefulWidget {
   @override
@@ -51,10 +50,10 @@ class _Home3AppState extends Home3Model {
                   ],
                 )),
           ),
-          MenuDepan(grid: 5),
+          MenuDepan(grid: 5, menus: [], gradient: [], baris: 0, radius: 0),
           CarouselDepan(),
           CardInfo(),
-          RewardComponent()
+          RewardComponent(height: 0)
         ],
       ),
     );

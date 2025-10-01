@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '5f4bdc8b689dcc3d0f826e8e';
 
@@ -6,7 +5,7 @@ const namaApp = 'BisaBayar';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'id.bisabayar.app';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

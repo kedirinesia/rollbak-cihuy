@@ -1,7 +1,5 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 enum AlertType { error, info, success, warning }
 
@@ -9,7 +7,7 @@ class Alert extends SnackBar {
   final String text;
   final bool isError;
 
-  Alert(this.text, {this.isError})
+  Alert(this.text, {this.isError = false})
       : super(
           backgroundColor:
               isError ?? false ? Colors.red[600] : Colors.green[600],

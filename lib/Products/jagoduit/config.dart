@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '64a525e4a6d84ddf6610620f';
 
@@ -6,7 +5,7 @@ const namaApp = 'JagoDuit';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.jagoduit.android';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

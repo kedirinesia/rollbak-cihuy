@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:mobile/Products/eralink/layout/index.dart';
 import 'package:mobile/Products/eralink/layout/detail-deposit.dart';
@@ -6,7 +5,6 @@ import 'package:mobile/Products/eralink/layout/login.dart';
 import 'package:mobile/Products/eralink/layout/qris.dart';
 import 'package:mobile/Products/eralink/layout/topup/topup.dart';
 import 'package:mobile/models/deposit.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 String sigVendor = '5f70c07c57b282070a1486a1';
 
@@ -14,7 +12,7 @@ const namaApp = 'EraLinK';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.eralink.mobileapk';
-String brandId;
+String brandId = '';
 String copyRight = 'EraLinK';
 int templateCode = 4;
 String gaId = '';

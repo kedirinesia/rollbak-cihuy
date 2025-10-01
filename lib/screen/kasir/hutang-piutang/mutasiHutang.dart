@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -22,7 +21,6 @@ import 'package:mobile/modules.dart';
 
 // SCREEN PAGE
 import 'package:mobile/screen/kasir/hutang-piutang/form/formHutang.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class MutasiHutang extends StatefulWidget {
   HutangModel hutang;
@@ -59,7 +57,7 @@ class DetailHutangState extends State<MutasiHutang> {
           Uri.parse('$apiUrlKasir/transaksi/hutang/detail?page=$page'),
           headers: {
             'Content-Type': 'application/json',
-            'authorization': bloc.token.valueWrapper?.value,
+            'authorization': bloc.token.valueWrapper?.value ?? '',
           },
           body: json.encode(dataToSend));
 
@@ -165,7 +163,7 @@ class DetailHutangState extends State<MutasiHutang> {
       appBar: AppBar(
         elevation: 0.0,
         title: Text(
-          '${widget.hutang.supplierModel.nama}',
+          '${widget.hutang.supplierModel?.nama}',
         ),
         actions: [
           IconButton(

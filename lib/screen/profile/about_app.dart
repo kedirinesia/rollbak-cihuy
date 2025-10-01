@@ -1,11 +1,9 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:package_info/package_info.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class AboutAppPage extends StatefulWidget {
   @override
@@ -14,10 +12,10 @@ class AboutAppPage extends StatefulWidget {
 
 class _AboutAppPageState extends State<AboutAppPage> {
   bool loading = true;
-  String appName;
-  String packageName;
-  String versionName;
-  String versionCode;
+  late String appName;
+  late String packageName;
+  late String versionName;
+  late String versionCode;
 
   @override
   void initState() {

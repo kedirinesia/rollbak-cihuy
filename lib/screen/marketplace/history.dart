@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -13,7 +12,6 @@ import 'package:mobile/models/mp_transaction.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/marketplace/detail_pesanan.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class HistoryOrderPage extends StatefulWidget {
   @override
@@ -41,7 +39,7 @@ class _HistoryOrderPageState extends State<HistoryOrderPage> {
 
     http.Response response = await http.get(
         Uri.parse('$apiUrl/market/order/list?page=$page'),
-        headers: {'Authorization': bloc.token.valueWrapper?.value});
+        headers: {'Authorization': bloc.token.valueWrapper?.value ?? ''});
 
     if (response.statusCode == 200) {
       List<dynamic> datas = json.decode(response.body)['data'];

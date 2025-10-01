@@ -1,4 +1,3 @@
-// @dart=2.9
 import 'dart:convert';
 import 'dart:io';
 
@@ -6,7 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:mobile/Products/violeta/layout/privacy_policy.dart';
+import 'package:mobile/screen/register.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/config.dart';
@@ -18,7 +17,6 @@ import 'package:mobile/component/bezierContainer.dart';
 import 'package:http/http.dart' as http;
 import '/bloc/Api.dart' show apiUrl, sigVendor;
 import 'package:mobile/screen/cs.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -48,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
   List<String> pkgNameBorder = ['id.centralbayar.mobileapp'];
 
   submitLogin() async {
-    if (formKey.currentState.validate()) {
+    if (formKey.currentState?.validate() ?? false) {
       setState(() {
         loading = true;
       });
@@ -94,9 +92,9 @@ class _LoginPageState extends State<LoginPage> {
   Widget _entryField(
     String title, {
     bool isPassword = false,
-    int maxLength,
-    TextEditingController controller,
-    Function(String value) validator,
+    int? maxLength,
+    TextEditingController? controller,
+    String? Function(String?)? validator,
     List<TextInputFormatter> formatters = const [],
   }) {
     return Container(
@@ -204,7 +202,7 @@ class _LoginPageState extends State<LoginPage> {
           InkWell(
             onTap: () {
               Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (_) => PrivacyPolicyPage()));
+                  .push(MaterialPageRoute(builder: (_) => RegisterUser()));
             },
             child: Text(
               'Daftar Sekarang',
@@ -223,7 +221,7 @@ class _LoginPageState extends State<LoginPage> {
     return Hero(
       tag: 'icon-apk',
       child: CachedNetworkImage(
-        imageUrl: configAppBloc.iconApp.valueWrapper?.value['logoLogin'],
+        imageUrl: configAppBloc.iconApp.valueWrapper?.value['logoLogin'] ?? '',
         height: MediaQuery.of(context).size.width * .15,
         fit: BoxFit.contain,
       ),
@@ -234,7 +232,7 @@ class _LoginPageState extends State<LoginPage> {
     return RichText(
         textAlign: TextAlign.center,
         text: TextSpan(
-          text: configAppBloc.namaApp.valueWrapper?.value,
+          text: configAppBloc.namaApp.valueWrapper?.value ?? '',
           style: TextStyle(
             fontSize: 30,
             fontWeight: FontWeight.w700,
@@ -259,8 +257,8 @@ class _LoginPageState extends State<LoginPage> {
             "PIN",
             isPassword: true,
             controller: pin,
-            maxLength: configAppBloc.limitPinLogin.valueWrapper?.value
-                ? configAppBloc.pinCount.valueWrapper?.value
+            maxLength: configAppBloc.limitPinLogin.valueWrapper?.value == true
+                ? configAppBloc.pinCount.valueWrapper?.value?.toInt() ?? 6
                 : null,
             formatters: [
               FilteringTextInputFormatter.digitsOnly,
@@ -282,7 +280,7 @@ class _LoginPageState extends State<LoginPage> {
             image: configAppBloc.iconApp.valueWrapper?.value['texture'] != null
                 ? DecorationImage(
                     image: CachedNetworkImageProvider(
-                        configAppBloc.iconApp.valueWrapper?.value['texture']),
+                        configAppBloc.iconApp.valueWrapper?.value['texture'] ?? ''),
                     fit: BoxFit.fitWidth)
                 : null),
         child: Stack(
@@ -324,7 +322,8 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   SizedBox(height: 20),
-                  configAppBloc.info.valueWrapper?.value.register
+                  (configAppBloc.info.valueWrapper?.value.register == true &&
+                   configAppBloc.info.valueWrapper?.value.stopAllRegister == false)
                       ? Align(
                           alignment: Alignment.bottomCenter,
                           child: _createAccountLabel(),
@@ -350,7 +349,7 @@ class _LoginPageState extends State<LoginPage> {
                     Platform.isAndroid ? 'com.payuni.id' : 'co.payuni.id',
                   ];
 
-                  return Navigator.of(context).push(
+                  Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (_) =>
                           packages.contains(packageName) ? CS1() : CS(),

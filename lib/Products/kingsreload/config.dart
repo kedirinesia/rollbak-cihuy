@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '60681ddd8879eb1b22bb03fd';
 
@@ -6,7 +5,7 @@ const namaApp = 'Kings Reload';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'id.kingsreloadnew.app';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

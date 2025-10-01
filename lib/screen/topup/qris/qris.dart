@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -13,7 +12,6 @@ import 'package:mobile/models/qris_topup.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/topup/qris/qris_payment.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class QrisTopup extends StatefulWidget {
   @override
@@ -33,7 +31,9 @@ class _QrisTopupState extends State<QrisTopup> {
   }
 
   void topup() async {
-    double parsedNominal = double.parse(nominal.text.replaceAll('.', ''));
+    int parsedNominal = int.tryParse(
+            nominal.text.replaceAll(RegExp('[^0-9]'), '')) ??
+        0;
     if (nominal.text.isEmpty) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Nominal belum diisi')));
@@ -51,14 +51,17 @@ class _QrisTopupState extends State<QrisTopup> {
     http.Response response =
         await http.post(Uri.parse('$apiUrl/deposit/payment-qris'),
             headers: {
-              'Authorization': bloc.token.valueWrapper?.value,
+              'Authorization': bloc.token.valueWrapper?.value ?? '',
               'Content-Type': 'application/json'
             },
             body: json.encode({'nominal': parsedNominal}));
 
     if (response.statusCode == 200) {
-      QrisTopupModel topup =
-          QrisTopupModel.fromJson(json.decode(response.body));
+      var body = json.decode(response.body);
+      var data = body is Map<String, dynamic> && body.containsKey('data')
+          ? body['data']
+          : body;
+      QrisTopupModel topup = QrisTopupModel.fromJson(data);
       Navigator.of(context).pop();
       Navigator.of(context)
           .push(MaterialPageRoute(builder: (_) => QrisPayment(topup)));

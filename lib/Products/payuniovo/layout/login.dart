@@ -4,10 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
-import 'package:mobile/Products/payuniovo/layout/privacy_policy.dart';
+import 'package:mobile/screen/register.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/modules.dart';
-import 'package:mobile/provider/api.dart';
 import 'package:mobile/Products/payuniovo/config.dart' as payuniovoConfig;
 import 'package:mobile/Products/payuniovo/layout/forgot-password/step_1.dart';
 import 'package:mobile/Products/payuniovo/layout/otp.dart';
@@ -278,7 +277,7 @@ class _LoginPageState extends State<LoginPage> {
                       // Navigate to register page
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (_) => PrivacyPolicyPage(),
+                          builder: (_) => RegisterUser(),
                         ),
                       );
                     },
@@ -606,7 +605,7 @@ class _LoginPageState extends State<LoginPage> {
                             InkWell(
                               onTap: () {
                                 Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (_) => PrivacyPolicyPage()));
+                                    builder: (_) => RegisterUser()));
                               },
                               child: Text(
                                 'Sign up now',

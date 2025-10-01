@@ -1,11 +1,9 @@
-// @dart=2.9
 
 import 'package:mobile/Products/pgkreload/layout/detail-deposit.dart';
 import 'package:mobile/Products/pgkreload/layout/home.dart';
 import 'package:mobile/Products/pgkreload/layout/kirim-saldo.dart';
 import 'package:mobile/Products/pgkreload/layout/topup.dart';
 import 'package:mobile/models/deposit.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 String sigVendor = '640ffdad980aba06b0cf0ba5';
 
@@ -13,7 +11,7 @@ const namaApp = 'PGK Reload';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.pgkreload.app';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

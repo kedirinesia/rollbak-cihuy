@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -23,7 +22,7 @@ class ListProdukMarketplace extends StatefulWidget {
   final String categoryId;
   final String categoryName;
   ListProdukMarketplace(
-      {this.searchQuery = '', this.categoryId = '', this.categoryName = ''});
+      {this.searchQuery = '', this.categoryId = '', this.categoryName = ''});   
 
   @override
   _ListProdukMarketplaceState createState() => _ListProdukMarketplaceState();
@@ -32,11 +31,11 @@ class ListProdukMarketplace extends StatefulWidget {
 class _ListProdukMarketplaceState extends State<ListProdukMarketplace> {
   List<ProdukMarket> products = [];
   int page = 0;
-  String pageTitle;
+  late String pageTitle;
   bool isLoading = true;
   bool isEdge = false;
   TextEditingController query = TextEditingController();
-  String searchQuery;
+  late String searchQuery;
   bool search = false;
 
   @override
@@ -67,7 +66,7 @@ class _ListProdukMarketplaceState extends State<ListProdukMarketplace> {
     }
 
     http.Response response = await http.get(Uri.parse(url),
-        headers: {'Authorization': bloc.token.valueWrapper?.value});
+        headers: {'Authorization': bloc.token.valueWrapper?.value ?? ''});
 
     if (response.statusCode == 200) {
       List<dynamic> datas = json.decode(response.body)['data'];
@@ -155,7 +154,9 @@ class _ListProdukMarketplaceState extends State<ListProdukMarketplace> {
                               badgeContent: Text(itemCount.toString(),
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 11)),
-                              badgeColor: Colors.red);
+                              badgeStyle: BadgeModule.BadgeStyle(
+                                badgeColor: Colors.red,
+                              ));
                         }),
                     onPressed: () => Navigator.of(context).push(
                         MaterialPageRoute(builder: (_) => CartMarketPage())))

@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 import 'package:mobile/bloc/Bloc.dart';
@@ -8,7 +7,6 @@ import 'package:mobile/screen/marketplace/voucher/voucherReseller.dart';
 
 // BLOC
 import 'package:mobile/bloc/ConfigApp.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class VoucherMarketPage extends StatefulWidget {
   @override
@@ -35,10 +33,10 @@ class VoucherMarketPageState extends State<VoucherMarketPage>
         appBar: AppBar(
           backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
           bottom: TabBar(
-              indicatorColor: Theme.of(context).appBarTheme.iconTheme.color,
-              labelColor: Theme.of(context).appBarTheme.iconTheme.color,
+              indicatorColor: Theme.of(context).appBarTheme.iconTheme?.color ?? Colors.white,  
+              labelColor: Theme.of(context).appBarTheme.iconTheme?.color ?? Colors.white,
               unselectedLabelColor:
-                  Theme.of(context).appBarTheme.iconTheme.color.withOpacity(.7),
+                  Theme.of(context).appBarTheme.iconTheme?.color?.withOpacity(.7),
               tabs: [
                 Tab(
                     child: Text(

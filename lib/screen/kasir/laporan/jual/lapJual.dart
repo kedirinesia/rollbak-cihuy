@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:async';
 import 'dart:convert';
@@ -24,7 +23,6 @@ import 'package:mobile/modules.dart';
 
 // page screen
 import 'package:mobile/screen/kasir/laporan/jual/lapDetailJual.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class LapJual extends StatefulWidget {
   @override
@@ -71,7 +69,7 @@ class LapJualState extends State<LapJual> {
           Uri.parse(
               '$apiUrlKasir/laporan/penjualan?page=$page&tgl_awal=${tglAwalController.text}&tgl_akhir=${tglAkhirController.text}'),
           headers: {
-            'authorization': bloc.token.valueWrapper?.value,
+            'authorization': bloc.token.valueWrapper?.value ?? '',
           });
 
       var responseData = json.decode(response.body);
@@ -178,27 +176,25 @@ class LapJualState extends State<LapJual> {
 
   // SELECT DATE
   Future _selectDate(String key) async {
-    DateTime picked = await showDatePicker(
+    DateTime? picked = await showDatePicker(
       context: context,
       initialDate: key == 'awal' ? selectedAwal : selectedAkhir,
       firstDate: new DateTime(1900),
       lastDate: new DateTime(2500),
     );
 
-    if (picked != null) {
-      String value = formatter.format(picked);
+    String value = formatter.format(picked ?? DateTime.now());
 
-      if (key == 'awal') {
-        setState(() {
-          selectedAwal = picked;
-          tglAwalController.text = value;
-        });
-      } else {
-        setState(() {
-          selectedAkhir = picked;
-          tglAkhirController.text = value;
-        });
-      }
+    if (key == 'awal') {
+      setState(() {
+        selectedAwal = picked ?? DateTime.now();
+        tglAwalController.text = value;
+      });
+    } else {
+      setState(() {
+        selectedAkhir = picked ?? DateTime.now();
+        tglAkhirController.text = value;
+      });
     }
   }
 
@@ -276,7 +272,7 @@ class LapJualState extends State<LapJual> {
     return InkWell(
       onTap: () async {
         dynamic response = await Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => LapDetailJual(trx.id),
+          builder: (context) => LapDetailJual(trx.id ?? ''),
         ));
 
         refreshData();
@@ -291,7 +287,7 @@ class LapJualState extends State<LapJual> {
         ]),
         child: ListTile(
           title: Text(
-            'ID Trx : ${trx.id.toUpperCase()}',
+            'ID Trx : ${trx.id?.toUpperCase()}',
             style: TextStyle(fontSize: 13.0, color: Colors.grey.shade700),
           ),
           subtitle: Column(
@@ -299,15 +295,15 @@ class LapJualState extends State<LapJual> {
             children: [
               SizedBox(height: 5.0),
               Text(
-                  'Pelanggan : ${trx.customerModel != null ? trx.customerModel.nama : '-'}',
+                  'Pelanggan : ${trx.customerModel != null ? trx.customerModel?.nama : '-'}',
                   style:
                       TextStyle(fontSize: 13.0, color: Colors.grey.shade700)),
               SizedBox(height: 5.0),
-              Text('Harga Beli : ${formatNominal(trx.totalBeli)}',
+              Text('Harga Beli : ${formatNominal(trx.totalBeli ?? 0)}',
                   style:
                       TextStyle(fontSize: 13.0, color: Colors.grey.shade700)),
               SizedBox(height: 5.0),
-              Text('Harga Jual : ${formatNominal(trx.totalJual)}',
+              Text('Harga Jual : ${formatNominal(trx.totalJual ?? 0)}',
                   style:
                       TextStyle(fontSize: 13.0, color: Colors.grey.shade700)),
               SizedBox(height: 5.0),
@@ -317,17 +313,17 @@ class LapJualState extends State<LapJual> {
                   style: TextStyle(fontSize: 13.0, color: Colors.grey.shade700),
                   children: [
                     TextSpan(
-                        text: trx.lunas ? 'LUNAS' : 'BELUM LUNAS',
+                        text: trx.lunas ?? false ? 'LUNAS' : 'BELUM LUNAS',
                         style: TextStyle(
                           fontSize: 13.0,
-                          color: trx.lunas ? Colors.green : Colors.red,
+                          color: trx.lunas ?? false ? Colors.green : Colors.red,
                         )),
                   ],
                 ),
               ),
               SizedBox(height: 5.0),
               Text(
-                  'Tanggal : ${formatDate(trx.created_at, 'd MMMM yyyy HH:mm:ss')}',
+                  'Tanggal : ${formatDate(trx.created_at ?? '', 'd MMMM yyyy HH:mm:ss')}',
                   style:
                       TextStyle(fontSize: 13.0, color: Colors.grey.shade700)),
             ],

@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,7 +7,6 @@ import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/bloc/TemplateConfig.dart';
 import 'package:mobile/models/topup_va.dart';
 import 'package:mobile/modules.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class DepositMerchant extends StatefulWidget {
   final VaTopup va;
@@ -35,9 +33,9 @@ class _DepositMerchantState extends State<DepositMerchant> {
               onPressed: () => Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
                     builder: (_) =>
-                        configAppBloc.layoutApp?.valueWrapper?.value['home'] ??
+                        configAppBloc.layoutApp.valueWrapper?.value['home'] ??
                         templateConfig[
-                            configAppBloc.templateCode.valueWrapper?.value],
+                            configAppBloc.templateCode.valueWrapper?.value ?? 0],
                   ),
                   (route) => false),
             ),
@@ -62,7 +60,7 @@ class _DepositMerchantState extends State<DepositMerchant> {
                         end: AlignmentDirectional.bottomCenter),
                   ),
                   child: Center(
-                      child: Text(formatRupiah(widget.va.total),
+                      child: Text(formatRupiah(widget.va.total ?? 0),
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,

@@ -1,6 +1,4 @@
-// @dart=2.9
 import 'package:rxdart/rxdart.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class ApiBloc extends Object {
   final sigVendor = BehaviorSubject<String>();
@@ -17,5 +15,8 @@ class ApiBloc extends Object {
 final apiBloc = ApiBloc();
 
 String  apiUrl = apiBloc.apiUrl.value ?? 'https://app.payuni.co.id/api/v1';
-String apiUrlKasir = apiBloc.apiUrlKasir.value;
-String sigVendor = apiBloc.sigVendor.value;
+String apiUrlKasir = apiBloc.apiUrlKasir.value ?? '';
+String sigVendor = apiBloc.sigVendor.value ?? '';
+
+// Ensure apiUrl is never empty to prevent URI parsing errors
+String get safeApiUrl => apiUrl.isNotEmpty ? apiUrl : 'https://app.payuni.co.id/api/v1';

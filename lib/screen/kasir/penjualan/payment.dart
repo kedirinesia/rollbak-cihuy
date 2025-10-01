@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:async';
 import 'dart:convert';
@@ -55,7 +54,7 @@ class PaymentState extends State<Payment> {
   int nominalAngka = 0; // uang bayar type integer
   String nominalStr = ""; // uang bayar type string
   List<ListProductModel> itemOrders = [];
-  CustomerModel customer;
+  CustomerModel? customer;
 
   @override
   void initState() {
@@ -82,21 +81,19 @@ class PaymentState extends State<Payment> {
 
   // SELECT DATE
   Future _selectDate() async {
-    DateTime picked = await showDatePicker(
+    DateTime? picked = await showDatePicker(
       context: context,
       initialDate: selectedDate,
       firstDate: DateTime.now(), //DateTime( DateTime.now().year - 1 , 5),
       lastDate: new DateTime(2500),
     );
 
-    if (picked != null) {
-      String value = formatter.format(picked);
+    String value = formatter.format(picked ?? DateTime.now());
 
-      setState(() {
-        selectedDate = picked;
-        jatuhTmpController.text = value;
-      });
-    }
+    setState(() {
+      selectedDate = picked ?? DateTime.now();
+      jatuhTmpController.text = value;
+    });
   }
 
   void _onKeyboardTap(String value) {
@@ -288,7 +285,7 @@ class PaymentState extends State<Payment> {
         });
 
         Map<String, dynamic> dataToSend = {
-          'id_customer': customer != null ? customer.id : null,
+          'id_customer': customer != null ? customer?.id : null,
           'keterangan': keteranganController.text,
           'termin': radioValue,
           'jatuhTempo': jatuhTmpController.text,
@@ -301,7 +298,7 @@ class PaymentState extends State<Payment> {
             await http.post(Uri.parse('$apiUrlKasir/transaksi/penjualan/trx'),
                 headers: {
                   'Content-Type': 'application/json',
-                  'authorization': bloc.token.valueWrapper?.value,
+                  'authorization': bloc.token.valueWrapper?.value ?? '',
                 },
                 body: json.encode(dataToSend));
 

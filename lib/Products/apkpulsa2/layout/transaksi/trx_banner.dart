@@ -3,7 +3,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/models/banner.dart';
 import 'package:mobile/provider/api.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class BannerTransaction extends StatefulWidget {
   @override

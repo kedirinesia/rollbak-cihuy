@@ -1,11 +1,9 @@
-// @dart=2.9
 
 import 'package:mobile/Products/oneshop/layout/detail-deposit.dart';
 import 'package:mobile/Products/oneshop/layout/home.dart';
 import 'package:mobile/Products/oneshop/layout/kirim-saldo.dart';
 import 'package:mobile/Products/oneshop/layout/topup.dart';
 import 'package:mobile/models/deposit.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 String sigVendor = '5fda48f908ba805161042742';
 
@@ -13,7 +11,7 @@ const namaApp = 'One Shop Digital';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.oneshopdigital.apk';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

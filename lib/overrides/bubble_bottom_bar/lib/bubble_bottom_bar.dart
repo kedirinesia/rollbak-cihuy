@@ -2,11 +2,9 @@ library animated_bottom_navigation_bar;
 
 import 'dart:math' as math;
 
-import 'package:badges/badges.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges;
-import 'package:mobile/utils/debug_helper.dart';
 
 const double _kActiveFontSize = 14.0;
 const double _kBottomMargin = 8.0;
@@ -197,8 +195,8 @@ class _TileIcon extends StatelessWidget {
       child: badges.Badge(
         showBadge: item.showBadge,
         badgeContent: item.badge,
-        badgeColor: item.badgeColor,
-        animationType: BadgeAnimationType.fade,
+        badgeStyle: badges.BadgeStyle(badgeColor: item.badgeColor),
+        badgeAnimation: badges.BadgeAnimation.slide(),
         child: Container(
           child: IconTheme(
             data: IconThemeData(

@@ -1,4 +1,3 @@
-// @dart=2.9
 import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -9,7 +8,6 @@ import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/models/reward.dart';
 import 'package:mobile/modules.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class RewardComponent extends StatefulWidget {
   final double aspectRatio;

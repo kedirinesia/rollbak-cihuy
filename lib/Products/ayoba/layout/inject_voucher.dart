@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -115,8 +114,7 @@ class _VoucherBulkPageState extends State<VoucherBulkPage> {
 
     setState(() {
       _denom = result;
-      _isPromo = result.harga_promo != null &&
-          result.harga_promo > 0 &&
+      _isPromo = result.harga_promo > 0 &&
           result.harga_jual > result.harga_promo;
     });
   }
@@ -133,7 +131,7 @@ class _VoucherBulkPageState extends State<VoucherBulkPage> {
       );
       return;
     } else if (widget.menu.jenis == 6) {
-      if (_denom == null || _vouchers.length == 0) return;
+      if (_vouchers.length == 0) return;
 
       bool isBalanceEnough = await _checkBalance();
       if (!isBalanceEnough) {
@@ -183,7 +181,7 @@ class _VoucherBulkPageState extends State<VoucherBulkPage> {
             builder: (context) => VerifikasiPin(),
           ),
         );
-        if (pin == null) return;
+        if (pin.isEmpty) { setState(() { _loading = false; }); return; }
 
         sendDeviceToken();
 
@@ -588,7 +586,7 @@ class _VoucherBulkPageState extends State<VoucherBulkPage> {
                               materialTapTargetSize:
                                   MaterialTapTargetSize.shrinkWrap,
                               visualDensity: VisualDensity.compact,
-                              fillColor: MaterialStateProperty.all(
+                              fillColor: WidgetStateProperty.all(
                                 Theme.of(context).primaryColor,
                               ),
                               value: voucher['selected'],

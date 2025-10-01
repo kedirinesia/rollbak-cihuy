@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -267,10 +266,10 @@ class _HomeAyoba1State extends State<HomeAyoba1> {
                                           _onVerificationButtonPressed(context),
                                       style: ButtonStyle(
                                           backgroundColor:
-                                              MaterialStateProperty.all(
+                                              WidgetStateProperty.all(
                                                   Theme.of(context)
                                                       .primaryColor),
-                                          shape: MaterialStateProperty.all<
+                                          shape: WidgetStateProperty.all<
                                               RoundedRectangleBorder>(
                                             RoundedRectangleBorder(
                                               borderRadius:
@@ -278,7 +277,7 @@ class _HomeAyoba1State extends State<HomeAyoba1> {
                                             ),
                                           ),
                                           minimumSize:
-                                              MaterialStateProperty.all<Size>(
+                                              WidgetStateProperty.all<Size>(
                                                   Size(0, 25))),
                                       child: Text(
                                         "Upgrade",

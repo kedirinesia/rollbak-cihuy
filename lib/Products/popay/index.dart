@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 import '../../main.dart';
@@ -6,7 +5,6 @@ import '../../app_config.dart';
 import 'config.dart';
 import 'color.dart';
 import 'resource.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 void main() {
   var configApp = AppConfig(

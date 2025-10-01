@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '5e65233700da345d7360e63f';
 
@@ -6,7 +5,7 @@ const namaApp = 'Passpay';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.passpay.agenpulsamurah';
-String brandId;
+String brandId = '';
 String copyRight = 'Passpay';
 int templateCode = 3;
 String gaId = '';

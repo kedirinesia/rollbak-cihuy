@@ -1,4 +1,3 @@
-// @dart=2.9
 
 class MPTracking {
   final String kurir;
@@ -6,7 +5,7 @@ class MPTracking {
   final String status;
   final List<MPTrackingManifest> manifests;
 
-  MPTracking({this.kurir, this.resi, this.status, this.manifests});
+  MPTracking({required this.kurir, required this.resi, required this.status, required this.manifests});
 
   factory MPTracking.fromJson(dynamic json) {
     return MPTracking(
@@ -24,7 +23,7 @@ class MPTrackingManifest {
   final String description;
   final String timestamp;
 
-  MPTrackingManifest({this.description, this.timestamp});
+  MPTrackingManifest({required this.description, required this.timestamp});
 
   factory MPTrackingManifest.fromJson(dynamic json) {
     return MPTrackingManifest(

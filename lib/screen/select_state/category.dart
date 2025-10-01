@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:async';
 import 'dart:convert';
@@ -14,9 +13,8 @@ import 'package:mobile/bloc/Bloc.dart';
 
 // model
 import 'package:mobile/models/kasir/category.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
-class SelectCategory extends StatefulWidget {
+class SelectCategory extends StatefulWidget {   
   @override
   createState() => SelectCategoryState();
 }
@@ -37,7 +35,7 @@ class SelectCategoryState extends State<SelectCategory> {
     try {
       http.Response response = await http
           .get(Uri.parse('$apiUrlKasir/master/category/all'), headers: {
-        'authorization': bloc.token.valueWrapper?.value,
+        'authorization': bloc.token.valueWrapper?.value ?? '',
       });
 
       if (response.statusCode == 200) {

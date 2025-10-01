@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -10,7 +9,6 @@ import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/models/info.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/screen/info/info.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class CardInfo extends StatefulWidget {
   @override

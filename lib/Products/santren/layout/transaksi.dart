@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -87,8 +86,8 @@ class _HistoryTransaksiState extends State<HistoryTransaksi> {
     if (filtered) {
       params['tgl_akhir'] = formatDate(endDate.toIso8601String(), 'd-M-y');
       params['tgl_awal'] = formatDate(startDate.toIso8601String(), 'd-M-y');
-      if (status != null && status != 4) params['status'] = status.toString();
-      if (tujuan != null && tujuan.isNotEmpty) params['tujuan'] = tujuan;
+      if (status != 4) params['status'] = status.toString();
+      if (tujuan.isNotEmpty) params['tujuan'] = tujuan;
     }
     params['page'] = currentPage;
 

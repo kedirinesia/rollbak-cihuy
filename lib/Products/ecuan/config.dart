@@ -1,7 +1,5 @@
-// @dart=2.9
 
 import 'package:mobile/Products/ecuan/layout/index.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 //5e577a000efa1b22beabf8dd
 String sigVendor = '685a32de5fb4c98ea80e8734';
@@ -10,7 +8,7 @@ const namaApp = 'E-Cuan';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.ecuan.mobile';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 1;
 String gaId = '';

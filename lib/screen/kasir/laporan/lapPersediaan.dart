@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -20,7 +19,6 @@ import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
 
 import 'package:mobile/modules.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class LapPersediaan extends StatefulWidget {
   @override
@@ -56,7 +54,7 @@ class LapPersediaanState extends State<LapPersediaan> {
       http.Response response = await http.get(
           Uri.parse('$apiUrlKasir/laporan/persediaan?page=$page'),
           headers: {
-            'authorization': bloc.token.valueWrapper?.value,
+            'authorization': bloc.token.valueWrapper?.value ?? '',
           });
 
       var responseData = json.decode(response.body);
@@ -218,7 +216,7 @@ class LapPersediaanState extends State<LapPersediaan> {
         ]),
         child: ListTile(
           title: Text(
-            '${asset.barangModel != null ? asset.barangModel.namaBarang : '-'}',
+            '${asset.barangModel?.namaBarang ?? '-'}',
             style: TextStyle(
                 fontSize: 14.0,
                 fontWeight: FontWeight.bold,
@@ -228,11 +226,11 @@ class LapPersediaanState extends State<LapPersediaan> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 5.0),
-              Text('Harga Jual : ${formatNominal(asset.hargaJual)}',
+              Text('Harga Jual : ${formatNominal(asset.hargaJual ?? 0)}',
                   style:
                       TextStyle(fontSize: 13.0, color: Colors.grey.shade700)),
               SizedBox(height: 5.0),
-              Text('Total : ${formatNominal(asset.total)}',
+              Text('Total : ${formatNominal(asset.total ?? 0)}',
                   style:
                       TextStyle(fontSize: 13.0, color: Colors.grey.shade700)),
             ],
@@ -243,7 +241,7 @@ class LapPersediaanState extends State<LapPersediaan> {
               borderRadius: BorderRadius.circular(30.0),
               color: Theme.of(context).primaryColor,
             ),
-            child: Text('${asset.stock}',
+            child: Text('${asset.stock ?? 0}',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 13.0,
@@ -281,9 +279,9 @@ class LapPersediaanState extends State<LapPersediaan> {
                 child: Icon(Icons.search),
                 onTap: () {
                   var list = tmpPersediaans
-                      .where((m) => m.barangModel.namaBarang
+                      .where((m) => (m.barangModel?.namaBarang ?? '')
                           .toLowerCase()
-                          .contains(query.text))
+                          .contains(query.text.toLowerCase()))
                       .toList();
 
                   setState(() {
@@ -292,9 +290,9 @@ class LapPersediaanState extends State<LapPersediaan> {
                 })),
         onEditingComplete: () {
           var list = tmpPersediaans
-              .where((item) => item.barangModel.namaBarang
+              .where((item) => (item.barangModel?.namaBarang ?? '')
                   .toLowerCase()
-                  .contains(query.text))
+                  .contains(query.text.toLowerCase()))
               .toList();
 
           setState(() {
@@ -303,9 +301,9 @@ class LapPersediaanState extends State<LapPersediaan> {
         },
         onChanged: (value) {
           var list = tmpPersediaans
-              .where((item) => item.barangModel.namaBarang
+              .where((item) => (item.barangModel?.namaBarang ?? '')
                   .toLowerCase()
-                  .contains(query.text))
+                  .contains(query.text.toLowerCase()))
               .toList();
           setState(() {
             listPersediaans = list;

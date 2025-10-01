@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 import 'package:mobile/bloc/Bloc.dart';
@@ -68,6 +67,7 @@ abstract class TopupController extends State<TopupPage> {
           title: 'QRIS',
           description: 'Transfer saldo menggunakan QRIS langsung ke akun ini',
           admin: {
+            'admin': 0,
             'nominal': 0,
             'satuan': 'rupiah',
           },
@@ -75,6 +75,8 @@ abstract class TopupController extends State<TopupPage> {
           icon:
               'https://firebasestorage.googleapis.com/v0/b/payuni-2019y.appspot.com/o/assets%2Ficons%2Fdeposit%2Fqris.png?alt=media&token=4cc8167c-22d9-4d3d-93fd-a6c2ddcdd649',
           type: 9,
+          cover: '',
+          admin_trx: null,
         );
 
         listPayment.add(qrisStatic);

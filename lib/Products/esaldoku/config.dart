@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '6172b235e671b6586e7137aa';
 
@@ -6,7 +5,7 @@ const namaApp = 'E-SALDOKU';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.esaldoku.mobileserpul';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

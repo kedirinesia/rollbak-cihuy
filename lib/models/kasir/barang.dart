@@ -1,8 +1,6 @@
-// @dart=2.9
 
 import 'package:mobile/models/kasir/category.dart';
 import 'package:mobile/models/kasir/satuan.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class BarangModel {
   String id;
@@ -10,21 +8,21 @@ class BarangModel {
   String namaBarang;
   String imgUrl;
   int hargaJual;
-  CategoryModel categoryModel;
-  SatuanModel satuanModel;
+  CategoryModel? categoryModel;
+  SatuanModel? satuanModel;
   bool aktif;
   String created_at;
 
   BarangModel({
-    this.id,
-    this.sku,
-    this.namaBarang,
-    this.imgUrl,
-    this.hargaJual,
+    required this.id,
+    required this.sku,
+    required this.namaBarang,
+    required this.imgUrl,
+    required this.hargaJual,
     this.categoryModel,
     this.satuanModel,
-    this.aktif,
-    this.created_at,
+    required this.aktif,
+    required this.created_at,
   });
 
   factory BarangModel.fromJson(Map<String, dynamic> json) {

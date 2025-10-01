@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -18,7 +17,6 @@ import 'package:mobile/screen/profile/kyc/not_verified_user.dart';
 import 'package:mobile/screen/transaksi/trx_wait.dart';
 import 'package:mobile/screen/transaksi/verifikasi_pin.dart';
 import 'package:mobile/screen/transaksi/detail_transaksi.dart';
-import 'package:mobile/config.dart';
 import '../../bloc/Bloc.dart' show bloc;
 import 'dart:convert';
 import 'package:mobile/utils/debug_helper.dart';
@@ -32,7 +30,7 @@ class InquiryDynamicPrepaid extends StatefulWidget {
 
   InquiryDynamicPrepaid(
       this.kategori, this.kodeProduk, this.subProduk, this.nomorTujuan,
-      {this.nominal});
+      {this.nominal = 0 });
 
   @override
   _InquiryDynamicPrepaidState createState() => _InquiryDynamicPrepaidState();
@@ -63,7 +61,7 @@ class _InquiryDynamicPrepaidState extends InquiryDynamicPrepaidController {
         slivers: <Widget>[
           SliverAppBar(
             iconTheme: IconThemeData(color: Colors.white),
-            expandedHeight: configAppBloc.enableMultiChannel.valueWrapper?.value
+            expandedHeight: configAppBloc.enableMultiChannel.valueWrapper?.value ?? false
                 ? null
                 : 200.0,
             backgroundColor: packageName == 'com.lariz.mobile'
@@ -81,16 +79,16 @@ class _InquiryDynamicPrepaidState extends InquiryDynamicPrepaidController {
                     MaterialPageRoute(
                       builder: (_) =>
                           configAppBloc
-                              .layoutApp?.valueWrapper?.value['home'] ??
+                              .layoutApp.valueWrapper?.value['home'] ??
                           templateConfig[
-                              configAppBloc.templateCode.valueWrapper?.value],
+                              configAppBloc.templateCode.valueWrapper?.value ?? 0],
                     ),
                     (route) => false),
               ),
             ],
           ),
           loading
-              ? loadingWidget()
+              ? loadingWidget(context)
               : SliverList(
                   delegate: SliverChildListDelegate(
                     [
@@ -505,8 +503,8 @@ abstract class InquiryDynamicPrepaidController
 
   bool loading = true;
   bool boxFavorite = false;
-  Map<String, dynamic> data;
-  List<dynamic> listPayment;
+  late Map<String, dynamic> data;
+  late List<dynamic> listPayment;
 
   List<VirtualAccount> vaList = [];
   int minDep = 10000;
@@ -517,15 +515,15 @@ abstract class InquiryDynamicPrepaidController
   checkMinDep(int value) async {
     int jumlah = 0;
     if (value == 1) {
-      jumlah = data['harga_unik'];
+      jumlah = (data['harga_unik'] ?? 0).toInt();
     } else if (value == 2) {
-      jumlah = (data['harga_unik'] +
-              ((data['harga_unik'] - data['discount']) * (adminQris / 100)))
+      jumlah = ((data['harga_unik'] ?? 0) +
+                (((data['harga_unik'] ?? 0) - (data['discount'] ?? 0)) * (adminQris / 100)).toInt())
           .toInt();
-      jumlah -= data['discount'];
+      jumlah -= (data['discount'] as num? ?? 0).toInt();
     }
 
-    if (jumlah >= data['min_dep']) {
+    if (jumlah >= (data['min_dep'] ?? 0).toInt()) {
       setState(() {
         _opsiBayar = value;
         _jumlahBayar = jumlah;
@@ -547,7 +545,7 @@ abstract class InquiryDynamicPrepaidController
       String tujuan) async {
     Map<String, dynamic> dataToSend;
 
-    if (widget.nominal != null) {
+    if (widget.nominal != 0) {
       dataToSend = {
         'kategori': kategori,
         'kode_produk': kodeProduk,
@@ -566,7 +564,7 @@ abstract class InquiryDynamicPrepaidController
     http.Response response =
         await http.post(Uri.parse('$apiUrl/trx/dynamic/inquiry'),
             headers: {
-              'Authorization': bloc.token.valueWrapper?.value,
+              'Authorization': bloc.token.valueWrapper?.value ?? '' ?? '',
               'Content-Type': 'application/json'
             },
             body: json.encode(dataToSend));
@@ -622,7 +620,7 @@ abstract class InquiryDynamicPrepaidController
     http.Response response =
         await http.post(Uri.parse('$apiUrl/favorite/checkNumber'),
             headers: {
-              'Authorization': bloc.token.valueWrapper?.value,
+              'Authorization': bloc.token.valueWrapper?.value ?? '' ?? '',
               'Content-Type': 'application/json',
             },
             body: json.encode(dataToSend));
@@ -692,7 +690,7 @@ abstract class InquiryDynamicPrepaidController
       http.Response response =
           await http.post(Uri.parse('$apiUrl/favorite/saveNumber'),
               headers: {
-                'Authorization': bloc.token.valueWrapper?.value,
+                'Authorization': bloc.token.valueWrapper?.value ?? '' ?? '',
                 'Content-Type': 'application/json',
               },
               body: json.encode(dataToSend));
@@ -731,61 +729,71 @@ abstract class InquiryDynamicPrepaidController
     });
 
     try {
-      sendDeviceToken();
       String pin = await Navigator.of(context)
           .push(MaterialPageRoute(builder: (context) => VerifikasiPin()));
-      if (pin != null) {
-        var dataToSend = {
-          'kode_produk': data['kode_produk'],
-          'tujuan': data['tujuan'],
-          'counter': data['counter'] ?? 1,
-          'pin': pin,
-          'kategori': widget.kategori,
-          'sub_kode_produk': widget.subProduk
-        };
 
-        if (widget.nominal != null) {
-          dataToSend['nominal'] = widget.nominal;
-        }
+      // Validasi PIN - jika null atau kosong, batalkan transaksi
+      if (pin == null || pin.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Transaksi dibatalkan - PIN tidak diverifikasi')),
+        );
+        setState(() {
+          loading = false;
+        });
+        return;
+      }
 
-        http.Response response =
-            await http.post(Uri.parse('$apiUrl/trx/dynamic/purchase'),
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': bloc.token.valueWrapper?.value
-                },
-                body: json.encode(dataToSend));
-        if (response.statusCode == 200) {
-          if (realtimePrepaid) {
-            Navigator.of(context).popUntil(ModalRoute.withName('/'));
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (_) => TransactionWaitPage(),
-              ),
-            );
-          } else {
-            TrxModel trx = await getLatestTrx();
-            Navigator.of(context).popUntil(ModalRoute.withName('/'));
-            packageName == 'com.talentapay.android'
-                ? Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => HistoryPageTalenta(initIndex: 1),
-                    ),
-                  )
-                : Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => packageName == 'com.seepaysbiller.app'
-                          ? DetailTransaksi(trx)
-                          : HistoryPage(initIndex: 1),
-                    ),
-                  );
-          }
+      sendDeviceToken();
+      var dataToSend = {
+        'kode_produk': data['kode_produk'],
+        'tujuan': data['tujuan'],
+        'counter': data['counter'] ?? 1,
+        'pin': pin,
+        'kategori': widget.kategori,
+        'sub_kode_produk': widget.subProduk
+      };
+
+      if (widget.nominal != 0) {
+        dataToSend['nominal'] = widget.nominal;
+      }
+
+      http.Response response =
+          await http.post(Uri.parse('$apiUrl/trx/dynamic/purchase'),
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': bloc.token.valueWrapper?.value ?? '' ?? ''
+              },
+              body: json.encode(dataToSend));
+      if (response.statusCode == 200) {
+        if (realtimePrepaid) {
+          Navigator.of(context).popUntil(ModalRoute.withName('/'));
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) => TransactionWaitPage(),
+            ),
+          );
         } else {
-          String message = json.decode(response.body)['message'] ??
-              'Terjadi kesalahan pada server';
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(message)));
+          TrxModel? trx = await getLatestTrx();
+          Navigator.of(context).popUntil(ModalRoute.withName('/'));
+          packageName == 'com.talentapay.android'
+              ? Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => HistoryPageTalenta(initIndex: 1),
+                  ),
+                )
+              : Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => packageName == 'com.seepaysbiller.app' && trx != null
+                        ? DetailTransaksi(trx)
+                        : HistoryPage(initIndex: 1),
+                  ),
+                );
         }
+      } else {
+        String message = json.decode(response.body)['message'] ??
+            'Terjadi kesalahan pada server';
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(message)));
       }
     } catch (err) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -794,10 +802,10 @@ abstract class InquiryDynamicPrepaidController
     }
   }
 
-  Future<TrxModel> getLatestTrx() async {
+  Future<TrxModel?> getLatestTrx() async {
     http.Response response = await http.get(
         Uri.parse('$apiUrl/trx/list?page=0&limit=1'),
-        headers: {'Authorization': bloc.token.valueWrapper?.value});
+        headers: {'Authorization': bloc.token.valueWrapper?.value ?? ''});
 
     if (response.statusCode == 200) {
       List<dynamic> datas = json.decode(response.body)['data'];
@@ -807,7 +815,7 @@ abstract class InquiryDynamicPrepaidController
     }
   }
 
-  Widget loadingWidget() {
+  Widget loadingWidget(BuildContext context) {
     return SliverList(
         delegate: SliverChildListDelegate([
       Container(

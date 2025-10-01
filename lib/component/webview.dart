@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class Webview extends StatefulWidget {
   final String title;
   final String url;
   final bool footer;
 
-  Webview(this.title, this.url, {this.footer = true});
+    Webview(this.title, this.url, {this.footer = true});
 
   @override
   State<Webview> createState() => _WebviewState();
@@ -21,7 +20,16 @@ class _WebviewState extends State<Webview> {
   @override
   void initState() {
     super.initState();
-    // initialize controller is done in WebView.onWebViewCreated
+    _controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onPageFinished: (url) {
+            setState(() => isLoading = false);
+          },
+        ),
+      )
+      ..loadRequest(Uri.parse(widget.url));
   }
 
   @override
@@ -55,15 +63,8 @@ class _WebviewState extends State<Webview> {
           : null,
       body: Stack(
         children: [
-          WebView(
-            initialUrl: widget.url,
-            javascriptMode: JavascriptMode.unrestricted,
-            onWebViewCreated: (WebViewController webViewController) {
-              _controller = webViewController;
-            },
-            onPageFinished: (url) {
-              setState(() => isLoading = false);
-            },
+          WebViewWidget(
+            controller: _controller,
           ),
           if (isLoading)
             Center(

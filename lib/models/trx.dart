@@ -1,48 +1,46 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class TrxModel {
-  String id;
-  int status;
-  int admin;
-  TrxStatus statusModel;
-  int counter;
-  String tujuan;
-  Map<String, dynamic> produk;
-  int harga_jual;
-  String sn;
-  String paymentBy;
-  String paymentID;
-  String created_at;
-  String updated_at;
-  String keterangan;
-  int point;
-  List<dynamic> print;
-  TrxPaymentDetail paymentDetail;
+  late String id;
+  late int status;
+  late int admin;
+  late TrxStatus statusModel;
+  late int counter;
+  late String tujuan;
+  late Map<String, dynamic> produk;
+  late int harga_jual;
+  late String sn;
+  late String paymentBy;
+  late String paymentID;
+  late String created_at;
+  late String updated_at;
+  late String keterangan;
+  late int point;
+  late List<dynamic> print;
+  TrxPaymentDetail? paymentDetail;
 
   TrxModel(
-      {this.id,
-      this.harga_jual,
-      this.admin,
-      this.status,
-      this.created_at,
-      this.updated_at,
-      this.statusModel,
-      this.produk,
-      this.sn,
-      this.counter,
-      this.tujuan,
-      this.keterangan,
-      this.point,
-      this.paymentBy,
-      this.paymentID,
+      {required this.id,
+      required this.harga_jual,
+      required this.admin,
+      required this.status,
+      required this.created_at,
+      required this.updated_at,
+      required this.statusModel,
+      required this.produk,
+      required this.sn,
+      required this.counter,
+      required this.tujuan,
+      required this.keterangan,
+      required this.point,
+      required this.paymentBy,
+      required this.paymentID,
       this.paymentDetail,
-      this.print});
+      required this.print});
 
   TrxModel.fromJson(Map<String, dynamic> json) {
-    id = json['_id'];
+    id = json['_id'] ?? '';
     harga_jual = json['harga_jual'] ?? 0;
     admin = json['admin'] ?? 0;
     status = json['status'] ?? 0;
@@ -51,7 +49,7 @@ class TrxModel {
     counter = json['counter'] ?? 1;
     created_at = json['created_at'] ?? '';
     updated_at = json['updated_at'] ?? '';
-    produk = json['produk_id'];
+    produk = json['produk_id'] ?? {};
     statusModel = TrxStatus.parsing(json['status'] ?? 0);
     sn = json['sn'] ?? 'N/A';
     tujuan = json['tujuan'] ?? '-';
@@ -65,13 +63,13 @@ class TrxModel {
 }
 
 class TrxPaymentDetail {
-  String paymentCode;
-  String paymentImg;
-  int paymentType;
-  int paymentAdmin;
+  String? paymentCode;
+  String? paymentImg;
+  int? paymentType;
+  int? paymentAdmin;
   // int paymentAmount;
-  int paymentNetAmount;
-  String paymentExpired;
+  int? paymentNetAmount;
+  String? paymentExpired;
 
   TrxPaymentDetail({
     this.paymentCode,
@@ -85,23 +83,23 @@ class TrxPaymentDetail {
 
   factory TrxPaymentDetail.fromJson(Map<String, dynamic> json) {
     return TrxPaymentDetail(
-        paymentCode: json['payment_code'] ?? '',
-        paymentImg: json['payment_image'] ?? '',
-        paymentType: json['payment_type'] ?? 0,
-        paymentAdmin: json['payment_admin'] ?? 0,
+        paymentCode: json['payment_code'],
+        paymentImg: json['payment_image'],
+        paymentType: json['payment_type'],
+        paymentAdmin: json['payment_admin'],
         // paymentAmount : json['payment_amount'] ?? 0,
-        paymentNetAmount: json['payment_net_amount'] ?? 0,
+        paymentNetAmount: json['payment_net_amount'],
         paymentExpired: json['payment_expired']);
   }
 }
 
 class TrxStatus {
-  int status;
-  Color color;
-  String statusText;
-  String icon;
+  late int status;
+  late Color color;
+  late String statusText;
+  String? icon;
 
-  TrxStatus({this.status, this.color, this.statusText});
+  TrxStatus({required this.status, required this.color, required this.statusText});
 
   TrxStatus.parsing(int st) {
     if (st == 0) {

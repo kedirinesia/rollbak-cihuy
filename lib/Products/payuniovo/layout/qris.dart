@@ -5,20 +5,14 @@ import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:mobile/component/alert.dart';
-import 'package:mobile/provider/api.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:http/http.dart' as http;
-import 'package:mobile/modules.dart';
 import 'package:mobile/utils/debug_helper.dart';
 
 // Import untuk KYC pages
-import 'package:mobile/screen/kyc/waiting.dart';
-import 'package:mobile/screen/kyc/reject.dart';
-import 'package:mobile/screen/kyc/verification1.dart';
 
 // Import untuk NavbarHome payuniovo
 import 'navbar.dart';
@@ -32,8 +26,6 @@ import 'package:mobile/screen/select_state/kecamatan.dart';
 // Import untuk MCC selection
 import 'package:mobile/models/mcc_code.dart';
 import 'package:mobile/screen/select_state/mccid.dart';
-import 'package:mobile/config.dart';
-import 'package:mobile/bloc/Api.dart';
 import 'package:image_picker/image_picker.dart';
 
 class MyQrisPage extends StatefulWidget {

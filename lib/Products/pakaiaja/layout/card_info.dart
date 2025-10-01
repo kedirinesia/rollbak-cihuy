@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -10,7 +9,6 @@ import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/models/info.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/screen/info/info.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class CardInfo extends StatefulWidget {
   @override
@@ -21,12 +19,12 @@ class _CardInfoState extends State<CardInfo> {
   Future<List<InfoModel>> getInfo() async {
     List<InfoModel> infos = [];
     http.Response response = await http.get(Uri.parse('$apiUrl/info/list'),
-        headers: {'Authorization': bloc.token.valueWrapper?.value});
+        headers: {'Authorization': bloc.token.valueWrapper?.value ?? ''});
 
     if (response.statusCode == 200) {
-      List<dynamic> datas = json.decode(response.body)['data'];
+      List<dynamic>? datas = json.decode(response.body)['data'];
       infos.clear();
-      datas.forEach((el) => infos.add(InfoModel.fromJson(el)));
+      datas?.forEach((el) => infos.add(InfoModel.fromJson(el)));
     }
 
     return infos;
@@ -39,7 +37,7 @@ class _CardInfoState extends State<CardInfo> {
         builder: (ctx, snapshot) {
           if (!snapshot.hasData) return Container();
           return CarouselSlider(
-            items: snapshot.data.map((i) {
+            items: snapshot.data?.map((i) {
               InfoModel info = i;
 
               return InkWell(

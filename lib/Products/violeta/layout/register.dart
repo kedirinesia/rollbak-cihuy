@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -22,7 +21,6 @@ import 'package:mobile/screen/select_state/kota.dart';
 import 'package:mobile/screen/select_state/provinsi.dart';
 import 'package:mobile/screen/text_kapital.dart';
 import 'dart:async'; // Import Timer
-import 'package:mobile/utils/debug_helper.dart';
 
 class RegisterUser extends StatefulWidget {
   @override
@@ -45,9 +43,9 @@ class _RegisterUserState extends State<RegisterUser> {
   TextEditingController kecamatanText = TextEditingController();
   TextEditingController referalCode = TextEditingController();
   bool loading = false;
-  Lokasi provinsi;
-  Lokasi kota;
-  Lokasi kecamatan;
+  Lokasi? provinsi = null;
+  Lokasi? kota = null;
+  Lokasi? kecamatan = null;
   // bool isEmail = false;
   bool isNamaToko = true;
   bool isAlmtToko = true;
@@ -58,7 +56,7 @@ class _RegisterUserState extends State<RegisterUser> {
   bool sendingOtp = false;
   bool otpSent = false;
   int countdown = 0;
-  Timer timer;
+  Timer? timer = null;
 
   @override
   void initState() {
@@ -182,7 +180,7 @@ class _RegisterUserState extends State<RegisterUser> {
     }
   }
 
-  Future<void> submitRegister() async {
+  Future<String?> submitRegister() async {
     if (pin.text.startsWith('0')) {
       return showDialog<String>(
         context: context,
@@ -199,21 +197,21 @@ class _RegisterUserState extends State<RegisterUser> {
       );
     }
 
-    if (!_formKey.currentState.validate()) return;
+    if (!(_formKey.currentState?.validate() ?? false)) return null;
     setState(() {
       loading = true;
     });
 
-    String kodeUpline = bloc.kodeUpline.valueWrapper?.value;
+    String kodeUpline = bloc.kodeUpline.valueWrapper?.value ?? '';
 
     Map<String, dynamic> dataToSend = {
       'name': nama.text,
       'phone': nomorHp.text,
       'email': email.text,
       'pin': pin.text,
-      'id_propinsi': provinsi.id,
-      'id_kabupaten': kota.id,
-      'id_kecamatan': kecamatan.id,
+      'id_propinsi': provinsi?.id ?? '',
+      'id_kabupaten': kota?.id ?? '',
+      'id_kecamatan': kecamatan?.id ?? '',
       'alamat': alamat.text,
       'nama_toko': namaToko.text,
       'alamat_toko': alamatToko.text.isEmpty ? alamat.text : alamatToko.text,
@@ -224,7 +222,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
     if (kodeUpline != null) {
       dataToSend['kode_upline'] = kodeUpline;
-    } else if (kodeUpline == null && brandId != null) {
+    } else if (kodeUpline == null) {
       dataToSend['kode_upline'] = brandId;
     }
 
@@ -292,7 +290,7 @@ class _RegisterUserState extends State<RegisterUser> {
         builder: (_) {
           return AlertDialog(
             title: Text('Registrasi Gagal'),
-            content: Text(e ?? 'Terjadi kesalahan pada sistem'),
+            content: Text(e?.toString() ?? 'Terjadi kesalahan pada sistem'),
             actions: <Widget>[
               TextButton(
                 onPressed: () =>
@@ -317,7 +315,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
   Widget _imageLogo() {
     return CachedNetworkImage(
-      imageUrl: configAppBloc.iconApp.valueWrapper?.value['logoLogin'],
+      imageUrl: configAppBloc.iconApp.valueWrapper?.value['logoLogin'] ?? '',
       height: MediaQuery.of(context).size.width * .15,
       fit: BoxFit.contain,
     );
@@ -519,7 +517,7 @@ class _RegisterUserState extends State<RegisterUser> {
                         null
                     ? DecorationImage(
                         image: CachedNetworkImageProvider(
-                          configAppBloc.iconApp.valueWrapper?.value['texture'],
+                          configAppBloc.iconApp.valueWrapper?.value['texture'] ?? '',
                         ),
                         fit: BoxFit.fitWidth,
                       )
@@ -541,9 +539,12 @@ class _RegisterUserState extends State<RegisterUser> {
                         padding: EdgeInsets.all(20),
                         children: <Widget>[
                           SizedBox(height: 20),
-                          configAppBloc.iconApp.valueWrapper
-                                      .value['logoLogin'] !=
-                                  null
+                          configAppBloc.iconApp.valueWrapper?.value['logoLogin'] !=
+                                  null &&
+                              (configAppBloc.iconApp.valueWrapper?.value['logoLogin']
+                                      ?.toString()
+                                      .isNotEmpty ??
+                                  false)
                               ? _imageLogo()
                               : _title(),
                           SizedBox(
@@ -756,9 +757,10 @@ class _RegisterUserState extends State<RegisterUser> {
                             onTap: () async {
                               if (provinsi == null) return;
 
+                              final selectedProvinsi = provinsi!; // Use local variable
                               Lokasi lokasi = await Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (_) => SelectKotaPage(provinsi),
+                                  builder: (_) => SelectKotaPage(selectedProvinsi),
                                 ),
                               );
 
@@ -793,9 +795,10 @@ class _RegisterUserState extends State<RegisterUser> {
                             onTap: () async {
                               if (kota == null) return;
 
+                              final selectedKota = kota!; // Use local variable
                               Lokasi lokasi = await Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (_) => SelectKecamatanPage(kota),
+                                  builder: (_) => SelectKecamatanPage(selectedKota),
                                 ),
                               );
 

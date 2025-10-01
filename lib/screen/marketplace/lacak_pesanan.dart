@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -11,7 +10,6 @@ import 'package:http/http.dart' as http;
 import 'package:mobile/modules.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:timeline_tile/timeline_tile.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class LacakPesananPage extends StatefulWidget {
   final String orderId;
@@ -35,7 +33,7 @@ class _LacakPesananPageState extends State<LacakPesananPage> {
     http.Response response =
         await http.post(Uri.parse('$apiUrl/market/shipping/tracking'),
             headers: {
-              'Authorization': bloc.token.valueWrapper?.value,
+              'Authorization': bloc.token.valueWrapper?.value ?? ''   ,
               'Content-Type': 'application/json'
             },
             body: json.encode({'id': widget.orderId}));
@@ -46,16 +44,16 @@ class _LacakPesananPageState extends State<LacakPesananPage> {
       if (data == null) {
         showToast(context, 'Gagal melacak paket');
         Navigator.of(context).pop();
-        return null;
+        return MPTracking(kurir: '', resi: '', status: '', manifests: []);
       }
 
       return MPTracking.fromJson(data);
     } else if (response.statusCode == 400) {
       showToast(context, 'Nomor resi tidak valid');
       Navigator.of(context).pop();
-      return null;
+        return MPTracking(kurir: '', resi: '', status: '', manifests: []);
     } else {
-      return null;
+      return MPTracking(kurir: '', resi: '', status: '', manifests: []);
     }
   }
 
@@ -75,7 +73,7 @@ class _LacakPesananPageState extends State<LacakPesananPage> {
                   child: SpinKitThreeBounce(
                       color: Theme.of(context).primaryColor, size: 25));
 
-            MPTracking item = snapshot.data;
+            MPTracking item = snapshot.data ?? MPTracking(kurir: '', resi: '', status: '', manifests: []);
             return Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,

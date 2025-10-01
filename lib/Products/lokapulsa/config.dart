@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '63601211a6a076d17d2e5fd7';
 
@@ -6,7 +5,7 @@ const namaApp = 'Loka Pulsa';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'id.lokapulsa.mobile';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

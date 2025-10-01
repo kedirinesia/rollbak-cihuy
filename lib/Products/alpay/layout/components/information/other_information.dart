@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:division/division.dart';
@@ -6,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:mobile/Products/alpay/layout/components/information/other_information.style.dart';
 import 'package:mobile/models/info.dart';
 import 'package:mobile/screen/info/info.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class OtherInformation extends StatefulWidget {
   final List<InfoModel> informations;

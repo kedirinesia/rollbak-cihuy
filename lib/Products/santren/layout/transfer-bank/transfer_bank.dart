@@ -1,4 +1,3 @@
-// @dart=2.9
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -54,10 +53,8 @@ class _TransferBankPageState extends State<TransferBankPage> {
       'title': 'Withdraw',
     });
 
-    if (widget.transferData != null) {
-      namaTujuan.text = widget.transferData.namaRekening;
-      noTujuan.text = widget.transferData.noTujuan;
-    }
+    namaTujuan.text = widget.transferData.namaRekening;
+    noTujuan.text = widget.transferData.noTujuan;
   }
 
   @override
@@ -163,8 +160,7 @@ class _TransferBankPageState extends State<TransferBankPage> {
         'counter': 1
       };
     } else if (nominal.text.isNotEmpty &&
-        noTujuan.text.isNotEmpty &&
-        widget.transferData != null) {
+        noTujuan.text.isNotEmpty) {
       // DebugHelper.debugPrint('jalan ke 2');
       // if (bloc.user.valueWrapper?.value.saldo <
       //     (selectedBank.admin + int.parse(nominal.text))) {
@@ -806,29 +802,27 @@ class _TransferBankPageState extends State<TransferBankPage> {
         );
       }
 
-      if (inq != null) {
-        if (inq.total > bloc.saldo.valueWrapper.value) {
-          return Container(
-            padding: EdgeInsets.all(10),
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: null,
-              style: ElevatedButton.styleFrom(
-                foregroundColor: Theme.of(context).primaryColor, backgroundColor: Theme.of(context).primaryColor, disabledForegroundColor: Theme.of(context).primaryColor.withOpacity(0.38), disabledBackgroundColor: Theme.of(context).primaryColor.withOpacity(0.12),
-              ),
-              child: Padding(
-                padding: EdgeInsets.all(15.0),
-                child: Text(
-                  'TRANSFER',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: MediaQuery.of(context).size.height * 0.0182,
-                  ),
+      if (inq.total > bloc.saldo.valueWrapper.value) {
+        return Container(
+          padding: EdgeInsets.all(10),
+          width: double.infinity,
+          child: ElevatedButton(
+            onPressed: null,
+            style: ElevatedButton.styleFrom(
+              foregroundColor: Theme.of(context).primaryColor, backgroundColor: Theme.of(context).primaryColor, disabledForegroundColor: Theme.of(context).primaryColor.withOpacity(0.38), disabledBackgroundColor: Theme.of(context).primaryColor.withOpacity(0.12),
+            ),
+            child: Padding(
+              padding: EdgeInsets.all(15.0),
+              child: Text(
+                'TRANSFER',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: MediaQuery.of(context).size.height * 0.0182,
                 ),
               ),
             ),
-          );
-        }
+          ),
+        );
       }
 
       return Container(

@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '5f3604af063bec0a7be0635a';
 
@@ -6,7 +5,7 @@ const namaApp = 'Bill Paket Data';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.billpaketdata.app';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

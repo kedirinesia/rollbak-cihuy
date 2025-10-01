@@ -1,11 +1,9 @@
-// @dart=2.9
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/Products/payuniovo/layout/transfer-bank/daftar_transfer.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class TransferManuPage extends StatefulWidget {
   @override

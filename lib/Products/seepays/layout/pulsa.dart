@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'dart:math';
@@ -11,7 +10,6 @@ import 'package:http/http.dart' as http;
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/bloc/ConfigApp.dart';    
 import 'package:mobile/bloc/TemplateConfig.dart';
-import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/component/contact.dart';
 import 'package:mobile/component/alert.dart';
 import 'package:mobile/config.dart';
@@ -105,11 +103,9 @@ class _PulsaState extends State<Pulsa> with TickerProviderStateMixin {
       );
       return;
     }
-    if (denom != null) {
-      setState(() {
-        selectedDenom = denom;
-      });
-    }
+    setState(() {
+      selectedDenom = denom;
+    });
   }
 
   // Helper function untuk menangani input nomor (termasuk paste)
@@ -448,7 +444,7 @@ class _PulsaState extends State<Pulsa> with TickerProviderStateMixin {
       List<String> pulsaCategoryIds = [];
       
       
-      if (widget.menuModel.category_id != null && widget.menuModel.category_id.isNotEmpty) {
+      if (widget.menuModel.category_id.isNotEmpty) {
         pulsaCategoryIds.add(widget.menuModel.category_id);
       }
       
@@ -595,10 +591,7 @@ class _PulsaState extends State<Pulsa> with TickerProviderStateMixin {
   
   String _getProductLogo(TransactionHistoryModel trx) {
     // Cek apakah ada logo produk dari kategori sesuai struktur API response
-    if (trx.produkId != null && 
-        trx.produkId.kategoriId != null && 
-        trx.produkId.kategoriId.urlImage != null &&
-        trx.produkId.kategoriId.urlImage.isNotEmpty) {
+    if (trx.produkId.kategoriId.urlImage.isNotEmpty) {
       return trx.produkId.kategoriId.urlImage;
     }
     // Return empty string jika tidak ada logo
@@ -607,33 +600,31 @@ class _PulsaState extends State<Pulsa> with TickerProviderStateMixin {
 
   // Filter produk pulsa yang lebih fleksibel
   bool _isPulsaProduct(TransactionHistoryModel trx) {
-    DebugHelper.debugPrint('🔍 Debugging filter for transaction: ${trx.produkId?.name}');
+    DebugHelper.debugPrint('🔍 Debugging filter for transaction: ${trx.produkId.name}');
     
     // Cek nama produk mengandung kata yang berhubungan dengan pulsa (case insensitive)
-    if (trx.produkId != null && trx.produkId.name != null) {
-      String productName = trx.produkId.name.toLowerCase();
-      DebugHelper.debugPrint('📱 Product name: $productName');
-      
-      // Filter yang lebih fleksibel untuk pulsa
-      bool isPulsa = productName.contains('pulsa') || 
-                     productName.contains('telkomsel') ||
-                     productName.contains('indosat') ||
-                     productName.contains('xl') ||
-                     productName.contains('three') ||
-                     productName.contains('smartfren') ||
-                     productName.contains('axis') ||
-                     productName.contains('tsel') ||
-                     productName.contains('simpati') ||
-                     productName.contains('as') ||
-                     productName.contains('matrix') ||
-                     productName.contains('mentari');
-      
-      DebugHelper.debugPrint('✅ Is pulsa product: $isPulsa');
-      return isPulsa;
-    }
+    String productName = trx.produkId.name.toLowerCase();
+    DebugHelper.debugPrint('📱 Product name: $productName');
+    
+    // Filter yang lebih fleksibel untuk pulsa
+    bool isPulsa = productName.contains('pulsa') || 
+                   productName.contains('telkomsel') ||
+                   productName.contains('indosat') ||
+                   productName.contains('xl') ||
+                   productName.contains('three') ||
+                   productName.contains('smartfren') ||
+                   productName.contains('axis') ||
+                   productName.contains('tsel') ||
+                   productName.contains('simpati') ||
+                   productName.contains('as') ||
+                   productName.contains('matrix') ||
+                   productName.contains('mentari');
+    
+    DebugHelper.debugPrint('✅ Is pulsa product: $isPulsa');
+    return isPulsa;
     
     // Fallback: cek keterangan transaksi
-    if (trx.keterangan != null && trx.keterangan.isNotEmpty) {
+    if (trx.keterangan.isNotEmpty) {
       String keterangan = trx.keterangan.toLowerCase();
       DebugHelper.debugPrint('📝 Keterangan: $keterangan');
       
@@ -655,7 +646,7 @@ class _PulsaState extends State<Pulsa> with TickerProviderStateMixin {
     }
     
     // Fallback: cek type produk (type 2 = PPOB/Pulsa)
-    bool isTypePulsa = trx.produkId != null && trx.produkId.type == 2;
+    bool isTypePulsa = trx.produkId.type == 2;
     DebugHelper.debugPrint('🔢 Type check (type 2): $isTypePulsa');
     
     return isTypePulsa;
@@ -742,7 +733,7 @@ class _PulsaState extends State<Pulsa> with TickerProviderStateMixin {
     
     // Dapatkan provider unik dari transaksi pulsa
     Set<String> providers = recentTransactions
-        .where((trx) => trx.produkId != null && trx.produkId.name != null)
+        .where((trx) => trx.produkId.name != null)
         .map((trx) => trx.produkId.name)
         .toSet();
 
@@ -969,7 +960,7 @@ class _PulsaState extends State<Pulsa> with TickerProviderStateMixin {
             onPressed: () => Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                   builder: (_) =>
-                      configAppBloc.layoutApp?.valueWrapper?.value['home'] ??
+                      configAppBloc.layoutApp.valueWrapper?.value['home'] ??
                       templateConfig[
                           configAppBloc.templateCode.valueWrapper?.value],
                 ),
@@ -1381,7 +1372,7 @@ class _PulsaState extends State<Pulsa> with TickerProviderStateMixin {
                     : Expanded(
                         child: ListView.builder(
                           padding: EdgeInsets.all(20),
-                          itemCount: max(0, (listDenom?.length ?? 0) * 2 - 1),
+                          itemCount: max(0, (listDenom.length ?? 0) * 2 - 1),
                           itemBuilder: (ctx, i) {
                             if (i.isOdd) {
                               return SizedBox(height: 10);

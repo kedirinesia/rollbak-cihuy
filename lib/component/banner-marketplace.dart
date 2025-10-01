@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -11,7 +10,6 @@ import 'package:http/http.dart' as http;
 import 'package:mobile/bloc/Bloc.dart' show bloc;
 import 'package:mobile/bloc/Api.dart' show apiUrl;
 import 'package:shimmer/shimmer.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class BannerMarketplace extends StatefulWidget {
   final double viewportFraction;
@@ -46,7 +44,7 @@ class _BannerMarketplaceState extends State<BannerMarketplace> {
     try {
       http.Response response = await http.get(
           Uri.parse('$apiUrl/market/banner'),
-          headers: {'Authorization': bloc.token.valueWrapper?.value});
+          headers: {'Authorization': bloc.token.valueWrapper!.value});
       if (response.statusCode == 200) {
         var body = jsonDecode(response.body);
         List<BannerModel> lb = (body['data'] as List)

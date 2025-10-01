@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -32,9 +31,7 @@ class _GenerateRefCodeState extends State<GenerateRefCode> {
         ? UserModel.parse(Hive.box('ref-code').getAt(0))
         : null;
 
-    if (userInfo != null) {
-      refCodeController.text = userInfo.inviteCode;
-    }
+    refCodeController.text = userInfo.inviteCode;
 
     super.initState();
   }

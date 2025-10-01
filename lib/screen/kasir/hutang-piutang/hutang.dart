@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -51,7 +50,7 @@ class HutangPageState extends State<HutangPage> {
       if (isEdge) return;
       http.Response response = await http
           .get(Uri.parse('$apiUrlKasir/transaksi/hutang?page=$page'), headers: {
-        'authorization': bloc.token.valueWrapper?.value,
+        'authorization': bloc.token.valueWrapper?.value ?? '',
       });
 
       String message = json.decode(response.body)['message'] ??
@@ -245,14 +244,14 @@ class HutangPageState extends State<HutangPage> {
             foregroundColor: Theme.of(context).primaryColor,
             backgroundColor: Theme.of(context).primaryColor.withOpacity(.1),
             child: Text(
-              '${hutang.supplierModel.nama.split('')[0]}',
+              '${hutang.supplierModel?.nama.split('')[0]}',
               style: TextStyle(
                 fontSize: 18.0,
               ),
             ),
           ),
           title: Text(
-            '${hutang.supplierModel.nama}',
+            '${hutang.supplierModel?.nama}',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               color: Theme.of(context).primaryColor,
@@ -268,11 +267,11 @@ class HutangPageState extends State<HutangPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                '${formatRupiah(hutang.supplierModel.saldoHutang)}',
+                '${formatRupiah(hutang.supplierModel?.saldoHutang ?? 0)}',
                 style: TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold,
-                    color: hutang.supplierModel.saldoHutang > 0
+                    color: (hutang.supplierModel?.saldoHutang ?? 0) > 0
                         ? Colors.red
                         : Colors.green),
               )

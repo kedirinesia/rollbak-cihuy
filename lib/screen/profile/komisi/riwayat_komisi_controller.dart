@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -14,7 +13,6 @@ import 'package:http/http.dart' as http;
 import 'package:mobile/bloc/Bloc.dart' show bloc;
 import 'package:mobile/screen/profile/komisi/riwayat_komisi.dart';
 import 'package:mobile/screen/profile/komisi/tukar_komisi.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 abstract class RiwayattKomisiController extends State<RiwayatKomisi>
     with TickerProviderStateMixin {
@@ -28,7 +26,7 @@ abstract class RiwayattKomisiController extends State<RiwayatKomisi>
       try {
         http.Response response = await http.get(
             Uri.parse('$apiUrl/komisi/list?page=$page'),
-            headers: {'Authorization': bloc.token.valueWrapper?.value});
+            headers: {'Authorization': bloc.token.valueWrapper?.value ?? ''});
 
         if (response.statusCode == 200) {
           List<dynamic> list = json.decode(response.body)['data'] as List;
@@ -130,7 +128,7 @@ abstract class RiwayattKomisiController extends State<RiwayatKomisi>
           Text('Total Komisi',
               style: TextStyle(fontSize: 11, color: Colors.grey)),
           SizedBox(height: 5),
-          Text(formatRupiah(bloc.user.valueWrapper?.value.komisi),
+          Text(formatRupiah(bloc.user.valueWrapper?.value.komisi ?? 0),
               style: TextStyle(
                   fontSize: 18,
                   color: Colors.green,
@@ -149,7 +147,7 @@ abstract class RiwayattKomisiController extends State<RiwayatKomisi>
           : Theme.of(context).primaryColor,
       onPressed: () {
         Navigator.of(context).push(MaterialPageRoute(
-            builder: (_) => TukarKomisi(bloc.user.valueWrapper?.value.komisi)));
+            builder: (_) => TukarKomisi(bloc.user.valueWrapper?.value.komisi ?? 0)));
       },
     );
   }

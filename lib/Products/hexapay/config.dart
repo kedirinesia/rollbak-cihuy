@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:mobile/Products/hexapay/layout/detail-deposit.dart';
 import 'package:mobile/Products/hexapay/layout/login.dart';
@@ -6,7 +5,6 @@ import 'package:mobile/Products/hexapay/layout/main.dart';
 import 'package:mobile/Products/hexapay/layout/splash.dart';
 import 'package:mobile/Products/hexapay/layout/topup.dart';
 import 'package:mobile/models/deposit.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 String sigVendor = '65ba4519b78f35f24d80dd57';
 
@@ -14,7 +12,7 @@ const namaApp = 'HexaPay';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'id.hexapay.mobileapps';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 6;
 String gaId = '';

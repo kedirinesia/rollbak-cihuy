@@ -10,7 +10,6 @@ import 'package:mobile/screen/otp.dart';
 import 'package:mobile/screen/profile/cs/cs.dart';
 import 'package:mobile/screen/register.dart';
 import 'package:http/http.dart' as http;
-import 'package:mobile/utils/debug_helper.dart';
 
 class LoginPage extends StatefulWidget {
   @override

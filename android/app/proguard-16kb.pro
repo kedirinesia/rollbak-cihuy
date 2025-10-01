@@ -33,3 +33,12 @@
 # Keep Firebase classes if used
 -keep class com.google.firebase.** { *; }
 -keep class com.google.android.gms.** { *; }
+
+# Keep Google Play Core classes for split APK support
+-keep class com.google.android.play.core.** { *; }
+-keep class com.google.android.play.core.splitcompat.** { *; }
+-keep class com.google.android.play.core.splitinstall.** { *; }
+-keep class com.google.android.play.core.tasks.** { *; }
+
+# Keep Flutter deferred components manager
+-keep class io.flutter.embedding.engine.deferredcomponents.** { *; }

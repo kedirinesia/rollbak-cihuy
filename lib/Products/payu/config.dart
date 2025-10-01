@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '5edb20a302c3a351af14edb4';
 
@@ -6,7 +5,7 @@ const namaApp = 'PAYU';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'id.payu.co';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

@@ -1,21 +1,20 @@
-// @dart=2.9
 
 import 'package:mobile/models/mp_produk_detail.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class ProdukCartMarket extends ProdukDetailMarket {
   int count;
 
   ProdukCartMarket({
-    String id,
-    String title,
-    String description,
-    String thumbnail,
-    int weight,
-    int price,
-    int stock,
-    List<String> images,
-    this.count,
+    required  String id,
+    required String title,
+    required String description,
+    required String thumbnail,
+    required int weight,
+    required int price,
+    required int stock,
+    required String categoryId,
+    required List<String> images,
+    required this.count,
   }) : super(
           id: id,
           title: title,
@@ -24,12 +23,14 @@ class ProdukCartMarket extends ProdukDetailMarket {
           weight: weight,
           price: price,
           stock: stock,
+          categoryId: categoryId,
           images: images,
         );
 
-  factory ProdukCartMarket.create({ProdukDetailMarket produk, int count}) {
+  factory ProdukCartMarket.create({required ProdukDetailMarket produk, required int count}) {
     return ProdukCartMarket(
       id: produk.id,
+      categoryId: produk.categoryId,
       title: produk.title,
       description: produk.description,
       thumbnail: produk.thumbnail,
@@ -50,6 +51,7 @@ class ProdukCartMarket extends ProdukDetailMarket {
       weight: map['weight'],
       price: map['price'],
       stock: map['stock'],
+      categoryId: map['categoryId'],
       images: map['images'],
       count: map['count'],
     );

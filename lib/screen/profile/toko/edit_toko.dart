@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -50,12 +49,12 @@ class _EditTokoState extends State<EditToko> {
   }
 
   void loadData() {
-    nama.text = bloc.user.valueWrapper?.value.nama;
-    email.text = bloc.user.valueWrapper?.value.email;
+    nama.text = bloc.user.valueWrapper?.value.nama ?? '';
+    email.text = bloc.user.valueWrapper?.value.email ?? '';
     // nomor.text = store.user.value.telepon;
-    alamat.text = bloc.user.valueWrapper?.value.alamat;
-    namaToko.text = bloc.user.valueWrapper?.value.namaToko;
-    alamatToko.text = bloc.user.valueWrapper?.value.alamatToko;
+    alamat.text = bloc.user.valueWrapper?.value.alamat ?? '';
+    namaToko.text = bloc.user.valueWrapper?.value.namaToko ?? '';
+    alamatToko.text = bloc.user.valueWrapper?.value.alamatToko ?? '';
   }
 
   void updateProfile() async {
@@ -71,7 +70,7 @@ class _EditTokoState extends State<EditToko> {
       http.Response response = await http.post(Uri.parse('$apiUrl/user/update'),
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': bloc.token.valueWrapper?.value
+            'Authorization': bloc.token.valueWrapper?.value ?? ''
           },
           body: json.encode({
             'nama': nama.text,
@@ -113,8 +112,8 @@ class _EditTokoState extends State<EditToko> {
   }
 
   void edit() async {
-    if (nama.text == bloc.user.valueWrapper?.value.namaToko &&
-        alamat.text == bloc.user.valueWrapper?.value.alamatToko) return;
+    if (namaToko.text == bloc.user.valueWrapper?.value.namaToko &&
+        alamatToko.text == bloc.user.valueWrapper?.value.alamatToko) return;
 
     setState(() {
       loading = true;
@@ -123,18 +122,18 @@ class _EditTokoState extends State<EditToko> {
     http.Response response = await http.post(
         Uri.parse('$apiUrl/user/toko/update'),
         headers: {
-          'Authorization': bloc.token.valueWrapper?.value,
+          'Authorization': bloc.token.valueWrapper?.value ?? '',
           'Content-Type': 'application/json'
         },
         body:
-            json.encode({'nama_toko': nama.text, 'alamat_toko': alamat.text}));
+            json.encode({'nama_toko': namaToko.text, 'alamat_toko': alamatToko.text}));
 
     if (response.statusCode == 200) {
       String message = json.decode(response.body)['message'];
       showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
-          title: Text(message ?? 'Berhasil merubah informasi toko'),
+          title: Text(message),
           content: Text(message),
           actions: <Widget>[
             TextButton(
@@ -158,7 +157,7 @@ class _EditTokoState extends State<EditToko> {
       showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
-          title: Text(message ?? 'Gagal merubah informasi toko'),
+          title: Text(message),
           content: Text(message),
           actions: <Widget>[
             TextButton(
@@ -185,6 +184,7 @@ class _EditTokoState extends State<EditToko> {
   @override
   Widget build(BuildContext context) {
     return TemplateMain(
+        backgroundColor: Colors.white,
         title: 'Ubah Profil',
         children: <Widget>[
           loading
@@ -458,11 +458,12 @@ class _EditTokoState extends State<EditToko> {
           backgroundColor: packageName == 'com.lariz.mobile'
               ? Theme.of(context).secondaryHeaderColor
               : Theme.of(context).primaryColor,
+          foregroundColor: Colors.white,
           icon: Icon(Icons.save),
           label: Text('Simpan'),
           // onPressed: () => edit(),
           onPressed: () {
-            if (_formKey.currentState.validate()) {
+            if (_formKey.currentState!.validate()) {
               updateProfile();
             }
           },

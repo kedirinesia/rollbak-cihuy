@@ -1,5 +1,4 @@
 import 'package:flutter/services.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class UpperCaseTextFormatter extends TextInputFormatter {
   @override

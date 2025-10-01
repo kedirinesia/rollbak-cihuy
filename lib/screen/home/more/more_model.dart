@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/screen/home/more/more.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 abstract class MorePageModel extends State<MorePage>
     with TickerProviderStateMixin {

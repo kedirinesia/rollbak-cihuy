@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +10,6 @@ import 'package:mobile/screen/detail-denom/detail-denom.dart';
 import 'package:mobile/screen/home/more/more.dart';
 import 'package:mobile/screen/list-sub-menu/list-sub-menu.dart';
 import 'package:mobile/screen/pulsa/pulsa.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class MenuComponent extends StatefulWidget {
   @override

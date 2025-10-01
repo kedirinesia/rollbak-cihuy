@@ -5,7 +5,6 @@ import 'package:mobile/component/webview.dart';
 import 'package:mobile/config.dart';
 import 'package:mobile/models/banner.dart';
 import 'package:mobile/provider/api.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class ListBannerPage extends StatefulWidget {
   @override

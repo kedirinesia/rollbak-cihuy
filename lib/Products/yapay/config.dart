@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '63ec74ee6a4ac4542d5fb1f4';
 
@@ -6,7 +5,7 @@ const namaApp = 'YAPAY';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'id.yapay.mobile';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

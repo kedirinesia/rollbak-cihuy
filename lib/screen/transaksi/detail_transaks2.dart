@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +9,6 @@ import 'package:mobile/models/trx.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/transaksi/print.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class DetailTransaksi extends StatefulWidget {
   final TrxModel trx;
@@ -77,7 +75,7 @@ class _DetailTransaksiState extends DetailTransaksiController {
                     child: Hero(
                       tag: 'image-' + widget.trx.id,
                       child: CachedNetworkImage(
-                          imageUrl: widget.trx.statusModel.icon,
+                          imageUrl: widget.trx.statusModel.icon ?? '',
                           width: MediaQuery.of(context).size.width * .20),
                     ),
                   ),

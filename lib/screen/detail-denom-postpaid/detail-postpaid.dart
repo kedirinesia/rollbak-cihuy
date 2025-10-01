@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -9,10 +8,10 @@ import 'package:mobile/component/contact.dart';
 import 'package:mobile/config.dart';
 import 'package:mobile/models/favorite_number.dart';
 import 'package:mobile/models/menu.dart';
+import 'package:mobile/models/postpaid.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/screen/detail-denom-postpaid/detail-postpaid-controller.dart';
 import 'package:mobile/screen/favorite-number/favorite-number.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class DetailDenomPostpaid extends StatefulWidget {
   final MenuModel menu;
@@ -98,9 +97,9 @@ class _DetailDenomPostpaidState extends DetailDenomPostpaidController {
             onPressed: () => Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                   builder: (_) =>
-                      configAppBloc.layoutApp?.valueWrapper?.value['home'] ??
+                      configAppBloc.layoutApp.valueWrapper?.value['home'] ??
                       templateConfig[
-                          configAppBloc.templateCode.valueWrapper?.value],
+                          configAppBloc.templateCode.valueWrapper?.value ?? 0],
                 ),
                 (route) => false),
           ),
@@ -130,7 +129,7 @@ class _DetailDenomPostpaidState extends DetailDenomPostpaidController {
                   ? Center(
                       child: CachedNetworkImage(
                         imageUrl: configAppBloc
-                            .iconApp.valueWrapper?.value['logoLogin'],
+                            .iconApp.valueWrapper?.value['logoLogin'] ?? '',
                         width: MediaQuery.of(context).size.width * .4,
                       ),
                     )
@@ -151,7 +150,7 @@ class _DetailDenomPostpaidState extends DetailDenomPostpaidController {
                       ],
                       style: TextStyle(
                         fontWeight:
-                            configAppBloc.boldNomorTujuan.valueWrapper.value
+                            configAppBloc.boldNomorTujuan.valueWrapper?.value ?? false
                                 ? FontWeight.bold
                                 : FontWeight.normal,
                       ),
@@ -211,7 +210,7 @@ class _DetailDenomPostpaidState extends DetailDenomPostpaidController {
                       ],
                       style: TextStyle(
                         fontWeight:
-                            configAppBloc.boldNomorTujuan.valueWrapper.value
+                            configAppBloc.boldNomorTujuan.valueWrapper?.value ?? false
                                 ? FontWeight.bold
                                 : FontWeight.normal,
                       ),
@@ -270,7 +269,7 @@ class _DetailDenomPostpaidState extends DetailDenomPostpaidController {
                                       height: 16,
                                       child: CircularProgressIndicator(
                                         strokeWidth: 2,
-                                        valueColor: AlwaysStoppedAnimation<Color>(Colors.blue[400]),
+                                        valueColor: AlwaysStoppedAnimation<Color>(Colors.blue[400] ?? Colors.blue),
                                       ),
                                     ),
                                     SizedBox(width: 12),
@@ -409,7 +408,21 @@ class _DetailDenomPostpaidState extends DetailDenomPostpaidController {
                                                   setState(() {
                                                     idpel.clear();
                                                     isChecked = false;
-                                                    inq = null;
+                                                    inq = PostpaidInquiryModel(
+                                                      nama: '',
+                                                      noPelanggan: '',
+                                                      produk: '',
+                                                      trackingId: '',
+                                                      sn: '',
+                                                      tagihan: 0,
+                                                      admin: 0,
+                                                      fee: 0,
+                                                      total: 0,
+                                                      saldoAwal: 0,
+                                                      saldoAkhir: 0,
+                                                      saldoTerpotong: 0,
+                                                      params: [],
+                                                    );
                                                   });
                                                 })
                                           ]),
@@ -481,7 +494,7 @@ class _DetailDenomPostpaidState extends DetailDenomPostpaidController {
                                                       flex: 1,
                                                       child: Text(
                                                           inq.params[index]
-                                                                  ['value']
+                                                                  ['value'] ?? '' 
                                                               .toString(),
                                                           overflow:
                                                               TextOverflow.clip,

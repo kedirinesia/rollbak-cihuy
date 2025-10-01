@@ -1,6 +1,5 @@
 import 'package:division/division.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 abstract class InformationNothingStyle {
   static ParentStyle wrapper = ParentStyle()

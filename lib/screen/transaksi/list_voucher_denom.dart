@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -18,7 +17,7 @@ import 'package:mobile/utils/debug_helper.dart';
 
 class ListVoucherDenomPage extends StatefulWidget {
   final MenuModel menu;
-  const ListVoucherDenomPage(this.menu, {Key key}) : super(key: key);
+  const ListVoucherDenomPage(this.menu, {Key? key}) : super(key: key);
 
   @override
   State<ListVoucherDenomPage> createState() => _ListVoucherDenomPageState();
@@ -27,7 +26,7 @@ class ListVoucherDenomPage extends StatefulWidget {
 class _ListVoucherDenomPageState extends State<ListVoucherDenomPage> {
   bool _loading = true;
   List<PrepaidDenomModel> _denoms = [];
-  PrepaidDenomModel selectedDenom;
+  PrepaidDenomModel? selectedDenom;
 
   @override
   void initState() {
@@ -42,7 +41,7 @@ class _ListVoucherDenomPageState extends State<ListVoucherDenomPage> {
 
     http.Response response = await http.get(
         Uri.parse('$apiUrl/product/${widget.menu.category_id}'),
-        headers: {'Authorization': bloc.token.valueWrapper?.value});
+        headers: {'Authorization': bloc.token.valueWrapper?.value ?? ''});
 
     if (response.statusCode == 200) {
       List<PrepaidDenomModel> lm = (jsonDecode(response.body)['data'] as List)
@@ -129,8 +128,7 @@ class _ListVoucherDenomPageState extends State<ListVoucherDenomPage> {
               separatorBuilder: (_, __) => SizedBox(height: 10),
               itemBuilder: (_, i) {
                 PrepaidDenomModel denom = _denoms[i];
-                bool isPromo = denom.harga_promo != null &&
-                    denom.harga_promo > 0 &&
+                bool isPromo = denom.harga_promo > 0 &&
                     denom.harga_jual > denom.harga_promo;
 
                 return InkWell(
@@ -171,8 +169,7 @@ class _ListVoucherDenomPageState extends State<ListVoucherDenomPage> {
                       subtitle: Text(denom.description),
                       trailing: Column(
                           mainAxisSize: MainAxisSize.min,
-                          children: denom.harga_promo == null
-                              ? <Widget>[
+                          children: <Widget>[
                                   Text(
                                     formatRupiah(denom.harga_jual),
                                     style: TextStyle(
@@ -181,14 +178,14 @@ class _ListVoucherDenomPageState extends State<ListVoucherDenomPage> {
                                   ),
                                   SizedBox(
                                     height: !configAppBloc
-                                            .displayGangguan.valueWrapper.value
+                                            .displayGangguan.valueWrapper!.value  
                                         ? 0
                                         : denom.note.isEmpty
                                             ? 0
                                             : 5,
                                   ),
                                   !configAppBloc
-                                          .displayGangguan.valueWrapper.value
+                                          .displayGangguan.valueWrapper!.value  
                                       ? SizedBox()
                                       : denom.note.isEmpty
                                           ? SizedBox()
@@ -213,74 +210,6 @@ class _ListVoucherDenomPageState extends State<ListVoucherDenomPage> {
                                                         FontWeight.bold),
                                               ),
                                             ),
-                                  // Text(
-                                  //   formatRupiah(isPromo ? denom.harga_promo : denom.harga_jual),
-                                  //   style: TextStyle(
-                                  //     fontSize: 12,
-                                  //     fontWeight: FontWeight.bold,
-                                  //     color: Colors.green.shade600,
-                                  //   ),
-                                  // ),
-                                  // isPromo ? Text(
-                                  //   formatRupiah(denom.harga_jual),
-                                  //   style: TextStyle(
-                                  //     fontSize: 12,
-                                  //     fontWeight: FontWeight.w500,
-                                  //     color: Colors.red.shade600,
-                                  //     decoration: TextDecoration.lineThrough,
-                                  //   ),
-                                  // ) : SizedBox(),
-                                ]
-                              : <Widget>[
-                                  Text(
-                                    formatRupiah(denom.harga_promo),
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.green.shade600),
-                                  ),
-                                  SizedBox(height: 3),
-                                  Text(
-                                    formatRupiah(denom.harga_jual),
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12,
-                                      color: Colors.grey,
-                                      decoration: TextDecoration.lineThrough,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                      height: !configAppBloc.displayGangguan
-                                              .valueWrapper.value
-                                          ? 0
-                                          : denom.note.isEmpty
-                                              ? 0
-                                              : 3),
-                                  !configAppBloc
-                                          .displayGangguan.valueWrapper.value
-                                      ? SizedBox()
-                                      : denom.note.isEmpty
-                                          ? SizedBox()
-                                          : Container(
-                                              padding: EdgeInsets.symmetric(
-                                                  vertical: 3, horizontal: 5),
-                                              decoration: BoxDecoration(
-                                                color: denom.note == 'gangguan'
-                                                    ? Colors.red.shade800
-                                                    : denom.note == 'lambat'
-                                                        ? Colors.amber.shade800
-                                                        : Colors.green.shade800,
-                                                borderRadius:
-                                                    BorderRadius.circular(5),
-                                              ),
-                                              child: Text(
-                                                denom.note.toUpperCase(),
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 10,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            )
                                 ]),
                     ),
                   ),

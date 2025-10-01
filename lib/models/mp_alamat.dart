@@ -1,9 +1,7 @@
-// @dart=2.9
 
 import 'package:mobile/models/mp_kecamatan.dart';
 import 'package:mobile/models/mp_kota.dart';
 import 'package:mobile/models/mp_provinsi.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class AlamatModel {
   final String id;
@@ -18,16 +16,16 @@ class AlamatModel {
   final MarketplaceKecamatan kecamatan;
 
   AlamatModel(
-      {this.id,
-      this.userId,
-      this.name,
-      this.phone,
-      this.address1,
-      this.address2,
-      this.postalCode,
-      this.provinsi,
-      this.kota,
-      this.kecamatan});
+      {required this.id,
+      required this.userId,
+      required this.name,
+      required    this.phone,
+      required this.address1,
+      required this.address2,
+      required this.postalCode,
+      required this.provinsi,
+      required this.kota,
+      required this.kecamatan});
 
   factory AlamatModel.fromJson(dynamic json) {
     return AlamatModel(

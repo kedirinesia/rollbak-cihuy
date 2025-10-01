@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -62,7 +61,7 @@ class _DetailDepositState extends DetailDepositController {
       );
     } else {
       DebugHelper.debugPrint('🔍 [DETAIL DEPOSIT] No FAB needed for this deposit state');
-      return null;
+      return SizedBox();
     }
   }
 
@@ -102,9 +101,9 @@ class _DetailDepositState extends DetailDepositController {
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
                       builder: (_) =>
-                          configAppBloc.layoutApp?.valueWrapper?.value['home'] ??
+                          configAppBloc.layoutApp.valueWrapper?.value['home'] ??
                           templateConfig[
-                              configAppBloc.templateCode.valueWrapper?.value],
+                              configAppBloc.templateCode.valueWrapper?.value ?? 0],
                     ),
                     (route) => false);
               },
@@ -263,7 +262,7 @@ class _DetailDepositState extends DetailDepositController {
                             Text('Biaya Admin',
                                 style: TextStyle(
                                     color: Colors.grey, fontSize: 11)),
-                            Text(formatRupiah(widget.dep.admin),
+                            Text(formatRupiah(widget.dep.admin ?? 0),
                                 style: TextStyle(fontWeight: FontWeight.bold))
                           ],
                         ),

@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '67c015260d8877749225b873';
 
@@ -6,7 +5,7 @@ const namaApp = 'WarungPay';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.warungpay.apkmobile';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

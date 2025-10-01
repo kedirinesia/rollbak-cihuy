@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '5f07dbc51e51126786162023';
 
@@ -6,7 +5,7 @@ const namaApp = 'Sarinah Pulsa';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.sarinah.androidapps';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

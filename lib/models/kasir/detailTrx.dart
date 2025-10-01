@@ -1,23 +1,21 @@
-// @dart=2.9
 
 import 'package:mobile/models/kasir/supplier.dart';
 import 'package:mobile/models/kasir/customer.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class DetailTrxModel {
   String id;
   String namaBarang;
-  int qty;
-  int hargaBeli;
-  int hargaJual;
-  String id_gudang;
-  String created_at;
-  SupplierModel supplierModel;
-  CustomerModel customerModel;
+  int? qty;
+  int? hargaBeli;
+  int? hargaJual;
+  String? id_gudang;
+  String? created_at;
+  SupplierModel? supplierModel;
+  CustomerModel? customerModel;
 
   DetailTrxModel({
-    this.id,
-    this.namaBarang,
+    required this.id,
+    required this.namaBarang,
     this.qty,
     this.hargaBeli,
     this.hargaJual,
@@ -29,8 +27,8 @@ class DetailTrxModel {
 
   factory DetailTrxModel.fromJson(Map<String, dynamic> json) {
     return DetailTrxModel(
-      id: json['_id'],
-      namaBarang: json['nama_barang'],
+      id: json['_id'] ?? '',
+      namaBarang: json['nama_barang'] ?? '',
       qty: json['qty'],
       hargaBeli: json['harga_beli'],
       hargaJual: json['harga_jual'],

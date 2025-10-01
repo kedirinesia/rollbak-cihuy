@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '61b43587e50c107c06d69c82';
 
@@ -6,7 +5,7 @@ const namaApp = 'EFTronik';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.eftronik.mobile';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '5ea33163bf0a5825675c2a52';
 
@@ -6,7 +5,7 @@ const namaApp = 'Kimopay';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'co.kimopay.id';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

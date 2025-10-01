@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -15,7 +14,6 @@ import 'package:mobile/screen/kyc/verification1.dart';
 import 'package:mobile/screen/transaksi/verifikasi_pin.dart';
 import 'package:mobile/screen/wd/list_bank.dart';
 import 'package:http/http.dart' as http;
-import 'package:mobile/utils/debug_helper.dart';
 
 class WithdrawPage extends StatefulWidget {
   @override
@@ -167,7 +165,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
   }
 
   void inquiry() async {
-    if (nominal.text.isEmpty || tujuan.text.isEmpty || selectedBank == null)
+    if (nominal.text.isEmpty || tujuan.text.isEmpty)
       return;
     if (int.parse(nominal.text) < 10000) {
       String message = 'Nominal withdraw minimal Rp 10.000';
@@ -547,7 +545,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
                   width: double.infinity,
                   child: ElevatedButton(
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(
+                        backgroundColor: WidgetStateProperty.all(
                             Theme.of(context).primaryColor),
                       ),
                       child: Text(checked ? 'Kirim Uang' : 'Lanjut'),

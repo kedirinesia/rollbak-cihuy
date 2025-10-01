@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:async';
 
@@ -21,10 +20,10 @@ abstract class OrderController extends State<HistoryOrderPage> {
   bool loading = true;
   bool isEdge = false;
   int currentPage = 0;
-  DateTime startDate;
-  DateTime endDate;
-  int status;
-  String tujuan;
+  late DateTime startDate;
+  late DateTime endDate;
+  late int status;
+  late String tujuan;
   bool isExpanded = false;
   bool filtered = false;
 
@@ -52,7 +51,10 @@ abstract class OrderController extends State<HistoryOrderPage> {
       'userId': bloc.userId.valueWrapper?.value,
       'title': 'History Order Marketplace'
     });
-    if (configAppBloc.autoReload.valueWrapper?.value) {
+    // Default values to avoid LateInitializationError in UI bindings
+    status = 6; // "Semua Status"
+    tujuan = '';
+    if (configAppBloc.autoReload.valueWrapper?.value ?? false) {
       Timer.periodic(new Duration(seconds: 1), (timer) => getData());
     } else {
       getData();
@@ -75,7 +77,7 @@ abstract class OrderController extends State<HistoryOrderPage> {
     if (filtered) {
       params['tgl_awal'] = formatDate(startDate.toIso8601String(), 'd-M-y');
       params['tgl_akhir'] = formatDate(endDate.toIso8601String(), 'd-M-y');
-      if (status != null && status != 6) params['status'] = status.toString();
+      if (status != 6) params['status'] = status.toString();
     }
     params['page'] = currentPage;
 
@@ -91,7 +93,7 @@ abstract class OrderController extends State<HistoryOrderPage> {
 
     // if (isEdge) return;
     http.Response response = await http.get(Uri.parse(url),
-        headers: {'Authorization': bloc.token.valueWrapper?.value});
+        headers: {'Authorization': bloc.token.valueWrapper?.value ?? ''});
 
     if (response.statusCode == 200) {
       DebugHelper.debugPrint('response.body.toString()');
@@ -126,7 +128,7 @@ abstract class OrderController extends State<HistoryOrderPage> {
       endDate = getCurrentDate();
       startDateText.text = formatDate(startDate.toIso8601String(), 'd MMM y');
       endDateText.text = formatDate(endDate.toIso8601String(), 'd MMM y');
-      status = null;
+      status = 0;
 
       isExpanded = false;
     });
@@ -148,7 +150,7 @@ abstract class OrderController extends State<HistoryOrderPage> {
   }
 
   Future<void> setStartDate() async {
-    DateTime newDate = await showDatePicker(
+    DateTime? newDate = await showDatePicker(
       context: context,
       initialDate: startDate,
       firstDate: DateTime(1970, 1, 1),
@@ -161,6 +163,7 @@ abstract class OrderController extends State<HistoryOrderPage> {
     );
 
     if (newDate == null) return;
+      if (newDate == null) return;
     setState(() {
       startDate = newDate;
       startDateText.text = formatDate(startDate.toIso8601String(), 'd MMM y');
@@ -168,7 +171,7 @@ abstract class OrderController extends State<HistoryOrderPage> {
   }
 
   Future<void> setEndDate() async {
-    DateTime newDate = await showDatePicker(
+    DateTime? newDate = await showDatePicker(
       context: context,
       initialDate: endDate,
       firstDate: startDate,

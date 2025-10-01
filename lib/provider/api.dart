@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'dart:io';
@@ -6,7 +5,6 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:http/http.dart' as http;
-import 'package:mobile/modules.dart';
 import 'package:mobile/utils/debug_helper.dart';
 
 class Api {
@@ -18,6 +16,9 @@ class Api {
       return result.isNotEmpty && result[0].rawAddress.isNotEmpty;
     } on SocketException catch (_) {
       return false;
+    } catch (e) {
+      DebugHelper.debugPrint('Connectivity check error: $e');
+      return false;
     }
   }
 
@@ -26,6 +27,10 @@ class Api {
       bool auth = true,
       Duration expired = const Duration(hours: 1),
       bool forceRefresh = false}) async {
+    if (host.isEmpty) {
+      throw FormatException('API host is not configured');
+    }
+
     String url = '$host$path';
     DebugHelper.debugPrint('Making GET request to: $url (forceRefresh: $forceRefresh)');
 
@@ -36,10 +41,17 @@ class Api {
     }
 
     if (cache && !forceRefresh) {
-      FileInfo fileInfo = await DefaultCacheManager().getFileFromCache(url);
-      if (fileInfo != null && fileInfo.validTill.isAfter(DateTime.now())) {
-        DebugHelper.debugPrint('Using cached data for: $url');
-        return json.decode(fileInfo.file.readAsStringSync());
+      try {
+        FileInfo? fileInfo = await DefaultCacheManager().getFileFromCache(url);
+        if (fileInfo != null && fileInfo.validTill.isAfter(DateTime.now())) {
+          DebugHelper.debugPrint('Using cached data for: $url');
+          if (fileInfo.file.existsSync()) {
+            return json.decode(fileInfo.file.readAsStringSync());
+          }
+        }
+      } catch (e) {
+        DebugHelper.debugPrint('Cache read error: $e');
+        // Continue with network request if cache fails
       }
     }
     
@@ -49,17 +61,23 @@ class Api {
         await DefaultCacheManager().removeFile(url);
         DebugHelper.debugPrint('Cache cleared for: $url');
       } catch (e) {
-        DebugHelper.debugPrint('Error clearing cache: $e');
+        DebugHelper.debugPrint('Error clearing cache for $url: $e');
+        // Continue with request even if cache clearing fails
       }
     }
 
     try {
+      Map<String, String> headers = {
+        'merchantcode': sigVendor,
+      };
+
+      if (auth && bloc.token.valueWrapper?.value != null) {
+        headers['Authorization'] = bloc.token.valueWrapper!.value;
+      }
+
       http.Response response = await http.get(
         Uri.parse(url),
-        headers: {
-          'Authorization': auth ? bloc.token.valueWrapper?.value : null,
-          'merchantcode': sigVendor,
-        },
+        headers: headers,
       ).timeout(
         Duration(seconds: 30),
         onTimeout: () {
@@ -69,7 +87,11 @@ class Api {
 
       DebugHelper.debugPrint('Response status code: ${response.statusCode}');
       DebugHelper.debugPrint('Response headers: ${response.headers}');
-      DebugHelper.debugPrint('Response body preview: ${response.body.substring(0, response.body.length > 200 ? 200 : response.body.length)}');
+      String bodyPreview = response.body;
+      if (bodyPreview.length > 200) {
+        bodyPreview = bodyPreview.substring(0, 200) + '...';
+      }
+      DebugHelper.debugPrint('Response body preview: $bodyPreview');
 
       if (response.statusCode == 200) {
         // Check if response is JSON
@@ -77,12 +99,26 @@ class Api {
             response.body.trim().startsWith('{') || 
             response.body.trim().startsWith('[')) {
           try {
-            dynamic data = json.decode(response.body)['data'];
-            DefaultCacheManager().putFile(
-              '$url',
-              toBytes(json.encode(data)),
-              maxAge: Duration(hours: 1),
-            );
+            final decoded = json.decode(response.body);
+            dynamic data;
+            if (decoded is Map<String, dynamic> && decoded.containsKey('data')) {
+              data = decoded['data'];
+            } else {
+              // Fallback: some endpoints return payload at the root
+              data = decoded;
+            }
+            // Cache the response
+            try {
+              await DefaultCacheManager().putFile(
+                url,
+                utf8.encode(json.encode(data)),
+                maxAge: Duration(hours: 1),
+              );
+              DebugHelper.debugPrint('Response cached for: $url');
+            } catch (e) {
+              DebugHelper.debugPrint('Failed to cache response: $e');
+              // Continue without caching
+            }
             return data;
           } catch (e) {
             DebugHelper.debugPrint('JSON parsing error: $e');
@@ -119,6 +155,10 @@ class Api {
     bool auth = true,
     Map<String, dynamic> data = const {},
   }) async {
+    if (host.isEmpty) {
+      throw FormatException('API host is not configured');
+    }
+
     String url = '$host$path';
     DebugHelper.debugPrint('Making POST request to: $url');
 
@@ -129,13 +169,18 @@ class Api {
     }
 
     try {
+      Map<String, String> headers = {
+        'merchantcode': sigVendor,
+        'Content-Type': 'application/json',
+      };
+
+      if (auth && bloc.token.valueWrapper?.value != null) {
+        headers['Authorization'] = bloc.token.valueWrapper!.value;
+      }
+
       http.Response response = await http.post(
         Uri.parse(url),
-        headers: {
-          'Authorization': auth ? bloc.token.valueWrapper?.value : null,
-          'merchantcode': sigVendor,
-          'Content-Type': 'application/json',
-        },
+        headers: headers,
         body: json.encode(data),
       ).timeout(
         Duration(seconds: 30),
@@ -146,15 +191,26 @@ class Api {
 
       DebugHelper.debugPrint('Response status code: ${response.statusCode}');
       DebugHelper.debugPrint('Response headers: ${response.headers}');
-      DebugHelper.debugPrint('Response body preview: ${response.body.substring(0, response.body.length > 200 ? 200 : response.body.length)}');
+      String bodyPreview = response.body;
+      if (bodyPreview.length > 200) {
+        bodyPreview = bodyPreview.substring(0, 200) + '...';
+      }
+      DebugHelper.debugPrint('Response body preview: $bodyPreview');
 
       if (response.statusCode == 200) {
         // Check if response is JSON
-        if (response.headers['content-type']?.contains('application/json') == true || 
-            response.body.trim().startsWith('{') || 
+        if (response.headers['content-type']?.contains('application/json') == true ||
+            response.body.trim().startsWith('{') ||
             response.body.trim().startsWith('[')) {
           try {
-            dynamic data = json.decode(response.body);
+            final decoded = json.decode(response.body);
+            dynamic data;
+            if (decoded is Map<String, dynamic> && decoded.containsKey('data')) {
+              data = decoded['data'];
+            } else {
+              // Fallback: some endpoints return payload at the root
+              data = decoded;
+            }
             return data;
           } catch (e) {
             DebugHelper.debugPrint('JSON parsing error: $e');
@@ -180,9 +236,6 @@ class Api {
     } catch (e) {
       if (e is FormatException) {
         rethrow;
-      }
-      if (e is Map<String, dynamic>) {
-        rethrow; // Re-throw JSON error responses
       }
       DebugHelper.debugPrint('Network error: $e');
       throw FormatException('Network error: $e');

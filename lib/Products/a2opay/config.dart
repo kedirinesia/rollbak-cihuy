@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '5f3baca6e4a2100b426a8207';
 
@@ -6,7 +5,7 @@ const namaApp = 'A2oPay Reload';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'id.a2opayreload.co';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

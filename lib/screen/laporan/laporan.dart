@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -36,11 +35,11 @@ class _ReportPageState extends State<ReportPage> {
   bool _isEdge = false;
 
   List<TrxModel> _trxs = [];
-  CountTrx _countTrx;
+  CountTrx? _countTrx;
 
   String _searchTujuan = '';
-  DateTime _startDate;
-  DateTime _endDate;
+  late DateTime _startDate;
+  late DateTime _endDate;
   int _selectedDateFilter = 0;
   List<String> _dateFilters = [
     'Semua',
@@ -59,6 +58,9 @@ class _ReportPageState extends State<ReportPage> {
 
   @override
   void initState() {
+    // Initialize default date range to today to avoid late init errors
+    _startDate = DateTime.now();
+    _endDate = DateTime.now();
     _getData();
     _getTrxCount();
     super.initState();
@@ -78,14 +80,10 @@ class _ReportPageState extends State<ReportPage> {
         'page': _currentPage,
       };
 
-      if (_startDate != null) {
-        params['tgl_awal'] =
-            formatDate(_startDate.toIso8601String(), 'dd-MM-yyyy');
-      }
-      if (_endDate != null) {
-        params['tgl_akhir'] =
-            formatDate(_endDate.toIso8601String(), 'dd-MM-yyyy');
-      }
+      params['tgl_awal'] =
+          formatDate(_startDate.toIso8601String(), 'dd-MM-yyyy');
+      params['tgl_akhir'] =
+          formatDate(_endDate.toIso8601String(), 'dd-MM-yyyy');
       if (_searchTujuan.trim().isNotEmpty) {
         params['tujuan'] = _searchTujuan.trim();
       }
@@ -145,12 +143,8 @@ class _ReportPageState extends State<ReportPage> {
       String startDate = 'all';
       String endDate = 'all';
 
-      if (_startDate != null) {
-        startDate = formatDate(_startDate.toIso8601String(), 'dd-MM-yyyy');
-      }
-      if (_endDate != null) {
-        endDate = formatDate(_endDate.toIso8601String(), 'dd-MM-yyyy');
-      }
+      startDate = formatDate(_startDate.toIso8601String(), 'dd-MM-yyyy');
+      endDate = formatDate(_endDate.toIso8601String(), 'dd-MM-yyyy');
 
       http.Response response = await http.get(
         Uri.parse(
@@ -188,8 +182,8 @@ class _ReportPageState extends State<ReportPage> {
 
     switch (type) {
       case 0:
-        _startDate = null;
-        _endDate = null;
+        _startDate = DateTime.now();
+        _endDate = DateTime.now();
         break;
       case 1:
         _startDate = DateTime(now.year, now.month - 1, 1);
@@ -209,8 +203,8 @@ class _ReportPageState extends State<ReportPage> {
         _endDate = _startDate.add(Duration(days: 7));
         break;
       default:
-        _startDate = null;
-        _endDate = null;
+        _startDate = DateTime.now();
+        _endDate = DateTime.now();
         break;
     }
   }
@@ -461,7 +455,7 @@ class _ReportPageState extends State<ReportPage> {
                                 title: Text('Filter Status'),
                                 children: _statuses.keys.map((status) {
                                   return SimpleDialogOption(
-                                    child: Text(_statuses[status]),
+                                    child: Text(_statuses[status] ?? ''),
                                     onPressed: () =>
                                         Navigator.of(ctx, rootNavigator: true)
                                             .pop(status),
@@ -470,7 +464,7 @@ class _ReportPageState extends State<ReportPage> {
                               );
                             });
 
-                        if (status == null) return;
+                        // status will always be returned
 
                         setState(() {
                           _selectedStatus = status;
@@ -489,7 +483,7 @@ class _ReportPageState extends State<ReportPage> {
                             color: Colors.black,
                           ),
                           Text(
-                            _statuses[_selectedStatus],
+                            _statuses[_selectedStatus] ?? '',
                             style: TextStyle(fontSize: 10, color: Colors.black),
                           )
                         ],
@@ -623,7 +617,7 @@ class _ReportPageState extends State<ReportPage> {
                                           backgroundColor: trx.statusModel.color
                                               .withOpacity(.1),
                                           child: CachedNetworkImage(
-                                            imageUrl: trx.statusModel.icon,
+                                              imageUrl: trx.statusModel.icon  ?? '',
                                             width: 20,
                                           ),
                                         ),
@@ -636,9 +630,7 @@ class _ReportPageState extends State<ReportPage> {
                                           ),
                                         ),
                                         subtitle: Text(
-                                          trx.produk == null
-                                              ? '-'
-                                              : trx.produk['nama'],
+                                          trx.produk['nama'] ?? '-',
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 1,
                                           style: TextStyle(

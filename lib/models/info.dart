@@ -1,4 +1,3 @@
-// @dart=2.9
 
 class InfoModel {
   String title;
@@ -9,12 +8,12 @@ class InfoModel {
   String id;
 
   InfoModel(
-      {this.title,
-      this.description,
-      this.url,
-      this.icon,
-      this.content,
-      this.id});
+      {required this.title,
+      required this.description,
+      required this.url,
+      required this.icon,
+      required this.content,
+      required this.id});
 
   factory InfoModel.fromJson(dynamic json) {
     return InfoModel(

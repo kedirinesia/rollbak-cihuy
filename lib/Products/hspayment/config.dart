@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '5f4f0077a0e4e4253d598f5e';
 
@@ -6,7 +5,7 @@ const namaApp = 'HS Payment';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.hspayment.app';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -13,7 +12,6 @@ import 'package:mobile/provider/analitycs.dart';
 
 import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/modules.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class HistoryReward extends StatefulWidget {
   @override

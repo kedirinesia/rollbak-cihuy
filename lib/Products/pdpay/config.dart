@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:mobile/Products/pdpay/layout/detail-deposit.dart';
 import 'package:mobile/Products/pdpay/layout/home.dart';
@@ -6,7 +5,6 @@ import 'package:mobile/Products/pdpay/layout/kirim-saldo.dart';
 import 'package:mobile/Products/pdpay/layout/login.dart';
 import 'package:mobile/Products/pdpay/layout/topup.dart';
 import 'package:mobile/models/deposit.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 String sigVendor = '6071795c84d3cca10c0de2d8';
 
@@ -14,7 +12,7 @@ const namaApp = 'PDPay';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'pdpay.id';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

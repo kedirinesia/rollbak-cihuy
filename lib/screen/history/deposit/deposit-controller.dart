@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:async';
 
@@ -11,7 +10,6 @@ import 'package:mobile/screen/history/deposit/deposit.dart';
 import 'package:http/http.dart' as http;
 import '../../../bloc/Bloc.dart' show bloc;
 import '../../../bloc/Api.dart' show apiUrl;
-import 'package:mobile/utils/debug_helper.dart';
 
 abstract class DepositController extends State<DepositPage> {
   bool loadingNewPage = false;
@@ -29,7 +27,7 @@ abstract class DepositController extends State<DepositPage> {
       'title': 'History Deposit'
     });
 
-    if (configAppBloc.autoReload.valueWrapper?.value) {
+    if (configAppBloc.autoReload.valueWrapper?.value ?? false) {
       Timer.periodic(new Duration(seconds: 1), (timer) => getData());
     } else {
       getData();
@@ -40,7 +38,7 @@ abstract class DepositController extends State<DepositPage> {
     if (isEdge) return;
     http.Response response = await http.get(
         Uri.parse('$apiUrl/deposit/list?page=$currentPage&limit=$limit'),
-        headers: {'Authorization': bloc.token.valueWrapper?.value});
+        headers: {'Authorization': bloc.token.valueWrapper?.value ?? ''});
 
     if (response.statusCode == 200) {
       List<dynamic> list = jsonDecode(response.body)['data'] as List;

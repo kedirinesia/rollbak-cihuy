@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '66b3223d125adcc9ad1c7f17';
 
@@ -6,7 +5,7 @@ const namaApp = 'Yadara Smart';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.yadarasmart.mobile';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

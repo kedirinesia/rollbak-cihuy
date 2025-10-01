@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -21,7 +20,7 @@ import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/utils/debug_helper.dart';
 
 class PersediaanDetail extends StatefulWidget {
-  PersediaanModel persediaan;
+  late PersediaanModel persediaan;
 
   PersediaanDetail(this.persediaan);
   @override
@@ -33,7 +32,7 @@ class PersediaanDetailState extends State<PersediaanDetail> {
   TextEditingController hargaBeliController = TextEditingController();
   TextEditingController stockUpdateController =
       TextEditingController(text: '0');
-  PersediaanModel persediaan;
+    late  PersediaanModel persediaan;
 
   bool loading = true;
   bool formShow = false;
@@ -62,7 +61,7 @@ class PersediaanDetailState extends State<PersediaanDetail> {
           await http.post(Uri.parse('$apiUrlKasir/persediaan/getDetail'),
               headers: {
                 'Content-Type': 'application/json',
-                'authorization': bloc.token.valueWrapper?.value,
+                'authorization': bloc.token.valueWrapper?.value ?? '',
               },
               body: json.encode(dataToSend));
 
@@ -76,7 +75,7 @@ class PersediaanDetailState extends State<PersediaanDetail> {
         if (status == 200) {
           setState(() {
             persediaan = PersediaanModel.fromJson(data);
-            totalModal = persediaan.stock * persediaan.hargaBeli;
+            totalModal = persediaan.stock! * persediaan.hargaBeli!;
           });
         } else {
           showDialog(
@@ -143,8 +142,8 @@ class PersediaanDetailState extends State<PersediaanDetail> {
   }
 
   void updateStock() async {
-    _formKey.currentState.save();
-    if (_formKey.currentState.validate()) {
+    _formKey.currentState?.save();
+    if (_formKey.currentState?.validate() ?? false) {
       if (stockUpdate != "") {
         try {
           setState(() {
@@ -164,7 +163,7 @@ class PersediaanDetailState extends State<PersediaanDetail> {
               await http.post(Uri.parse('$apiUrlKasir/persediaan/updateStock'),
                   headers: {
                     'Content-Type': 'application/json',
-                    'authorization': bloc.token.valueWrapper?.value,
+                    'authorization': bloc.token.valueWrapper?.value ?? '',
                   },
                   body: json.encode(dataToSend));
 
@@ -316,7 +315,7 @@ class PersediaanDetailState extends State<PersediaanDetail> {
                         child: !formShow
                             ? ListTile(
                                 title: Text(
-                                  '${persediaan != null ? persediaan.barangModel.namaBarang : '-'}',
+                                  '${persediaan != null ? persediaan.barangModel?.namaBarang : '-'}',
                                   style: TextStyle(
                                     fontSize: 15.0,
                                     color: Colors.black,
@@ -324,7 +323,7 @@ class PersediaanDetailState extends State<PersediaanDetail> {
                                   ),
                                 ),
                                 subtitle: Text(
-                                  '${persediaan != null ? persediaan.barangModel.sku : '-'}',
+                                  '${persediaan != null ? persediaan.barangModel?.sku : '-'}',
                                   style: TextStyle(
                                     fontSize: 14.0,
                                     color: Colors.black,
@@ -350,7 +349,7 @@ class PersediaanDetailState extends State<PersediaanDetail> {
                                     ),
                                     SizedBox(height: 8.0),
                                     Text(
-                                      'Harga Beli ${persediaan != null ? formatNominal(persediaan.hargaBeli) : '0'}',
+                                      'Harga Beli ${persediaan != null ? formatNominal(persediaan.hargaBeli!) : '0'}',
                                       style: TextStyle(
                                         color: Colors.grey.shade700,
                                       ),
@@ -442,14 +441,15 @@ class PersediaanDetailState extends State<PersediaanDetail> {
                       ),
                     ),
                     keyboardType: TextInputType.number,
-                    validator: (String value) {
+                    validator: (String? value) {
                       if (value == "") {
                         return "harga beli tidak boleh kosong";
                       }
+                      return null;
                     },
-                    onSaved: (String value) {
+                    onSaved: (String? value) {
                       setState(() {
-                        hargaBeli = value;
+                        hargaBeli = value ?? '';
                       });
                     }),
               ),
@@ -466,15 +466,16 @@ class PersediaanDetailState extends State<PersediaanDetail> {
                       ),
                     ),
                     keyboardType: TextInputType.number,
-                    validator: (String value) {
+                    validator: (String? value) {
                       if (value == "") {
                         return "stok tidak boleh kosong";
                       }
+                      return null;
                     },
-                    onSaved: (String value) {
+                    onSaved: (String? value) {
                       DebugHelper.debugPrint('value.toString()');
                       setState(() {
-                        stockUpdate = value;
+                        stockUpdate = value ?? '';
                       });
                     }),
               ),

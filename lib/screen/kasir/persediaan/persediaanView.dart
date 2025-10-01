@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -24,9 +23,8 @@ import 'package:mobile/modules.dart';
 // screen page
 import 'package:mobile/screen/kasir/persediaan/persediaanDetail.dart';
 import 'package:mobile/screen/kasir/persediaan/persediaanAdd.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
-class PersediaanView extends StatefulWidget {
+class PersediaanView extends StatefulWidget {   
   @override
   createState() => PersediaanViewState();
 }
@@ -65,7 +63,7 @@ class PersediaanViewState extends State<PersediaanView> {
       if (isEdge) return;
       http.Response response = await http
           .get(Uri.parse('$apiUrlKasir/persediaan/get?page=$page'), headers: {
-        'authorization': bloc.token.valueWrapper?.value,
+        'authorization': bloc.token.valueWrapper?.value ?? '',
       });
 
       String message = json.decode(response.body)['message'] ??
@@ -182,7 +180,7 @@ class PersediaanViewState extends State<PersediaanView> {
           backgroundColor: Theme.of(context).primaryColor,
           onPressed: () async {
             int stokPersediaan = 0;
-            persediaans.forEach((e) => stokPersediaan = e.stock);
+            persediaans.forEach((e) => stokPersediaan = e.stock ?? 0);
 
             if (stokPersediaan >= 100000) {
               return showDialog(
@@ -269,7 +267,7 @@ class PersediaanViewState extends State<PersediaanView> {
                                           ]),
                                       child: ListTile(
                                         title: Text(
-                                            '${_persediaan.barangModel.namaBarang} - ${_persediaan.barangModel.sku}',
+                                            '${_persediaan.barangModel?.namaBarang} - ${_persediaan.barangModel?.sku}',
                                             style: TextStyle(
                                                 fontSize: 13.0,
                                                 fontWeight: FontWeight.bold,
@@ -280,21 +278,21 @@ class PersediaanViewState extends State<PersediaanView> {
                                           children: [
                                             SizedBox(height: 5.0),
                                             Text(
-                                                'Supplier : ${_persediaan.supplierModel.nama}',
+                                                'Supplier : ${_persediaan.supplierModel?.nama}',
                                                 style: TextStyle(
                                                     fontSize: 12.0,
                                                     color:
                                                         Colors.grey.shade700)),
                                             SizedBox(height: 3.0),
                                             Text(
-                                                'Harga Beli : ${formatNominal(_persediaan.hargaBeli)}',
+                                                'Harga Beli : ${formatNominal(_persediaan.hargaBeli!)}',
                                                 style: TextStyle(
                                                     fontSize: 12.0,
                                                     color:
                                                         Colors.grey.shade700)),
                                             SizedBox(height: 3.0),
                                             Text(
-                                                'Harga Jual : ${formatNominal(_persediaan.barangModel.hargaJual)}',
+                                                'Harga Jual : ${formatNominal(_persediaan.barangModel?.hargaJual ?? 0)}',
                                                 style: TextStyle(
                                                     fontSize: 12.0,
                                                     color:
@@ -310,7 +308,7 @@ class PersediaanViewState extends State<PersediaanView> {
                                                 Theme.of(context).primaryColor,
                                           ),
                                           child: Text(
-                                              '${formatNominal(_persediaan.stock)}',
+                                              '${formatNominal(_persediaan.stock!)}',
                                               style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 13.0,
@@ -352,9 +350,12 @@ class PersediaanViewState extends State<PersediaanView> {
               child: Icon(Icons.search),
               onTap: () {
                 var list = tmpPersediaans
-                    .where((m) => m.barangModel.namaBarang
-                        .toLowerCase()
-                        .contains(query.text))
+                    .where((m) =>
+                        m.barangModel != null &&
+                        m.barangModel!.namaBarang != null &&
+                        m.barangModel!.namaBarang!
+                            .toLowerCase()
+                            .contains(query.text.toLowerCase()))
                     .toList();
 
                 setState(() {
@@ -364,9 +365,12 @@ class PersediaanViewState extends State<PersediaanView> {
         ),
         onEditingComplete: () {
           var list = tmpPersediaans
-              .where((item) => item.barangModel.namaBarang
-                  .toLowerCase()
-                  .contains(query.text))
+              .where((item) =>
+                  item.barangModel != null &&
+                  item.barangModel!.namaBarang != null &&
+                  item.barangModel!.namaBarang!
+                      .toLowerCase()
+                      .contains(query.text.toLowerCase()))
               .toList();
 
           setState(() {
@@ -375,9 +379,12 @@ class PersediaanViewState extends State<PersediaanView> {
         },
         onChanged: (value) {
           var list = tmpPersediaans
-              .where((item) => item.barangModel.namaBarang
-                  .toLowerCase()
-                  .contains(query.text))
+              .where((item) =>
+                  item.barangModel != null &&
+                  item.barangModel!.namaBarang != null &&
+                  item.barangModel!.namaBarang!
+                      .toLowerCase()
+                      .contains(query.text.toLowerCase()))
               .toList();
           setState(() {
             persediaans = list;

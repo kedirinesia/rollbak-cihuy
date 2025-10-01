@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '652f47da44aa82d383c60286';
 
@@ -6,7 +5,7 @@ const namaApp = 'ILOAD MOBILE';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.iloadmobile.mobileapps';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

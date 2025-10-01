@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '63bcf6712d6939726a1b440e';
 
@@ -6,7 +5,7 @@ const namaApp = 'Narosa';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.narosa.mobile';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

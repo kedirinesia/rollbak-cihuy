@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +22,6 @@ import 'package:mobile/screen/profile/toko/edit_toko.dart';
 import 'package:mobile/screen/wd/withdraw.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import 'package:mobile/utils/debug_helper.dart';
 
 typedef ValueSetter<Color> = void Function(Color value);
 
@@ -55,7 +53,7 @@ class _ProfilePageState extends State<ProfilePage> {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (_) =>
-            configAppBloc.layoutApp?.valueWrapper?.value['home'] ??
+            configAppBloc.layoutApp.valueWrapper?.value['home'] ??
             templateConfig[configAppBloc.templateCode.valueWrapper?.value],
       ),
     );

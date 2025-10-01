@@ -1,4 +1,3 @@
-// @dart=2.9
 
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -13,7 +12,6 @@ import 'package:mobile/models/cs.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/provider/api.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class CS1 extends StatefulWidget {
   @override
@@ -41,10 +39,10 @@ class _CSState extends State<CS1> {
     try {
       List<dynamic> datas =
           await api.get('/cs/list/public', cache: true, auth: false);
-      listCs.add(CustomerService());
+      listCs.add(CustomerService(title: '', icon: '', contact: '', link: ''));
       listCs.addAll(datas.map((e) => CustomerService.fromJson(e)).toList());
     } catch (_) {
-      listCs.add(CustomerService());
+      listCs.add(CustomerService(title: '', icon: '', contact: '', link: ''));
     } finally {
       setState(() {
         loading = false;
@@ -194,8 +192,8 @@ class _CSState extends State<CS1> {
                             blurRadius: 10.0)
                       ]),
                   child: ListTile(
-                    leading: listCs[i].icon == ""
-                        ? CircleAvatar(
+                    leading: listCs[i].icon == "" ?
+                         CircleAvatar(
                             backgroundColor:
                                 Theme.of(context).primaryColor.withOpacity(.1),
                             child: CachedNetworkImage(

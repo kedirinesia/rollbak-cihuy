@@ -1,11 +1,9 @@
-// @dart=2.9
 
 import 'package:mobile/Products/greenpay/layout/detail-deposit.dart';
 import 'package:mobile/Products/greenpay/layout/home.dart';
 import 'package:mobile/Products/greenpay/layout/kirim-saldo.dart';
 import 'package:mobile/Products/greenpay/layout/topup.dart';
 import 'package:mobile/models/deposit.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 String sigVendor = '602ddd051d4e77bf18a278bb';
 
@@ -13,7 +11,7 @@ const namaApp = 'Greenpay';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.payuni.greenpay';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

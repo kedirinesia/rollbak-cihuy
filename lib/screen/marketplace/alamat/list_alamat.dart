@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -7,6 +6,9 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/models/mp_alamat.dart';
+import 'package:mobile/models/mp_kecamatan.dart';
+import 'package:mobile/models/mp_kota.dart';
+import 'package:mobile/models/mp_provinsi.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/screen/marketplace/alamat/tambah_alamat.dart';
 import 'package:mobile/screen/marketplace/alamat/ubah_alamat.dart';
@@ -18,15 +20,14 @@ class ListAlamatPage extends StatefulWidget {
 }
 
 class _ListAlamatPageState extends State<ListAlamatPage> {
-  bool loading = true;
   Future<List<AlamatModel>> fetchAlamat() async {
     List<AlamatModel> items = [];
     http.Response response = await http.get(
         Uri.parse('$apiUrl/market/shipping'),
-        headers: {'Authorization': bloc.token.valueWrapper?.value});
+        headers: {'Authorization': bloc.token.valueWrapper?.value ?? ''});
 
     if (response.statusCode == 200) {
-      DebugHelper.debugPrint('response.body.toString()');
+      DebugHelper.debugPrint(response.body.toString());
       List<dynamic> addresses = json.decode(response.body)['data'];
       addresses.forEach((el) => items.add(AlamatModel.fromJson(el)));
     }
@@ -34,19 +35,6 @@ class _ListAlamatPageState extends State<ListAlamatPage> {
     return items;
   }
 
-  // Future<void> deleteShipping(String id) async {
-  //   http.Response response = await http.post(
-  //     Uri.parse('$apiUrl/market/shipping/delete'),
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       'Authorization': bloc.token.valueWrapper?.value,
-  //     },
-  //     body: json.encode({
-  //       'id': id,
-  //     }),
-  //   );
-  //   if (response.statusCode == 200) setState(() {});
-  // }
 
   Future<void> deleteShipping(AlamatModel _alamat) async {
     showDialog(
@@ -71,9 +59,6 @@ class _ListAlamatPageState extends State<ListAlamatPage> {
                     ),
                   ),
                   onPressed: () async {
-                    setState(() {
-                      loading = true;
-                    });
                     Navigator.of(context, rootNavigator: true).pop();
 
                     try {
@@ -84,7 +69,7 @@ class _ListAlamatPageState extends State<ListAlamatPage> {
                           Uri.parse('$apiUrl/market/shipping/remove'),
                           headers: {
                             'Content-Type': 'application/json',
-                            'Authorization': bloc.token.valueWrapper?.value,
+                            'Authorization': bloc.token.valueWrapper?.value ?? '',
                           },
                           body: json.encode(dataToSend));
 
@@ -93,8 +78,6 @@ class _ListAlamatPageState extends State<ListAlamatPage> {
                       String message = responseData['message'] ??
                           'Terjadi kesalahan saat mengambil data dari server';
                       if (response.statusCode == 200) {
-                        List<dynamic> datas = responseData['data'];
-
                         if (status == 200) {
                           showDialog(
                               context: context,
@@ -110,13 +93,13 @@ class _ListAlamatPageState extends State<ListAlamatPage> {
                                                 Theme.of(context).primaryColor,
                                           ),
                                         ),
-                                        onPressed: () =>
-                                            Navigator.of(context).pop(),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                          setState(() {}); // Refresh the list
+                                        },
                                       )
                                     ],
                                   ));
-
-                          // refreshData();
                         } else {
                           showDialog(
                               context: context,
@@ -132,8 +115,10 @@ class _ListAlamatPageState extends State<ListAlamatPage> {
                                                 Theme.of(context).primaryColor,
                                           ),
                                         ),
-                                        onPressed: () =>
-                                            Navigator.of(context).pop(),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                        setState(() {}); // Refresh UI
+                                      },
                                       )
                                     ],
                                   ));
@@ -152,8 +137,10 @@ class _ListAlamatPageState extends State<ListAlamatPage> {
                                           color: Theme.of(context).primaryColor,
                                         ),
                                       ),
-                                      onPressed: () =>
-                                          Navigator.of(context).pop(),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                        setState(() {}); // Refresh UI
+                                      },
                                     )
                                   ],
                                 ));
@@ -173,15 +160,13 @@ class _ListAlamatPageState extends State<ListAlamatPage> {
                                         color: Theme.of(context).primaryColor,
                                       ),
                                     ),
-                                    onPressed: () =>
-                                        Navigator.of(context).pop(),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                      setState(() {}); // Refresh UI even on error
+                                    },
                                   )
                                 ],
                               ));
-                    } finally {
-                      setState(() {
-                        loading = false;
-                      });
                     }
                   },
                 )
@@ -219,15 +204,13 @@ class _ListAlamatPageState extends State<ListAlamatPage> {
         ),
       ),
     );
-    if (option == null) return;
     if (option == 1) {
       bool state = await Navigator.of(context).push(
         MaterialPageRoute(
           builder: (_) => UbahAlamatPage(alamat),
         ),
       );
-      if (state) fetchAlamat();
-      setState(() {});
+      if (state) setState(() {});
     }
     if (option == 2) deleteShipping(alamat);
   }
@@ -257,10 +240,38 @@ class _ListAlamatPageState extends State<ListAlamatPage> {
 
               return ListView.separated(
                 padding: EdgeInsets.all(20),
-                itemCount: snapshot.data.length,
+                itemCount: snapshot.data?.length ?? 0,
                 separatorBuilder: (_, i) => SizedBox(height: 10),
                 itemBuilder: (_, i) {
-                  AlamatModel alamat = snapshot.data[i];
+                  AlamatModel alamat = snapshot.data?[i] ?? AlamatModel(
+                    id: '',
+                    userId: '',
+                    name: '',
+                    phone: '',
+                    address1: '',
+                    address2: '',
+                    postalCode: '',
+                    provinsi: MarketplaceProvinsi(id: '', code: '', name: ''),
+                    kota: MarketplaceKota(
+                      id: '',
+                      code: '',
+                      type: '',
+                      name: '',
+                      postalCode: '',
+                      provinceCode: '',
+                      provinceName: '',
+                    ),
+                    kecamatan: MarketplaceKecamatan(
+                      id: '',
+                      code: '',
+                      name: '',
+                      cityCode: '',
+                      cityName: '',
+                      cityType: '',
+                      provinceCode: '',
+                      provinceName: '',
+                    ),
+                  );
 
                   return InkWell(
                     onTap: () => Navigator.of(context).pop(alamat),

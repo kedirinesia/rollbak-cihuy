@@ -1,4 +1,3 @@
-// @dart=2.9
 
 class CustomerModel {
   String id;
@@ -11,14 +10,14 @@ class CustomerModel {
   String created_at;
 
   CustomerModel(
-      {this.id,
-      this.nama,
-      this.email,
-      this.telp,
-      this.alamat,
-      this.aktif,
-      this.saldoHutang,
-      this.created_at});
+      {required   this.id,
+      required this.nama,
+      required this.email,
+      required this.telp,
+      required this.alamat,
+      required  this.aktif,
+      required this.saldoHutang,
+      required this.created_at});
 
   factory CustomerModel.fromJson(Map<String, dynamic> json) {
     return CustomerModel(

@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -8,7 +7,6 @@ import 'package:http/http.dart' as http;
 import '../../bloc/Bloc.dart' show bloc;
 import '../../bloc/Api.dart' show apiUrl;
 import './dynamic-denom.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 abstract class DynamicDenomController extends State<DynamicPrepaidDenom>
     with TickerProviderStateMixin {
@@ -16,10 +14,10 @@ abstract class DynamicDenomController extends State<DynamicPrepaidDenom>
   List<DynamicPrepaidDenom> listDenom = [];
   bool loading = false;
   bool failed = false;
-  DynamicPrepaidDenomModel selectedDenom;
+  DynamicPrepaidDenomModel? selectedDenom;
   TextEditingController tujuan = TextEditingController();
   TextEditingController nominal = TextEditingController();
-  TabController controller;
+  late TabController controller;
 
   @override
   void initState() {
@@ -32,7 +30,7 @@ abstract class DynamicDenomController extends State<DynamicPrepaidDenom>
     http.Response response = await http.get(
         Uri.parse(
             '$apiUrl/product/dynamic/prepaid?product=${widget.menu.kodeProduk}&tujuan=${tujuan.text}'),
-        headers: {'Authorization': bloc.token.valueWrapper?.value});
+        headers: {'Authorization': bloc.token.valueWrapper?.value ?? ''});
 
     if (response.statusCode == 200) {
       List<DynamicPrepaidLayoutModel> lm =

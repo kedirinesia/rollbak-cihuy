@@ -1,6 +1,7 @@
   import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:mobile/utils/debug_helper.dart';
+import 'package:device_info_plus/device_info_plus.dart';
  
 
 class Test16KBCompatibilityPage extends StatefulWidget {

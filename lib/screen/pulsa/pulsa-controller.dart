@@ -1,4 +1,3 @@
-// @dart=2.9
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:mobile/component/alert.dart';
@@ -16,7 +15,7 @@ abstract class PulsaController extends State<Pulsa>
   bool loading = false;
   bool failed = false;
   String prefixNomor = "";
-  PulsaModel selectedDenom;
+  PulsaModel? selectedDenom;
   TextEditingController nomorHp = TextEditingController();
   String packageName = '';
   List<String> suggestNumbers = [];
@@ -73,7 +72,7 @@ abstract class PulsaController extends State<Pulsa>
       
    
       String kategoriId = widget.menuModel.category_id;
-      if (kategoriId == null || kategoriId.isEmpty) {
+      if (kategoriId.isEmpty) {
         
         if (packageName == 'mobile.payuni.id' || packageName == 'co.payuni.id') {
           
@@ -126,7 +125,7 @@ abstract class PulsaController extends State<Pulsa>
           try {
             http.Response response = await http.get(
               Uri.parse(singleApiEndpoint),
-              headers: {'Authorization': bloc.token.valueWrapper?.value},
+              headers: {'Authorization': bloc.token.valueWrapper?.value ?? ''},
             );
             
             if (response.statusCode == 200) {
@@ -208,7 +207,7 @@ abstract class PulsaController extends State<Pulsa>
       final response = await http.get(
         Uri.parse(apiEndpoint),
         headers: {
-          'Authorization': bloc.token.valueWrapper?.value,
+          'Authorization': bloc.token.valueWrapper?.value ?? '',
         },
       );
       
@@ -355,24 +354,78 @@ abstract class PulsaController extends State<Pulsa>
   }
 
   void getDenom(String nomor) async {
+    DebugHelper.debugPrint('=== PulsaController getDenom() START ===');
+    DebugHelper.debugPrint('Nomor: $nomor');
+
     setState(() {
       loading = true;
+      failed = false;
     });
 
-    http.Response response = await http.get(
-        Uri.parse('$apiUrl/product/pulsa?q=$nomor'),
-        headers: {'Authorization': bloc.token.valueWrapper?.value});
+    try {
+      http.Response response = await http.get(
+          Uri.parse('$apiUrl/product/pulsa?q=$nomor'),
+          headers: {'Authorization': bloc.token.valueWrapper?.value ?? ''});
 
-    if (response.statusCode == 200) {
-      List<PulsaModel> list = (json.decode(response.body)['data'] as List)
-          .map((item) => PulsaModel.fromJson(item))
-          .toList();
-      listDenom = list;
+      DebugHelper.debugPrint('API Response Status: ${response.statusCode}');
+      DebugHelper.debugPrint('API Response Body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> responseBody = json.decode(response.body);
+        DebugHelper.debugPrint('Response structure: ${responseBody.keys}');
+
+        if (responseBody.containsKey('data') && responseBody['data'] is List) {
+          List<dynamic> rawData = responseBody['data'];
+          DebugHelper.debugPrint('Raw data count: ${rawData.length}');
+
+          // Debug first item to see structure
+          if (rawData.isNotEmpty) {
+            DebugHelper.debugPrint('First item structure: ${rawData[0]}');
+          }
+
+          List<PulsaModel> list = rawData
+              .map((item) {
+                try {
+                  DebugHelper.debugPrint('Processing item: $item');
+                  PulsaModel model = PulsaModel.fromJson(item);
+                  DebugHelper.debugPrint('✅ Successfully parsed: ${model.nama} - harga_jual: ${model.hargaJual}');
+                  return model;
+                } catch (e) {
+                  DebugHelper.debugPrint('❌ Error parsing item: $e');
+                  DebugHelper.debugPrint('Problematic item: $item');
+                  return null;
+                }
+              })
+              .where((item) => item != null)
+              .cast<PulsaModel>()
+              .toList();
+
+          DebugHelper.debugPrint('Successfully parsed ${list.length} items');
+          listDenom = list;
+        } else {
+          DebugHelper.debugPrint('❌ Invalid response structure: missing data array');
+          setState(() {
+            failed = true;
+          });
+        }
+      } else {
+        DebugHelper.debugPrint('❌ API Error: ${response.statusCode}');
+        setState(() {
+          failed = true;
+        });
+      }
+    } catch (e) {
+      DebugHelper.debugPrint('❌ Exception in getDenom: $e');
+      setState(() {
+        failed = true;
+      });
     }
 
     setState(() {
       loading = false;
     });
+
+    DebugHelper.debugPrint('=== PulsaController getDenom() END ===');
   }
 
   void selectDenom(PulsaModel denom) {
@@ -385,10 +438,8 @@ abstract class PulsaController extends State<Pulsa>
       );
       return;
     }
-    if (denom != null) {
-      setState(() {
-        selectedDenom = denom;
-      });
-    }
+    setState(() {
+      selectedDenom = denom;
+    });
   }
 }

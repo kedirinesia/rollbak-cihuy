@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -35,7 +34,7 @@ abstract class NotifikasiController extends State<Notifikasi>
 
     http.Response response = await http.get(
         Uri.parse('$apiUrl/outbox/list?page=$page'),
-        headers: {'Authorization': bloc.token.valueWrapper?.value});
+        headers: {'Authorization': bloc.token.valueWrapper?.value ?? ''});
 
     if (response.statusCode == 200) {
       List<dynamic> datas = json.decode(response.body)['data'];
@@ -61,7 +60,7 @@ abstract class NotifikasiController extends State<Notifikasi>
       http.Response response = await http.post(
         Uri.parse('$apiUrl/outbox/read'),
         headers: {
-          'Authorization': bloc.token.valueWrapper?.value,
+          'Authorization': bloc.token.valueWrapper?.value ?? '',
           'Content-Type': 'application/json',
         },
         body: json.encode(

@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'dart:io';
@@ -358,8 +357,8 @@ class _DetailDepositState extends State<DetailDeposit> {
                           widget.dep.status == 0)
                       ? ElevatedButton(
                           style: ButtonStyle(
-                            elevation: MaterialStateProperty.all(0),
-                            backgroundColor: MaterialStateProperty.all(
+                            elevation: WidgetStateProperty.all(0),
+                            backgroundColor: WidgetStateProperty.all(
                               Theme.of(context).primaryColor,
                             ),
                           ),

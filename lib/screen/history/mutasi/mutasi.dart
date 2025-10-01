@@ -1,7 +1,6 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
-import 'package:flutter_page_transition/flutter_page_transition.dart';
+ 
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobile/config.dart';
@@ -9,8 +8,8 @@ import 'package:mobile/models/mutasi.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/screen/history/mutasi/mutasi-controller.dart';
 import 'package:mobile/screen/transaksi/detail_mutasi.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class MutasiPage extends StatefulWidget {
   @override
@@ -24,7 +23,7 @@ class _MutasiPageState extends MutasiController with TickerProviderStateMixin {
         ? Container(
             width: double.infinity,
             height: double.infinity,
-            padding: EdgeInsets.all(15),
+            padding: EdgeInsets.all(15),  
             child: Center(
               child: SpinKitThreeBounce(
                 color: packageName == 'com.lariz.mobile'
@@ -355,10 +354,10 @@ class _MutasiPageState extends MutasiController with TickerProviderStateMixin {
                                   ]),
                               child: ListTile(
                                 onTap: () {
-                                  return Navigator.of(context).push(
+                                   Navigator.of(context).push(
                                       PageTransition(
                                           child: DetailMutasi(m),
-                                          type: PageTransitionType.rippleMiddle,
+                                          type: PageTransitionType.rightToLeft,
                                           duration:
                                               Duration(milliseconds: 350)));
                                 },

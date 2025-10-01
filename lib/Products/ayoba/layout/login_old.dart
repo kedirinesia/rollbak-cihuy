@@ -7,7 +7,6 @@ import 'package:mobile/provider/api.dart';
 import 'package:nav/nav.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:mobile/screen/otp.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);

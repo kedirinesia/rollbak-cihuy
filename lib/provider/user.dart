@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -7,14 +6,13 @@ import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../bloc/Api.dart' show apiUrl;
-import 'package:mobile/utils/debug_helper.dart';
 
 class UserProvider {
-  Future<UserModel> getProfile() async {
+  Future<UserModel?> getProfile() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString('token') ?? '';
 
-    if (token != null) {
+    if (token.isNotEmpty) {
       try {
         http.Response response = await http.get(Uri.parse('$apiUrl/user/info'),
             headers: {'Authorization': token});

@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:io';
 import 'dart:convert';
@@ -46,14 +45,14 @@ class BarangUpdateState extends State<BarangUpdate> {
   TextEditingController kategoriController = TextEditingController();
 
   bool loading = true;
-  File imgLocal;
+  late  File imgLocal;
   String id_barang = "";
   String kodeBarang = "";
   String nama = "";
   String imgUrl = "";
   var hargaJual = "";
-  CategoryModel category;
-  SatuanModel satuan;
+  late CategoryModel category;
+  late SatuanModel satuan;
 
   @override
   initState() {
@@ -67,8 +66,8 @@ class BarangUpdateState extends State<BarangUpdate> {
       kodeController.text = widget.barang.sku;
       namaController.text = widget.barang.namaBarang;
       hargaJualController.text = widget.barang.hargaJual.toString();
-      satuanController.text = widget.barang.satuanModel.nama;
-      kategoriController.text = widget.barang.categoryModel.nama;
+      satuanController.text = widget.barang.satuanModel?.nama ?? '';
+      kategoriController.text = widget.barang.categoryModel?.nama ?? '';
 
       setState(() {
         id_barang = widget.barang.id;
@@ -76,8 +75,8 @@ class BarangUpdateState extends State<BarangUpdate> {
         nama = widget.barang.namaBarang;
         imgUrl = widget.barang.imgUrl;
         hargaJual = widget.barang.hargaJual.toString();
-        category = widget.barang.categoryModel;
-        satuan = widget.barang.satuanModel;
+        category = widget.barang.categoryModel ?? CategoryModel(id: '', nama: '', aktif: false, created_at: '');
+        satuan = widget.barang.satuanModel ?? SatuanModel(id: '', nama: '', aktif: false, created_at: '');
 
         loading = false;
       });
@@ -109,19 +108,17 @@ class BarangUpdateState extends State<BarangUpdate> {
 
   void getPicture() async {
     File image = await getPhoto();
-    if (image != null) {
-      DebugHelper.debugPrint('image.toString()');
-      setState(() {
-        imgLocal = image;
-      });
-    }
+    DebugHelper.debugPrint('image.toString()');
+    setState(() {
+      imgLocal = image;
+    });
   }
 
   void updateBarang() async {
-    _formKey.currentState.save();
-    if (_formKey.currentState.validate()) {
+    _formKey.currentState?.save();
+    if (_formKey.currentState?.validate() ?? false) {
       DebugHelper.debugPrint('category --> ${category.nama}, satuan --> ${satuan.nama}');
-      if (category == null || satuan == null) {
+      if (satuan == null) {
         showDialog(
             context: context,
             barrierDismissible: false,
@@ -148,7 +145,7 @@ class BarangUpdateState extends State<BarangUpdate> {
         try {
           http.MultipartRequest request = http.MultipartRequest(
               'POST', Uri.parse('$apiUrlKasir/master/barang/update'));
-          request.headers['authorization'] = bloc.token.valueWrapper?.value;
+          request.headers['authorization'] = bloc.token.valueWrapper?.value ?? '';
 
           request.fields['id_barang'] = id_barang;
           request.fields['sku'] = kodeBarang;
@@ -156,10 +153,8 @@ class BarangUpdateState extends State<BarangUpdate> {
           request.fields['harga_jual'] = hargaJual;
           request.fields['id_kategori'] = category.id;
           request.fields['id_satuan'] = satuan.id;
-          if (imgLocal != null) {
-            request.files.add(
-                await http.MultipartFile.fromPath('imgUrl', imgLocal.path));
-          }
+          request.files.add(
+              await http.MultipartFile.fromPath('imgUrl', imgLocal.path));
 
           http.StreamedResponse response = await request.send();
           Map<String, dynamic> responseData =
@@ -298,14 +293,15 @@ class BarangUpdateState extends State<BarangUpdate> {
                           color: Colors.red,
                         ),
                       ),
-                      validator: (String value) {
+                      validator: (String? value) {
                         if (value == "") {
                           return "kode barang tidak boleh kosong";
                         }
+                        return null;
                       },
-                      onSaved: (String value) {
+                      onSaved: (String? value) {
                         setState(() {
-                          kodeBarang = value;
+                          kodeBarang = value ?? '';
                         });
                       }),
                 ),
@@ -338,14 +334,15 @@ class BarangUpdateState extends State<BarangUpdate> {
                     color: Colors.red,
                   ),
                 ),
-                validator: (String value) {
+                validator: (String? value) {
                   if (value == "") {
                     return "nama barang tidak boleh kosong";
                   }
+                  return null;
                 },
-                onSaved: (String value) {
+                onSaved: (String? value) {
                   setState(() {
-                    nama = value;
+                    nama = value ?? '';
                   });
                 }),
             SizedBox(height: 10.0),
@@ -358,14 +355,15 @@ class BarangUpdateState extends State<BarangUpdate> {
                   ),
                 ),
                 keyboardType: TextInputType.number,
-                validator: (String value) {
+                validator: (String? value) {
                   if (value == "") {
                     return "harga jual tidak boleh kosong";
                   }
+                  return null;
                 },
-                onSaved: (String value) {
+                onSaved: (String?  value) {
                   setState(() {
-                    hargaJual = value;
+                    hargaJual = value ?? '';
                   });
                 }),
             SizedBox(height: 10.0),
@@ -436,7 +434,7 @@ class BarangUpdateState extends State<BarangUpdate> {
           decoration: BoxDecoration(
               border: Border.all(color: Colors.grey, width: 2),
               borderRadius: BorderRadius.circular(8)),
-          child: imgLocal == null
+          child: imgLocal == File('')
               ? imgUrl == ""
                   ? Center(
                       child: Text(

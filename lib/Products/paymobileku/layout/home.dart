@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -41,7 +40,7 @@ class _PakeAjaHomeState extends State<PakeAjaHome> {
 
     http.Response response = await http.get(
         Uri.parse('$apiUrl/market/category'),
-        headers: {'Authorization': bloc.token.valueWrapper?.value});
+        headers: {'Authorization': bloc.token.valueWrapper!.value});
 
     if (response.statusCode == 200) {
       List<dynamic> datas = json.decode(response.body)['data'];
@@ -55,7 +54,7 @@ class _PakeAjaHomeState extends State<PakeAjaHome> {
     try {
       http.Response response = await http.get(
           Uri.parse('$apiUrl/market/products'),
-          headers: {'Authorization': bloc.token.valueWrapper?.value});
+          headers: {'Authorization': bloc.token.valueWrapper!.value});
 
       if (response.statusCode == 200) {
         List<dynamic> datas = json.decode(response.body)['data'];
@@ -126,7 +125,7 @@ class _PakeAjaHomeState extends State<PakeAjaHome> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          formatRupiah(bloc.user.valueWrapper.value.saldo),
+                          formatRupiah(bloc.user.valueWrapper!.value.saldo),
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
@@ -162,7 +161,7 @@ class _PakeAjaHomeState extends State<PakeAjaHome> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          formatRupiah(bloc.user.valueWrapper.value.komisi),
+                          formatRupiah(bloc.user.valueWrapper!.value.komisi),
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
@@ -235,7 +234,7 @@ class _PakeAjaHomeState extends State<PakeAjaHome> {
           ),
           InkWell(
             onTap: () async {
-              return Navigator.of(context).push(
+               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (_) => TransferOptionPage(),
                 ),
@@ -279,7 +278,7 @@ class _PakeAjaHomeState extends State<PakeAjaHome> {
                 ),
               ),
               subtitle: Text(
-                formatNumber(bloc.user.valueWrapper.value.poin) + ' Pts',
+                formatNumber(bloc.user.valueWrapper!.value.poin) + ' Pts',
                 style: TextStyle(
                   fontSize: 14,
                   color: Colors.black,
@@ -320,8 +319,8 @@ class _PakeAjaHomeState extends State<PakeAjaHome> {
         ),
       ),
       child: Marquee(
-        text: configAppBloc.info.valueWrapper.value.marquee != null
-            ? configAppBloc.info.valueWrapper.value.marquee.message
+        text: configAppBloc.info.valueWrapper!.value.marquee != null
+            ? configAppBloc.info.valueWrapper!.value.marquee.message
             : 'SEPUTAR INFO : Selalu waspada terhadap segala bentuk PENIPUAN, pihak kami tidak pernah telp / meminta kode OTP apapun. Biasakan SAVE kontak kami 08980000073 atau bisa ke LIVECHAT',
         style: TextStyle(color: Colors.white),
         blankSpace: 100,
@@ -417,7 +416,9 @@ class _PakeAjaHomeState extends State<PakeAjaHome> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          badgeColor: Colors.white,
+                          badgeStyle: BadgeModule.BadgeStyle(
+                            badgeColor: Colors.white,
+                          ),
                         );
                       },
                     ),
@@ -441,7 +442,7 @@ class _PakeAjaHomeState extends State<PakeAjaHome> {
                 ),
               );
 
-            if (snapshot.data.length == 0)
+            if (snapshot.data?.length == 0)
               return Container(
                 width: double.infinity,
                 padding: EdgeInsets.all(10),
@@ -457,10 +458,10 @@ class _PakeAjaHomeState extends State<PakeAjaHome> {
               height: ((MediaQuery.of(context).size.width - 60) * .25) * 1.5,
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
-                itemCount: snapshot.data.length,
+                itemCount: snapshot.data?.length ?? 0,
                 separatorBuilder: (_, i) => SizedBox(width: 10),
                 itemBuilder: (ctx, i) {
-                  ProdukMarket produk = snapshot.data[i];
+                  ProdukMarket produk = snapshot.data![i];
 
                   return AspectRatio(
                     aspectRatio: 1 / 1.5,
@@ -591,7 +592,7 @@ class _PakeAjaHomeState extends State<PakeAjaHome> {
         //   ),
         // ),
         SizedBox(height: 20.0),
-        RewardComponent(),
+        RewardComponent(height: 200),
         SizedBox(height: 50.0)
       ],
     );
@@ -624,7 +625,7 @@ class _PakeAjaHomeState extends State<PakeAjaHome> {
                 ),
               );
 
-            if (snapshot.data.length == 0)
+            if (snapshot.data?.length == 0)
               return Container(
                 width: double.infinity,
                 padding: EdgeInsets.all(10),
@@ -638,7 +639,7 @@ class _PakeAjaHomeState extends State<PakeAjaHome> {
             return GridView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
-              itemCount: snapshot.data.length,
+              itemCount: snapshot.data?.length ?? 0,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 4,
                 childAspectRatio: 1 / 1.5,
@@ -646,7 +647,7 @@ class _PakeAjaHomeState extends State<PakeAjaHome> {
                 mainAxisSpacing: 10,
               ),
               itemBuilder: (buildContext, i) {
-                CategoryModel cat = snapshot.data[i];
+                CategoryModel cat = snapshot.data![i];
 
                 return InkWell(
                   onTap: () => Navigator.of(context).push(
@@ -711,7 +712,7 @@ class _PakeAjaHomeState extends State<PakeAjaHome> {
         http.Response response = await http.get(
           Uri.parse('$apiUrl/user/info'),
           headers: {
-            'Authorization': bloc.token.valueWrapper?.value,
+            'Authorization': bloc.token.valueWrapper!.value,
           },
         );
 
@@ -731,11 +732,11 @@ class _PakeAjaHomeState extends State<PakeAjaHome> {
           MenuDepan(grid: 5, baris: 3, gradient: true),
           // marquee(),
           // SizedBox(height: 3),
-          configAppBloc.isMarketplace.valueWrapper.value
+          configAppBloc.isMarketplace.valueWrapper!.value
               ? listProducts()
               : SizedBox(height: 0.0),
           SizedBox(height: 10),
-          configAppBloc.isMarketplace.valueWrapper.value
+          configAppBloc.isMarketplace.valueWrapper!.value
               ? InkWell(
                   onTap: () => Navigator.of(context)
                       .push(MaterialPageRoute(builder: (_) => BelanjaPage())),

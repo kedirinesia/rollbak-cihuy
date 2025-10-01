@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '60ad2bec8065a94e9bc7ebe4';
 
@@ -6,7 +5,7 @@ const namaApp = 'U-Pay';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.upay.app';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

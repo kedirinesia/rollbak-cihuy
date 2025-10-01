@@ -1,4 +1,3 @@
-// @dart=2.9
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
@@ -40,7 +39,7 @@ class WatermarkNetworkLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (logoUrl == null || logoUrl.isEmpty) return SizedBox();
+    if (logoUrl.isEmpty) return SizedBox();
     return LayoutBuilder(
       builder: (ctx, constraints) {
         final rows = (constraints.maxHeight / (size * 1.5)).ceil();
@@ -110,7 +109,7 @@ class _PrintPreviewState extends PrintPreviewController {
   void initState() {
     super.initState();
 
-    if (widget.trx.print == null || widget.trx.print.isEmpty) {
+    if (widget.trx.print.isEmpty) {
       trxData = widget.trx;
       harga = trxData.harga_jual ?? 0;
       admin = trxData.admin ?? 0;
@@ -119,10 +118,10 @@ class _PrintPreviewState extends PrintPreviewController {
       txtAdmin.text = admin.toString();
       loadEditHargaLokal();
       labelHarga =
-          (trxData.produk != null && trxData.produk['kode_produk'] == 'MUTASI')
+          (trxData.produk['kode_produk'] == 'MUTASI')
               ? 'Nominal'
               : 'Harga';
-      showSN = trxData.sn != null && trxData.sn.isNotEmpty;
+      showSN = trxData.sn.isNotEmpty;
       DebugHelper.debugPrint('labelHarga.toString()');
       setState(() {});
     } else {
@@ -137,15 +136,13 @@ class _PrintPreviewState extends PrintPreviewController {
     image = await File('${temp.path}/trx_${widget.trx.id}.png').create();
     Uint8List bytes = await _screenshotController.capture(
         pixelRatio: 2.5, delay: Duration(milliseconds: 100));
-    if (bytes != null) {
-      await image.writeAsBytes(bytes);
-      await Share.file(
-        'Transaksi ${widget.trx.produk != null ? widget.trx.produk['nama'] : ''}',
-        'trx_${widget.trx.id}.png',
-        bytes,
-        'image/png',
-      );
-    }
+    await image.writeAsBytes(bytes);
+    await Share.file(
+      'Transaksi ${widget.trx.produk != null ? widget.trx.produk['nama'] : ''}',
+      'trx_${widget.trx.id}.png',
+      bytes,
+      'image/png',
+    );
   }
 
   Future<void> simpanEditHarga() async {
@@ -257,7 +254,7 @@ class _PrintPreviewState extends PrintPreviewController {
           styles: PosStyles(underline: true), linesAfter: 1);
 
       final isMutasi =
-          (trxData.produk != null && trxData.produk['kode_produk'] == 'MUTASI');
+          (trxData.produk['kode_produk'] == 'MUTASI');
       if (isMutasi) {
         // Mutasi/transfer
         bytes += generator.row([
@@ -274,7 +271,7 @@ class _PrintPreviewState extends PrintPreviewController {
               width: 6,
               styles: PosStyles(align: PosAlign.right)),
         ]);
-        trxData.print?.forEach((el) {
+        trxData.print.forEach((el) {
           bytes += generator.row([
             PosColumn(text: el['label'] ?? '-', width: 6),
             PosColumn(
@@ -320,7 +317,7 @@ class _PrintPreviewState extends PrintPreviewController {
               width: 6,
               styles: PosStyles(align: PosAlign.right)),
         ]);
-        trxData.print?.forEach((el) {
+        trxData.print.forEach((el) {
           bytes += generator.row([
             PosColumn(text: el['label'] ?? '-', width: 6),
             PosColumn(
@@ -329,7 +326,7 @@ class _PrintPreviewState extends PrintPreviewController {
                 styles: PosStyles(align: PosAlign.right)),
           ]);
         });
-        if (showSN && (trxData.sn != null && trxData.sn.isNotEmpty)) {
+        if (showSN && (trxData.sn.isNotEmpty)) {
           bytes += generator.text('SN: ${trxData.sn}',
               styles: PosStyles(align: PosAlign.center, bold: true),
               linesAfter: 1);
@@ -403,7 +400,7 @@ class _PrintPreviewState extends PrintPreviewController {
               Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                   builder: (_) =>
-                      configAppBloc.layoutApp?.valueWrapper?.value['home'] ??
+                      configAppBloc.layoutApp.valueWrapper?.value['home'] ??
                       templateConfig[
                           configAppBloc.templateCode.valueWrapper?.value],
                 ),
@@ -502,7 +499,7 @@ class _PrintPreviewState extends PrintPreviewController {
                                   ),
                                   Expanded(
                                     child: Text(
-                                      "TrxID : ${trxData.id?.toUpperCase()}",
+                                      "TrxID : ${trxData.id.toUpperCase()}",
                                       textAlign: TextAlign.right,
                                       style: TextStyle(
                                           color: Colors.grey[600],
@@ -541,31 +538,27 @@ class _PrintPreviewState extends PrintPreviewController {
                                         : Icons.cancel,
                               ),
                               buildRow(
-                                (trxData.produk != null &&
-                                        trxData.produk['kode_produk'] ==
+                                (trxData.produk['kode_produk'] ==
                                             'MUTASI')
                                     ? 'Jenis'
                                     : "Jenis Transaksi",
                                 trxData.produk['nama'] ?? '-',
                               ),
                               buildRow(
-                                (trxData.produk != null &&
-                                        trxData.produk['kode_produk'] ==
+                                (trxData.produk['kode_produk'] ==
                                             'MUTASI')
                                     ? 'Keterangan'
                                     : "Nomor",
                                 trxData.tujuan ?? '-',
                               ),
                               buildRow(
-                                (trxData.produk != null &&
-                                        trxData.produk['kode_produk'] ==
+                                (trxData.produk['kode_produk'] ==
                                             'MUTASI')
                                     ? 'Nominal'
                                     : labelHarga,
                                 formatRupiah(harga),
                               ),
-                              if (!(trxData.produk != null &&
-                                  trxData.produk['kode_produk'] == 'MUTASI'))
+                              if (!(trxData.produk['kode_produk'] == 'MUTASI'))
                                 buildRow("Admin", formatRupiah(admin)),
                               trxData.print != null
                                   ? Column(
@@ -684,7 +677,7 @@ class _PrintPreviewState extends PrintPreviewController {
                                       labelText: labelHarga,
                                       prefixText: 'Rp '),
                                   onChanged: (value) => setState(() {
-                                        if (value == null || value.isEmpty) {
+                                        if (value.isEmpty) {
                                           harga = 0;
                                           total = 0 + admin + cetak;
                                         } else {
@@ -701,7 +694,7 @@ class _PrintPreviewState extends PrintPreviewController {
                                       labelText: 'Admin',
                                       prefixText: 'Rp '),
                                   onChanged: (value) => setState(() {
-                                        if (value == null || value.isEmpty) {
+                                        if (value.isEmpty) {
                                           admin = 0;
                                           total = harga + 0 + cetak;
                                         } else {

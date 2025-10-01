@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:async';
 import 'dart:convert';
@@ -24,7 +23,6 @@ import 'package:mobile/provider/analitycs.dart';
 // SCREEN
 import 'package:mobile/screen/select_state/barang.dart';
 import 'package:mobile/screen/select_state/supplier.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class PersediaanAdd extends StatefulWidget {
   @override
@@ -43,8 +41,8 @@ class PersediaanAddState extends State<PersediaanAdd> {
   String stock = "";
   String hargaBeli = "";
   String keterangan = "";
-  BarangModel barang;
-  SupplierModel supplier;
+  BarangModel barang = BarangModel(id: '', sku: '', namaBarang: '', imgUrl: '', hargaJual: 0, aktif: false, created_at: '');
+  SupplierModel supplier = SupplierModel(id: '', nama: '', email: '', telp: '', alamat: '', aktif: false, saldoHutang: 0, created_at: '');
 
   int page = 0;
   int radioValue = 0; // --> [0] tambah, [1] kurang
@@ -67,7 +65,7 @@ class PersediaanAddState extends State<PersediaanAdd> {
       if (isEdge) return;
       http.Response response = await http
           .get(Uri.parse('$apiUrlKasir/persediaan/get?page=$page'), headers: {
-        'authorization': bloc.token.valueWrapper?.value,
+        'authorization': bloc.token.valueWrapper?.value ?? '',
       });
 
       String message = json.decode(response.body)['message'] ??
@@ -161,10 +159,10 @@ class PersediaanAddState extends State<PersediaanAdd> {
 
   void saveProduk() async {
     int stokPersediaan = 0;
-    persediaans.forEach((e) => stokPersediaan = e.stock);
+    persediaans.forEach((e) => stokPersediaan = e.stock ?? 0);
 
-    _formKey.currentState.save();
-    if (_formKey.currentState.validate()) {
+    _formKey.currentState?.save();
+    if (_formKey.currentState?.validate() ?? false) {
       if (int.parse(stock) > 100000) {
         return showDialog(
             context: context,
@@ -226,7 +224,7 @@ class PersediaanAddState extends State<PersediaanAdd> {
             await http.post(Uri.parse('$apiUrlKasir/persediaan/addProduct'),
                 headers: {
                   'Content-Type': 'application/json',
-                  'authorization': bloc.token.valueWrapper?.value,
+                  'authorization': bloc.token.valueWrapper?.value ?? '',
                 },
                 body: json.encode(dataToSend));
 
@@ -363,14 +361,15 @@ class PersediaanAddState extends State<PersediaanAdd> {
                   ),
                 ),
                 keyboardType: TextInputType.number,
-                validator: (String value) {
+                validator: (String? value) {
                   if (value == "") {
                     return "stok tidak boleh kosong";
                   }
+                  return null;
                 },
-                onSaved: (String value) {
+                onSaved: (String? value) {
                   setState(() {
-                    stock = value;
+                    stock = value ?? '';
                   });
                 }),
             SizedBox(height: 20.0),
@@ -385,14 +384,15 @@ class PersediaanAddState extends State<PersediaanAdd> {
                   ),
                 ),
                 keyboardType: TextInputType.number,
-                validator: (String value) {
+                validator: (String? value) {
                   if (value == "") {
                     return "harga beli tidak boleh kosong";
                   }
+                  return null;
                 },
-                onSaved: (String value) {
+                onSaved: (String? value) {
                   setState(() {
-                    hargaBeli = value;
+                    hargaBeli = value ?? '';
                   });
                 }),
             SizedBox(height: 20.0),
@@ -404,10 +404,11 @@ class PersediaanAddState extends State<PersediaanAdd> {
                 border: OutlineInputBorder(),
                 labelText: 'Barang',
               ),
-              validator: (String value) {
+              validator: (String? value) {
                 if (value == "") {
                   return "barang tidak boleh kosong";
                 }
+                return null;
               },
               onTap: () async {
                 BarangModel response = await Navigator.of(context).push(
@@ -430,10 +431,11 @@ class PersediaanAddState extends State<PersediaanAdd> {
                 border: OutlineInputBorder(),
                 labelText: 'Supplier',
               ),
-              validator: (String value) {
+              validator: (String?  value) {
                 if (value == "") {
                   return "supplier tidak boleh kosong";
                 }
+                return null;
               },
               onTap: () async {
                 SupplierModel response = await Navigator.of(context).push(

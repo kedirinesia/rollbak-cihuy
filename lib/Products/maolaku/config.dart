@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '5f4b31eb689dcc3d0f826e8b';
 
@@ -6,7 +5,7 @@ const namaApp = 'Maolaku Pay';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.maolaku.payment';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

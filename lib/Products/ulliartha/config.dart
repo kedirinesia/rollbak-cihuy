@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '5f6db4012489782d99f56a9c';
 
@@ -6,7 +5,7 @@ const namaApp = 'Ulli Artha';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.ulliartha.app';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

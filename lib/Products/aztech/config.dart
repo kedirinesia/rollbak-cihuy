@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '61d66b4ea1709e046a8a37e6';
 
@@ -6,7 +5,7 @@ const namaApp = 'Aztech';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.aztech.mobile';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

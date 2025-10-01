@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -31,7 +30,7 @@ abstract class TukarKomisiController extends State<TukarKomisi>
           await http.post(Uri.parse('$apiUrl/komisi/tukar'),
               headers: {
                 'Content-Type': 'application/json',
-                'Authorization': bloc.token.valueWrapper?.value
+                'Authorization': bloc.token.valueWrapper?.value ?? ''
               },
               body: json.encode({'jumlah': int.parse(nominal.text)}));
 

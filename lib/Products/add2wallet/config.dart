@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '621889482549e17b92df2a74';
 
@@ -6,7 +5,7 @@ const namaApp = 'ADD TWO Wallet';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.addtwowallet.mobile';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

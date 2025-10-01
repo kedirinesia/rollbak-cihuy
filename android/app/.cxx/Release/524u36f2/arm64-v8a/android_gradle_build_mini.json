@@ -1,0 +1,20 @@
+{
+  "buildFiles": [
+    "/Users/findigiosdev/Desktop/test ios/ios-flavorin/android/app/src/main/cpp/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/Users/findigiosdev/Library/Android/sdk/cmake/3.18.1/bin/ninja",
+      "-C",
+      "/Users/findigiosdev/Desktop/test ios/ios-flavorin/android/app/.cxx/Release/524u36f2/arm64-v8a",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/Users/findigiosdev/Library/Android/sdk/cmake/3.18.1/bin/ninja",
+    "-C",
+    "/Users/findigiosdev/Desktop/test ios/ios-flavorin/android/app/.cxx/Release/524u36f2/arm64-v8a",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {}
+}

@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -22,7 +21,7 @@ class _TopupVAState extends VAController {
     super.initState();
     DebugHelper.debugPrint('🔍 [TOPUP VA] initState called');
     DebugHelper.debugPrint('🔍 [TOPUP VA] User ID: ${bloc.userId.valueWrapper?.value}');
-    
+
     var analyticsData = {
       'userId': bloc.userId.valueWrapper?.value,
       'title': 'Virtual Account',
@@ -110,10 +109,10 @@ class _TopupVAState extends VAController {
                           );
 
                         return ListView.separated(
-                          itemCount: snapshot.data.length,
+                          itemCount: snapshot.data!.length,
                           separatorBuilder: (_, i) => SizedBox(height: 10),
                           itemBuilder: (ctx, i) {
-                            VirtualAccount va = snapshot.data[i];
+                            VirtualAccount va = snapshot.data![i];
 
                             return Container(
                               decoration: BoxDecoration(

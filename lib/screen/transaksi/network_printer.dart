@@ -5,7 +5,6 @@ import 'package:esc_pos_utils/esc_pos_utils.dart';
 import 'package:mobile/bloc/Bloc.dart' show bloc;
 import 'package:mobile/models/trx.dart';
 import 'package:mobile/screen/custom_alert_dialog.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class NetworkPrinter {
   final String ipAddress;
@@ -136,7 +135,7 @@ class _NetworkPrinterPageState extends State<NetworkPrinterPage> {
       
       // Header
       bytes += generator.text(
-        bloc.user.valueWrapper?.value?.namaToko?.isEmpty == true
+        bloc.user.valueWrapper?.value?.namaToko.isEmpty == true
             ? bloc.user.valueWrapper?.value?.nama ?? ''
             : bloc.user.valueWrapper?.value?.namaToko ?? '',
         styles: PosStyles(
@@ -148,7 +147,7 @@ class _NetworkPrinterPageState extends State<NetworkPrinterPage> {
       );
       
       bytes += generator.text(
-        bloc.user.valueWrapper?.value?.alamatToko?.isEmpty == true
+        bloc.user.valueWrapper?.value?.alamatToko.isEmpty == true
             ? bloc.user.valueWrapper?.value?.alamat ?? ''
             : bloc.user.valueWrapper?.value?.alamatToko ?? '',
         styles: PosStyles(

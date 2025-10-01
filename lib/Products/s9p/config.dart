@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '64f55d8647ecc2d294b93139';
 
@@ -6,7 +5,7 @@ const namaApp = 'S9P Payment';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.s9ppayment.mobile';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

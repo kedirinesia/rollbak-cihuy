@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -18,7 +17,6 @@ import 'package:mobile/screen/topup/metode-payment/detail-metode-payment.dart';
 
 import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class MethodPayment extends StatefulWidget {
   final PaymentModel payment;
@@ -47,7 +45,7 @@ class MethodPaymentState extends State<MethodPayment> {
   void getVA() async {
     http.Response response = await http.get(
         Uri.parse('$apiUrl/deposit/virtual-account/list'),
-        headers: {'Authorization': bloc.token.valueWrapper?.value});
+        headers: {'Authorization': bloc.token.valueWrapper?.value ?? ''});
 
     if (response.statusCode == 200) {
       List<dynamic> datas = json.decode(response.body)['data'];
@@ -70,9 +68,9 @@ class MethodPaymentState extends State<MethodPayment> {
       };
 
       http.Response response =
-          await http.post(Uri.parse('$apiUrl/deposit/create-payment'),
+          await http.post(Uri.parse('$apiUrl/deposit/create-payment'),  
               headers: {
-                'Authorization': bloc.token.valueWrapper?.value,
+                'Authorization': bloc.token.valueWrapper?.value ?? '',
                 'Content-Type': 'application/json'
               },
               body: json.encode(dataToSend));

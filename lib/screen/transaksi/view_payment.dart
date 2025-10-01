@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -11,7 +10,6 @@ import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/models/trx.dart';
 import 'package:mobile/models/bank.dart';
 import 'package:mobile/provider/analitycs.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class ViewPaymentTrx extends StatefulWidget {
   final TrxModel trx;
@@ -37,7 +35,7 @@ class ViewPaymentTrxState extends State<ViewPaymentTrx> {
   Future<void> getBank() async {
     http.Response response = await http.get(
         Uri.parse('$apiUrl/bank/list?type=1'),
-        headers: {'Authorization': bloc.token.valueWrapper?.value});
+        headers: {'Authorization': bloc.token.valueWrapper?.value ?? ''});
     if (response.statusCode == 200) {
       List<dynamic> datas = json.decode(response.body)['data'];
       var banks = datas.map((e) => BankModel.fromJson(e)).toList();

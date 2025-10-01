@@ -1,4 +1,3 @@
-// @dart=2.9
 
 class MetodePaymentModel {
   final String name;
@@ -13,16 +12,16 @@ class MetodePaymentModel {
   final bool status;
 
   MetodePaymentModel({
-    this.name,
-    this.paymentMethod,
-    this.paymentID,
-    this.paymentCode,
-    this.paymentImg,
-    this.merchantRefId,
-    this.customerName,
-    this.customerPhone,
-    this.customerEmail,
-    this.status,
+    required    this.name,
+    required  this.paymentMethod,
+    required this.paymentID,
+    required this.paymentCode,
+    required this.paymentImg,
+    required this.merchantRefId,
+    required this.customerName,
+    required    this.customerPhone,
+    required this.customerEmail,
+    required this.status,
   });
 
   factory MetodePaymentModel.fromJson(dynamic json) {

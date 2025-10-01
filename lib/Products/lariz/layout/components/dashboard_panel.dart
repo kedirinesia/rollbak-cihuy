@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:math' as math;
 
@@ -10,7 +9,6 @@ import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/screen/history/history.dart';
 import 'package:mobile/Products/lariz/layout/reward/list_reward.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class DashboardPanel extends StatefulWidget {
   const DashboardPanel({Key key}) : super(key: key);

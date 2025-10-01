@@ -1,10 +1,10 @@
-import 'package:division/division.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 abstract class InviteReferalCodeInfoStyle {
-  static ParentStyle wrapper = ParentStyle()
-    ..padding(all: 10)
-    ..background.color(Colors.white)
-    ..borderRadius(all: 13);
+  static BoxDecoration wrapperDecoration = BoxDecoration(
+    color: Colors.white,
+    borderRadius: BorderRadius.circular(13),
+  );
+
+  static EdgeInsets wrapperPadding = const EdgeInsets.all(10);
 }

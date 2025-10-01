@@ -1,7 +1,5 @@
-// @dart=2.9
 
 import 'package:mobile/Products/emobile/layout/main.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 String sigVendor = '5f964bb2e355c61014abc79c';
 
@@ -9,7 +7,7 @@ const namaApp = 'E-mobile';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'id.emobile.app';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 4;
 String gaId = '';

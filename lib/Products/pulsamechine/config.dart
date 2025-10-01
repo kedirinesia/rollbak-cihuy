@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '622a38f0b8bb213ffc129ed9';
 
@@ -6,7 +5,7 @@ const namaApp = 'Pulsa Mechine';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.pulsamechine.mobile';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

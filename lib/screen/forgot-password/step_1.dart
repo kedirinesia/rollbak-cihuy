@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -10,7 +9,6 @@ import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/screen/forgot-password/step_2.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class StepOneForgotPIN extends StatefulWidget {
   @override
@@ -121,7 +119,7 @@ class _StepOneForgotPINState extends State<StepOneForgotPIN> {
                     textTheme: ButtonTextTheme.primary,
                     child: ElevatedButton(
                       style: ButtonStyle(
-                          backgroundColor: MaterialStatePropertyAll(
+                          backgroundColor: WidgetStatePropertyAll(
                               Theme.of(context).primaryColor)),
                       child: Text('Kirim Kode'),
                       onPressed: () => login(),

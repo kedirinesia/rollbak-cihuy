@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -8,7 +7,6 @@ import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/models/mp_kurir.dart';
 import 'package:http/http.dart' as http;
-import 'package:mobile/utils/debug_helper.dart';
 
 class ListKurirPage extends StatefulWidget {
   @override
@@ -20,7 +18,7 @@ class _ListKurirPageState extends State<ListKurirPage> {
     try {
       http.Response response = await http.get(
           Uri.parse('$apiUrl/market/courier'),
-          headers: {'Authorization': bloc.token.valueWrapper?.value});
+          headers: {'Authorization': bloc.token.valueWrapper?.value ?? ''});
 
       if (response.statusCode == 200) {
         List<dynamic> datas = json.decode(response.body)['data'];
@@ -56,9 +54,9 @@ class _ListKurirPageState extends State<ListKurirPage> {
           return ListView.separated(
             padding: EdgeInsets.all(15),
             separatorBuilder: (_, i) => SizedBox(height: 10),
-            itemCount: snapshot.data.length,
+            itemCount: snapshot.data?.length ?? 0,
             itemBuilder: (ctx, i) {
-              MPKurir kurir = snapshot.data[i];
+              MPKurir kurir = snapshot.data?[i] ?? MPKurir(id: '', name: '', description: '', thumbnail: '', code: '', active: false);
 
               return Container(
                 decoration: BoxDecoration(

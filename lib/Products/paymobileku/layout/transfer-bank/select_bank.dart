@@ -1,4 +1,3 @@
-// @dart=2.9
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -6,10 +5,9 @@ import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/models/wd_bank.dart';
 import 'package:http/http.dart' as http;
-import 'package:mobile/utils/debug_helper.dart';
 
 class SelectBankPage extends StatefulWidget {
-  const SelectBankPage({Key key}) : super(key: key);
+  const SelectBankPage({Key? key}) : super(key: key);
 
   @override
   State<SelectBankPage> createState() => _SelectBankPageState();
@@ -29,7 +27,7 @@ class _SelectBankPageState extends State<SelectBankPage> {
     http.Response response = await http.get(
       Uri.parse('$apiUrl/wd/bank/list'),
       headers: {
-        'Authorization': bloc.token.valueWrapper.value,
+        'Authorization': bloc.token.valueWrapper! .value,
       },
     );
 

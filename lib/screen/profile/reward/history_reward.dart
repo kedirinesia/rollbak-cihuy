@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -14,7 +13,6 @@ import 'package:mobile/provider/analitycs.dart';
 
 import '../../../bloc/Api.dart';
 import '../../../modules.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class HistoryReward extends StatefulWidget {
   @override
@@ -48,7 +46,7 @@ abstract class HistoryRewardController extends State<HistoryReward> {
 
   void getData() async {
     http.Response response = await http.get(Uri.parse('$apiUrl/reward/history'),
-        headers: {'Authorization': bloc.token.valueWrapper?.value});
+        headers: {'Authorization': bloc.token.valueWrapper?.value ?? ''});
     if (response.statusCode == 200) {
       List<dynamic> datas = json.decode(response.body)['data'];
       histories.clear();

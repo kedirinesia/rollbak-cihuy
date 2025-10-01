@@ -1,4 +1,3 @@
-// @dart=2.9
 import 'dart:math' as math;
 import 'dart:typed_data';
 import 'dart:io';
@@ -19,7 +18,6 @@ import 'package:mobile/modules.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../bloc/Bloc.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class WatermarkNetworkLogo extends StatelessWidget {
   final String logoUrl;
@@ -37,7 +35,7 @@ class WatermarkNetworkLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (logoUrl == null || logoUrl.isEmpty) return SizedBox();
+    if (logoUrl.isEmpty) return SizedBox();
     return LayoutBuilder(
       builder: (ctx, constraints) {
         final rows = (constraints.maxHeight / (size * 1.5)).ceil();
@@ -135,15 +133,13 @@ class _CetakMutasiPageState extends State<CetakMutasiPage> {
       pixelRatio: 2.5,
       delay: Duration(milliseconds: 100),
     );
-    if (bytes != null) {
-      await image.writeAsBytes(bytes);
-      await Share.file(
-        'Struk Mutasi',
-        'mutasi_${widget.mutasi.id}.png',
-        bytes,
-        'image/png',
-      );
-    }
+    await image.writeAsBytes(bytes);
+    await Share.file(
+      'Struk Mutasi',
+      'mutasi_${widget.mutasi.id}.png',
+      bytes,
+      'image/png',
+    );
   }
 
   Future<void> startPrint() async {
@@ -192,7 +188,7 @@ class _CetakMutasiPageState extends State<CetakMutasiPage> {
       // Ambil data toko dari BLoC
       final toko = bloc.user.valueWrapper.value;
       final namaToko =
-          toko.namaToko?.isNotEmpty == true ? toko.namaToko : toko.nama;
+          toko.namaToko.isNotEmpty == true ? toko.namaToko : toko.nama;
       final alamatToko = toko.alamat ?? '-';
 
       // Header
@@ -301,7 +297,7 @@ class _CetakMutasiPageState extends State<CetakMutasiPage> {
               Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                   builder: (_) =>
-                      configAppBloc.layoutApp?.valueWrapper?.value['home'] ??
+                      configAppBloc.layoutApp.valueWrapper?.value['home'] ??
                       templateConfig[
                           configAppBloc.templateCode.valueWrapper?.value],
                 ),
@@ -368,7 +364,7 @@ class _CetakMutasiPageState extends State<CetakMutasiPage> {
                               ),
                               SizedBox(height: 6),
                               Text(
-                                widget.mutasi.id?.toUpperCase() ?? '-',
+                                widget.mutasi.id.toUpperCase() ?? '-',
                                 style: TextStyle(
                                   color: Colors.grey[700],
                                   fontSize: 13,

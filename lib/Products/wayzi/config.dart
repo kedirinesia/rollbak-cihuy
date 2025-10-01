@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '5f56756cbaaf5c30f4fa2f8b';
 
@@ -6,7 +5,7 @@ const namaApp = 'Wayzi';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.payuni.wayzi';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

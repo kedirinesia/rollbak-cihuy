@@ -1,4 +1,3 @@
-// @dart=2.9
 
 class VirtualAccount {
   final String name;
@@ -8,13 +7,13 @@ class VirtualAccount {
   final int fee;
 
   VirtualAccount(
-      {this.name, this.code, this.description, this.provider, this.fee});
+      {required this.name, required this.code, required this.description, required this.provider, required this.fee});
 
   factory VirtualAccount.fromJson(dynamic json) => VirtualAccount(
-      name: json['vaname'],
-      code: json['vacode'],
-      description: json['desc'],
-      provider: json['provider'],
+      name: json['vaname'] ?? '',
+      code: json['vacode'] ?? '',
+      description: json['desc'] ?? '',
+      provider: json['provider'] ?? '',
       fee: json['fee'] ?? 0);
 }
 
@@ -29,24 +28,24 @@ class VirtualAccountResponse {
   final String expiredAt;
 
   VirtualAccountResponse(
-      {this.va,
-      this.channel,
-      this.fee,
-      this.amount,
-      this.totalAmount,
-      this.name,
-      this.description,
-      this.expiredAt});
+      {required   this.va,
+      required this.channel,
+      required this.fee,
+      required this.amount,
+      required this.totalAmount,
+      required this.name,
+      required this.description,
+      required this.expiredAt});
 
   factory VirtualAccountResponse.fromJson(dynamic json) =>
       VirtualAccountResponse(
-        va: json['va'],
-        channel: json['channel'],
+        va: json['va'] ?? '',
+        channel: json['channel'] ?? '',
         fee: json['fee'] ?? 0,
         amount: json['nominal'] ?? 0,
         totalAmount: json['totalBayar'] ?? 0,
         name: json['displayName'] ?? '',
-        description: json['keterangan'],
-        expiredAt: json['expired'],
+        description: json['keterangan'] ?? '',
+        expiredAt: json['expired'] ?? '',
       );
 }

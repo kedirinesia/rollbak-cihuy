@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:async';
 import 'dart:convert';
@@ -17,7 +16,6 @@ import 'package:mobile/screen/profile/downline/downline.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
 import '../../../bloc/Bloc.dart' show bloc;
-import 'package:mobile/utils/debug_helper.dart';
 
 abstract class DownlineController extends State<Downline>
     with TickerProviderStateMixin {
@@ -31,8 +29,8 @@ abstract class DownlineController extends State<Downline>
 
   @override
   void initState() {
-    if (configAppBloc.autoReload.valueWrapper?.value) {
-      Timer.periodic(new Duration(seconds: 1), (timer) => getData());
+    if (configAppBloc.autoReload.valueWrapper?.value ?? false) {
+        Timer.periodic(new Duration(seconds: 1), (timer) => getData());
     } else {
       getData();
     }
@@ -56,7 +54,7 @@ abstract class DownlineController extends State<Downline>
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {
-        'Authorization': bloc.token.valueWrapper?.value,
+        'Authorization': bloc.token.valueWrapper?.value ?? '',
       },
     );
 
@@ -88,7 +86,7 @@ abstract class DownlineController extends State<Downline>
     http.Response response = await http.post(
       Uri.parse('$apiUrl/user/downline/edit-up'),
       headers: {
-        'Authorization': bloc.token.valueWrapper?.value,
+        'Authorization': bloc.token.valueWrapper?.value ?? '',
         'Content-Type': 'application/json',
       },
       body: json.encode(

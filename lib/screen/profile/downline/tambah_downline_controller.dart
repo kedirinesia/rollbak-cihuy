@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -11,7 +10,6 @@ import '../../../bloc/Bloc.dart' show bloc;
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/screen/profile/downline/tambah_downline.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 abstract class TambahDownlineController extends State<TambahDownline>
     with TickerProviderStateMixin {
@@ -27,9 +25,9 @@ abstract class TambahDownlineController extends State<TambahDownline>
   TextEditingController provinsiText = TextEditingController();
   TextEditingController kotaText = TextEditingController();
   TextEditingController kecamatanText = TextEditingController();
-  Lokasi provinsi;
-  Lokasi kota;
-  Lokasi kecamatan;
+  late Lokasi provinsi;
+  late Lokasi kota;
+  late Lokasi kecamatan;
   bool loading = false;
 
   Widget loadingWidget() {
@@ -40,7 +38,7 @@ abstract class TambahDownlineController extends State<TambahDownline>
   }
 
   void registerDownline() async {
-    if (!formKey.currentState.validate()) return;
+    if (!formKey.currentState!.validate()) return;
 
     if (pin.text.startsWith('0')) {
       showDialog<String>(

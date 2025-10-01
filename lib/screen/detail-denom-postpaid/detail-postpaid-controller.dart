@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -6,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:mobile/bloc/Api.dart';
-import 'package:mobile/config.dart';
 import 'package:mobile/models/postpaid.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/screen/detail-denom-postpaid/detail-postpaid.dart';
@@ -26,7 +24,7 @@ abstract class DetailDenomPostpaidController extends State<DetailDenomPostpaid>
   bool loading = false;
   bool isChecked = false;
   bool boxFavorite = true;
-  PostpaidInquiryModel inq;
+  late PostpaidInquiryModel inq;
   String menuLogo = '';
 
   // Suggest numbers variables - EKSKLUSIF UNTUK PAYUNIOVO
@@ -98,7 +96,7 @@ abstract class DetailDenomPostpaidController extends State<DetailDenomPostpaid>
       final response = await http.get(
         Uri.parse(apiUrl),
         headers: {
-          'Authorization': bloc.token.valueWrapper?.value,
+          'Authorization': bloc.token.valueWrapper?.value ?? '',
         },
       );
       
@@ -253,7 +251,7 @@ abstract class DetailDenomPostpaidController extends State<DetailDenomPostpaid>
       http.Response response = await http.get(
         Uri.parse('$apiUrl/product/${widget.menu.category_id}'),
         headers: {
-          'Authorization': bloc.token.valueWrapper.value,
+          'Authorization': bloc.token.valueWrapper?.value ?? '',
         },
       );
 
@@ -320,7 +318,7 @@ abstract class DetailDenomPostpaidController extends State<DetailDenomPostpaid>
     http.Response response =
         await http.post(Uri.parse('$apiUrl/trx/postpaid/inquiry'),
             headers: {
-              'Authorization': bloc.token.valueWrapper?.value,
+              'Authorization': bloc.token.valueWrapper?.value ?? '',
               'Content-Type': 'application/json'
             },
             body: json.encode(dataToSend));
@@ -359,47 +357,45 @@ abstract class DetailDenomPostpaidController extends State<DetailDenomPostpaid>
     if (!isChecked) return;
     String pin = await Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => VerifikasiPin()));
-    if (pin != null) {
-      sendDeviceToken();
-      http.Response response =
-          await http.post(Uri.parse('$apiUrl/trx/postpaid/purchase'),
-              headers: {
-                'Authorization': bloc.token.valueWrapper?.value,
-                'Content-Type': 'application/json'
-              },
-              body: json.encode({'tracking_id': inq.trackingId, 'pin': pin}));
-      DebugHelper.debugPrint('response.body.toString()');
-      if (response.statusCode == 200) {
-        PostpaidPurchaseModel data =
-            PostpaidPurchaseModel.fromJson(json.decode(response.body)['data']);
-        // TrxModel trx = TrxModel(id: data.id);
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (_) => DetailPostpaid(data)));
-        // Navigator.of(context).pushReplacement(
-        //     MaterialPageRoute(builder: (_) => DetailTransaksi(trx)));
-      } else {
-        String message = json.decode(response.body)['message'];
-        setState(() {
-          loading = false;
-        });
-        showDialog(
-            context: context,
-            builder: (ctx) => AlertDialog(
-                    title: Text('Pembayaran Gagal'),
-                    content: Text(message),
-                    actions: <Widget>[
-                      TextButton(
-                          child: Text(
-                            'TUTUP',
-                            style: TextStyle(
-                              color: packageName == 'com.lariz.mobile'
-                                  ? Theme.of(context).secondaryHeaderColor
-                                  : Theme.of(context).primaryColor,
-                            ),
+    sendDeviceToken();
+    http.Response response =
+        await http.post(Uri.parse('$apiUrl/trx/postpaid/purchase'),
+            headers: {
+              'Authorization': bloc.token.valueWrapper?.value ?? '',
+              'Content-Type': 'application/json'
+            },
+            body: json.encode({'tracking_id': inq.trackingId, 'pin': pin}));
+    DebugHelper.debugPrint('response.body.toString()');
+    if (response.statusCode == 200) {
+      PostpaidPurchaseModel data =
+          PostpaidPurchaseModel.fromJson(json.decode(response.body)['data']);
+      // TrxModel trx = TrxModel(id: data.id);
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => DetailPostpaid(data)));
+      // Navigator.of(context).pushReplacement(
+      //     MaterialPageRoute(builder: (_) => DetailTransaksi(trx)));
+    } else {
+      String message = json.decode(response.body)['message'];
+      setState(() {
+        loading = false;
+      });
+      showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+                  title: Text('Pembayaran Gagal'),
+                  content: Text(message),
+                  actions: <Widget>[
+                    TextButton(
+                        child: Text(
+                          'TUTUP',
+                          style: TextStyle(
+                            color: packageName == 'com.lariz.mobile'
+                                ? Theme.of(context).secondaryHeaderColor
+                                : Theme.of(context).primaryColor,
                           ),
-                          onPressed: () => Navigator.of(ctx).pop())
-                    ]));
-      }
+                        ),
+                        onPressed: () => Navigator.of(ctx).pop())
+                  ]));
     }
   }
 
@@ -413,7 +409,7 @@ abstract class DetailDenomPostpaidController extends State<DetailDenomPostpaid>
     http.Response response =
         await http.post(Uri.parse('$apiUrl/favorite/checkNumber'),
             headers: {
-              'Authorization': bloc.token.valueWrapper?.value,
+              'Authorization': bloc.token.valueWrapper?.value ?? '',
               'Content-Type': 'application/json',
             },
             body: json.encode(dataToSend));
@@ -483,7 +479,7 @@ abstract class DetailDenomPostpaidController extends State<DetailDenomPostpaid>
       http.Response response =
           await http.post(Uri.parse('$apiUrl/favorite/saveNumber'),
               headers: {
-                'Authorization': bloc.token.valueWrapper?.value,
+                'Authorization': bloc.token.valueWrapper?.value ?? ''   ,
                 'Content-Type': 'application/json',
               },
               body: json.encode(dataToSend));

@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '5fa2613dd33ddf3f31dc3230';
 
@@ -6,7 +5,7 @@ const namaApp = 'Kepo Pay';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.kepopay.mobile';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

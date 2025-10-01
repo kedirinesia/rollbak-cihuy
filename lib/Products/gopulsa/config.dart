@@ -1,4 +1,3 @@
-// @dart=2.9
 //685a32de5fb4c98ea80e8734
 //62c7d4bbe634509753fd61ae
 String sigVendor = '62c7d4bbe634509753fd61ae';
@@ -7,7 +6,7 @@ const namaApp = 'GoPulsa Payment';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'application.gopulsa.mobileapps';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

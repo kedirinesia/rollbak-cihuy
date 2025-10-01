@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -18,7 +17,6 @@ import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
 
 import 'package:mobile/modules.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class LapDetailBeli extends StatefulWidget {
   String idTrx;
@@ -46,7 +44,7 @@ class LapDetailBeliState extends State<LapDetailBeli> {
           Uri.parse(
               '$apiUrlKasir/laporan/pembelian/detail?idTrx=${widget.idTrx}'),
           headers: {
-            'authorization': bloc.token.valueWrapper?.value,
+            'authorization': bloc.token.valueWrapper?.value ?? '',
           });
 
       var responseData = json.decode(response.body);
@@ -185,7 +183,7 @@ class LapDetailBeliState extends State<LapDetailBeli> {
   }
 
   Widget _buildItem(BuildContext context, DetailTrxModel item) {
-    int totalPrice = item.qty * item.hargaBeli;
+    int totalPrice = item.qty! * item.hargaBeli!;
     return Container(
       margin: EdgeInsets.all(10.0),
       padding: EdgeInsets.all(10.0),
@@ -216,7 +214,7 @@ class LapDetailBeliState extends State<LapDetailBeli> {
                 fontWeight: FontWeight.bold,
                 color: Colors.grey.shade700)),
         subtitle: Text(
-            '${item.qty} x ${formatNominal(item.hargaBeli)} = ${formatNominal(totalPrice)}',
+            '${item.qty} x ${formatNominal(item.hargaBeli ?? 0)} = ${formatNominal(totalPrice)}',
             style: TextStyle(fontSize: 12.0, color: Colors.grey.shade700)),
       ),
     );

@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -9,13 +8,12 @@ import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/models/mp_kurir.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/modules.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class ListCourierServicePage extends StatefulWidget {
   final String courierId;
   final String shippingId;
   final int weight;
-  ListCourierServicePage({this.courierId, this.shippingId, this.weight = 100});
+  ListCourierServicePage({required this.courierId, required this.shippingId, this.weight = 100}); 
 
   @override
   _ListCourierServicePageState createState() => _ListCourierServicePageState();
@@ -33,7 +31,7 @@ class _ListCourierServicePageState extends State<ListCourierServicePage> {
       http.Response response =
           await http.post(Uri.parse('$apiUrl/market/courier/service'),
               headers: {
-                'Authorization': bloc.token.valueWrapper?.value,
+                'Authorization': bloc.token.valueWrapper?.value ?? '',
                 'Content-Type': 'application/json'
               },
               body: json.encode(dataToSend));
@@ -77,9 +75,9 @@ class _ListCourierServicePageState extends State<ListCourierServicePage> {
           return ListView.separated(
             padding: EdgeInsets.all(15),
             separatorBuilder: (_, i) => SizedBox(height: 10),
-            itemCount: snapshot.data.length,
+            itemCount: snapshot.data?.length ?? 0,
             itemBuilder: (ctx, i) {
-              MPKurirService service = snapshot.data[i];
+              MPKurirService service = snapshot.data?[i] ?? MPKurirService(service: '', description: '', cost: 0, estimate: '');
 
               return Container(
                 decoration: BoxDecoration(

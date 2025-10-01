@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '62008aedffcd69d4489973c9';
 
@@ -6,7 +5,7 @@ const namaApp = '1TRONIC Indonesia';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.onetronic.mobile';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

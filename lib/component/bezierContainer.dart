@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:math';
 
@@ -6,10 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
 
 import 'customClipper.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class BezierContainer extends StatelessWidget {
-  const BezierContainer({Key key}) : super(key: key);
+  const BezierContainer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

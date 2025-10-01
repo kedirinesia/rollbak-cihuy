@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'dart:async';
@@ -21,7 +20,6 @@ import 'package:mobile/screen/select_state/kecamatan.dart';
 import 'package:mobile/screen/select_state/kota.dart';
 import 'package:mobile/screen/select_state/provinsi.dart';
 import 'package:mobile/screen/text_kapital.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class RegisterUser extends StatefulWidget {
   @override
@@ -44,9 +42,9 @@ class _RegisterUserState extends State<RegisterUser> {
 
   bool loading = false;
 
-  Lokasi provinsi;
-  Lokasi kota;
-  Lokasi kecamatan;
+  late Lokasi provinsi;
+  late Lokasi kota;
+  late Lokasi kecamatan;
   bool isNamaToko = true;
   bool isAlmtToko = true;
   bool isReferalCode = false;
@@ -79,7 +77,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
   Future<void> submitRegister() async {
     if (pin.text.startsWith('0')) {
-      return showDialog<String>(
+       showDialog<String>(
         context: context,
         builder: (BuildContext context) => AlertDialog(
           title: const Text('Gagal'),
@@ -94,13 +92,13 @@ class _RegisterUserState extends State<RegisterUser> {
       );
     }
 
-    if (!_formKey.currentState.validate()) return;
+    if (_formKey.currentState!.validate()) return;
 
     setState(() {
       loading = true;
     });
 
-    String kodeUpline = bloc.kodeUpline.valueWrapper?.value;
+    String kodeUpline = bloc.kodeUpline.valueWrapper?.value ?? '';
 
     Map<String, dynamic> dataToSend = {
       'name': nama.text,
@@ -120,7 +118,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
     if (kodeUpline != null) {
       dataToSend['kode_upline'] = kodeUpline;
-    } else if (kodeUpline == null && brandId != null) {
+    } else if (kodeUpline == null) {
       dataToSend['kode_upline'] = brandId;
     }
 
@@ -190,7 +188,7 @@ class _RegisterUserState extends State<RegisterUser> {
         builder: (_) {
           return AlertDialog(
             title: Text('Registrasi Gagal'),
-            content: Text(e?.toString() ?? 'Terjadi kesalahan pada sistem'),
+            content: Text(e.toString() ?? 'Terjadi kesalahan pada sistem'),
             actions: <Widget>[
               TextButton(
                 onPressed: () =>
@@ -215,7 +213,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
   Widget _imageLogo() {
     return CachedNetworkImage(
-      imageUrl: configAppBloc.iconApp.valueWrapper?.value['logoLogin'],
+      imageUrl: configAppBloc.iconApp.valueWrapper?.value['logoLogin'] ?? '',
       height: MediaQuery.of(context).size.width * .15,
       fit: BoxFit.contain,
     );
@@ -383,7 +381,7 @@ class _RegisterUserState extends State<RegisterUser> {
                         null
                     ? DecorationImage(
                         image: CachedNetworkImageProvider(
-                          configAppBloc.iconApp.valueWrapper?.value['texture'],
+                          configAppBloc.iconApp.valueWrapper?.value['texture'] ?? '',
                         ),
                         fit: BoxFit.fitWidth,
                       )
@@ -405,9 +403,7 @@ class _RegisterUserState extends State<RegisterUser> {
                         padding: EdgeInsets.all(20),
                         children: <Widget>[
                           SizedBox(height: 20),
-                          configAppBloc.iconApp.valueWrapper
-                                      .value['logoLogin'] !=
-                                  null
+                          (configAppBloc.iconApp.valueWrapper?.value['logoLogin'] ?? '') != ''
                               ? _imageLogo()
                               : _title(),
                           SizedBox(
@@ -525,8 +521,8 @@ class _RegisterUserState extends State<RegisterUser> {
 
                               setState(() {
                                 provinsi = lokasi;
-                                kota = null;
-                                kecamatan = null;
+                                kota = Lokasi(id: '', nama: '', kode: '');
+                                kecamatan = Lokasi(id: '', nama: '', kode: '');
 
                                 provinsiText.text = lokasi.nama;
                                 kotaText.clear();
@@ -564,7 +560,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
                               setState(() {
                                 kota = lokasi;
-                                kecamatan = null;
+                                kecamatan = Lokasi(id: '', nama: '', kode: '');
 
                                 kotaText.text = lokasi.nama;
                                 kecamatanText.clear();

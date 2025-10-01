@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '5ebdb9eda5af48034954daf3';
 
@@ -6,7 +5,7 @@ const namaApp = 'MPC PAYMENT';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'co.mpc.id';
-String brandId;
+String brandId = '';
 String copyRight = 'mpc';
 int templateCode = 3;
 String gaId = '';

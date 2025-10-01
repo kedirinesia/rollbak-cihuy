@@ -1,4 +1,3 @@
-// @dart=2.9
 
 class DepositLink {
   String url;
@@ -9,20 +8,20 @@ class DepositLink {
   int saldoMasuk;
 
   DepositLink(
-      {this.url,
-      this.nominal,
-      this.admin,
-      this.fee,
-      this.totalBayar,
-      this.saldoMasuk});
+      {required this.url,
+      required this.nominal,
+      required this.admin,
+      required this.fee,
+      required this.totalBayar,
+      required this.saldoMasuk});
 
   factory DepositLink.fromJson(dynamic json) {
     return DepositLink(
-        url: json['url_payment'],
-        nominal: json['nominal'],
-        admin: json['admin'],
-        fee: json['fee'],
-        totalBayar: json['total_bayar'],
-        saldoMasuk: json['saldo_masuk']);
+        url: json['url_payment'] ?? '',
+        nominal: json['nominal'] ?? 0,
+        admin: json['admin'] ?? 0,
+        fee: json['fee'] ?? 0,
+        totalBayar: json['total_bayar'] ?? 0,
+        saldoMasuk: json['saldo_masuk'] ?? 0);
   }
 }

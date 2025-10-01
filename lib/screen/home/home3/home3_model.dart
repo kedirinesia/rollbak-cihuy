@@ -1,5 +1,4 @@
 
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -8,11 +7,10 @@ import 'package:mobile/config.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_saldo.dart';
 import './home3.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 abstract class Home3Model extends State<Home3App>
     with TickerProviderStateMixin {
-  AnimationController _animationController;
+  late AnimationController _animationController;
 
   bool isTransferBank = false;
 
@@ -67,7 +65,7 @@ abstract class Home3Model extends State<Home3App>
             ),
           ),
         ),
-        bloc.user.valueWrapper?.value.enableWithdraw
+        (bloc.user.valueWrapper?.value.enableWithdraw ?? false)
             ? Container(
                 margin: EdgeInsets.only(right: 20),
                 child: InkWell(
@@ -111,10 +109,8 @@ abstract class Home3Model extends State<Home3App>
             children: <Widget>[
               AnimatedBuilder(
                 animation: _animationController,
-                builder: (BuildContext context, Widget child) {
-                  return AnimatedBuilder(
-                    animation: _animationController,
-                    builder: (context, child) => RotationTransition(
+                builder: (BuildContext context, Widget? child) {
+                  return RotationTransition(
                       turns: _animationController,
                       child: GestureDetector(
                           onTap: () async {
@@ -137,16 +133,14 @@ abstract class Home3Model extends State<Home3App>
                               child: Icon(
                                 Icons.refresh,
                                 color: Colors.white,
-                              ))),
-                    ),
-                  );
+                              ))));
                 },
               ),
               MaterialButton(
                 child: Text(
                   "TOP UP",
                   style: TextStyle(
-                      color: Theme.of(context).buttonColor, fontSize: 12.0),
+                      color: Theme.of(context).primaryColor, fontSize: 12.0),
                 ),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5)),
@@ -196,7 +190,7 @@ abstract class Home3Model extends State<Home3App>
                       ),
                       Expanded(
                           child: Text(
-                        formatNumber(bloc.saldo.valueWrapper?.value),
+                        formatNumber(bloc.saldo.valueWrapper?.value ?? 0),
                         maxLines: 2,
                         textScaleFactor: 1.5,
                         overflow: TextOverflow.ellipsis,
@@ -241,7 +235,7 @@ abstract class Home3Model extends State<Home3App>
               SizedBox(height: 8),
               Text(
                 bloc.username.valueWrapper?.value != null
-                    ? bloc.username.valueWrapper?.value.split(' ')[0]
+                    ? (bloc.username.valueWrapper?.value ?? '').split(' ')[0]
                     : 'Username',
                 style: TextStyle(color: Colors.white),
               )

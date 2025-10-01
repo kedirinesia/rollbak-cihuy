@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);

@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -12,7 +11,6 @@ import 'package:mobile/bloc/Bloc.dart' show bloc;
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/transaksi/verifikasi_pin.dart';
 import 'package:mobile/screen/transfer_saldo/detail_transfer.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class InquiryTransfer extends StatefulWidget {
   final String tujuan;
@@ -150,7 +148,7 @@ abstract class InquiryTransferController extends State<InquiryTransfer>
     http.Response response =
         await http.post(Uri.parse('$apiUrl/transfer/inquiry'),
             headers: {
-              'Authorization': bloc.token.valueWrapper?.value,
+              'Authorization': bloc.token.valueWrapper?.value ?? '' ,
               'Content-Type': 'application/json'
             },
             body: json.encode({'phone': tujuan, 'nominal': nominal}));
@@ -187,47 +185,47 @@ abstract class InquiryTransferController extends State<InquiryTransfer>
   }
 
   void transfer() async {
-    String pin = await Navigator.of(context)
+    final pinResult = await Navigator.of(context)
         .push(MaterialPageRoute(builder: (_) => VerifikasiPin()));
+    // Jika user batal/back, hentikan tanpa pesan dan tanpa request API
+    if (pinResult == null || (pinResult is String && pinResult.isEmpty)) return;
 
-    if (pin != null) {
-      setState(() {
-        loading = true;
-      });
-      sendDeviceToken();
-      http.Response response = await http.post(
-          Uri.parse('$apiUrl/transfer/send'),
-          headers: {
-            'Authorization': bloc.token.valueWrapper?.value,
-            'Content-Type': 'application/json'
-          },
-          body:
-              json.encode({'user_id': userId, 'nominal': nom, 'trxId': trxId}));
+    setState(() {
+      loading = true;
+    });
+    sendDeviceToken();
+    http.Response response = await http.post(
+        Uri.parse('$apiUrl/transfer/send'),
+        headers: {
+          'Authorization': bloc.token.valueWrapper?.value ?? '',
+          'Content-Type': 'application/json'
+        },
+        body:
+            json.encode({'user_id': userId, 'nominal': nom, 'trxId': trxId}));
 
-      if (response.statusCode == 200) {
-        TransferModel trf =
-            TransferModel.fromJson(json.decode(response.body)['data']);
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (_) => DetailTransfer(nama, phone, nom, trf)));
-      } else {
-        String message = json.decode(response.body)['message'];
-        await showDialog(
-            context: context,
-            builder: (ctx) => AlertDialog(
-                    title: Text('Transfer Gagal'),
-                    content: Text(message),
-                    actions: <Widget>[
-                      TextButton(
-                          child: Text(
-                            'TUTUP',
-                            style: TextStyle(
-                              color: Theme.of(context).primaryColor,
-                            ),
+    if (response.statusCode == 200) {
+      TransferModel trf =
+          TransferModel.fromJson(json.decode(response.body)['data']);
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (_) => DetailTransfer(nama, phone, nom, trf)));
+    } else {
+      String message = json.decode(response.body)['message'];
+      await showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+                  title: Text('Transfer Gagal'),
+                  content: Text(message),
+                  actions: <Widget>[
+                    TextButton(
+                        child: Text(
+                          'TUTUP',
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColor,
                           ),
-                          onPressed: () =>
-                              Navigator.of(context, rootNavigator: true).pop())
-                    ]));
-      }
+                        ),
+                        onPressed: () =>
+                            Navigator.of(context, rootNavigator: true).pop())
+                  ]));
     }
   }
 

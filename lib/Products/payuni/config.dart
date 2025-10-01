@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:io' show Platform;
 import 'package:mobile/Products/payuni/layout/detail-deposit.dart';
@@ -7,7 +6,6 @@ import 'package:mobile/Products/payuni/layout/kirim-saldo.dart';
 import 'package:mobile/Products/payuni/layout/topup.dart';
 import 'package:mobile/models/deposit.dart';
 import 'package:mobile/screen/profile/my_qris.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 //685a32de5fb4c98ea80e8734
 // 5e7b291771268f3dc3dd73c6
@@ -17,7 +15,7 @@ const namaApp = 'Payuni';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = Platform.isAndroid ? 'com.payuni.id' : 'co.payuni.id';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

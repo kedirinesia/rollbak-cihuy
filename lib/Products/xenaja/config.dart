@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:io' show Platform;
 import 'package:mobile/Products/xenaja/layout/detail-deposit.dart';
@@ -7,7 +6,6 @@ import 'package:mobile/Products/xenaja/layout/kirim-saldo.dart';
 import 'package:mobile/Products/xenaja/layout/splash.dart';
 import 'package:mobile/Products/xenaja/layout/topup.dart';
 import 'package:mobile/models/deposit.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 String sigVendor = '5e523bf7ae1e375162506db7';
 
@@ -15,7 +13,7 @@ const namaApp = 'XenAja';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = Platform.isAndroid ? 'com.xenaja.app' : 'co.payuni.popay';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

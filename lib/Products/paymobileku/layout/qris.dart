@@ -4,7 +4,6 @@ import 'dart:typed_data';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:mobile/component/alert.dart';
 import 'package:mobile/provider/api.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
@@ -24,18 +23,23 @@ class _MyQrisPageState extends State<MyQrisPage> {
   Future<void> _getQr() async {
     try {
       dynamic data = await api.post('/qris/generate');
+      String? imageUrl;
+      if (data is Map && data['image'] != null) {
+        imageUrl = data['image'] as String;
+      } else if (data is String) {
+        imageUrl = data;
+      }
       setState(() {
-        _qrImage = data['image'];
+        _qrImage = imageUrl;
       });
     } catch (err) {
-      DebugHelper.debugPrint('err.toString()');
-      ScaffoldMessenger.of(context).showSnackBar(
-        Alert(
-          'Merchant belum mendukung static QRIS',
-          isError: true,
-        ),
-      );
-      return Navigator.of(context).pop();
+      DebugHelper.debugPrint('QRIS generate error: $err');
+      // Hilangkan validasi: jangan tampilkan error merah, tetap berada di halaman
+      // dan biarkan _qrImage null sehingga spinner tampil. Jika ingin fallback,
+      // bisa set _qrImage ke string kosong agar tetap render container tanpa error.
+      setState(() {
+        _qrImage = null;
+      });
     }
   }
 

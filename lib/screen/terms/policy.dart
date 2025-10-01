@@ -1,16 +1,14 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class MarkdownDisplayScreen extends StatelessWidget {
   MarkdownDisplayScreen({
-    Key key,
+    Key? key,
     this.radius = 8,
-    @required this.mdFileName,
-    @required this.appName,
+    required this.mdFileName,
+    required this.appName,
   })  : assert(mdFileName.contains('.md'),
             'The file must contain the .md extension'),
         super(key: key);
@@ -38,7 +36,7 @@ class MarkdownDisplayScreen extends StatelessWidget {
               child: Markdown(
                 shrinkWrap: true,
                 physics: ScrollPhysics(),
-                data: snapshot.data,
+                data: snapshot.data ?? '',
               ),
             );
           }

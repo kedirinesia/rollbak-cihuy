@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '632f6c8aa7a61de9e2cbcb13';
 
@@ -6,7 +5,7 @@ const namaApp = 'UAL RELOAD';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'id.ualreload.mobile';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

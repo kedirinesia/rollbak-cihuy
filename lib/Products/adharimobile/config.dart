@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '5f83053553487a3e087afd4c';
 
@@ -6,7 +5,7 @@ const namaApp = 'Adhari Mobile';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.adharimobile.app';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

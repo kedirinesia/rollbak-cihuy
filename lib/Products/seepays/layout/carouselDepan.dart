@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -12,7 +11,6 @@ import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class CarouselDepan extends StatefulWidget {
   final double viewportFraction;
@@ -66,7 +64,7 @@ class _CarouselDepanState extends State<CarouselDepan> {
   }
 
   dynamic onClickBanner(BannerModel banner) {
-    List<String> urls = banner.url?.split('/') ?? [];
+    List<String> urls = banner.url.split('/') ?? [];
     if (urls.length > 1 && urls[0] == 'menu') {
       MenuModel menu = MenuModel(id: urls[1], name: banner.title, icon: '');
       return Navigator.of(context)
@@ -76,7 +74,7 @@ class _CarouselDepanState extends State<CarouselDepan> {
           id: banner.id, name: banner.title, category_id: urls[1], icon: '');
       return Navigator.of(context)
           .push(MaterialPageRoute(builder: (_) => DetailDenom(menu)));
-    } else if (banner.url != null && banner.url.isNotEmpty) {
+    } else if (banner.url.isNotEmpty) {
       return launch(banner.url);
     }
   }

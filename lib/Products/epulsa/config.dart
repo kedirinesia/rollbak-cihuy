@@ -1,7 +1,5 @@
-// @dart=2.9
 
 import 'package:mobile/Products/epulsa/layout/index.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 String sigVendor = '5ee473135eefbe0cb064c72f';
 
@@ -9,7 +7,7 @@ const namaApp = 'Epulsa Payment';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.epulsamobile.android';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 4;
 String gaId = '';

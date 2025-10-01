@@ -1,6 +1,4 @@
-// @dart=2.9
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_page_transition/flutter_page_transition.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -121,7 +119,7 @@ class _DepositPageState extends DepositController
                                 : Theme.of(context)
                                     .primaryColor
                                     .withOpacity(.1),
-                            child: m.statusModel?.icon != null && m.statusModel.icon.isNotEmpty
+                            child: m.statusModel.icon.isNotEmpty
                                 ? Image.asset(
                                     m.statusModel.icon,
                                     width: 20.0,
@@ -140,13 +138,13 @@ class _DepositPageState extends DepositController
                                       );
                                     })
                                 : Icon(
-                                    m.statusModel?.status == 0 
+                                    m.statusModel.status == 0 
                                         ? Icons.hourglass_empty 
-                                        : m.statusModel?.status == 1 
+                                        : m.statusModel.status == 1 
                                             ? Icons.check_circle 
                                             : Icons.error,
                                     size: 20.0,
-                                    color: m.statusModel?.color ?? Colors.grey,
+                                    color: m.statusModel.color ?? Colors.grey,
                                   )),
                         title: Text(formatRupiah(m.nominal),
                             style: TextStyle(

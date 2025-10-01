@@ -1,4 +1,3 @@
-// @dart=2.9
 import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -9,7 +8,6 @@ import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/models/reward.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/bloc/Bloc.dart' show bloc;
-import 'package:mobile/utils/debug_helper.dart';
 
 class RewardComponent extends StatefulWidget {
   final double width;
@@ -18,7 +16,7 @@ class RewardComponent extends StatefulWidget {
   final double viewportFraction;
   RewardComponent(
       {this.width = double.infinity,
-      this.height,
+      this.height = 100,
       this.viewportFraction = .3,
       this.aspectRatio = 25 / 10});
 
@@ -39,7 +37,7 @@ class _RewardComponentState extends State<RewardComponent> {
 
   void getData() async {
     http.Response response = await http.get(Uri.parse('$apiUrl/reward/list'),
-        headers: {'Authorization': bloc.token.valueWrapper?.value});
+        headers: {'Authorization': bloc.token.valueWrapper?.value ?? ''});
 
     if (response.statusCode == 200) {
       List<dynamic> datas = json.decode(response.body)['data'];
@@ -56,7 +54,7 @@ class _RewardComponentState extends State<RewardComponent> {
   void tukarReward(String id) async {
     http.Response response = await http.post(Uri.parse('$apiUrl/reward/tukar'),
         headers: {
-          'Authorization': bloc.token.valueWrapper?.value,
+          'Authorization': bloc.token.valueWrapper?.value ?? '',
           'Content-Type': 'application/json'
         },
         body: json.encode({'id': id}));
@@ -145,7 +143,7 @@ class _RewardComponentState extends State<RewardComponent> {
                                               scale: .1),
                                           fit: BoxFit.cover))),
                               onTap: () {
-                                return showDialog(
+                                 showDialog(
                                   context: context,
                                   barrierDismissible: false,
                                   builder: (context) => AlertDialog(

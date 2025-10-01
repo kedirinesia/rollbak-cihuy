@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '5f3f32bae4a2100b426a820e';
 
@@ -6,7 +5,7 @@ const namaApp = 'G-Payment';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.gpayment.app';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

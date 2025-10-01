@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '5f6afe46ab78973f9e7fa069';
 
@@ -6,7 +5,7 @@ const namaApp = 'SN Reload';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.payuni.snreload';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

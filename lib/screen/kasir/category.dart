@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -20,7 +19,6 @@ import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
 
 import 'package:mobile/modules.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class CategoryPage extends StatefulWidget {
   @override
@@ -55,7 +53,7 @@ class CategoryState extends State<CategoryPage> {
       http.Response response = await http.get(
           Uri.parse('$apiUrlKasir/master/category/get?page=$page'),
           headers: {
-            'authorization': bloc.token.valueWrapper?.value,
+            'authorization': bloc.token.valueWrapper?.value ?? '',
           });
 
       var responseData = json.decode(response.body);
@@ -152,8 +150,8 @@ class CategoryState extends State<CategoryPage> {
   }
 
   void submitCategory() async {
-    _formKey.currentState.save();
-    if (_formKey.currentState.validate()) {
+    _formKey.currentState?.save();
+    if (_formKey.currentState?.validate() ?? false) {
       setState(() {
         loading = true;
       });
@@ -168,7 +166,7 @@ class CategoryState extends State<CategoryPage> {
             await http.post(Uri.parse('$apiUrlKasir/master/category/add'),
                 headers: {
                   'Content-Type': 'application/json',
-                  'authorization': bloc.token.valueWrapper?.value,
+                  'authorization': bloc.token.valueWrapper?.value ?? '',
                 },
                 body: json.encode(dataToSend));
 
@@ -279,7 +277,7 @@ class CategoryState extends State<CategoryPage> {
                       Uri.parse('$apiUrlKasir/master/category/delete'),
                       headers: {
                         'Content-Type': 'application/json',
-                        'authorization': bloc.token.valueWrapper?.value,
+                        'authorization': bloc.token.valueWrapper?.value ?? '',
                       },
                       body: json.encode(dataToSend));
 
@@ -487,14 +485,15 @@ class CategoryState extends State<CategoryPage> {
                     hintText: 'Tambah Kategori',
                     isDense: true,
                   ),
-                  validator: (String value) {
+                  validator: (String? value) {
                     if (value == "") {
                       return "kategori tidak boleh kosong";
                     }
+                    return null;
                   },
-                  onSaved: (String value) {
+                  onSaved: (String? value) {
                     setState(() {
-                      category = value;
+                      category = value ?? ''  ;
                     });
                   }),
             ),

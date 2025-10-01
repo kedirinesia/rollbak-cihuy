@@ -1,7 +1,5 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class MPTransaksi {
   final String id;
@@ -17,25 +15,25 @@ class MPTransaksi {
   final MPTransaksiStatus status;
   final MPTransaksiKurir kurir;
   final MPTransaksiShipping shipping;
-  final MPTransaksiVocuher voucher;
+  final MPTransaksiVocuher? voucher;
   final List<MPTransaksiProduk> products;
 
   MPTransaksi(
-      {this.id,
-      this.hargaJual,
-      this.ongkosKirim,
-      this.totalHargaJual,
-      this.totalHargaBeli,
-      this.createdAt,
-      this.updatedAt,
-      this.paymentExpiredAt,
-      this.resi,
-      this.paymentType,
-      this.status,
-      this.kurir,
-      this.shipping,
-      this.voucher,
-      this.products});
+      {required  this.id,
+      required this.hargaJual,
+      required this.ongkosKirim,
+      required this.totalHargaJual,
+      required this.totalHargaBeli,
+      required this.createdAt,
+      required this.updatedAt,
+      required this.paymentExpiredAt,
+      required this.resi,
+      required this.paymentType,
+      required this.status,
+      required this.kurir,
+      required this.shipping,
+      required    this.voucher,
+      required this.products});
 
   factory MPTransaksi.fromJson(dynamic json) {
     List<MPTransaksiProduk> items = [];
@@ -68,7 +66,7 @@ class MPTransaksiVocuher {
   final String id;
   final int nominal;
 
-  MPTransaksiVocuher({this.id, this.nominal});
+  MPTransaksiVocuher({required this.id, required this.nominal});
 
   factory MPTransaksiVocuher.fromJson(dynamic json) {
     return MPTransaksiVocuher(
@@ -84,12 +82,12 @@ class MPTransaksiKurir {
   final String code;
   final String service;
 
-  MPTransaksiKurir({this.id, this.name, this.code, this.service});
+  MPTransaksiKurir({required this.id, required this.name, required this.code, required this.service});
 
   factory MPTransaksiKurir.fromJson(dynamic json) {
-    String id;
-    String name;
-    String code;
+    String id = '';
+    String name = '';
+    String code = '';
 
     if (json['id'] != null) {
       id = json['id']['_id'];
@@ -98,9 +96,9 @@ class MPTransaksiKurir {
     }
 
     return MPTransaksiKurir(
-      id: id ?? '',
-      name: name ?? '',
-      code: code ?? 'cod',
+      id: id,
+      name: name,
+      code: code,
       service: json['service'] ?? '',
     );
   }
@@ -116,13 +114,13 @@ class MPTransaksiShipping {
   final String zipcode;
 
   MPTransaksiShipping(
-      {this.name,
-      this.phone,
-      this.province,
-      this.city,
-      this.subdistrict,
-      this.address,
-      this.zipcode});
+      {required   this.name,
+      required this.phone,
+      required this.province,
+      required this.city,
+      required this.subdistrict,
+      required this.address,
+      required this.zipcode});
 
   factory MPTransaksiShipping.fromJson(dynamic json) {
     return MPTransaksiShipping(
@@ -150,22 +148,22 @@ class MPTransaksiProduk {
   final int quantity;
 
   MPTransaksiProduk(
-      {this.id,
-      this.productId,
-      this.productName,
-      this.productImage,
-      this.weight,
-      this.totalWeight,
-      this.buyPrice,
-      this.totalBuyPrice,
-      this.sellPrice,
-      this.totalSellPrice,
-      this.quantity});
+      {required this.id,
+      required this.productId,
+      required this.productName,
+      required this.productImage,
+      required this.weight,
+      required this.totalWeight,
+      required this.buyPrice,
+      required this.totalBuyPrice,
+      required this.sellPrice,
+      required this.totalSellPrice,
+      required this.quantity});
 
   factory MPTransaksiProduk.fromJson(dynamic json) {
-    String productId;
-    String productName;
-    String productImage;
+    String productId = '';
+    String productName = '';
+    String productImage = '';
 
     if (json['product_id'] != null) {
       productId = json['product_id']['_id'];
@@ -194,7 +192,7 @@ class MPTransaksiStatus {
   final IconData icon;
   final MaterialColor color;
 
-  MPTransaksiStatus({this.code, this.label, this.icon, this.color});
+  MPTransaksiStatus({required this.code, required this.label, required this.icon, required this.color});
 
   factory MPTransaksiStatus.parse(int status) {
     switch (status) {

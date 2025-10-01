@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '62454812ab9cd2d978c1fb7f';
 
@@ -6,7 +5,7 @@ const namaApp = 'Kuota.net';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'id.kuotanet.mobile';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

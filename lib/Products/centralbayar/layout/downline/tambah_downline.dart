@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,7 +10,6 @@ import 'package:mobile/Products/centralbayar/layout/downline/tambah_downline_con
 import 'package:mobile/screen/select_state/kecamatan.dart';
 import 'package:mobile/screen/select_state/kota.dart';
 import 'package:mobile/screen/select_state/provinsi.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class TambahDownline extends StatefulWidget {
   @override
@@ -215,10 +213,11 @@ class _TambahDownlineState extends TambahDownlineController {
                                         color: Color(0XFFF5AB35))),
                                 onTap: () async {
                                   if (provinsi == null) return;
+                                  final selectedProvinsi = provinsi!; // Use local variable
                                   Lokasi lokasi = await Navigator.of(context)
                                       .push(MaterialPageRoute(
                                           builder: (_) =>
-                                              SelectKotaPage(provinsi)));
+                                              SelectKotaPage(selectedProvinsi)));
                                   if (lokasi == null) return;
                                   kota = lokasi;
                                   kotaText.text = lokasi.nama;
@@ -253,10 +252,11 @@ class _TambahDownlineState extends TambahDownlineController {
                                         color: Color(0XFFF5AB35))),
                                 onTap: () async {
                                   if (kota == null) return;
+                                  final selectedKota = kota!; // Use local variable
                                   Lokasi lokasi = await Navigator.of(context)
                                       .push(MaterialPageRoute(
                                           builder: (_) =>
-                                              SelectKecamatanPage(kota)));
+                                              SelectKecamatanPage(selectedKota)));
                                   if (lokasi == null) return;
                                   kecamatan = lokasi;
                                   kecamatanText.text = lokasi.nama;

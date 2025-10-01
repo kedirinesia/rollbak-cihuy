@@ -1,8 +1,6 @@
-// @dart=2.9
 
 import 'package:mobile/Products/eazyin/layout/index.dart';
 import 'package:mobile/Products/eazyin/layout/login.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 String sigVendor = '612d1c569810aed60f160d91';
 
@@ -10,7 +8,7 @@ const namaApp = 'Eazyin2';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.eazyin.mobile';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 4;
 String gaId = '';

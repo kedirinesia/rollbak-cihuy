@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'dart:math' as math;
@@ -17,7 +16,6 @@ import 'package:mobile/modules.dart';
 import 'package:mobile/screen/transaksi/print.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 /// ------------ WATERMARK LAYER ---------------
 class WatermarkNetworkLogo extends StatelessWidget {
@@ -36,7 +34,7 @@ class WatermarkNetworkLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (logoUrl == null || logoUrl.isEmpty) return SizedBox();
+    if (logoUrl.isEmpty) return SizedBox();
     return LayoutBuilder(
       builder: (ctx, constraints) {
         final rows = (constraints.maxHeight / (size * 1.5)).ceil();
@@ -175,7 +173,7 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
               Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                   builder: (_) =>
-                      configAppBloc.layoutApp?.valueWrapper?.value['home'] ??
+                      configAppBloc.layoutApp.valueWrapper?.value['home'] ??
                       templateConfig[
                           configAppBloc.templateCode.valueWrapper?.value],
                 ),
@@ -190,7 +188,7 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
               child: Icon(Icons.print),
               backgroundColor: headerColor,
               onPressed: () {
-                if (trx.produk == null || trx.produk.isEmpty) {
+                if (trx.produk.isEmpty) {
                   trx.produk = widget.data.produk ?? {};
                 }
                 Navigator.of(context).push(
@@ -287,7 +285,7 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
                                   ),
                                   Expanded(
                                     child: Text(
-                                      "TrxID : ${trx.id?.toUpperCase()}",
+                                      "TrxID : ${trx.id.toUpperCase()}",
                                       textAlign: TextAlign.right,
                                       style: TextStyle(
                                           color: Colors.grey[600],

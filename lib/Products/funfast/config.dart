@@ -1,7 +1,5 @@
-// @dart=2.9
 
 import 'package:mobile/Products/funfast/layout/home.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 String sigVendor = '5e577a000efa1b22beabf8dd';
 
@@ -10,7 +8,7 @@ const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 // String packagename = 'com.funmoid.app';
 String packagename = 'id.funfast.mobile';
-String brandId;
+String brandId = '';
 String copyRight = 'FunFast';
 int templateCode = 2;
 String gaId = '';

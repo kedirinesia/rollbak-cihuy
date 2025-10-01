@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:mobile/Products/paymobileku/layout/components/template.dart';
 import 'package:mobile/models/payment-list.dart';
 import 'package:mobile/screen/topup/bank/bank.dart';
@@ -9,7 +8,6 @@ import 'package:mobile/screen/topup/merchant/merchant.dart';
 import 'package:mobile/screen/topup/qris/qris.dart';
 import 'package:mobile/provider/api.dart';
 import 'package:mobile/screen/topup/va/va.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class TopupPage extends StatefulWidget {
   @override
@@ -60,12 +58,6 @@ class _TopupPageState extends State<TopupPage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final spinkit = SpinKitThreeBounce(
-      color: Theme.of(context).primaryColor,
-      size: 50.0,
-      controller: AnimationController(
-          vsync: this, duration: const Duration(milliseconds: 1200)),
-    );
 
     return TemplatePopay(
         title: 'Pilih Metode Pembayaran',
@@ -116,12 +108,14 @@ class _TopupPageState extends State<TopupPage> with TickerProviderStateMixin {
                         title: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Text(mm.title ?? ' ',
+                            Text(mm.title,
                                 style: TextStyle(
                                     fontSize: 12.0,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.grey.shade700)),
-                            mm.admin != null
+                            mm.admin.isNotEmpty &&
+                                    mm.admin['nominal'] != null &&
+                                    mm.admin['nominal'].toString() != 'null'
                                 ? Text(
                                     '+${mm.admin['satuan'] == 'persen' ? '' : 'Rp '}${mm.admin['nominal']}${mm.admin['satuan'] == 'persen' ? '%' : ''} (admin)',
                                     style: TextStyle(
@@ -130,7 +124,7 @@ class _TopupPageState extends State<TopupPage> with TickerProviderStateMixin {
                                 : SizedBox()
                           ],
                         ),
-                        subtitle: Text(mm.description ?? ' ',
+                        subtitle: Text(mm.description,
                             style: TextStyle(
                                 fontSize: 10.0, color: Colors.grey.shade700)),
                       ),
@@ -138,6 +132,15 @@ class _TopupPageState extends State<TopupPage> with TickerProviderStateMixin {
                   );
                 }),
           ),
-        ));
+        ),
+        children: [],
+        backgroundColor: Colors.white,
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.transparent,
+          onPressed: null,
+          child: SizedBox.shrink(),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+    );
   }
 }

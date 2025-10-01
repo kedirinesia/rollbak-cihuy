@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '66f3c061b83af34d76ec85e3';
 
@@ -6,7 +5,7 @@ const namaApp = 'Santren';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.santrenpay.mobile';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

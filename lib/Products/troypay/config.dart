@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '5f60a167109a496ec1888f81';
 
@@ -6,7 +5,7 @@ const namaApp = 'TROY Pay';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.troypay.app';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

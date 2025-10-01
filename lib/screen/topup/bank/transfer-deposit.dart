@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -15,7 +14,6 @@ import 'package:http/http.dart' as http;
 import 'package:mobile/bloc/Bloc.dart' show bloc;
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/payment_tutorial.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class TransferDepositPage extends StatefulWidget {
   final int nominal;
@@ -23,13 +21,13 @@ class TransferDepositPage extends StatefulWidget {
 
   TransferDepositPage(this.nominal, this.type);
 
-  @override
+  @override 
   _TransferDepositPageState createState() => _TransferDepositPageState();
 }
 
 class _TransferDepositPageState extends State<TransferDepositPage> {
   bool loading = true;
-  List<BankModel> banks = [];
+    List<BankModel> banks = [];
 
   @override
   void initState() {
@@ -44,7 +42,7 @@ class _TransferDepositPageState extends State<TransferDepositPage> {
   void getData() async {
     http.Response response = await http.get(
         Uri.parse('$apiUrl/bank/list?type=${widget.type}'),
-        headers: {'Authorization': bloc.token.valueWrapper?.value});
+        headers: {'Authorization': bloc.token.valueWrapper?.value ?? ''});
 
     if (response.statusCode == 200) {
       (json.decode(response.body)['data'] as List).forEach((item) {
@@ -73,9 +71,9 @@ class _TransferDepositPageState extends State<TransferDepositPage> {
             onPressed: () => Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                   builder: (_) =>
-                      configAppBloc.layoutApp?.valueWrapper?.value['home'] ??
+                      configAppBloc.layoutApp.valueWrapper?.value['home'] ??
                       templateConfig[
-                          configAppBloc.templateCode.valueWrapper?.value],
+                          configAppBloc.templateCode.valueWrapper?.value ?? 0],
                 ),
                 (route) => false),
           ),

@@ -1,4 +1,3 @@
-// @dart=2.9
 
 class AppInfo {
   String kodeMerchant;
@@ -7,6 +6,7 @@ class AppInfo {
   bool aktif;
   bool inviteLink;
   bool register;
+  bool stopAllRegister;
   bool updateHarga;
   bool enableSelectCA;
   String domain;
@@ -23,38 +23,71 @@ class AppInfo {
   String footerStruk;
 
   AppInfo({
-    this.kodeMerchant,
-    this.nama,
-    this.tipe,
-    this.aktif,
-    this.inviteLink,
-    this.register,
-    this.updateHarga,
-    this.enableSelectCA,
-    this.imageInvite,
-    this.kataInvite,
-    this.descInvite,
-    this.marquee,
-    this.domain,
-    this.domainInvite,
-    this.iconWeb,
-    this.defaultLaba,
-    this.urlPrivacyPolicy,
-    this.urlServicePolicy,
-    this.defaultMarkup,
-    this.footerStruk,
+   required  this.kodeMerchant,
+    required    this.nama,
+    required this.tipe,
+    required this.aktif,
+    required this.inviteLink,
+    required this.register,
+    required this.stopAllRegister,
+    required this.updateHarga,
+    required this.enableSelectCA,
+    required this.imageInvite,
+    required this.kataInvite,
+    required this.descInvite,
+    required this.marquee,
+    required this.domain,
+    required this.domainInvite,
+    required this.iconWeb,
+    required this.defaultLaba,
+    required this.urlPrivacyPolicy,
+    required this.urlServicePolicy,
+    required this.defaultMarkup,
+    required  this.footerStruk,
   });
 
+  // Helper method untuk parsing boolean dari berbagai tipe data
+  static bool? _parseBoolean(dynamic value) {
+    if (value == null) return null;
+    if (value is bool) return value;
+    if (value is String) {
+      String lowerValue = value.toLowerCase();
+      if (lowerValue == 'true' || lowerValue == '1') return true;
+      if (lowerValue == 'false' || lowerValue == '0') return false;
+    }
+    if (value is int) {
+      return value == 1;
+    }
+    return null;
+  }
+
   factory AppInfo.fromJson(dynamic json) {
-    return AppInfo(
-        kodeMerchant: json['kode_merchant']['_id'],
+    print('🔍 AppInfo.fromJson called with: $json');
+    print('🔍 JSON type: ${json.runtimeType}');
+
+    // Check if json is null
+    if (json == null) {
+      print('❌ JSON is NULL in AppInfo.fromJson');
+      throw Exception('JSON is null in AppInfo.fromJson');
+    }
+
+    // Check if json is Map
+    if (json is! Map<String, dynamic>) {
+      print('❌ JSON is not Map<String, dynamic>: $json');
+      throw Exception('JSON is not Map<String, dynamic>');
+    }
+
+    try {
+      return AppInfo(
+          kodeMerchant: json['kode_merchant']['_id'],
         nama: json['kode_merchant']['nama'],
         tipe: json['kode_merchant']['tipe'],
         aktif: json['kode_merchant']['aktif'],
-        inviteLink: json['invite_link'],
-        register: json['register'],
+        inviteLink: _parseBoolean(json['invite_link']) ?? true,
+        register: _parseBoolean(json['register']) ?? true,
+        stopAllRegister: _parseBoolean(json['stopAllRegister']) ?? false,
         updateHarga: json['updateHarga'],
-        enableSelectCA: json['enableSelectCA'],
+        enableSelectCA: _parseBoolean(json['enableSelectCA']) ?? false,
         domain: json['domain'],
         domainInvite: json['domain_invite'],
         defaultLaba: json['defaultLaba'],
@@ -64,7 +97,7 @@ class AppInfo {
         iconWeb: json['icon_web'],
         footerStruk: json['footer_struk'] ?? '',
         marquee: json['marquee_text'] == null
-            ? null
+            ? MarqueeText(active: false, message: '')
             : MarqueeText.fromJson(json['marquee_text']),
         kataInvite: json['kata_invite'] != null
             ? json['kata_invite']
@@ -75,6 +108,13 @@ class AppInfo {
         imageInvite: json['image_invite'] != null
             ? json['image_invite']
             : 'https://firebasestorage.googleapis.com/v0/b/payuni-2019y.appspot.com/o/banners%2FWhatsApp%20Image%202019-08-12%20at%202.29.42%20AM.jpeg?alt=media&token=a4f39656-2f73-4645-85b1-c8fe2f5525f5');
+    } catch (e) {
+      print('❌ ERROR in AppInfo.fromJson: $e');
+      print('❌ Error type: ${e.runtimeType}');
+      print('❌ JSON data: $json');
+      print('❌ Stack trace: ${StackTrace.current}');
+      rethrow;
+    }
   }
 }
 
@@ -83,8 +123,8 @@ class MarqueeText {
   final String message;
 
   MarqueeText({
-    this.active,
-    this.message,
+    required this.active,
+    required this.message,
   });
 
   factory MarqueeText.fromJson(dynamic json) {

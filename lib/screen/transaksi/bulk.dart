@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -12,7 +11,7 @@ import 'package:mobile/Products/paymobileku/layout/history.dart';
 import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
-import 'package:mobile/bloc/TemplateConfig.dart';
+import 'package:mobile/bloc/TemplateConfig.dart'; 
 import 'package:mobile/models/menu.dart';
 import 'package:mobile/models/prepaid-denom.dart';
 import 'package:mobile/models/trx.dart';
@@ -27,7 +26,7 @@ import 'package:mobile/utils/debug_helper.dart';
 
 class BulkPage extends StatefulWidget {
   final MenuModel menu;
-  const BulkPage(this.menu, {Key key}) : super(key: key);
+  const BulkPage(this.menu, {Key? key}) : super(key: key);
 
   @override
   State<BulkPage> createState() => _BulkPageState();
@@ -40,11 +39,11 @@ class _BulkPageState extends State<BulkPage> {
   TextEditingController _voucherEndCode = TextEditingController();
   List<Map<String, dynamic>> _masterVouchers = [];
   List<Map<String, dynamic>> _vouchers = [];
-  PrepaidDenomModel _denom;
+  PrepaidDenomModel? _denom;
   bool _isPromo = false;
   int totalHarga = 0;
-  int _filteredStatus = 0;
-  String _voucherLabel = 'Semua Voucher :';
+  int _filteredStatus = 0; // reserved for future filtering controls
+  String _voucherLabel = 'Semua Voucher :';     
 
   @override
   void dispose() {
@@ -55,8 +54,11 @@ class _BulkPageState extends State<BulkPage> {
   }
 
   void _calculateTotalHarga() {
-    totalHarga = _denom.harga_jual * _vouchers.length;
-    DebugHelper.debugPrint('"Total Harga: $totalHarga"');
+    final int unitPrice = _denom?.harga_jual ?? 0;
+    final int selectedCount =
+        _vouchers.where((v) => v['selected'] == true).length;
+    totalHarga = unitPrice * selectedCount;
+    DebugHelper.debugPrint('Total Harga dihitung dari $selectedCount voucher: $totalHarga');
   }
 
   void _generateVoucher() {
@@ -81,7 +83,7 @@ class _BulkPageState extends State<BulkPage> {
           String code = i.toString().padLeft(codeLength, '0');
           _masterVouchers.add({
             'code': code,
-            'selected': true,
+            'selected': false,
             'status': 1,
           });
         }
@@ -90,13 +92,13 @@ class _BulkPageState extends State<BulkPage> {
           String code = i.toString().padLeft(codeLength, '0');
           _masterVouchers.add({
             'code': code,
-            'selected': true,
+            'selected': false,
             'status': 1,
           });
         }
       }
 
-      _vouchers = _masterVouchers;
+      _vouchers = List<Map<String, dynamic>>.from(_masterVouchers);
       _calculateTotalHarga();
 
       setState(() {});
@@ -130,12 +132,9 @@ class _BulkPageState extends State<BulkPage> {
       ),
     );
 
-    if (result == null) return;
-
     setState(() {
       _denom = result;
-      _isPromo = result.harga_promo != null &&
-          result.harga_promo > 0 &&
+      _isPromo = result.harga_promo > 0 &&
           result.harga_jual > result.harga_promo;
     });
   }
@@ -147,14 +146,32 @@ class _BulkPageState extends State<BulkPage> {
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (_) =>
-              InquiryPrepaid(_denom.kode_produk, _voucherCode.text.trim()),
+              InquiryPrepaid(_denom?.kode_produk ?? '', _voucherCode.text.trim()),
         ),
       );
       return;
-    } else if (widget.menu.jenis == 6) {
-      if (_denom == null || _vouchers.length == 0) return;
+      } else if (widget.menu.jenis == 6) {
+      if (_vouchers.isEmpty) return;
 
-      bool isBalanceEnough = await _checkBalance();
+      // Ambil hanya voucher yang dicentang
+      final List<Map<String, dynamic>> selected =
+          _vouchers.where((v) => v['selected'] == true).toList();
+      if (selected.isEmpty) {
+        showDialog(
+            context: context,
+            builder: (BuildContext ctx) {
+              Future.delayed(Duration(seconds: 2), () {
+                Navigator.of(ctx).pop();
+              });
+              return AlertDialog(
+                title: Text('Info'),
+                content: Text('Pilih minimal 1 voucher untuk diproses.'),
+              );
+            });
+        return;
+      }
+
+      bool isBalanceEnough = await _checkBalance(selectedCount: selected.length);
       if (!isBalanceEnough) {
         return;
       }
@@ -202,15 +219,15 @@ class _BulkPageState extends State<BulkPage> {
             builder: (context) => VerifikasiPin(),
           ),
         );
-        if (pin == null) return;
+        if (pin.isEmpty) return;
 
         sendDeviceToken();
 
-        String startVoucherCode = _vouchers[0]['code'];
+        String startVoucherCode = selected[0]['code'];
         var dataToSend = {
-          'kode_produk': _denom.kode_produk,
+          'kode_produk': _denom?.kode_produk ?? '',
           'startFrom': startVoucherCode,
-          'length': _vouchers.length,
+          'length': selected.length,
           'pin': pin,
         };
 
@@ -219,7 +236,7 @@ class _BulkPageState extends State<BulkPage> {
               Uri.parse('$apiUrl/trx/voucher/bulk/send'),
               headers: {
                 'Content-Type': 'application/json',
-                'Authorization': bloc.token.valueWrapper.value,
+                'Authorization': bloc.token.valueWrapper?.value ?? '',
               },
               body: json.encode(dataToSend),
             )
@@ -229,7 +246,7 @@ class _BulkPageState extends State<BulkPage> {
         DebugHelper.debugPrint('Response body: ${response.body}');
 
         if (response.statusCode == 200) {
-          for (var voucher in _vouchers) {
+          for (var voucher in selected) {
             voucher['status'] = 2;
           }
           showDialog(
@@ -239,15 +256,13 @@ class _BulkPageState extends State<BulkPage> {
                   Navigator.of(ctx).pop(); // Menutup dialog/alert
 
                   getLatestTrx().then((trx) {
-                    if (trx != null) {
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(
-                          builder: (_) => packageName == 'com.seepaysbiller.app'
-                              ? DetailTransaksi(trx)
-                              : HistoryPage(initIndex: 1),
-                        ),
-                      );
-                    }
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (_) => packageName == 'com.seepaysbiller.app'
+                            ? DetailTransaksi(trx)
+                            : HistoryPage(initIndex: 1),
+                      ),
+                    );
                   });
                 });
                 return AlertDialog(
@@ -256,7 +271,7 @@ class _BulkPageState extends State<BulkPage> {
                 );
               });
         } else {
-          for (var voucher in _vouchers) {
+          for (var voucher in selected) {
             voucher['status'] = 3;
           }
           showDialog(
@@ -269,7 +284,7 @@ class _BulkPageState extends State<BulkPage> {
         }
       } on TimeoutException catch (_) {
         // Menangani TimeoutException
-        for (var voucher in _vouchers) {
+        for (var voucher in selected) {
           voucher['status'] = 3;
         }
         DebugHelper.debugPrint('Request timed out');
@@ -287,7 +302,7 @@ class _BulkPageState extends State<BulkPage> {
     http.Response response = await http.get(
       Uri.parse('$apiUrl/trx/list?page=0&limit=1'),
       headers: {
-        'Authorization': bloc.token.valueWrapper.value,
+        'Authorization': bloc.token.valueWrapper?.value ?? '',
       },
     );
 
@@ -295,14 +310,14 @@ class _BulkPageState extends State<BulkPage> {
       List<dynamic> datas = json.decode(response.body)['data'];
       return TrxModel.fromJson(datas[0]);
     } else {
-      return null;
+      return TrxModel(id: '', harga_jual: 0, admin: 0, status: 0, created_at: '', updated_at: '', statusModel: TrxStatus.parsing(0), produk: {}, sn: '', counter: 0, tujuan: '', keterangan: '', point: 0, paymentBy: '', paymentID: '', print: []);
     }
   }
 
-  Future<bool> _checkBalance() async {
-    double totalAmount = _denom.harga_jual.toDouble() * _vouchers.length;
+  Future<bool> _checkBalance({required int selectedCount}) async {
+    double totalAmount = (_denom?.harga_jual ?? 0).toDouble() * selectedCount;
 
-    if (bloc.user.valueWrapper.value.saldo < totalAmount) {
+    if ((bloc.user.valueWrapper?.value.saldo ?? 0) < totalAmount) {
       showDialog(
           context: context,
           builder: (BuildContext ctx) {
@@ -519,15 +534,26 @@ class _BulkPageState extends State<BulkPage> {
                               materialTapTargetSize:
                                   MaterialTapTargetSize.shrinkWrap,
                               visualDensity: VisualDensity.compact,
-                              fillColor: MaterialStateProperty.all(
-                                Theme.of(context).primaryColor,
-                              ),
-                              value: voucher['selected'],
+                              fillColor: WidgetStateProperty.resolveWith((states) {
+                                if (states.contains(WidgetState.selected)) {
+                                  return Theme.of(context).primaryColor;
+                                }
+                                return Colors.white; // unchecked: putih
+                              }),
+                              value: voucher['selected'] == true,
                               onChanged: (value) {
                                 if (_loading) return;
 
                                 setState(() {
-                                  voucher['selected'] = value;
+                                  voucher['selected'] = value == true;
+                                  // sinkronkan ke master list berdasarkan code
+                                  final int masterIndex = _masterVouchers
+                                      .indexWhere((mv) => mv['code'] == voucher['code']);
+                                  if (masterIndex != -1) {
+                                    _masterVouchers[masterIndex]['selected'] =
+                                        voucher['selected'];
+                                  }
+                                  _calculateTotalHarga();
                                 });
                               },
                             ),
@@ -593,9 +619,9 @@ class _BulkPageState extends State<BulkPage> {
             onPressed: () => Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                   builder: (_) =>
-                      configAppBloc.layoutApp?.valueWrapper?.value['home'] ??
+                      configAppBloc.layoutApp.valueWrapper?.value['home'] ??
                       templateConfig[
-                          configAppBloc.templateCode.valueWrapper?.value],
+                          configAppBloc.templateCode.valueWrapper?.value ?? 0],
                 ),
                 (route) => false),
           ),
@@ -662,19 +688,19 @@ class _BulkPageState extends State<BulkPage> {
                                 ),
                               ),
                               title: Text(
-                                _denom.nama,
+                                _denom?.nama ?? '',
                                 style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
-                              subtitle: Text(_denom.description),
+                              subtitle: Text(_denom?.description ?? ''),
                               trailing: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Text(
                                     formatRupiah(_isPromo
-                                        ? _denom.harga_promo
-                                        : _denom.harga_jual),
+                                        ? _denom?.harga_promo ?? 0
+                                        : _denom?.harga_jual ?? 0),
                                     style: TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.bold,
@@ -683,7 +709,7 @@ class _BulkPageState extends State<BulkPage> {
                                   ),
                                   _isPromo
                                       ? Text(
-                                          formatRupiah(_denom.harga_jual),
+                                          formatRupiah(_denom?.harga_jual ?? 0),
                                           style: TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w500,

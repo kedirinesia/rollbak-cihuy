@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -23,7 +22,7 @@ import 'package:http/http.dart' as http;
 
 class VoucherBulkPage extends StatefulWidget {
   final MenuModel menu;
-  const VoucherBulkPage(this.menu, {Key key}) : super(key: key);
+  const VoucherBulkPage(this.menu, {Key? key}) : super(key: key);
 
   @override
   State<VoucherBulkPage> createState() => _VoucherBulkPageState();
@@ -36,7 +35,7 @@ class _VoucherBulkPageState extends State<VoucherBulkPage> {
   TextEditingController _voucherEndCode = TextEditingController();
   List<Map<String, dynamic>> _masterVouchers = [];
   List<Map<String, dynamic>> _vouchers = [];
-  PrepaidDenomModel _denom;
+  late PrepaidDenomModel _denom;
   int totalHarga = 0;
   bool _isPromo = false;
   int _filteredStatus = 0;
@@ -55,10 +54,10 @@ class _VoucherBulkPageState extends State<VoucherBulkPage> {
 
   void _calculateTotalHarga() {
     DebugHelper.debugPrint('=== Starting _calculateTotalHarga ===');
-    DebugHelper.debugPrint('Denom harga_jual: ${_denom?.harga_jual ?? "null"}');
+    DebugHelper.debugPrint('Denom harga_jual: ${_denom.harga_jual ?? "null"}');
     DebugHelper.debugPrint('Vouchers length: ${_vouchers.length}');
-    
-    totalHarga = _denom.harga_jual * _vouchers.length;
+    int selectedCount = _vouchers.where((v) => v['selected'] == true).length;
+    totalHarga = _denom.harga_jual * selectedCount;
     DebugHelper.debugPrint('"Total Harga calculated: $totalHarga"');
   }
 
@@ -106,7 +105,7 @@ class _VoucherBulkPageState extends State<VoucherBulkPage> {
           String code = i.toString().padLeft(codeLength, '0');
           _masterVouchers.add({
             'code': code,
-            'selected': true,
+            'selected': false,
             'status': 1,
           });
         }
@@ -116,14 +115,14 @@ class _VoucherBulkPageState extends State<VoucherBulkPage> {
           String code = i.toString().padLeft(codeLength, '0');
           _masterVouchers.add({
             'code': code,
-            'selected': true,
+            'selected': false,
             'status': 1,
           });
         }
       }
 
       DebugHelper.debugPrint('Total vouchers generated: ${_masterVouchers.length}');
-      _vouchers = _masterVouchers;
+      _vouchers = List<Map<String, dynamic>>.from(_masterVouchers);
       _calculateTotalHarga();
 
       DebugHelper.debugPrint('Setting state');
@@ -200,8 +199,7 @@ class _VoucherBulkPageState extends State<VoucherBulkPage> {
     
     setState(() {
       _denom = result;
-      _isPromo = result.harga_promo != null &&
-          result.harga_promo > 0 &&
+      _isPromo = result.harga_promo > 0 &&
           result.harga_jual > result.harga_promo;
     });
     
@@ -230,7 +228,7 @@ class _VoucherBulkPageState extends State<VoucherBulkPage> {
       return;
     } else if (widget.menu.jenis == 6) {
       DebugHelper.debugPrint('Processing bulk voucher (jenis 6)');
-      if (_denom == null || _vouchers.length == 0) {
+      if (_vouchers.length == 0) {
         DebugHelper.debugPrint('Denom is null or vouchers empty, returning');
         return;
       }
@@ -300,23 +298,18 @@ class _VoucherBulkPageState extends State<VoucherBulkPage> {
         sendDeviceToken();
 
         DebugHelper.debugPrint('Starting voucher processing loop...');
-        DebugHelper.debugPrint('Total vouchers to process: ${_vouchers.length}');
-        
-        for (int i = 0; i < _vouchers.length; i++) {
-          Map<String, dynamic> voucher = _vouchers[i];
+        // Hanya proses voucher yang tercentang dan belum sukses
+        final toProcess = _vouchers
+            .where((v) => v['selected'] == true && v['status'] != 2)
+            .toList();
+        DebugHelper.debugPrint('Total vouchers to process: ${toProcess.length}');
+
+        for (var voucher in toProcess) {
+          int i = _vouchers.indexWhere((el) => el['code'] == voucher['code']);
           DebugHelper.debugPrint('Processing voucher $i: ${voucher['code']}');
           DebugHelper.debugPrint('Voucher selected: ${voucher['selected']}');
           DebugHelper.debugPrint('Voucher status: ${voucher['status']}');
 
-          if (!voucher['selected']) {
-            DebugHelper.debugPrint('Voucher not selected, skipping');
-            continue;
-          }
-          if (voucher['status'] == 2) {
-            DebugHelper.debugPrint('Voucher already processed, skipping');
-            continue;
-          }
-          
           DebugHelper.debugPrint('Calling _purchaseVoucher for index $i');
           await _purchaseVoucher(i, pin);
         }
@@ -346,8 +339,8 @@ class _VoucherBulkPageState extends State<VoucherBulkPage> {
   Future<void> _purchaseVoucher(int index, String pin) async {
     DebugHelper.debugPrint('=== Starting voucher purchase for index $index ===');
           DebugHelper.debugPrint('API URL: $apiUrl/trx/prepaid/purchase');
-    DebugHelper.debugPrint('Token available: ${bloc.token.valueWrapper.value != null}');
-    DebugHelper.debugPrint('Token length: ${bloc.token.valueWrapper.value?.length ?? 0}');
+    DebugHelper.debugPrint('Token available: ${bloc.token.valueWrapper?.value != null}');
+    DebugHelper.debugPrint('Token length: ${bloc.token.valueWrapper?.value?.length ?? 0}');
     DebugHelper.debugPrint('Denom kode_produk: ${_denom.kode_produk}');
     DebugHelper.debugPrint('Voucher code: ${_vouchers[index]['code']}');
     
@@ -362,7 +355,7 @@ class _VoucherBulkPageState extends State<VoucherBulkPage> {
       DebugHelper.debugPrint('Request data: ${json.encode(dataToSend)}');
       DebugHelper.debugPrint('Headers: ${{
         'Content-Type': 'application/json',
-        'Authorization': bloc.token.valueWrapper.value,
+        'Authorization': bloc.token.valueWrapper?.value ?? '',
       }}');
 
       DebugHelper.debugPrint('Making HTTP request...');
@@ -371,7 +364,7 @@ class _VoucherBulkPageState extends State<VoucherBulkPage> {
             Uri.parse('$apiUrl/trx/prepaid/purchase'),
             headers: {  
               'Content-Type': 'application/json',
-              'Authorization': bloc.token.valueWrapper.value,
+              'Authorization': bloc.token.valueWrapper?.value ?? '',
             },
             body: json.encode(dataToSend),
           )
@@ -429,10 +422,10 @@ class _VoucherBulkPageState extends State<VoucherBulkPage> {
     
     double totalAmount = _denom.harga_jual.toDouble() * _vouchers.length;
     DebugHelper.debugPrint('Total amount needed: $totalAmount');
-    DebugHelper.debugPrint('User saldo: ${bloc.user.valueWrapper.value.saldo}');
-    DebugHelper.debugPrint('Is balance sufficient: ${bloc.user.valueWrapper.value.saldo >= totalAmount}');
+    DebugHelper.debugPrint('User saldo: ${bloc.user.valueWrapper?.value.saldo}');
+    DebugHelper.debugPrint('Is balance sufficient: ${bloc.user.valueWrapper!.value.saldo >= totalAmount}');
 
-    if (bloc.user.valueWrapper.value.saldo < totalAmount) {
+    if (bloc.user.valueWrapper!.value.saldo < totalAmount) {
       DebugHelper.debugPrint('Insufficient balance, showing dialog');
       showDialog(
           context: context,
@@ -470,7 +463,8 @@ class _VoucherBulkPageState extends State<VoucherBulkPage> {
       DebugHelper.debugPrint('Showing all vouchers');
       setState(() {
         _voucherLabel = 'Semua Voucher :';
-        _vouchers = _masterVouchers;
+        // gunakan salinan agar perubahan state lokal tidak hilang/saling menimpa
+        _vouchers = List<Map<String, dynamic>>.from(_masterVouchers);
       });
     } else if (status == 1) {
       DebugHelper.debugPrint('Showing unprocessed vouchers');
@@ -864,17 +858,28 @@ class _VoucherBulkPageState extends State<VoucherBulkPage> {
                               materialTapTargetSize:
                                   MaterialTapTargetSize.shrinkWrap,
                               visualDensity: VisualDensity.compact,
-                              fillColor: MaterialStateProperty.all(
-                                packageName == 'com.lariz.mobile'
-                                    ? Theme.of(context).secondaryHeaderColor
-                                    : Theme.of(context).primaryColor,
-                              ),
-                              value: voucher['selected'],
+                              fillColor: WidgetStateProperty.resolveWith((states) {
+                                if (states.contains(WidgetState.selected)) {
+                                  return packageName == 'com.lariz.mobile'
+                                      ? Theme.of(context).secondaryHeaderColor
+                                      : Theme.of(context).primaryColor;
+                                }
+                                return Colors.white; // unchecked: putih
+                              }),
+                              value: voucher['selected'] == true,
                               onChanged: (value) {
                                 if (_loading) return;
 
                                 setState(() {
-                                  voucher['selected'] = value;
+                                  final bool isSelected = (value ?? false) == true;
+                                  voucher['selected'] = isSelected;
+                                  // Sinkronkan perubahan ke master list agar tidak balik tercentang saat filter/regenerate
+                                  int masterIndex = _masterVouchers
+                                      .indexWhere((el) => el['code'] == voucher['code']);
+                                  if (masterIndex != -1) {
+                                    _masterVouchers[masterIndex]['selected'] = isSelected;
+                                  }
+                                  _calculateTotalHarga();
                                 });
                               },
                             ),

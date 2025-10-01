@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 import 'package:mobile/app_config.dart';
@@ -6,7 +5,6 @@ import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:permission_handler/permission_handler.dart';
 import './index.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 void mainCommon() {}
 

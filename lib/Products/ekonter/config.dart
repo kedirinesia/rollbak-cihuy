@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '66725795b0c5014ecc9dd657';
 
@@ -6,7 +5,7 @@ const namaApp = 'e Konter';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.ekonter.mobileapp';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

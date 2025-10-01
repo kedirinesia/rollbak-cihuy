@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -273,9 +272,6 @@ class _HomePopayState extends State<HomePopay> with TickerProviderStateMixin {
                               Expanded(
                                 child: Marquee(
                                   text: configAppBloc.info.valueWrapper.value
-                                                  .marquee !=
-                                              null &&
-                                          configAppBloc.info.valueWrapper.value
                                                   .marquee.message !=
                                               null
                                       ? configAppBloc.info.valueWrapper.value
@@ -364,10 +360,10 @@ class _HomePopayState extends State<HomePopay> with TickerProviderStateMixin {
                                         // ),
                                         style: ButtonStyle(
                                           backgroundColor:
-                                              MaterialStateProperty.all(
+                                              WidgetStateProperty.all(
                                             Color(0xff945a90),
                                           ),
-                                          shape: MaterialStateProperty.all<
+                                          shape: WidgetStateProperty.all<
                                               RoundedRectangleBorder>(
                                             RoundedRectangleBorder(
                                               borderRadius:
@@ -689,11 +685,11 @@ class _HomePopayState extends State<HomePopay> with TickerProviderStateMixin {
                                                   },
                                                   style: ButtonStyle(
                                                     backgroundColor:
-                                                        MaterialStateProperty
+                                                        WidgetStateProperty
                                                             .all(
                                                       Color(0xff945a90),
                                                     ),
-                                                    shape: MaterialStateProperty
+                                                    shape: WidgetStateProperty
                                                         .all<
                                                             RoundedRectangleBorder>(
                                                       RoundedRectangleBorder(
@@ -703,7 +699,7 @@ class _HomePopayState extends State<HomePopay> with TickerProviderStateMixin {
                                                       ),
                                                     ),
                                                     minimumSize:
-                                                        MaterialStateProperty
+                                                        WidgetStateProperty
                                                             .all<Size>(
                                                       Size(64, 26),
                                                     ),

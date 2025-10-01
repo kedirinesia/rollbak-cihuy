@@ -1,4 +1,3 @@
-// @dart=2.9
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -18,7 +17,7 @@ abstract class DetailDenomController extends State<DetailDenom>
   String coverIcon = '';
   bool loading = true;
   bool failed = false;
-  PrepaidDenomModel selectedDenom;
+  PrepaidDenomModel? selectedDenom;
   TextEditingController tujuan = TextEditingController();
   TextEditingController nominal = TextEditingController();
   String packageName = '';
@@ -56,28 +55,74 @@ abstract class DetailDenomController extends State<DetailDenom>
   }
 
   getData() async {
+    DebugHelper.debugPrint('=== DetailDenomController getData() START ===');
+    DebugHelper.debugPrint('Menu Name: ${widget.menu.name}');
+    DebugHelper.debugPrint('Menu Category ID: ${widget.menu.category_id}');
+    DebugHelper.debugPrint('API URL: $apiUrl/product/${widget.menu.category_id}');
+
     http.Response response = await http.get(
         Uri.parse('$apiUrl/product/${widget.menu.category_id}'),
-        headers: {'Authorization': bloc.token.valueWrapper?.value});
+        headers: {'Authorization': bloc.token.valueWrapper?.value ?? ''});
+
+    DebugHelper.debugPrint('API Response Status: ${response.statusCode}');
+    DebugHelper.debugPrint('API Response Body: ${response.body}');
 
     if (response.statusCode == 200) {
-      List<PrepaidDenomModel> lm = (jsonDecode(response.body)['data'] as List)
-          .map((m) => PrepaidDenomModel.fromJson(m))
-          .toList();
+      final Map<String, dynamic> responseBody = jsonDecode(response.body);
+      DebugHelper.debugPrint('Response structure: ${responseBody.keys}');
 
-      // SET CATEGORY COVER ICON
-      coverIcon = json.decode(response.body)['url_image'] ?? '';
+      if (responseBody.containsKey('data') && responseBody['data'] is List) {
+        List<dynamic> rawData = responseBody['data'];
+        DebugHelper.debugPrint('Raw data count: ${rawData.length}');
 
-      setState(() {
-        listDenom = lm;
-        loading = false;
-      });
+        // Debug first item to see structure
+        if (rawData.isNotEmpty) {
+          DebugHelper.debugPrint('First item structure: ${rawData[0]}');
+        }
+
+        List<PrepaidDenomModel> lm = rawData
+            .map((m) {
+              try {
+                DebugHelper.debugPrint('Processing item: $m');
+                PrepaidDenomModel model = PrepaidDenomModel.fromJson(m);
+                DebugHelper.debugPrint('✅ Successfully parsed: ${model.nama} - harga_jual: ${model.harga_jual}');
+                return model;
+              } catch (e) {
+                DebugHelper.debugPrint('❌ Error parsing item: $e');
+                DebugHelper.debugPrint('Problematic item: $m');
+                return null;
+              }
+            })
+            .where((item) => item != null)
+            .cast<PrepaidDenomModel>()
+            .toList();
+
+        DebugHelper.debugPrint('Successfully parsed ${lm.length} items');
+
+        // SET CATEGORY COVER ICON
+        coverIcon = responseBody['url_image'] ?? '';
+        DebugHelper.debugPrint('Cover Icon: $coverIcon');
+
+        setState(() {
+          listDenom = lm;
+          loading = false;
+        });
+      } else {
+        DebugHelper.debugPrint('❌ Invalid response structure: missing data array');
+        setState(() {
+          loading = false;
+          listDenom = [];
+        });
+      }
     } else {
+      DebugHelper.debugPrint('❌ API Error: ${response.statusCode}');
       setState(() {
         loading = false;
         listDenom = [];
       });
     }
+
+    DebugHelper.debugPrint('=== DetailDenomController getData() END ===');
   }
 
   onTapDenom(denom) {
@@ -146,7 +191,7 @@ abstract class DetailDenomController extends State<DetailDenom>
       final response = await http.get(
         Uri.parse(apiEndpoint),
         headers: {
-          'Authorization': bloc.token.valueWrapper?.value,
+          'Authorization': bloc.token.valueWrapper?.value ?? '',
         },
       );
       

@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -16,7 +15,6 @@ import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
 
 import 'package:mobile/provider/analitycs.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class SupplierAdd extends StatefulWidget {
   @override
@@ -46,8 +44,8 @@ class SupplierrAddState extends State<SupplierAdd> {
   }
 
   void saveSupplier() async {
-    _formKey.currentState.save();
-    if (_formKey.currentState.validate()) {
+    _formKey.currentState?.save();
+    if (_formKey.currentState?.validate() ?? false) {
       setState(() {
         loading = true;
       });
@@ -65,7 +63,7 @@ class SupplierrAddState extends State<SupplierAdd> {
             await http.post(Uri.parse('$apiUrlKasir/master/supplier/add'),
                 headers: {
                   'Content-Type': 'application/json',
-                  'authorization': bloc.token.valueWrapper?.value,
+                  'authorization': bloc.token.valueWrapper?.value ?? '',
                 },
                 body: json.encode(dataToSend));
 
@@ -200,14 +198,15 @@ class SupplierrAddState extends State<SupplierAdd> {
                                   color: Colors.red,
                                 ),
                               ),
-                              validator: (String value) {
+                              validator: (String? value) {
                                 if (value == "") {
                                   return "nama tidak boleh kosong";
                                 }
+                                return null;
                               },
-                              onSaved: (String value) {
+                              onSaved: (String? value) {
                                 setState(() {
-                                  nama = value;
+                                  nama = value ?? '';
                                 });
                               }),
                           SizedBox(height: 10.0),
@@ -227,14 +226,15 @@ class SupplierrAddState extends State<SupplierAdd> {
                                 ),
                               ),
                               keyboardType: TextInputType.number,
-                              validator: (String value) {
+                              validator: (String? value) {
                                 if (value == "") {
                                   return "nomor telpon tidak boleh kosong";
                                 }
+                                return null;
                               },
-                              onSaved: (String value) {
+                              onSaved: (String? value) {
                                 setState(() {
-                                  telp = value;
+                                  telp = value ?? '';
                                 });
                               }),
                           SizedBox(height: 10.0),
@@ -253,14 +253,15 @@ class SupplierrAddState extends State<SupplierAdd> {
                                   color: Colors.red,
                                 ),
                               ),
-                              validator: (String value) {
+                              validator: (String? value) {
                                 if (value == "") {
                                   return "email tidak boleh kosong";
                                 }
+                                return null;
                               },
-                              onSaved: (String value) {
+                                onSaved: (String? value) {
                                 setState(() {
-                                  email = value;
+                                  email = value ?? '';
                                 });
                               }),
                           SizedBox(height: 10.0),
@@ -281,14 +282,15 @@ class SupplierrAddState extends State<SupplierAdd> {
                                 ),
                               ),
                               keyboardType: TextInputType.multiline,
-                              validator: (String value) {
+                              validator: (String? value) {
                                 if (value == "") {
                                   return "alamat tidak boleh kosong";
                                 }
+                                return null;
                               },
-                              onSaved: (String value) {
+                              onSaved: (String? value) {
                                 setState(() {
-                                  alamat = value;
+                                  alamat = value ?? '';
                                 });
                               }),
                           SizedBox(height: 20.0),

@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -11,7 +10,6 @@ import 'package:mobile/screen/select_state/mccid.dart';
 import 'package:mobile/screen/select_state/provinsi.dart';
 import 'package:mobile/screen/text_kapital.dart';
 import 'verification2.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class SubmitKyc1 extends StatefulWidget {
   @override
@@ -24,16 +22,16 @@ class _SubmitKyc1State extends State<SubmitKyc1> {
   TextEditingController kotaText = TextEditingController();
   TextEditingController kecamatanText = TextEditingController();
   TextEditingController mccText = TextEditingController();
-  Lokasi provinsi;
-  Lokasi kota;
-  Lokasi kecamatan;
+  late Lokasi provinsi;
+  late Lokasi kota;
+  late Lokasi kecamatan;
   String userName = '';
   String storeName = '';
   // String province = '';
   // String district = '';
   // String subDistrict = '';
   String address = '';
-  MccCode jenisUsaha;
+  late MccCode jenisUsaha;
   String postalCode = '';
 
   @override
@@ -216,8 +214,8 @@ class _SubmitKyc1State extends State<SubmitKyc1> {
 
                         setState(() {
                           provinsi = lokasi;
-                          kota = null;
-                          kecamatan = null;
+                          kota = Lokasi(id: '', nama: '', kode: '');
+                          kecamatan = Lokasi(id: '', nama: '', kode: '');
 
                           provinsiText.text = lokasi.nama;
                           kotaText.clear();
@@ -295,7 +293,7 @@ class _SubmitKyc1State extends State<SubmitKyc1> {
 
                         setState(() {
                           kota = lokasi;
-                          kecamatan = null;
+                          kecamatan = Lokasi(id: '', nama: '', kode: '');
 
                           kotaText.text = lokasi.nama;
                           kecamatanText.clear();
@@ -464,18 +462,18 @@ class _SubmitKyc1State extends State<SubmitKyc1> {
                       height: 50,
                       child: ElevatedButton(
                         onPressed: () {
-                          if (_formKey.currentState.validate()) {
+                          if (_formKey.currentState?.validate() ?? false) {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => SubmitKyc2(
                                   userName: userName,
                                   storeName: storeName,
-                                  province: provinsi?.id,
-                                  district: kota?.id,
-                                  subDistrict: kecamatan?.id,
+                                  province: provinsi.id,
+                                  district: kota.id,
+                                  subDistrict: kecamatan.id,
                                   address: address,
-                                  mccCode: jenisUsaha?.id,
+                                  mccCode: jenisUsaha.id,
                                   postalCode: postalCode,
                                 ),
                               ),

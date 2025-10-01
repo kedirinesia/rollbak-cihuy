@@ -1,10 +1,8 @@
-// @dart=2.9
 
 import 'package:division/division.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/Products/alpay/layout/components/information/information_label.dart';
 import 'package:mobile/Products/alpay/layout/components/information/information_nothing.style.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class InformationNothing extends StatelessWidget {
   const InformationNothing({Key key}) : super(key: key);

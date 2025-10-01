@@ -1,11 +1,9 @@
-// @dart=2.9
 
 import 'package:mobile/Products/cuanplus/layout/detail-deposit.dart';
 import 'package:mobile/Products/cuanplus/layout/home.dart';
 import 'package:mobile/Products/cuanplus/layout/kirim-saldo.dart';
 import 'package:mobile/Products/cuanplus/layout/topup.dart';
 import 'package:mobile/models/deposit.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 String sigVendor = '5fb388b276630d18ece55bc7';
 
@@ -13,7 +11,7 @@ const namaApp = 'Cuan Plus';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.cuanplus.app';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

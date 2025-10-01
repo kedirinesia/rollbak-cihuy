@@ -1,4 +1,5 @@
-// @dart=2.9
+
+import 'package:mobile/utils/debug_helper.dart';
 
 class MetodeBayarModel {
   final int type;
@@ -10,15 +11,25 @@ class MetodeBayarModel {
   Map<String, dynamic> admin;
 
   MetodeBayarModel(
-      {this.id,
-      this.type,
-      this.title,
-      this.code,
-      this.icon,
-      this.description,
-      this.admin});
+      { required this.id,
+      required this.type,
+      required this.title,
+      required this.code,
+      required this.icon,
+      required this.description,
+      required this.admin});
 
   factory MetodeBayarModel.fromJson(dynamic json) {
+    // Debug logging untuk admin fee
+    if (json['admin'] != null) {
+      DebugHelper.debugPrint('🔍 [ADMIN FEE] ${json['title']}: ${json['admin']}');
+      if (json['admin']['nominal'] == null) {
+        DebugHelper.debugPrint('⚠️ [ADMIN FEE WARNING] ${json['title']} has null nominal for admin fee');
+      }
+    } else {
+      DebugHelper.debugPrint('⚠️ [ADMIN FEE WARNING] ${json['title']} has null admin object');
+    }
+    
     return MetodeBayarModel(
       id: json['_id'] ?? '',
       code: json['code'] ?? '',

@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:async';
 import 'dart:convert';
@@ -20,7 +19,6 @@ import 'package:mobile/bloc/Bloc.dart';
 
 // SCREEN
 import 'package:mobile/screen/select_state/customer.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class TambahPiutang extends StatefulWidget {
   @override
@@ -43,7 +41,7 @@ class TambahPiutangState extends State<TambahPiutang> {
   String nominal = "";
   String namaCustomer = "";
   String keterangan = "";
-  CustomerModel customer;
+  CustomerModel? customer;
 
   @override
   initState() {
@@ -52,7 +50,7 @@ class TambahPiutangState extends State<TambahPiutang> {
 
   // SELECT DATE
   Future _selectDate() async {
-    DateTime picked = await showDatePicker(
+    DateTime? picked = await showDatePicker(
       context: context,
       initialDate: selectedDate,
       firstDate: DateTime.utc(1965, 1, 1),
@@ -60,19 +58,17 @@ class TambahPiutangState extends State<TambahPiutang> {
       locale: Locale('id', 'ID'),
     );
 
-    if (picked != null) {
-      String value = formatter.format(picked);
+    String value = formatter.format(picked ?? DateTime.now());
 
-      setState(() {
-        selectedDate = picked;
-        tglController.text = value;
-      });
-    }
+    setState(() {
+      selectedDate = picked ?? DateTime.now();
+      tglController.text = value;
+    });
   }
 
   void simpanPiutang() async {
-    _formKey.currentState.save();
-    if (_formKey.currentState.validate()) {
+    _formKey.currentState?.save();
+    if (_formKey.currentState?.validate() ?? false) {
       if (int.parse(nominal) >= 0) {
         setState(() {
           loading = true;
@@ -82,7 +78,7 @@ class TambahPiutangState extends State<TambahPiutang> {
           'nominal': nominal,
           'tanggal': tglController.text,
           'keterangan': keteranganController.text,
-          'id_customer': customer != null ? customer.id : null,
+          'id_customer': customer != null ? customer?.id : null,
           'type_piutang': 1
         };
 
@@ -91,7 +87,7 @@ class TambahPiutangState extends State<TambahPiutang> {
               Uri.parse('$apiUrlKasir/transaksi/piutang/savePiutang'),
               headers: {
                 'Content-Type': 'application/json',
-                'authorization': bloc.token.valueWrapper?.value,
+                'authorization': bloc.token.valueWrapper?.value ?? '',
               },
               body: json.encode(dataToSend));
 
@@ -243,14 +239,15 @@ class TambahPiutangState extends State<TambahPiutang> {
                               ),
                             ),
                             keyboardType: TextInputType.number,
-                            validator: (String value) {
+                            validator: (String? value) {
                               if (value == "") {
                                 return "nominal tidak boleh kosong";
                               }
+                              return null;
                             },
-                            onSaved: (String value) {
+                            onSaved: (String? value) {
                               setState(() {
-                                nominal = value;
+                                nominal = value ?? '';
                               });
                             }),
                         SizedBox(height: 10.0),
@@ -265,14 +262,15 @@ class TambahPiutangState extends State<TambahPiutang> {
                               color: Colors.red,
                             ),
                           ),
-                          validator: (String value) {
+                          validator: (String? value) {
                             if (value == "") {
                               return "pelanggan tidak boleh kosong";
                             }
+                            return null;
                           },
-                          onSaved: (String value) {
+                          onSaved: (String?  value) {
                             setState(() {
-                              namaCustomer = value;
+                              namaCustomer = value ?? '';
                             });
                           },
                           onTap: () async {

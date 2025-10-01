@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:async';
 import 'dart:convert';
@@ -16,7 +15,6 @@ import 'package:mobile/Products/eralink/layout/downline/downline.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
 import 'package:mobile/bloc/Bloc.dart' show bloc;
-import 'package:mobile/utils/debug_helper.dart';
 
 abstract class DownlineController extends State<DownlinePage>
     with TickerProviderStateMixin {

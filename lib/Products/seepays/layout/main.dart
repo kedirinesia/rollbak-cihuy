@@ -1,18 +1,12 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobile/Products/seepays/layout/history.dart';
 import 'package:mobile/Products/seepays/layout/home2.dart';
 import 'package:mobile/Products/seepays/layout/profile.dart';
-import 'package:mobile/bloc/ConfigApp.dart';
-import 'package:mobile/component/webview.dart';
 import 'package:mobile/Products/lariz/layout/qris/qris_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:mobile/screen/profile/cs/cs.dart';
 import 'package:mobile/Products/seepays/config.dart' as seepaysConfig;
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class MainApp extends StatefulWidget {
   @override

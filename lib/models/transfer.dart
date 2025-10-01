@@ -1,4 +1,3 @@
-// @dart=2.9
 
 class TransferModel {
   String id;
@@ -11,14 +10,14 @@ class TransferModel {
   String createdAt;
 
   TransferModel(
-      {this.id,
-      this.userId,
-      this.keterangan,
-      this.type,
-      this.jumlah,
-      this.saldoAkhir,
-      this.saldoAwal,
-      this.createdAt});
+      {required this.id,
+      required this.userId,
+      required this.keterangan,
+      required      this.type,
+      required  this.jumlah,
+      required this.saldoAkhir,
+      required this.saldoAwal,
+      required this.createdAt});
 
   factory TransferModel.fromJson(dynamic json) {
     return TransferModel(

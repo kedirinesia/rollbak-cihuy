@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '5f4880cd689dcc3d0f826e82';
 
@@ -6,7 +5,7 @@ const namaApp = 'TOPUP-IN';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.topupin.app';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

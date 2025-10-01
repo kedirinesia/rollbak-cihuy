@@ -1,4 +1,3 @@
-// @dart=2.9
 import 'dart:convert';
 import 'dart:io';
 
@@ -6,7 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:mobile/Products/centralbayar/layout/privacy_policy.dart';
+import 'package:mobile/screen/register.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/config.dart';
@@ -18,7 +17,6 @@ import 'package:mobile/component/bezierContainer.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/bloc/Api.dart' show apiUrl, sigVendor;
 import 'package:mobile/screen/cs.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -204,7 +202,7 @@ class _LoginPageState extends State<LoginPage> {
           InkWell(
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (_) => PrivacyPolicyPageRegister()));
+                  builder: (_) => RegisterUser()));
             },
             child: Text(
               'Daftar Sekarang',
@@ -324,7 +322,8 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   SizedBox(height: 20),
-                  configAppBloc.info.valueWrapper?.value.register
+                  (configAppBloc.info.valueWrapper?.value.register == true &&
+                   configAppBloc.info.valueWrapper?.value.stopAllRegister == false)
                       ? Align(
                           alignment: Alignment.bottomCenter,
                           child: _createAccountLabel(),

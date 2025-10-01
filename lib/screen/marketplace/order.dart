@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -27,7 +26,7 @@ import 'package:mobile/utils/debug_helper.dart';
 
 class OrderPage extends StatefulWidget {
   final List<ProdukCartMarket> products;
-  OrderPage({this.products});
+  OrderPage({required this.products});
 
   @override
   _OrderPageState createState() => _OrderPageState();
@@ -37,14 +36,14 @@ class _OrderPageState extends State<OrderPage> {
   TextEditingController voucherController = TextEditingController();
   bool isLoading = false;
   int totalProductPrice = 0;
-  AlamatModel recieverAddress;
-  MPKurir selectedCourier;
-  MPKurirService selectedService;
-  VoucherMarket selectedVoucher;
+  late AlamatModel recieverAddress;
+  late MPKurir selectedCourier;
+  late MPKurirService selectedService;
+  late VoucherMarket selectedVoucher;
   int totalPriceCheckout = 0;
   int totalWeight = 0;
   MetodeBayarModel purchaseMethod =
-      new MetodeBayarModel(title: 'Saldo', code: 'saldo');
+      new MetodeBayarModel(id: '', title: 'Saldo', code: 'saldo', type: 0, icon: '', description: '', admin: {} );
 
   @override
   void initState() {
@@ -75,24 +74,23 @@ class _OrderPageState extends State<OrderPage> {
           Uri.parse('$apiUrl/market/order/place'),
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': bloc.token.valueWrapper?.value
+            'Authorization': bloc.token.valueWrapper?.value ?? ''
           },
           body: json.encode({
             "items": widget.products
                 .map((e) => {"product_id": e.id, "qty": e.count})
                 .toList(),
             "kurir_id": selectedCourier.id,
-            "service_code": (selectedCourier != null &&
-                    (selectedCourier != null && selectedCourier.code == 'cod'))
+            "service_code": ((selectedCourier.code == 'cod'))
                 ? null
                 : selectedService.service,
             "shipping_id": recieverAddress.id,
             "shipping_cost":
-                (selectedCourier != null && selectedCourier.code == 'cod')
+                (selectedCourier.code == 'cod')
                     ? 0
                     : selectedService.cost,
             "payment_by":
-                (selectedCourier != null && selectedCourier.code == 'cod')
+                (selectedCourier.code == 'cod')
                     ? 'cod'
                     : purchaseMethod.code,
             "voucherID": selectedVoucher != null ? selectedVoucher.id : null
@@ -135,7 +133,7 @@ class _OrderPageState extends State<OrderPage> {
           Uri.parse('$apiUrl/market/voucher/validateCode'),
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': bloc.token.valueWrapper?.value,
+            'Authorization': bloc.token.valueWrapper?.value ?? '',
           },
           body: json.encode(dataToSend),
         );
@@ -177,8 +175,8 @@ class _OrderPageState extends State<OrderPage> {
     var discount = 0;
     var service = 0;
 
-    if (selectedVoucher != null) discount = selectedVoucher.nominalVoucher;
-    if (selectedService != null) service = selectedService.cost;
+ discount = selectedVoucher.nominalVoucher;
+ service = selectedService.cost ?? 0;
 
     totalPriceCheckout = totalProductPrice - discount + service;
 
@@ -335,8 +333,7 @@ class _OrderPageState extends State<OrderPage> {
                             SizedBox(height: 5),
                             Divider(),
                             SizedBox(height: 5),
-                            (selectedCourier != null &&
-                                    selectedCourier.code == 'cod')
+                            (selectedCourier.code == 'cod')
                                 ? Text('COD (Cash on Delivery)')
                                 : selectedService == null
                                     ? SizedBox()
@@ -368,13 +365,13 @@ class _OrderPageState extends State<OrderPage> {
                                     if (courierResult.code == 'cod') {
                                       setState(() {
                                         selectedCourier = courierResult;
-                                        selectedService = null;
+                                        selectedService = MPKurirService(service: '', description: '', cost: 0, estimate: '');
                                       });
                                       return;
                                     }
 
                                     if (selectedCourier != courierResult)
-                                      selectedService = null;
+                                      selectedService = MPKurirService(service: '', description: '', cost: 0, estimate: '');
                                     setState(() {
                                       selectedCourier = courierResult;
                                     });
@@ -400,10 +397,10 @@ class _OrderPageState extends State<OrderPage> {
                             )
                           ])),
                   SizedBox(height: 10),
-                  (selectedCourier != null && selectedCourier.code == 'cod')
+                  (selectedCourier.code == 'cod')
                       ? SizedBox()
                       : buildVoucher(),
-                  (selectedCourier != null && selectedCourier.code == 'cod')
+                  (selectedCourier.code == 'cod')
                       ? SizedBox()
                       : SizedBox(height: 10),
                   Container(
@@ -504,7 +501,7 @@ class _OrderPageState extends State<OrderPage> {
                             Divider(),
                             SizedBox(height: 5),
                             Text((purchaseMethod.code == 'saldo' &&
-                                    bloc.user.valueWrapper?.value.saldo <
+                                    bloc.user.valueWrapper!.value.saldo <
                                         (totalProductPrice +
                                             (selectedService == null
                                                 ? 0
@@ -538,7 +535,7 @@ class _OrderPageState extends State<OrderPage> {
                           ])),
                   SizedBox(height: 20),
                   (purchaseMethod.code == 'saldo' &&
-                          bloc.user.valueWrapper?.value.saldo <
+                          bloc.user.valueWrapper!.value.saldo <
                               (totalProductPrice +
                                   (selectedService == null
                                       ? 0
@@ -636,7 +633,7 @@ class _OrderPageState extends State<OrderPage> {
                     });
                   } else {
                     setState(() {
-                      selectedVoucher = null;
+                      selectedVoucher = VoucherMarket(id: '', title: '', voucherCode: '', description: '', minNominal: 0, maxClaimed: 0, nominalVoucher: 0, minShop: 0, startDate: '', endDate: '', categoryID: '', active: false, vproduk: null);
                       voucherController.text = '';
                     });
                   }

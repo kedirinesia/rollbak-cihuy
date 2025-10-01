@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -14,7 +13,6 @@ import 'package:mobile/bloc/Bloc.dart';
 // model
 import 'package:mobile/models/kasir/satuan.dart';
 import 'package:mobile/provider/analitycs.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class SelectSatuan extends StatefulWidget {
   @override
@@ -42,7 +40,7 @@ class SelectSatuanState extends State<SelectSatuan> {
     try {
       http.Response response =
           await http.get(Uri.parse('$apiUrlKasir/master/satuan/all'), headers: {
-        'authorization': bloc.token.valueWrapper?.value,
+        'authorization': bloc.token.valueWrapper?.value ?? '',
       });
 
       if (response.statusCode == 200) {

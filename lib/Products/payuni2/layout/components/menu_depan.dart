@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -183,12 +182,12 @@ class _MenuComponentState extends State<MenuComponent> {
               children: [
                 TextButton(
                   style: ButtonStyle(
-                    overlayColor: MaterialStateProperty.all(Colors.transparent),
+                    overlayColor: WidgetStateProperty.all(Colors.transparent),
                     backgroundColor: _menuIndex == 0
-                        ? MaterialStateProperty.all(
+                        ? WidgetStateProperty.all(
                             Theme.of(context).primaryColor.withOpacity(0.1))
-                        : MaterialStateProperty.all(Colors.transparent),
-                    shape: MaterialStateProperty.all(
+                        : WidgetStateProperty.all(Colors.transparent),
+                    shape: WidgetStateProperty.all(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18.0),
                       ),
@@ -205,12 +204,12 @@ class _MenuComponentState extends State<MenuComponent> {
                 ),
                 TextButton(
                   style: ButtonStyle(
-                    overlayColor: MaterialStateProperty.all(Colors.transparent),
+                    overlayColor: WidgetStateProperty.all(Colors.transparent),
                     backgroundColor: _menuIndex == 1
-                        ? MaterialStateProperty.all(
+                        ? WidgetStateProperty.all(
                             Theme.of(context).primaryColor.withOpacity(0.1))
-                        : MaterialStateProperty.all(Colors.transparent),
-                    shape: MaterialStateProperty.all(
+                        : WidgetStateProperty.all(Colors.transparent),
+                    shape: WidgetStateProperty.all(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18.0),
                       ),

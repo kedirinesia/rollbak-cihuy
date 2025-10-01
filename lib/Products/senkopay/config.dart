@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '6051bb214645dc1575515823';
 
@@ -6,7 +5,7 @@ const namaApp = 'SenkoPay';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.senkopay.apk';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -31,7 +30,7 @@ class LapDetailJual extends StatefulWidget {
   createState() => LapDetailJualState();
 }
 
-class LapDetailJualState extends State<LapDetailJual> {
+class LapDetailJualState extends State<LapDetailJual> { 
   List<DetailTrxModel> detailTrxs = [];
   int totalTrx = 0;
   bool loading = true;
@@ -49,7 +48,7 @@ class LapDetailJualState extends State<LapDetailJual> {
           Uri.parse(
               '$apiUrlKasir/laporan/penjualan/detail?idTrx=${widget.idTrx}'),
           headers: {
-            'authorization': bloc.token.valueWrapper?.value,
+            'authorization': bloc.token.valueWrapper?.value ?? '',
           });
 
       var responseData = json.decode(response.body);
@@ -203,7 +202,7 @@ class LapDetailJualState extends State<LapDetailJual> {
   }
 
   Widget _buildItem(BuildContext context, DetailTrxModel item) {
-    int totalPrice = item.qty * item.hargaJual;
+    int totalPrice = item.qty! * item.hargaJual!;
     return Container(
       margin: EdgeInsets.all(10.0),
       padding: EdgeInsets.all(10.0),
@@ -237,11 +236,11 @@ class LapDetailJualState extends State<LapDetailJual> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 5.0),
-            Text('Supplier : ${item.supplierModel.nama}',
+            Text('Supplier : ${item.supplierModel?.nama}',
                 style: TextStyle(fontSize: 13.0, color: Colors.grey.shade700)),
             SizedBox(height: 5.0),
             Text(
-                '${item.qty} x ${formatNominal(item.hargaJual)} = ${formatNominal(totalPrice)}',
+                '${item.qty} x ${formatNominal(item.hargaJual ?? 0)} = ${formatNominal(totalPrice)}',
                 style: TextStyle(fontSize: 13.0, color: Colors.grey.shade700)),
           ],
         ),

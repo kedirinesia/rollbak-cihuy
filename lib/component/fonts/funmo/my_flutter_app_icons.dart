@@ -14,7 +14,6 @@
 ///
 ///
 import 'package:flutter/widgets.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class MyFlutterApp {
   MyFlutterApp._();

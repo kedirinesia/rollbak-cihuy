@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -20,7 +19,6 @@ import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
 
 import 'package:mobile/modules.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class LapDetailStock extends StatefulWidget {
   String namaBarang;
@@ -70,7 +68,7 @@ class LapDetailStockState extends State<LapDetailStock> {
           Uri.parse('$apiUrlKasir/laporan/arus-stock/detail?page=$page'),
           headers: {
             'Content-Type': 'application/json',
-            'authorization': bloc.token.valueWrapper?.value,
+            'authorization': bloc.token.valueWrapper?.value ?? '',
           },
           body: json.encode(dataToSend));
 
@@ -249,7 +247,7 @@ class LapDetailStockState extends State<LapDetailStock> {
                 ),
                 SizedBox(height: 5.0),
                 Text(
-                  formatDate(item.created_at, 'd MMMM yyyy'),
+                  formatDate(item.created_at ?? '', 'd MMMM yyyy'),
                   textScaleFactor: 0.8,
                   textAlign: TextAlign.right,
                   style: TextStyle(color: Colors.grey),

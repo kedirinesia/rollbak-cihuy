@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:async';
 
@@ -7,7 +6,6 @@ import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../config.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class CustomerServicePage extends StatefulWidget {
   @override

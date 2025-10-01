@@ -1,4 +1,3 @@
-// @dart=2.9
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -15,7 +14,6 @@ import 'package:mobile/screen/kyc/verification1.dart';
 import 'package:mobile/screen/transaksi/verifikasi_pin.dart';
 import 'package:mobile/screen/wd/list_bank.dart';
 import 'package:http/http.dart' as http;
-import 'package:mobile/utils/debug_helper.dart';
 
 class WithdrawPage extends StatefulWidget {
   @override
@@ -25,10 +23,10 @@ class WithdrawPage extends StatefulWidget {
 class _WithdrawPageState extends State<WithdrawPage> {
   TextEditingController bank = TextEditingController();
   TextEditingController tujuan = TextEditingController();
-  TextEditingController nominal = TextEditingController();
+ TextEditingController nominal = TextEditingController();
   TextEditingController namaController = TextEditingController();
-  WithdrawBankModel selectedBank;
-  PostpaidInquiryModel inq;
+  WithdrawBankModel? selectedBank;
+   PostpaidInquiryModel? inq;
   bool loading = false;
   bool checked = false;
   bool boxFavorite = false;
@@ -53,8 +51,8 @@ class _WithdrawPageState extends State<WithdrawPage> {
   }
 
   void getBank() async {
-    WithdrawBankModel item = await Navigator.of(context)
-        .push(MaterialPageRoute(builder: (_) => WithdrawBankPage()));
+    final item = await Navigator.of(context)
+        .push<WithdrawBankModel>(MaterialPageRoute(builder: (_) => WithdrawBankPage()));
     if (item == null) return;
     bank.text = item.nama;
     selectedBank = item;
@@ -72,7 +70,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
     http.Response response =
         await http.post(Uri.parse('$apiUrl/favorite/checkNumber'),
             headers: {
-              'Authorization': bloc.token.valueWrapper?.value,
+              'Authorization': bloc.token.valueWrapper?.value ?? '',
               'Content-Type': 'application/json',
             },
             body: json.encode(dataToSend));
@@ -138,7 +136,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
       http.Response response =
           await http.post(Uri.parse('$apiUrl/favorite/saveNumber'),
               headers: {
-                'Authorization': bloc.token.valueWrapper?.value,
+                'Authorization': bloc.token.valueWrapper?.value ?? '',
                 'Content-Type': 'application/json',
               },
               body: json.encode(dataToSend));
@@ -172,8 +170,8 @@ class _WithdrawPageState extends State<WithdrawPage> {
     double parsedNominal = double.parse(nominal.text.replaceAll('.', ''));
     if (nominal.text.isEmpty || tujuan.text.isEmpty || selectedBank == null)
       return;
-    if (bloc.user.valueWrapper?.value.saldo <
-        (selectedBank.admin + parsedNominal)) {
+    if (bloc.user.valueWrapper!.value.saldo <
+        (selectedBank!.admin + parsedNominal)) {
       String message = 'Saldo tidak mencukupi untuk melakukan withdraw';
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(message)));
@@ -185,7 +183,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
     });
 
     Map<String, dynamic> dataToSend = {
-      'kode_produk': selectedBank.kodeProduk,
+      'kode_produk': selectedBank!.kodeProduk,
       'tujuan': tujuan.text,
       'nominal': parsedNominal,
       'counter': 1
@@ -195,7 +193,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
         await http.post(Uri.parse('$apiUrl/trx/postpaid/inquiry'),
             headers: {
               'Content-Type': 'application/json',
-              'Authorization': bloc.token.valueWrapper?.value
+              'Authorization': bloc.token.valueWrapper?.value ?? ''
             },
             body: json.encode(dataToSend));
 
@@ -217,7 +215,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
   }
 
   void purchase() async {
-    if (!bloc.user.valueWrapper?.value.kyc_verification) {
+    if (!bloc.user.valueWrapper!.value.kyc_verification) {
       await showDialog(
         context: context,
         barrierDismissible: false,
@@ -244,9 +242,10 @@ class _WithdrawPageState extends State<WithdrawPage> {
       return;
     }
 
-    String pin = await Navigator.of(context)
+    final pinResult = await Navigator.of(context)
         .push(MaterialPageRoute(builder: (_) => VerifikasiPin()));
-    if (pin == null) return;
+    // Jika user batal/back, hentikan tanpa pesan dan tanpa request API
+    if (pinResult == null || (pinResult is String && pinResult.isEmpty)) return;
 
     setState(() {
       loading = true;
@@ -257,10 +256,10 @@ class _WithdrawPageState extends State<WithdrawPage> {
         Uri.parse('$apiUrl/trx/postpaid/purchase'),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': bloc.token.valueWrapper?.value
+          'Authorization': bloc.token.valueWrapper?.value ?? ''
         },
         body: json
-            .encode({'tracking_id': inq.trackingId, 'nominal': parsedNominal}));
+            .encode({'tracking_id': inq!.trackingId, 'nominal': parsedNominal}));
 
     if (response.statusCode == 200) {
       showDialog(
@@ -533,7 +532,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
                                                           color: Colors.grey)),
                                                   Text(
                                                       formatRupiah(
-                                                          selectedBank.admin),
+                                                          selectedBank!.admin),
                                                       style: TextStyle(
                                                           color:
                                                               Theme.of(context)
@@ -634,7 +633,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
                                                   color: Colors.grey,
                                                   fontSize: 11)),
                                           SizedBox(height: 5),
-                                          Text(inq.noPelanggan,
+                                          Text(inq!.noPelanggan,
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold)),
                                           SizedBox(height: 10),
@@ -643,7 +642,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
                                                   color: Colors.grey,
                                                   fontSize: 11)),
                                           SizedBox(height: 5),
-                                          Text(inq.nama,
+                                          Text(inq!.nama,
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold)),
                                           SizedBox(height: 10),
@@ -652,7 +651,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
                                                   color: Colors.grey,
                                                   fontSize: 11)),
                                           SizedBox(height: 5),
-                                          Text(formatRupiah(inq.tagihan),
+                                          Text(formatRupiah(inq!.tagihan),
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold)),
                                           SizedBox(height: 10),
@@ -661,7 +660,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
                                                   color: Colors.grey,
                                                   fontSize: 11)),
                                           SizedBox(height: 5),
-                                          Text(formatRupiah(inq.admin),
+                                          Text(formatRupiah(inq!.admin),
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold)),
                                           SizedBox(height: 10),
@@ -670,7 +669,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
                                                   color: Colors.grey,
                                                   fontSize: 11)),
                                           SizedBox(height: 5),
-                                          Text(formatRupiah(inq.fee),
+                                          Text(formatRupiah(inq!.fee),
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold)),
                                           SizedBox(height: 10),
@@ -679,7 +678,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
                                                   color: Colors.grey,
                                                   fontSize: 11)),
                                           SizedBox(height: 5),
-                                          Text(formatRupiah(inq.total),
+                                          Text(formatRupiah(inq!.total),
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold))
                                         ])

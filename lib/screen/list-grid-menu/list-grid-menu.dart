@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 
@@ -16,7 +15,6 @@ import 'package:mobile/provider/analitycs.dart';
 
 // CONTROLLER
 import 'list-grid-menu-controller.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class ListGridMenu extends StatefulWidget {
   final MenuModel menuModel;
@@ -54,9 +52,9 @@ class _ListGridMenuState extends ListGridMenuController {
             onPressed: () => Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                   builder: (_) =>
-                      configAppBloc.layoutApp?.valueWrapper?.value['home'] ??
+                      configAppBloc.layoutApp.valueWrapper?.value['home'] ??
                       templateConfig[
-                          configAppBloc.templateCode.valueWrapper?.value],
+                          configAppBloc.templateCode.valueWrapper?.value ?? 0],
                 ),
                 (route) => false),
           ),

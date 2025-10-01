@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -39,11 +38,11 @@ class _HistoryTrxState extends State<HistoryTrx> {
     DropdownMenuItem(child: Text('Gagal'), value: 3),
     DropdownMenuItem(child: Text('Semua Status'), value: 4),
   ];
-  DateTime startDate;
-  DateTime endDate;
-  int status;
+  late DateTime startDate;
+  late DateTime endDate;
+  late int status;
   int currentPage = 0;
-  String tujuan;
+  late String tujuan;
   bool isEdge = false;
   bool loading = true;
   bool isExpanded = false;
@@ -81,16 +80,16 @@ class _HistoryTrxState extends State<HistoryTrx> {
     getData();
   }
 
-  Future<void> getData({String tujuanSearch}) async {
+  Future<void> getData({String tujuanSearch = ''}) async {
     Map<String, dynamic> params = {};
     if (filtered) {
       params['tgl_akhir'] = formatDate(endDate.toIso8601String(), 'd-M-y');
       params['tgl_awal'] = formatDate(startDate.toIso8601String(), 'd-M-y');
-      if (status != null && status != 4) params['status'] = status.toString();
-      if (tujuan != null && tujuan.isNotEmpty) params['tujuan'] = tujuan;
+      if (status != 4) params['status'] = status.toString();
+      if (tujuan.isNotEmpty) params['tujuan'] = tujuan;
     }
 
-    if (tujuanSearch != null && tujuanSearch.isNotEmpty) {
+    if (tujuanSearch.isNotEmpty) {
       params['tujuan'] = tujuanSearch;
     }
 
@@ -106,7 +105,7 @@ class _HistoryTrxState extends State<HistoryTrx> {
     DebugHelper.debugPrint('bloc.token.valueWrapper?.value.toString()');
 
     http.Response response = await http.get(Uri.parse(url), headers: {
-      'Authorization': bloc.token.valueWrapper?.value,
+      'Authorization': bloc.token.valueWrapper?.value ?? '',
     });
 
     if (response.statusCode == 200) {
@@ -232,7 +231,7 @@ class _HistoryTrxState extends State<HistoryTrx> {
                                           color: Colors.grey.shade200))),
                               child: ListTile(
                                 onTap: () {
-                                  return Navigator.of(context).push(
+                                  Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (_) => DetailTransaksi(trx),
                                     ),
@@ -244,7 +243,7 @@ class _HistoryTrxState extends State<HistoryTrx> {
                                   backgroundColor:
                                       trx.statusModel.color.withOpacity(.1),
                                   child: CachedNetworkImage(
-                                    imageUrl: trx.statusModel.icon,
+                                    imageUrl: trx.statusModel.icon ?? '',
                                     width: 20,
                                   ),
                                 ),

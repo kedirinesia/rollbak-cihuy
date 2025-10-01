@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:async';
 import 'dart:convert';
@@ -13,7 +12,6 @@ import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/config.dart';
 // MODEL
 import 'package:mobile/models/favorite_number.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class FavoriteNumber extends StatefulWidget {
   final String type;
@@ -40,7 +38,7 @@ class FavoriteNumberState extends State<FavoriteNumber> {
     try {
       http.Response response = await http
           .get(Uri.parse('$apiUrl/favorite/get?type=${widget.type}'), headers: {
-        'authorization': bloc.token.valueWrapper?.value,
+        'authorization': bloc.token.valueWrapper?.value ?? '',
       });
 
       if (response.statusCode == 200) {

@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '5f8e067749381337809a8e26';
 
@@ -6,7 +5,7 @@ const namaApp = 'Akses Pulsa';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.aksespulsa.app';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

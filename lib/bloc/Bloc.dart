@@ -1,9 +1,8 @@
-  // @dart=2.9
+ 
 import 'package:flutter/cupertino.dart';
 import 'package:mobile/models/count_trx.dart';
 import 'package:mobile/models/user.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class Bloc extends Object {
   final amount = BehaviorSubject<int>.seeded(0);

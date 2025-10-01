@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -12,7 +11,6 @@ import 'package:mobile/modules.dart';
 import 'package:mobile/screen/forgot-password/step_3.dart';
 import 'package:pin_input_text_field/pin_input_text_field.dart';
 import 'package:http/http.dart' as http;
-import 'package:mobile/utils/debug_helper.dart';
 
 class StepTwoForgotPIN extends StatefulWidget {
   final String phone;
@@ -107,7 +105,7 @@ class _StepTwoForgotPINState extends State<StepTwoForgotPIN> {
                       SizedBox(height: 40),
                       PinInputTextField(
                         controller: otp,
-                        pinLength: configAppBloc.otpCount.valueWrapper?.value,
+                        pinLength: configAppBloc.otpCount.valueWrapper?.value ?? 0,
                         autoFocus: true,
                         decoration: UnderlineDecoration(
                             colorBuilder: PinListenColorBuilder(

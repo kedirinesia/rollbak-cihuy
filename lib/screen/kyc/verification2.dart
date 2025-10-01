@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'dart:io';
@@ -27,15 +26,15 @@ class SubmitKyc2 extends StatefulWidget {
   final String postalCode;
 
   SubmitKyc2({
-    Key key,
-    this.userName,
-    this.storeName,
-    this.province,
-    this.district,
-    this.subDistrict,
-    this.address,
-    this.mccCode,
-    this.postalCode,
+    Key? key,
+    required this.userName,
+    required this.storeName,
+    required this.province,
+    required this.district,
+    required this.subDistrict,
+    required this.address,
+    required this.mccCode,
+    required this.postalCode,
   }) : super(key: key);
   @override
   _SubmitKyc2State createState() => _SubmitKyc2State();
@@ -45,8 +44,8 @@ class _SubmitKyc2State extends State<SubmitKyc2> {
   final _formKey = GlobalKey<FormState>();
   bool loading = false;
   TextEditingController nik = TextEditingController();
-  File ktp;
-  File selfie;
+  late File ktp;
+  late File selfie;
 
   @override
   void initState() {
@@ -67,11 +66,9 @@ class _SubmitKyc2State extends State<SubmitKyc2> {
 
   void getKtp() async {
     File image = await getPhoto();
-    if (image != null) {
-      setState(() {
-        ktp = image;
-      });
-    }
+    setState(() {
+      ktp = image;
+    });
   }
 
   void getKtp1() async {
@@ -89,11 +86,9 @@ class _SubmitKyc2State extends State<SubmitKyc2> {
 
   void getSelfie() async {
     File image = await getPhoto();
-    if (image != null) {
-      setState(() {
-        selfie = image;
-      });
-    }
+    setState(() {
+      selfie = image;
+    });
   }
 
   void getSelfie1() async {
@@ -134,7 +129,7 @@ class _SubmitKyc2State extends State<SubmitKyc2> {
 
     http.MultipartRequest request =
         http.MultipartRequest('POST', Uri.parse('$apiUrl/kyc/upload'));
-    request.headers['Authorization'] = bloc.token.valueWrapper?.value;
+    request.headers['Authorization'] = bloc.token.valueWrapper?.value ?? '';
     request.fields['nik'] = nik.text;
     request.fields['nama_lengkap'] = widget.userName;
     request.fields['nama_usaha'] = widget.storeName;
@@ -155,8 +150,8 @@ class _SubmitKyc2State extends State<SubmitKyc2> {
     if (response.statusCode == 200) {
       updateUserInfo();
       nik.text = "";
-      ktp = null;
-      selfie = null;
+      ktp = File('');
+      selfie = File('');
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => WaitingKycPage()));
     } else {

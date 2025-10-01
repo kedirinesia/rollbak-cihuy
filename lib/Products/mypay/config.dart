@@ -1,11 +1,9 @@
-// @dart=2.9
 
 import 'package:mobile/Products/mypay/layout/detail-deposit.dart';
 import 'package:mobile/Products/mypay/layout/home.dart';
 import 'package:mobile/Products/mypay/layout/kirim-saldo.dart';
 import 'package:mobile/Products/mypay/layout/topup.dart';
 import 'package:mobile/models/deposit.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 // String sigVendor = '5e523bf7ae1e375162506db7';
 String sigVendor = '60b128784eaa6fe18af5af70';
@@ -14,7 +12,7 @@ const namaApp = 'My Pay';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'mypay.co.id';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

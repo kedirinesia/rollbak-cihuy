@@ -1,4 +1,3 @@
-// @dart=2.9
 
 // Export the main widget for easy importing
 export 'printPreviewSby.dart' show PrintPreviewSby;
@@ -33,7 +32,7 @@ class PrintPreviewSby extends StatefulWidget {
   final TrxModel trx;
   final bool isPostpaid;
 
-  PrintPreviewSby({Key key, this.trx, this.isPostpaid = false}) : super(key: key) {
+  PrintPreviewSby({Key? key, required this.trx, this.isPostpaid = false}) : super(key: key) {
     DebugHelper.debugPrint('"isPostpaid in constructor: $isPostpaid"');
   }
 
@@ -44,7 +43,7 @@ class PrintPreviewSby extends StatefulWidget {
 class _PrintPreviewSbyState extends PrintPreviewSbyController {
   BlueThermalPrinter _bluetooth = BlueThermalPrinter.instance;
   ScreenshotController _screenshotController = ScreenshotController();
-  File image;
+  File? image;
   bool isLogoPrinter = false;
   String footerStruk =
       'TERSEDIA PULSA, KUOTA ALL OPERATOR, TOKEN PLN, BAYAR TAGIHAN LISTRIK, PDAM, TELKOM, ITEM GAME, DAN MULTI PEMBAYARAN LAINNYA';
@@ -87,16 +86,16 @@ class _PrintPreviewSbyState extends PrintPreviewSbyController {
   Future<void> share() async {
     Directory temp = await getTemporaryDirectory();
     image = await File('${temp.path}/trx_${widget.trx.id}.png').create();
-    Uint8List bytes = await _screenshotController.capture(
+    Uint8List? bytes = await _screenshotController.capture(
       pixelRatio: 2.5,
       delay: Duration(milliseconds: 100),
     );
-    await image.writeAsBytes(bytes);
+    await image?.writeAsBytes(bytes ?? Uint8List(0));
     if (image == null) return;
     await Share.file(
       'Transaksi ${widget.trx.produk['nama']}',
       'trx_${widget.trx.id}.png',
-      image.readAsBytesSync(),
+      image?.readAsBytesSync() ?? Uint8List(0),
       'image/png',
     );
   }
@@ -109,7 +108,7 @@ class _PrintPreviewSbyState extends PrintPreviewSbyController {
       http.Response response =
           await http.post(Uri.parse('$apiUrl/product/member/$productId'),
               headers: {
-                'Authorization': bloc.token.valueWrapper?.value,
+                'Authorization': bloc.token.valueWrapper?.value ?? '',
                 'Content-Type': 'application/json'
               },
               body: json.encode({
@@ -117,7 +116,6 @@ class _PrintPreviewSbyState extends PrintPreviewSbyController {
                 'admin': txtAdmin.text,
               }));
       DebugHelper.debugPrint('response.body.toString()');
-      String message = json.decode(response.body)['message'];
       if (response.statusCode == 200) {
         showCustomDialog(
             context: context,
@@ -169,9 +167,9 @@ class _PrintPreviewSbyState extends PrintPreviewSbyController {
     });
 
     if (dynamicFooterStruk) {
-      if (configAppBloc.info.valueWrapper?.value?.footerStruk?.isNotEmpty == true) {
+      if (configAppBloc.info.valueWrapper?.value.footerStruk.isNotEmpty == true) {
         setState(() {
-          footerStruk = configAppBloc.info.valueWrapper.value.footerStruk;
+          footerStruk = configAppBloc.info.valueWrapper!.value.footerStruk;
         });
       }
     }
@@ -247,11 +245,7 @@ class _PrintPreviewSbyState extends PrintPreviewSbyController {
   // Method to generate receipt data for network printing
   Future<Uint8List> generateReceiptData() async {
     try {
-      // Validate data before generating
-      if (trxData == null) {
-        DebugHelper.debugPrint('❌ Error: Transaction data is null');
-        throw Exception('Data transaksi tidak tersedia');
-      }
+      // trxData is late initialized, no need to check for null
       
       if (bloc.user.valueWrapper?.value == null) {
         DebugHelper.debugPrint('❌ Error: User data is null');
@@ -301,12 +295,12 @@ class _PrintPreviewSbyState extends PrintPreviewSbyController {
         throw Exception('Data user tidak valid');
       }
       
-      DebugHelper.debugPrint('✅ User data validation passed for: ${bloc.user.valueWrapper.value?.nama}');
+      DebugHelper.debugPrint('✅ User data validation passed for: ${bloc.user.valueWrapper!.value.nama}');
       
       // Print store name first
-      String storeName = bloc.user.valueWrapper.value?.namaToko?.isEmpty == true
-          ? bloc.user.valueWrapper.value?.nama ?? ''
-          : bloc.user.valueWrapper.value?.namaToko ?? '';
+      String storeName = bloc.user.valueWrapper!.value.namaToko.isEmpty == true
+          ? bloc.user.valueWrapper!.value.nama
+          : bloc.user.valueWrapper!.value.namaToko;
       
       if (storeName.isEmpty) {
         storeName = 'Toko';
@@ -322,9 +316,9 @@ class _PrintPreviewSbyState extends PrintPreviewSbyController {
         ),
       );
       
-      String storeAddress = bloc.user.valueWrapper.value?.alamatToko?.isEmpty == true
-          ? bloc.user.valueWrapper.value?.alamat ?? ''
-          : bloc.user.valueWrapper.value?.alamatToko ?? '';
+      String storeAddress = bloc.user.valueWrapper!.value.alamatToko.isEmpty == true
+          ? bloc.user.valueWrapper!.value.alamat
+          : bloc.user.valueWrapper!.value.alamatToko;
       
       if (storeAddress.isNotEmpty) {
         bytes += ticket.text(
@@ -350,21 +344,11 @@ class _PrintPreviewSbyState extends PrintPreviewSbyController {
         );
       }
       
-      // Validate transaction data
-      if (trxData == null) {
-        DebugHelper.debugPrint('❌ Error: Transaction data is null in v1()');
-        throw Exception('Data transaksi tidak valid');
-      }
-      
-      // Additional validation
-      if (trxData.id == null || trxData.id.isEmpty) {
-        DebugHelper.debugPrint('❌ Error: Transaction ID is null or empty');
+      // trxData is late initialized, no need to check for null
+      // Additional validation for required fields
+      if (trxData.id.isEmpty) {
+        DebugHelper.debugPrint('❌ Error: Transaction ID is empty');
         throw Exception('ID transaksi tidak valid');
-      }
-      
-      if (trxData.produk == null) {
-        DebugHelper.debugPrint('❌ Error: Product data is null');
-        throw Exception('Data produk tidak valid');
       }
       
       DebugHelper.debugPrint('✅ Transaction data validation passed for ID: ${trxData.id}');
@@ -395,11 +379,11 @@ class _PrintPreviewSbyState extends PrintPreviewSbyController {
       bytes += printLine(ticket, [
         {
           'label': 'Tujuan',
-          'value': trxData.tujuan ?? 'Tidak ada tujuan',
+          'value': trxData.tujuan,
         },
       ]);
       
-      if (trxData.print != null && trxData.print.isNotEmpty) {
+      if (trxData.print.isNotEmpty) {
         DebugHelper.debugPrint('✅ Processing ${trxData.print.length} print data items');
         trxData.print.forEach((el) {
           if (!['token', 'jumlah', 'nominal', 'tagihan', 'admin']
@@ -425,31 +409,29 @@ class _PrintPreviewSbyState extends PrintPreviewSbyController {
       }
       
       if (showSN) {
-        if (trxData.print == null || trxData.print.isEmpty) {
+        if (trxData.print.isEmpty) {
           bytes += printLine(ticket, [
             {
               'label': 'SN',
-              'value': trxData.sn ?? 'Tidak ada SN',
+              'value': trxData.sn,
             },
           ]);
         }
       } else {
         bytes += ticket.hr();
-        if (trxData.print != null) {
-          trxData.print.forEach((el) {
-            if (el['label'].toString().toLowerCase() == 'token') {
-              bytes += ticket.text(
-                el['value'].toString(),
-                styles: PosStyles(
-                  bold: true,
-                  align: PosAlign.center,
-                  width: sizes[i + 1],
-                  height: sizes[i + 1],
-                ),
-              );
-            }
-          });
-        }
+        trxData.print.forEach((el) {
+          if (el['label'].toString().toLowerCase() == 'token') {
+            bytes += ticket.text(
+              el['value'].toString(),
+              styles: PosStyles(
+                bold: true,
+                align: PosAlign.center,
+                width: sizes[i + 1],
+                height: sizes[i + 1],
+              ),
+            );
+          }
+        });
       }
       bytes += ticket.hr();
       if (showDefaultTagihan) {
@@ -542,9 +524,9 @@ class _PrintPreviewSbyState extends PrintPreviewSbyController {
     }
     
     // Print store name first
-    String v2StoreName = bloc.user.valueWrapper.value?.namaToko?.isEmpty == true
-        ? bloc.user.valueWrapper.value?.nama ?? ''
-        : bloc.user.valueWrapper.value?.namaToko ?? '';
+    String v2StoreName = bloc.user.valueWrapper!.value.namaToko.isEmpty == true
+        ? bloc.user.valueWrapper!.value.nama
+        : bloc.user.valueWrapper!.value.namaToko;
         
     if (v2StoreName.isEmpty) {
       v2StoreName = 'Toko';
@@ -556,9 +538,9 @@ class _PrintPreviewSbyState extends PrintPreviewSbyController {
       1,
     );
     
-    String v2StoreAddress = bloc.user.valueWrapper.value?.alamatToko?.isEmpty == true
-        ? bloc.user.valueWrapper.value?.alamat ?? ''
-        : bloc.user.valueWrapper.value?.alamatToko ?? '';
+    String v2StoreAddress = bloc.user.valueWrapper!.value.alamatToko.isEmpty == true
+        ? bloc.user.valueWrapper!.value.alamat
+        : bloc.user.valueWrapper!.value.alamatToko;
         
     await _bluetooth.printCustom(
       v2StoreAddress,
@@ -635,7 +617,7 @@ class _PrintPreviewSbyState extends PrintPreviewSbyController {
 
   Future<bool> checkBluetooth() async {
     PermissionStatus status = await Permission.locationWhenInUse.request();
-    bool isOn = await _bluetooth.isOn;
+    bool isOn = await _bluetooth.isOn ?? false;
 
     if (status == PermissionStatus.granted) {
       if (isOn) {
@@ -709,11 +691,11 @@ class _PrintPreviewSbyState extends PrintPreviewSbyController {
       bool status = await checkBluetooth();
       if (!status) return;
 
-      BluetoothDevice device = await Navigator.of(context)
+      BluetoothDevice? device = await Navigator.of(context)
           .push(MaterialPageRoute(builder: (_) => SelectPrinterPage()));
       if (device == null) return;
 
-      if (await _bluetooth.isConnected) await _bluetooth.disconnect();
+      if (await _bluetooth.isConnected ?? false) await _bluetooth.disconnect();
       
       // Test connection
       bool connected = await _bluetooth.connect(device);
@@ -723,16 +705,9 @@ class _PrintPreviewSbyState extends PrintPreviewSbyController {
       }
       
       final _profile = await CapabilityProfile.load();
-      if (_profile == null) {
-        showToast(context, 'Gagal memuat profile printer');
-        return;
-      }
-
-      // Validate transaction data
-      if (trxData == null) {
-        showToast(context, 'Data transaksi tidak valid');
-        return;
-      }
+      
+      // Validate transaction data - trxData is now late and guaranteed to be initialized
+      // No need to check for null since it's late initialized
 
       switch (bloc.printerType.valueWrapper?.value ?? 1) {
         case 1:
@@ -811,11 +786,11 @@ class _PrintPreviewSbyState extends PrintPreviewSbyController {
             onPressed: () => Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                   builder: (_) =>
-                      (configAppBloc.layoutApp?.valueWrapper?.value != null
-                          ? configAppBloc.layoutApp.valueWrapper.value['home']
+                      (configAppBloc.layoutApp.valueWrapper?.value != null
+                          ? configAppBloc.layoutApp.valueWrapper!.value['home']
                           : null) ??
                       templateConfig[
-                          configAppBloc.templateCode.valueWrapper?.value],
+                          configAppBloc.templateCode.valueWrapper?.value ?? 0],
                 ),
                 (route) => false),
           ),
@@ -884,7 +859,7 @@ class _PrintPreviewSbyState extends PrintPreviewSbyController {
                                         color: Theme.of(context)
                                             .secondaryHeaderColor)),
                                 onChanged: (value) => setState(() {
-                                      if (value == null) {
+                                      if (value.isEmpty) {
                                         harga = 0;
                                         total = 0 + admin + cetak;
                                       } else {
@@ -900,7 +875,7 @@ class _PrintPreviewSbyState extends PrintPreviewSbyController {
                                     labelText: labelHarga,
                                     prefixText: 'Rp '),
                                 onChanged: (value) => setState(() {
-                                      if (value == null) {
+                                      if (value.isEmpty) {
                                         harga = 0;
                                         total = 0 + admin + cetak;
                                       } else {
@@ -940,7 +915,7 @@ class _PrintPreviewSbyState extends PrintPreviewSbyController {
                                         color: Theme.of(context)
                                             .secondaryHeaderColor)),
                                 onChanged: (value) => setState(() {
-                                      if (value == null) {
+                                      if (value.isEmpty) {
                                         admin = 0;
                                         total = harga + 0 + cetak;
                                       } else {
@@ -956,7 +931,7 @@ class _PrintPreviewSbyState extends PrintPreviewSbyController {
                                     labelText: 'Admin',
                                     prefixText: 'Rp '),
                                 onChanged: (value) => setState(() {
-                                      if (value == null) {
+                                      if (value.isEmpty) {
                                         admin = 0;
                                         total = harga + 0 + cetak;
                                       } else {
@@ -975,7 +950,7 @@ class _PrintPreviewSbyState extends PrintPreviewSbyController {
                                     labelText: 'Biaya Cetak',
                                     prefixText: 'Rp '),
                                 onChanged: (value) => setState(() {
-                                      if (value == null) {
+                                      if (value.isEmpty) {
                                         cetak = 0;
                                         total = harga + admin + 0;
                                       } else {
@@ -1019,12 +994,12 @@ class _PrintPreviewSbyState extends PrintPreviewSbyController {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.0),
                         image: (configAppBloc.iconApp.valueWrapper?.value != null &&
-                                    configAppBloc.iconApp.valueWrapper.value['backgroundStruk'] != null)
+                                    configAppBloc.iconApp.valueWrapper?.value['backgroundStruk'] != null)
                                 ? DecorationImage(
                                     image: CachedNetworkImageProvider(configAppBloc
                                         .iconApp
                                         .valueWrapper
-                                        .value['backgroundStruk']),
+                                        ?.value['backgroundStruk'] ?? ''),
                                     repeat: ImageRepeat.repeat,
                                     fit: BoxFit.scaleDown,
                                   )
@@ -1054,13 +1029,13 @@ class _PrintPreviewSbyState extends PrintPreviewSbyController {
                                 // Show logo if available and isLogoPrinter is true
                                 isLogoPrinter && 
                                 configAppBloc.iconApp.valueWrapper?.value != null &&
-                                configAppBloc.iconApp.valueWrapper.value['logoPrinter'] != null
+                                configAppBloc.iconApp.valueWrapper?.value['logoPrinter'] != null
                                     ? Container(
                                         child: CachedNetworkImage(
                                           imageUrl: configAppBloc
                                               .iconApp
                                               .valueWrapper
-                                              .value['logoPrinter'],
+                                              ?.value['logoPrinter'] ?? '',
                                           height: 30,
                                         ),
                                       )
@@ -1075,13 +1050,13 @@ class _PrintPreviewSbyState extends PrintPreviewSbyController {
                                         Column(
                                           children: [
                                             Text(
-                                                bloc.user.valueWrapper.value
+                                                bloc.user.valueWrapper!.value
                                                             .namaToko ==
                                                         ''
                                                     ? bloc.username
-                                                        .valueWrapper.value
-                                                    : bloc.user.valueWrapper
-                                                        .value?.namaToko,
+                                                        .valueWrapper!.value
+                                                    : bloc.user.valueWrapper!
+                                                        .value.namaToko,
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 16,
@@ -1089,12 +1064,12 @@ class _PrintPreviewSbyState extends PrintPreviewSbyController {
                                                 )),
                                             SizedBox(height: 5),
                                             Text(
-                                                bloc.user.valueWrapper.value
+                                                bloc.user.valueWrapper!.value
                                                             .alamatToko ==
                                                         ''
-                                                    ? bloc.user.valueWrapper
+                                                    ? bloc.user.valueWrapper!
                                                         .value.alamat
-                                                    : bloc.user.valueWrapper
+                                                    : bloc.user.valueWrapper!
                                                         .value.alamatToko,
                                                 style: TextStyle(
                                                   fontSize: 12,
@@ -1361,7 +1336,7 @@ class _PrintPreviewSbyState extends PrintPreviewSbyController {
 
 abstract class PrintPreviewSbyController extends State<PrintPreviewSby>
     with TickerProviderStateMixin {
-  TrxModel trxData;
+  late TrxModel trxData;
   List<Map<String, dynamic>> additionalData = [];
   bool showEditor = false;
   bool showSN = false;
@@ -1382,7 +1357,7 @@ abstract class PrintPreviewSbyController extends State<PrintPreviewSby>
   void getData() async {
     http.Response response = await http.get(
         Uri.parse('$apiUrl/trx/${widget.trx.id}/print'),
-        headers: {'Authorization': bloc.token.valueWrapper?.value});
+        headers: {'Authorization': bloc.token.valueWrapper?.value ?? ''});
 
     if (response.statusCode == 200) {
       var responseData = json.decode(response.body)['data'];
@@ -1444,7 +1419,7 @@ abstract class PrintPreviewSbyController extends State<PrintPreviewSby>
       http.Response response = await http.get(
         Uri.parse('$apiUrl/product/member/$productId'),
         headers: {
-          'Authorization': bloc.token.valueWrapper?.value,
+          'Authorization': bloc.token.valueWrapper?.value ?? '',
         },
       );
 

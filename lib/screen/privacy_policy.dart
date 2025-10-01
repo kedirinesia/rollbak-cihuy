@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/screen/register.dart';
 import 'package:mobile/screen/terms/policy.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 
 class PrivacyPolicyPage extends StatefulWidget {
@@ -82,8 +81,8 @@ class _TermsOfServicePageState extends State<PrivacyPolicyPage> {
                         ),
                         style: ButtonStyle(
                             backgroundColor:
-                                MaterialStatePropertyAll(Colors.white),
-                            side: MaterialStatePropertyAll(BorderSide(
+                                WidgetStatePropertyAll(Colors.white),
+                            side: WidgetStatePropertyAll(BorderSide(
                                 color: Theme.of(context).primaryColor))),
                       ),
                     ),
@@ -97,7 +96,7 @@ class _TermsOfServicePageState extends State<PrivacyPolicyPage> {
                         },
                         child: Text('Setuju & Lanjutkan'),
                         style: ButtonStyle(
-                          backgroundColor: MaterialStatePropertyAll(
+                          backgroundColor: WidgetStatePropertyAll(
                               Theme.of(context).primaryColor),
                         ),
                       ),

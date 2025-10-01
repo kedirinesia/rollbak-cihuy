@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:async';
 import 'dart:convert';
@@ -13,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_page_transition/flutter_page_transition.dart';
+// import 'package:flutter_page_transition/flutter_page_transition.dart'; // Package not found
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
@@ -48,6 +47,7 @@ import 'package:mobile/screen/topup/topup.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_saldo.dart';
 import 'package:mobile/screen/wd/withdraw.dart';
 import 'package:nav/nav.dart';
+// import 'package:page_transition/page_transition.dart'; // Unused import
 import 'package:path_provider/path_provider.dart' as PathProvider;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:package_info/package_info.dart';
@@ -61,14 +61,14 @@ Future<void> onMessageHandler(Map<String, dynamic> message) async {
 class PayuniApp extends StatefulWidget {
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
-  PayuniApp({Key key}) : super(key: key);
+  PayuniApp({Key? key}) : super(key: key);
 
   @override
   _PayuniAppState createState() => _PayuniAppState();
 }
 
 class _PayuniAppState extends State<PayuniApp> with Nav {
-  AppLinks _appLinks;
+  late AppLinks _appLinks;
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
   bool loading = true;
@@ -112,6 +112,16 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
   }
 
   Future<void> checkUser() async {
+    // Ensure Firebase is initialized before any Firebase-dependent features (e.g., Dynamic Links)
+    try {
+      Firebase.app();
+    } catch (_) {
+      try {
+        await Firebase.initializeApp();
+      } catch (e) {
+        DebugHelper.debugError('FIREBASE', 'Initialize failed, continue without Firebase: $e');
+      }
+    }
     List<String> pkgNameSplashProgress = ['com.talentapay.android'];
 
     pkgNameSplashProgress.forEach((element) {
@@ -123,19 +133,21 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
     });
 
     try {
+      print('🔄 CALLING getAppInfo()...');
       await getAppInfo();
+      print('✅ getAppInfo() completed successfully');
       DebugHelper.debugPrint('getAppInfo completed successfully');
     } catch (e) {
       DebugHelper.debugError('getAppInfo', 'getAppInfo failed: $e');
       DebugHelper.debugError('getAppInfo', 'Error type: ${e.runtimeType}');
-      
+
       // Handle FormatException (HTML response from server)
       if (e is FormatException) {
         DebugHelper.debugError('getAppInfo', 'Server returned HTML instead of JSON. This indicates a server issue.');
         // You might want to show a user-friendly error message here
         // For now, we'll continue with default values
       }
-      
+
       // Continue with the app initialization even if getAppInfo fails
       // This prevents the app from crashing completely
     }
@@ -164,7 +176,7 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
 
     // Check if app info is available before checking if it's active
     if (configAppBloc.info.valueWrapper?.value != null && 
-        !configAppBloc.info.valueWrapper.value.aktif) {
+        !configAppBloc.info.valueWrapper!.value.aktif) {
       setState(() {
         loading = false;
         homePageWidget = DisablePage(DisableType.merchant);
@@ -198,11 +210,11 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
           */
           bloc.user..add(profile);
           bloc.token..add(token);
-          bloc.userId..add(prefs.getString('id'));
-          bloc.username..add(prefs.getString('nama'));
-          bloc.poin..add(prefs.getInt('poin'));
-          bloc.saldo..add(prefs.getInt('saldo'));
-          bloc.komisi..add(prefs.getInt('komisi'));
+          bloc.userId..add(prefs.getString('id') ?? '');
+          bloc.username..add(prefs.getString('nama') ?? '');
+          bloc.poin..add(prefs.getInt('poin') ?? 0);
+          bloc.saldo..add(prefs.getInt('saldo') ?? 0);
+          bloc.komisi..add(prefs.getInt('komisi') ?? 0);
 
           sendDeviceToken();
           await getFlashBanner(context);
@@ -230,7 +242,7 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
                 configAppBloc.layoutApp.valueWrapper?.value['home'] != null
                     ? configAppBloc.layoutApp.valueWrapper?.value['home']
                     : templateConfig[
-                        configAppBloc.templateCode.valueWrapper?.value];
+                        configAppBloc.templateCode.valueWrapper?.value ?? 0];
           });
         }
       } else {
@@ -300,20 +312,22 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
     hiveInit();
     // checkContact();
     printVersionInfo(); // Tambahkan ini untuk print version info ke console
-    if (configAppBloc.autoReload.valueWrapper.value) {
+    if (configAppBloc.autoReload.valueWrapper?.value == true) {
       SharedPreferences.getInstance().then((instance) {
-        String token = instance.getString('token');
-        if (token != null) {
+        String? token = instance.getString('token');
+        if (token != null && token.isNotEmpty) {
           DebugHelper.debugPrint('TOKEN: $token');
 
           Timer.periodic(new Duration(seconds: 100), (timer) async {
-            UserModel user = await UserProvider().getProfile();
-            bloc.user.add(user);
-            bloc.userId.add(user.id);
-            bloc.username.add(user.nama);
-            bloc.poin.add(user.poin);
-            bloc.saldo.add(user.saldo);
-            bloc.komisi.add(user.komisi);
+            UserModel? user = await UserProvider().getProfile();
+            if (user != null) {
+              bloc.user.add(user);
+              bloc.userId.add(user.id);
+              bloc.username.add(user.nama);
+              bloc.poin.add(user.poin);
+              bloc.saldo.add(user.saldo);
+              bloc.komisi.add(user.komisi);
+            }
           });
         }
       });
@@ -336,7 +350,8 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
   }
 
   void appLink() {
-    _appLinks = AppLinks(onAppLink: (uri, str) {
+    _appLinks = AppLinks();
+    _appLinks.uriLinkStream.listen((uri) {
       DebugHelper.debugPrint('Deep link received: $uri');
       
       // Handle deep links for all products - pattern: {product}://login
@@ -348,7 +363,7 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
         );
         showToast(context, 'Navigating to login page via deep link');
       } else {
-        showToast(context, str);
+        showToast(context, 'Deep link received: ${uri.toString()}');
       }
     });
   }
@@ -429,11 +444,13 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
   }
 
   Future selectNotification(String payload) async {
-    if (payload != null) {
+    if (payload.isNotEmpty) {
       debugPrint('notification payload: ' + payload);
     }
-    Map<String, dynamic> notificationData =
+    Map<String, dynamic>? notificationData =
         bloc.notificationData.valueWrapper?.value;
+    if (notificationData == null) return;
+    
     DebugHelper.debugPrint('notificationData');
     Map<dynamic, dynamic> data = notificationData['data'];
     if (data['type'] == 'transaksi') {
@@ -493,9 +510,19 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
   }
 
   void firebaseMessaging() async {
-    await Firebase.initializeApp();
+    // Guard: initialize Firebase if available, otherwise skip FCM without crashing
+    try {
+      Firebase.app();
+    } catch (_) {
+      try {
+        await Firebase.initializeApp();
+      } catch (e) {
+        DebugHelper.debugError('FIREBASE', 'Initialize for messaging failed: $e');
+        return;
+      }
+    }
     FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
-    String deviceToken = await _firebaseMessaging.getToken();
+    String? deviceToken = await _firebaseMessaging.getToken();
     // if (Platform.isIOS) {
     //   _firebaseMessaging.requestNotificationPermissions(
     //       const IosNotificationSettings(sound: true, badge: true, alert: true));
@@ -504,12 +531,12 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
     //     DebugHelper.debugPrint('"Settings registered: $settings"');
     //   });
     // }
-    bloc.deviceToken.add(deviceToken);
+    bloc.deviceToken.add(deviceToken ?? '');
   }
 
   void sendDeviceToken() async {
     Map<String, String> headers = {
-      'Authorization': bloc.token.valueWrapper?.value,
+      'Authorization': bloc.token.valueWrapper?.value ?? '',
       'Content-Type': 'application/json'
     };
     
@@ -517,7 +544,7 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
       headers['version_code'] = appVersionCode;
     }
     
-    Map<String, dynamic> body = {'token': bloc.deviceToken.valueWrapper?.value};
+    Map<String, dynamic> body = {'token': bloc.deviceToken.valueWrapper?.value ?? ''};
     
     DebugHelper.debugApi('POST_DEVICE_TOKEN', '=== POST USER/DEVICE_TOKEN ===');
     DebugHelper.debugApi('POST_DEVICE_TOKEN', 'URL: $apiUrl/user/device_token');
@@ -549,16 +576,25 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
     // var initializationSettingsAndroid = AndroidInitializationSettings('@drawable/app_icon');
     var initializationSettingsAndroid =
         AndroidInitializationSettings('app_icon');
-    var initializationSettingsIOS = IOSInitializationSettings(
-        requestSoundPermission: true,
-        requestBadgePermission: true,
-        requestAlertPermission: true);
+    var initializationSettingsIOS = DarwinInitializationSettings(
+      requestSoundPermission: true,
+      requestBadgePermission: true,
+      requestAlertPermission: true,
+    );
     var initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid,
       iOS: initializationSettingsIOS,
     );
-    await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onSelectNotification: selectNotification);
+    await flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+      // The 'onSelectNotification' parameter is deprecated/removed.
+      // Use 'onDidReceiveNotificationResponse' instead.
+      onDidReceiveNotificationResponse: (NotificationResponse response) {
+        if (response.payload != null) {
+          selectNotification(response.payload!);
+        }
+      },
+    );
   }
 
   void initNotif() async {
@@ -571,13 +607,13 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
         playSound: true,
         sound: RawResourceAndroidNotificationSound('ping'),
       );
-      var ios = new IOSNotificationDetails();
+      var ios = DarwinNotificationDetails();
       var notificationDetails =
-          new NotificationDetails(android: android, iOS: ios);
+          NotificationDetails(android: android, iOS: ios);
       await flutterLocalNotificationsPlugin.show(
         0,
-        message.notification.title,
-        message.notification.body,
+        message.notification?.title,
+        message.notification?.body,
         notificationDetails,
       );
     });
@@ -585,11 +621,11 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
 
   Future<void> getDynamicLinks() async {
     try {
-      final PendingDynamicLinkData data =
+      final PendingDynamicLinkData? data =
           await FirebaseDynamicLinks.instance.getInitialLink();
-      final Uri deepLink = data?.link;
-
-      if (deepLink != null) {
+      
+      if (data != null) {
+        final Uri deepLink = data.link;
         String url = deepLink.toString();
         List<String> arr = url.split('/');
         String kodeUpline = arr[arr.length - 1];
@@ -597,7 +633,7 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
         DebugHelper.debugPrint('KODE UPLINE: $kodeUpline');
       }
     } catch (e) {
-      DebugHelper.debugError("DYNAMIC_LINK", "ERROR DYNAMIC LINK");
+      DebugHelper.debugError("DYNAMIC_LINK", "ERROR DYNAMIC LINK: $e");
     }
   }
 
@@ -741,22 +777,11 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
       builder: (context, child) {
         return ScrollConfiguration(
           behavior: CustomScrollBehavior(),
-          child: child,
+          child: child!,
         );
       },
       onGenerateRoute: (RouteSettings routeSettings) {
-        transitionEffect.createCustomEffect(handle: (Curve curve,
-            Animation<double> animation,
-            Animation<double> secondaryAnimation,
-            Widget child) {
-          return new SlideTransition(
-            position: new Tween<Offset>(
-              begin: const Offset(1.0, 0.0),
-              end: const Offset(0.0, 0.0),
-            ).animate(CurvedAnimation(parent: animation, curve: curve)),
-            child: child,
-          );
-        });
+        // transitionEffect.createCustomEffect removed as it's not available
         return PageRouteBuilder(
             settings: routeSettings,
             pageBuilder: (BuildContext context, Animation<double> animation,
@@ -823,15 +848,18 @@ class _PayuniAppState extends State<PayuniApp> with Nav {
                   return IndexLap();
                 // END
                 default:
-                  return null;
+                  return Container();
               }
             },
             transitionsBuilder: (BuildContext context,
                 Animation<double> animation,
                 Animation<double> secondaryAnimation,
                 Widget child) {
-              return effectMap[PageTransitionType.rippleRightUp](
-                  Curves.linear, animation, secondaryAnimation, child);
+              // Fallback to a simple fade transition if effectMap is undefined
+              return FadeTransition(
+                opacity: animation,
+                child: child,
+              );
             });
       },
     );

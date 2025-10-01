@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/Products/eralink/layout/terms/policy.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class PrivacyPolicyPage extends StatefulWidget {
   @override
@@ -66,7 +65,7 @@ class _TermsOfServicePageState extends State<PrivacyPolicyPage> {
                   },
                   child: Text('Close'),
                   style: ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(
+                    backgroundColor: WidgetStatePropertyAll(
                         Theme.of(context).primaryColor),
                   ),
                 ),

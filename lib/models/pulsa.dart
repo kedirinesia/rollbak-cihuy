@@ -1,4 +1,3 @@
-// @dart=2.9
 
 class PulsaModel {
   String id;
@@ -11,14 +10,14 @@ class PulsaModel {
   dynamic category;
 
   PulsaModel({
-    this.id,
-    this.kodeProduk,
-    this.nama,
-    this.desc,
-    this.note,
-    this.hargaJual,
-    this.hargaPromo,
-    this.category,
+    required this.id,
+    required    this.kodeProduk,
+    required this.nama,
+    required this.desc,
+    required this.note,
+    required this.hargaJual,
+    required this.hargaPromo,
+    required this.category,
   });
 
   factory PulsaModel.fromJson(Map<String, dynamic> json) {
@@ -36,8 +35,8 @@ class PulsaModel {
       nama: json['nama'],
       desc: json['description'],
       note: json['notes'] ?? '',
-      hargaJual: json['harga_jual'],
-      hargaPromo: json['harga_promo'],
+      hargaJual: json['harga_jual'] ?? 0,
+      hargaPromo: json['harga_promo'] ?? 0,
       category: category,
     );
   }
@@ -49,14 +48,14 @@ class KategoriPulsaModel {
   final String iconUrl;
 
   KategoriPulsaModel({
-    this.id,
-    this.name,
-    this.iconUrl,
+    required this.id,
+    required this.name,
+    required this.iconUrl,
   });
 
   factory KategoriPulsaModel.fromJson(dynamic json) => KategoriPulsaModel(
-        id: json['_id'],
-        name: json['name'],
-        iconUrl: json['icon'],
+        id: json['_id'] ?? '',
+        name: json['name'] ?? '',
+        iconUrl: json['icon'] ?? '',
       );
 }

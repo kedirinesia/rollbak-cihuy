@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:async';
 import 'dart:convert';
@@ -31,11 +30,11 @@ class _MyNewPageState extends State<MyNewPage> {
   RefreshController refreshController =
       RefreshController(initialRefresh: false);
 
-  DateTime startDate;
-  DateTime endDate;
-  int status;
+  late DateTime startDate;
+  late DateTime endDate;
+  late int status;
   int currentPage = 0;
-  String tujuan;
+  late String tujuan;
   bool isEdge = false;
   bool loading = true;
   bool isExpanded = false;
@@ -47,9 +46,9 @@ class _MyNewPageState extends State<MyNewPage> {
   TextEditingController searchQuery = TextEditingController();
   int selectedButton = 0;
   String dropdownValue = 'Terbaru';
-  String selectedStatus;
-  int selectedFilterDay;
-  CountTrx countTrx;
+  late String selectedStatus;
+  late int selectedFilterDay;
+  late CountTrx countTrx;
 
   @override
   void initState() {
@@ -86,7 +85,7 @@ class _MyNewPageState extends State<MyNewPage> {
         '$apiUrl/trx/countTransaction?tgl_awal=$tglAwal&tgl_akhir=$tglAkhir';
 
     http.Response response = await http.get(Uri.parse(url), headers: {
-      'Authorization': bloc.token.valueWrapper?.value,
+      'Authorization': bloc.token.valueWrapper?.value ?? '',
     });
     CountTrx trxData = CountTrx.fromJson(json.decode(response.body)['data']);
     bloc.allTrxCount.add(trxData);
@@ -110,16 +109,16 @@ class _MyNewPageState extends State<MyNewPage> {
     });
   }
 
-  Future<void> getData({String tujuanSearch}) async {
+  Future<void> getData({String tujuanSearch = ''}) async {
     Map<String, dynamic> params = {};
     if (filtered) {
       params['tgl_akhir'] = formatDate(endDate.toIso8601String(), 'd-M-y');
       params['tgl_awal'] = formatDate(startDate.toIso8601String(), 'd-M-y');
-      if (status != null && status != 4) params['status'] = status.toString();
-      if (tujuan != null && tujuan.isNotEmpty) params['tujuan'] = tujuan;
+      if (status != 4) params['status'] = status.toString();
+      if (tujuan.isNotEmpty) params['tujuan'] = tujuan;
     }
 
-    if (tujuanSearch != null && tujuanSearch.isNotEmpty) {
+    if (tujuanSearch.isNotEmpty) {
       params['tujuan'] = tujuanSearch;
     }
 
@@ -134,7 +133,7 @@ class _MyNewPageState extends State<MyNewPage> {
     DebugHelper.debugPrint('url.toString()');
 
     http.Response response = await http.get(Uri.parse(url), headers: {
-      'Authorization': bloc.token.valueWrapper?.value,
+      'Authorization': bloc.token.valueWrapper?.value ?? '',
     });
 
     if (response.statusCode == 200) {
@@ -181,8 +180,8 @@ class _MyNewPageState extends State<MyNewPage> {
 
   List<TrxModel> filterByDate(int filterType) {
     DateTime now = DateTime.now();
-    DateTime startDate;
-    DateTime endDate;
+    late DateTime startDate;
+    late DateTime endDate;
 
     switch (filterType) {
       case 0: // Semua
@@ -221,7 +220,7 @@ class _MyNewPageState extends State<MyNewPage> {
   List<TrxModel> filterTransactions() {
     List<TrxModel> transactions = isInSearchMode ? searchResult : filteredTrx;
 
-    if (selectedStatus == null || selectedStatus == 'Semua') {
+    if (selectedStatus == 'Semua') {
       return transactions;
     } else {
       return transactions
@@ -233,7 +232,7 @@ class _MyNewPageState extends State<MyNewPage> {
   bool shouldDisplayEmptyState() {
     if (isInSearchMode) {
       return searchResult.isEmpty;
-    } else if (selectedStatus != null && selectedStatus != 'Semua') {
+    } else if (selectedStatus != 'Semua') {
       return filterTransactions().isEmpty;
     }
     return filteredTrx.isEmpty;
@@ -342,7 +341,7 @@ class _MyNewPageState extends State<MyNewPage> {
                               Text(
                                 bloc.allTrxCount.valueWrapper?.value != null
                                     ? formatNumber(bloc.allTrxCount.valueWrapper
-                                        ?.value.totalTrx)
+                                        ?.value.totalTrx ?? 0)
                                     : '',
                                 style: TextStyle(
                                     fontSize: 14,
@@ -377,7 +376,7 @@ class _MyNewPageState extends State<MyNewPage> {
                               Text(
                                 bloc.allTrxCount.valueWrapper?.value != null
                                     ? formatNumber(bloc.allTrxCount.valueWrapper
-                                        ?.value.totalTrxSuccess)
+                                        ?.value.totalTrxSuccess ?? 0)
                                     : '',
                                 style: TextStyle(
                                     fontSize: 14,
@@ -413,7 +412,7 @@ class _MyNewPageState extends State<MyNewPage> {
                         Text(
                           bloc.allTrxCount.valueWrapper?.value != null
                               ? formatRupiah(bloc.allTrxCount.valueWrapper
-                                  ?.value.totalVolumeTrx)
+                                  ?.value.totalVolumeTrx ?? 0)
                               : '',
                           style: TextStyle(
                               fontSize: 14,
@@ -518,7 +517,7 @@ class _MyNewPageState extends State<MyNewPage> {
                                       onPressed: () {
                                         setState(() {
                                           dropdownValue = 'Semua';
-                                          selectedStatus = null;
+                                          selectedStatus = '';
                                         });
                                         Navigator.pop(context);
                                       },
@@ -683,7 +682,7 @@ class _MyNewPageState extends State<MyNewPage> {
                                                       Colors.grey.shade200))),
                                       child: ListTile(
                                         onTap: () {
-                                          return Navigator.of(context).push(
+                                          Navigator.of(context).push(
                                             MaterialPageRoute(
                                               builder: (_) =>
                                                   DetailTransaksi(trx),
@@ -696,7 +695,7 @@ class _MyNewPageState extends State<MyNewPage> {
                                           backgroundColor: trx.statusModel.color
                                               .withOpacity(.1),
                                           child: CachedNetworkImage(
-                                            imageUrl: trx.statusModel.icon,
+                                            imageUrl: trx.statusModel.icon ?? '',
                                             width: 20,
                                           ),
                                         ),

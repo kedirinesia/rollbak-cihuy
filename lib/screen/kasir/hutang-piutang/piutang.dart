@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -52,7 +51,7 @@ class PiutangPageState extends State<PiutangPage> {
       http.Response response = await http.get(
           Uri.parse('$apiUrlKasir/transaksi/piutang?page=$page'),
           headers: {
-            'authorization': bloc.token.valueWrapper?.value,
+            'authorization': bloc.token.valueWrapper?.value ?? '',
           });
 
       String message = json.decode(response.body)['message'] ??
@@ -227,14 +226,14 @@ class PiutangPageState extends State<PiutangPage> {
             foregroundColor: Theme.of(context).primaryColor,
             backgroundColor: Theme.of(context).primaryColor.withOpacity(.1),
             child: Text(
-              '${piutang.customerModel.nama.split('')[0]}',
+              '${piutang.customerModel?.nama.split('')[0]}',
               style: TextStyle(
                 fontSize: 18.0,
               ),
             ),
           ),
           title: Text(
-            '${piutang.customerModel.nama}',
+            '${piutang.customerModel?.nama}',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               color: Theme.of(context).primaryColor,
@@ -242,7 +241,7 @@ class PiutangPageState extends State<PiutangPage> {
           ),
           subtitle: piutang.jatuhTempo != ''
               ? Text(
-                  formatDate(piutang.jatuhTempo, 'd MMMM yyyy'),
+                  formatDate(piutang.jatuhTempo ?? '', 'd MMMM yyyy'),
                   style: TextStyle(color: Colors.grey.shade700),
                 )
               : null,
@@ -250,11 +249,11 @@ class PiutangPageState extends State<PiutangPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                '${formatRupiah(piutang.customerModel.saldoHutang)}',
+                '${formatRupiah(piutang.customerModel?.saldoHutang ?? 0)}',
                 style: TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold,
-                    color: piutang.customerModel.saldoHutang > 0
+                    color: (piutang.customerModel?.saldoHutang ?? 0) > 0
                         ? Colors.red
                         : Colors.green),
               )

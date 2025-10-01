@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -19,7 +18,6 @@ import 'package:mobile/screen/profile/invite/invite.dart';
 import 'package:mobile/component/card_info.dart';
 import 'package:mobile/modules.dart';
 import 'package:http/http.dart' as http;
-import 'package:mobile/utils/debug_helper.dart';
 
 class HomePayku extends StatefulWidget {
   @override
@@ -247,10 +245,10 @@ class _HomePaykuState extends State<HomePayku> {
                                           _onVerificationButtonPressed(context),
                                       style: ButtonStyle(
                                           backgroundColor:
-                                              MaterialStateProperty.all(
+                                              WidgetStateProperty.all(
                                                   Theme.of(context)
                                                       .primaryColor),
-                                          shape: MaterialStateProperty.all<
+                                          shape: WidgetStateProperty.all<
                                               RoundedRectangleBorder>(
                                             RoundedRectangleBorder(
                                               borderRadius:
@@ -258,7 +256,7 @@ class _HomePaykuState extends State<HomePayku> {
                                             ),
                                           ),
                                           minimumSize:
-                                              MaterialStateProperty.all<Size>(
+                                              WidgetStateProperty.all<Size>(
                                                   Size(0, 25))),
                                       child: Text(
                                         "Upgrade",

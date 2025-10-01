@@ -1,6 +1,7 @@
-// @dart=2.9
 
 import 'dart:math';
+
+import 'package:mobile/modules.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +48,7 @@ class _PulsaState extends PulsaController {
 
   @override
   Widget build(BuildContext context) {
-    // List<String> pkgListActivateContact = [
+    // List<String> pkgListActivateContact = [    
     // 'id.payuni.mobile',
     // 'com.tapayment.mobile',
     // 'id.popay.app',
@@ -180,9 +181,9 @@ class _PulsaState extends PulsaController {
             onPressed: () => Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                   builder: (_) =>
-                      configAppBloc.layoutApp?.valueWrapper?.value['home'] ??
+                      configAppBloc.layoutApp.valueWrapper?.value['home'] ??
                       templateConfig[
-                          configAppBloc.templateCode.valueWrapper?.value],
+                          configAppBloc.templateCode.valueWrapper?.value ?? 0],
                 ),
                 (route) => false),
           ),
@@ -214,7 +215,7 @@ class _PulsaState extends PulsaController {
                       ? Center(
                           child: CachedNetworkImage(
                             imageUrl: configAppBloc
-                                .iconApp.valueWrapper?.value['logoLogin'],
+                                .iconApp.valueWrapper?.value['logoLogin'] ?? '',
                             width: MediaQuery.of(context).size.width * .4,
                           ),
                         )
@@ -303,7 +304,7 @@ class _PulsaState extends PulsaController {
                             ),
                             style: TextStyle(
                               fontWeight: configAppBloc
-                                      .boldNomorTujuan.valueWrapper.value
+                                      .boldNomorTujuan.valueWrapper?.value ?? false
                                   ? FontWeight.bold
                                   : FontWeight.normal,
                             ),
@@ -386,7 +387,7 @@ class _PulsaState extends PulsaController {
                             ),
                             style: TextStyle(
                               fontWeight: configAppBloc
-                                      .boldNomorTujuan.valueWrapper.value
+                                      .boldNomorTujuan.valueWrapper?.value ?? false
                                   ? FontWeight.bold
                                   : FontWeight.normal,
                             ),
@@ -430,7 +431,7 @@ class _PulsaState extends PulsaController {
                                                     height: 16,
                                                     child: CircularProgressIndicator(
                                                       strokeWidth: 2,
-                                                      valueColor: AlwaysStoppedAnimation<Color>(Colors.blue[400]),
+                                                      valueColor: AlwaysStoppedAnimation<Color>(Colors.blue[400] ?? Colors.blue),
                                                     ),
                                                   ),
                                                   SizedBox(width: 12),
@@ -487,10 +488,106 @@ class _PulsaState extends PulsaController {
                           ),
                         ),
                       )
-                    : Expanded(
-                        child: ListView.builder(
-                          padding: EdgeInsets.all(20),
-                          itemCount: max(0, listDenom?.length * 2 - 1 ?? 0),
+                    : failed
+                        ? Expanded(
+                            child: Container(
+                              width: double.infinity,
+                              height: 200,
+                              child: Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.error_outline,
+                                      size: 64,
+                                      color: Colors.red,
+                                    ),
+                                    SizedBox(height: 16),
+                                    Text(
+                                      'Gagal memuat paket pulsa',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.red,
+                                      ),
+                                    ),
+                                    SizedBox(height: 8),
+                                    Text(
+                                      'Periksa koneksi internet atau coba lagi',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                    SizedBox(height: 8),
+                                    Text(
+                                      'Nomor HP: ${nomorHp.text}',
+                                      style: TextStyle(
+                                        fontSize: 10,
+                                        color: Colors.grey[600],
+                                        fontStyle: FontStyle.italic,
+                                      ),
+                                    ),
+                                    SizedBox(height: 16),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        if (nomorHp.text.length >= 4 &&
+                                            nomorHp.text.startsWith('08')) {
+                                          getDenom(nomorHp.text);
+                                        }
+                                      },
+                                      child: Text('Coba Lagi'),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: packageName == 'com.lariz.mobile'
+                                            ? Theme.of(context).secondaryHeaderColor
+                                            : Theme.of(context).primaryColor,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          )
+                        : listDenom.isEmpty
+                            ? Expanded(
+                                child: Container(
+                                  width: double.infinity,
+                                  height: 200,
+                                  child: Center(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.phone_android,
+                                          size: 64,
+                                          color: Colors.grey,
+                                        ),
+                                        SizedBox(height: 16),
+                                        Text(
+                                          'Belum ada paket pulsa',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                        SizedBox(height: 8),
+                                        Text(
+                                          'Masukkan nomor HP untuk melihat paket',
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : Expanded(
+                                child: ListView.builder(
+                                  padding: EdgeInsets.all(20),
+                                  itemCount: max(0, listDenom.length * 2 - 1 ?? 0),
                           itemBuilder: (ctx, i) {
                             if (i.isOdd) {
                               return SizedBox(height: 10);
@@ -498,7 +595,7 @@ class _PulsaState extends PulsaController {
                             int actualIndex = i ~/ 2;
                             PulsaModel denom = listDenom[actualIndex];
                             Color boxColor = selectedDenom != null
-                                ? selectedDenom.id == denom.id
+                                ? selectedDenom?.id == denom.id
                                     ? packageName == 'com.lariz.mobile'
                                         ? Theme.of(context)
                                             .secondaryHeaderColor
@@ -509,12 +606,12 @@ class _PulsaState extends PulsaController {
                                     : Colors.white
                                 : Colors.white;
                             Color textColor = selectedDenom != null
-                                ? selectedDenom.id == denom.id
+                                ? selectedDenom?.id == denom.id
                                     ? Colors.white
                                     : Colors.grey.shade700
                                 : Colors.grey.shade700;
                             Color priceColor = selectedDenom != null
-                                ? selectedDenom.id == denom.id
+                                ? selectedDenom?.id == denom.id
                                     ? Colors.white
                                     : Colors.green
                                 : Colors.green;
@@ -538,7 +635,7 @@ class _PulsaState extends PulsaController {
                                         ? Theme.of(context).secondaryHeaderColor
                                         : Theme.of(context).primaryColor,
                                     backgroundColor: selectedDenom != null
-                                        ? selectedDenom.id == denom.id
+                                        ? selectedDenom?.id == denom.id
                                             ? Colors.white
                                             : packageName == 'com.lariz.mobile'
                                                 ? Theme.of(context)
@@ -583,7 +680,7 @@ class _PulsaState extends PulsaController {
                                   trailing: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: denom.hargaPromo == null
+                                    children: denom.hargaPromo == null || denom.hargaPromo <= 0
                                         ? <Widget>[
                                             Text(
                                               formatRupiah(denom.hargaJual),
@@ -596,14 +693,14 @@ class _PulsaState extends PulsaController {
                                               height: !configAppBloc
                                                       .displayGangguan
                                                       .valueWrapper
-                                                      .value
+                                                      !.value ?? false
                                                   ? 0
                                                   : denom.note.isEmpty
                                                       ? 0
                                                       : 5,
                                             ),
                                             !configAppBloc.displayGangguan
-                                                    .valueWrapper.value
+                                                    .valueWrapper!.value ?? false
                                                 ? SizedBox()
                                                 : denom.note.isEmpty
                                                     ? SizedBox()
@@ -664,14 +761,14 @@ class _PulsaState extends PulsaController {
                                               height: !configAppBloc
                                                       .displayGangguan
                                                       .valueWrapper
-                                                      .value
+                                                      !.value ?? false
                                                   ? 0
                                                   : denom.note.isEmpty
                                                       ? 0
                                                       : 3,
                                             ),
                                             !configAppBloc.displayGangguan
-                                                    .valueWrapper.value
+                                                    .valueWrapper!.value ?? false
                                                 ? SizedBox()
                                                 : denom.note.isEmpty
                                                     ? SizedBox()
@@ -735,7 +832,7 @@ class _PulsaState extends PulsaController {
                 if (nomorHp.text.length > 3) {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (_) => InquiryPrepaid(
-                          selectedDenom.kodeProduk, nomorHp.text)));
+                          selectedDenom?.kodeProduk ?? '', nomorHp.text)));
                 }
               },
             ),

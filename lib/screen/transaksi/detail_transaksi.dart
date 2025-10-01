@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'dart:io';
@@ -41,10 +40,10 @@ class DetailTransaksi extends StatefulWidget {
 class _DetailTransaksiState extends State<DetailTransaksi> {
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
-  TrxModel trx;
+  late TrxModel trx;   
   List<BankModel> banks = [];
   ScreenshotController _screenshotController = ScreenshotController();
-  File image;
+  late File image;
   bool danaApp = false;
   bool customPrint = false;
 
@@ -87,10 +86,10 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
     DebugHelper.debugPrint('"Token: ${bloc.token.valueWrapper?.value}"');
     
     try {
-      String link;
+      String link = '';
 
       http.Response response = await http.get(Uri.parse('$apiUrl/cs/list'),
-          headers: {'Authorization': bloc.token.valueWrapper?.value});
+          headers: {'Authorization': bloc.token.valueWrapper?.value ?? ''});
       
       DebugHelper.debugPrint('"CS Response Status Code: ${response.statusCode}"');
       DebugHelper.debugPrint('"CS Response Body: ${response.body}"');
@@ -125,7 +124,7 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
     // String phoneNumber = await getPhoneNumberCs();
     String link = await getPhoneNumberCs();
 
-    if (link == null) return;
+    if (link.isEmpty) return;
     DebugHelper.debugPrint('link.toString()');
 
     // if (phoneNumber == null) return;
@@ -169,7 +168,7 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
     
     http.Response response = await http.get(
         Uri.parse('$apiUrl/trx/${widget.data.id}/print'),
-        headers: {'Authorization': bloc.token.valueWrapper?.value});
+        headers: {'Authorization': bloc.token.valueWrapper?.value ?? ''});
 
     DebugHelper.debugPrint('"Response Status Code: ${response.statusCode}"');
     DebugHelper.debugPrint('"Response Body: ${response.body}"');
@@ -215,7 +214,7 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
     
     http.Response response = await http.get(
         Uri.parse('$apiUrl/bank/list?type=1'),
-        headers: {'Authorization': bloc.token.valueWrapper?.value});
+        headers: {'Authorization': bloc.token.valueWrapper?.value ?? ''});
     
     DebugHelper.debugPrint('"Bank Response Status Code: ${response.statusCode}"');
     DebugHelper.debugPrint('"Bank Response Body: ${response.body}"');
@@ -256,9 +255,9 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
             onPressed: () => Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                   builder: (_) =>
-                      configAppBloc.layoutApp?.valueWrapper?.value['home'] ??
+                      configAppBloc.layoutApp.valueWrapper?.value['home'] ??
                       templateConfig[
-                          configAppBloc.templateCode.valueWrapper?.value],
+                          configAppBloc.templateCode.valueWrapper?.value ?? 0],
                 ),
                 (route) => false),
           ),
@@ -295,9 +294,7 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text(
-                                trx.produk == null
-                                    ? '-'
-                                    : trx.produk['nama'] ?? '-',
+                                trx.produk['nama'] ?? '-',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: packageName == 'com.lariz.mobile'
@@ -351,9 +348,7 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
                                       color: Colors.grey, fontSize: 11)),
                               SizedBox(height: 5),
                               Text(
-                                  trx.produk == null
-                                      ? '-'
-                                      : trx.produk['description'] ?? '-',
+                                  trx.produk['description'] ?? '-',
                                   style: TextStyle(fontWeight: FontWeight.bold))
                             ]),
                         SizedBox(height: 10),
@@ -387,9 +382,7 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
                                       color: Colors.grey, fontSize: 11)),
                               SizedBox(height: 5),
                               Text(
-                                  trx.paymentBy != null
-                                      ? trx.paymentBy.toUpperCase()
-                                      : 'BALANCE',
+                                  trx.paymentBy.toUpperCase(),
                                   style: TextStyle(fontWeight: FontWeight.bold))
                             ]),
                       ])),
@@ -455,7 +448,7 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
                                 style: TextStyle(
                                     color: Colors.grey, fontSize: 11)),
                             SizedBox(height: 5),
-                            Text(trx.keterangan == null ? '-' : trx.keterangan,
+                            Text(trx.keterangan,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ))
@@ -668,12 +661,13 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
                           }
                         });
 
-                        if (isPackage) return sendWhatsApp();
-
-                        return Navigator.of(context)
-                            .pushNamed('/customer-service');
+                        if (isPackage) {
+                          sendWhatsApp();
+                        } else {
+                          Navigator.of(context).pushNamed('/customer-service');
+                        }
                       },
-                    )
+                    ),
             ],
           ),
         ),
@@ -687,12 +681,10 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
                   : Theme.of(context).primaryColor,
               onPressed: () {
                 DebugHelper.debugPrint('"Sudah Sampai Sini $trx"');
-                if (widget.data.produk != null &&
-                    widget.data.produk != null &&
-                    widget.data.produk.containsKey('type')) {
+                if (widget.data.produk.containsKey('type')) {
                   
                   // Check if product code is WASBY
-                  if (trx.produk != null && trx.produk['kode_produk'] == 'WASBY') {
+                  if (trx.produk['kode_produk'] == 'WASBY') {
                     DebugHelper.debugPrint('"Redirecting to printPreviewSby for WASBY product"');
                     Navigator.of(context).push(
                       MaterialPageRoute(
@@ -868,7 +860,7 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
                 gapless: true,
                 size: MediaQuery.of(context).size.width * .75,
                 version: QrVersions.auto,
-                data: trx.paymentDetail.paymentImg,
+                data: trx.paymentDetail?.paymentImg ?? '',
               ),
             ),
             SizedBox(height: 10),
@@ -876,7 +868,7 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
                 ? Align(
                     alignment: Alignment.center,
                     child: Text(
-                        'Bayar Sebelum ${formatDate(trx.paymentDetail.paymentExpired, "d MMMM yyyy HH:mm:ss")}',
+                        'Bayar Sebelum ${formatDate(trx.paymentDetail?.paymentExpired ?? '', "d MMMM yyyy HH:mm:ss")}',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
@@ -888,17 +880,17 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
                 ? danaApp
                     ? InkWell(
                         onTap: () async {
-                          image = File.fromRawPath(
-                              await _screenshotController.capture(
-                                  pixelRatio: 2.5,
-                                  delay: Duration(milliseconds: 100)));
-                          if (image == null) return;
-                          await Share.shareFiles([image.path],
-                              text: 'Bayar Pakai Dana', packageApp: 'id.dana');
-                        },
-                        // child: Container(
-                        //   margin: EdgeInsets.only(right: 20, left: 20),
-                        //   padding: EdgeInsets.symmetric(
+                          final capturedBytes = await _screenshotController.capture(
+                            pixelRatio: 2.5,
+                            delay: Duration(milliseconds: 100),
+                          );
+                          if (capturedBytes == null) return;
+                          image = File.fromRawPath(capturedBytes);
+                          await Share.shareFiles(
+                            [image.path],
+                            text: 'Bayar Pakai Dana',
+                            sharePositionOrigin: Rect.fromLTWH(0, 0, 100, 100),
+                          );
                         //       vertical: 20, horizontal: 20.0),
                         //   decoration: BoxDecoration(
                         //       color: Colors.blue,
@@ -910,6 +902,7 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
                         //             fontWeight: FontWeight.bold)),
                         //   ),
                         // ),
+                        }
                       )
                     : Container()
                 : Container(),

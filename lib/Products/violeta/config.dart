@@ -1,7 +1,5 @@
-// @dart=2.9
 
 import 'package:mobile/Products/violeta/layout/login.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 String sigVendor = '6451ffc78fefa1d2622e524f';
 
@@ -9,7 +7,7 @@ const namaApp = 'Violeta Pedia';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'id.violetapedia.mobile';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:async';
 import 'dart:convert';
@@ -31,7 +30,7 @@ abstract class DownlineController extends State<Downline>
 
   @override
   void initState() {
-    if (configAppBloc.autoReload.valueWrapper?.value) {
+    if (configAppBloc.autoReload.valueWrapper!.value) {
       Timer.periodic(new Duration(seconds: 1), (timer) => getData());
     } else {
       getData();
@@ -56,7 +55,7 @@ abstract class DownlineController extends State<Downline>
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {
-        'Authorization': bloc.token.valueWrapper?.value,
+        'Authorization': bloc.token.valueWrapper!.value,
       },
     );
 
@@ -89,7 +88,7 @@ abstract class DownlineController extends State<Downline>
     http.Response response = await http.post(
       Uri.parse('$apiUrl/user/downline/edit-up'),
       headers: {
-        'Authorization': bloc.token.valueWrapper?.value,
+        'Authorization': bloc.token.valueWrapper!.value,
         'Content-Type': 'application/json',
       },
       body: json.encode(

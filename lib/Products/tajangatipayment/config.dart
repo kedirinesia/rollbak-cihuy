@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '5f91319949381337809a8e36';
 
@@ -6,7 +5,7 @@ const namaApp = 'TAJANG ATI PAYMENT';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.tajangatipayment.androidmobile';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

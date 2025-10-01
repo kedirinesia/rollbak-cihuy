@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -21,7 +20,7 @@ class BelanjaPage extends StatefulWidget {
 }
 
 class _BelanjaPageState extends State<BelanjaPage> {
-  CategoryModel category;
+  CategoryModel? category;
   List<CategoryModel> categories = [];
   List<ProdukMarket> products = [];
   TextEditingController searchQuery = TextEditingController();
@@ -45,7 +44,7 @@ class _BelanjaPageState extends State<BelanjaPage> {
   Future<void> getCategories() async {
     http.Response response = await http.get(
         Uri.parse('$apiUrl/market/category'),
-        headers: {'Authorization': bloc.token.valueWrapper?.value});
+        headers: {'Authorization': bloc.token.valueWrapper?.value ?? ''});
 
     if (response.statusCode == 200) {
       List<dynamic> datas = json.decode(response.body)['data'];
@@ -65,13 +64,13 @@ class _BelanjaPageState extends State<BelanjaPage> {
       url = Uri.encodeFull(
           '$apiUrl/market/products/search?q=${searchQuery.text}&page=$page');
     } else if (category != null) {
-      url = '$apiUrl/market/${category.id}/products?page=$page';
+      url = '$apiUrl/market/${category?.id}/products?page=$page';
     } else {
       url = '$apiUrl/market/products?page=$page';
     }
 
     http.Response response = await http.get(Uri.parse(url),
-        headers: {'Authorization': bloc.token.valueWrapper?.value});
+        headers: {'Authorization': bloc.token.valueWrapper?.value ?? ''});
     DebugHelper.debugPrint('url.toString()');
 
     if (response.statusCode == 200) {
@@ -213,7 +212,7 @@ class _BelanjaPageState extends State<BelanjaPage> {
             onEditingComplete: () {
               setState(() {
                 products.clear();
-                category = null;
+                  category = null;
                 isLoading = true;
                 isEdge = false;
                 page = 0;

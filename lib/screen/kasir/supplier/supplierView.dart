@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -22,7 +21,6 @@ import 'package:mobile/bloc/Bloc.dart';
 // screen page
 import 'package:mobile/screen/kasir/supplier/supplierAdd.dart';
 import 'package:mobile/screen/kasir/supplier/supplierUpdate.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class SupplierView extends StatefulWidget {
   @override
@@ -58,7 +56,7 @@ class SupplierViewState extends State<SupplierView> {
       http.Response response = await http.get(
           Uri.parse('$apiUrlKasir/master/supplier/get?page=$page'),
           headers: {
-            'authorization': bloc.token.valueWrapper?.value,
+            'authorization': bloc.token.valueWrapper?.value ?? '' ,
           });
 
       var responseData = json.decode(response.body);
@@ -181,7 +179,7 @@ class SupplierViewState extends State<SupplierView> {
                             Uri.parse('$apiUrlKasir/master/supplier/delete'),
                             headers: {
                               'Content-Type': 'application/json',
-                              'authorization': bloc.token.valueWrapper?.value,
+                              'authorization': bloc.token.valueWrapper?.value ?? '',
                             },
                             body: json.encode(dataToSend));
 

@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -62,9 +61,7 @@ class _ProductDetailMarketplaceState extends State<ProductDetailMarketplace> {
 
   Future<void> getProductAndRelatedProducts() async {
     await getProduct();
-    if (product != null) {
-      await getRelatedProducts(product.categoryId);
-    }
+    await getRelatedProducts(product.categoryId);
   }
 
   Future<void> getProduct() async {

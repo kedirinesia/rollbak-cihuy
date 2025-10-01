@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -12,17 +11,17 @@ import 'package:mobile/modules.dart';
 import 'package:mobile/utils/debug_helper.dart';
 
 class Count extends StatefulWidget {
-  const Count({key}) : super(key: key);
+  const Count({super.key});
 
   @override
   _CountState createState() => _CountState();
 }
 
 class _CountState extends State<Count> {
-  DateTime selectedStartDate;
-  DateTime selectedEndDate;
+  DateTime? selectedStartDate;
+  DateTime? selectedEndDate;
 
-  CountTrx countTrx;
+  CountTrx? countTrx;
 
   @override
   void initState() {
@@ -34,33 +33,31 @@ class _CountState extends State<Count> {
 
   Future<void> selectDateRange(BuildContext context) async {
     final DateTime now = DateTime.now();
-    final DateTime pickedStartDate = await showDatePicker(
-      context: context,
+    final DateTime? pickedStartDate = await showDatePicker(
+      context: context, 
       initialDate: selectedStartDate ?? now,
       firstDate: DateTime(2000),
       lastDate: now,
     );
 
-    if (pickedStartDate != null && pickedStartDate != selectedStartDate)
+    if (pickedStartDate != selectedStartDate)
       setState(() {
         selectedStartDate = pickedStartDate;
       });
 
-    final DateTime pickedEndDate = await showDatePicker(
+    final DateTime? pickedEndDate = await showDatePicker(
       context: context,
       initialDate: selectedEndDate ?? now,
       firstDate: DateTime(2000),
       lastDate: now,
     );
 
-    if (pickedEndDate != null && pickedEndDate != selectedEndDate)
+    if (pickedEndDate != selectedEndDate)
       setState(() {
         selectedEndDate = pickedEndDate;
       });
 
-    if (selectedStartDate != null && selectedEndDate != null) {
-      getCountTrx();
-    }
+    getCountTrx();
   }
 
   String formatDate(DateTime date) {
@@ -69,10 +66,10 @@ class _CountState extends State<Count> {
 
   Future<void> getCountTrx() async {
     final String url =
-        '$apiUrl/trx/countTransaction?tgl_awal=${formatDate(selectedStartDate)}&tgl_akhir=${formatDate(selectedEndDate)}';
+        '$apiUrl/trx/countTransaction?tgl_awal=${formatDate(selectedStartDate ?? DateTime.now())}&tgl_akhir=${formatDate(selectedEndDate ?? DateTime.now())}';
 
     http.Response response = await http.get(Uri.parse(url), headers: {
-      'Authorization': bloc.token.valueWrapper?.value,
+      'Authorization': bloc.token.valueWrapper?.value ?? '',
     });
     CountTrx trxData = CountTrx.fromJson(json.decode(response.body)['data']);
     bloc.todayTrxCount.add(trxData);
@@ -103,7 +100,7 @@ class _CountState extends State<Count> {
           Text('Transaksi Gagal: ${countTrx?.totalTrxGagal ?? ''}'),
           Text('Transaksi Pending: ${countTrx?.totalTrxPending ?? ''}'),
           Text(
-              'Total Transaksi: ${formatRupiah(countTrx?.totalVolumeTrx ?? '')}'),
+              'Total Transaksi: ${formatRupiah(countTrx?.totalVolumeTrx ?? 0)}'),
         ],
       ),
     );

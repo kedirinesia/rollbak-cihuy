@@ -1,4 +1,3 @@
-// @dart=2.9
 import 'dart:convert';
 import 'dart:io';
 
@@ -6,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:mobile/bloc/TemplateConfig.dart';
 import 'package:mobile/screen/privacy_policy.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
@@ -18,7 +18,7 @@ import '../component/bezierContainer.dart';
 import 'package:http/http.dart' as http;
 import '../bloc/Api.dart' show apiUrl, sigVendor;
 import 'cs.dart';
-import 'package:mobile/utils/debug_helper.dart';
+// import 'package:mobile/utils/debug_helper.dart'; // Unused import
 
 class LoginPage extends StatefulWidget {
   @override
@@ -48,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
   List<String> pkgNameBorder = ['com.eralink.mobileapk'];
 
   submitLogin() async {
-    if (formKey.currentState.validate()) {
+    if (formKey.currentState?.validate() ?? false) {
       setState(() {
         loading = true;
       });
@@ -57,6 +57,11 @@ class _LoginPageState extends State<LoginPage> {
         'pin': pin.text
       };
 
+      print('=== LOGIN DEBUG ===');
+      print('API URL: ${apiUrl}/user/login');
+      print('Request body: $dataToSend');
+      print('Headers: {content-type: application/json, merchantCode: $sigVendor}');
+
       http.Response response = await http.post(
           Uri.parse(apiUrl + '/user/login'),
           body: jsonEncode(dataToSend),
@@ -64,29 +69,84 @@ class _LoginPageState extends State<LoginPage> {
             'content-type': 'application/json',
             'merchantCode': sigVendor
           });
+
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+      print('=== LOGIN DEBUG END ===');
       setState(() {
         loading = false;
       });
+
       if (response.statusCode == 200) {
-        var data = jsonDecode(response.body)['data'];
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (_) => OtpPage(data['phone'], data['validate_id'])));
+        try {
+          var responseBody = jsonDecode(response.body);
+          var data = responseBody['data'];
+
+          // Debug logging untuk memastikan response structure
+          print('Login response body: $responseBody');
+          print('Data field: $data');
+
+          if (data != null && data['phone'] != null && data['validate_id'] != null) {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (_) => OtpPage(data['phone'], data['validate_id'])));
+          } else {
+            // Jika data tidak lengkap, coba fallback ke halaman utama
+            print('Data tidak lengkap, navigasi ke halaman utama');
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (_) => configAppBloc.layoutApp.valueWrapper?.value['home'] ??
+                    templateConfig[configAppBloc.templateCode.valueWrapper?.value ?? 0]));
+          }
+        } catch (e) {
+          print('Error parsing response: $e');
+          print('Response body: ${response.body}');
+          return showDialog(
+              context: context,
+              builder: (_) {
+                return AlertDialog(
+                  title: Text('Error'),
+                  content: Text('Terjadi kesalahan parsing response: $e'),
+                  actions: <Widget>[
+                    TextButton(
+                        onPressed: () =>
+                            Navigator.of(context, rootNavigator: true).pop(),
+                        child: Text('OK'))
+                  ],
+                );
+              });
+        }
       } else {
-        String message = json.decode(response.body)['message'];
-        return showDialog(
-            context: context,
-            builder: (_) {
-              return AlertDialog(
-                title: Text('Warning'),
-                content: Text(message),
-                actions: <Widget>[
-                  TextButton(
-                      onPressed: () =>
-                          Navigator.of(context, rootNavigator: true).pop(),
-                      child: Text('OK'))
-                ],
-              );
-            });
+        try {
+          String message = json.decode(response.body)['message'] ?? 'Terjadi kesalahan saat login';
+          return showDialog(
+              context: context,
+              builder: (_) {
+                return AlertDialog(
+                  title: Text('Login Gagal'),
+                  content: Text(message),
+                  actions: <Widget>[
+                    TextButton(
+                        onPressed: () =>
+                            Navigator.of(context, rootNavigator: true).pop(),
+                        child: Text('OK'))
+                  ],
+                );
+              });
+        } catch (e) {
+          return showDialog(
+              context: context,
+              builder: (_) {
+                return AlertDialog(
+                  title: Text('Login Gagal'),
+                  content: Text('Terjadi kesalahan saat login'),
+                  actions: <Widget>[
+                    TextButton(
+                        onPressed: () =>
+                            Navigator.of(context, rootNavigator: true).pop(),
+                        child: Text('OK'))
+                  ],
+                );
+              });
+        }
       }
     }
   }
@@ -94,9 +154,9 @@ class _LoginPageState extends State<LoginPage> {
   Widget _entryField(
     String title, {
     bool isPassword = false,
-    int maxLength,
-    TextEditingController controller,
-    Function(String value) validator,
+    int? maxLength,
+    required TextEditingController controller,
+    String? Function(String?)? validator,
     List<TextInputFormatter> formatters = const [],
   }) {
     return Container(
@@ -222,11 +282,22 @@ class _LoginPageState extends State<LoginPage> {
   Widget _imageLogo() {
     return Hero(
       tag: 'icon-apk',
-      child: CachedNetworkImage(
-        imageUrl: configAppBloc.iconApp.valueWrapper?.value['logoLogin'],
-        height: MediaQuery.of(context).size.width * .15,
-        fit: BoxFit.contain,
-      ),
+      child: Builder(builder: (_) {
+        final dynamic iconApp = configAppBloc.iconApp.valueWrapper?.value;
+        final String? url = iconApp is Map ? iconApp['logoLogin'] as String? : null;
+        if (url == null || url.isEmpty) {
+          return Container(
+            height: MediaQuery.of(context).size.width * .15,
+            alignment: Alignment.center,
+            child: Icon(Icons.account_circle, size: MediaQuery.of(context).size.width * .12, color: Colors.grey.shade400),
+          );
+        }
+        return CachedNetworkImage(
+          imageUrl: url,
+          height: MediaQuery.of(context).size.width * .15,
+          fit: BoxFit.contain,
+        );
+      }),
     );
   }
 
@@ -259,8 +330,8 @@ class _LoginPageState extends State<LoginPage> {
             "PIN",
             isPassword: true,
             controller: pin,
-            maxLength: configAppBloc.limitPinLogin.valueWrapper?.value
-                ? configAppBloc.pinCount.valueWrapper?.value
+            maxLength: (configAppBloc.limitPinLogin.valueWrapper?.value == true)
+                ? (configAppBloc.pinCount.valueWrapper?.value ?? 6)
                 : null,
             formatters: [
               FilteringTextInputFormatter.digitsOnly,
@@ -282,7 +353,7 @@ class _LoginPageState extends State<LoginPage> {
             image: configAppBloc.iconApp.valueWrapper?.value['texture'] != null
                 ? DecorationImage(
                     image: CachedNetworkImageProvider(
-                        configAppBloc.iconApp.valueWrapper?.value['texture']),
+                        configAppBloc.iconApp.valueWrapper?.value['texture'] ?? ''),
                     fit: BoxFit.fitWidth)
                 : null),
         child: Stack(
@@ -324,12 +395,41 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   SizedBox(height: 20),
-                  (configAppBloc.info.valueWrapper?.value?.register == true)
-                      ? Align(
-                          alignment: Alignment.bottomCenter,
-                          child: _createAccountLabel(),
-                        )
-                      : SizedBox(width: 0, height: 0),
+                  (() {
+                    // Debug logging for register condition
+                    final info = configAppBloc.info.valueWrapper?.value;
+                    print('=== LOGIN REGISTER DEBUG ===');
+                    print('ConfigAppBloc.info exists: ${configAppBloc.info.valueWrapper != null}');
+                    print('ConfigAppBloc.info.value exists: ${configAppBloc.info.valueWrapper?.value != null}');
+                    if (info != null) {
+                      print('📋 INFO VALUES:');
+                      print('  register: ${info.register} (type: ${info.register.runtimeType})');
+                      print('  stopAllRegister: ${info.stopAllRegister} (type: ${info.stopAllRegister.runtimeType})');
+                      print('  inviteLink: ${info.inviteLink} (type: ${info.inviteLink.runtimeType})');
+                      print('  enableSelectCA: ${info.enableSelectCA} (type: ${info.enableSelectCA.runtimeType})');
+
+                      print('🔍 DETAILED REGISTER CHECK:');
+                      print('  register value: "$info.register"');
+                      print('  register == true: ${info.register == true}');
+                      // register expected to be bool in AppInfo
+                      print('  stopAllRegister == false: ${info.stopAllRegister == false}');
+                      print('  Combined condition should be: ${(info.register == true && info.stopAllRegister == false)}');
+
+                      // Check if register button should appear
+                      bool shouldShowRegister = info.register == true;
+                      print('✅ REGISTER BUTTON SHOULD SHOW: $shouldShowRegister');
+                    } else {
+                      print('❌ ConfigAppBloc.info.value is NULL');
+                    }
+                    print('=== LOGIN REGISTER DEBUG END ===');
+
+                    return (configAppBloc.info.valueWrapper?.value.register == true)
+                        ? Align(
+                            alignment: Alignment.bottomCenter,
+                            child: _createAccountLabel(),
+                          )
+                        : SizedBox(width: 0, height: 0);
+                  })(),
                 ],
               ),
             ),
@@ -350,7 +450,7 @@ class _LoginPageState extends State<LoginPage> {
                     Platform.isAndroid ? 'com.payuni.id' : 'co.payuni.id',
                   ];
 
-                  return Navigator.of(context).push(
+                  Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (_) =>
                           packages.contains(packageName) ? CS1() : CS(),

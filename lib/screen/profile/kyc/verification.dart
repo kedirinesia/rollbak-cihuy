@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'dart:io';
@@ -19,8 +18,8 @@ class KycVerification extends StatefulWidget {
 class _KycVerificationState extends State<KycVerification> {
   bool loading = false;
   TextEditingController nik = TextEditingController();
-  File ktp;
-  File selfie;
+  late File ktp;
+  late File selfie;
 
   @override
   void initState() {
@@ -34,20 +33,16 @@ class _KycVerificationState extends State<KycVerification> {
 
   void getKtp() async {
     File image = await getPhoto();
-    if (image != null) {
-      setState(() {
-        ktp = image;
-      });
-    }
+    setState(() {
+      ktp = image;
+    });
   }
 
   void getSelfie() async {
     File image = await getPhoto();
-    if (image != null) {
-      setState(() {
-        selfie = image;
-      });
-    }
+    setState(() {
+      selfie = image;
+    });
   }
 
   void verify() async {
@@ -75,7 +70,7 @@ class _KycVerificationState extends State<KycVerification> {
 
     http.MultipartRequest request =
         http.MultipartRequest('POST', Uri.parse('$apiUrl/kyc/upload'));
-    request.headers['Authorization'] = bloc.token.valueWrapper?.value;
+    request.headers['Authorization'] = bloc.token.valueWrapper?.value ?? '';
     request.fields['nik'] = nik.text;
     request.files.add(await http.MultipartFile.fromPath('ktp', ktp.path));
     request.files
@@ -88,8 +83,8 @@ class _KycVerificationState extends State<KycVerification> {
     if (response.statusCode == 200) {
       updateUserInfo();
       nik.text = "";
-      ktp = null;
-      selfie = null;
+      ktp = File('');
+      selfie = File('');
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
               'Berkas berhasil dikirim, kami akan segera memproses data anda')));

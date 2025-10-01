@@ -1,8 +1,6 @@
-// @dart=2.9
 
 import 'package:mobile/models/app_info.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class ConfigAppBloc extends Object {
   final namaApp = BehaviorSubject<String>();
@@ -60,22 +58,22 @@ class ConfigAppBloc extends Object {
 
 final configAppBloc = ConfigAppBloc();
 
-String namaApp = configAppBloc.namaApp.valueWrapper?.value;
-String brandId = configAppBloc.brandId.value;
-String labelSaldo = configAppBloc.labelSaldo.value;
-String labelPoint = configAppBloc.labelPoint.valueWrapper?.value;
-int templateCode = configAppBloc.templateCode.value;
-String copyRight = configAppBloc.copyRight.value;
-String gaId = configAppBloc.gaId.value;
-String liveChat = configAppBloc.liveChat.valueWrapper?.value;
-int pinCount = configAppBloc.pinCount.value;
-int otpCount = configAppBloc.otpCount.value;
-bool limitPinLogin = configAppBloc.limitPinLogin.value;
-bool autoReload = configAppBloc.autoReload.value;
-bool isKasir = configAppBloc.isKasir.value;
-bool isMarketplace = configAppBloc.isMarketplace.value;
-bool realtimePrepaid = configAppBloc.realtimePrepaid.value;
-bool enableMultiChannel = configAppBloc.enableMultiChannel.value;
-bool dynamicFooterStruk = configAppBloc.dynamicFooterStruk.value;
-Map<String, String> iconApp = configAppBloc.iconApp.value;
-Map<String, dynamic> layoutApp = configAppBloc.layoutApp.value;
+String namaApp = configAppBloc.namaApp.valueWrapper!.value;
+String brandId = configAppBloc.brandId.valueWrapper!.value;
+String labelSaldo = configAppBloc.labelSaldo.valueWrapper!.value;
+String labelPoint = configAppBloc.labelPoint.valueWrapper!.value;
+int templateCode = configAppBloc.templateCode.valueWrapper!.value;
+String copyRight = configAppBloc.copyRight.valueWrapper!.value;
+String gaId = configAppBloc.gaId.valueWrapper!.value;
+String liveChat = configAppBloc.liveChat.valueWrapper!.value;
+int pinCount = configAppBloc.pinCount.valueWrapper!.value;
+int otpCount = configAppBloc.otpCount.valueWrapper!.value;
+bool limitPinLogin = configAppBloc.limitPinLogin.valueWrapper!.value;
+bool autoReload = configAppBloc.autoReload.valueWrapper!.value ?? false;
+bool isKasir = configAppBloc.isKasir.valueWrapper!.value ?? false;
+bool isMarketplace = configAppBloc.isMarketplace.valueWrapper!.value ?? false ;
+bool realtimePrepaid = configAppBloc.realtimePrepaid.valueWrapper!.value ?? false;
+bool enableMultiChannel = configAppBloc.enableMultiChannel.valueWrapper!.value ?? false;
+bool dynamicFooterStruk = configAppBloc.dynamicFooterStruk.valueWrapper!.value ?? false;
+Map<String, String> iconApp = configAppBloc.iconApp.valueWrapper!.value;
+Map<String, dynamic> layoutApp = configAppBloc.layoutApp.valueWrapper!.value;

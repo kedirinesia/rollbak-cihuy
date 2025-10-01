@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:io';
 // import 'dart:async';
@@ -14,24 +13,24 @@ class CustomSelfieScreen extends StatefulWidget {
 }
 
 class _CustomSelfieScreenState extends State<CustomSelfieScreen> {
-  CameraController controller;
-  List<CameraDescription> cameras;
+  late CameraController controller;
+  late List<CameraDescription> cameras;  
 
   @override
-  CameraDescription findFrontCamera(List<CameraDescription> cameras) {
+  CameraDescription? findFrontCamera(List<CameraDescription> cameras) {
     for (CameraDescription camera in cameras) {
       if (camera.lensDirection == CameraLensDirection.front) {
         return camera;
       }
     }
-    return null; // Jika tidak ada kamera depan yang ditemukan
+    return null; 
   }
 
   void initState() {
     super.initState();
     availableCameras().then((availableCameras) {
       cameras = availableCameras;
-      CameraDescription frontCamera = findFrontCamera(cameras);
+      CameraDescription? frontCamera = findFrontCamera(cameras) ?? cameras[0];
       if (frontCamera != null) {
         controller = CameraController(frontCamera, ResolutionPreset.medium);
         controller.initialize().then((_) {
@@ -46,7 +45,7 @@ class _CustomSelfieScreenState extends State<CustomSelfieScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (controller == null || !controller.value.isInitialized) {
+    if (!controller.value.isInitialized) {
       return Container();
     }
     return Scaffold(
@@ -79,7 +78,7 @@ class _CustomSelfieScreenState extends State<CustomSelfieScreen> {
 
   @override
   void dispose() {
-    controller?.dispose();
+    controller.dispose();
     super.dispose();
   }
 }

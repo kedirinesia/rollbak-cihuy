@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +21,6 @@ import 'package:mobile/screen/wd/withdraw.dart';
 import 'package:mobile/Products/funmo/layout/invite/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import 'package:mobile/utils/debug_helper.dart';
 
 typedef ValueSetter<Color> = void Function(Color value);
 

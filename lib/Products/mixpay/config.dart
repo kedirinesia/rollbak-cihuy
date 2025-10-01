@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '63ec5eb36a4ac4542d5fb1e8';
 
@@ -6,7 +5,7 @@ const namaApp = 'MixPay';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'id.mixpay.mobile';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:io';
 import 'dart:typed_data';
@@ -15,7 +14,6 @@ import 'package:mobile/modules.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class PrintMutasiPage extends StatefulWidget {
   final MutasiModel mutasi;
@@ -27,16 +25,16 @@ class PrintMutasiPage extends StatefulWidget {
 
 class _PrintMutasiPageState extends State<PrintMutasiPage> {
   ScreenshotController _screenshotController = ScreenshotController();
-  File image;
+  late File image;
 
   Future<void> share() async {
     Directory temp = await getTemporaryDirectory();
     image = await File('${temp.path}/mutasi_${widget.mutasi.id}.png').create();
-    Uint8List bytes = await _screenshotController.capture(
+    Uint8List? bytes = await _screenshotController.capture(
       pixelRatio: 2.5,
       delay: Duration(milliseconds: 100),
     );
-    await image.writeAsBytes(bytes);
+    await image.writeAsBytes(bytes ?? []);
     if (image == null) return;
     await Share.file(
       'Mutasi ${widget.mutasi.type}',
@@ -70,9 +68,9 @@ class _PrintMutasiPageState extends State<PrintMutasiPage> {
             onPressed: () => Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                   builder: (_) =>
-                      configAppBloc.layoutApp?.valueWrapper?.value['home'] ??
+                      configAppBloc.layoutApp.valueWrapper?.value['home'] ??
                       templateConfig[
-                          configAppBloc.templateCode.valueWrapper?.value],
+                          configAppBloc.templateCode.valueWrapper?.value ?? 0],
                 ),
                 (route) => false),
           ),
@@ -105,7 +103,7 @@ class _PrintMutasiPageState extends State<PrintMutasiPage> {
                       : DecorationImage(
                           image: CachedNetworkImageProvider(
                             configAppBloc
-                                .iconApp.valueWrapper?.value['backgroundStruk'],
+                                .iconApp.valueWrapper?.value['backgroundStruk'] ?? '',
                           ),
                           repeat: ImageRepeat.repeat,
                           fit: BoxFit.scaleDown,
@@ -188,7 +186,7 @@ class _PrintMutasiPageState extends State<PrintMutasiPage> {
                             ),
                           ),
                           Text(
-                            bloc.user.valueWrapper?.value.nama,
+                            bloc.user.valueWrapper?.value.nama ?? '',
                             style: TextStyle(
                               fontSize: 12,
                               fontFamily: 'Roboto Mono',

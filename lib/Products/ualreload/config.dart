@@ -1,10 +1,8 @@
-// @dart=2.9
 
 import 'package:mobile/Products/ualreload/layout/detail_deposit.dart';
 import 'package:mobile/Products/ualreload/layout/home.dart';
 import 'package:mobile/Products/ualreload/layout/kirim_saldo.dart';
 import 'package:mobile/models/deposit.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 String sigVendor = '6371ecf3066c1176f236859a';
 
@@ -12,7 +10,7 @@ const namaApp = 'UAL RELOAD';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'id.ualreload.mobile';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

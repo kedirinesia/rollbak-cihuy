@@ -1,9 +1,8 @@
-// @dart=2.9
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_page_transition/flutter_page_transition.dart';
+ 
 import 'package:mobile/component/menudepan-loading.dart';
 import 'package:mobile/config.dart';
 import 'package:mobile/models/menu.dart';
@@ -17,6 +16,7 @@ import 'package:mobile/screen/list-grid-menu/list-grid-menu.dart';
 import 'package:mobile/screen/pulsa/pulsa.dart';
 import 'package:mobile/screen/transaksi/voucher_bulk.dart';
 import 'package:mobile/utils/debug_helper.dart';
+import 'package:page_transition/page_transition.dart';
 
 class MenuDepan extends StatefulWidget {
   final int grid;
@@ -26,11 +26,11 @@ class MenuDepan extends StatefulWidget {
   final double radius;
 
   MenuDepan(
-      {@required this.grid,
-      this.menus,
-      this.gradient,
-      this.baris,
-      this.radius});
+      {required this.grid,
+      required this.menus,
+       required this.gradient,
+      required this.baris,
+      required this.radius});
   @override
   _MenuDepanState createState() => _MenuDepanState();
 }
@@ -118,9 +118,16 @@ class _MenuDepanState extends State<MenuDepan> {
         int endMore = listMenu.length;
         MenuModel buttonMore = MenuModel(
             jenis: 99,
+            id: '',
             icon:
                 'https://firebasestorage.googleapis.com/v0/b/wajib-online.appspot.com/o/icons%2Ffilm-reel.png?alt=media&token=50b3ebae-ec61-4583-aa6d-e3ecae41dcbd',
             name: 'Lainnya',
+            description: '',
+            category_id: '',
+            kodeProduk: '',
+            isString: false,
+            bebasNominal: false,
+            orderNumber: 0,
             type: 99);
 
         List<MenuModel> moreMenu =
@@ -179,14 +186,14 @@ class _MenuDepanState extends State<MenuDepan> {
     } else if (menu.jenis == 2) {
       if (menu.category_id.isNotEmpty && menu.type == 1) {
         return Navigator.of(context).push(PageTransition(
-            child: DetailDenom(menu), type: PageTransitionType.rippleRightUp));
+            child: DetailDenom(menu), type: PageTransitionType.rightToLeft));
         /*
         LANGSUNG KE DETAIL DENOM
         */
       } else if (menu.kodeProduk.isNotEmpty && menu.type == 2) {
         return Navigator.of(context).push(PageTransition(
             child: DetailDenomPostpaid(menu),
-            type: PageTransitionType.rippleRightUp));
+            type: PageTransitionType.rightToLeft));
         /*
         LANGSUNG KE DETAIL DENOM POSTPAID
         */
@@ -227,15 +234,15 @@ class _MenuDepanState extends State<MenuDepan> {
     } else if (menu.jenis == 99) {
       Navigator.of(context).push(PageTransition(
           child: MorePage(_menuMore,
-              isKotak: widget.gradient != null ? widget.gradient : false),
-          type: PageTransitionType.slideInUp));
+              isKotak: widget.gradient != null ? widget.gradient! : false),
+          type: PageTransitionType.rightToLeft));
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return loading
-        ? LoadingMenuDepan(widget.grid, baris: widget.baris ?? 3)
+        ? LoadingMenuDepan(widget.grid, baris: widget.baris)
         : Container(
             margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
             child: GridView.builder(

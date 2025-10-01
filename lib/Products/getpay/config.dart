@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '5f5b2cb22147164bbf293f6d';
 
@@ -6,7 +5,7 @@ const namaApp = 'Getpay';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.geetpay.app';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

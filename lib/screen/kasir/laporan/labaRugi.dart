@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:async';
 import 'dart:convert';
@@ -64,7 +63,7 @@ class LabaRugiState extends State<LabaRugi> {
           Uri.parse(
               '$apiUrlKasir/laporan/laba-rugi?tgl_awal=${tglAwalController.text}&tgl_akhir=${tglAkhirController.text}'),
           headers: {
-            'authorization': bloc.token.valueWrapper?.value,
+            'authorization': bloc.token.valueWrapper?.value ?? '',
           });
 
       var responseData = json.decode(response.body);
@@ -146,28 +145,26 @@ class LabaRugiState extends State<LabaRugi> {
 
   // SELECT DATE
   Future _selectDate(String key) async {
-    DateTime picked = await showDatePicker(
+    DateTime? picked = await showDatePicker(
       context: context,
       initialDate: key == 'awal' ? selectedAwal : selectedAkhir,
       firstDate: new DateTime(1900),
       lastDate: new DateTime(2500),
     );
 
-    if (picked != null) {
-      String value = formatter.format(picked);
-      DebugHelper.debugPrint('picked -> $picked, value -> $value');
+    String value = formatter.format(picked ?? DateTime.now());
+    DebugHelper.debugPrint('picked -> $picked, value -> $value');
 
-      if (key == 'awal') {
-        setState(() {
-          selectedAwal = picked;
-          tglAwalController.text = value;
-        });
-      } else {
-        setState(() {
-          selectedAkhir = picked;
-          tglAkhirController.text = value;
-        });
-      }
+    if (key == 'awal') {
+      setState(() {
+        selectedAwal = picked ?? DateTime.now();
+        tglAwalController.text = value;
+      });
+    } else {
+      setState(() {
+        selectedAkhir = picked ?? DateTime.now();
+        tglAkhirController.text = value;
+      });
     }
   }
 

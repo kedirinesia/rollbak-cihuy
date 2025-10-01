@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -21,7 +20,7 @@ import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/utils/debug_helper.dart';
 
 class UpdateStock extends StatefulWidget {
-  PersediaanModel persediaan;
+  final PersediaanModel persediaan;
 
   UpdateStock(
     this.persediaan,
@@ -60,12 +59,18 @@ class UpdateStockState extends State<UpdateStock> {
         'id_gudang': widget.persediaan.id,
       };
 
+      final Map<String, String> headers = {
+        'Content-Type': 'application/json',
+      };
+      
+      final String? token = bloc.token.valueWrapper?.value;
+      if (token != null) {
+        headers['authorization'] = token;
+      }
+      
       http.Response response =
           await http.post(Uri.parse('$apiUrlKasir/persediaan/updateStock'),
-              headers: {
-                'Content-Type': 'application/json',
-                'authorization': bloc.token.valueWrapper?.value,
-              },
+              headers: headers,
               body: json.encode(dataToSend));
 
       String message = json.decode(response.body)['message'] ??
@@ -73,7 +78,6 @@ class UpdateStockState extends State<UpdateStock> {
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
         int status = responseData['status'];
-        List<dynamic> datas = responseData['data'];
 
         if (status == 200) {
           Navigator.of(context).pop();
@@ -200,7 +204,7 @@ class UpdateStockState extends State<UpdateStock> {
                                               MaterialTapTargetSize.shrinkWrap,
                                           onChanged: (value) {
                                             setState(() {
-                                              radioValue = value;
+                                              radioValue = value ?? 0;
                                             });
                                           }),
                                       SizedBox(height: 5.0),
@@ -222,7 +226,7 @@ class UpdateStockState extends State<UpdateStock> {
                                               MaterialTapTargetSize.shrinkWrap,
                                           onChanged: (value) {
                                             setState(() {
-                                              radioValue = value;
+                                              radioValue = value ?? 1;
                                             });
                                           }),
                                       SizedBox(height: 5.0),
@@ -247,14 +251,15 @@ class UpdateStockState extends State<UpdateStock> {
                                         ),
                                       ),
                                       keyboardType: TextInputType.number,
-                                      validator: (String value) {
-                                        if (value == "") {
+                                      validator: (String? value) {
+                                        if (value == null || value == "") {
                                           return "harga beli tidak boleh kosong";
                                         }
+                                        return null;
                                       },
-                                      onSaved: (String value) {
+                                      onSaved: (String? value) {
                                         setState(() {
-                                          hargaBeli = value;
+                                          hargaBeli = value ?? "";
                                         });
                                       }),
                                 ),
@@ -271,14 +276,15 @@ class UpdateStockState extends State<UpdateStock> {
                                         ),
                                       ),
                                       keyboardType: TextInputType.number,
-                                      validator: (String value) {
-                                        if (value == "") {
+                                      validator: (String? value) {
+                                        if (value == null || value == "") {
                                           return "stok tidak boleh kosong";
                                         }
+                                        return null;
                                       },
-                                      onSaved: (String value) {
+                                      onSaved: (String? value) {
                                         setState(() {
-                                          stockUpdate = value;
+                                          stockUpdate = value ?? "";
                                         });
                                       }),
                                 ),
@@ -339,12 +345,12 @@ class UpdateStockState extends State<UpdateStock> {
           ),
           SizedBox(height: 15.0),
           ListTile(
-            title: Text(widget.persediaan.barangModel.namaBarang,
+            title: Text(widget.persediaan.barangModel?.namaBarang ?? '',
                 style: TextStyle(
                   fontSize: 14.0,
                   color: Colors.black,
                 )),
-            subtitle: Text(widget.persediaan.barangModel.sku,
+            subtitle: Text(widget.persediaan.barangModel?.sku ?? '',
                 style: TextStyle(
                   fontSize: 13.0,
                   color: Colors.grey,
@@ -357,7 +363,7 @@ class UpdateStockState extends State<UpdateStock> {
                       fontSize: 13.0,
                     )),
                 SizedBox(height: 5.0),
-                Text(formatRupiah(widget.persediaan.barangModel.hargaJual),
+                Text(formatRupiah(widget.persediaan.barangModel?.hargaJual ?? 0),
                     style:
                         TextStyle(fontSize: 13.0, color: Colors.grey.shade700)),
               ],

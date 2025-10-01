@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 enum DialogType { success, error, warning, question }
 

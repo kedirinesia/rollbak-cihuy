@@ -1,7 +1,5 @@
-// @dart=2.9
 
 import 'package:mobile/Products/sarinu/layout/index.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 String sigVendor = '5e577a000efa1b22beabf8dd';
 
@@ -9,7 +7,7 @@ const namaApp = 'Sarinu.id';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'id.sarinupay.app';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 1;
 String gaId = '';

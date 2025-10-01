@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '5f55dc3b152ab90cc54e27b3';
 
@@ -6,7 +5,7 @@ const namaApp = 'RCV Pay';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.rcvpay.app';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

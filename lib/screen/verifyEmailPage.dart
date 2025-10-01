@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'register.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class VerifyEmailPage extends StatefulWidget {
   final String email;

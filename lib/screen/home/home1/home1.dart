@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -32,7 +31,7 @@ class _Home1AppState extends Home1Model {
           image: configAppBloc.iconApp.valueWrapper?.value['texture'] != null
               ? DecorationImage(
                   image: CachedNetworkImageProvider(
-                      configAppBloc.iconApp.valueWrapper?.value['texture']),
+                      configAppBloc.iconApp.valueWrapper?.value['texture'] ?? ''),
                   fit: BoxFit.fitWidth)
               : null),
       child: SingleChildScrollView(
@@ -90,7 +89,7 @@ class _Home1AppState extends Home1Model {
                         style: TextStyle(
                             color: Colors.grey.shade700, fontSize: 20.0)),
                   ),
-                  MenuDepan(grid: 5),
+                  MenuDepan(grid: 5, menus: [], gradient: [], baris: 0, radius: 0),
                   CarouselDepan(),
                   SizedBox(height: 20.0),
                   Padding(
@@ -137,7 +136,7 @@ class _Home1AppState extends Home1Model {
                     child: Text(
                         'Hadiah akan diberikan ke member ${configAppBloc.namaApp.valueWrapper?.value}'),
                   ),
-                  RewardComponent(),
+                  RewardComponent(height: 0),
                   SizedBox(height: 50.0),
                 ],
               ),
@@ -173,7 +172,7 @@ class MenuGrid extends StatelessWidget {
               var barcode = await BarcodeScanner.scan();
               DebugHelper.debugPrint('barcode.toString()');
               // if (barcode.isNotEmpty) {
-              return Navigator.of(context).push(MaterialPageRoute(
+                Navigator.of(context).push(MaterialPageRoute(
                   builder: (_) => TransferByQR(barcode.rawContent)));
               // }
             },
@@ -202,8 +201,8 @@ class MenuGrid extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              return Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (_) => WithdrawPage()));
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => WithdrawPage()));
             },
             child: Container(
               padding: EdgeInsets.all(0.0),
@@ -229,7 +228,7 @@ class MenuGrid extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              return Navigator.of(context).pushNamed('/transfer');
+              Navigator.of(context).pushNamed('/transfer');
             },
             child: Container(
               padding: EdgeInsets.all(0.0),
@@ -276,7 +275,7 @@ class MenuGrid extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              return Navigator.of(context).pushNamed('/customer-service');
+              Navigator.of(context).pushNamed('/customer-service');
             },
             child: Container(
               padding: EdgeInsets.all(0.0),
@@ -324,7 +323,7 @@ class _MenuKomisiState extends State<MenuKomisi> {
         children: <Widget>[
           Expanded(
             child: ListTile(
-                title: Text(configAppBloc.labelSaldo.valueWrapper?.value,
+                title: Text(configAppBloc.labelSaldo.valueWrapper?.value ?? '',
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold)),
                 subtitle: Row(
@@ -348,7 +347,7 @@ class _MenuKomisiState extends State<MenuKomisi> {
                           children: <Widget>[
                             AnimatedBuilder(
                               animation: widget._animationController,
-                              builder: (BuildContext context, Widget child) {
+                              builder: (BuildContext context, Widget? child) {
                                 return RotationTransition(
                                     turns: widget._animationController,
                                     child: IconButton(

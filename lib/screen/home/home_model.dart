@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -6,10 +5,9 @@ import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_saldo.dart';
 
 import './home.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 abstract class HomeModel extends State<HomeApp> with TickerProviderStateMixin {
-  AnimationController _animationController;
+ late  AnimationController _animationController;
 
   @override
   void initState() {
@@ -57,7 +55,7 @@ abstract class HomeModel extends State<HomeApp> with TickerProviderStateMixin {
             children: <Widget>[
               AnimatedBuilder(
                 animation: _animationController,
-                builder: (BuildContext context, Widget child) {
+                builder: (BuildContext context, Widget? child) {
                   return RotationTransition(
                       turns: _animationController,
                       child: IconButton(
@@ -77,7 +75,7 @@ abstract class HomeModel extends State<HomeApp> with TickerProviderStateMixin {
                 child: Text(
                   "TOP UP",
                   style: TextStyle(
-                      color: Theme.of(context).buttonColor, fontSize: 12.0),
+                      color: Theme.of(context).colorScheme.primary, fontSize: 12.0),
                 ),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5)),
@@ -173,9 +171,7 @@ abstract class HomeModel extends State<HomeApp> with TickerProviderStateMixin {
                 onPressed: () {},
               ),
               Text(
-                bloc.username.valueWrapper?.value != null
-                    ? bloc.username.valueWrapper?.value.split(' ')[0]
-                    : 'Username',
+                (bloc.username.valueWrapper?.value ?? 'Username').split(' ')[0],
                 style: TextStyle(color: Colors.white),
               )
             ],

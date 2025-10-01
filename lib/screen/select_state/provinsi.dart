@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -8,7 +7,6 @@ import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/config.dart';
 import 'package:mobile/models/lokasi.dart';
 import 'package:http/http.dart' as http;
-import 'package:mobile/utils/debug_helper.dart';
 
 class SelectProvinsiPage extends StatefulWidget {
   @override

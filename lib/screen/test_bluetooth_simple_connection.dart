@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
 import 'dart:async';
-import 'package:mobile/utils/debug_helper.dart';
 
 class TestBluetoothSimpleConnection extends StatefulWidget {
   @override
@@ -121,7 +120,7 @@ class _TestBluetoothSimpleConnectionState extends State<TestBluetoothSimpleConne
         _addLog('❌ Connection attempt error: $e');
       }
 
-      timer?.cancel();
+      timer.cancel();
 
       if (timeoutOccurred) {
         _addLog('⏰ Connection timed out');

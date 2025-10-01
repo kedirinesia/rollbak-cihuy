@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:io';
 
@@ -13,8 +12,8 @@ class CustomCameraScreen extends StatefulWidget {
 }
 
 class _CustomCameraScreenState extends State<CustomCameraScreen> {
-  CameraController controller;
-  List<CameraDescription> cameras;
+  late CameraController controller;
+  late List<CameraDescription> cameras;
 
   @override
   void initState() {
@@ -35,7 +34,7 @@ class _CustomCameraScreenState extends State<CustomCameraScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (controller == null || !controller.value.isInitialized) {
+    if (!controller.value.isInitialized) {
       return Container();
     }
     return Scaffold(
@@ -61,7 +60,7 @@ class _CustomCameraScreenState extends State<CustomCameraScreen> {
     if (controller.value.isInitialized) {
       XFile xfile = await controller.takePicture();
       img.Image capturedImage =
-          img.decodeImage(File(xfile.path).readAsBytesSync());
+          img.decodeImage(File(xfile.path).readAsBytesSync()) ?? img.Image(0, 0)  ;
 
       final ktpRatio = 8.6 / 5.4; // Rasio KTP
       final double width =
@@ -89,7 +88,7 @@ class _CustomCameraScreenState extends State<CustomCameraScreen> {
 
   @override
   void dispose() {
-    controller?.dispose();
+    controller.dispose();
     super.dispose();
   }
 }

@@ -1,11 +1,9 @@
-// @dart=2.9
 
 import 'package:mobile/Products/delta/layout/detail_deposit.dart';
 import 'package:mobile/Products/delta/layout/home.dart';
 import 'package:mobile/Products/delta/layout/kirim_saldo.dart';
 import 'package:mobile/Products/delta/layout/topup.dart';
 import 'package:mobile/models/deposit.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 String sigVendor = '630f07aea7b108fc16e9a9cc';
 
@@ -13,7 +11,7 @@ const namaApp = 'Delta';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.delta.app';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

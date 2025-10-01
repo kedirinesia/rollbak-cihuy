@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,7 +8,6 @@ import 'package:mobile/screen/kasir/main.dart';
 import 'package:mobile/screen/marketplace/belanja.dart';
 import 'package:mobile/Products/ayoba/layout/components/transfer_by_qr.dart';
 import 'package:barcode_scan2/platform_wrapper.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class HomeAyoba extends StatefulWidget {
   @override

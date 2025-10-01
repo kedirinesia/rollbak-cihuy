@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '5f9a6aa102eecd6725d9b96d';
 
@@ -6,7 +5,7 @@ const namaApp = 'PULSA TOUCHSCREEN';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'id.ptspay.mobileapp';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

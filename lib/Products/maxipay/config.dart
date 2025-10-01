@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '67532a67c46c15b9542ec778';
 
@@ -6,7 +5,7 @@ const namaApp = 'MaxiPay';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.maxipay.mobile';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

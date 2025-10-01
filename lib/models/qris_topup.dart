@@ -1,4 +1,3 @@
-// @dart=2.9
 
 class QrisTopupModel {
   String channel;
@@ -11,24 +10,24 @@ class QrisTopupModel {
   int total;
 
   QrisTopupModel(
-      {this.channel,
-      this.displayName,
-      this.expired,
-      this.code,
-      this.nominal,
-      this.fee,
-      this.admin,
-      this.total});
+      {required this.channel,
+      required this.displayName,
+      required this.expired,
+      required this.code,
+      required this.nominal,
+      required this.fee,
+      required this.admin,
+      required this.total});
 
   factory QrisTopupModel.fromJson(dynamic json) {
     return QrisTopupModel(
-        channel: json['channel'],
-        displayName: json['displayName'],
-        expired: json['expired'],
-        code: json['va'],
-        nominal: json['nominal'],
-        fee: json['fee'],
-        admin: json['admin'],
-        total: json['totalBayar']);
+        channel: json['channel'] ?? '',
+        displayName: json['displayName'] ?? '',
+        expired: json['expired'] ?? '',
+        code: json['va'] ?? '',
+        nominal: json['nominal'] ?? 0,
+        fee: json['fee'] ?? 0,
+        admin: json['admin'] ?? 0,
+        total: json['totalBayar'] ?? 0);
   }
 }

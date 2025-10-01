@@ -1,11 +1,9 @@
-// @dart=2.9
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/component/webview.dart';
 import 'package:mobile/models/banner.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class BannerComponent extends StatefulWidget {
   @override

@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '5fab8d37509abf23c732ba27';
 
@@ -6,7 +5,7 @@ const namaApp = 'Wallpayku';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'id.wallpayku.android.mobile';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

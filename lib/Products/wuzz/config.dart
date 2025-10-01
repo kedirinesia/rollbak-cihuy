@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '5f7aceb4af94fd4fef4c2c6e';
 
@@ -6,7 +5,7 @@ const namaApp = 'Wuzz';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.wuzz.app';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

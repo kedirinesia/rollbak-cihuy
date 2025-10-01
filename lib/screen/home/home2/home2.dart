@@ -1,7 +1,5 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
-import 'package:flutter_page_transition/flutter_page_transition.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
@@ -13,7 +11,6 @@ import 'package:mobile/screen/transfer_saldo/transfer_saldo.dart';
 import '../../../component/card_info.dart';
 import '../../../component/carousel-depan.dart';
 import '../../../component/menudepan.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class Home2App extends StatefulWidget {
   @override
@@ -48,7 +45,7 @@ class _Home2AppState extends Home2Model {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(bloc.username.valueWrapper?.value,
+                  Text(bloc.username.valueWrapper?.value ?? '',
                       style: TextStyle(fontSize: 15.0, color: Colors.white)),
                   // SizedBox(height: 10.0),
                   Row(
@@ -86,7 +83,7 @@ class _Home2AppState extends Home2Model {
                         children: <Widget>[
                           AnimatedBuilder(
                             animation: animationController,
-                            builder: (BuildContext context, Widget child) {
+                            builder: (BuildContext context, Widget? child) {
                               return RotationTransition(
                                   turns: animationController,
                                   child: IconButton(
@@ -137,7 +134,7 @@ class _Home2AppState extends Home2Model {
                               blurRadius: 10.0,
                               offset: Offset(10, 5))
                         ]),
-                    child: MenuDepan(grid: 5, gradient: true),
+                    child: MenuDepan(grid: 5, gradient: true, menus: [], baris: 0, radius: 0),
                   ),
 
                   SizedBox(height: 20.0),
@@ -162,7 +159,7 @@ class _Home2AppState extends Home2Model {
                     ],
                   ),
                   SizedBox(height: 20.0),
-                  RewardComponent(),
+                  RewardComponent(height: 0),
                 ],
               ))
         ],
@@ -230,10 +227,8 @@ class MenuGrid extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              return Navigator.of(context).push(PageTransition(
-                  child: TransferSaldo(''),
-                  type: PageTransitionType.rippleRightUp,
-                  duration: Duration(seconds: 1)));
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => TransferSaldo('')));
             },
             child: Container(
               padding: EdgeInsets.all(0.0),
@@ -336,10 +331,8 @@ class MenuGrid extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              return Navigator.of(context).push(PageTransition(
-                  child: CS(),
-                  type: PageTransitionType.rippleRightUp,
-                  duration: Duration(seconds: 1)));
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => CS()));
             },
             child: Container(
               padding: EdgeInsets.all(0.0),

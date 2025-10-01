@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/Products/mykonterr/layout/login.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   @override

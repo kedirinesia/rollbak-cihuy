@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +7,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mobile/Products/ualreload/layout/transfer-bank/form_daftar_tranfer.dart';
 import 'package:mobile/Products/ualreload/layout/transfer-bank/transfer_bank.dart';
 import 'package:mobile/models/daftar_transfer.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class DaftarTransferPage extends StatefulWidget {
   const DaftarTransferPage({Key key}) : super(key: key);
@@ -644,7 +642,7 @@ class _DaftarTransferPageState extends State<DaftarTransferPage> {
       },
       style: ButtonStyle(
         backgroundColor:
-            MaterialStateProperty.all(Theme.of(context).primaryColor),
+            WidgetStateProperty.all(Theme.of(context).primaryColor),
       ),
       child: Padding(
         padding: const EdgeInsets.all(15.0),

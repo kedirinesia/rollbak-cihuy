@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:async';
 
@@ -73,7 +72,7 @@ abstract class MutasiController extends State<MutasiPage> {
     if (filtered) {
       params['tgl_awal'] = formatDate(startDate.toIso8601String(), 'd-M-y');
       params['tgl_akhir'] = formatDate(endDate.toIso8601String(), 'd-M-y');
-      if (type != null && type != 'ST') params['type'] = type;
+      if (type != 'ST') params['type'] = type;
     }
     params['page'] = currentPage;
 

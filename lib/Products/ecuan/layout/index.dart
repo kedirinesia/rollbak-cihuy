@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +11,6 @@ import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/screen/marketplace/index.dart';
 import 'package:mobile/screen/profile/downline/downline.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class SarinuHome extends StatefulWidget {
   @override

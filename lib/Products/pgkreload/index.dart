@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,7 +6,6 @@ import '../../app_config.dart';
 import 'config.dart';
 import 'color.dart';
 import 'resource.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

@@ -1,5 +1,4 @@
 // ignore_for_file: invalid_use_of_visible_for_testing_member
-// @dart=2.9
 
 import 'dart:convert';
 import 'dart:io';
@@ -22,7 +21,7 @@ import 'package:mobile/provider/user.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher.dart' as url_launcher;
 import 'package:esc_pos_utils/esc_pos_utils.dart';
 
 import 'bloc/Api.dart';
@@ -67,9 +66,12 @@ String recapitalize(String text) {
 }
 
 Future<bool> getUserInfo() async {
+  final token = bloc.token.valueWrapper?.value;
+  if (token == null) return false;
+  
   http.Response response = await http.get(
     Uri.parse('$apiUrl/user/info'),
-    headers: {'Authorization': bloc.token.valueWrapper?.value},
+    headers: {'Authorization': token},
   );
 
   if (response.statusCode == 200) {
@@ -77,8 +79,28 @@ Future<bool> getUserInfo() async {
     bloc.user.add(user);
     return true;
   } else {
-    bloc.token.add(null);
-    bloc.user.add(null);
+    bloc.token.add('');
+    bloc.user.add(UserModel(
+      nama: '',
+      phone: '',
+      email: '',
+      id: '',
+      kyc_verification: false,
+      kyc: '',
+      kode_merchant: '',
+      saldo: 0,
+      komisi: 0,
+      poin: 0,
+      idProvinsi: '',
+      idKota: '',
+      idKecamatan: '',
+      alamat: '',
+      namaToko: '',
+      alamatToko: '',
+      aktif: false,
+      enableWithdraw: false,
+      inviteCode: '',
+    ));
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.clear();
     return false;
@@ -87,16 +109,20 @@ Future<bool> getUserInfo() async {
 
 Future<void> updateUserInfo() async {
   UserProvider provider = UserProvider();
-  var user = await provider.getProfile();
-  if (user != null) {
-    bloc.user.add(user);
-    bloc.userId.add(user.id);
-    bloc.username.add(user.nama);
-    bloc.userPhone.add(user.phone);
-    bloc.alamat.add(user.alamat);
-    bloc.saldo.add(user.saldo);
-    bloc.poin.add(user.poin);
-    bloc.komisi.add(user.komisi);
+  try {
+    var user = await provider.getProfile();
+    if (user != null) {
+      bloc.user.add(user);
+      bloc.userId.add(user.id);
+      bloc.username.add(user.nama);
+      bloc.userPhone.add(user.phone);
+      bloc.alamat.add(user.alamat);
+      bloc.saldo.add(user.saldo);
+      bloc.poin.add(user.poin);
+      bloc.komisi.add(user.komisi);
+    }
+  } catch (e) {
+    DebugHelper.debugError('UPDATE_USER_INFO', 'Failed to update user info: $e');
   }
 }
 
@@ -157,12 +183,123 @@ Future<void> getAppInfo() async {
     // Test API connection first
     await testApiConnection();
     
+    DebugHelper.debugPrint('🔍 CALLING API: /app/info?id=$sigVendor with cache: true');
+    DebugHelper.debugPrint('🔍 sigVendor value: "$sigVendor" (type: ${sigVendor.runtimeType})');
+    DebugHelper.debugPrint('🔍 sigVendor length: ${sigVendor.length}');
     Map<String, dynamic> data =
         await api.get('/app/info?id=$sigVendor', auth: false, cache: true);
-    AppInfo app = AppInfo.fromJson(data);
-    configAppBloc.info.add(app);
-    DebugHelper.debugApi('GET_APP_INFO', 'getAppInfo completed successfully');
+
+   
+    DebugHelper.debugPrint('📦 CACHE INFO: Data received, checking if cached...');
+    DebugHelper.debugPrint('📦 Data length: ${data.toString().length}');
+
+    try {
+      DebugHelper.debugPrint('🔍 Attempting to parse AppInfo...');
+      AppInfo app = AppInfo.fromJson(data);
+      DebugHelper.debugPrint('✅ AppInfo parsed successfully');
+      configAppBloc.info.add(app);
+
+     
+      DebugHelper.debugPrint('=== APP INFO DEBUG ===');
+      DebugHelper.debugPrint('API URL: $apiUrl/app/info?id=$sigVendor');
+      DebugHelper.debugPrint('Raw API Response: $data');
+      DebugHelper.debugPrint('Rad API Response Type: ${data.runtimeType}');
+
+      {
+        DebugHelper.debugPrint('📊 API DATA ANALYSIS:');
+        data.forEach((key, value) {
+          DebugHelper.debugPrint('  $key: $value (type: ${value.runtimeType})');
+          if (key == 'register' || key == 'stopAllRegister' || key == 'data' || key == 'status') {
+            DebugHelper.debugPrint('    🔍 $key detailed: value=$value, isBool=${value is bool}, isNull=${value == null}, toString=${value.toString()}');
+          }
+        });
+        // Check if data['data'] exists and analyze it
+        if (data['data'] != null) {
+          DebugHelper.debugPrint('📋 DATA SECTION ANALYSIS:');
+          var dataSection = data['data'];
+          DebugHelper.debugPrint('  data section type: ${dataSection.runtimeType}');
+          dataSection.forEach((key, value) {
+            DebugHelper.debugPrint('    $key: $value (type: ${value.runtimeType})');
+            if (key == 'register' || key == 'stopAllRegister') {
+              DebugHelper.debugPrint('      🔍 REGISTER FIELD: $key = $value (isBool=${value is bool}, isNull=${value == null})');
+            }
+          });
+        } else {
+          DebugHelper.debugPrint('❌ data section is NULL');
+        }
+        DebugHelper.debugPrint('❌ API Response is NOT a Map<String, dynamic>');
+        DebugHelper.debugPrint('❌ Raw response: $data');
+      }
+
+      DebugHelper.debugPrint('📋 PARSED APP INFO:');
+      DebugHelper.debugPrint('  register: ${app.register} (type: ${app.register.runtimeType})');
+      DebugHelper.debugPrint('  stopAllRegister: ${app.stopAllRegister} (type: ${app.stopAllRegister.runtimeType})');
+      DebugHelper.debugPrint('  inviteLink: ${app.inviteLink} (type: ${app.inviteLink.runtimeType})');
+      DebugHelper.debugPrint('  enableSelectCA: ${app.enableSelectCA} (type: ${app.enableSelectCA.runtimeType})');
+
+      DebugHelper.debugPrint('✅ REGISTER CONDITION CHECK:');
+      DebugHelper.debugPrint('  register == true: ${app.register == true}');
+      DebugHelper.debugPrint('  stopAllRegister == false: ${app.stopAllRegister == false}');
+      DebugHelper.debugPrint('  Combined condition: ${(app.register == true && app.stopAllRegister == false)}');
+      DebugHelper.debugPrint('=== APP INFO DEBUG END ===');
+
+    } catch (e) {
+      DebugHelper.debugPrint('❌ ERROR parsing AppInfo: $e');
+      DebugHelper.debugPrint('❌ Error type: ${e.runtimeType}');
+      DebugHelper.debugPrint('❌ Data that caused error: $data');
+      DebugHelper.debugPrint('❌ Data type: ${data.runtimeType}');
+      DebugHelper.debugPrint('❌ Data toString length: ${data.toString().length}');
+
+      {
+        DebugHelper.debugPrint('❌ Checking each field for null values:');
+        data.forEach((key, value) {
+          DebugHelper.debugPrint('  $key: $value (isNull=${value == null}, type=${value.runtimeType})');
+        });
+
+        if (data['kode_merchant'] != null) {
+          DebugHelper.debugPrint('❌ kode_merchant section: ${data['kode_merchant']}');
+          var merchant = data['kode_merchant'];
+          merchant.forEach((key, value) {
+            DebugHelper.debugPrint('    $key: $value (isNull=${value == null}, type=${value.runtimeType})');
+          });
+        } else {
+          DebugHelper.debugPrint('❌ kode_merchant is NULL!');
+        }
+      }
+
+      throw e;
+    }
+
   } catch (e) {
+        DebugHelper.debugPrint('❌ ERROR in getAppInfo(): $e');
+        DebugHelper.debugPrint('❌ Error type: ${e.runtimeType}');
+        DebugHelper.debugPrint('❌ Error stack trace: ${StackTrace.current}');
+
+    // Try to analyze the API response even on error
+        DebugHelper.debugPrint('🔍 ANALYZING API RESPONSE ON ERROR:');
+    try {
+      Map<String, dynamic> errorData = await api.get('/app/info?id=$sigVendor', auth: false, cache: false);
+      DebugHelper.debugPrint('Error API Response: $errorData');
+      DebugHelper.debugPrint('Error API Response Type: ${errorData.runtimeType}');
+
+      {
+        DebugHelper.debugPrint('Error data analysis:');
+        errorData.forEach((key, value) {
+          DebugHelper.debugPrint('  $key: $value (type: ${value.runtimeType})');
+        });
+
+        if (errorData['data'] != null) {
+          DebugHelper.debugPrint('Error data section: ${errorData['data']}');
+          var errorDataSection = errorData['data'];
+          errorDataSection.forEach((key, value) {
+            DebugHelper.debugPrint('    $key: $value (type: ${value.runtimeType})');
+          });
+        }
+      }
+    } catch (innerError) {
+      DebugHelper.debugPrint('❌ Could not analyze error response: $innerError');
+    }
+
     DebugHelper.debugError('GET_APP_INFO', 'getAppInfo error: $e');
     DebugHelper.debugError('GET_APP_INFO', 'Error type: ${e.runtimeType}');
     
@@ -186,14 +323,16 @@ Future<File> getPhoto() async {
     status = await Permission.camera.request();
   }
 
-  PickedFile image = await ImagePicker.platform
+  XFile? image = await ImagePicker()
       .pickImage(source: ImageSource.camera, imageQuality: 80);
+  if (image == null) throw Exception('No image selected');
   return await compressImage(image);
 }
 
-Future<File> compressImage(PickedFile image) async {
-  List<int> compressed = await FlutterImageCompress.compressWithFile(image.path,
+Future<File> compressImage(XFile image) async {
+  List<int>? compressed = await FlutterImageCompress.compressWithFile(image.path,
       minWidth: 800, minHeight: 600, quality: 80, format: CompressFormat.jpeg);
+  if (compressed == null) throw Exception('Image compression failed');
   return await File(image.path)
       .writeAsBytes(compressed, flush: true, mode: FileMode.write);
 }
@@ -212,14 +351,22 @@ void sendDeviceToken() async {
   DebugHelper.debugApi('SEND_DEVICE_TOKEN', 'Token available: ${bloc.token.valueWrapper?.value != null}');
   DebugHelper.debugApi('SEND_DEVICE_TOKEN', 'Device token available: ${bloc.deviceToken.valueWrapper?.value != null}');
   
+  final authToken = bloc.token.valueWrapper?.value;
+  final deviceToken = bloc.deviceToken.valueWrapper?.value;
+  
+  if (authToken == null || deviceToken == null) {
+    DebugHelper.debugError('SEND_DEVICE_TOKEN', 'Missing required tokens');
+    return;
+  }
+  
   try {
     DebugHelper.debugApi('SEND_DEVICE_TOKEN', 'Making device token request...');
     await http.post(Uri.parse('$apiUrl/user/device_token'),
         headers: {
-          'Authorization': bloc.token.valueWrapper?.value,
+          'Authorization': authToken,
           'Content-Type': 'application/json'
         },
-        body: json.encode({'token': bloc.deviceToken.valueWrapper?.value}));
+        body: json.encode({'token': deviceToken}));
     DebugHelper.debugApi('SEND_DEVICE_TOKEN', 'Device token sent successfully');
   } catch (err) {
     DebugHelper.debugError('SEND_DEVICE_TOKEN', 'Error sending device token: $err');
@@ -228,13 +375,17 @@ void sendDeviceToken() async {
 }
 
 Future<void> launchUrl(String url) async {
-  if (await canLaunchUrl(Uri.parse(url))) launchUrl(url);
+  final uri = Uri.parse(url);
+  if (await url_launcher.canLaunchUrl(uri)) await url_launcher.launchUrl(uri);
 }
 
 Future<void> getFlashBanner(BuildContext context) async {
+  final token = bloc.token.valueWrapper?.value;
+  if (token == null) return;
+  
   http.Response response = await http.get(
       Uri.parse('$apiUrl/banner/flash/list'),
-      headers: {'Authorization': bloc.token.valueWrapper?.value});
+      headers: {'Authorization': token});
 
   if (response.statusCode == 200) {
     List<dynamic> datas = json.decode(response.body)['data'];
@@ -253,7 +404,38 @@ Future<void> getFlashBanner(BuildContext context) async {
                       Padding(
                         padding: const EdgeInsets.all(15),
                         child: GestureDetector(
-                          onTap: () => launch(fb.url),
+                          onTap: () => url_launcher.launchUrl(Uri.parse(fb.url)),
+                          child: CachedNetworkImage(
+                            imageUrl: fb.imageUrl,
+                          ),
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          GestureDetector(
+                            onTap: Navigator.of(ctx).pop,
+                            child: Padding(
+                              padding: const EdgeInsets.all(20),
+                              child: Icon(
+                                Icons.close,
+                                color: Theme.of(context).primaryColor,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ]),
+                  ));
+        } else if (fb.type == 1) {
+          await showDialog(
+              context: context,
+              builder: (ctx) => Center(
+                    child: Stack(fit: StackFit.loose, children: [
+                      Padding(
+                        padding: const EdgeInsets.all(15),
+                        child: GestureDetector(
+                          onTap: () => url_launcher.launchUrl(Uri.parse(fb.url)),
                           child: CachedNetworkImage(
                             imageUrl: fb.imageUrl,
                           ),
@@ -277,37 +459,6 @@ Future<void> getFlashBanner(BuildContext context) async {
                     ]),
                   ));
         }
-      } else {
-        await showDialog(
-            context: context,
-            builder: (ctx) => Center(
-                  child: Stack(fit: StackFit.loose, children: [
-                    Padding(
-                      padding: const EdgeInsets.all(15),
-                      child: GestureDetector(
-                        onTap: () => launch(fb.url),
-                        child: CachedNetworkImage(
-                          imageUrl: fb.imageUrl,
-                        ),
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        GestureDetector(
-                          onTap: Navigator.of(ctx).pop,
-                          child: Padding(
-                            padding: const EdgeInsets.all(20),
-                            child: Icon(
-                              Icons.close,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ]),
-                ));
       }
     });
   }
@@ -315,11 +466,24 @@ Future<void> getFlashBanner(BuildContext context) async {
 
 void showToast(BuildContext context, String message,
     {int duration = 3, int gravity = 0}) {
-  return Toast.show(message, context,
-      gravity: gravity,
+  final String safeMessage = message.toString();
+  if (safeMessage.isEmpty) return;
+
+  try {
+    // Pastikan Toast memiliki context agar tidak melempar "Context is null"
+    ToastContext().init(context);
+    Toast.show(
+      safeMessage,
       duration: duration,
+      gravity: gravity,
       backgroundColor: Colors.black.withOpacity(.75),
-      backgroundRadius: 10);
+      backgroundRadius: 10,
+    );
+  } catch (err) {
+    // Fallback aman jika Toast gagal (mis. context belum ter-initialize)
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(safeMessage)));
+  }
 }
 
 void showLoading(BuildContext context) {
@@ -333,7 +497,7 @@ void showLoading(BuildContext context) {
             child: CircularProgressIndicator(
               strokeWidth: 1,
               valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-            ),
+            ), 
           ),
         );
       });

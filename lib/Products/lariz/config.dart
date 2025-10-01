@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:mobile/Products/lariz/layout/detail-deposit.dart';
 import 'package:mobile/Products/lariz/layout/kirim-saldo.dart';
@@ -7,7 +6,6 @@ import 'package:mobile/Products/lariz/layout/splash.dart';
 import 'package:mobile/Products/lariz/layout/topup.dart';
 import 'package:mobile/Products/lariz/layout/wizard/wizard.dart';
 import 'package:mobile/models/deposit.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 String sigVendor = '651cd60072226b263de5b0c6';
 
@@ -15,7 +13,7 @@ const namaApp = 'Lariz';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.lariz.mobile';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

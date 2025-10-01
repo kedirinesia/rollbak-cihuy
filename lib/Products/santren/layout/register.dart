@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:async';
 import 'dart:convert';
@@ -19,7 +18,6 @@ import 'package:mobile/screen/select_state/kecamatan.dart';
 import 'package:mobile/screen/select_state/kota.dart';
 import 'package:mobile/screen/select_state/provinsi.dart';
 import 'package:mobile/screen/text_kapital.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class RegisterUser extends StatefulWidget {
   @override
@@ -80,7 +78,7 @@ class _RegisterUserState extends State<RegisterUser> {
     kecamatanText.dispose();
     referalCode.dispose();
     otpController.dispose();
-    timer?.cancel();
+    timer.cancel();
     super.dispose();
   }
 
@@ -90,7 +88,7 @@ class _RegisterUserState extends State<RegisterUser> {
     setState(() {
       countdown = 60;
     });
-    timer?.cancel();
+    timer.cancel();
     timer = Timer.periodic(Duration(seconds: 1), (t) {
       if (countdown > 1) {
         setState(() {
@@ -100,7 +98,7 @@ class _RegisterUserState extends State<RegisterUser> {
         setState(() {
           countdown = 0;
         });
-        timer?.cancel();
+        timer.cancel();
       }
     });
   }
@@ -317,7 +315,7 @@ class _RegisterUserState extends State<RegisterUser> {
     }
     if (kodeUpline != null) {
       dataToSend['kode_upline'] = kodeUpline;
-    } else if (kodeUpline == null && brandId != null) {
+    } else if (kodeUpline == null) {
       dataToSend['kode_upline'] = brandId;
     }
 
@@ -385,7 +383,7 @@ class _RegisterUserState extends State<RegisterUser> {
         builder: (_) {
           return AlertDialog(
             title: Text('Registrasi Gagal'),
-            content: Text(e?.toString() ?? 'Terjadi kesalahan pada sistem'),
+            content: Text(e.toString() ?? 'Terjadi kesalahan pada sistem'),
             actions: <Widget>[
               TextButton(
                 onPressed: () =>

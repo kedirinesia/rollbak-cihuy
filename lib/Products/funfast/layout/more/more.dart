@@ -1,11 +1,9 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 import 'package:mobile/models/menu.dart';
 
 import 'package:mobile/Products/funfast/layout/components/menudepan.dart';
 import 'more_model.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class MorePage extends StatefulWidget {
   final List<MenuModel> menus;

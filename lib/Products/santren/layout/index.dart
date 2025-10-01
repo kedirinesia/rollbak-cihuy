@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -7,12 +6,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:mobile/Products/santren/layout/home.dart';
 import 'package:mobile/Products/santren/layout/history.dart';
 import 'package:mobile/bloc/Bloc.dart';
-import 'package:mobile/bloc/ConfigApp.dart';
-import 'package:mobile/component/webview.dart';
-import 'package:mobile/modules.dart';
 import 'package:mobile/screen/kasir/main.dart';
 import 'package:mobile/Products/santren/layout/profile.dart';
-import 'package:mobile/screen/profile/reward/list_reward.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
 import 'package:mobile/utils/debug_helper.dart';
 

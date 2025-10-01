@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -15,7 +14,6 @@ import 'package:mobile/screen/kyc/reject.dart';
 import 'package:mobile/screen/kyc/waiting.dart';
 import 'package:mobile/screen/kyc/verification1.dart';
 import 'package:mobile/screen/profile/my_qris.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class DetailProfile extends StatefulWidget {
   @override

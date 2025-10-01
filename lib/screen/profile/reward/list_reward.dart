@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -13,7 +12,6 @@ import '../../../bloc/Api.dart';
 import '../../../models/reward.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/bloc/Bloc.dart' show bloc;
-import 'package:mobile/utils/debug_helper.dart';
 
 class ListReward extends StatefulWidget {
   @override
@@ -26,7 +24,7 @@ class _ListRewardState extends ListRewardController {
     super.initState();
     analitycs.pageView('/list/reward', {
       'userId': bloc.userId.valueWrapper?.value,
-      'title': 'List Reward',
+      'title': 'List Reward',   
     });
   }
 
@@ -60,7 +58,7 @@ abstract class ListRewardController extends State<ListReward> {
 
   void getData() async {
     http.Response response = await http.get(Uri.parse('$apiUrl/reward/list'),
-        headers: {'Authorization': bloc.token.valueWrapper?.value});
+        headers: {'Authorization': bloc.token.valueWrapper?.value ?? ''});
 
     if (response.statusCode == 200) {
       List<dynamic> datas = json.decode(response.body)['data'];
@@ -79,7 +77,7 @@ abstract class ListRewardController extends State<ListReward> {
   void tukarReward(String id) async {
     http.Response response = await http.post(Uri.parse('$apiUrl/reward/tukar'),
         headers: {
-          'Authorization': bloc.token.valueWrapper?.value,
+          'Authorization': bloc.token.valueWrapper?.value ?? '',
           'Content-Type': 'application/json'
         },
         body: json.encode({'id': id}));

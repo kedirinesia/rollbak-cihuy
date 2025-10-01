@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '628464ad7512e8835b96729f';
 
@@ -6,7 +5,7 @@ const namaApp = 'Flobamora Pulsa';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.flobamora.app';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

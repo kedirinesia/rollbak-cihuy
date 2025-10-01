@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -15,7 +14,7 @@ import 'package:mobile/utils/debug_helper.dart';
 class GenerateRefCode extends StatefulWidget {
   final Function getUserInfo;
 
-  GenerateRefCode(this.getUserInfo, {Key key}) : super(key: key);
+  GenerateRefCode(this.getUserInfo, {Key? key}) : super(key: key);
 
   @override
   State<GenerateRefCode> createState() => _GenerateRefCodeState();
@@ -24,17 +23,15 @@ class GenerateRefCode extends StatefulWidget {
 class _GenerateRefCodeState extends State<GenerateRefCode> {
   TextEditingController refCodeController = TextEditingController(text: '');
 
-  UserModel userInfo;
+  late UserModel userInfo;
 
   @override
   void initState() {
-    userInfo = Hive.box('ref-code').length != 0
-        ? UserModel.parse(Hive.box('ref-code').getAt(0))
-        : null;
+    userInfo = (Hive.box('ref-code').length != 0
+        ? UserModel.parse(Hive.box('ref-code').getAt(0) ?? UserModel())
+        : null)!;
 
-    if (userInfo != null) {
-      refCodeController.text = userInfo.inviteCode;
-    }
+    refCodeController.text = userInfo.inviteCode;
 
     super.initState();
   }
@@ -65,7 +62,7 @@ class _GenerateRefCodeState extends State<GenerateRefCode> {
             body: jsonEncode({'invite_code': refCode}),
             headers: {
               'content-type': 'application/json',
-              'authorization': bloc.token.valueWrapper?.value,
+              'authorization': bloc.token.valueWrapper!.value,
             },
           );
 

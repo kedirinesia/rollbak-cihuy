@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '655579c5b4a4f0d72b058f2a';
 
@@ -6,7 +5,7 @@ const namaApp = 'Propay';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.propay.mobile';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

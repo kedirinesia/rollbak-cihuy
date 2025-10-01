@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:flutter/material.dart';
@@ -61,7 +60,7 @@ class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
         backgroundColor: Colors.white,
         extendBody: true, // Extend body behind bottom navigation
         appBar: AppBar(
-          title: Text(configAppBloc.namaApp.valueWrapper?.value,
+          title: Text(configAppBloc.namaApp.valueWrapper?.value ?? '',
               style: TextStyle(color: Colors.white)),
           backgroundColor: Theme.of(context).primaryColor,
           elevation: 0.0,
@@ -70,11 +69,11 @@ class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
                 icon: Icon(Icons.chat, color: Colors.white),
                 onPressed: () {
                   if (configAppBloc.liveChat.valueWrapper?.value != '') {
-                    return Navigator.of(context).push(MaterialPageRoute(
+                    Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => Webview('Live Chat Support',
-                            configAppBloc.liveChat.valueWrapper?.value)));
+                            configAppBloc.liveChat.valueWrapper?.value ?? '')));
                   } else {
-                    return null;
+                    null;
                   }
                 }),
             IconButton(
@@ -108,7 +107,7 @@ class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
             var barcode = await BarcodeScanner.scan();
             DebugHelper.debugPrint('barcode.toString()');
             // if (barcode.isNotEmpty) {
-            return Navigator.of(context).push(MaterialPageRoute(
+            Navigator.of(context).push(MaterialPageRoute(
                 builder: (_) => TransferByQR(barcode.rawContent)));
             // }
           },
@@ -134,7 +133,7 @@ class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
             backgroundColor: Theme.of(context).primaryColor,
             onTap: (index) {
               setState(() {
-                pageIndex = index;
+                pageIndex = index ?? 0;
               });
             },
             borderRadius: BorderRadius.vertical(top: Radius.circular(32)),

@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 
@@ -23,7 +22,6 @@ import 'package:mobile/screen/profile/reward/list_reward.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
 
 import 'package:mobile/modules.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class HomeGreenpay extends StatefulWidget {
   @override

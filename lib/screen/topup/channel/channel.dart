@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -7,13 +6,12 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
-import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:mobile/config.dart';
 import 'package:mobile/models/deposit_link.dart';
 import 'package:mobile/models/payment-list.dart';
 import 'package:http/http.dart' as http;
-import 'package:mobile/modules.dart';
-import 'package:mobile/utils/debug_helper.dart';
+import 'package:mobile/modules.dart'; 
 
 class TopupChannel extends StatefulWidget {
   final PaymentModel payment;
@@ -28,7 +26,9 @@ class _TopupChannelState extends State<TopupChannel> {
   TextEditingController nominal = TextEditingController();
 
   void topup() async {
-    double parsedNominal = double.parse(nominal.text.replaceAll('.', ''));
+    int parsedNominal = int.tryParse(
+            nominal.text.replaceAll(RegExp('[^0-9]'), '')) ??
+        0;
     if (nominal.text.isEmpty) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Nominal belum diisi')));
@@ -46,26 +46,22 @@ class _TopupChannelState extends State<TopupChannel> {
     http.Response response = await http.post(
         Uri.parse('$apiUrl/deposit/payment-link'),
         headers: {
-          'Authorization': bloc.token.valueWrapper?.value,
+          'Authorization': bloc.token.valueWrapper?.value ?? '',
           'Content-Type': 'application/json'
         },
         body: json.encode(
             {'nominal': parsedNominal, 'type': widget.payment.channel}));
 
     if (response.statusCode == 200) {
-      DepositLink link = DepositLink.fromJson(json.decode(response.body));
+      var body = json.decode(response.body);
+      var data = body is Map<String, dynamic> && body.containsKey('data')
+          ? body['data']
+          : body;
+      DepositLink link = DepositLink.fromJson(data);
       Navigator.of(context).pop();
 
       try {
-        await launch(link.url,
-            customTabsOption: CustomTabsOption(
-                toolbarColor: packageName == 'com.lariz.mobile'
-                    ? Theme.of(context).secondaryHeaderColor
-                    : Theme.of(context).primaryColor,
-                enableDefaultShare: false,
-                enableUrlBarHiding: true,
-                showPageTitle: true,
-                animation: CustomTabsSystemAnimation.slideIn()));
+        await launch(link.url);
       } catch (e) {
         debugPrint(e.toString());
       }

@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -12,7 +11,6 @@ import 'package:mobile/models/mp_transaction.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/screen/marketplace/lacak_pesanan.dart';
 import 'package:http/http.dart' as http;
-import 'package:mobile/utils/debug_helper.dart';
 
 class DetailPesananPage extends StatefulWidget {
   final MPTransaksi trx;
@@ -24,7 +22,7 @@ class DetailPesananPage extends StatefulWidget {
 
 class _DetailPesananPageState extends State<DetailPesananPage> {
   bool loading = true;
-  MPTransaksi trx;
+  late MPTransaksi trx;
 
   @override
   void initState() {
@@ -63,7 +61,7 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
     http.Response response =
         await http.post(Uri.parse('$apiUrl/market/order/confirm'),
             headers: {
-              'Authorization': bloc.token.valueWrapper?.value,
+              'Authorization': bloc.token.valueWrapper?.value ?? '',
               'Content-Type': 'application/json'
             },
             body: json.encode({'id': trx.id}));
@@ -83,7 +81,8 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
           status: MPTransaksiStatus.parse(4),
           createdAt: trx.createdAt,
           updatedAt: trx.updatedAt,
-          paymentExpiredAt: trx.paymentExpiredAt);
+          paymentExpiredAt: trx.paymentExpiredAt,
+          voucher: trx.voucher);
 
       trx = newTrx;
     } else {
@@ -197,7 +196,7 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
                           Text('Nominal Voucher',
                               style:
                                   TextStyle(fontSize: 13, color: Colors.grey)),
-                          Text('- ${formatRupiah(trx.voucher.nominal)}')
+                          Text('- ${formatRupiah(trx.voucher?.nominal ?? 0)}')
                         ],
                       )
                     : SizedBox(height: 0.0),

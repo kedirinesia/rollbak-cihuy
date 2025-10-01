@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '61a73c23caef3e385a0ce6b1';
 
@@ -6,7 +5,7 @@ const namaApp = 'BroPay';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.bropay.mobile';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

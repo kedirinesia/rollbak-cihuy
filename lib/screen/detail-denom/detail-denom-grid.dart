@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'package:flutter/services.dart';
@@ -24,7 +23,6 @@ import 'package:mobile/models/prepaid-denom.dart';
 import 'package:mobile/modules.dart';
 // import 'package:mobile/component/contact.dart';
 import 'package:mobile/screen/transaksi/inquiry_prepaid.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class DetailDenomGrid extends StatefulWidget {
   final MenuModel menu;
@@ -40,7 +38,7 @@ class DetailDenomGridState extends State<DetailDenomGrid>
   List<PrepaidDenomModel> listDenom = [];
   bool loading = true;
   bool failed = false;
-  PrepaidDenomModel selectedDenom;
+  PrepaidDenomModel? selectedDenom;
   TextEditingController tujuan = TextEditingController();
   TextEditingController zoneID = TextEditingController();
   TextEditingController nominal = TextEditingController();
@@ -58,7 +56,7 @@ class DetailDenomGridState extends State<DetailDenomGrid>
 
     http.Response response = await http.get(
         Uri.parse('$apiUrl/product/${widget.menu.category_id}'),
-        headers: {'Authorization': bloc.token.valueWrapper?.value});
+        headers: {'Authorization': bloc.token.valueWrapper?.value ?? ''});
 
     if (response.statusCode == 200) {
       List<PrepaidDenomModel> lm = (jsonDecode(response.body)['data'] as List)
@@ -96,7 +94,7 @@ class DetailDenomGridState extends State<DetailDenomGrid>
 
   void prosesBeli(context) async {
     if (tujuan.text.length < 4) return;
-    if (selectedDenom.bebas_nominal) {
+    if (selectedDenom?.bebas_nominal ?? false) {
       await showDialog(
         context: context,
         barrierDismissible: false,
@@ -122,7 +120,7 @@ class DetailDenomGridState extends State<DetailDenomGrid>
                   Navigator.of(context).push(
                     MaterialPageRoute(
                         builder: (_) => InquiryPrepaid(
-                            selectedDenom.kode_produk, tujuan.text,
+                            selectedDenom?.kode_produk ?? '', tujuan.text,
                             nominal: int.parse(nominal.text))),
                   );
                 }),
@@ -135,7 +133,7 @@ class DetailDenomGridState extends State<DetailDenomGrid>
     } else {
       Navigator.of(context).push(MaterialPageRoute(
           builder: (_) =>
-              InquiryPrepaid(selectedDenom.kode_produk, tujuan.text)));
+              InquiryPrepaid(selectedDenom?.kode_produk ?? '', tujuan.text)));
     }
   }
 
@@ -156,9 +154,9 @@ class DetailDenomGridState extends State<DetailDenomGrid>
             onPressed: () => Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                   builder: (_) =>
-                      configAppBloc.layoutApp?.valueWrapper?.value['home'] ??
+                      configAppBloc.layoutApp.valueWrapper?.value['home'] ??
                       templateConfig[
-                          configAppBloc.templateCode.valueWrapper?.value],
+                          configAppBloc.templateCode.valueWrapper?.value ?? 0],
                 ),
                 (route) => false),
           ),
@@ -213,7 +211,7 @@ class DetailDenomGridState extends State<DetailDenomGrid>
                           ],
                           style: TextStyle(
                             fontWeight:
-                                configAppBloc.boldNomorTujuan.valueWrapper.value
+                                configAppBloc.boldNomorTujuan.valueWrapper?.value ?? false
                                     ? FontWeight.bold
                                     : FontWeight.normal,
                           ),
@@ -282,19 +280,19 @@ class DetailDenomGridState extends State<DetailDenomGrid>
 
   Widget buildDenom(PrepaidDenomModel denom) {
     Color boxColor = selectedDenom != null
-        ? selectedDenom.id == denom.id
+        ? selectedDenom?.id == denom.id
             ? packageName == 'com.lariz.mobile'
                 ? Theme.of(context).secondaryHeaderColor.withOpacity(.8)
                 : Theme.of(context).primaryColor.withOpacity(.8)
             : Colors.white
         : Colors.white;
     Color textColor = selectedDenom != null
-        ? selectedDenom.id == denom.id
+        ? selectedDenom?.id == denom.id
             ? Colors.white
             : Colors.grey.shade700
         : Colors.grey.shade700;
     Color priceColor = selectedDenom != null
-        ? selectedDenom.id == denom.id
+        ? selectedDenom?.id == denom.id
             ? Colors.white
             : Colors.green
         : Colors.green;
@@ -353,12 +351,12 @@ class DetailDenomGridState extends State<DetailDenomGrid>
                   )
                 : Container(),
             SizedBox(
-                height: !configAppBloc.displayGangguan.valueWrapper.value
+                height: !configAppBloc.displayGangguan.valueWrapper!.value ?? false
                     ? 0
                     : denom.note.isEmpty
                         ? 0
                         : 3),
-            !configAppBloc.displayGangguan.valueWrapper.value
+            !configAppBloc.displayGangguan.valueWrapper!.value ?? false 
                 ? SizedBox()
                 : denom.note.isEmpty
                     ? SizedBox()

@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:barcode_scan2/platform_wrapper.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -10,7 +9,6 @@ import 'package:mobile/Products/mykonterr/layout/history.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/screen/profile/downline/downline.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class HomeBlibli extends StatefulWidget {
   @override

@@ -1,9 +1,7 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 import 'package:mobile/Products/delta/layout/components/menu_tools/menu_tools_balance_info.dart';
 import 'package:mobile/Products/delta/layout/components/menu_tools/menu_tools_order_history.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class MenuWrapper extends StatelessWidget {
   const MenuWrapper({

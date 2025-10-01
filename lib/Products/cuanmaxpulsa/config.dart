@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '65640aef5a130444cd049fa5';
 
@@ -6,7 +5,7 @@ const namaApp = 'Cuan Max Pulsa';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'id.cuanmax.mobile';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

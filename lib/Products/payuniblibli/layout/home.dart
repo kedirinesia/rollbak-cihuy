@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +6,6 @@ import 'package:mobile/Products/payuniblibli/layout/home1.dart';
 import 'package:mobile/Products/payuniblibli/layout/profile.dart';
 import 'package:mobile/Products/payuniblibli/layout/history.dart';
 import 'package:mobile/screen/kasir/main.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class HomeBlibli extends StatefulWidget {
   @override

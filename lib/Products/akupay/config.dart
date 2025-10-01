@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '612fe8a094db6f263de5663f';
 
@@ -6,7 +5,7 @@ const namaApp = 'AKUPAY';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.akupay.androidmobileapps';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:io';
 
@@ -15,7 +14,6 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share/share.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:mobile/utils/debug_helper.dart';
 
 class DetailDeposit extends StatefulWidget {
@@ -286,8 +284,8 @@ class _DetailDepositState extends State<DetailDeposit> {
                       widget.dep.status == 0)
                   ? ElevatedButton(
                       style: ButtonStyle(
-                        elevation: MaterialStateProperty.all(0),
-                        backgroundColor: MaterialStateProperty.all(
+                        elevation: WidgetStateProperty.all(0),
+                        backgroundColor: WidgetStateProperty.all(
                           Theme.of(context).primaryColor,
                         ),
                       ),

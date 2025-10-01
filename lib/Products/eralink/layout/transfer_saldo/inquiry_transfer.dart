@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -204,48 +203,46 @@ abstract class InquiryTransferController extends State<InquiryTransfer>
     String pin = await Navigator.of(context)
         .push(MaterialPageRoute(builder: (_) => VerifikasiPin()));
 
-    if (pin != null) {
-      setState(() {
-        loading = true;
-      });
-      sendDeviceToken();
-      http.Response response = await http.post(
-          Uri.parse('$apiUrl/transfer/send'),
-          headers: {
-            'Authorization': bloc.token.valueWrapper?.value,
-            'Content-Type': 'application/json'
-          },
-          body:
-              json.encode({'user_id': userId, 'nominal': nom, 'trxId': trxId}));
+    setState(() {
+      loading = true;
+    });
+    sendDeviceToken();
+    http.Response response = await http.post(
+        Uri.parse('$apiUrl/transfer/send'),
+        headers: {
+          'Authorization': bloc.token.valueWrapper?.value,
+          'Content-Type': 'application/json'
+        },
+        body:
+            json.encode({'user_id': userId, 'nominal': nom, 'trxId': trxId}));
 
-      if (response.statusCode == 200) {
-        TransferModel trf =
-            TransferModel.fromJson(json.decode(response.body)['data']);
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (_) => DetailTransfer(nama, namaToko, phone, nom, trf)));
-      } else {
-        String message = json.decode(response.body)['message'];
-        await showDialog(
-            context: context,
-            builder: (ctx) => AlertDialog(
-                    title: Text('Transfer Gagal'),
-                    content: Text(message),
-                    actions: <Widget>[
-                      TextButton(
-                          child: Text(
-                            'TUTUP',
-                            style: TextStyle(
-                              color: Theme.of(context).primaryColor,
-                            ),
+    if (response.statusCode == 200) {
+      TransferModel trf =
+          TransferModel.fromJson(json.decode(response.body)['data']);
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (_) => DetailTransfer(nama, namaToko, phone, nom, trf)));
+    } else {
+      String message = json.decode(response.body)['message'];
+      await showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+                  title: Text('Transfer Gagal'),
+                  content: Text(message),
+                  actions: <Widget>[
+                    TextButton(
+                        child: Text(
+                          'TUTUP',
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColor,
                           ),
-                          onPressed: () =>
-                              Navigator.of(context, rootNavigator: true).pop())
-                    ]));
-      }
-      setState(() {
-        loading = false;
-      });
+                        ),
+                        onPressed: () =>
+                            Navigator.of(context, rootNavigator: true).pop())
+                  ]));
     }
+    setState(() {
+      loading = false;
+    });
   }
 
   Widget loadingWidget() {

@@ -1,4 +1,3 @@
-// @dart=2.9
 
 class Komisi {
   String id;
@@ -7,7 +6,7 @@ class Komisi {
   int tipe;
   int jumlah;
 
-  Komisi({this.id, this.jumlah, this.keterangan, this.tipe, this.createdAt});
+  Komisi({required this.id, required this.jumlah, required this.keterangan, required this.tipe, required this.createdAt});
 
   factory Komisi.fromJson(dynamic json) {
     return Komisi(

@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '60e334d9c81dd12b6d7a1ad1';
 
@@ -6,7 +5,7 @@ const namaApp = 'Selco Pay';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.selcopay.app';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

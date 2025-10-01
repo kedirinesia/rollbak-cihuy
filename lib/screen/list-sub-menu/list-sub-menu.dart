@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -76,9 +75,9 @@ class _ListSubMenuState extends ListSubMenuController {
             onPressed: () => Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                   builder: (_) =>
-                      configAppBloc.layoutApp?.valueWrapper?.value['home'] ??
+                      configAppBloc.layoutApp.valueWrapper?.value['home'] ??
                       templateConfig[
-                          configAppBloc.templateCode.valueWrapper?.value],
+                          configAppBloc.templateCode.valueWrapper?.value ?? 0],
                 ),
                 (route) => false),
           ),
@@ -116,7 +115,7 @@ class _ListSubMenuState extends ListSubMenuController {
                         ? Center(
                             child: CachedNetworkImage(
                               imageUrl: configAppBloc
-                                  .iconApp.valueWrapper?.value['logoLogin'],
+                                  .iconApp.valueWrapper?.value['logoLogin'] ?? '',
                               width: MediaQuery.of(context).size.width * .4,
                             ),
                           )

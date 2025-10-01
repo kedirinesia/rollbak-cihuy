@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:async';
 import 'dart:convert';
@@ -20,7 +19,6 @@ import 'package:mobile/bloc/Bloc.dart';
 
 // SCREEN
 import 'package:mobile/screen/select_state/supplier.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class TambahHutang extends StatefulWidget {
   @override
@@ -43,7 +41,7 @@ class TambahHutangState extends State<TambahHutang> {
   String nominal = "";
   String namaSupplier = "";
   String keterangan = "";
-  SupplierModel supplier;
+  SupplierModel? supplier;
 
   @override
   initState() {
@@ -52,7 +50,7 @@ class TambahHutangState extends State<TambahHutang> {
 
   // SELECT DATE
   Future _selectDate() async {
-    DateTime picked = await showDatePicker(
+    DateTime? picked = await showDatePicker(
       context: context,
       initialDate: selectedDate,
       firstDate: DateTime.utc(1965, 1, 1),
@@ -60,19 +58,17 @@ class TambahHutangState extends State<TambahHutang> {
       locale: Locale('id', 'ID'),
     );
 
-    if (picked != null) {
-      String value = formatter.format(picked);
+    String value = formatter.format(picked ?? DateTime.now());
 
-      setState(() {
-        selectedDate = picked;
-        tglController.text = value;
-      });
-    }
+    setState(() {
+      selectedDate = picked ?? DateTime.now();
+      tglController.text = value;
+    });
   }
 
   void simpanHutang() async {
-    _formKey.currentState.save();
-    if (_formKey.currentState.validate()) {
+    _formKey.currentState?.save();
+    if (_formKey.currentState?.validate() ?? false) {
       if (int.parse(nominal) >= 0) {
         setState(() {
           loading = true;
@@ -82,7 +78,7 @@ class TambahHutangState extends State<TambahHutang> {
           'nominal': nominal,
           'tanggal': tglController.text,
           'keterangan': keteranganController.text,
-          'id_supplier': supplier != null ? supplier.id : null,
+          'id_supplier': supplier != null ? supplier?.id : null,
           'type_piutang': 3
         };
 
@@ -91,7 +87,7 @@ class TambahHutangState extends State<TambahHutang> {
               Uri.parse('$apiUrlKasir/transaksi/piutang/saveHutang'),
               headers: {
                 'Content-Type': 'application/json',
-                'authorization': bloc.token.valueWrapper?.value,
+                'authorization': bloc.token.valueWrapper?.value ?? '',
               },
               body: json.encode(dataToSend));
 
@@ -243,14 +239,15 @@ class TambahHutangState extends State<TambahHutang> {
                               ),
                             ),
                             keyboardType: TextInputType.number,
-                            validator: (String value) {
+                            validator: (String? value) {
                               if (value == "") {
                                 return "nominal tidak boleh kosong";
                               }
+                              return null;
                             },
-                            onSaved: (String value) {
+                            onSaved: (String? value) {
                               setState(() {
-                                nominal = value;
+                                nominal = value ?? '';
                               });
                             }),
                         SizedBox(height: 10.0),
@@ -265,14 +262,15 @@ class TambahHutangState extends State<TambahHutang> {
                               color: Colors.red,
                             ),
                           ),
-                          validator: (String value) {
+                          validator: (String? value) {
                             if (value == "") {
                               return "supplier tidak boleh kosong";
                             }
+                            return null;
                           },
-                          onSaved: (String value) {
+                          onSaved: (String? value) {
                             setState(() {
-                              namaSupplier = value;
+                              namaSupplier = value ?? '';
                             });
                           },
                           onTap: () async {

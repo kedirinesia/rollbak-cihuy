@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -93,50 +92,48 @@ class _TransferByQRState extends State<TransferByQR> {
     String pin = await Navigator.of(context)
         .push(MaterialPageRoute(builder: (_) => VerifikasiPin()));
 
-    if (pin != null) {
-      setState(() {
-        loading = true;
-      });
-      sendDeviceToken();
-      http.Response response = await http.post(
-          Uri.parse('$apiUrl/transfer/send'),
-          headers: {
-            'Authorization': bloc.token.valueWrapper?.value,
-            'Content-Type': 'application/json'
-          },
-          body: json.encode({
-            'user_id': userId,
-            'nominal': int.parse(jumlahControl.text),
-            'trxId': trxId
-          }));
-      setState(() {
-        loading = false;
-      });
-      if (response.statusCode == 200) {
-        TransferModel trf =
-            TransferModel.fromJson(json.decode(response.body)['data']);
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (_) => DetailTransfer(
-                nama, namaToko, phone, int.parse(jumlahControl.text), trf)));
-      } else {
-        String message = json.decode(response.body)['message'];
-        await showDialog(
-            context: context,
-            builder: (ctx) => AlertDialog(
-                    title: Text('Transfer Gagal'),
-                    content: Text(message),
-                    actions: <Widget>[
-                      TextButton(
-                          child: Text(
-                            'TUTUP',
-                            style: TextStyle(
-                              color: Theme.of(context).primaryColor,
-                            ),
+    setState(() {
+      loading = true;
+    });
+    sendDeviceToken();
+    http.Response response = await http.post(
+        Uri.parse('$apiUrl/transfer/send'),
+        headers: {
+          'Authorization': bloc.token.valueWrapper?.value,
+          'Content-Type': 'application/json'
+        },
+        body: json.encode({
+          'user_id': userId,
+          'nominal': int.parse(jumlahControl.text),
+          'trxId': trxId
+        }));
+    setState(() {
+      loading = false;
+    });
+    if (response.statusCode == 200) {
+      TransferModel trf =
+          TransferModel.fromJson(json.decode(response.body)['data']);
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (_) => DetailTransfer(
+              nama, namaToko, phone, int.parse(jumlahControl.text), trf)));
+    } else {
+      String message = json.decode(response.body)['message'];
+      await showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+                  title: Text('Transfer Gagal'),
+                  content: Text(message),
+                  actions: <Widget>[
+                    TextButton(
+                        child: Text(
+                          'TUTUP',
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColor,
                           ),
-                          onPressed: () =>
-                              Navigator.of(context, rootNavigator: true).pop())
-                    ]));
-      }
+                        ),
+                        onPressed: () =>
+                            Navigator.of(context, rootNavigator: true).pop())
+                  ]));
     }
   }
 

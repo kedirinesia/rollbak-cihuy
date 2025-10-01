@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +12,6 @@ import 'package:mobile/screen/profile/cs/cs.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_saldo.dart';
 import '../../../component/card_info.dart';
 import 'package:mobile/Products/stokpay/layout/components/menudepan.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class Home2App extends StatefulWidget {
   @override

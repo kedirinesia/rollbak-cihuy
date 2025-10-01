@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -110,7 +109,7 @@ class _InvitePageState extends State<InvitePage> with TickerProviderStateMixin {
           userInfo = UserModel.fromJson(data['data']);
         });
 
-        if (userInfo.inviteCode == '' || userInfo.inviteCode == null) {
+        if (userInfo.inviteCode == '') {
           SnackBar snackBar = SnackBar(
               content: Text('Silahkan generate kode referal terlebih dahulu!'));
           ScaffoldMessenger.of(context).showSnackBar(snackBar);

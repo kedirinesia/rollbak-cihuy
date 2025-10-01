@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -44,7 +43,7 @@ abstract class BankController extends State<TopupBank> {
     var requestUrl = apiUrl + '/deposit/send';
     var requestHeaders = {
       'content-type': 'application/json',
-      'Authorization': bloc.token.valueWrapper?.value
+      'Authorization': bloc.token.valueWrapper?.value ?? ''
     };
     var requestBody = {'nominal': parsedNominal, 'type': widget.payment.type};
     

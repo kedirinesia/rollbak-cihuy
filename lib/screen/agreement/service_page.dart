@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/screen/terms/policy.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class ServicePolicyPage extends StatefulWidget {
   @override
@@ -70,7 +69,7 @@ class _TermsOfServicePageState extends State<ServicePolicyPage> {
                   },
                   child: Text('Close'),
                   style: ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(
+                    backgroundColor: WidgetStatePropertyAll(
                         Theme.of(context).primaryColor),
                   ),
                 ),

@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:mobile/Products/ayoba/layout/privacy_policy.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/provider/api.dart';
 import 'package:mobile/screen/forgot-password/step_1.dart';
@@ -10,7 +9,6 @@ import 'package:mobile/Products/ayoba/layout/otp.dart';
 import 'package:nav/nav.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -468,7 +466,7 @@ class _LoginState extends State<Login> {
                             InkWell(
                               onTap: () {
                                 Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (_) => PrivacyPolicyPage()));
+                                    builder: (_) => RegisterUser()));
                               },
                               child: Text(
                                 'Sign up now',

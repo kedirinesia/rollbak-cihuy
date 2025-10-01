@@ -1,8 +1,6 @@
-// @dart=2.9
 
 import 'package:mobile/Products/stokpay/layout/home.dart';
 import 'package:mobile/Products/stokpay/layout/login.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 String sigVendor = '608296573f885ade2acd09d1';
 
@@ -10,7 +8,7 @@ const namaApp = 'Stokpay';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'app.stokpay.com';
-String brandId;
+String brandId = '';
 String copyRight = 'Stokpay';
 int templateCode = 2;
 String gaId = '';

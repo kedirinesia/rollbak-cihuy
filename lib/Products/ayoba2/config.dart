@@ -1,7 +1,5 @@
-// @dart=2.9
 
 import 'package:mobile/Products/ayoba2/layout/main.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 String sigVendor = '60b7436033d9ef1b58ee1f3b';
 
@@ -9,7 +7,7 @@ const namaApp = 'Ayoba';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'ayoba.co.id';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 6;
 String gaId = '';

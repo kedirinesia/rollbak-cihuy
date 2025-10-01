@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -6,11 +5,10 @@ import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_saldo.dart';
 import './home4.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 abstract class Home4Model extends State<Home4App>
     with TickerProviderStateMixin {
-  AnimationController _animationController;
+  late AnimationController _animationController;           
 
   @override
   void initState() {
@@ -85,7 +83,7 @@ abstract class Home4Model extends State<Home4App>
             children: <Widget>[
               AnimatedBuilder(
                 animation: _animationController,
-                builder: (BuildContext context, Widget child) {
+                builder: (BuildContext context, Widget? child) {
                   return RotationTransition(
                       turns: _animationController,
                       child: IconButton(
@@ -108,7 +106,7 @@ abstract class Home4Model extends State<Home4App>
                 child: Text(
                   "TOP UP",
                   style: TextStyle(
-                      color: Theme.of(context).buttonColor, fontSize: 12.0),
+                      color: Theme.of(context).primaryColor, fontSize: 12.0),
                 ),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5)),
@@ -159,7 +157,7 @@ abstract class Home4Model extends State<Home4App>
                       ),
                       Expanded(
                           child: Text(
-                        formatNumber(bloc.saldo.valueWrapper?.value),
+                        formatNumber(bloc.saldo.valueWrapper?.value ?? 0),
                         maxLines: 2,
                         textScaleFactor: 1.5,
                         overflow: TextOverflow.ellipsis,
@@ -206,7 +204,7 @@ abstract class Home4Model extends State<Home4App>
               ),
               Text(
                 bloc.username.valueWrapper?.value != null
-                    ? bloc.username.valueWrapper?.value.split(' ')[0]
+                    ? (bloc.username.valueWrapper?.value ?? '').split(' ')[0]
                     : 'Username',
                 style: TextStyle(color: Colors.white),
               )

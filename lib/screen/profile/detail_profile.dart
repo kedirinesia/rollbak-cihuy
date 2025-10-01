@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -16,7 +15,6 @@ import 'package:mobile/screen/kyc/reject.dart';
 import 'package:mobile/screen/kyc/waiting.dart';
 import 'package:mobile/screen/kyc/verification1.dart';
 import 'package:mobile/screen/profile/my_qris.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class DetailProfile extends StatefulWidget {
   @override
@@ -25,7 +23,7 @@ class DetailProfile extends StatefulWidget {
 
 class _DetailProfileState extends State<DetailProfile> {
   bool loading = true;
-  UserModel user;
+  late UserModel user;
 
   @override
   void initState() {
@@ -41,7 +39,7 @@ class _DetailProfileState extends State<DetailProfile> {
 
   void getData() async {
     http.Response response = await http.get(Uri.parse('$apiUrl/user/info'),
-        headers: {'Authorization': bloc.token.valueWrapper?.value});
+        headers: {'Authorization': bloc.token.valueWrapper?.value ?? ''});
 
     if (response.statusCode == 200) {
       user = UserModel.fromJson(json.decode(response.body)['data']);
@@ -87,7 +85,7 @@ class _DetailProfileState extends State<DetailProfile> {
   Future<Map<String, dynamic>> getUserInfo() async {
     final response = await http.get(
       Uri.parse('$apiUrl/user/info'),
-      headers: {'Authorization': bloc.token.valueWrapper?.value},
+      headers: {'Authorization': bloc.token.valueWrapper?.value ?? ''},
     );
 
     if (response.statusCode == 200) {
@@ -194,7 +192,7 @@ class _DetailProfileState extends State<DetailProfile> {
                   : ListView(
                       padding: EdgeInsets.all(15),
                       children: <Widget>[
-                        bloc.user.valueWrapper?.value.kyc_verification
+                        bloc.user.valueWrapper?.value.kyc_verification ?? false
                             ? SizedBox()
                             : ButtonTheme(
                                 minWidth: double.infinity,
@@ -273,7 +271,7 @@ class _DetailProfileState extends State<DetailProfile> {
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold)),
                                       SizedBox(width: 5),
-                                      user.kyc_verification
+                                      user.kyc_verification ?? false
                                           ? Icon(Icons.verified_user,
                                               color: Colors.green, size: 18)
                                           : SizedBox()
@@ -290,7 +288,7 @@ class _DetailProfileState extends State<DetailProfile> {
                                   SizedBox(height: 10),
                                   Text(
                                       configAppBloc
-                                          .labelSaldo.valueWrapper?.value,
+                                          .labelSaldo.valueWrapper?.value ?? '',
                                       style: TextStyle(
                                           color: Colors.grey, fontSize: 11)),
                                   SizedBox(height: 3),
@@ -308,7 +306,7 @@ class _DetailProfileState extends State<DetailProfile> {
                                   SizedBox(height: 10),
                                   Text(
                                       configAppBloc
-                                          .labelPoint.valueWrapper?.value,
+                                          .labelPoint.valueWrapper?.value ?? '',
                                       style: TextStyle(
                                           color: Colors.grey, fontSize: 11)),
                                   SizedBox(height: 3),

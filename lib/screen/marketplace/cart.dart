@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -93,7 +92,7 @@ class _CartMarketPageState extends State<CartMarketPage> {
       http.Response response = await http.get(
         Uri.parse('$apiUrl/market/product/${produk.id}'),
         headers: {
-          'Authorization': bloc.token.valueWrapper?.value,
+          'Authorization': bloc.token.valueWrapper?.value ?? '',
         },
       );
 
@@ -124,7 +123,7 @@ class _CartMarketPageState extends State<CartMarketPage> {
       http.Response response = await http.get(
         Uri.parse('$apiUrl/market/product/$productId'),
         headers: {
-          'Authorization': bloc.token.valueWrapper?.value,
+          'Authorization': bloc.token.valueWrapper?.value ?? '',
         },
       );
       DebugHelper.debugPrint('"Response from fetchHargaBaru: ${response.body}"');
@@ -135,11 +134,11 @@ class _CartMarketPageState extends State<CartMarketPage> {
         return data['data']['harga_jual'];
       } else {
         DebugHelper.debugPrint('"Error fetching new price: ${response.statusCode}"');
-        return null;
+        return 0;
       }
     } catch (error) {
       DebugHelper.debugPrint('"Exception in fetchHargaBaru: $error"');
-      return null;
+      return 0;
     }
   }
 
@@ -153,7 +152,7 @@ class _CartMarketPageState extends State<CartMarketPage> {
         ProdukCartMarket produk = ProdukCartMarket.parse(item);
         int currentPrice = await fetchHargaBaru(produk.id);
 
-        if (currentPrice != null && produk.price != currentPrice) {
+        if (produk.price != currentPrice) {
           ProdukCartMarket updatedProduk = ProdukCartMarket.create(
             produk: ProdukDetailMarket(
                 id: produk.id,
@@ -163,6 +162,7 @@ class _CartMarketPageState extends State<CartMarketPage> {
                 weight: produk.weight,
                 price: currentPrice, // Harga baru
                 stock: produk.stock,
+                categoryId: produk.categoryId,
                 images: produk.images),
             count: produk.count,
           );

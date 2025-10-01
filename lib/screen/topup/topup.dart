@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -46,6 +45,13 @@ class _TopupPageState extends TopupController with TickerProviderStateMixin {
 
     return TemplateMain(
       title: 'Pilih Metode Pembayaran',
+      backgroundColor: Colors.white,
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.transparent,
+        onPressed: null,
+        child: SizedBox.shrink(),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       children: <Widget>[
         loading
             ? spinkit

@@ -9,7 +9,6 @@ import 'package:mobile/screen/topup/merchant/merchant.dart';
 import 'package:mobile/screen/topup/qris/qris.dart';
 import 'package:mobile/provider/api.dart';
 import 'package:mobile/screen/topup/va/va.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class TopupPage extends StatefulWidget {
   @override
@@ -121,7 +120,7 @@ class _TopupPageState extends State<TopupPage> with TickerProviderStateMixin {
                                     fontSize: 12.0,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.grey.shade700)),
-                            mm.admin != null
+                            mm.admin != null && mm.admin['nominal'] != null && mm.admin['nominal'].toString() != 'null'
                                 ? Text(
                                     '+${mm.admin['satuan'] == 'persen' ? '' : 'Rp '}${mm.admin['nominal']}${mm.admin['satuan'] == 'persen' ? '%' : ''} (admin)',
                                     style: TextStyle(

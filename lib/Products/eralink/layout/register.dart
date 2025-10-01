@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -21,7 +20,6 @@ import 'package:mobile/screen/select_state/kecamatan.dart';
 import 'package:mobile/screen/select_state/kota.dart';
 import 'package:mobile/screen/select_state/provinsi.dart';
 import 'package:mobile/screen/text_kapital.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class RegisterUser extends StatefulWidget {
   @override
@@ -118,7 +116,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
     if (kodeUpline != null) {
       dataToSend['kode_upline'] = kodeUpline;
-    } else if (kodeUpline == null && brandId != null) {
+    } else if (kodeUpline == null) {
       dataToSend['kode_upline'] = brandId;
     }
 

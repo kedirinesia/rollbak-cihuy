@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '5ed770e602c3a351af14eda7';
 
@@ -6,7 +5,7 @@ const namaApp = 'SR Mobile';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'id.srmobile.co';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

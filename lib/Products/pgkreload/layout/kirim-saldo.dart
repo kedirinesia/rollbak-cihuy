@@ -1,9 +1,7 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 import 'package:mobile/Products/pgkreload/layout/components/template.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class KirimSaldo extends StatefulWidget {
   @override
@@ -74,8 +72,8 @@ class _KirimSaldoState extends State<KirimSaldo> {
                 SizedBox(height: 20.0),
                 ElevatedButton(
                   style: ButtonStyle(
-                    elevation: MaterialStateProperty.all(0),
-                    backgroundColor: MaterialStateProperty.all(
+                    elevation: WidgetStateProperty.all(0),
+                    backgroundColor: WidgetStateProperty.all(
                       Theme.of(context).primaryColor,
                     ),
                   ),

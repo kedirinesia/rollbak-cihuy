@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:mobile/Products/mykonterr/layout/cs.dart';
 import 'package:mobile/Products/mykonterr/layout/forgot-password/step_1.dart';
 import 'package:mobile/Products/mykonterr/layout/otp.dart';
-import 'package:mobile/Products/mykonterr/layout/privacy_policy.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/provider/api.dart';
 import 'package:nav/nav.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -213,7 +211,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           TextButton(
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (_) => PrivacyPolicyPage()));
+                                  builder: (_) => RegisterUser()));
                             },
                             child: Text('Daftrar',
                                 style: TextStyle(

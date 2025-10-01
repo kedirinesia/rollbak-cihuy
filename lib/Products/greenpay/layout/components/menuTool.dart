@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 // PACKAGE INSTALL
@@ -7,7 +6,6 @@ import 'package:barcode_scan2/barcode_scan2.dart';
 // SCREEN
 import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
 import 'package:mobile/Products/greenpay/layout/transfer.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class MenuToolGreenpay extends StatefulWidget {
   @override

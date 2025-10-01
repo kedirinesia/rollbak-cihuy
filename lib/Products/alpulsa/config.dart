@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '5f3918df063bec0a7be06363';
 
@@ -6,7 +5,7 @@ const namaApp = 'Al Pulsa Reload';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.alpulsa.app';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

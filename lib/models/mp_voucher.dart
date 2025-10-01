@@ -1,4 +1,3 @@
-// @dart=2.9
 
 class VoucherMarket {
   final String id;
@@ -13,22 +12,22 @@ class VoucherMarket {
   final String endDate;
   final String categoryID;
   final bool active;
-  VProductMarket vproduk;
+  VProductMarket? vproduk;
 
   VoucherMarket(
-      {this.id,
-      this.title,
-      this.description,
-      this.voucherCode,
-      this.minNominal,
-      this.maxClaimed,
-      this.nominalVoucher,
-      this.minShop,
-      this.startDate,
-      this.endDate,
-      this.categoryID,
-      this.active,
-      this.vproduk});
+      {required   this.id,
+      required this.title,
+      required this.description,
+      required this.voucherCode,
+      required this.minNominal,
+      required this.maxClaimed,
+      required this.nominalVoucher,
+      required this.minShop,
+      required this.startDate,
+      required this.endDate,
+      required this.categoryID,
+      required this.active,
+      required this.vproduk});
 
   factory VoucherMarket.fromJson(dynamic json) {
     return VoucherMarket(
@@ -57,9 +56,9 @@ class VProductMarket {
   final int hargaJual;
 
   VProductMarket({
-    this.id,
-    this.hargaBeli,
-    this.hargaJual,
+    required this.id,
+    required this.hargaBeli,
+    required this.hargaJual,
   });
 
   factory VProductMarket.fromJson(dynamic json) {

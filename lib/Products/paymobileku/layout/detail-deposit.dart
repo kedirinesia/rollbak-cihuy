@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:io';
 
@@ -29,7 +28,7 @@ class DetailDeposit extends StatefulWidget {
 
 class _DetailDepositState extends State<DetailDeposit> {
   ScreenshotController _screenshotController = ScreenshotController();
-  File image;
+  late File image;
   bool danaApp = false;
 
   @override
@@ -42,7 +41,7 @@ class _DetailDepositState extends State<DetailDeposit> {
   }
 
   void checkingDanaApp() async {
-    // Replace installed_apps with url_launcher approach
+ 
     try {
       bool canLaunchDana = await canLaunch('id.dana://');
       setState(() {
@@ -55,7 +54,7 @@ class _DetailDepositState extends State<DetailDeposit> {
     }
   }
 
-  Widget fab() {
+  FloatingActionButton fab() {
     if (widget.dep.statusModel.status == 0 &&
         (widget.dep.type == 1 || widget.dep.type == 2)) {
       return FloatingActionButton.extended(
@@ -82,14 +81,18 @@ class _DetailDepositState extends State<DetailDeposit> {
         },
       );
     } else {
-      return null;
+      return FloatingActionButton(
+        backgroundColor: Colors.transparent,
+        onPressed: null,
+        child: SizedBox.shrink(),
+      );
     }
   }
 
   void bayarDana() async {
     Directory temp = await getTemporaryDirectory();
     image = await File('${temp.path}/qr.png').create();
-    Uint8List bytes = await _screenshotController.capture(pixelRatio: 2.5);
+    Uint8List bytes = await _screenshotController.capture(pixelRatio: 2.5) ?? Uint8List(0);
     await image.writeAsBytes(bytes);
     if (image == null) return;
     DebugHelper.debugPrint('image.path.toString()');
@@ -97,7 +100,6 @@ class _DetailDepositState extends State<DetailDeposit> {
     await Share.shareFiles(
       [image.path],
       text: 'Bayar Pakai Dana',
-      packageApp: danaApp ? 'id.dana' : null, // Only specify package if app is available
     );
   }
 
@@ -175,13 +177,16 @@ class _DetailDepositState extends State<DetailDeposit> {
                         SizedBox(height: 10.0),
                         Screenshot(
                           controller: _screenshotController,
-                          child: QrImageView(
-                              data: widget.dep.kodePembayaran,
-                              backgroundColor: Theme.of(context).canvasColor,
-                              foregroundColor: Colors.black,
-                              gapless: true,
-                              size: MediaQuery.of(context).size.width * .50,
-                              version: QrVersions.auto),
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width * .50,
+                            height: MediaQuery.of(context).size.width * .50,
+                            child: QrImageView(
+                                data: widget.dep.kodePembayaran,
+                                backgroundColor: Theme.of(context).canvasColor,
+                                foregroundColor: Colors.black,
+                                gapless: true,
+                                version: QrVersions.auto),
+                          ),
                         ),
                         Text('Scan QR Code Ini Untuk Melakukan Pembayaran'),
                         SizedBox(height: 20.0),
@@ -246,7 +251,7 @@ class _DetailDepositState extends State<DetailDeposit> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text('Nominal'),
-                  Text(formatRupiah(widget.dep.nominal),
+                  Text(formatRupiah(widget.dep.nominal ?? 0),
                       style: TextStyle(color: Theme.of(context).primaryColor))
                 ],
               ),
@@ -256,8 +261,10 @@ class _DetailDepositState extends State<DetailDeposit> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text('Admin'),
-                  Text(formatRupiah(widget.dep.admin),
-                      style: TextStyle(color: Theme.of(context).primaryColor))
+                  Text(
+                    formatRupiah(widget.dep.admin ?? 0),
+                    style: TextStyle(color: Theme.of(context).primaryColor),
+                  )
                 ],
               ),
               SizedBox(height: 10.0),
@@ -269,7 +276,7 @@ class _DetailDepositState extends State<DetailDeposit> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text('Total Bayar'),
-                    Text(formatRupiah(widget.dep.admin + widget.dep.nominal),
+                    Text(formatRupiah((widget.dep.admin ?? 0) + (widget.dep.nominal ?? 0)),
                         style: TextStyle(
                             color: Colors.black, fontWeight: FontWeight.bold))
                   ],
@@ -322,6 +329,10 @@ class _DetailDepositState extends State<DetailDeposit> {
           ),
         ),
       ),
+      children: [],
+      backgroundColor: Colors.white,
+      floatingActionButton: fab(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }

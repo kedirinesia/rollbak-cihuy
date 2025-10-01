@@ -1,8 +1,6 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 import 'package:mobile/config.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class TemplateMain extends StatelessWidget {
   final List<Widget> children;
@@ -12,12 +10,12 @@ class TemplateMain extends StatelessWidget {
   final FloatingActionButtonLocation floatingActionButtonLocation;
 
   TemplateMain(
-      {Key key,
-      @required this.children,
-      this.title,
-      this.backgroundColor,
-      this.floatingActionButton,
-      this.floatingActionButtonLocation})
+      {Key? key,
+      required this.children,
+      required this.title,
+      required this.backgroundColor,
+      required this.floatingActionButton,
+      required this.floatingActionButtonLocation})
       : super(key: key);
 
   @override

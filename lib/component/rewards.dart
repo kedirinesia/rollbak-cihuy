@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -19,7 +18,7 @@ class RewardComponent extends StatefulWidget {
   final double viewportFraction;
   RewardComponent(
       {this.width = double.infinity,
-      this.height,
+     required this.height,
       this.viewportFraction = .3,
       this.aspectRatio = 25 / 10});
 
@@ -39,15 +38,33 @@ class _RewardComponentState extends State<RewardComponent> {
   }
 
   void getData() async {
-    http.Response response = await http.get(Uri.parse('$apiUrl/reward/list'),
-        headers: {'Authorization': bloc.token.valueWrapper?.value});
+    try {
+      http.Response response = await http.get(Uri.parse('$apiUrl/reward/list'),
+          headers: {'Authorization': bloc.token.valueWrapper!.value});
 
-    if (response.statusCode == 200) {
-      List<dynamic> datas = json.decode(response.body)['data'];
-      rewards.clear();
-      datas.forEach((item) {
-        rewards.add(RewardModel.fromJson(item));
-      });
+      if (response.statusCode == 200) {
+        List<dynamic> datas = json.decode(response.body)['data'];
+        rewards.clear();
+        datas.forEach((item) {
+          rewards.add(RewardModel.fromJson(item));
+        });
+        if (mounted) {
+          setState(() {
+            loading = false;
+          });
+        }
+      } else {
+        // Handle non-200 status codes
+        if (mounted) {
+          setState(() {
+            loading = false;
+          });
+        }
+        DebugHelper.debugPrint('Failed to load rewards: ${response.statusCode}');
+      }
+    } catch (e) {
+      // Handle any exceptions during the API call
+      DebugHelper.debugPrint('Error loading rewards: $e');
       if (mounted) {
         setState(() {
           loading = false;
@@ -59,7 +76,7 @@ class _RewardComponentState extends State<RewardComponent> {
   void tukarReward(String id) async {
     http.Response response = await http.post(Uri.parse('$apiUrl/reward/tukar'),
         headers: {
-          'Authorization': bloc.token.valueWrapper?.value,
+          'Authorization': bloc.token.valueWrapper!.value,
           'Content-Type': 'application/json'
         },
         body: json.encode({'id': id}));
@@ -152,7 +169,7 @@ class _RewardComponentState extends State<RewardComponent> {
                           ),
                         ),
                         onTap: () {
-                          return showDialog(
+                          showDialog(
                             context: context,
                             barrierDismissible: false,
                             builder: (ctx) => AlertDialog(

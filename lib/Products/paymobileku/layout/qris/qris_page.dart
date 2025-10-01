@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -11,7 +10,6 @@ import 'package:http/http.dart' as http;
 import 'package:mobile/screen/kyc/reject.dart';
 import 'package:mobile/screen/kyc/verification1.dart';
 import 'package:mobile/screen/kyc/waiting.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 // ignore: must_be_immutable
 class QrisPage extends StatefulWidget {
@@ -25,7 +23,7 @@ class QrisPage extends StatefulWidget {
 
 class _QrisPageState extends State<QrisPage>
     with SingleTickerProviderStateMixin {
-  Future<int> _kycStatusFuture;
+  Future<int> _kycStatusFuture = Future.value(0);
   @override
   void initState() {
     super.initState();
@@ -65,7 +63,7 @@ class _QrisPageState extends State<QrisPage>
   Future<Map<String, dynamic>> getUserInfo() async {
     final response = await http.get(
       Uri.parse('$apiUrl/user/info'),
-      headers: {'Authorization': bloc.token.valueWrapper?.value},
+      headers: {'Authorization': bloc.token.valueWrapper!.value},
     );
 
     if (response.statusCode == 200) {
@@ -166,14 +164,14 @@ class _QrisPageState extends State<QrisPage>
                           Expanded(
                             child: TabBar(
                               indicatorColor:
-                                  Theme.of(context).appBarTheme.iconTheme.color,
+                                  Theme.of(context).appBarTheme.iconTheme?.color,
                               labelColor:
-                                  Theme.of(context).appBarTheme.iconTheme.color,
+                                  Theme.of(context).appBarTheme.iconTheme?.color,
                               unselectedLabelColor: Theme.of(context)
                                   .appBarTheme
                                   .iconTheme
-                                  .color
-                                  .withOpacity(.7),
+                                  ?.color
+                                  ?.withOpacity(.7),
                               tabs: [
                                 Tab(
                                   child: Text('QRCode'),
@@ -192,7 +190,7 @@ class _QrisPageState extends State<QrisPage>
                     Expanded(
                       child: TabBarView(physics: ScrollPhysics(), children: [
                         MyQR(),
-                        _getKycPage(snapshot.data),
+                        _getKycPage(snapshot.data ?? 0),
                       ]),
                     ),
                   ],

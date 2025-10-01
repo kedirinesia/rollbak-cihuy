@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:async';
 
@@ -20,10 +19,10 @@ abstract class MutasiController extends State<MutasiPage> {
   bool loading = true;
   bool isEdge = false;
   int currentPage = 0;
-  DateTime startDate;
-  DateTime endDate;
-  String type;
-  String tujuan;
+  late DateTime startDate;
+  late DateTime endDate;
+  late String type;
+  late String tujuan;
   bool isExpanded = false;
   bool filtered = false;
 
@@ -50,7 +49,10 @@ abstract class MutasiController extends State<MutasiPage> {
     super.initState();
     analitycs.pageView('/history/mutasi',
         {'userId': bloc.userId.valueWrapper?.value, 'title': 'History Mutasi'});
-    if (configAppBloc.autoReload.valueWrapper?.value) {
+    // Default filter values to avoid LateInitializationError when used in UI
+    type = 'ST'; // Semua Tipe
+    tujuan = '';
+    if (configAppBloc.autoReload.valueWrapper?.value ?? false) {
       Timer.periodic(new Duration(seconds: 1), (timer) => getData());
     } else {
       getData();
@@ -73,7 +75,7 @@ abstract class MutasiController extends State<MutasiPage> {
     if (filtered) {
       params['tgl_awal'] = formatDate(startDate.toIso8601String(), 'd-M-y');
       params['tgl_akhir'] = formatDate(endDate.toIso8601String(), 'd-M-y');
-      if (type != null && type != 'ST') params['type'] = type;
+      if (type != 'ST') params['type'] = type;
     }
     params['page'] = currentPage;
 
@@ -88,7 +90,7 @@ abstract class MutasiController extends State<MutasiPage> {
 
     if (isEdge) return;
     http.Response response = await http.get(Uri.parse(url),
-        headers: {'Authorization': bloc.token.valueWrapper?.value});
+        headers: {'Authorization': bloc.token.valueWrapper?.value ?? ''});
 
     if (response.statusCode == 200) {
       List<dynamic> list = jsonDecode(response.body)['data'] as List;
@@ -115,8 +117,8 @@ abstract class MutasiController extends State<MutasiPage> {
       endDate = getCurrentDate();
       startDateText.text = formatDate(startDate.toIso8601String(), 'd MMM y');
       endDateText.text = formatDate(endDate.toIso8601String(), 'd MMM y');
-      type = null;
-      tujuan = null;
+      type = '';
+      tujuan = '';
 
       isExpanded = false;
     });
@@ -138,7 +140,7 @@ abstract class MutasiController extends State<MutasiPage> {
   }
 
   Future<void> setStartDate() async {
-    DateTime newDate = await showDatePicker(
+    DateTime? newDate = await showDatePicker(
       context: context,
       initialDate: startDate,
       firstDate: DateTime(1970, 1, 1),
@@ -158,7 +160,7 @@ abstract class MutasiController extends State<MutasiPage> {
   }
 
   Future<void> setEndDate() async {
-    DateTime newDate = await showDatePicker(
+    DateTime?  newDate = await showDatePicker(
       context: context,
       initialDate: endDate,
       firstDate: startDate,

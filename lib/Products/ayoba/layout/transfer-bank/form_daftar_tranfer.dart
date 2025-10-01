@@ -1,11 +1,9 @@
-// @dart=2.9
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive/hive.dart';
 import 'package:mobile/Products/ayoba/layout/transfer-bank/select_bank.dart';
 import 'package:mobile/models/wd_bank.dart';
 import 'package:mobile/models/daftar_transfer.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class FormDaftarTransfer extends StatefulWidget {
   final DaftarTransferModel transferData;
@@ -34,12 +32,10 @@ class _FormDaftarTransferState extends State<FormDaftarTransfer> {
 
   @override
   void initState() {
-    if (widget.transferData != null) {
-      namaTujuan.text = widget.transferData.namaRekening;
-      noTujuan.text = widget.transferData.noTujuan;
-      namaBank = widget.transferData.namaBank;
-      kodeProduk = widget.transferData.kodeProduk;
-    }
+    namaTujuan.text = widget.transferData.namaRekening;
+    noTujuan.text = widget.transferData.noTujuan;
+    namaBank = widget.transferData.namaBank;
+    kodeProduk = widget.transferData.kodeProduk;
     super.initState();
   }
 

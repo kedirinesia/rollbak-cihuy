@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '5f533b0b55a61e299581d383';
 
@@ -6,7 +5,7 @@ const namaApp = 'YukPay';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'id.yukpay.mobile';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

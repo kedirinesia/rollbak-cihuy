@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -11,7 +10,6 @@ import 'package:mobile/bloc/Bloc.dart' show bloc;
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/Products/centralbayar/layout/downline/tambah_downline.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 abstract class TambahDownlineController extends State<TambahDownline>
     with TickerProviderStateMixin {
@@ -26,9 +24,9 @@ abstract class TambahDownlineController extends State<TambahDownline>
   TextEditingController provinsiText = TextEditingController();
   TextEditingController kotaText = TextEditingController();
   TextEditingController kecamatanText = TextEditingController();
-  Lokasi provinsi;
-  Lokasi kota;
-  Lokasi kecamatan;
+  Lokasi? provinsi = null;
+  Lokasi? kota = null;
+  Lokasi? kecamatan = null;
   bool loading = false;
 
   Widget loadingWidget() {
@@ -39,7 +37,7 @@ abstract class TambahDownlineController extends State<TambahDownline>
   }
 
   void registerDownline() async {
-    if (!formKey.currentState.validate()) return;
+    if (!(formKey.currentState?.validate() ?? false)) return;
 
     if (pin.text.startsWith('0')) {
       showDialog<String>(
@@ -80,9 +78,9 @@ abstract class TambahDownlineController extends State<TambahDownline>
         'name': nama.text,
         'phone': nomor.text,
         'pin': int.parse(pin.text),
-        'id_propinsi': provinsi.id,
-        'id_kabupaten': kota.id,
-        'id_kecamatan': kecamatan.id,
+        'id_propinsi': provinsi?.id ?? '',
+        'id_kabupaten': kota?.id ?? '',
+        'id_kecamatan': kecamatan?.id ?? '',
         'alamat': alamat.text,
         'kode_upline': bloc.userId.valueWrapper?.value,
         'markup': int.parse(markup.text),

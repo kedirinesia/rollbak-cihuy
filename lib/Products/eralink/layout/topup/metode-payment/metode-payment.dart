@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -18,7 +17,6 @@ import 'package:mobile/Products/eralink/layout/topup/metode-payment/detail-metod
 
 import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/bloc/Bloc.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class MethodPayment extends StatefulWidget {
   final PaymentModel payment;

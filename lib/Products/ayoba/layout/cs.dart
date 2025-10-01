@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +7,6 @@ import 'package:mobile/Products/ayoba/layout/livechat.dart';
 import 'package:mobile/models/cs.dart';
 import 'package:mobile/provider/api.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class CS1 extends StatefulWidget {
   @override

@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '5f53169f55a61e299581d37f';
 
@@ -6,7 +5,7 @@ const namaApp = 'Boospay';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.bosspay.app';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

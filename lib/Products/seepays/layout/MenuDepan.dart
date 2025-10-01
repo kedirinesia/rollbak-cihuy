@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -147,7 +146,7 @@ class _MenuDepanState extends State<MenuDepan> {
         }
         
         // Cari khusus menu TELKOM
-        var telkomMenu = data.firstWhere((item) => item['name']?.toString()?.toLowerCase()?.contains('telkom') == true, orElse: () => null);
+        var telkomMenu = data.firstWhere((item) => item['name']?.toString().toLowerCase().contains('telkom') == true, orElse: () => null);
         if (telkomMenu != null) {
           DebugHelper.debugPrint('🎯 TELKOM Menu dari API: ID=${telkomMenu['_id']}, Name=${telkomMenu['name']}, Type=${telkomMenu['type']}'.toString());
         }
@@ -214,7 +213,7 @@ class _MenuDepanState extends State<MenuDepan> {
       bool isPascabayar = false;
       
       // Check if it's explicitly categorized
-      if (menu.category_id != null && menu.category_id.isNotEmpty) {
+      if (menu.category_id.isNotEmpty) {
         if (menu.category_id.toLowerCase().contains('prabayar') || 
             menu.category_id.toLowerCase().contains('prepaid')) {
           isPrabayar = true;
@@ -355,14 +354,12 @@ class _MenuDepanState extends State<MenuDepan> {
         return Pulsa(menu);
       }));
     } else if (menu.jenis == 2) {
-      if (menu.category_id != null &&
-          menu.category_id.isNotEmpty &&
+      if (menu.category_id.isNotEmpty &&
           menu.type == 1) {
         DebugHelper.debugPrint('➡️ Menu menuju ke: DetailDenom');
         return Navigator.of(context).push(PageTransition(
             child: DetailDenom(menu), type: PageTransitionType.rippleRightUp));
-      } else if (menu.kodeProduk != null &&
-          menu.kodeProduk.isNotEmpty &&
+      } else if (menu.kodeProduk.isNotEmpty &&
           menu.type == 2) {
         DebugHelper.debugPrint('➡️ Menu menuju ke: DetailDenomPostpaid');
         return Navigator.of(context).push(PageTransition(
@@ -394,7 +391,7 @@ class _MenuDepanState extends State<MenuDepan> {
         ),
       );
     } else if (menu.jenis == 5 || menu.jenis == 6) {
-      if (menu.category_id == null || menu.category_id.isEmpty) {
+      if (menu.category_id.isEmpty) {
         DebugHelper.debugPrint('➡️ Menu menuju ke: ListSubMenu');
         return Navigator.of(context).push(
           MaterialPageRoute(
@@ -613,8 +610,8 @@ class _MenuDepanState extends State<MenuDepan> {
     
     // Filter menu yang tidak punya category_id atau kodeProduk (biasanya parent menu)
     List<MenuModel> parentMenus = menuList.where((menu) => 
-      (menu.category_id == null || menu.category_id.isEmpty) &&
-      (menu.kodeProduk == null || menu.kodeProduk.isEmpty)
+      (menu.category_id.isEmpty) &&
+      (menu.kodeProduk.isEmpty)
     ).toList();
     
     DebugHelper.debugPrint('📋 Found ${parentMenus.length} parent menus to preload');

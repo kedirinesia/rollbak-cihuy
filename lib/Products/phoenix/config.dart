@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '5eaa9414a68f4e21ef9c8016';
 
@@ -6,7 +5,7 @@ const namaApp = 'Phoenix Payment';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.phoenixpayment.app';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

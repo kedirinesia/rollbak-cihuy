@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:async';
 import 'dart:convert';
@@ -17,7 +16,7 @@ import 'package:mobile/models/kasir/kasirPrint.dart';
 
 // config bloc
 import 'package:mobile/bloc/Api.dart';
-import 'package:mobile/bloc/Bloc.dart';
+import 'package:mobile/bloc/Bloc.dart'; 
 
 import 'package:mobile/modules.dart';
 
@@ -41,7 +40,7 @@ class FormPiutangState extends State<FormPiutang> {
   TextEditingController keteranganController = TextEditingController();
   TextEditingController tglController = TextEditingController();
   TextEditingController idTrxController = TextEditingController();
-  KasirPrintModel printTrx;
+  KasirPrintModel? printTrx;
 
   // FORMAT TANGGAL
   DateTime selectedDate = DateTime.now();
@@ -60,7 +59,7 @@ class FormPiutangState extends State<FormPiutang> {
 
   // SELECT DATE
   Future _selectDate() async {
-    DateTime picked = await showDatePicker(
+    DateTime? picked = await showDatePicker(
       context: context,
       initialDate: selectedDate,
       firstDate: DateTime.utc(1965, 1, 1),
@@ -68,19 +67,17 @@ class FormPiutangState extends State<FormPiutang> {
       locale: Locale('id', 'ID'),
     );
 
-    if (picked != null) {
-      String value = formatter.format(picked);
+    String value = formatter.format(picked ?? DateTime.now());
 
-      setState(() {
-        selectedDate = picked;
-        tglController.text = value;
-      });
-    }
+    setState(() {
+      selectedDate = picked ?? DateTime.now();
+      tglController.text = value;
+    });
   }
 
   void prosesForm() async {
-    _formKey.currentState.save();
-    if (_formKey.currentState.validate()) {
+    _formKey.currentState?.save();
+    if (_formKey.currentState?.validate() ?? false) {
       if (int.parse(nominal) >= 0) {
         setState(() {
           loading = true;
@@ -93,7 +90,7 @@ class FormPiutangState extends State<FormPiutang> {
           'keterangan': keteranganController.text,
           'radioValue': radioValue,
           'type_piutang': widget.piutang.type,
-          'id_transaksi': printTrx != null ? printTrx.id : null,
+          'id_transaksi': printTrx != null ? printTrx?.id : null,
         };
         DebugHelper.debugPrint('dataToSend.toString()');
 
@@ -102,7 +99,7 @@ class FormPiutangState extends State<FormPiutang> {
               Uri.parse('$apiUrlKasir/transaksi/piutang/addMutasi'),
               headers: {
                 'Content-Type': 'application/json',
-                'authorization': bloc.token.valueWrapper?.value,
+                'authorization': bloc.token.valueWrapper?.value ?? '',
               },
               body: json.encode(dataToSend));
 
@@ -297,14 +294,15 @@ class FormPiutangState extends State<FormPiutang> {
                               ),
                             ),
                             keyboardType: TextInputType.number,
-                            validator: (String value) {
+                            validator: (String? value) {
                               if (value == "") {
                                 return "nominal tidak boleh kosong";
                               }
+                              return null;
                             },
-                            onSaved: (String value) {
+                            onSaved: (String? value) {
                               setState(() {
-                                nominal = value;
+                                nominal = value ?? '' ;
                               });
                             }),
                         SizedBox(height: 15.0),
@@ -354,11 +352,11 @@ class FormPiutangState extends State<FormPiutang> {
                                       await Navigator.of(context).push(
                                     MaterialPageRoute(
                                         builder: (_) => SelectTrxPiutang(
-                                            widget.piutang.id)),
+                                            widget.piutang.id ?? '')),
                                   );
 
                                   if (response == null) return;
-                                  idTrxController.text = response.id;
+                                  idTrxController.text = response.id ?? '';
                                   setState(() {
                                     printTrx = response;
                                   });

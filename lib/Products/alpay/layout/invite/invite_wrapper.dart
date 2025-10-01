@@ -1,10 +1,8 @@
-// @dart=2.9
 
 import 'package:division/division.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/Products/alpay/layout/invite/invite_qrcode.dart';
 import 'package:mobile/Products/alpay/layout/invite/invite_wrapper.style.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class InviteWrapper extends StatefulWidget {
   Uri inviteLink;

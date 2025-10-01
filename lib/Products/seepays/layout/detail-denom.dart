@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -80,7 +79,7 @@ class _SeepaysDetailDenomState extends SeepaysDetailDenomController {
       String iconUrl = '';
       
       // Cek apakah ada icon dari menu yang diklik
-      if (widget.menu.icon != null && widget.menu.icon.isNotEmpty) {
+      if (widget.menu.icon.isNotEmpty) {
         iconUrl = widget.menu.icon;
         DebugHelper.debugPrint('🖼️ DetailDenom: Using menu icon: $iconUrl');
       } else if (coverIcon.isNotEmpty) {
@@ -130,7 +129,7 @@ class _SeepaysDetailDenomState extends SeepaysDetailDenomController {
               onPressed: () => Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
                     builder: (_) =>
-                        configAppBloc.layoutApp?.valueWrapper?.value['home'] ??
+                        configAppBloc.layoutApp.valueWrapper?.value['home'] ??
                         templateConfig[
                             configAppBloc.templateCode.valueWrapper?.value],
                   ),

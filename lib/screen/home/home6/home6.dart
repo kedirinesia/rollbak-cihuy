@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +11,6 @@ import 'package:mobile/screen/topup/topup.dart';
 import 'package:mobile/screen/wd/withdraw.dart';
 import 'home6_model.dart';
 import 'package:mobile/Products/pakaiaja/layout/card_info.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class Home6App extends StatefulWidget {
   @override
@@ -56,9 +54,15 @@ class _Home6AppState extends Home6Model {
                     backgroundColor: Theme.of(context).primaryColor,
                     child: Icon(Icons.account_balance_wallet),
                   ),
-                  title: Text(formatRupiah(bloc.user.valueWrapper?.value.saldo),
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 15.0)),
+                  title: Text(
+                    formatRupiah(
+                      (bloc.user.valueWrapper?.value.saldo is int)
+                          ? bloc.user.valueWrapper?.value.saldo ?? 0
+                          : int.tryParse(bloc.user.valueWrapper?.value.saldo?.toString() ?? '0') ?? 0
+                    ),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 15.0),
+                  ),
                   subtitle:
                       Text('Saldo PakeAja', style: TextStyle(fontSize: 12.0)),
                 ),
@@ -71,7 +75,11 @@ class _Home6AppState extends Home6Model {
                     child: Icon(Icons.account_balance_wallet),
                   ),
                   title: Text(
-                      formatRupiah(bloc.user.valueWrapper?.value.komisi),
+                      formatRupiah(
+                        (bloc.user.valueWrapper?.value.komisi is int)
+                            ? bloc.user.valueWrapper?.value.komisi ?? 0
+                            : int.tryParse(bloc.user.valueWrapper?.value.komisi?.toString() ?? '0') ?? 0
+                      ),
                       style: TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 15.0)),
                   subtitle:
@@ -93,7 +101,7 @@ class _Home6AppState extends Home6Model {
                 padding: EdgeInsets.all(10.0),
                 child: InkWell(
                   onTap: () async {
-                    return Navigator.of(context).push(
+                     Navigator.of(context).push(
                         MaterialPageRoute(builder: (_) => WithdrawPage()));
                   },
                   child: CachedNetworkImage(
@@ -114,7 +122,11 @@ class _Home6AppState extends Home6Model {
                         fontSize: 12.0,
                       )),
                   subtitle: Text(
-                      formatNumber(bloc.user.valueWrapper?.value.poin) + ' Pts',
+                      formatNumber(
+                        (bloc.user.valueWrapper?.value.poin is int)
+                            ? bloc.user.valueWrapper?.value.poin ?? 0
+                            : int.tryParse(bloc.user.valueWrapper?.value.poin?.toString() ?? '0') ?? 0
+                      ) + ' Pts',
                       style: TextStyle(
                           fontSize: 15.0,
                           color: Colors.black,
@@ -131,7 +143,7 @@ class _Home6AppState extends Home6Model {
         ),
         SizedBox(height: 20.0),
         CarouselDepan(),
-        MenuDepan(grid: 5, baris: 2, gradient: true),
+        MenuDepan(grid: 5, baris: 2, gradient: true, menus: [], radius: 0),
         // Container(
         //     height: 40.0,
         //     width: double.infinity,
@@ -183,7 +195,7 @@ class _Home6AppState extends Home6Model {
                             fontSize: 12.0, fontWeight: FontWeight.normal)),
                   ),
                   SizedBox(height: 15),
-                  RewardComponent(),
+                  RewardComponent(height: 0),
                 ])),
         SizedBox(height: 15)
       ],

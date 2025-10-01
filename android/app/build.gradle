@@ -23,7 +23,7 @@ if (flutterVersionName == null) {
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'com.google.gms.google-services'
+// apply plugin: 'com.google.gms.google-services'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 def keystoreProperties = new Properties()
@@ -33,12 +33,17 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    compileSdkVersion 34
+    compileSdk 34
     namespace 'mobile.payuni.id'
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+        coreLibraryDesugaringEnabled true
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
     }
 
     sourceSets {
@@ -52,7 +57,7 @@ android {
     defaultConfig {
         applicationId "mobile.payuni.id"
         minSdkVersion 21
-        targetSdkVersion 36
+        targetSdkVersion 35
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         
@@ -60,6 +65,7 @@ android {
         
         ndk {
             abiFilters 'arm64-v8a', 'armeabi-v7a', 'x86_64'
+          // abiFilters 'armeabi-v7a'
         }
         
         externalNativeBuild {
@@ -105,10 +111,10 @@ android {
         }
     }
 
-    // 16KB page size support configuration
+     
     packagingOptions {
         jniLibs {
-            useLegacyPackaging = false
+            // useLegacyPackaging deprecated in AGP 8.1+
         }
         resources {
             excludes += ['META-INF/DEPENDENCIES', 'META-INF/LICENSE', 'META-INF/LICENSE.txt', 'META-INF/license.txt', 'META-INF/NOTICE', 'META-INF/NOTICE.txt', 'META-INF/notice.txt', 'META-INF/ASL2.0']
@@ -157,7 +163,7 @@ android {
     defaultConfig {
         applicationId "mobile.payuni.id"
         minSdkVersion 21
-        targetSdkVersion 36
+        targetSdkVersion 35
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         
@@ -165,6 +171,7 @@ android {
         
         ndk {
             abiFilters 'arm64-v8a', 'armeabi-v7a', 'x86_64'
+            //abiFilters 'armeabi-v7a'
         }
         
         externalNativeBuild {
@@ -176,9 +183,7 @@ android {
             }
         }
         
-        // 16KB page size support configuration
         
-        // 16KB page size manifest placeholders
         manifestPlaceholders = [
             'pageSize': '16384',
             'pageSizeAgnostic': 'true',
@@ -392,14 +397,14 @@ android {
     buildTypes {
         release {
             signingConfig signingConfigs.release
-            minifyEnabled true
-            shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-16kb.pro'
-            
+            minifyEnabled false
+            shrinkResources false
+            // proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-16kb.pro'
+
             // Optimize for 16KB page size devices
             packagingOptions {
                 jniLibs {
-                    useLegacyPackaging = false
+                    // useLegacyPackaging deprecated in AGP 8.1+
                 }
                 resources {
                     excludes += ['/META-INF/{AL2.0,LGPL2.1}']
@@ -410,25 +415,25 @@ android {
                 doNotStrip '*/x86_64/*.so'
             }
             
-            // 16KB page size specific configuration
+            
             ndk {
                 debugSymbolLevel 'FULL'
             }
         }
         debug {
             minifyEnabled false
-            // Optimize for 16KB page size devices
+            
             packagingOptions {
                 jniLibs {
-                    useLegacyPackaging = false
+                  
                 }
-                // 16KB page size native library optimization
+              
                 doNotStrip '*/arm64-v8a/*.so'
                 doNotStrip '*/armeabi-v7a/*.so'
                 doNotStrip '*/x86_64/*.so'
             }
             
-            // 16KB page size specific configuration
+           
             ndk {
                 debugSymbolLevel 'FULL'
             }
@@ -1218,8 +1223,8 @@ android {
         paymobileku {
             dimension "flavor-type"
             applicationId "id.paymobileku.app"
-            versionCode 52
-            versionName "2.7.6"
+            versionCode 59
+            versionName "2.8.3"
         }
         smartsaldo {
             dimension "flavor-type"

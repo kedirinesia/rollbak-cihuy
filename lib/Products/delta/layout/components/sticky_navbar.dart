@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:async';
 
@@ -10,7 +9,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/screen/marketplace/cart.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class StickyNavBar extends StatefulWidget {
   final bool isTransparent;

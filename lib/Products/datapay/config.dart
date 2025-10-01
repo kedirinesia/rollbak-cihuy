@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '5f6af4d9ab78973f9e7fa059';
 
@@ -6,7 +5,7 @@ const namaApp = 'Datapay';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.payuni.datapayment';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

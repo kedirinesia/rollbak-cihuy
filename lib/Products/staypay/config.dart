@@ -1,5 +1,4 @@
 
-// @dart=2.9
 
 String sigVendor = '631227de209ee50044a3d2b6';
 
@@ -7,7 +6,7 @@ const namaApp = 'StayPay';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.staypay.androidapp';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

@@ -1,4 +1,3 @@
-// @dart=2.9
 
 class DownlineModel {
   String id;
@@ -14,17 +13,17 @@ class DownlineModel {
   String registerAt;
 
   DownlineModel({
-    this.id,
-    this.nama,
-    this.nomor,
-    this.namaToko,
-    this.saldo,
-    this.point,
-    this.markup,
-    this.downlineTotal,
-    this.verified,
-    this.status,
-    this.registerAt,
+    required  this.id,
+    required this.nama,
+    required this.nomor,
+    required this.namaToko,
+    required    this.saldo,
+    required this.point,
+    required this.markup,
+    required this.downlineTotal,
+    required this.verified,
+    required  this.status,
+    required this.registerAt,
   });
 
   factory DownlineModel.fromJson(dynamic json) {

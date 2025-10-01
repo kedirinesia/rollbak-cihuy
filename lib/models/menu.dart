@@ -1,35 +1,34 @@
-// @dart=2.9
 
 class MenuModel {
-  String name;
-  String description;
-  int jenis;
-  int type;
-  String icon;
-  String category_id;
-  String id;
-  String kodeProduk;
-  bool isString;
-  bool bebasNominal;
-  int orderNumber;
+  String name = '';
+  String description = '';
+  int jenis = 0;
+  int type = 0;
+  String icon = '';
+  String category_id = '';
+  String id = '';
+  String kodeProduk = '';
+  bool isString = false;
+  bool bebasNominal = false;
+  int orderNumber = 0;
 
   MenuModel({
-    this.name,
-    this.jenis,
-    this.description,
-    this.id,
-    this.category_id,
-    this.icon,
-    this.type,
-    this.kodeProduk,
-    this.isString,
-    this.bebasNominal,
-    this.orderNumber,
+    required    this.name,
+    required this.jenis,
+    required this.description,
+    required this.id,
+    required this.category_id,
+    required this.icon,
+    required this.type,
+    required this.kodeProduk,
+    required this.isString,
+    required  this.bebasNominal,
+    required this.orderNumber,
   });
 
   MenuModel.fromJson(Map<String, dynamic> json) {
-    id = json['_id'];
-    name = json['name'];
+    id = json['_id'] ?? '';
+    name = json['name'] ?? '';
     jenis = json['jenis'] ?? 0;
     type = json['type'] ?? 0;
     icon = json['icon'] ?? '';
@@ -37,12 +36,12 @@ class MenuModel {
     category_id = json['category_id'] ?? '';
     kodeProduk = json['kode_produk'] ?? ''; // <--- fix biar konsisten ke field
     isString =
-        (json['menu_input']?.toString()?.toLowerCase() ?? '') == 'string';
+        (json['menu_input']?.toString().toLowerCase() ?? '') == 'string';
     bebasNominal = json['bebas_nominal'] ?? false;
-    orderNumber = json['order_number'];
+    orderNumber = json['order_number'] ?? 0;
   }
 
-  factory MenuModel.create({MenuModel menu}) {
+  factory MenuModel.create({required MenuModel menu}) {
     return MenuModel(
       id: menu.id,
       name: menu.name,
@@ -60,8 +59,8 @@ class MenuModel {
 
   factory MenuModel.parse(dynamic map) {
     return MenuModel(
-      id: map['id'],
-      name: map['name'],
+      id: map['id'] ?? '',
+      name: map['name'] ?? '',
       jenis: map['jenis'] ?? 0,
       type: map['type'] ?? 0,
       icon: map['icon'] ?? '',
@@ -69,9 +68,9 @@ class MenuModel {
       category_id: map['category_id'] ?? '',
       kodeProduk: map['kode_produk'] ?? '',
       isString:
-          (map['menu_input']?.toString()?.toLowerCase() ?? '') == 'string',
+          (map['menu_input']?.toString().toLowerCase() ?? '') == 'string',
       bebasNominal: map['bebas_nominal'] ?? false,
-      orderNumber: map['order_number'], // <-- tambahkan ini juga
+      orderNumber: map['order_number'] ?? 0, // <-- tambahkan ini juga
     );
   }
 

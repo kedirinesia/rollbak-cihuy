@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '5fb246f180ec834afc0b7069';
 
@@ -6,7 +5,7 @@ const namaApp = 'Mitra Pulsa';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.mitrapulsa.app';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '600509a91930133ccf0f0096';
 
@@ -6,7 +5,7 @@ const namaApp = 'SakuPay';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'id.sakupay.mobile';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

@@ -1,4 +1,3 @@
-// @dart=2.9
 
 class WithdrawBankModel {
   final String id;
@@ -10,13 +9,13 @@ class WithdrawBankModel {
   final int cashback;
 
   WithdrawBankModel(
-      {this.id,
-      this.kodeProduk,
-      this.nama,
-      this.description,
-      this.hargaJual,
-      this.admin,
-      this.cashback});
+      {required this.id,
+      required this.kodeProduk,
+      required this.nama,
+      required this.description,
+      required this.hargaJual,
+      required this.admin,
+      required this.cashback});
 
   factory WithdrawBankModel.fromJson(Map<String, dynamic> json) {
     return WithdrawBankModel(

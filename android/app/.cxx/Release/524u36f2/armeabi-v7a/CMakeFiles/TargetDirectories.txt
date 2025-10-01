@@ -1,0 +1,2 @@
+/Users/findigiosdev/Desktop/test ios/ios-flavorin/android/app/.cxx/Release/524u36f2/armeabi-v7a/CMakeFiles/rebuild_cache.dir
+/Users/findigiosdev/Desktop/test ios/ios-flavorin/android/app/.cxx/Release/524u36f2/armeabi-v7a/CMakeFiles/edit_cache.dir

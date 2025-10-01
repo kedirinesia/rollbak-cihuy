@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '5ff6cbfd6a9228f06628436f';
 
@@ -6,7 +5,7 @@ const namaApp = 'Payfast ID';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.payfast.apk';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

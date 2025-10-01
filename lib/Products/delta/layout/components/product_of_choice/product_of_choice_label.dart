@@ -1,10 +1,8 @@
-// @dart=2.9
 
 import 'package:division/division.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/Products/delta/layout/components/product_of_choice/product_of_choice_label.style.dart';
 import 'package:mobile/screen/marketplace/belanja.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class ProductOfChoiceLabel extends StatelessWidget {
   const ProductOfChoiceLabel({Key key}) : super(key: key);

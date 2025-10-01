@@ -1,7 +1,5 @@
-// @dart=2.9
 
 import 'package:mobile/models/trx.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class PostpaidInquiryModel {
   String nama;
@@ -19,19 +17,19 @@ class PostpaidInquiryModel {
   List<dynamic> params;
 
   PostpaidInquiryModel(
-      {this.nama,
-      this.noPelanggan,
-      this.produk,
-      this.trackingId,
-      this.sn,
-      this.tagihan,
-      this.admin,
-      this.fee,
-      this.total,
-      this.saldoAwal,
-      this.saldoAkhir,
-      this.saldoTerpotong,
-      this.params});
+      {required this.nama,
+      required this.noPelanggan,
+      required this.produk,
+      required this.trackingId,
+      required this.sn,
+      required this.tagihan,
+      required this.admin,
+      required this.fee,
+      required this.total,
+      required this.saldoAwal,
+      required this.saldoAkhir,
+      required this.saldoTerpotong,
+      required this.params});
 
   factory PostpaidInquiryModel.fromJson(dynamic json) {
     return PostpaidInquiryModel(
@@ -69,21 +67,21 @@ class PostpaidPurchaseModel {
   TrxStatus status;
 
   PostpaidPurchaseModel({
-    this.id,
-    this.nama,
-    this.noPelanggan,
-    this.produk,
-    this.trackingId,
-    this.sn,
-    this.tagihan,
-    this.admin,
-    this.fee,
-    this.total,
-    this.saldoAwal,
-    this.saldoAkhir,
-    this.saldoTerpotong,
-    this.params,
-    this.status,
+    required  this.id,
+    required this.nama,
+    required  this.noPelanggan,
+    required this.produk,
+    required this.trackingId,
+    required this.sn,
+    required this.tagihan,
+    required this.admin,
+    required this.fee,
+    required this.total,
+    required this.saldoAwal,
+    required this.saldoAkhir,
+    required this.saldoTerpotong,
+    required this.params,
+    required this.status,
   });
 
   factory PostpaidPurchaseModel.fromJson(dynamic json) {

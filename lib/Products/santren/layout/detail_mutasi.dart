@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
@@ -29,7 +28,7 @@ class WatermarkNetworkLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (logoUrl == null || logoUrl.isEmpty) return SizedBox();
+    if (logoUrl.isEmpty) return SizedBox();
     return LayoutBuilder(
       builder: (ctx, constraints) {
         final rows = (constraints.maxHeight / (size * 1.5)).ceil();
@@ -95,7 +94,7 @@ class _DetailMutasiState extends State<DetailMutasi> {
       produk: {
         'nama': (mutasi.type ?? 'Mutasi'),
         'kode_produk': 'MUTASI',
-        'type': (mutasi.type?.toLowerCase() == 'transfer') ? 1 : 0,
+        'type': (mutasi.type.toLowerCase() == 'transfer') ? 1 : 0,
       },
       status: 2,
       print: [
@@ -126,7 +125,7 @@ class _DetailMutasiState extends State<DetailMutasi> {
             onPressed: () => Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                   builder: (_) =>
-                      configAppBloc.layoutApp?.valueWrapper?.value['home'] ??
+                      configAppBloc.layoutApp.valueWrapper?.value['home'] ??
                       templateConfig[
                           configAppBloc.templateCode.valueWrapper?.value],
                 ),
@@ -291,7 +290,7 @@ class _DetailMutasiState extends State<DetailMutasi> {
       ),
       floatingActionButton: Builder(
         builder: (context) {
-          final mutasiType = widget.mutasi.type?.toUpperCase() ?? '';
+          final mutasiType = widget.mutasi.type.toUpperCase() ?? '';
           DebugHelper.debugPrint('Mutasi Type: $mutasiType');
           DebugHelper.debugPrint('Mutasi ID: ${widget.mutasi.id}');
           DebugHelper.debugPrint('Keterangan: ${widget.mutasi.keterangan}');

@@ -1,9 +1,7 @@
-// @dart=2.9
 
 import 'package:mobile/Products/pakaiaja/layout/detail-deposit.dart';
 import 'package:mobile/Products/pakaiaja/layout/main.dart';
 import 'package:mobile/models/deposit.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 String sigVendor = '5fa3beb3d7e7b056aae8c12e';
 
@@ -11,7 +9,7 @@ const namaApp = 'PakeAja';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'co.pakaiaja.id';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 6;
 String gaId = '';

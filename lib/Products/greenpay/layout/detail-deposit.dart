@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +10,6 @@ import 'package:mobile/models/deposit.dart';
 
 import 'package:mobile/screen/topup/bank/transfer-deposit.dart';
 import 'package:mobile/Products/greenpay/layout/components/template.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class DetailDeposit extends StatefulWidget {
   final DepositModel dep;

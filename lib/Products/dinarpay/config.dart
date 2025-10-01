@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '6058c3f0c6cbaf37a02ee3fc';
 
@@ -6,7 +5,7 @@ const namaApp = 'Dinar Pay';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.dinarpay.app';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

@@ -1,11 +1,9 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/bloc/Bloc.dart';
-import 'package:mobile/component/alert.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/utils/debug_helper.dart';
 // Date formatting is available in modules.dart
@@ -149,11 +147,11 @@ class _PulsaHistoryPageState extends State<PulsaHistoryPage> {
 
   bool _isPulsaTransaction(TrxModel trx) {
     // Cek apakah ini transaksi pulsa berdasarkan keterangan atau produk
-    String keterangan = trx.keterangan?.toLowerCase() ?? '';
+    String keterangan = trx.keterangan.toLowerCase() ?? '';
     String produkName = '';
     
     // Cek dari produk jika ada
-    if (trx.produk != null && trx.produk is Map) {
+    if (trx.produk is Map) {
       produkName = (trx.produk['name'] ?? '').toString().toLowerCase();
     }
     
@@ -344,7 +342,7 @@ class _PulsaHistoryPageState extends State<PulsaHistoryPage> {
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Text(
-                                    'Rp ${transaction.harga_jual?.toString() ?? '0'}',
+                                    'Rp ${transaction.harga_jual.toString() ?? '0'}',
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16,

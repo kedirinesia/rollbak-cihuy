@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -16,7 +15,6 @@ import 'package:mobile/modules.dart';
 // model
 import 'package:mobile/models/kasir/kasirPrint.dart';
 import 'package:mobile/provider/analitycs.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class SelectTrxPiutang extends StatefulWidget {
   String id_piutang;
@@ -53,7 +51,7 @@ class SelectTrxPiutangState extends State<SelectTrxPiutang> {
           Uri.parse(
               '$apiUrlKasir/transaksi/piutang/listTrxDebt?id_piutang=${widget.id_piutang}'),
           headers: {
-            'authorization': bloc.token.valueWrapper?.value,
+            'authorization': bloc.token.valueWrapper?.value ?? '',
           });
 
       if (response.statusCode == 200) {
@@ -142,7 +140,7 @@ class SelectTrxPiutangState extends State<SelectTrxPiutang> {
                                 child: ListTile(
                                   dense: true,
                                   title: Text(
-                                      'Total Harga : ${formatNominal(printTrx.totalJual)}',
+                                      'Total Harga : ${formatNominal(printTrx.totalJual ?? 0)}',
                                       style: TextStyle(
                                           fontSize: 13.0,
                                           fontWeight: FontWeight.bold,
@@ -153,24 +151,24 @@ class SelectTrxPiutangState extends State<SelectTrxPiutang> {
                                     children: [
                                       SizedBox(height: 5.0),
                                       Text(
-                                          'Pelanggan : ${printTrx.customerModel != null ? printTrx.customerModel.nama : '-'}',
+                                          'Pelanggan : ${printTrx.customerModel != null ? printTrx.customerModel?.nama : '-'}',
                                           style: TextStyle(
                                               fontSize: 12.0,
                                               color: Colors.grey.shade700)),
                                       SizedBox(height: 3.0),
-                                      Text('Total Item : ${printTrx.totalQty}',
-                                          style: TextStyle(
-                                              fontSize: 12.0,
-                                              color: Colors.grey.shade700)),
-                                      SizedBox(height: 3.0),
-                                      Text(
-                                          'Terbayar : ${formatNominal(printTrx.terbayar)}',
+                                      Text('Total Item : ${printTrx.totalQty ?? 0 }',
                                           style: TextStyle(
                                               fontSize: 12.0,
                                               color: Colors.grey.shade700)),
                                       SizedBox(height: 3.0),
                                       Text(
-                                          'Sisa Bayar : ${formatNominal(printTrx.totalJual - printTrx.terbayar)}',
+                                          'Terbayar : ${formatNominal(printTrx.terbayar ?? 0)}',
+                                          style: TextStyle(
+                                              fontSize: 12.0,
+                                              color: Colors.grey.shade700)),
+                                      SizedBox(height: 3.0),
+                                      Text(
+                                          'Sisa Bayar : ${formatNominal((printTrx.totalJual ?? 0) - (printTrx.terbayar ?? 0))}',
                                           style: TextStyle(
                                               fontSize: 12.0,
                                               color: Colors.grey.shade700)),

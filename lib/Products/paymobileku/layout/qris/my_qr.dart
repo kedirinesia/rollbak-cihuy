@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:barcode_scan2/platform_wrapper.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +7,6 @@ import 'package:mobile/config.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class MyQR extends StatefulWidget {
   @override
@@ -71,7 +69,7 @@ class _MyQRState extends State<MyQR> {
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
                             QrImageView(
-                              data: bloc.user.valueWrapper?.value.phone
+                              data: bloc.user.valueWrapper?.value.phone ?? ''
                                   .toString(),
                               version: QrVersions.auto,
                               size: MediaQuery.of(context).size.width * .75,
@@ -80,7 +78,7 @@ class _MyQRState extends State<MyQR> {
                             ),
                             SizedBox(height: 20.0),
                             Text(
-                              bloc.username.valueWrapper?.value,
+                              bloc.username.valueWrapper?.value ?? '',
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -118,7 +116,7 @@ class _MyQRState extends State<MyQR> {
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
                               QrImageView(
-                                data: bloc.user.valueWrapper?.value.phone
+                                data: bloc.user.valueWrapper?.value.phone ?? ''
                                     .toString(),
                                 version: QrVersions.auto,
                                 size: MediaQuery.of(context).size.width * .75,
@@ -127,7 +125,7 @@ class _MyQRState extends State<MyQR> {
                               ),
                               SizedBox(height: 20.0),
                               Text(
-                                bloc.username.valueWrapper?.value,
+                                bloc.username.valueWrapper?.value ?? '',
                                 style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
@@ -148,7 +146,7 @@ class _MyQRState extends State<MyQR> {
               onPressed: () async {
                 var barcode = await BarcodeScanner.scan();
                 if (barcode.rawContent.isNotEmpty) {
-                  return Navigator.of(context).push(MaterialPageRoute(
+                  Navigator.of(context).push(MaterialPageRoute(
                       builder: (_) => TransferByQR(barcode.rawContent)));
                 }
               },

@@ -1,17 +1,15 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 import 'package:mobile/models/menu.dart';
 
 import '../../../component/menudepan.dart';
 import 'more_model.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class MorePage extends StatefulWidget {
   final List<MenuModel> menus;
   bool isKotak;
 
-  MorePage(this.menus, {this.isKotak});
+  MorePage(this.menus, {required this.isKotak});
   @override
   _MorePageState createState() => _MorePageState();
 }
@@ -31,7 +29,7 @@ class _MorePageState extends MorePageModel {
           ),
           SliverList(
               delegate: SliverChildListDelegate([
-            MenuDepan(grid: 4, gradient: widget.isKotak, menus: widget.menus)
+            MenuDepan(grid: 4, gradient: widget.isKotak, menus: widget.menus, baris: 0, radius: 0)
           ]))
         ],
       ),

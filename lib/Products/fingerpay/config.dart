@@ -1,7 +1,5 @@
-// @dart=2.9
 
 import 'package:mobile/Products/fingerpay/layout/index.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 String sigVendor = '6117aa5e09db9218805ede63';
 
@@ -9,7 +7,7 @@ const namaApp = 'Fingerpay';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.fingerpay.mobile';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 4;
 String gaId = '';

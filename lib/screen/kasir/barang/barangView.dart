@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -23,7 +22,6 @@ import 'package:mobile/modules.dart';
 // screen page
 import 'package:mobile/screen/kasir/barang/barangAdd.dart';
 import 'package:mobile/screen/kasir/barang/barangUpdate.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class BarangView extends StatefulWidget {
   @override
@@ -55,7 +53,7 @@ class BarangViewState extends State<BarangView> {
       http.Response response = await http.get(
           Uri.parse('$apiUrlKasir/master/barang/get?page=$page'),
           headers: {
-            'authorization': bloc.token.valueWrapper?.value,
+            'authorization': bloc.token.valueWrapper?.value ?? '',
           });
 
       var responseData = json.decode(response.body);
@@ -189,7 +187,7 @@ class BarangViewState extends State<BarangView> {
                             Uri.parse('$apiUrlKasir/master/barang/delete'),
                             headers: {
                               'Content-Type': 'application/json',
-                              'authorization': bloc.token.valueWrapper?.value,
+                              'authorization': bloc.token.valueWrapper?.value ?? '',
                             },
                             body: json.encode(dataToSend));
 

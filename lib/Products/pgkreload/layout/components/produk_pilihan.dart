@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +6,6 @@ import 'package:mobile/modules.dart';
 import 'package:mobile/screen/marketplace/detail_produk.dart';
 import 'package:mobile/screen/marketplace/list_produk.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class ProdukPilihan extends StatelessWidget {
   final List<ProdukMarket> products;

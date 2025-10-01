@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -11,7 +10,6 @@ import 'package:mobile/screen/detail-denom/detail-denom.dart';
 import 'package:mobile/screen/list-grid-menu/list-grid-menu.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class CarouselDepan extends StatefulWidget {
   final double viewportFraction;
@@ -78,6 +76,14 @@ class _CarouselDepanState extends State<CarouselDepan> {
       MenuModel menu = MenuModel(
         id: urls[1],
         name: banner.title,
+        jenis: 0,
+        description: '',
+        category_id: '',
+        type: 0,
+        kodeProduk: '',
+        isString: false,
+        bebasNominal: false,
+        orderNumber: 0,
         icon: '',
       );
 
@@ -90,10 +96,16 @@ class _CarouselDepanState extends State<CarouselDepan> {
       MenuModel menu = MenuModel(
         id: banner.id,    
         name: banner.title,
-        category_id: urls[1],
+        jenis: 0,
+        description: '',
+        category_id: '',
+        type: 0,
+        kodeProduk: '',
+        isString: false,
+        bebasNominal: false,
+        orderNumber: 0,
         icon: '',
       );
-
       return Navigator.of(context).push(
         MaterialPageRoute(
           builder: (_) => DetailDenom(menu),

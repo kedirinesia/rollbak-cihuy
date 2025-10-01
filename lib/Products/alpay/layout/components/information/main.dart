@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -42,7 +41,7 @@ class _InformationState extends State<Information> {
       String url = '$apiUrl/info/list';
 
       FileInfo fileInfo = await DefaultCacheManager().getFileFromCache(url);
-      if (fileInfo != null && fileInfo.validTill.isBefore(DateTime.now())) {
+      if (fileInfo.validTill.isBefore(DateTime.now())) {
         return json.decode(fileInfo.file.readAsStringSync());
       }
 

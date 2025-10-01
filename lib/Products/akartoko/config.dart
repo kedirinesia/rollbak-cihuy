@@ -1,11 +1,9 @@
-// @dart=2.9
 
 import 'package:mobile/Products/akartoko/layout/detail-deposit.dart';
 import 'package:mobile/Products/akartoko/layout/home.dart';
 import 'package:mobile/Products/akartoko/layout/kirim-saldo.dart';
 import 'package:mobile/Products/akartoko/layout/topup.dart';
 import 'package:mobile/models/deposit.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 String sigVendor = '6024b19e0f94f70c45aaf7c2';
 
@@ -13,7 +11,7 @@ const namaApp = 'AKARTOKO';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'akartoko.id';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

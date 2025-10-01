@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:mobile/utils/debug_helper.dart';
 
@@ -10,7 +9,7 @@ class EwalletAccount {
   final double fee; // Changed from int to double to handle decimal values
 
   EwalletAccount(
-      {this.name, this.code, this.description, this.provider, this.fee});
+      {required this.name, required this.code, required this.description, required this.provider, required this.fee});
 
   factory EwalletAccount.fromJson(dynamic json) {
     try {

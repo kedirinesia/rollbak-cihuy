@@ -1,42 +1,40 @@
-// @dart=2.9
 
 import 'package:mobile/models/kasir/customer.dart';
 import 'package:mobile/models/kasir/supplier.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class KasirPrintModel {
-  String id;
-  String noFaktur;
-  String jenis;
-  bool lunas;
-  String termin;
-  int totalQty;
-  int totalBeli;
-  int totalJual;
-  int terbayar;
-  String created_at;
-  String updated_at;
-  List<dynamic> detailTrx;
-  CustomerModel customerModel;
-  SupplierModel supplierModel;
-  Map userID;
+  final String? id;
+  final String? noFaktur;
+  final String? jenis;
+  final bool? lunas;
+  final String? termin;
+  final int? totalQty;
+  final int? totalBeli;
+  final int? totalJual;
+  final int? terbayar;
+  final String? created_at;
+  final String? updated_at;
+  final List<Map<String, dynamic>>? detailTrx;
+  final CustomerModel? customerModel;
+  final SupplierModel? supplierModel;
+  final Map<String, dynamic>? userID;
 
   KasirPrintModel({
-    this.id,
-    this.noFaktur,
-    this.jenis,
-    this.lunas,
-    this.termin,
-    this.totalQty,
-    this.totalBeli,
-    this.totalJual,
-    this.terbayar,
-    this.created_at,
-    this.updated_at,
-    this.detailTrx,
-    this.customerModel,
-    this.supplierModel,
-    this.userID,
+    this.id = '',
+    this.noFaktur = '',
+    this.jenis = '',
+    this.lunas = false,
+    this.termin = '',
+    this.totalQty = 0,
+    this.totalBeli = 0,
+    this.totalJual = 0,
+    this.terbayar = 0,
+    this.created_at = '',
+    this.updated_at = '',
+    this.detailTrx = null,
+    this.customerModel = null,
+    this.supplierModel = null,
+    this.userID = null,
   });
 
   factory KasirPrintModel.fromJson(Map<String, dynamic> json) {

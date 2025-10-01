@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:async';
 import 'dart:convert';
@@ -73,7 +72,7 @@ class LapStockState extends State<LapStock> {
           Uri.parse(
               '$apiUrlKasir/laporan/arus-stock?page=$page&tgl_awal=${tglAwalController.text}&tgl_akhir=${tglAkhirController.text}'),
           headers: {
-            'authorization': bloc.token.valueWrapper?.value,
+            'authorization': bloc.token.valueWrapper?.value ?? '',
           });
 
       var responseData = json.decode(response.body);
@@ -176,28 +175,26 @@ class LapStockState extends State<LapStock> {
 
   // SELECT DATE
   Future _selectDate(String key) async {
-    DateTime picked = await showDatePicker(
+    DateTime? picked = await showDatePicker(
       context: context,
       initialDate: key == 'awal' ? selectedAwal : selectedAkhir,
       firstDate: new DateTime(1900),
       lastDate: new DateTime(2500),
     );
 
-    if (picked != null) {
-      String value = formatter.format(picked);
-      DebugHelper.debugPrint('picked -> $picked, value -> $value');
+    String value = formatter.format(picked ?? DateTime.now());
+    DebugHelper.debugPrint('picked -> $picked, value -> $value');
 
-      if (key == 'awal') {
-        setState(() {
-          selectedAwal = picked;
-          tglAwalController.text = value;
-        });
-      } else {
-        setState(() {
-          selectedAkhir = picked;
-          tglAkhirController.text = value;
-        });
-      }
+    if (key == 'awal') {
+      setState(() {
+        selectedAwal = picked ?? DateTime.now();
+        tglAwalController.text = value;
+      });
+    } else {
+      setState(() {
+        selectedAkhir = picked ?? DateTime.now()  ;
+        tglAkhirController.text = value;
+      });
     }
   }
 
@@ -268,8 +265,8 @@ class LapStockState extends State<LapStock> {
       onTap: () async {
         dynamic response = await Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => LapDetailStock(
-            item.barangModel != null ? item.barangModel.namaBarang : '-',
-            item.id_barang,
+            item.barangModel != null ? item.barangModel?.namaBarang ?? '' : '-',
+            item.id_barang ?? '',
             tglAwalController.text,
             tglAkhirController.text,
           ),
@@ -287,7 +284,7 @@ class LapStockState extends State<LapStock> {
         ]),
         child: ListTile(
           title: Text(
-            '${item.barangModel != null ? item.barangModel.namaBarang : '-'}',
+            '${item.barangModel != null ? item.barangModel?.namaBarang : '-'}',
             style: TextStyle(
                 fontSize: 14.0,
                 fontWeight: FontWeight.bold,
@@ -312,7 +309,7 @@ class LapStockState extends State<LapStock> {
               borderRadius: BorderRadius.circular(30.0),
               color: Theme.of(context).primaryColor,
             ),
-            child: Text('${item.debet - item.kredit}',
+            child: Text('${item.debet! - item.kredit!}',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 13.0,

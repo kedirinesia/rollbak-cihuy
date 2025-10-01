@@ -1,10 +1,8 @@
-// @dart=2.9
 
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class ContactPage extends StatefulWidget {
   @override
@@ -66,15 +64,15 @@ class _ContactPageState extends ContactPageController {
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
-                              Text(contacts[i]['name'],
+                              Text(contacts[i]['name']!,
                                   style:
                                       TextStyle(fontWeight: FontWeight.bold)),
-                              Text(contacts[i]['phone'],
+                              Text(contacts[i]['phone']!,
                                   style: TextStyle(color: Colors.grey))
                             ]),
                       ),
                       onTap: () {
-                        String phone = contacts[i]['phone']
+                        String phone = contacts[i]['phone']!
                             .replaceAll('+62', '0')
                             .replaceAll(' ', '')
                             .replaceAll('-', '');
@@ -123,8 +121,8 @@ abstract class ContactPageController extends State<ContactPage> {
       }
       contacts.clear();
       datas.toList().forEach((data) {
-        data.phones.forEach((item) {
-          contacts.add({'name': data.displayName, 'phone': item.value});
+        data.phones?.forEach((item) {
+          contacts.add({'name': data.displayName!, 'phone': item.value!});
         });
       });
     }

@@ -1,11 +1,9 @@
-// @dart=2.9
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive/hive.dart';
 import 'package:mobile/Products/paymobileku/layout/transfer-bank/select_bank.dart';
 import 'package:mobile/models/wd_bank.dart';
 import 'package:mobile/models/daftar_transfer.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class FormDaftarTransfer extends StatefulWidget {
   final DaftarTransferModel transferData;
@@ -13,10 +11,10 @@ class FormDaftarTransfer extends StatefulWidget {
   final BuildContext transferBS;
 
   const FormDaftarTransfer(
-      {this.transferData, this.indexItem, this.transferBS, Key key})
+      {required this.transferData, required this.indexItem, required this.transferBS, Key? key})
       : super(key: key);
 
-  @override
+  @override 
   State<FormDaftarTransfer> createState() => _FormDaftarTransferState();
 }
 
@@ -28,18 +26,16 @@ class _FormDaftarTransferState extends State<FormDaftarTransfer> {
   String kodeProduk = '';
   String admin = '';
 
-  List<WithdrawBankModel> banks = [];
+    List<WithdrawBankModel> banks = [];
 
   bool loading = true;
 
   @override
   void initState() {
-    if (widget.transferData != null) {
-      namaTujuan.text = widget.transferData.namaRekening;
-      noTujuan.text = widget.transferData.noTujuan;
-      namaBank = widget.transferData.namaBank;
-      kodeProduk = widget.transferData.kodeProduk;
-    }
+    namaTujuan.text = widget.transferData.namaRekening;
+    noTujuan.text = widget.transferData.noTujuan;
+    namaBank = widget.transferData.namaBank;
+    kodeProduk = widget.transferData.kodeProduk;
     super.initState();
   }
 
@@ -64,7 +60,7 @@ class _FormDaftarTransferState extends State<FormDaftarTransfer> {
 
     DaftarTransferModel tranfer = DaftarTransferModel.parse(dataToSend);
 
-    if (widget.indexItem != null) {
+    if (widget.indexItem >= 0) {
       Hive.box('daftar-transfer')
           .putAt(widget.indexItem, DaftarTransferModel.create(tranfer).toMap())
           .then((value) {
@@ -139,7 +135,7 @@ class _FormDaftarTransferState extends State<FormDaftarTransfer> {
         subtitle: Text(namaBank.isEmpty ? 'Pilih bank' : namaBank),
         trailing: Icon(Icons.navigate_next_rounded),
         onTap: () async {
-          WithdrawBankModel bank = await Navigator.of(context).push(
+          final bank = await Navigator.of(context).push<WithdrawBankModel>(
             MaterialPageRoute(
               builder: (_) => SelectBankPage(),
             ),

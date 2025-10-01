@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:async';
 import 'dart:convert';
@@ -14,7 +13,6 @@ import 'package:mobile/bloc/Bloc.dart';
 
 // model
 import 'package:mobile/models/kasir/category.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class SelectCategory extends StatefulWidget {
   @override

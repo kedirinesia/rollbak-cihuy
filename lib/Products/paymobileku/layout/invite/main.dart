@@ -1,9 +1,8 @@
-// @dart=2.9
 
 import 'dart:convert';
 
-import 'package:division/division.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hive/hive.dart';
@@ -16,6 +15,7 @@ import 'package:mobile/component/alert.dart';
 import 'package:mobile/config.dart';
 import 'package:mobile/models/user.dart';
 import 'package:mobile/provider/analitycs.dart';
+import 'package:mobile/utils/style_helper.dart';
 import 'package:http/http.dart' as http;
 import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,32 +28,13 @@ class InvitePage extends StatefulWidget {
 
 class _InvitePageState extends State<InvitePage> with TickerProviderStateMixin {
   bool loading = true;
-  Uri inviteLink;
+  late Uri inviteLink;
 
   TextEditingController url = TextEditingController();
 
-  UserModel userInfo;
+  late UserModel userInfo;
 
-  static String urlInvite =
-      configAppBloc.info.valueWrapper.value.domainInvite == ""
-          ? prefixUrlInvite
-          : 'https://${configAppBloc.info.valueWrapper.value.domainInvite}';
-  FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
-
-  final DynamicLinkParameters param = DynamicLinkParameters(
-      uriPrefix: urlInvite,
-      link: Uri.parse('$urlInvite/${bloc.userId.valueWrapper?.value}'),
-      androidParameters: AndroidParameters(
-          packageName: configAppBloc.packagename.valueWrapper?.value,
-          minimumVersion: 1),
-      googleAnalyticsParameters: GoogleAnalyticsParameters(
-          campaign: 'promo', medium: 'social', source: appName),
-      socialMetaTagParameters: SocialMetaTagParameters(
-          title:
-              '$appName - ${configAppBloc.info.valueWrapper.value.kataInvite}',
-          description: '${configAppBloc.info.valueWrapper.value.descInvite}',
-          imageUrl:
-              Uri.parse(configAppBloc.info.valueWrapper.value.imageInvite)));
+  // Dynamic Links objects will be created lazily after Firebase init
 
   @override
   void initState() {
@@ -73,24 +54,74 @@ class _InvitePageState extends State<InvitePage> with TickerProviderStateMixin {
   }
 
   void createLink() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String link = prefs.getString('invite_link');
+    // Resolve invite base URL safely (avoid null during early load)
+    final String domainInvite =
+        configAppBloc.info.valueWrapper?.value.domainInvite ?? '';
+    final String urlInvite =
+        domainInvite.isEmpty ? prefixUrlInvite : 'https://$domainInvite';
 
-    if (link != null) {
+    // Ensure Firebase is initialized before using Dynamic Links
+    try {
+      Firebase.app();
+    } catch (_) {
+      try {
+        await Firebase.initializeApp();
+      } catch (e) {
+        // Fallback: if Firebase is not configured, build a plain HTTPS link without Dynamic Links
+        final String uid = bloc.userId.valueWrapper?.value ?? '';
+        final String plain = '$urlInvite/$uid';
+        setState(() {
+          loading = false;
+          inviteLink = Uri.parse(plain);
+          url.text = inviteLink.toString();
+        });
+        return;
+      }
+    }
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String link = prefs.getString('invite_link') ?? '';
+
+    if (link.isNotEmpty) {
       setState(() {
         loading = false;
         inviteLink = Uri.parse(link);
         url.text = inviteLink.toString();
       });
     } else {
-      ShortDynamicLink shortLink = await dynamicLinks.buildShortLink(param);
-      prefs.setString('invite_link', shortLink.shortUrl.toString());
+      try {
+        final FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
+        final DynamicLinkParameters param = DynamicLinkParameters(
+            uriPrefix: urlInvite,
+            link: Uri.parse('$urlInvite/${bloc.userId.valueWrapper?.value ?? ''}') ,
+            androidParameters: AndroidParameters(
+                packageName: configAppBloc.packagename.valueWrapper?.value ?? packageName,
+                minimumVersion: 1),
+            googleAnalyticsParameters: GoogleAnalyticsParameters(
+                campaign: 'promo', medium: 'social', source: appName),
+            socialMetaTagParameters: SocialMetaTagParameters(
+                title:
+                    '$appName - ${configAppBloc.info.valueWrapper?.value.kataInvite ?? ''}',
+                description: '${configAppBloc.info.valueWrapper?.value.descInvite ?? ''}',
+                imageUrl:
+                    Uri.parse(configAppBloc.info.valueWrapper?.value.imageInvite ?? 'https://') ));
+        ShortDynamicLink shortLink = await dynamicLinks.buildShortLink(param);
+        prefs.setString('invite_link', shortLink.shortUrl.toString());
 
-      setState(() {
-        loading = false;
-        inviteLink = shortLink.shortUrl;
-        url.text = inviteLink.toString();
-      });
+        setState(() {
+          loading = false;
+          inviteLink = shortLink.shortUrl;
+          url.text = inviteLink.toString();
+        });
+      } catch (e) {
+        // If dynamic link build fails, fallback to plain link
+        final String uid = bloc.userId.valueWrapper?.value ?? '';
+        final String plain = '$urlInvite/$uid';
+        setState(() {
+          loading = false;
+          inviteLink = Uri.parse(plain);
+          url.text = inviteLink.toString();
+        });
+      }
     }
   }
 
@@ -99,7 +130,7 @@ class _InvitePageState extends State<InvitePage> with TickerProviderStateMixin {
       http.Response response = await http.get(
         Uri.parse('$apiUrl/user/info'),
         headers: {
-          'authorization': bloc.token.valueWrapper?.value,
+          'authorization': bloc.token.valueWrapper!.value,
         },
       );
 
@@ -110,7 +141,7 @@ class _InvitePageState extends State<InvitePage> with TickerProviderStateMixin {
           userInfo = UserModel.fromJson(data['data']);
         });
 
-        if (userInfo.inviteCode == '' || userInfo.inviteCode == null) {
+        if (userInfo.inviteCode == '') {
           SnackBar snackBar = SnackBar(
               content: Text('Silahkan generate kode referal terlebih dahulu!'));
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -129,7 +160,7 @@ class _InvitePageState extends State<InvitePage> with TickerProviderStateMixin {
   }
 
   void share() {
-    String title = configAppBloc.namaApp.valueWrapper?.value;
+    String title = configAppBloc.namaApp.valueWrapper!.value;
     String desc =
         'Mau beli pulsa, topup e-wallet, atau bayar tagihan? Tapi takut mahal? Ayo daftar menjadi member ${configAppBloc.namaApp.valueWrapper?.value} untuk bertransaksi tanpa takut dompet kering! Klik ${inviteLink.toString()}';
     Share.share(desc, subject: title);
@@ -153,8 +184,8 @@ class _InvitePageState extends State<InvitePage> with TickerProviderStateMixin {
           ? Center(
               child: SpinKitThreeBounce(
                   color: Theme.of(context).primaryColor, size: 35))
-          : Parent(
-              style: InviteMainStyle.bgGradient,
+          : StyleHelper.styledContainer(
+              decoration: InviteMainStyle.bgGradient,
               child: SingleChildScrollView(
                 child: InviteWrapper(
                   inviteLink: inviteLink,

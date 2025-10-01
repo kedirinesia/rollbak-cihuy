@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -15,7 +14,6 @@ import 'package:mobile/models/menu.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/detail-denom-postpaid/detail-postpaid.dart';
 import 'package:mobile/screen/detail-denom/detail-denom-grid.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class ListGridMenu extends StatefulWidget {
   final MenuModel menuModel;
@@ -113,7 +111,7 @@ class _ListGridMenuState extends State<ListGridMenu>
               onPressed: () => Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
                     builder: (_) =>
-                        configAppBloc.layoutApp?.valueWrapper?.value['home'] ??
+                        configAppBloc.layoutApp.valueWrapper?.value['home'] ??
                         templateConfig[
                             configAppBloc.templateCode.valueWrapper?.value],
                   ),

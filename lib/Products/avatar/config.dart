@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '6423e7d3a4d79cbf72c1bde0';
 
@@ -6,7 +5,7 @@ const namaApp = 'Avatar Reload';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'id.avatarpay.mobile';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

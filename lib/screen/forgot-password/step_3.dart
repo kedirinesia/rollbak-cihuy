@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -7,7 +6,6 @@ import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/bloc/Api.dart';
 import 'package:mobile/config.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class StepThreeForgotPIN extends StatefulWidget {
   final String token;
@@ -161,7 +159,7 @@ class _StepThreeForgotPINState extends State<StepThreeForgotPIN> {
                 textTheme: ButtonTextTheme.primary,
                 child: ElevatedButton(
                   style: ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll(
+                      backgroundColor: WidgetStatePropertyAll(
                           Theme.of(context).primaryColor)),
                   child: Text('Ubah PIN'),
                   onPressed: () => submit(),

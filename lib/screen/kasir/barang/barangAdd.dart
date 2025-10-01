@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:io';
 import 'dart:convert';
@@ -46,16 +45,16 @@ class BarangAddState extends State<BarangAdd> {
   TextEditingController _keteranganController = TextEditingController();
 
   bool loading = false;
-  File imgUrl;
+  late File imgUrl;
   String kodeBarang = "";
   String nama = "";
   String stock = "";
   String hargaBeli = "";
   String hargaJual = "";
   String keterangan = "";
-  CategoryModel category;
-  SatuanModel satuan;
-  SupplierModel supplier;
+  late CategoryModel category;
+  late SatuanModel satuan;
+  late SupplierModel supplier;
 
   @override
   initState() {
@@ -64,11 +63,9 @@ class BarangAddState extends State<BarangAdd> {
 
   void getPicture() async {
     File image = await getPhoto();
-    if (image != null) {
-      setState(() {
-        imgUrl = image;
-      });
-    }
+    setState(() {
+      imgUrl = image;
+    });
   }
 
   void clearForm() {
@@ -89,15 +86,15 @@ class BarangAddState extends State<BarangAdd> {
       hargaBeli = "";
       hargaBeli = "";
       keterangan = "";
-      imgUrl = null;
-      category = null;
-      satuan = null;
+      imgUrl = File('');
+      category = CategoryModel(id: '', nama: '', aktif: false, created_at: '');
+      satuan = SatuanModel(id: '', nama: '', aktif: false, created_at: '');
     });
   }
 
   void saveBarang() async {
-    _formKey.currentState.save();
-    if (_formKey.currentState.validate()) {
+    _formKey.currentState?.save();
+    if (_formKey.currentState?.validate() ?? false) {
       if (int.parse(stock) > 100000) {
         return showDialog(
             context: context,
@@ -127,7 +124,7 @@ class BarangAddState extends State<BarangAdd> {
       try {
         http.MultipartRequest request = http.MultipartRequest(
             'POST', Uri.parse('$apiUrlKasir/master/barang/save'));
-        request.headers['authorization'] = bloc.token.valueWrapper?.value;
+        request.headers['authorization'] = bloc.token.valueWrapper?.value ?? '';
 
         request.fields['sku'] = kodeBarang;
         request.fields['nama_barang'] = nama;
@@ -137,11 +134,9 @@ class BarangAddState extends State<BarangAdd> {
         request.fields['keterangan'] = keterangan;
         request.fields['id_kategori'] = category.id;
         request.fields['id_satuan'] = satuan.id;
-        request.fields['id_supplier'] = supplier != null ? supplier.id : null;
-        if (imgUrl != null) {
-          request.files
-              .add(await http.MultipartFile.fromPath('imgUrl', imgUrl.path));
-        }
+        request.fields['id_supplier'] = supplier != null ? supplier.id : '';
+        request.files
+            .add(await http.MultipartFile.fromPath('imgUrl', imgUrl.path));
 
         http.StreamedResponse response = await request.send();
         Map<String, dynamic> responseData =
@@ -273,14 +268,15 @@ class BarangAddState extends State<BarangAdd> {
                         color: Colors.red,
                       ),
                     ),
-                    validator: (String value) {
-                      if (value.isEmpty) {
+                    validator: (String? value) {
+                      if (value?.isEmpty ?? true) {
                         return 'nama barang tidak boleh kosong';
                       }
+                      return null;
                     },
-                    onSaved: (String value) {
+                    onSaved: (String? value) {
                       setState(() {
-                        nama = value;
+                        nama = value ?? '';
                       });
                     }),
                 SizedBox(height: 10.0),
@@ -297,10 +293,11 @@ class BarangAddState extends State<BarangAdd> {
                             ),
                           ),
                           keyboardType: TextInputType.number,
-                          validator: (String value) {
-                            if (value.isEmpty) {
+                          validator: (String? value) {
+                            if (value?.isEmpty ?? true) {
                               return 'stok barang tidak boleh kosong';
                             }
+                            return null;
                           },
                           onChanged: (value) {
                             // if (value.isEmpty) {
@@ -309,9 +306,9 @@ class BarangAddState extends State<BarangAdd> {
                             //   });
                             // }
                           },
-                          onSaved: (String value) {
+                          onSaved: (String? value) {
                             setState(() {
-                              stock = value;
+                              stock = value ?? '';
                             });
                           }),
                     ),
@@ -326,10 +323,11 @@ class BarangAddState extends State<BarangAdd> {
                               color: Colors.red,
                             ),
                           ),
-                          validator: (String value) {
-                            if (value.isEmpty) {
+                          validator: (String? value) {
+                            if (value?.isEmpty ?? true) {
                               return 'kode barang tidak boleh kosong';
                             }
+                            return null;
                           },
                           onChanged: (value) {
                             // if (value.isEmpty) {
@@ -338,9 +336,9 @@ class BarangAddState extends State<BarangAdd> {
                             //   });
                             // }
                           },
-                          onSaved: (String value) {
+                          onSaved: (String?  value) {
                             setState(() {
-                              kodeBarang = value;
+                              kodeBarang = value ?? '';
                             });
                           }),
                     ),
@@ -377,10 +375,11 @@ class BarangAddState extends State<BarangAdd> {
                             ),
                           ),
                           keyboardType: TextInputType.number,
-                          validator: (String value) {
-                            if (value.isEmpty) {
+                          validator: (String? value) {
+                            if (value?.isEmpty ?? true) {
                               return 'harga beli tidak boleh kosong';
                             }
+                            return null;
                           },
                           onChanged: (value) {
                             // if (value.isEmpty) {
@@ -389,9 +388,9 @@ class BarangAddState extends State<BarangAdd> {
                             //   });
                             // }
                           },
-                          onSaved: (String value) {
+                          onSaved: (String? value) {
                             setState(() {
-                              hargaBeli = value;
+                              hargaBeli = value ?? '';
                             });
                           }),
                     ),
@@ -406,10 +405,11 @@ class BarangAddState extends State<BarangAdd> {
                             ),
                           ),
                           keyboardType: TextInputType.number,
-                          validator: (String value) {
-                            if (value.isEmpty) {
+                          validator: (String? value) {
+                            if (value?.isEmpty ?? true) {
                               return 'harga jual tidak boleh kosong';
                             }
+                            return null;
                           },
                           onChanged: (value) {
                             // if (value.isEmpty) {
@@ -418,9 +418,9 @@ class BarangAddState extends State<BarangAdd> {
                             //   });
                             // }
                           },
-                          onSaved: (String value) {
+                          onSaved: (String? value) {
                             setState(() {
-                              hargaJual = value;
+                              hargaJual = value ?? '';
                             });
                           }),
                     ),
@@ -434,8 +434,8 @@ class BarangAddState extends State<BarangAdd> {
                   decoration: InputDecoration(
                     labelText: 'Satuan',
                   ),
-                  validator: (String value) {
-                    if (value.isEmpty) {
+                  validator: (String? value) {
+                    if (value?.isEmpty ?? true) {
                       return 'satuan tidak boleh kosong';
                     }
                     return null; // Return null to handle error manually.
@@ -461,10 +461,11 @@ class BarangAddState extends State<BarangAdd> {
                   decoration: InputDecoration(
                     labelText: 'Kategori',
                   ),
-                  validator: (String value) {
+                  validator: (String? value) {
                     if (value == "") {
                       return "kategori tidak boleh kosong";
                     }
+                    return null;
                   },
                   onTap: () async {
                     DebugHelper.debugPrint('klik kategori');
@@ -487,10 +488,11 @@ class BarangAddState extends State<BarangAdd> {
                   decoration: InputDecoration(
                     labelText: 'Supplier',
                   ),
-                  validator: (String value) {
+                  validator: (String? value) {
                     if (value == "") {
                       return "supplier tidak boleh kosong";
                     }
+                    return null;
                   },
                   onTap: () async {
                     DebugHelper.debugPrint('klik supplier');
@@ -516,9 +518,9 @@ class BarangAddState extends State<BarangAdd> {
                       ),
                     ),
                     keyboardType: TextInputType.multiline,
-                    onSaved: (String value) {
+                    onSaved: (String? value) {
                       setState(() {
-                        keterangan = value;
+                        keterangan = value ?? '';
                       });
                     }),
                 SizedBox(height: 50.0),

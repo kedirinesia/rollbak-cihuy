@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -8,7 +7,6 @@ import 'package:mobile/models/info.dart';
 import 'package:mobile/provider/api.dart';
 import 'package:mobile/screen/info/info.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class CarouselDepan extends StatefulWidget {
   final double viewportFraction;

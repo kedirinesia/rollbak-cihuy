@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -100,21 +99,21 @@ class _RegisterUserState extends State<RegisterUser> {
     DebugHelper.debugPrint('Kode upline from bloc: $kodeUpline');
 
     DebugHelper.debugPrint('=== PAYUNIOVO LOCATION VALIDATION ===');
-    DebugHelper.debugPrint('Provinsi: ${provinsi?.toString() ?? "NULL"}');
-    DebugHelper.debugPrint('Kota: ${kota?.toString() ?? "NULL"}');
-    DebugHelper.debugPrint('Kecamatan: ${kecamatan?.toString() ?? "NULL"}');
-    DebugHelper.debugPrint('Provinsi ID: ${provinsi?.id ?? "NULL"}');
-    DebugHelper.debugPrint('Kota ID: ${kota?.id ?? "NULL"}');
-    DebugHelper.debugPrint('Kecamatan ID: ${kecamatan?.id ?? "NULL"}');
+    DebugHelper.debugPrint('Provinsi: ${provinsi.toString() ?? "NULL"}');
+    DebugHelper.debugPrint('Kota: ${kota.toString() ?? "NULL"}');
+    DebugHelper.debugPrint('Kecamatan: ${kecamatan.toString() ?? "NULL"}');
+    DebugHelper.debugPrint('Provinsi ID: ${provinsi.id ?? "NULL"}');
+    DebugHelper.debugPrint('Kota ID: ${kota.id ?? "NULL"}');
+    DebugHelper.debugPrint('Kecamatan ID: ${kecamatan.id ?? "NULL"}');
     
     Map<String, dynamic> dataToSend = {
       'name': nama.text,
       'phone': nomorHp.text,
       'email': email.text,
       'pin': pin.text,
-      'id_propinsi': provinsi?.id,
-      'id_kabupaten': kota?.id,
-      'id_kecamatan': kecamatan?.id,
+      'id_propinsi': provinsi.id,
+      'id_kabupaten': kota.id,
+      'id_kecamatan': kecamatan.id,
       'alamat': alamat.text,
       'nama_toko': namaToko.text,
       'alamat_toko': alamatToko.text.isEmpty ? alamat.text : alamatToko.text,
@@ -139,7 +138,7 @@ class _RegisterUserState extends State<RegisterUser> {
     if (kodeUpline != null) {
       dataToSend['kode_upline'] = kodeUpline;
       DebugHelper.debugPrint('Kode upline from bloc: $kodeUpline');
-    } else if (kodeUpline == null && brandId != null) {
+    } else if (kodeUpline == null) {
       dataToSend['kode_upline'] = brandId;
       DebugHelper.debugPrint('Brand ID used as kode upline: $brandId');
     }

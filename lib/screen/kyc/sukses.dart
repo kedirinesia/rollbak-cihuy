@@ -1,11 +1,9 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/bloc/TemplateConfig.dart';
 import 'package:mobile/config.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class SuksesPage extends StatelessWidget {
   @override
@@ -91,9 +89,9 @@ class SuksesPage extends StatelessWidget {
           onPressed: () => Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(
                 builder: (_) =>
-                    configAppBloc.layoutApp?.valueWrapper?.value['home'] ??
+                    configAppBloc.layoutApp.valueWrapper?.value['home'] ??
                     templateConfig[
-                        configAppBloc.templateCode.valueWrapper?.value],
+                        configAppBloc.templateCode.valueWrapper?.value ?? 0],
               ),
               (route) => false),
           child: Text(

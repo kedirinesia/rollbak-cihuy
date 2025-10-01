@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -15,7 +14,6 @@ import 'package:mobile/screen/profile/print_settings.dart';
 import 'package:mobile/Products/centralbayar/layout/topup/topup.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
 import 'home_model.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class Home4App extends StatefulWidget {
   @override

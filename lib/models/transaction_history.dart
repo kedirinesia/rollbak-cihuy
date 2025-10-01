@@ -1,31 +1,28 @@
-// @dart=2.9
 
-import 'package:flutter/material.dart';
 import 'trx.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class TransactionHistoryModel extends TrxModel {
-  ProdukId produkId;
+  ProdukId? produkId;
 
   TransactionHistoryModel({
-    String id,
-    int harga_jual,
-    int admin,
-    int status,
-    String created_at,
-    String updated_at,
-    TrxStatus statusModel,
-    Map<String, dynamic> produk,
-    String sn,
-    int counter,
-    String tujuan,
-    String keterangan,
-    int point,
-    String paymentBy,
-    String paymentID,
-    TrxPaymentDetail paymentDetail,
-    List<dynamic> print,
-    this.produkId,
+    required String id,
+    required int harga_jual,
+    required int admin,
+    required int status,
+    required String created_at,
+    required String updated_at,
+    required TrxStatus statusModel,
+    required Map<String, dynamic> produk,
+    required String sn,
+    required int counter,
+    required String tujuan,
+    required String keterangan,
+    required  int point,
+    required  String paymentBy,
+    required String paymentID,
+    required TrxPaymentDetail? paymentDetail,
+    required List<dynamic> print,
+    required this.produkId,
   }) : super(
           id: id,
           harga_jual: harga_jual,
@@ -80,15 +77,15 @@ class ProdukId {
   String name;
   int type;
   String description;
-  KategoriId kategoriId;
+  KategoriId? kategoriId;
 
   ProdukId({
-    this.id,
-    this.kodeProduk,
-    this.name,
-    this.type,
-    this.description,
-    this.kategoriId,
+    required    this.id,
+    required this.kodeProduk,
+    required this.name,
+    required this.type,
+    required this.description,
+    required this.kategoriId,
   });
 
   factory ProdukId.fromJson(Map<String, dynamic> json) {
@@ -110,8 +107,8 @@ class KategoriId {
   String urlImage;
 
   KategoriId({
-    this.id,
-    this.urlImage,
+    required this.id,
+    required this.urlImage,
   });
 
   factory KategoriId.fromJson(Map<String, dynamic> json) {

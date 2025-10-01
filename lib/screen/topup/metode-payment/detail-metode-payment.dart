@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 
@@ -9,7 +8,6 @@ import 'package:mobile/models/metode_payment.dart';
 
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/provider/analitycs.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class DetailMetodePayment extends StatefulWidget {
   MetodePaymentModel payment;

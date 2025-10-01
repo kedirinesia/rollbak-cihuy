@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -11,7 +10,6 @@ import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
 import 'package:mobile/models/deposit_link.dart';
 import 'package:mobile/models/payment-list.dart';
 import 'package:http/http.dart' as http;
-import 'package:mobile/utils/debug_helper.dart';
 
 class TopupChannel extends StatefulWidget {
   final PaymentModel payment;

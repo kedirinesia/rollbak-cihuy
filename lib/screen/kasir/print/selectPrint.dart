@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 
@@ -31,7 +30,7 @@ class SelectPrintState extends State<SelectPrint> {
   List<BluetoothDevice> _devicesList = [];
   var scanSub;
 
-  BluetoothDevice _device;
+  BluetoothDevice? _device;
   bool _connected = false;
   bool _scan = false;
   int blututSelected = -1;
@@ -43,7 +42,7 @@ class SelectPrintState extends State<SelectPrint> {
 
     bluetooth.isConnected.then((c) {
       setState(() {
-        _connected = c;
+        _connected = c ?? false;
       });
     });
   }
@@ -55,7 +54,11 @@ class SelectPrintState extends State<SelectPrint> {
   }
 
   void checkBlututOn() async {
-    if (!await bluetooth.isOn) {
+    final isOn = await bluetooth.isOn;
+    if (isOn == null) {
+      return;
+    }
+    if (!isOn) {
       showDialog(
         context: context,
         barrierDismissible: false,
@@ -209,7 +212,7 @@ class SelectPrintState extends State<SelectPrint> {
     });
 
     bluetooth.isConnected.then((isConnected) {
-      if (isConnected) {
+      if (isConnected ?? false) {
         DebugHelper.debugPrint('blutut sudah terhubung');
         setState(() {
           _device = d;
@@ -236,7 +239,7 @@ class SelectPrintState extends State<SelectPrint> {
                     ));
 
             setState(() {
-              _device = null;
+              _device = null as BluetoothDevice;
               blututSelected = -1;
             });
           }).then((v) {
@@ -273,7 +276,7 @@ class SelectPrintState extends State<SelectPrint> {
               ));
 
       setState(() {
-        _device = null;
+        _device = null as BluetoothDevice;
         _connected = false;
       });
     });
@@ -281,33 +284,33 @@ class SelectPrintState extends State<SelectPrint> {
 
   void realPrint() async {
     bluetooth.isConnected.then((isConnected) {
-      if (isConnected) {
+      if (isConnected ?? false) {
         bluetooth.printNewLine();
         bluetooth.printCustom(
-            bloc.user.valueWrapper?.value.namaToko == ''
-                ? bloc.username.valueWrapper?.value
-                : bloc.user.valueWrapper?.value.namaToko,
+            (bloc.user.valueWrapper?.value.namaToko == null || bloc.user.valueWrapper?.value.namaToko == '')
+                ? (bloc.username.valueWrapper?.value ?? '')
+                : (bloc.user.valueWrapper?.value.namaToko ?? ''),
             3,
             1);
         bluetooth.printCustom(
-            bloc.user.valueWrapper?.value.alamatToko == ''
-                ? bloc.user.valueWrapper?.value.alamat
-                : bloc.user.valueWrapper?.value.alamatToko,
+            (bloc.user.valueWrapper?.value.alamatToko == null || bloc.user.valueWrapper?.value.alamatToko == '')
+                ? (bloc.user.valueWrapper?.value.alamat ?? '')
+                : bloc.user.valueWrapper?.value.alamatToko ?? '',
             1,
             1);
         bluetooth.printNewLine();
 
         bluetooth.printCustom(
-            'TGL : ${formatDate(widget.printTrx.created_at, 'd MMMM yyyy HH:mm:ss')}',
+            'TGL : ${formatDate(widget.printTrx.created_at ?? '', 'd MMMM yyyy HH:mm:ss')}',
             1,
             0);
         bluetooth.printCustom(
-            'NO  : ${widget.printTrx.id.toUpperCase()}', 1, 0);
+            'NO  : ${widget.printTrx.id?.toUpperCase() ?? ''}', 1, 0);
         bluetooth.printCustom(
-            'KASIR  : ${widget.printTrx.userID['nama']}', 1, 0);
+            'KASIR  : ${widget.printTrx.userID?['nama'] ?? ''}', 1, 0);
 
         bluetooth.printNewLine();
-        widget.printTrx.detailTrx.forEach((d) {
+        widget.printTrx.detailTrx?.forEach((d) {
           bluetooth.printCustom('${d['nama_barang'].toUpperCase()}', 1, 0);
           bluetooth.printLeftRight(
               '${d['qty']} x ${formatNominal(d['harga_jual'])}',
@@ -317,21 +320,21 @@ class SelectPrintState extends State<SelectPrint> {
         bluetooth.printNewLine();
 
         bluetooth.printLeftRight(
-            'PEMBAYARAN', '${widget.printTrx.termin.toUpperCase()}', 1);
+              'PEMBAYARAN', '${widget.printTrx.termin?.toUpperCase() ?? ''}', 1);
         bluetooth.printLeftRight(
-            'TOTAL HARGA', '${formatNominal(widget.printTrx.totalJual)}', 1);
+            'TOTAL HARGA', '${formatNominal(widget.printTrx.totalJual ?? 0)}', 1);
         bluetooth.printLeftRight(
-            'UANG BAYAR', '${formatNominal(widget.printTrx.terbayar)}', 1);
+            'UANG BAYAR', '${formatNominal(widget.printTrx.terbayar ?? 0)}', 1);
 
-        if (widget.printTrx.termin.toUpperCase() == 'CASH') {
+        if (widget.printTrx.termin?.toUpperCase() == 'CASH') {
           bluetooth.printLeftRight(
               'KEMBALIAN',
-              '${formatNominal(widget.printTrx.terbayar - widget.printTrx.totalJual)}',
+                '${formatNominal(widget.printTrx.terbayar! - widget.printTrx.totalJual!)}',
               1);
         } else {
           bluetooth.printLeftRight(
               'JUMLAH HUTANG',
-              '${formatNominal(widget.printTrx.totalJual - widget.printTrx.terbayar)}',
+              '${formatNominal(widget.printTrx.totalJual! - widget.printTrx.terbayar!)}',
               1);
         }
 
@@ -391,6 +394,7 @@ class SelectPrintState extends State<SelectPrint> {
   @override
   Widget build(BuildContext context) {
     return TemplateMain(
+      backgroundColor: Colors.white,
       title: 'Pilih Printer',
       floatingActionButton: FloatingActionButton.extended(
         icon: Icon(Icons.print),
@@ -460,8 +464,8 @@ class SelectPrintState extends State<SelectPrint> {
                   leading: CircleAvatar(
                       backgroundColor: Colors.blue.withOpacity(.2),
                       child: Icon(Icons.print, color: Colors.blue)),
-                  title: Text(device.name),
-                  subtitle: Text(device.address),
+                  title: Text(device.name ?? ''   ),
+                  subtitle: Text(device.address ?? ''   ),
                   trailing: Text(
                       (i == blututSelected) && (_connected) ? 'Terhubung' : ''),
                 ),

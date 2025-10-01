@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -38,11 +37,11 @@ class _HistoryTransaksiState extends State<HistoryTransaksi> {
     DropdownMenuItem(child: Text('Gagal'), value: 3),
     DropdownMenuItem(child: Text('Semua Status'), value: 4),
   ];
-  DateTime startDate;
-  DateTime endDate;
-  int status;
+  DateTime startDate = DateTime.now();
+  DateTime endDate = DateTime.now();
+  int? status;
   int currentPage = 0;
-  String tujuan;
+  String? tujuan;
   bool isEdge = false;
   bool loading = true;
   bool isExpanded = false;
@@ -86,8 +85,8 @@ class _HistoryTransaksiState extends State<HistoryTransaksi> {
     if (filtered) {
       params['tgl_akhir'] = formatDate(endDate.toIso8601String(), 'd-M-y');
       params['tgl_awal'] = formatDate(startDate.toIso8601String(), 'd-M-y');
-      if (status != null && status != 4) params['status'] = status.toString();
-      if (tujuan != null && tujuan.isNotEmpty) params['tujuan'] = tujuan;
+      if (status != 4) params['status'] = status.toString();
+      if (tujuan?.isNotEmpty == true) params['tujuan'] = tujuan;
     }
     params['page'] = currentPage;
 
@@ -97,15 +96,18 @@ class _HistoryTransaksiState extends State<HistoryTransaksi> {
     });
     String parameters = listOfParams.join('&');
     String url = '$apiUrl/trx/list?$parameters';
-    DebugHelper.debugPrint('url.toString()');
-    DebugHelper.debugPrint('bloc.token.valueWrapper?.value.toString()');
+    DebugHelper.debugPrint(url.toString());
+    DebugHelper.debugPrint(bloc.token.valueWrapper?.value ?? 'null');
 
-    http.Response response = await http.get(Uri.parse(url), headers: {
-      'Authorization': bloc.token.valueWrapper?.value,
-    });
+    http.Response response = await http.get(
+      Uri.parse(url),
+      headers: {
+        'Authorization': bloc.token.valueWrapper?.value ?? '',
+      },
+    );
 
     if (response.statusCode == 200) {
-      DebugHelper.debugPrint('response.body.toString()');
+      DebugHelper.debugPrint(response.body.toString());
       List<dynamic> datas = json.decode(response.body)['data'];
       if (datas.length == 0) isEdge = true;
       listTrx.addAll(datas.map((e) => TrxModel.fromJson(e)).toList());
@@ -131,10 +133,8 @@ class _HistoryTransaksiState extends State<HistoryTransaksi> {
       isEdge = false;
       listTrx.clear();
       loading = true;
-      startDate = getCurrentDate();
-      endDate = getCurrentDate();
-      startDateText.text = formatDate(startDate.toIso8601String(), 'd MMM y');
-      endDateText.text = formatDate(endDate.toIso8601String(), 'd MMM y');
+    startDateText.text = formatDate(startDate.toIso8601String(), 'd MMM y');
+    endDateText.text = formatDate(endDate.toIso8601String(), 'd MMM y');
       status = null;
       tujuan = null;
       tujuanText.clear();
@@ -169,7 +169,6 @@ class _HistoryTransaksiState extends State<HistoryTransaksi> {
     
     // Hanya ambil url_image dari API jika aplikasi adalah Payuniovo atau Seepays
     if (isPayuniovoOrSeepays && 
-        trx.produk != null && 
         trx.produk['kategori_id'] != null && 
         trx.produk['kategori_id']['url_image'] != null &&
         trx.produk['kategori_id']['url_image'].toString().isNotEmpty) {
@@ -209,7 +208,7 @@ class _HistoryTransaksiState extends State<HistoryTransaksi> {
             : Theme.of(context).primaryColor,
         backgroundColor: trx.statusModel.color.withOpacity(.1),
         child: CachedNetworkImage(
-          imageUrl: trx.statusModel.icon,
+          imageUrl: trx.statusModel.icon ?? '',
           width: 20,
         ),
       );
@@ -217,7 +216,7 @@ class _HistoryTransaksiState extends State<HistoryTransaksi> {
   }
 
   Future<void> setStartDate() async {
-    DateTime newDate = await showDatePicker(
+    DateTime? newDate = await showDatePicker(
       context: context,
       initialDate: startDate,
       firstDate: DateTime(1970, 1, 1),
@@ -230,14 +229,12 @@ class _HistoryTransaksiState extends State<HistoryTransaksi> {
     );
 
     if (newDate == null) return;
-    setState(() {
-      startDate = newDate;
-      startDateText.text = formatDate(startDate.toIso8601String(), 'd MMM y');
-    });
+    startDate = newDate;
+    startDateText.text = formatDate(startDate.toIso8601String(), 'd MMM y');
   }
 
   Future<void> setEndDate() async {
-    DateTime newDate = await showDatePicker(
+    DateTime? newDate = await showDatePicker(
       context: context,
       initialDate: endDate,
       firstDate: startDate,
@@ -250,10 +247,8 @@ class _HistoryTransaksiState extends State<HistoryTransaksi> {
     );
 
     if (newDate == null) return;
-    setState(() {
-      endDate = newDate;
-      endDateText.text = formatDate(endDate.toIso8601String(), 'd MMM y');
-    });
+    endDate = newDate;
+    endDateText.text = formatDate(endDate.toIso8601String(), 'd MMM y');
   }
 
   @override
@@ -642,46 +637,8 @@ class _HistoryTransaksiState extends State<HistoryTransaksi> {
                                         blurRadius: 15)
                                   ]),
                               child: ListTile(
-                                // onTap: () {
-                                //   if (trx != null) {
-                                //     Navigator.of(context).push(
-                                //       MaterialPageRoute(
-                                //         builder: (_) => DetailTransaksi(
-                                //             data: trx,
-                                //             isPostpaid:
-                                //                 trx.produk['type'] == 1),
-                                //       ),
-                                //     );
-                                //   } else {
-                                //     debugPrint('Error: trx object is null');
-                                //   }
-                                // },
-                                // onTap: () {
-                                //   if (trx != null &&
-                                //       trx.produk != null &&
-                                //       trx.produk.containsKey('type')) {
-                                //     Navigator.of(context).push(
-                                //       MaterialPageRoute(
-                                //         builder: (_) => DetailTransaksi(
-                                //             data: trx,
-                                //             isPostpaid:
-                                //                 trx.produk['type'] == 1),
-                                //       ),
-                                //     );
-                                //   } else {
-                                //     showCustomDialog(
-                                //       context: context,
-                                //       type: DialogType.error,
-                                //       title: 'Produk Tidak Ditemukan',
-                                //       content:
-                                //           'Maaf, Produk Yang Anda Pilih Tidak Ditemukan',
-                                //     );
-                                //     debugPrint(
-                                //         'Error: Produk tidak ditemukan atau telah dihapus');
-                                //   }
-                                // },
                                 onTap: () {
-                                  return Navigator.of(context).push(
+                                  Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (_) => DetailTransaksi(trx),
                                     ),
@@ -706,7 +663,7 @@ class _HistoryTransaksiState extends State<HistoryTransaksi> {
                                   ),
                                 ),
                                 subtitle: Text(
-                                  trx.produk == null ? '-' : trx.produk['nama'],
+                                  trx.produk['nama'] ?? '-',
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                   style: TextStyle(

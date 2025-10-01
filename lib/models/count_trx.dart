@@ -1,4 +1,3 @@
-// @dart=2.9
 
 
 class CountTrx {
@@ -9,18 +8,18 @@ class CountTrx {
   final int totalVolumeTrx;
 
   CountTrx(
-      {this.totalTrx,
-      this.totalTrxPending,
-      this.totalTrxSuccess,
-      this.totalTrxGagal,
-      this.totalVolumeTrx});
+      {required this.totalTrx,
+      required this.totalTrxPending,
+      required this.totalTrxSuccess,
+      required this.totalTrxGagal,
+      required this.totalVolumeTrx});
 
   factory CountTrx.fromJson(Map<String, dynamic> json) {
     return CountTrx(
-        totalTrx: json['total_trx'],
-        totalTrxPending: json['total_trx_pending'],
-        totalTrxSuccess: json['total_trx_success'],
-        totalTrxGagal: json['total_trx_gagal'],
-        totalVolumeTrx: json['total_volume_trx']);
+        totalTrx: json['total_trx'] ?? 0,
+        totalTrxPending: json['total_trx_pending'] ?? 0,
+        totalTrxSuccess: json['total_trx_success'] ?? 0,
+        totalTrxGagal: json['total_trx_gagal'] ?? 0,
+        totalVolumeTrx: json['total_volume_trx'] ?? 0);
   }
 }

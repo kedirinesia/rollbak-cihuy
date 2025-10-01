@@ -1,9 +1,7 @@
-// @dart=2.9
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class TemplatePopay extends StatefulWidget {
   final Widget body;
@@ -15,6 +13,13 @@ class TemplatePopay extends StatefulWidget {
   final FloatingActionButtonLocation floatingActionButtonLocation;
 
   TemplatePopay(
+      {required this.title,
+      required this.body,
+      required this.height,
+      required this.children,
+      required this.backgroundColor,
+      required this.floatingActionButton,
+      required this.floatingActionButtonLocation});
       {this.title,
       this.body,
       this.height,

@@ -1,11 +1,9 @@
-// @dart=2.9
 
 import 'package:mobile/Products/easypay/layout/detail-deposit.dart';
 import 'package:mobile/Products/easypay/layout/home.dart';
 import 'package:mobile/Products/easypay/layout/kirim-saldo.dart';
 import 'package:mobile/Products/easypay/layout/topup.dart';
 import 'package:mobile/models/deposit.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 String sigVendor = '5fc39b050f3c2e898a23ab6e';
 
@@ -13,7 +11,7 @@ const namaApp = 'Easy Payment';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'easypayment.co.id';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = 'UA-192310208-1';

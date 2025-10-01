@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -7,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
-import 'package:mobile/bloc/Api.dart';
+import 'package:mobile/bloc/Api.dart' show apiUrl, safeApiUrl, sigVendor;
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/bloc/TemplateConfig.dart';
@@ -34,7 +33,7 @@ class OtpPage extends StatefulWidget {
 class _OtpPageState extends State<OtpPage> {
   bool loading = false;
   // TextEditingController kode = TextEditingController();
-  OTP otpMethod;
+  OTP? otpMethod;
   String validateId;
   String appVersionCode = '';
   TextEditingController otp1 = TextEditingController();
@@ -59,7 +58,7 @@ class _OtpPageState extends State<OtpPage> {
     });
 
     http.Response response = await http.post(
-        Uri.parse('$apiUrl/user/login/send-otp'),
+        Uri.parse('$safeApiUrl/user/login/send-otp'),
         headers: {
           'Content-Type': 'application/json',
           'merchantCode': sigVendor
@@ -98,7 +97,7 @@ class _OtpPageState extends State<OtpPage> {
 
   Future<Map<String, dynamic>> getUser(String token) async {
     http.Response response = await http
-        .get(Uri.parse('$apiUrl/user/info'), headers: {'Authorization': token});
+        .get(Uri.parse('$safeApiUrl/user/info'), headers: {'Authorization': token});
     return json.decode(response.body);
   }
 
@@ -118,7 +117,7 @@ class _OtpPageState extends State<OtpPage> {
     }
     
     try {
-      http.Response response = await http.post(Uri.parse('$apiUrl/user/device_token'),
+      http.Response response = await http.post(Uri.parse('$safeApiUrl/user/device_token'),
           headers: headers,
           body: json.encode({'token': bloc.deviceToken.valueWrapper?.value}));
       
@@ -159,7 +158,7 @@ class _OtpPageState extends State<OtpPage> {
       DebugHelper.debugPrint('==================================');
 
       http.Response response = await http.post(
-        Uri.parse('$apiUrl/user/login/validate'),
+        Uri.parse('$safeApiUrl/user/login/validate'),
         headers: {
           'Content-Type': 'application/json',
           'merchantCode': sigVendor,

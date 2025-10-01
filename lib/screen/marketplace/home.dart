@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'package:badges/badges.dart' as BadgeModule;
@@ -48,7 +47,7 @@ class _HomePageState extends State<HomePage> {
 
     http.Response response = await http.get(
         Uri.parse('$apiUrl/market/category'),
-        headers: {'Authorization': bloc.token.valueWrapper?.value});
+        headers: {'Authorization': bloc.token.valueWrapper?.value ?? ''});
 
     if (response.statusCode == 200) {
       List<dynamic> datas = json.decode(response.body)['data'];
@@ -62,7 +61,7 @@ class _HomePageState extends State<HomePage> {
     try {
       http.Response response = await http.get(
           Uri.parse('$apiUrl/market/products'),
-          headers: {'Authorization': bloc.token.valueWrapper?.value});
+          headers: {'Authorization': bloc.token.valueWrapper?.value ?? ''});
 
       if (response.statusCode == 200) {
         List<dynamic> datas = json.decode(response.body)['data'];
@@ -153,7 +152,7 @@ class _HomePageState extends State<HomePage> {
                     child: ValueListenableBuilder<Box<dynamic>>(
                       valueListenable: Hive.box('cart').listenable(),
                       builder: (context, value, child) {
-                        int itemCount = value.values.length;
+                        int itemCount = value.values.length ?? 0;
 
                         if (itemCount < 1)
                           return Icon(
@@ -174,7 +173,7 @@ class _HomePageState extends State<HomePage> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          badgeColor: Colors.white,
+                          // badgeColor is not a valid parameter, so remove it
                         );
                       },
                     ),
@@ -196,7 +195,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                           Text(
-                            formatRupiah(bloc.user.valueWrapper?.value.saldo),
+                            formatRupiah(bloc.user.valueWrapper?.value.saldo ?? 0),
                             style: TextStyle(
                               color: Theme.of(context).primaryColor,
                               fontWeight: FontWeight.bold,
@@ -271,7 +270,7 @@ class _HomePageState extends State<HomePage> {
                 return GridView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
-                    itemCount: snapshot.data.length,
+                    itemCount: snapshot.data?.length ?? 0,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 4,
                       childAspectRatio: 1 / 1.5,
@@ -279,7 +278,7 @@ class _HomePageState extends State<HomePage> {
                       mainAxisSpacing: 10,
                     ),
                     itemBuilder: (buildContext, i) {
-                      CategoryModel cat = snapshot.data[i];
+                      CategoryModel cat = snapshot.data?[i] ?? CategoryModel(id: '', judul: '', description: '', thumbnailUrl: '');
 
                       return InkWell(
                         onTap: () => Navigator.of(context).push(
@@ -357,10 +356,10 @@ class _HomePageState extends State<HomePage> {
                 height: ((MediaQuery.of(context).size.width - 60) * .25) * 1.5,
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
-                  itemCount: snapshot.data.length,
+                  itemCount: snapshot.data?.length ?? 0,
                   separatorBuilder: (_, i) => SizedBox(width: 10),
                   itemBuilder: (ctx, i) {
-                    ProdukMarket produk = snapshot.data[i];
+                    ProdukMarket produk = snapshot.data?[i] ?? ProdukMarket(id: '', title: '', thumbnail: '', price: 0, categoryId: '') ;
 
                     return AspectRatio(
                       aspectRatio: 1 / 1.5,

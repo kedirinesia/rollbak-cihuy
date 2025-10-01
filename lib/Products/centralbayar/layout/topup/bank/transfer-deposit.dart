@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -15,7 +14,6 @@ import 'package:http/http.dart' as http;
 import 'package:mobile/bloc/Bloc.dart' show bloc;
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/payment_tutorial.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class TransferDepositPage extends StatefulWidget {
   final int nominal;
@@ -73,7 +71,7 @@ class _TransferDepositPageState extends State<TransferDepositPage> {
             onPressed: () => Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                   builder: (_) =>
-                      configAppBloc.layoutApp?.valueWrapper?.value['home'] ??
+                      configAppBloc.layoutApp.valueWrapper?.value['home'] ??
                       templateConfig[
                           configAppBloc.templateCode.valueWrapper?.value],
                 ),

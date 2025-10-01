@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -107,9 +106,9 @@ class _DetailDenomState extends DetailDenomController {
               onPressed: () => Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
                     builder: (_) =>
-                        configAppBloc.layoutApp?.valueWrapper?.value['home'] ??
+                        configAppBloc.layoutApp.valueWrapper?.value['home'] ??
                         templateConfig[
-                            configAppBloc.templateCode.valueWrapper?.value],
+                            configAppBloc.templateCode.valueWrapper!.value] ,
                   ),
                   (route) => false),
             ),
@@ -139,7 +138,7 @@ class _DetailDenomState extends DetailDenomController {
                       ? Center(
                           child: CachedNetworkImage(
                             imageUrl: configAppBloc
-                                .iconApp.valueWrapper?.value['logoLogin'],
+                                .iconApp.valueWrapper!.value['logoLogin'] ?? '',
                             width: MediaQuery.of(context).size.width * .4,
                           ),
                         )
@@ -162,7 +161,7 @@ class _DetailDenomState extends DetailDenomController {
                           ],
                           style: TextStyle(
                             fontWeight:
-                                configAppBloc.boldNomorTujuan.valueWrapper.value
+                                configAppBloc.boldNomorTujuan.valueWrapper?.value ?? false
                                     ? FontWeight.bold
                                     : FontWeight.normal,
                           ),
@@ -231,7 +230,7 @@ class _DetailDenomState extends DetailDenomController {
                           ],
                           style: TextStyle(
                             fontWeight:
-                                configAppBloc.boldNomorTujuan.valueWrapper.value
+                                configAppBloc.boldNomorTujuan.valueWrapper?.value ?? false
                                     ? FontWeight.bold
                                     : FontWeight.normal,
                           ),
@@ -296,7 +295,7 @@ class _DetailDenomState extends DetailDenomController {
                                           height: 16,
                                           child: CircularProgressIndicator(
                                             strokeWidth: 2,
-                                            valueColor: AlwaysStoppedAnimation<Color>(Colors.blue[400]),
+                                            valueColor: AlwaysStoppedAnimation<Color>(Colors.blue[400] ?? Colors.blue),
                                           ),
                                         ),
                                         SizedBox(width: 12),
@@ -366,7 +365,7 @@ class _DetailDenomState extends DetailDenomController {
                             int actualIndex = i ~/ 2;
                             PrepaidDenomModel denom = listDenom[actualIndex];
                             Color boxColor = selectedDenom != null
-                                ? selectedDenom.id == denom.id
+                                ? selectedDenom?.id == denom.id
                                     ? packageName == 'com.lariz.mobile'
                                         ? Theme.of(context)
                                             .secondaryHeaderColor
@@ -377,12 +376,12 @@ class _DetailDenomState extends DetailDenomController {
                                     : Colors.white
                                 : Colors.white;
                             Color textColor = selectedDenom != null
-                                ? selectedDenom.id == denom.id
+                                ? selectedDenom?.id == denom.id
                                     ? Colors.white
                                     : Colors.grey.shade700
                                 : Colors.grey.shade700;
                             Color priceColor = selectedDenom != null
-                                ? selectedDenom.id == denom.id
+                                ? selectedDenom?.id == denom.id
                                     ? Colors.white
                                     : Colors.green
                                 : Colors.green;
@@ -406,7 +405,7 @@ class _DetailDenomState extends DetailDenomController {
                                         ? Theme.of(context).secondaryHeaderColor
                                         : Theme.of(context).primaryColor,
                                     backgroundColor: selectedDenom != null
-                                        ? selectedDenom.id == denom.id
+                                        ? selectedDenom?.id == denom.id
                                             ? Colors.white
                                             : packageName == 'com.lariz.mobile'
                                                 ? Theme.of(context)
@@ -450,14 +449,11 @@ class _DetailDenomState extends DetailDenomController {
                                               MainAxisAlignment.center,
                                           crossAxisAlignment:
                                               CrossAxisAlignment.end,
-                                          children: denom.harga_promo == null
-                                              ? <Widget>[
+                                          children: <Widget>[
                                                   Text(
-                                                    formatRupiah(
-                                                        denom.harga_jual),
+                                                    formatRupiah(denom.harga_jual),
                                                     style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
+                                                      fontWeight: FontWeight.bold,
                                                       color: priceColor,
                                                     ),
                                                   ),
@@ -465,90 +461,13 @@ class _DetailDenomState extends DetailDenomController {
                                                       height: !configAppBloc
                                                               .displayGangguan
                                                               .valueWrapper
-                                                              .value
+                                                              !.value ?? false
                                                           ? 0
                                                           : denom.note.isEmpty
                                                               ? 0
                                                               : 5),
                                                   !configAppBloc.displayGangguan
-                                                          .valueWrapper.value
-                                                      ? SizedBox()
-                                                      : denom.note.isEmpty
-                                                          ? SizedBox()
-                                                          : Container(
-                                                              padding: EdgeInsets
-                                                                  .symmetric(
-                                                                vertical: 3,
-                                                                horizontal: 5,
-                                                              ),
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                color: denom.note ==
-                                                                        'gangguan'
-                                                                    ? Colors.red
-                                                                        .shade800
-                                                                    : denom.note ==
-                                                                            'lambat'
-                                                                        ? Colors
-                                                                            .amber
-                                                                            .shade800
-                                                                        : Colors
-                                                                            .green
-                                                                            .shade800,
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            5),
-                                                              ),
-                                                              child: Text(
-                                                                denom.note
-                                                                    .toUpperCase(),
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  fontSize: 10,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                ]
-                                              : <Widget>[
-                                                  Text(
-                                                    formatRupiah(
-                                                        denom.harga_promo),
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: priceColor,
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 3),
-                                                  Text(
-                                                    formatRupiah(
-                                                        denom.harga_jual),
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 12,
-                                                      color: Colors.grey,
-                                                      decoration: TextDecoration
-                                                          .lineThrough,
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                      height: !configAppBloc
-                                                              .displayGangguan
-                                                              .valueWrapper
-                                                              .value
-                                                          ? 0
-                                                          : denom.note.isEmpty
-                                                              ? 0
-                                                              : 3),
-                                                  !configAppBloc.displayGangguan
-                                                          .valueWrapper.value
+                                                          .valueWrapper!.value ?? false
                                                       ? SizedBox()
                                                       : denom.note.isEmpty
                                                           ? SizedBox()
@@ -619,7 +538,7 @@ class _DetailDenomState extends DetailDenomController {
                         onPressed: () async {
                           if (tujuan.text.length < 4) return;
 
-                          if (selectedDenom.bebas_nominal) {
+                          if (selectedDenom?.bebas_nominal ?? false) {
                             await showDialog(
                                 context: context,
                                 barrierDismissible: false,
@@ -655,7 +574,7 @@ class _DetailDenomState extends DetailDenomController {
                                                         builder: (_) =>
                                                             InquiryPrepaid(
                                                                 selectedDenom
-                                                                    .kode_produk,
+                                                                    !.kode_produk,
                                                                 tujuan.text,
                                                                 nominal: int
                                                                     .parse(nominal
@@ -670,7 +589,7 @@ class _DetailDenomState extends DetailDenomController {
                           } else {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (_) => InquiryPrepaid(
-                                    selectedDenom.kode_produk, tujuan.text)));
+                                    selectedDenom?.kode_produk ?? '', tujuan.text)));
                           }
                         },
                       ),

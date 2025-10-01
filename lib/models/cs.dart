@@ -1,4 +1,3 @@
-// @dart=2.9
 
 class CustomerService {
   String title;
@@ -6,7 +5,7 @@ class CustomerService {
   String contact;
   String link;
 
-  CustomerService({this.title, this.icon, this.contact, this.link});
+  CustomerService({required this.title, required this.icon, required this.contact, required this.link});
 
   factory CustomerService.fromJson(dynamic json) {
     return CustomerService(

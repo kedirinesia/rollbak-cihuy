@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -7,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
-import 'package:mobile/bloc/Api.dart';
+import 'package:mobile/bloc/Api.dart' show apiUrl, safeApiUrl, sigVendor;
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/bloc/ConfigApp.dart';
 import 'package:mobile/bloc/TemplateConfig.dart';
@@ -34,8 +33,8 @@ class OtpPage extends StatefulWidget {
 class _OtpPageState extends State<OtpPage> {
   bool loading = false;
   // TextEditingController kode = TextEditingController();
-  OTP otpMethod;
-  String validateId;
+  OTP? otpMethod;
+  String? validateId;
   TextEditingController otp1 = TextEditingController();
   TextEditingController otp2 = TextEditingController();
   TextEditingController otp3 = TextEditingController();
@@ -47,7 +46,7 @@ class _OtpPageState extends State<OtpPage> {
     });
 
     http.Response response = await http.post(
-        Uri.parse('$apiUrl/user/login/send-otp'),
+        Uri.parse('$safeApiUrl/user/login/send-otp'),
         headers: {
           'Content-Type': 'application/json',
           'merchantCode': sigVendor
@@ -70,9 +69,11 @@ class _OtpPageState extends State<OtpPage> {
                     : (method == OTP.email ? 'email' : 'whatsapp'),
                 'wl_id': configAppBloc.brandId.valueWrapper?.value
               }));
-    if (response.statusCode == 200) {
+      if (response.statusCode == 200) {
       this.validateId = json.decode(response.body)['validate_id'];
-      this.otpMethod = method;
+      setState(() {
+        this.otpMethod = method;
+      });
     } else {
       String message = json.decode(response.body)['message'] ??
           'Terjadi kendala saat meminta kode OTP';
@@ -90,14 +91,14 @@ class _OtpPageState extends State<OtpPage> {
 
   Future<Map<String, dynamic>> getUser(String token) async {
     http.Response response = await http
-        .get(Uri.parse('$apiUrl/user/info'), headers: {'Authorization': token});
+        .get(Uri.parse('$safeApiUrl/user/info'), headers: {'Authorization': token});
     return json.decode(response.body);
   }
 
   void sendDeviceToken() async {
-    await http.post(Uri.parse('$apiUrl/user/device_token'),
+    await http.post(Uri.parse('$safeApiUrl/user/device_token'),
         headers: {
-          'Authorization': bloc.token.valueWrapper?.value,
+          'Authorization': bloc.token.valueWrapper?.value ?? '',
           'Content-Type': 'application/json'
         },
         body: json.encode({'token': bloc.deviceToken.valueWrapper?.value}));
@@ -109,7 +110,7 @@ class _OtpPageState extends State<OtpPage> {
     });
 
     http.Response response = await http.post(
-      Uri.parse('$apiUrl/user/login/validate'),
+      Uri.parse('$safeApiUrl/user/login/validate'),
       headers: {
         'Content-Type': 'application/json',
         'merchantCode': sigVendor,
@@ -148,11 +149,11 @@ class _OtpPageState extends State<OtpPage> {
           */
           bloc.user..add(profile);
           bloc.token..add(token);
-          bloc.userId..add(prefs.getString('id'));
-          bloc.username..add(prefs.getString('nama'));
-          bloc.poin..add(prefs.getInt('poin'));
-          bloc.saldo..add(prefs.getInt('saldo'));
-          bloc.komisi..add(prefs.getInt('komisi'));
+          bloc.userId..add(prefs.getString('id') ?? '');
+          bloc.username..add(prefs.getString('nama') ?? '');
+          bloc.poin..add(prefs.getInt('poin')?? 0);
+          bloc.saldo..add(prefs.getInt('saldo') ?? 0);
+          bloc.komisi..add(prefs.getInt('komisi') ?? 0);
 
           sendDeviceToken();
           await getFlashBanner(context);
@@ -161,7 +162,7 @@ class _OtpPageState extends State<OtpPage> {
                       .layoutApp.valueWrapper?.value['home'] !=
                   null
               ? configAppBloc.layoutApp.valueWrapper?.value['home']
-              : templateConfig[configAppBloc.templateCode.valueWrapper?.value];
+              : templateConfig[configAppBloc.templateCode.valueWrapper!.value ];
           Nav.clearAllAndPush(nextWidget);
         }
       } else {
@@ -170,7 +171,7 @@ class _OtpPageState extends State<OtpPage> {
                     .layoutApp.valueWrapper?.value['home'] !=
                 null
             ? configAppBloc.layoutApp.valueWrapper?.value['home']
-            : templateConfig[configAppBloc.templateCode.valueWrapper?.value];
+            : templateConfig[configAppBloc.templateCode.valueWrapper!.value];
         Nav.clearAllAndPush(nextWidget);
       }
       // Navigator.of(context).pushAndRemoveUntil(

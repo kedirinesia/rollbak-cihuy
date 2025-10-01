@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -68,7 +67,7 @@ class _VerifikasiPinKirimSaldoState extends VerifikasiPinKirimSaldoController {
                   SizedBox(height: 15),
                   PinInputTextField(
                       controller: pin,
-                      pinLength: configAppBloc.pinCount.valueWrapper?.value,
+                      pinLength: configAppBloc.pinCount.valueWrapper?.value ?? 0  ,
                       decoration: BoxLooseDecoration(
                           obscureStyle: ObscureStyle(
                               isTextObscure: true, obscureText: '*'),
@@ -116,7 +115,7 @@ abstract class VerifikasiPinKirimSaldoController
           await http.post(Uri.parse('$apiUrl/user/pin/validate'),
               headers: {
                 'Content-Type': 'application/json',
-                'Authorization': bloc.token.valueWrapper?.value
+                'Authorization': bloc.token.valueWrapper?.value ?? ''
               },
               body: json.encode({'pin': pin.text}));
 
@@ -178,7 +177,7 @@ abstract class VerifikasiPinKirimSaldoController
 
   Future<void> getUserInfo() async {
     http.Response response = await http.get(Uri.parse('$apiUrl/user/info'),
-        headers: {'Authorization': bloc.token.valueWrapper?.value});
+        headers: {'Authorization': bloc.token.valueWrapper?.value ?? '' });
     if (response.statusCode == 200) {
       UserModel profile =
           UserModel.fromJson(json.decode(response.body)['data']);

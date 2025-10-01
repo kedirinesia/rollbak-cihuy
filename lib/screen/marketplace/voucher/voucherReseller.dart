@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -47,7 +46,7 @@ class VoucherResellerState extends State<VoucherReseller> {
       vouchers.clear();
       http.Response response = await http
           .get(Uri.parse('$apiUrl/market/voucher/reseller'), headers: {
-        'authorization': bloc.token.valueWrapper?.value,
+        'authorization': bloc.token.valueWrapper?.value ?? '',
       });
 
       String message = json.decode(response.body)['message'] ??

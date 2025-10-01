@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -68,7 +67,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   onPressed: () async {
                     try {
                       http.get(Uri.parse('$apiUrl/user/logout'), headers: {
-                        'Authorization': bloc.token.valueWrapper?.value
+                        'Authorization': bloc.token.valueWrapper?.value ?? ''
                       });
                     } catch (e) {}
                     SharedPreferences prefs =
@@ -133,10 +132,10 @@ class _ProfilePageState extends State<ProfilePage> {
   // }
   Future<String> getPhoneNumberCs() async {
     try {
-      String link;
+      String link = '';
 
       http.Response response = await http.get(Uri.parse('$apiUrl/cs/list'),
-          headers: {'Authorization': bloc.token.valueWrapper?.value});
+          headers: {'Authorization': bloc.token.valueWrapper?.value ?? ''});
       if (response.statusCode == 200) {
         List<dynamic> responseData = json.decode(response.body)['data'];
         responseData.forEach((e) {
@@ -194,13 +193,13 @@ class _ProfilePageState extends State<ProfilePage> {
                   children: <Widget>[
                     ProfilePict(),
                     SizedBox(height: 20.0),
-                    Text(bloc.username.valueWrapper?.value,
+                    Text(bloc.username.valueWrapper?.value ?? '',
                         style: TextStyle(
                             fontSize: 16.0,
                             color: Colors.white,
                             fontWeight: FontWeight.bold)),
                     SizedBox(height: 5),
-                    Text(bloc.user.valueWrapper?.value.phone.toUpperCase(),
+                    Text(bloc.user.valueWrapper?.value.phone.toUpperCase() ?? '',
                         style: TextStyle(fontSize: 11.0, color: Colors.white)),
                     SizedBox(height: 20.0),
                     MenuGrid(),
@@ -478,7 +477,7 @@ class ProfilePict extends StatelessWidget {
                 borderRadius: BorderRadius.circular(400.0)),
             width: 64.0,
             child: CachedNetworkImage(
-              imageUrl: iconApp['iconProfile'],
+              imageUrl: iconApp['iconProfile'] ?? '',
               width: 60,
               height: 60,
             ),
@@ -568,7 +567,7 @@ class MenuGrid extends StatelessWidget {
                 ),
           InkWell(
             onTap: () {
-              if (configAppBloc.info.valueWrapper?.value.inviteLink) {
+              if (configAppBloc.info.valueWrapper?.value.inviteLink ?? false) {
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (_) => InvitePage()));
               } else {

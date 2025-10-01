@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class PaymentTutorialPage extends StatefulWidget {
   @override

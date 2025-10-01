@@ -1,4 +1,3 @@
-// @dart=2.9
 
 class FlashBannerModel {
   final String id;
@@ -11,14 +10,14 @@ class FlashBannerModel {
   final int type;
 
   FlashBannerModel(
-      {this.id,
-      this.title,
-      this.description,
-      this.imageUrl,
-      this.url,
-      this.createdAt,
-      this.aktif,
-      this.type});
+      {required   this.id,
+      required this.title,
+      required this.description,
+      required this.imageUrl,
+      required this.url,
+      required  this.createdAt,
+      required this.aktif,
+      required this.type});
 
   factory FlashBannerModel.fromJson(Map<String, dynamic> data) {
     return FlashBannerModel(

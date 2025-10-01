@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -17,7 +16,6 @@ import 'package:mobile/modules.dart';
 // SCREEN PAGE
 import 'package:mobile/screen/kasir/hutang-piutang/piutang.dart';
 import 'package:mobile/screen/kasir/hutang-piutang/hutang.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class HutangPiutang extends StatefulWidget {
   @override
@@ -39,7 +37,7 @@ class HutangPiutangState extends State<HutangPiutang> {
     try {
       http.Response response = await http
           .get(Uri.parse('$apiUrlKasir/dashboard/hutang-piutang'), headers: {
-        'authorization': bloc.token.valueWrapper?.value,
+        'authorization': bloc.token.valueWrapper?.value ?? '',
       });
 
       String message = json.decode(response.body)['message'] ??

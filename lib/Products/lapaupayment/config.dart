@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '652609028c52fa1f0088fd8f';
 
@@ -6,7 +5,7 @@ const namaApp = 'Lapau Payment';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.lapaupayment.mobile';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class CustomScrollBehavior extends ScrollBehavior {
   @override

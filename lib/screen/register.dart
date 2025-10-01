@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'dart:async';
@@ -22,7 +21,6 @@ import 'package:mobile/screen/select_state/kota.dart';
 import 'package:mobile/screen/select_state/provinsi.dart';
 import 'package:mobile/screen/text_kapital.dart';
 import 'package:mobile/screen/linkverif.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class RegisterUser extends StatefulWidget {
   @override
@@ -31,7 +29,7 @@ class RegisterUser extends StatefulWidget {
 
 class _RegisterUserState extends State<RegisterUser> {
   int countdown = 0;
-  Timer timer;
+  Timer? timer;
 
   final _formKey = GlobalKey<FormState>();
   TextEditingController nama = TextEditingController();
@@ -52,11 +50,11 @@ class _RegisterUserState extends State<RegisterUser> {
   bool otpSent = false;
   bool verifyingOtp = false;
   bool otpVerified = false;
-  String namaApp = configAppBloc.namaApp.valueWrapper?.value;
+  String namaApp = configAppBloc.namaApp.valueWrapper?.value ?? '';
 
-  Lokasi provinsi;
-  Lokasi kota;
-  Lokasi kecamatan;
+  Lokasi? provinsi;
+  Lokasi? kota;
+  Lokasi? kecamatan;
   bool isNamaToko = true;
   bool isAlmtToko = true;
   bool isReferalCode = false;
@@ -260,7 +258,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
   Future<void> submitRegister() async {
     if (pin.text.startsWith('0')) {
-      return showDialog<String>(
+      await showDialog<String>(
         context: context,
         builder: (BuildContext context) => AlertDialog(
           title: const Text('Gagal'),
@@ -273,9 +271,10 @@ class _RegisterUserState extends State<RegisterUser> {
           ],
         ),
       );
+      return;
     }
 
-    if (!_formKey.currentState.validate()) return;
+    if (!(_formKey.currentState?.validate() ?? false)) return;
 
     // Email verification feature temporarily disabled
     // Verifikasi OTP dulu sebelum lanjut proses register
@@ -286,16 +285,16 @@ class _RegisterUserState extends State<RegisterUser> {
       loading = true;
     });
 
-    String kodeUpline = bloc.kodeUpline.valueWrapper?.value;
+    String kodeUpline = bloc.kodeUpline.valueWrapper?.value  ?? '';
 
     Map<String, dynamic> dataToSend = {
       'name': nama.text,
       'phone': nomorHp.text,
       'email': email.text,
       'pin': pin.text,
-      'id_propinsi': provinsi.id,
-      'id_kabupaten': kota.id,
-      'id_kecamatan': kecamatan.id,
+      'id_propinsi': provinsi?.id ?? '',
+      'id_kabupaten': kota?.id ?? '',
+      'id_kecamatan': kecamatan?.id ?? '',
       'alamat': alamat.text,
       'nama_toko': namaToko.text,
       'alamat_toko': alamatToko.text.isEmpty ? alamat.text : alamatToko.text,
@@ -306,7 +305,8 @@ class _RegisterUserState extends State<RegisterUser> {
 
     if (kodeUpline != null) {
       dataToSend['kode_upline'] = kodeUpline;
-    } else if (kodeUpline == null && brandId != null) {
+    } else if (kodeUpline == null) {
+      dataToSend['kode_upline'] = brandId ?? '';
       dataToSend['kode_upline'] = brandId;
     }
 
@@ -360,7 +360,7 @@ class _RegisterUserState extends State<RegisterUser> {
         builder: (_) {
           return AlertDialog(
             title: Text('Registrasi Gagal'),
-            content: Text(e?.toString() ?? 'Terjadi kesalahan pada sistem'),
+            content: Text(e.toString() ?? 'Terjadi kesalahan pada sistem'),
             actions: <Widget>[
               TextButton(
                 onPressed: () =>
@@ -385,7 +385,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
   Widget _imageLogo() {
     return CachedNetworkImage(
-      imageUrl: configAppBloc.iconApp.valueWrapper?.value['logoLogin'],
+        imageUrl: configAppBloc.iconApp.valueWrapper?.value['logoLogin']  ?? '',
       height: MediaQuery.of(context).size.width * .15,
       fit: BoxFit.contain,
     );
@@ -553,7 +553,7 @@ class _RegisterUserState extends State<RegisterUser> {
                         null
                     ? DecorationImage(
                         image: CachedNetworkImageProvider(
-                          configAppBloc.iconApp.valueWrapper?.value['texture'],
+                          configAppBloc.iconApp.valueWrapper?.value['texture'] ?? '',
                         ),
                         fit: BoxFit.fitWidth,
                       )
@@ -576,7 +576,7 @@ class _RegisterUserState extends State<RegisterUser> {
                         children: <Widget>[
                           SizedBox(height: 20),
                           configAppBloc.iconApp.valueWrapper
-                                      .value['logoLogin'] !=
+                                      ?.value['logoLogin'] !=
                                   null
                               ? _imageLogo()
                               : _title(),
@@ -807,7 +807,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
                               Lokasi lokasi = await Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (_) => SelectKotaPage(provinsi),
+                                  builder: (_) => SelectKotaPage(provinsi ?? Lokasi(id: '', nama: '', kode: '')),
                                 ),
                               );
 
@@ -844,7 +844,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
                               Lokasi lokasi = await Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (_) => SelectKecamatanPage(kota),
+                                  builder: (_) => SelectKecamatanPage(kota ?? Lokasi(id: '', nama: '', kode: '')),
                                 ),
                               );
 

@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 import 'package:flutter_page_transition/flutter_page_transition.dart';
@@ -13,7 +12,6 @@ import '../../../component/card_info.dart';
 import '../../../component/carousel-depan.dart';
 // import '../../../component/menudepan.dart';
 import 'package:mobile/Products/funfast/layout/components/menudepan.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class Home1App extends StatefulWidget {
   @override

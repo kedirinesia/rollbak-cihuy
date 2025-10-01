@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -13,7 +12,6 @@ import 'package:mobile/bloc/Bloc.dart';
 
 // model
 import 'package:mobile/models/kasir/supplier.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class SelectSupplier extends StatefulWidget {
   @override

@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '64ba48630107f2c643f2cfd9';
 
@@ -6,7 +5,7 @@ const namaApp = 'MKR Digital';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.mkrdigital.mobile';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

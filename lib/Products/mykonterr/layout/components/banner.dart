@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -15,7 +14,6 @@ import 'package:mobile/provider/api.dart';
 import 'package:mobile/screen/detail-denom/detail-denom.dart';
 import 'package:mobile/screen/list-grid-menu/list-grid-menu.dart';
 import 'package:mobile/screen/profile/reward/list_reward.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class BannerComponent extends StatefulWidget {
   @override

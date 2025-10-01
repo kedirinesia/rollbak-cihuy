@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +12,6 @@ import 'package:mobile/screen/topup/merchant/merchant.dart';
 import 'package:mobile/screen/topup/qris/qris.dart';
 import 'package:mobile/provider/api.dart';
 import 'package:mobile/screen/topup/va/va.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class TopupPage extends StatefulWidget {
   @override

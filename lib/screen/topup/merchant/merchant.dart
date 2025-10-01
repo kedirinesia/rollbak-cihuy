@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -19,7 +18,7 @@ class TopupMerchant extends StatefulWidget {
   final PaymentModel payment;
   TopupMerchant(this.payment);
 
-  @override
+  @override 
   _TopupMerchantState createState() => _TopupMerchantState();
 }
 
@@ -28,13 +27,14 @@ class _TopupMerchantState extends State<TopupMerchant> {
   TextEditingController nominal = TextEditingController();
 
   void topup() async {
-    double parsedNominal =
-        double.parse(nominal.text.replaceAll('.', '').replaceAll('Rp', ''));
+    int amount = int.tryParse(
+            nominal.text.replaceAll(RegExp('[^0-9]'), '')) ??
+        0;
     if (nominal.text.isEmpty) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Nominal masih kosong')));
       return;
-    } else if (parsedNominal < 10000) {
+    } else if (amount < 10000) {
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Minimal topup adalah Rp 10.000')));
       return;
@@ -45,17 +45,21 @@ class _TopupMerchantState extends State<TopupMerchant> {
     });
 
     try {
+      DebugHelper.debugApi('TOPUP_MERCHANT', 'Posting payment-channel...');
       http.Response response = await http.post(
           Uri.parse('$apiUrl/deposit/payment-channel'),
           headers: {
-            'Authorization': bloc.token.valueWrapper?.value,
+            'Authorization': bloc.token.valueWrapper?.value ?? '',
             'Content-Type': 'application/json'
           },
           body: json.encode({
-            'nominal': parsedNominal,
+            'nominal': amount,
             'type': 6,
             'vaname': widget.payment.type == 4 ? 5 : 6
           }));
+
+      DebugHelper.debugApi('TOPUP_MERCHANT', 'Response status: ${response.statusCode}');
+      DebugHelper.debugApi('TOPUP_MERCHANT', 'Response body: ${response.body}');
 
       if (response.statusCode == 200) {
         Map<String, dynamic> data = json.decode(response.body)['data'];
@@ -70,8 +74,9 @@ class _TopupMerchantState extends State<TopupMerchant> {
             .showSnackBar(SnackBar(content: Text(message)));
       }
     } catch (err) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Terjadi kesalahan pada server!')));
+      DebugHelper.debugError('TOPUP_MERCHANT', 'Error: $err');
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Terjadi kesalahan pada server!')));
     } finally {
       setState(() {
         loading = false;
@@ -116,8 +121,7 @@ class _TopupMerchantState extends State<TopupMerchant> {
                           isDense: true),
                       onChanged: (value) {
                         int amount = int.tryParse(nominal.text
-                                .replaceAll(RegExp('[^0-9]'), '')) ??
-                            0;
+                                .replaceAll(RegExp('[^0-9]'), '')) ?? 0;
                         nominal.text = FormatRupiah(amount);
                         nominal.selection = TextSelection.fromPosition(
                             TextPosition(offset: nominal.text.length));

@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 
@@ -568,7 +567,7 @@ class MenuGrid extends StatelessWidget {
                 ),
           InkWell(
             onTap: () {
-              if (configAppBloc.info.valueWrapper?.value?.inviteLink ?? false) {
+              if (configAppBloc.info.valueWrapper?.value.inviteLink ?? false) {
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (_) => InvitePage()));
               } else {

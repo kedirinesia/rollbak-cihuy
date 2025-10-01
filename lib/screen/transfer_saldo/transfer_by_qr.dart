@@ -1,19 +1,18 @@
-// @dart=2.9
 
-import 'dart:convert';
+// import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:http/http.dart' as http;
-import 'package:mobile/bloc/Api.dart' show apiUrl;
+// Legacy direct HTTP imports removed in favor of provider/api
+import 'package:mobile/provider/api.dart' as provider_api;
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/models/transfer.dart';
 import 'package:mobile/modules.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/transaksi/verifikasi_pin.dart';
 import 'package:mobile/screen/transfer_saldo/detail_transfer.dart';
-import 'package:mobile/utils/debug_helper.dart';
+// import 'package:mobile/utils/debug_helper.dart';
 
 class TransferByQR extends StatefulWidget {
   final String tujuan;
@@ -44,17 +43,12 @@ class _TransferByQRState extends State<TransferByQR> {
   }
 
   void getData(String tujuan, int nominal) async {
-    http.Response response =
-        await http.post(Uri.parse('$apiUrl/transfer/inquiry'),
-            headers: {
-              'Authorization': bloc.token.valueWrapper?.value,
-              'Content-Type': 'application/json'
-            },
-            body: jsonEncode({'phone': tujuan, 'nominal': nominal}));
-
-    DebugHelper.debugPrint('response.body.toString()');
-    if (response.statusCode == 200) {
-      Map<String, dynamic> data = json.decode(response.body)['data'];
+    try {
+      final dynamic payload = await provider_api.api.post(
+        '/transfer/inquiry',
+        data: {'phone': tujuan, 'nominal': nominal},
+      );
+      final Map<String, dynamic> data = payload as Map<String, dynamic>;
       userId = data['tujuan']['_id'];
       phone = data['tujuan']['phone'];
       nama = data['tujuan']['nama'];
@@ -64,11 +58,13 @@ class _TransferByQRState extends State<TransferByQR> {
         'userId': bloc.userId.valueWrapper?.value,
         'title': 'Cek Penerima ' + nama
       });
-      setState(() {
-        loading = false;
-      });
-    } else {
-      String message = json.decode(response.body)['message'];
+      setState(() { loading = false; });
+    } catch (e) {
+      String message = 'Terjadi kesalahan pada server';
+      try {
+        final Map err = e as Map; // when api.post throws parsed error json
+        message = err['message'] ?? message;
+      } catch (_) {}
       await showDialog(
           context: context,
           builder: (context) => AlertDialog(
@@ -89,53 +85,56 @@ class _TransferByQRState extends State<TransferByQR> {
   }
 
   void transfer() async {
-    String pin = await Navigator.of(context)
+    final pinResult = await Navigator.of(context)
         .push(MaterialPageRoute(builder: (_) => VerifikasiPin()));
+    // Jika user back/tidak memasukkan PIN, jangan kirim API dan jangan tampilkan pesan
+    if (pinResult == null) return;
 
-    if (pin != null) {
-      setState(() {
-        loading = true;
-      });
-      sendDeviceToken();
-      http.Response response = await http.post(
-          Uri.parse('$apiUrl/transfer/send'),
-          headers: {
-            'Authorization': bloc.token.valueWrapper?.value,
-            'Content-Type': 'application/json'
-          },
-          body: json.encode({
-            'user_id': userId,
-            'nominal': int.parse(jumlahControl.text),
-            'trxId': trxId
-          }));
-      setState(() {
-        loading = false;
-      });
-      if (response.statusCode == 200) {
-        TransferModel trf =
-            TransferModel.fromJson(json.decode(response.body)['data']);
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (_) => DetailTransfer(
-                nama, phone, int.parse(jumlahControl.text), trf)));
-      } else {
-        String message = json.decode(response.body)['message'];
-        await showDialog(
-            context: context,
-            builder: (ctx) => AlertDialog(
-                    title: Text('Transfer Gagal'),
-                    content: Text(message),
-                    actions: <Widget>[
-                      TextButton(
-                          child: Text(
-                            'TUTUP',
-                            style: TextStyle(
-                              color: Theme.of(context).primaryColor,
-                            ),
+    setState(() {
+      loading = true;
+    });
+    sendDeviceToken();
+    try {
+      // Sanitize nominal input
+      final int nominal = int.tryParse(
+              jumlahControl.text.replaceAll(RegExp('[^0-9]'), '')) ??
+          0;
+      final dynamic payload = await provider_api.api.post(
+        '/transfer/send',
+        data: {
+          'user_id': userId,
+          'nominal': nominal,
+          'trxId': trxId,
+        },
+      );
+      setState(() { loading = false; });
+      TransferModel trf = TransferModel.fromJson(payload);
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (_) => DetailTransfer(
+              nama, phone, nominal, trf)));
+    } catch (e) {
+      setState(() { loading = false; });
+      String message = 'Terjadi kesalahan pada server';
+      try {
+        final Map err = e as Map;
+        message = err['message'] ?? message;
+      } catch (_) {}
+      await showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+                  title: Text('Transfer Gagal'),
+                  content: Text(message),
+                  actions: <Widget>[
+                    TextButton(
+                        child: Text(
+                          'TUTUP',
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColor,
                           ),
-                          onPressed: () =>
-                              Navigator.of(context, rootNavigator: true).pop())
-                    ]));
-      }
+                        ),
+                        onPressed: () =>
+                            Navigator.of(context, rootNavigator: true).pop())
+                  ]));
     }
   }
 
@@ -153,7 +152,7 @@ class _TransferByQRState extends State<TransferByQR> {
         body: loading
             ? Container(
                 child: Center(
-                  child: SpinKitDoubleBounce(
+                      child: SpinKitDoubleBounce(
                     color: Theme.of(context).primaryColor,
                   ),
                 ),
@@ -187,9 +186,9 @@ class _TransferByQRState extends State<TransferByQR> {
                                   'https://firebasestorage.googleapis.com/v0/b/payuni-2019y.appspot.com/o/assets%2Ficons%2Fshop.png?alt=media&token=3c4cd36c-9501-42f1-8a9f-54b98747a092',
                               fit: BoxFit.contain),
                         ),
-                        title: Text(nama.toUpperCase() ?? 'Error...',
+                        title: Text(nama.toUpperCase(),
                             style: TextStyle(fontWeight: FontWeight.bold)),
-                        subtitle: Text(widget.tujuan ?? '-'),
+                        subtitle: Text(widget.tujuan),
                       ),
                       SizedBox(height: 10.0),
                       Padding(

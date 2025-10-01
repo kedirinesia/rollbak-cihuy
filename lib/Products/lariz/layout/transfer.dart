@@ -1,10 +1,8 @@
-// @dart=2.9
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/Products/lariz/layout/transfer-bank/daftar_transfer.dart';
 import 'package:mobile/bloc/Bloc.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class TransferPagePopay extends StatefulWidget {
   @override

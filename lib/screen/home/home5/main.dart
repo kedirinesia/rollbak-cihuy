@@ -1,11 +1,9 @@
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/screen/history/history.dart';
 import 'package:mobile/screen/profile/profile.dart';
 
 import './home5.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class MainApp extends StatefulWidget {
   @override
@@ -81,22 +79,27 @@ class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
         //     )
         //   ],
         // ),
-        bottomNavigationBar: CurvedNavigationBar(
-          color: Theme.of(context).primaryColor,
-          backgroundColor: Colors.white.withOpacity(.1),
-          animationCurve: Curves.fastOutSlowIn,
-          buttonBackgroundColor: Theme.of(context).primaryColor,
-          items: <Widget>[
-            Icon(Icons.apps, size: 30, color: Colors.white),
-            Icon(Icons.list, size: 30, color: Colors.white),
-            Icon(Icons.person, size: 30, color: Colors.white),
-          ],
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: pageIndex,
           onTap: (index) {
-            //Handle button tap
             setState(() {
               pageIndex = index;
             });
           },
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.apps),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.list),
+              label: 'History',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'Profile',
+            ),
+          ],
         ),
         body: halaman[pageIndex]);
   }

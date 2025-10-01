@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '64631ab2a3ec9f7b1b0192ca';
 
@@ -6,7 +5,7 @@ const namaApp = 'Dagangin Aja';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'com.daganginaja.app';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

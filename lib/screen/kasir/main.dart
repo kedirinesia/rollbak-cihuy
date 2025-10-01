@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -34,7 +33,7 @@ class MainKasirState extends State<MainKasir> {
     {
       "title": "Pelanggan",
       "route": "/kasir/customer",
-      "icon": "assets/img/kasir/customers.png"
+      "icon": "assets/img/kasir/customers.png"  
     },
     {
       "title": "Supplier",
@@ -92,7 +91,7 @@ class MainKasirState extends State<MainKasir> {
       DebugHelper.debugPrint('bloc.token.valueWrapper?.value.toString()');
       http.Response response = await http
           .get(Uri.parse('$apiUrlKasir/dashboard/hutang-piutang'), headers: {
-        'authorization': bloc.token.valueWrapper?.value,
+        'authorization': bloc.token.valueWrapper?.value ?? '',
       });
 
       DebugHelper.debugPrint('Sampai Sini Kedua');

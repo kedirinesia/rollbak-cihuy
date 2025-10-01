@@ -1,11 +1,9 @@
-// @dart=2.9
 
 import 'package:flutter/material.dart';
 import 'package:mobile/Products/popay/layout/components/template.dart';
 import 'package:mobile/bloc/Bloc.dart';
 import 'package:mobile/provider/analitycs.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class KirimSaldo extends StatefulWidget {
   @override

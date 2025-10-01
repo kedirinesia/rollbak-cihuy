@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
 import 'package:flutter/material.dart';
@@ -141,7 +140,7 @@ class _SelectPrinterPageState extends State<SelectPrinterPage> {
             );
           }
 
-          if (snapshot.data.length == 0) {
+          if (snapshot.data!.length == 0) {
             return Container(
               width: double.infinity,
               height: double.infinity,
@@ -196,9 +195,9 @@ class _SelectPrinterPageState extends State<SelectPrinterPage> {
           return ListView.separated(
             padding: EdgeInsets.all(15),
             separatorBuilder: (_, __) => SizedBox(height: 10),
-            itemCount: snapshot.data.length,
+            itemCount: snapshot.data!.length,
             itemBuilder: (_, i) {
-              BluetoothDevice device = snapshot.data.elementAt(i);
+              BluetoothDevice device = snapshot.data!.elementAt(i);
 
               return Container(
                 decoration: BoxDecoration(
@@ -228,11 +227,11 @@ class _SelectPrinterPageState extends State<SelectPrinterPage> {
                     ),
                   ),
                   title: Text(
-                    device.name,
+                    device.name ?? '',
                     style: TextStyle(fontSize: 15),
                   ),
                   subtitle: Text(
-                    device.address,
+                    device.address ?? '',
                     style: TextStyle(
                       fontSize: 11,
                       color: Colors.grey,

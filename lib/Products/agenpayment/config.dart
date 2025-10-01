@@ -1,4 +1,3 @@
-// @dart=2.9
 
 String sigVendor = '63d22a4041d6a5bc8bfdb3be';
 
@@ -6,7 +5,7 @@ const namaApp = 'Agen Payment';
 const labelSaldo = 'Saldo';
 const labelPoint = 'Point';
 String packagename = 'id.agenpayment.app';
-String brandId;
+String brandId = '';
 String copyRight = '';
 int templateCode = 3;
 String gaId = '';

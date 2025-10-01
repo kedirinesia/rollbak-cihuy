@@ -1,69 +1,65 @@
-// @dart=2.9
 
 import 'package:mobile/models/kasir/supplier.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class HutangModel {
-  String id;
-  int type;
-  String jatuhTempo;
-  // int sisaBayar;
-  List idTrx;
-  String created_at;
-  String updated_at;
-  SupplierModel supplierModel;
+  final String id;
+  final int type;
+  final String jatuhTempo;
+  final List<String> idTrx;
+  final String? created_at;
+  final String? updated_at;
+  final SupplierModel? supplierModel;
 
-  HutangModel({
-    this.id,
-    this.type,
-    this.jatuhTempo,
-    // this.sisaBayar,
-    this.supplierModel,
+  const HutangModel({
+    required this.id,
+    required this.type,
+    required this.jatuhTempo,
+    required this.idTrx,
     this.created_at,
     this.updated_at,
-    this.idTrx,
+    this.supplierModel,
   });
 
   factory HutangModel.fromJson(Map<String, dynamic> json) {
     return HutangModel(
-        id: json['_id'],
-        type: json['type'],
-        jatuhTempo: json['jatuhTempo'] != null ? json['jatuhTempo'] : '',
-        // sisaBayar : json['sisaBayar'],
-        idTrx: json['id_transaksi'],
-        supplierModel: json['id_supplier'] != null
-            ? SupplierModel.fromJson(json['id_supplier'])
-            : null,
-        created_at: json['created_at'],
-        updated_at: json['updated_at']);
+      id: json['_id'] ?? '',
+      type: json['type'] ?? 0,
+      jatuhTempo: json['jatuhTempo'] ?? '',
+      idTrx: json['id_transaksi'] ?? [],
+      supplierModel: json['id_supplier'] != null
+          ? SupplierModel.fromJson(json['id_supplier'])
+          : null,
+      created_at: json['created_at'],
+      updated_at: json['updated_at'],
+    );
   }
 }
 
 class MutasiHutangModel {
-  String id;
-  int debet;
-  int kredit;
-  String keterangan;
-  String created_at;
-  String updated_at;
+  final String id;
+  final int debet;
+  final int kredit;
+  final String keterangan;
+  final String created_at;
+  final String updated_at;
 
-  MutasiHutangModel({
-    this.id,
-    this.debet,
-    this.kredit,
-    this.keterangan,
-    this.created_at,
-    this.updated_at,
+  const MutasiHutangModel({
+    required this.id,
+    required this.debet,
+    required this.kredit,
+    required this.keterangan,
+    required this.created_at,
+    required this.updated_at,
   });
 
   factory MutasiHutangModel.fromJson(Map<String, dynamic> json) {
     return MutasiHutangModel(
-      id: json['_id'],
-      debet: json['debet'],
-      kredit: json['kredit'],
-      keterangan: json['keterangan'],
-      created_at: json['created_at'],
-      updated_at: json['updated_at'],
+      id: json['_id'] ?? '',
+      debet: json['debet'] ?? 0,
+      kredit: json['kredit'] ?? 0,
+      keterangan: json['keterangan'] ?? '',
+      created_at: json['created_at'] ?? '',
+      updated_at: json['updated_at'] ?? '',
     );
   }
 }

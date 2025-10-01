@@ -1,4 +1,3 @@
-// @dart=2.9
 
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -11,7 +10,6 @@ import 'package:mobile/Products/payku/layout/profil.dart';
 import 'package:mobile/screen/kasir/main.dart';
 import 'package:mobile/screen/transfer_saldo/transfer_by_qr.dart';
 import 'package:barcode_scan2/platform_wrapper.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class NavbarHome extends StatefulWidget {
   @override

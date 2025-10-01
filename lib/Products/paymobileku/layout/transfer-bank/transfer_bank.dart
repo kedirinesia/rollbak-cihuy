@@ -1,4 +1,3 @@
-// @dart=2.9
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -22,7 +21,7 @@ import 'package:mobile/utils/debug_helper.dart';
 class TransferBankPage extends StatefulWidget {
   final DaftarTransferModel transferData;
 
-  const TransferBankPage({this.transferData});
+  const TransferBankPage({required this.transferData});
 
   @override
   _TransferBankPageState createState() => _TransferBankPageState();
@@ -33,10 +32,10 @@ class _TransferBankPageState extends State<TransferBankPage> {
   TextEditingController nominal = TextEditingController();
   TextEditingController namaTujuan = TextEditingController();
 
-  WithdrawBankModel selectedBank;
+  WithdrawBankModel? selectedBank;
   List<WithdrawBankModel> banks = [];
 
-  PostpaidInquiryModel inq;
+  PostpaidInquiryModel? inq;
   bool animasiLoading = false;
   bool loading = false;
   bool selectbankLoading = true;
@@ -52,14 +51,12 @@ class _TransferBankPageState extends State<TransferBankPage> {
   void initState() {
     super.initState();
     analitycs.pageView('/withdraw/', {
-      'userId': bloc.userId.valueWrapper?.value,
+      'userId': bloc.userId.valueWrapper!.value,
       'title': 'Withdraw',
     });
 
-    if (widget.transferData != null) {
-      namaTujuan.text = widget.transferData.namaRekening;
-      noTujuan.text = widget.transferData.noTujuan;
-    }
+    namaTujuan.text = widget.transferData.namaRekening;
+    noTujuan.text = widget.transferData.noTujuan;
   }
 
   @override
@@ -79,7 +76,7 @@ class _TransferBankPageState extends State<TransferBankPage> {
     http.Response response =
         await http.post(Uri.parse('$apiUrl/favorite/checkNumber'),
             headers: {
-              'Authorization': bloc.token.valueWrapper?.value,
+                  'Authorization': bloc.token.valueWrapper!.value,
               'Content-Type': 'application/json',
             },
             body: json.encode(dataToSend));
@@ -165,8 +162,7 @@ class _TransferBankPageState extends State<TransferBankPage> {
         'counter': 1
       };
     } else if (nominal.text.isNotEmpty &&
-        noTujuan.text.isNotEmpty &&
-        widget.transferData != null) {
+        noTujuan.text.isNotEmpty) {
       // DebugHelper.debugPrint('jalan ke 2');
       // if (bloc.user.valueWrapper?.value.saldo <
       //     (selectedBank.admin + int.parse(nominal.text))) {
@@ -202,7 +198,7 @@ class _TransferBankPageState extends State<TransferBankPage> {
         await http.post(Uri.parse('$apiUrl/trx/postpaid/inquiry'),
             headers: {
               'Content-Type': 'application/json',
-              'Authorization': bloc.token.valueWrapper?.value
+              'Authorization': bloc.token.valueWrapper!.value
             },
             body: json.encode(dataToSend));
     // DebugHelper.debugPrint('"RESPONSE"');
@@ -239,7 +235,7 @@ class _TransferBankPageState extends State<TransferBankPage> {
       });
     }
 
-    if (!bloc.user.valueWrapper.value.kyc_verification) {
+    if (!bloc.user.valueWrapper!.value.kyc_verification) {
       await showDialog(
         context: context,
         barrierDismissible: false,
@@ -279,9 +275,10 @@ class _TransferBankPageState extends State<TransferBankPage> {
     //   return;
     // }
 
-    String pin = await Navigator.of(context)
+    final String pinResult = await Navigator.of(context)
         .push(MaterialPageRoute(builder: (_) => VerifikasiPin()));
-    if (pin == null) return;
+    // Jika user membatalkan input PIN, hentikan proses tanpa pesan dan tanpa request API
+    if (pinResult.isEmpty) return;
     // if (realtimePrepaid) {
     //   setState(() {
     //     loading = false;
@@ -301,10 +298,10 @@ class _TransferBankPageState extends State<TransferBankPage> {
         Uri.parse('$apiUrl/trx/postpaid/purchase'),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': bloc.token.valueWrapper?.value
+          'Authorization': bloc.token.valueWrapper!.value
         },
         body: json
-            .encode({'tracking_id': inq.trackingId, 'nominal': parsedNominal}));
+            .encode({'tracking_id': inq?.trackingId, 'nominal': parsedNominal}));
 
     if (response.statusCode == 200) {
       // if (realtimePrepaid) {
@@ -329,8 +326,30 @@ class _TransferBankPageState extends State<TransferBankPage> {
       nominal.clear();
       // bank.clear();
       noTujuan.clear();
-      selectedBank = null;
-      inq = null;
+        selectedBank = WithdrawBankModel(
+          id: '',
+          kodeProduk: '',
+          nama: '',
+          description: '',
+          hargaJual: 0,
+          admin: 0,
+          cashback: 0,
+        );
+      inq = PostpaidInquiryModel(
+        nama: '',
+        noPelanggan: '',
+        produk: '',
+        trackingId: '',
+        sn: '',
+        tagihan: 0,
+        admin: 0,
+        fee: 0,
+        total: 0,
+        saldoAwal: 0,
+        saldoAkhir: 0,
+        saldoTerpotong: 0,
+        params: [],
+      );
       checked = false;
 
       Map<String, dynamic> dataToSend = {
@@ -472,7 +491,7 @@ class _TransferBankPageState extends State<TransferBankPage> {
                                                           color: Colors.grey,
                                                           fontSize: 11)),
                                                   SizedBox(height: 5),
-                                                  Text(inq.noPelanggan,
+                                                  Text(inq?.noPelanggan ?? '-',
                                                       style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.bold)),
@@ -482,7 +501,7 @@ class _TransferBankPageState extends State<TransferBankPage> {
                                                           color: Colors.grey,
                                                           fontSize: 11)),
                                                   SizedBox(height: 5),
-                                                  Text(inq.nama,
+                                                  Text(inq?.nama ?? '-',
                                                       style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.bold)),
@@ -493,7 +512,7 @@ class _TransferBankPageState extends State<TransferBankPage> {
                                                           fontSize: 11)),
                                                   SizedBox(height: 5),
                                                   Text(
-                                                      formatRupiah(inq.tagihan),
+                                                      formatRupiah(inq?.tagihan ?? 0),
                                                       style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.bold)),
@@ -503,7 +522,7 @@ class _TransferBankPageState extends State<TransferBankPage> {
                                                           color: Colors.grey,
                                                           fontSize: 11)),
                                                   SizedBox(height: 5),
-                                                  Text(formatRupiah(inq.admin),
+                                                  Text(formatRupiah(inq?.admin ?? 0),
                                                       style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.bold)),
@@ -513,7 +532,7 @@ class _TransferBankPageState extends State<TransferBankPage> {
                                                           color: Colors.grey,
                                                           fontSize: 11)),
                                                   SizedBox(height: 5),
-                                                  Text(formatRupiah(inq.fee),
+                                                  Text(formatRupiah(inq?.fee ?? 0),
                                                       style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.bold)),
@@ -535,7 +554,7 @@ class _TransferBankPageState extends State<TransferBankPage> {
                                                                       .bold)),
                                                       Text(
                                                           formatRupiah(
-                                                              inq.total),
+                                                              inq?.total ?? 0),
                                                           style: TextStyle(
                                                               fontSize: 15,
                                                               color:
@@ -554,11 +573,10 @@ class _TransferBankPageState extends State<TransferBankPage> {
                                                             EdgeInsets.all(10),
                                                         decoration:
                                                             BoxDecoration(
-                                                                color: inq.total >
+                                                                color: (inq?.total ?? 0) >
                                                                         bloc
                                                                             .saldo
-                                                                            .valueWrapper
-                                                                            .value
+                                                                            .valueWrapper!.value 
                                                                     ? Colors.red
                                                                         .withOpacity(
                                                                             .1)
@@ -569,11 +587,10 @@ class _TransferBankPageState extends State<TransferBankPage> {
                                                                             .1),
                                                                 border:
                                                                     Border.all(
-                                                                  color: inq.total >
+                                                                  color: (inq?.total ?? 0) >
                                                                           bloc
                                                                               .saldo
-                                                                              .valueWrapper
-                                                                              .value
+                                                                              .valueWrapper!.value
                                                                       ? Colors
                                                                           .red
                                                                           .withOpacity(
@@ -619,11 +636,11 @@ class _TransferBankPageState extends State<TransferBankPage> {
                                                                   formatRupiah(bloc
                                                                       .saldo
                                                                       .valueWrapper
-                                                                      .value),
+                                                                      !.value),
                                                                   style: TextStyle(
-                                                                      color: inq.total >
+                                                                      color: (inq?.total ?? 0) >
                                                                               bloc
-                                                                                  .saldo.valueWrapper.value
+                                                                                  .saldo.valueWrapper!.value
                                                                           ? Colors
                                                                               .red
                                                                           : Theme.of(context)
@@ -638,11 +655,11 @@ class _TransferBankPageState extends State<TransferBankPage> {
                                                         ),
                                                       ),
                                                       SizedBox(height: 10),
-                                                      inq.total >
+                                                      (inq?.total ?? 0) >
                                                               bloc
                                                                   .saldo
                                                                   .valueWrapper
-                                                                  .value
+                                                                  !.value
                                                           ? Container(
                                                               child: Center(
                                                                 child: Text(
@@ -863,29 +880,52 @@ class _TransferBankPageState extends State<TransferBankPage> {
         );
       }
 
-      if (inq != null) {
-        if (inq.total > bloc.saldo.valueWrapper.value) {
-          return Container(
-            padding: EdgeInsets.all(10),
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: null,
-              style: ElevatedButton.styleFrom(
-                foregroundColor: Theme.of(context).primaryColor, backgroundColor: Theme.of(context).primaryColor, disabledForegroundColor: Theme.of(context).primaryColor.withOpacity(0.38), disabledBackgroundColor: Theme.of(context).primaryColor.withOpacity(0.12),
-              ),
-              child: Padding(
-                padding: EdgeInsets.all(15.0),
-                child: Text(
-                  'TRANSFER',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: MediaQuery.of(context).size.height * 0.0182,
-                  ),
+      // Belum melakukan inquiry: langsung tampilkan tombol LANJUTKAN (tanpa akses inq)
+      if (!checked) {
+        return Container(
+          padding: EdgeInsets.all(10),
+          width: double.infinity,
+          child: ElevatedButton(
+            onPressed: inquiry,
+            style: ElevatedButton.styleFrom(
+              foregroundColor: Theme.of(context).primaryColor, backgroundColor: Theme.of(context).primaryColor, disabledForegroundColor: Theme.of(context).primaryColor.withOpacity(0.38), disabledBackgroundColor: Theme.of(context).primaryColor.withOpacity(0.12),
+            ),
+            child: Padding(
+              padding: EdgeInsets.all(15.0),
+              child: Text(
+                'LANJUTKAN',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: MediaQuery.of(context).size.height * 0.0182,
                 ),
               ),
             ),
-          );
-        }
+          ),
+        );
+      }
+
+      // Sudah inquiry → aman mengakses inq
+      if ((inq?.total ?? 0) > bloc.saldo.valueWrapper!.value) {
+        return Container(
+          padding: EdgeInsets.all(10),
+          width: double.infinity,
+          child: ElevatedButton(
+            onPressed: null,
+            style: ElevatedButton.styleFrom(
+              foregroundColor: Theme.of(context).primaryColor, backgroundColor: Theme.of(context).primaryColor, disabledForegroundColor: Theme.of(context).primaryColor.withOpacity(0.38), disabledBackgroundColor: Theme.of(context).primaryColor.withOpacity(0.12),
+            ),
+            child: Padding(
+              padding: EdgeInsets.all(15.0),
+              child: Text(
+                'TRANSFER',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: MediaQuery.of(context).size.height * 0.0182,
+                ),
+              ),
+            ),
+          ),
+        );
       }
 
       return Container(

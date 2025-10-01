@@ -1,16 +1,14 @@
-// @dart=2.9
 
-import 'package:division/division.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/Products/paymobileku/layout/invite/invite_qrcode.dart';
 import 'package:mobile/Products/paymobileku/layout/invite/invite_wrapper.style.dart';
-import 'package:mobile/utils/debug_helper.dart';
+import 'package:mobile/utils/style_helper.dart';
 
 class InviteWrapper extends StatefulWidget {
   Uri inviteLink;
   bool loading;
   Function getUserInfo;
-  InviteWrapper({this.inviteLink, this.loading, this.getUserInfo, Key key})
+  InviteWrapper({required this.inviteLink, required this.loading, required this.getUserInfo, Key? key})
       : super(key: key);
 
   @override
@@ -20,12 +18,16 @@ class InviteWrapper extends StatefulWidget {
 class _InviteWrapperState extends State<InviteWrapper> {
   @override
   Widget build(BuildContext context) {
-    return Parent(
-      style: InviteWrapperStyle.wrapper,
-      child: InviteQRCode(
-        inviteLink: widget.inviteLink,
-        loading: widget.loading,
-        getUserInfo: widget.getUserInfo,
+    return Padding(
+      padding: InviteWrapperStyle.wrapperMargin,
+      child: StyleHelper.styledContainer(
+        padding: InviteWrapperStyle.wrapperPadding,
+        decoration: InviteWrapperStyle.wrapperDecoration,
+        child: InviteQRCode(
+          inviteLink: widget.inviteLink,
+          loading: widget.loading,
+          getUserInfo: widget.getUserInfo,
+        ),
       ),
     );
   }

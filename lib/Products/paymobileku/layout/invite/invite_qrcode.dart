@@ -1,19 +1,16 @@
-// @dart=2.9
 
-import 'package:division/division.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:mobile/Products/paymobileku/layout/invite/invite_qrcode.style.dart';
 import 'package:mobile/Products/paymobileku/layout/invite/invite_referal_code_info.dart';
+import 'package:mobile/Products/paymobileku/layout/invite/invite_qrcode.style.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:mobile/utils/debug_helper.dart';
 
 class InviteQRCode extends StatefulWidget {
   Uri inviteLink;
   bool loading;
   Function getUserInfo;
-  InviteQRCode({this.inviteLink, this.loading, this.getUserInfo, Key key})
+  InviteQRCode({required this.inviteLink, required this.loading, required this.getUserInfo, Key? key})
       : super(key: key);
 
   @override
@@ -68,7 +65,7 @@ class _InviteQRCodeState extends State<InviteQRCode> {
                   children: [
                     Container(
                       padding: EdgeInsets.all(5),
-                      child: Txt(
+                      child: Text(
                         widget.inviteLink.toString(),
                         style: InviteQRCodeStyle.text,
                       ),
@@ -83,11 +80,11 @@ class _InviteQRCodeState extends State<InviteQRCode> {
                 ),
               ),
               SizedBox(height: 15),
-              Txt(
+              Text(
                 'Ini adalah kode referal, kamu harus memberitahukan teman untuk melakukan input kode pada saat melakukan pendaftaran',
-                style: InviteQRCodeStyle.text
-                  ..clone()
-                  ..textColor(Colors.grey.shade600),
+                style: TextStyle(
+                  color: Colors.grey.shade600,
+                ),
               ),
               SizedBox(height: 20),
             ],

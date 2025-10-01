@@ -1,4 +1,3 @@
-// @dart=2.9
 
 import 'dart:async';
 import 'dart:typed_data';
@@ -32,8 +31,8 @@ class _PrintSettingsPageState extends State<PrintSettingsPage> {
   @override
   void initState() {
     setState(() {
-      printerType = bloc.printerType.valueWrapper?.value;
-      fontSize = bloc.printerFontSize.valueWrapper?.value;
+      printerType = bloc.printerType.valueWrapper?.value ?? 1;
+      fontSize = bloc.printerFontSize.valueWrapper?.value ?? 1;
     });
     super.initState();
     analitycs.pageView('/print/setting', {
@@ -81,10 +80,12 @@ class _PrintSettingsPageState extends State<PrintSettingsPage> {
 
     bytes += ticket.emptyLines(1);
 
+    String namaToko = bloc.user.valueWrapper?.value.namaToko ?? '';
+    String nama = bloc.user.valueWrapper?.value.nama ?? '';
+    String displayName = namaToko.isEmpty ? nama : namaToko;
+
     bytes += ticket.text(
-      bloc.user.valueWrapper?.value.namaToko.isEmpty
-          ? bloc.user.valueWrapper?.value.nama
-          : bloc.user.valueWrapper?.value.namaToko,
+      displayName,
       styles: PosStyles(
         width: sizes[i + 1],
         height: sizes[i + 1],
@@ -166,9 +167,9 @@ class _PrintSettingsPageState extends State<PrintSettingsPage> {
   Future<void> _printVersionTwo() async {
     await _bluetooth.printNewLine();
     await _bluetooth.printCustom(
-      bloc.user.valueWrapper?.value.namaToko.isEmpty
-          ? bloc.user.valueWrapper?.value.nama
-          : bloc.user.valueWrapper?.value.namaToko,
+      bloc.user.valueWrapper?.value.namaToko.isEmpty ?? false
+          ? bloc.user.valueWrapper?.value.nama ?? ''
+          : bloc.user.valueWrapper?.value.namaToko ?? '',
       2,
       1,
     );
@@ -333,7 +334,7 @@ class _PrintSettingsPageState extends State<PrintSettingsPage> {
             leading: Radio(
               value: 1,
               groupValue: printerType,
-              onChanged: onChangeValue,
+              onChanged: (value) => onChangeValue(value!),
               activeColor: packageName == 'com.lariz.mobile'
                   ? Theme.of(context).secondaryHeaderColor
                   : Theme.of(context).primaryColor,
@@ -360,7 +361,7 @@ class _PrintSettingsPageState extends State<PrintSettingsPage> {
             leading: Radio(
               value: 2,
               groupValue: printerType,
-              onChanged: onChangeValue,
+              onChanged: (value) => onChangeValue(value!),
               activeColor: packageName == 'com.lariz.mobile'
                   ? Theme.of(context).secondaryHeaderColor
                   : Theme.of(context).primaryColor,
@@ -387,7 +388,7 @@ class _PrintSettingsPageState extends State<PrintSettingsPage> {
             leading: Radio(
               value: 3,
               groupValue: printerType,
-              onChanged: onChangeValue,
+              onChanged: (value) => onChangeValue(value!),
               activeColor: packageName == 'com.lariz.mobile'
                   ? Theme.of(context).secondaryHeaderColor
                   : Theme.of(context).primaryColor,
@@ -424,7 +425,7 @@ class _PrintSettingsPageState extends State<PrintSettingsPage> {
             leading: Radio(
               value: 1,
               groupValue: fontSize,
-              onChanged: onChangeSize,
+              onChanged: (value) => onChangeSize(value!),
               activeColor: packageName == 'com.lariz.mobile'
                   ? Theme.of(context).secondaryHeaderColor
                   : Theme.of(context).primaryColor,
@@ -444,7 +445,7 @@ class _PrintSettingsPageState extends State<PrintSettingsPage> {
             leading: Radio(
               value: 2,
               groupValue: fontSize,
-              onChanged: onChangeSize,
+              onChanged: (value) => onChangeSize(value!),
               activeColor: packageName == 'com.lariz.mobile'
                   ? Theme.of(context).secondaryHeaderColor
                   : Theme.of(context).primaryColor,
@@ -464,7 +465,7 @@ class _PrintSettingsPageState extends State<PrintSettingsPage> {
             leading: Radio(
               value: 3,
               groupValue: fontSize,
-              onChanged: onChangeSize,
+              onChanged: (value) => onChangeSize(value!),
               activeColor: packageName == 'com.lariz.mobile'
                   ? Theme.of(context).secondaryHeaderColor
                   : Theme.of(context).primaryColor,
